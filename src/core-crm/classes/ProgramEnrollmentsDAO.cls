@@ -87,6 +87,48 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         return Database.getQueryLocator(query);
     }
 
+    public String getWhereClauseByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = 
+            'WHERE ' +
+            ' Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+            ' AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
+            ' AND Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
+            ' AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+            ' AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+            ' AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+
+        return soql;     
+    }
+
+    public String getContactQueryByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT hed__Contact__c FROM hed__Program_Enrollment__c ' + getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
+    }
+
+    public String getQueryByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT ' + 
+        ' Id, hed__Contact__c, Name,  ' +
+        ' Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, ' +
+        ' hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
+        ' FROM hed__Program_Enrollment__c ' +
+        getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
+    }
+
+    public List<hed__Program_Enrollment__c> findByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return Database.query(getQueryByCriteria(programEnrollmentCriteria, contactCriteria));
+    }
+
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
@@ -97,7 +139,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         public String categoryType;
        
         public Boolean isEmpty() {
-            return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus.isEmpty();
+            return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus == null;
         }
     }
 }

@@ -98,5 +98,71 @@ public with sharing class ProgramEnrollmentsDAOTest {
             Test.stopTest();
         }
     }
+
+    @isTest
+    static void getWhereClauseByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String whereClauseString = ProgramEnrollmentsDAO.newInstance()
+                .getWhereClauseByCriteria(
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String wherClauseString = ProgramEnrollmentsDAO.newInstance()
+                .getContactQueryByCriteria(
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String wherClauseString = ProgramEnrollmentsDAO.newInstance()
+                .getQueryByCriteria(
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
+                .findByCriteria(
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(programEnrollmentList.isEmpty(), 'leaveOfAbsenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void criteriaIsEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ProgramEnrollmentsDAO.Criteria criteria = new ProgramEnrollmentsDAO.Criteria();
+            System.assert(criteria.isEmpty(), 'Criteria should be empty.');
+        }
+        Test.stopTest();
+    }
     
 }

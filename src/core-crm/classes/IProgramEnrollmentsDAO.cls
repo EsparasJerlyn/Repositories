@@ -15,4 +15,23 @@ public interface IProgramEnrollmentsDAO extends DmlInterface{
     List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIdAndStatus(Set<Id> contactIds, String status, AccessLevel accessLevel);
     List<hed__Program_Enrollment__c> getAllProgramEnrollmentsByContactId(Set<Id> contactIds, AccessLevel accessLevel);
     Database.QueryLocator queryLocatorGetAllProgramEnrollmentsByContactId(Set<Id> recordIds);
+    String getWhereClauseByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getContactQueryByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getQueryByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<hed__Program_Enrollment__c> findByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
 }
