@@ -29,7 +29,7 @@
         ContactsDAO.Criteria contactCriteria
     ) {
         return 
-            'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breachName + '\' ' +
+            'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' +
             'AND Breach_Status__c = \'' + programEnrollmentBreachCriteria.breachStatus + '\' ' +
             'AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
             'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +

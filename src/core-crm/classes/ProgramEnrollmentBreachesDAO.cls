@@ -31,11 +31,11 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         ContactsDAO.Criteria contactCriteria
     ){ 
         return 
-        'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breachName + '\' ' +
+        'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' +
           'AND Breach_Status__c = \'' + programEnrollmentBreachCriteria.breachStatus + '\' ' +
           'AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
           'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
-          'AND Program_Enrollment__r.hed__Contact__c.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+          'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
           'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
           'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
     }
@@ -68,11 +68,11 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public String breachName;
+        public Id breach;
         public String breachStatus;
 
         public Boolean isEmpty() {
-            return breachName == null && breachStatus == null;
+            return breach == null && breachStatus == null;
         }
     }
 }
