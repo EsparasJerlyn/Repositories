@@ -207,7 +207,7 @@ public with sharing class ELCParser {
             if (programEnrollmentBreachCriteria == null) {
                 programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             }
-            programEnrollmentBreachCriteria.breachName = engagementListCriteria.Breach__c;
+            programEnrollmentBreachCriteria.breach = engagementListCriteria.Breach__c;
         }
         return programEnrollmentBreachCriteria;
     }
@@ -253,7 +253,7 @@ public with sharing class ELCParser {
 
     private ProgramEnrollmentBreachesDAO.Criteria processProgramEnrollmentBreachKeyDate(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
         if (programEnrollmentBreachCriteria == null) {
-            programEnrollmentBreachCriteria = new CompletedCadencesDAO.Criteria();
+            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         }
 
         programEnrollmentBreachCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
