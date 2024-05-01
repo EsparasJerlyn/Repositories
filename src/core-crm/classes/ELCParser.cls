@@ -139,6 +139,16 @@ public with sharing class ELCParser {
         }
         return programEnrollmentCriteria;
     }
+    //Not sure if this is Program Plan related in Program Enrollment????
+    ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
+        if (engagementListCriteria.Category_Type__c != null) {
+            if (programEnrollmentCriteria == null) {
+                programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            }
+            programEnrollmentCriteria.categoryType = engagementListCriteria.Category_Type__c;
+        }
+        return programEnrollmentCriteria;
+    }
 
     CompletedCadencesDAO.Criteria processCadenceName(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
         if (engagementListCriteria.Completed_Cadence__c != null) {
@@ -176,7 +186,7 @@ public with sharing class ELCParser {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
-            courseConnectionAssessmentCriteria.assessmentName = engagementListCriteria.Assessment_Priority__c;
+            courseConnectionAssessmentCriteria.assessmentPriority = engagementListCriteria.Assessment_Priority__c;
         }
         return courseConnectionAssessmentCriteria;
     }
@@ -197,7 +207,11 @@ public with sharing class ELCParser {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            leaveOfAbsenceCriteria.isOnLeave = engagementListCriteria.Is_On_Leave_of_Absence__c;
+            if (engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes') {
+                leaveOfAbsenceCriteria.isOnLeave = true;
+            } else {
+                leaveOfAbsenceCriteria.isOnLeave = false;
+            }
         }
         return leaveOfAbsenceCriteria;
     }   
@@ -207,7 +221,7 @@ public with sharing class ELCParser {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            leaveOfAbsenceCriteria.keyDate = engagementListCriteria.Key_Date__c;
+            //leaveOfAbsenceCriteria.keyDate = engagementListCriteria.Key_Date__c;
         }
         return leaveOfAbsenceCriteria;
     }

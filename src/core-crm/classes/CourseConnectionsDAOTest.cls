@@ -138,4 +138,74 @@ public with sharing class CourseConnectionsDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void getWhereClauseByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String whereClauseString = CourseConnectionsDAO.newInstance()
+                .getWhereClauseByCriteria(
+                    new CourseConnectionsDAO.Criteria(),
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String wherClauseString = CourseConnectionsDAO.newInstance()
+                .getContactQueryByCriteria(
+                    new CourseConnectionsDAO.Criteria(),
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String wherClauseString = CourseConnectionsDAO.newInstance()
+                .getQueryByCriteria(
+                    new CourseConnectionsDAO.Criteria(),
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
+                .findByCriteria(
+                    new CourseConnectionsDAO.Criteria(),
+                    new ProgramEnrollmentsDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void criteriaIsEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            CourseConnectionsDAO.Criteria criteria = new CourseConnectionsDAO.Criteria();
+            System.assert(criteria.isEmpty(), 'Criteria should be empty.');
+        }
+        Test.stopTest();
+    }
+
 }

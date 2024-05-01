@@ -25,6 +25,45 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         return 	Program_Enrollment_Breach__c.SObjectType;
     }
 
+    public String getWhereClauseByCriteria(
+        ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){ 
+        return 
+        'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breachName + '\' ' +
+          'AND Breach_Status__c = \'' + programEnrollmentBreachCriteria.breachStatus + '\' ' +
+          'AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+          'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
+          'AND Program_Enrollment__r.hed__Contact__c.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+          'AND Program_Enrollment__r.hed__Contact__c.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+          'AND Program_Enrollment__r.hed__Contact__c.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+    }
+
+    public String getContactQueryByCriteria(
+        ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Program_Enrollment__r.hed__Contact__c FROM Program_Enrollment_Breach__c ' + getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
+    }
+
+    public List<Program_Enrollment_Breach__c> findByCriteria(
+        ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return Database.query(getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria));
+    }
+
+    public String getQueryByCriteria(
+        ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Id, Breach_Name__c, Breach_Status__c FROM Program_Enrollment_Breach__c ' + getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
+    }
+
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */

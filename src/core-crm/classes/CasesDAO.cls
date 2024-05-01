@@ -1,5 +1,5 @@
 /**
- * @description DAO Class for Case Object. Contains soql and constants related to the Case object.
+ * @description DAO Class for Case Object. Contains soql and constants related to the Case object. 
  *
  * @author Accenture
  *
