@@ -137,7 +137,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         return 
-            'WHERE Enrollment_Status__c = \'' + courseConnectionCriteria.status + '\' ' +
+            'WHERE Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ' +
               'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' +
               'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
               'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
@@ -181,7 +181,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
      */
     public class Criteria {
         public String courseGrade;
-        public String status;
+        public Set<String> status;
 
         public Boolean isEmpty() {
             return courseGrade == null && status == null;
