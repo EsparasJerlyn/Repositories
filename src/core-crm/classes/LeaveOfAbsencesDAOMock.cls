@@ -25,15 +25,22 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 
+        String soql = 
             'WHERE Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' +
-              'AND End_Date__c = ' + leaveOfAbsenceCriteria.keyDate + ' ' +
-              'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-              'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
-              'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
-              'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-              'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+            'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+            'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
+            'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
+            'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+            'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+            'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+        
+        if(leaveOfAbsenceCriteria.keyDateOffset != null && leaveOfAbsenceCriteria.executionDate != null){
+            Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
+            Date upperKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(leaveOfAbsenceCriteria.keyDateOffset);
+            soql = soql + 'AND End_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND End_Date__c >= ' + upperKeyDateOffSetBoundary ;
+        }
+
+        return soql;     
     }
 
     public String getContactQueryByCriteria(
@@ -64,10 +71,15 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
     ) {
         List<Leave_Of_Absence__c> leaveOfAbsenceList = new List<Leave_Of_Absence__c>();
 
+        Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
+        Date upperKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(leaveOfAbsenceCriteria.keyDateOffset);
+
         for (Leave_Of_Absence__c record : leaveOfAbsenceMap.values()) {
             if(
                 record.Is_On_Leave__c == leaveOfAbsenceCriteria.isOnLeave &&
-                record.End_Date__c == leaveOfAbsenceCriteria.keyDate)
+                record.End_Date__c <= lowerKeyDateOffSetBoundary && 
+                record.End_Date__c >= upperKeyDateOffSetBoundary  
+            )
             {
                 leaveOfAbsenceList.add(record);
             }
