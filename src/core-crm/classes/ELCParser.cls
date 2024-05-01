@@ -51,7 +51,7 @@ public with sharing class ELCParser {
         this.programEnrollmentBreachCriteria = processBreachName(this.engagementListCriteria, this.programEnrollmentBreachCriteria);
         this.courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
         this.courseConnectionAssessmentCriteria = processAssessmentPriority(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
-        this.leaveOfAbsenceCriteria = processleaveOfAbsenceIsOnLeave(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
+        this.leaveOfAbsenceCriteria = processLeaveOfAbsenceIsOnLeave(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
 
         if(this.engagementListCriteria.Key_Date__c != null){
             if(this.engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
@@ -185,8 +185,11 @@ public with sharing class ELCParser {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
-            courseConnectionAssessmentCriteria.assessmentGrade = null;
-            courseConnectionAssessmentCriteria.submissionDate = null;
+            if(engagementListCriteria.Failed_To_Submit_Assessment__c == 'Yes'){
+                courseConnectionAssessmentCriteria.assessmentGrade = null;
+                courseConnectionAssessmentCriteria.submissionDate = null;
+            }
+            
         }
         return courseConnectionAssessmentCriteria;
     }
