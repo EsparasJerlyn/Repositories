@@ -72,7 +72,7 @@
 
         for (Program_Enrollment_Breach__c record : programEnrollmentBreachMap.values()) {
             if(
-                record.Breach_Name__c == programEnrollmentBreachCriteria.breachName &&
+                record.Breach_Name__c == programEnrollmentBreachCriteria.breach &&
                 record.Breach_Status__c == programEnrollmentBreachCriteria.breachStatus && 
                 record.Breach_Date__c <= lowerKeyDateOffSetBoundary && 
                 record.Breach_Date__c >= upperKeyDateOffSetBoundary
