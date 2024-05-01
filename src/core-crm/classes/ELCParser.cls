@@ -32,8 +32,6 @@ public with sharing class ELCParser {
     private CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria;
     private ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria;
     private LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria;   
-    
-    //.... and other DAO.Criteria
 
     public ELCParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
@@ -42,30 +40,27 @@ public with sharing class ELCParser {
     }
 
     private void parse() {
+        contactCriteria = ELCContactParser.processContactCriteria(engagementListCriteria, contactCriteria);
+        programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
+        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
+        completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
+        courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
+        programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
+        courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
+        courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
+        leaveOfAbsenceCriteria = processLeaveOfAbsenceIsOnLeave(engagementListCriteria, leaveOfAbsenceCriteria);
 
-        // process other criterion fields;
-        this.contactCriteria = processCitizenshipStatus(this.engagementListCriteria, this.contactCriteria);
-        this.programEnrollmentCriteria = processAcademicStatus(this.engagementListCriteria, this.programEnrollmentCriteria);
-        this.programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
-        this.completedCadenceCriteria = processCadenceName(this.engagementListCriteria, this.completedCadenceCriteria);
-        this.courseConnectionCriteria = processCourseConnectionCourseGrade(this.engagementListCriteria, this.courseConnectionCriteria);
-        this.programEnrollmentBreachCriteria = processBreachName(this.engagementListCriteria, this.programEnrollmentBreachCriteria);
-        this.courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
-        this.courseConnectionAssessmentCriteria = processAssessmentPriority(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
-        this.leaveOfAbsenceCriteria = processLeaveOfAbsenceIsOnLeave(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
-
-        if(this.engagementListCriteria.Key_Date__c != null){
-            if(this.engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
-                this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
-            } else if(this.engagementListCriteria.Key_Date__c == 'Completed Cadence Date'){ //declare to engagement list criteria dao
-                this.completedCadenceCriteria = processCompletedCadenceKeyDate(this.engagementListCriteria, this.completedCadenceCriteria);
-            } else if(this.engagementListCriteria.Key_Date__c == 'Breach Start Date'){ //declare to engagement list criteria dao
-                this.programEnrollmentBreachCriteria = processProgramEnrollmentBreachKeyDate(this.engagementListCriteria, this.programEnrollmentBreachCriteria);
+        if(engagementListCriteria.Key_Date__c != null){
+            if(engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
+                leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(engagementListCriteria, leaveOfAbsenceCriteria);
+            } else if(engagementListCriteria.Key_Date__c == 'Completed Cadence Date'){ //declare to engagement list criteria dao
+                completedCadenceCriteria = processCompletedCadenceKeyDate(engagementListCriteria, completedCadenceCriteria);
+            } else if(engagementListCriteria.Key_Date__c == 'Breach Start Date'){ //declare to engagement list criteria dao
+                programEnrollmentBreachCriteria = processProgramEnrollmentBreachKeyDate(engagementListCriteria, programEnrollmentBreachCriteria);
             } 
             //add others
         }
 
-        applyContactHiddenCriteria(this.contactCriteria);
         applyProgramEnrollmentHiddenCriteria(this.programEnrollmentCriteria);
         applyCompletedCadenceHiddenCriteria(this.completedCadenceCriteria);
         applyCourseConnectionHiddenCriteria(this.courseConnectionCriteria);
@@ -77,16 +72,6 @@ public with sharing class ELCParser {
      * Hidden criterias for each sObjects
      */ 
     
-    //Contact
-    private ContactsDAO.Criteria applyContactHiddenCriteria(ContactsDAO.Criteria contactCriteria) {
-        if (contactCriteria == null) {
-            contactCriteria = new ContactsDAO.Criteria();
-        }
-        contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-        contactCriteria.isQUTStudent = true;
-        return contactCriteria;
-    }
-
     // Program Enrollment
     private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (programEnrollmentCriteria == null) {
@@ -131,15 +116,6 @@ public with sharing class ELCParser {
     /**************************************************************
      * Criterions
      */
-    private ContactsDAO.Criteria processCitizenshipStatus(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
-        if (engagementListCriteria.Citizenship_Status__c != null) {
-            if (contactCriteria == null) {
-                contactCriteria = new ContactsDAO.Criteria();
-            }
-            contactCriteria.citizenshipStatus = engagementListCriteria.Citizenship_Status__c;
-        }
-        return contactCriteria;
-    }
 
     private ProgramEnrollmentsDAO.Criteria processAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (engagementListCriteria.Academic_Status__c != null) {
