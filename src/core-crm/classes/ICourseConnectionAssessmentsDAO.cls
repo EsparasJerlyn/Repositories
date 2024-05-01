@@ -10,5 +10,32 @@
  *    |                                |                       |                        |                                                |
  */
 public interface ICourseConnectionAssessmentsDAO extends DmlInterface {
+    String getWhereClauseByCriteria(
+        CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
+        CourseConnectionsDAO.Criteria courseConnectionCriteria, 
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getContactQueryByCriteria(
+        CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
+        CourseConnectionsDAO.Criteria courseConnectionCriteria, 
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getQueryByCriteria(
+        CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
+        CourseConnectionsDAO.Criteria courseConnectionCriteria, 
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<Course_Connection_Assessment__c> findByCriteria(
+        CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
+        CourseConnectionsDAO.Criteria courseConnectionCriteria, 
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
 
 }

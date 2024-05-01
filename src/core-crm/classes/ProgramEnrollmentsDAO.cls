@@ -94,9 +94,10 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         public String academicStatus;
         public String enrollmentStage;
         public Set<String> enrollmentStatus;
+        public String categoryType;
        
         public Boolean isEmpty() {
-            return academicStatus == null && enrollmentStage == null && enrollmentStatus.isEmpty();
+            return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus.isEmpty();
         }
     }
 }
