@@ -349,4 +349,48 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE  ' +
+              'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+              'AND Id = IN (' + contactCriteria.contactIdSet + ') ';
+    }
+
+    public String getContactQueryByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Id FROM Contact ' + getWhereClauseByCriteria(contactCriteria);
+    }
+
+    public String getQueryByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT ' + 
+        ' Id, hed__Citizenship_Status__c, QUT_Student_ID__c' +
+        ' FROM Contact ' +
+        getWhereClauseByCriteria(contactCriteria);
+    }
+
+    public List<Contact> findByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ) {
+        List<Contact> contactList = new List<Contact>();
+
+        for (Contact record : contactsMap.values()) {
+            if(
+                record.hed__Citizenship_Status__c == contactCriteria.citizenshipStatus &&
+                record.QUT_Student__c == contactCriteria.courseGrade &&
+                record.RecordType.DeveloperName == contactCriteria.recordType 
+            )
+            {
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
 }
