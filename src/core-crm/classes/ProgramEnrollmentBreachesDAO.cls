@@ -71,7 +71,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         public String breachName;
         public String breachStatus;
 
-        Boolean isEmpty() {
+        public Boolean isEmpty() {
             return breachName == null && breachStatus == null;
         }
     }

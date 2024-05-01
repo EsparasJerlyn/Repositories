@@ -77,7 +77,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         public Date submissionDate;
         public String assessmentPriority;
 
-        Boolean isEmpty() {
+        public Boolean isEmpty() {
             return assessmentGrade == null && submissionDate == null && assessmentPriority == null;
         }
     }
