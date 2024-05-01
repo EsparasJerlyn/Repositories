@@ -507,28 +507,33 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
               'AND Id IN (' + contactCriteria.contactIdSet + ') ';
     }
 
-    public String getContactQueryByCriteria(
-        Criteria contactCriteria
-    ){
-        return 'SELECT Id FROM Contact ' + getWhereClauseByCriteria(contactCriteria);
+    public Database.QueryLocator getQueryLocatorByCriteria(Criteria criteria) {        
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
     }
 
-    public String getQueryByCriteria(
-        Criteria contactCriteria
-    ){
-        return 'SELECT ' + 
-        ' Id, hed__Citizenship_Status__c, QUT_Student_ID__c' +
-        ' FROM Contact ' +
-        getWhereClauseByCriteria(contactCriteria);
+    public Database.QueryLocator getQueryLocatorBySubQuery(Criteria criteria) {   
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
     }
 
     public List<Contact> findByCriteria(
-        Criteria contactCriteria
+        Criteria criteria, 
+        AccessLevel accessLevel
     ){
-        return Database.query(getQueryByCriteria(contactCriteria));
-    }
-
-    
+        if(criteria != null && !criteria.isEmpty()){
+            return Database.query(
+                ' SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+                ' FROM Contact ' + getWhereClauseByCriteria(criteria),
+                accessLevel
+            );
+        }
+        return new List<Contact>();
+    }  
 
     /**
      * @Description:Wrapper Class that represents the extracted application details.
