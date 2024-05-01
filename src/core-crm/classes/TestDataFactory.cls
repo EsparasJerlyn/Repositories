@@ -78,6 +78,7 @@
  *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                              |
  *    |                           |                       |                     | Added method createTestDistributionSplitRecords                             |
  *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                     |
+ *    | kenneth.f.alsay           | April 23, 2024        | DEPP-8528           | Added method createDonationRecordsWithRecordType                            |
  **/
 
 @isTest
@@ -4416,6 +4417,32 @@ public class TestDataFactory {
         }
         return distributionManagementList;
     }
+
+    /**
+     * @description Method for creating test Donation records
+    * @params
+    * numOfRecords - number of records to create
+    * recordTypeId - recordTypeId of the records to create
+    * @return donationList - List of Donation records created
+    */
+    public static List<Donation__c> createDonationRecordsWithRecordType (
+        Integer numOfRecords,
+        Id recordTypeId
+    ) {
+        List<Donation__c> donationList = new List<Donation__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationList.add(
+                new Donation__c(
+                    RecordTypeId = recordTypeId,
+                    Stage__c = 'Proposed',
+                    Donation_Type__c = 'Influenced Revenue',
+                    Donation_Comment__c = 'Test Donation'
+                )
+            );
+        }
+        return donationList;
+    }
+
     /**
      * @description Method for creating test Donation Causes records
      * @params
@@ -4528,4 +4555,4 @@ public class TestDataFactory {
         }
         return donationAssetList;
     }
-} 
+}
