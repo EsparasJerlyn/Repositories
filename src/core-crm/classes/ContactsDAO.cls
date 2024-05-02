@@ -497,7 +497,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return contactList[0];
     }
 
-    public String getContactWhereClauseByCriteria(ContactsDAO.Criteria contactCriteria){
+    public String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
         String soql = '';
         if(contactCriteria.citizenshipStatus != null){
             soql += 'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
@@ -511,17 +513,11 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         if(contactCriteria.contactIdSet != null){
             soql += 'AND Id IN (' + formatIdSetForWhereClause(contactCriteria.contactIdSet) + ') ';
         }
-        return soql;
-    }
-    
-    public String getWhereClauseByCriteria(
-        ContactsDAO.Criteria contactCriteria
-    ){
-        String soql = getContactWhereClauseByCriteria(contactCriteria);
 
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
         }
+        
         return soql;
     }
 
