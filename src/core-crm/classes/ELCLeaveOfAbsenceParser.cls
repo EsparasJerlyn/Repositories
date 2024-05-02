@@ -39,16 +39,6 @@ public with sharing class ELCLeaveOfAbsenceParser {
         return leaveOfAbsenceCriteria;
     }   
 
-    private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (leaveOfAbsenceCriteria == null) {
-            leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-        }
-
-        leaveOfAbsenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
-        leaveOfAbsenceCriteria.executionDate = this.executionDate;
-
-        return leaveOfAbsenceCriteria;
-    }
     
     public LeaveOfAbsencesDAO.Criteria getLeaveOfAbsencesCriteria() {
         return leaveOfAbsenceCriteria;

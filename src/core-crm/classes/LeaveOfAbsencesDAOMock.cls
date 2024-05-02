@@ -10,6 +10,7 @@
  *    | gabriel.p.ventayen             | April 30, 2024        | DEPP-8041              | Created file                                   |
  *    |                                |                       |                        |                                                |
  */
+@isTest
 public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implements ILeaveOfAbsencesDAO {
     public Map<Id, Leave_of_Absence__c> leaveOfAbsenceMap;
     public Schema.SObjectType getSObjectType() {
