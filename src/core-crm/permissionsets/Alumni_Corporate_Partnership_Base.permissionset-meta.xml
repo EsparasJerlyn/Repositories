@@ -1741,6 +1741,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>List_Member__c.List_Member_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>List_Member__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1756,22 +1761,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>List_Member__c.Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>List_Member__c.Score_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>List_Member__c.Score_Subcategory__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>List_Member__c.Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>List__c.Column_10__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1817,6 +1817,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>List__c.Column_9__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>List__c.Column_10__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
