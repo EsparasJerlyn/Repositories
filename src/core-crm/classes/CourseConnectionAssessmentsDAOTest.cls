@@ -57,7 +57,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                     new ProgramEnrollmentsDAO.Criteria(), 
                     new ContactsDAO.Criteria()
                 );
-            System.assert(whereClauseString != null, 'Contact query by criteria should not be null.');
+            String expectedWhereClause = '';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }

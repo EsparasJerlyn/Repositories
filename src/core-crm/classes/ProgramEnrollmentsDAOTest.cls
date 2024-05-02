@@ -114,15 +114,16 @@ public with sharing class ProgramEnrollmentsDAOTest {
     }
 
     @isTest
-    static void getContactQueryByCriteriaTest() {
+static void getContactQueryByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String wherClauseString = ProgramEnrollmentsDAO.newInstance()
+            String whereClauseString = ProgramEnrollmentsDAO.newInstance()
                 .getContactQueryByCriteria(
                     new ProgramEnrollmentsDAO.Criteria(),
                     new ContactsDAO.Criteria()
                 );
-            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
+                String expectedWhereClause = '';
+                System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }

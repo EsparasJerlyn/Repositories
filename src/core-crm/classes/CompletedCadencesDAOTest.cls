@@ -120,12 +120,13 @@ public with sharing class CompletedCadencesDAOTest {
     static void getQueryByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            String wherClauseString = CompletedCadencesDAO.newInstance()
+            String whereClauseString = CompletedCadencesDAO.newInstance()
                 .getQueryByCriteria(
                     new CompletedCadencesDAO.Criteria(),
                     new ContactsDAO.Criteria()
                 );
-            System.assert(wherClauseString != null, 'Query by criteria should not be null.');
+                String expectedWhereClause = '';
+                System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }
