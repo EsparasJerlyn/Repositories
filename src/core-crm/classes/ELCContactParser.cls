@@ -6,18 +6,28 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
-      | eccarius.munoz                 | May 1, 2024           | DEPP-8041              | Created file                                                |
+      | eccarius.munoz                 | May 2, 2024           | DEPP-8041              | Created file                                                |
 */
 public with sharing class ELCContactParser{
-    
-    public static ContactsDAO.Criteria processContactCriteria(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
+
+    private Engagement_List_Criteria__c engagementListCriteria;
+    private Date executionDate;
+
+    private ContactsDAO.Criteria contactCriteria;
+
+    public ELCContactParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
+        this.engagementListCriteria = engagementListCriteria;
+        this.executionDate = executionDate;
+        parse();
+    }
+
+    private void parse() {
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
         contactCriteria = applyContactHiddenCriteria(contactCriteria);
-        return contactCriteria;
     }
 
     //criterion
-    public static ContactsDAO.Criteria processCitizenshipStatus(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
+    private ContactsDAO.Criteria processCitizenshipStatus(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
         if (engagementListCriteria.Citizenship_Status__c != null) {
             if (contactCriteria == null) {
                 contactCriteria = new ContactsDAO.Criteria();
@@ -28,12 +38,16 @@ public with sharing class ELCContactParser{
     }
 
     //hidden criteria
-    public static ContactsDAO.Criteria applyContactHiddenCriteria(ContactsDAO.Criteria contactCriteria) {
+    private ContactsDAO.Criteria applyContactHiddenCriteria(ContactsDAO.Criteria contactCriteria) {
         if (contactCriteria == null) {
             contactCriteria = new ContactsDAO.Criteria();
         }
         contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
         contactCriteria.isQUTStudent = true;
+        return contactCriteria;
+    }
+
+    public ContactsDAO.Criteria getContactCriteria() {
         return contactCriteria;
     }
     

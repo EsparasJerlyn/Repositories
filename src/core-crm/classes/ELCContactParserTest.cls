@@ -29,9 +29,9 @@ public with sharing class ELCContactParserTest {
             Test.stopTest();
 
             //Checking on the criterions 
-            System.assertEquals(parser.getContactCriteria().citizenshipStatus, citizenshipStatus, 'Incorrect Citizenship Status.');
-            System.assertEquals(parser.getContactCriteria().recordType, ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
-            System.assertEquals(parser.getContactCriteria().isQUTStudent, true, 'Contact is not set as QUT student');
+            System.assertEquals(parser.getELCContactParser().getContactCriteria().citizenshipStatus, citizenshipStatus, 'Incorrect Citizenship Status.');
+            System.assertEquals(parser.getELCContactParser().getContactCriteria().recordType, ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
+            System.assertEquals(parser.getELCContactParser().getContactCriteria().isQUTStudent, true, 'Contact is not set as QUT student');
 
         }
     }

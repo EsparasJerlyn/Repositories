@@ -25,7 +25,8 @@ public with sharing class ELCParser {
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
 
-    private ContactsDAO.Criteria contactCriteria;
+    private ELCContactParser eLCContactParser;
+    private ELCProgramEnrollmentParser eLCProgramEnrollmentParser;
     private ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria;
     private CompletedCadencesDAO.Criteria completedCadenceCriteria;
     private CourseConnectionsDAO.Criteria courseConnectionCriteria;
@@ -40,11 +41,10 @@ public with sharing class ELCParser {
     }
 
     private void parse() {
-        contactCriteria = ELCContactParser.processContactCriteria(engagementListCriteria, contactCriteria);
-        programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
-        completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
-        courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
+        eLCContactParser = new ELCContactParser(engagementListCriteria, executionDate);
+        eLCProgramEnrollmentParser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+        completedCadenceCriteria = ELCCompletedCadenceParser.processCompletedCadenceCriteria(engagementListCriteria, completedCadenceCriteria);
+        courseConnectionCriteria = ELCCourseConnectionParser.processCourseConnectionCriteria(engagementListCriteria, courseConnectionCriteria);
         programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
         courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
         courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
@@ -61,9 +61,6 @@ public with sharing class ELCParser {
             //add others
         }
 
-        applyProgramEnrollmentHiddenCriteria(this.programEnrollmentCriteria);
-        applyCompletedCadenceHiddenCriteria(this.completedCadenceCriteria);
-        applyCourseConnectionHiddenCriteria(this.courseConnectionCriteria);
         applyProgramEnrollmentBreachHiddenCriteria(this.programEnrollmentBreachCriteria);
         // similar for other sObjects
     }
@@ -72,36 +69,11 @@ public with sharing class ELCParser {
      * Hidden criterias for each sObjects
      */ 
     
-    // Program Enrollment
-    private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (programEnrollmentCriteria == null) {
-            programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-        }
-        programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
-        programEnrollmentCriteria.enrollmentStatus = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
-
-        return programEnrollmentCriteria;
-    }
-
     // Completed Cadence
-    private CompletedCadencesDAO.Criteria applyCompletedCadenceHiddenCriteria(CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (completedCadenceCriteria == null) {
-            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-        }
-        completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
-
-        return completedCadenceCriteria;
-    }
+    
 
     // Course Connection
-    private CourseConnectionsDAO.Criteria applyCourseConnectionHiddenCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria) {
-        if (courseConnectionCriteria == null) {
-            courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-        }
-        courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
-
-        return courseConnectionCriteria;
-    }
+    
 
     // Program Enrollment Breach
     private ProgramEnrollmentBreachesDAO.Criteria applyProgramEnrollmentBreachHiddenCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
@@ -117,45 +89,7 @@ public with sharing class ELCParser {
      * Criterions
      */
 
-    private ProgramEnrollmentsDAO.Criteria processAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (engagementListCriteria.Academic_Status__c != null) {
-            if (programEnrollmentCriteria == null) {
-                programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-            }
-            programEnrollmentCriteria.academicStatus = engagementListCriteria.Academic_Status__c;
-        }
-        return programEnrollmentCriteria;
-    }
-    //Not sure if this is Program Plan related in Program Enrollment????
-    private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (engagementListCriteria.Category_Type__c != null) {
-            if (programEnrollmentCriteria == null) {
-                programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-            }
-            programEnrollmentCriteria.categoryType = engagementListCriteria.Category_Type__c;
-        }
-        return programEnrollmentCriteria;
-    }
-
-    private CompletedCadencesDAO.Criteria processCadenceName(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (engagementListCriteria.Completed_Cadence__c != null) {
-            if (completedCadenceCriteria == null) {
-                completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            }
-            completedCadenceCriteria.completedCadence = engagementListCriteria.Completed_Cadence__c;
-        }
-        return completedCadenceCriteria;
-    }
-
-    private CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseGradeCriteria) {
-        if (engagementListCriteria.Course_Grade__c != null) {
-            if (courseGradeCriteria == null) {
-                courseGradeCriteria = new CourseConnectionsDAO.Criteria();
-            }
-            courseGradeCriteria.courseGrade = engagementListCriteria.Course_Grade__c;
-        }
-        return courseGradeCriteria;
-    }
+    
 
     private CourseConnectionAssessmentsDAO.Criteria processFailedToSubmitAssessment(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
         if (engagementListCriteria.Failed_To_Submit_Assessment__c != null) {
@@ -245,12 +179,12 @@ public with sharing class ELCParser {
     /**
      * Getter methods
      */
-    public ContactsDAO.Criteria getContactCriteria() {
-        return contactCriteria;
+    public ELCContactParser getELCContactParser() {
+        return eLCContactParser;
     }
-
-    public ProgramEnrollmentsDAO.Criteria getProgramEnrollmentCriteria() {
-        return programEnrollmentCriteria;
+    
+    public ELCProgramEnrollmentParser getELCProgramEnrollmentParser(){
+        return eLCProgramEnrollmentParser;
     }
 
     public CompletedCadencesDAO.Criteria getCompletedCadenceCriteria() {
