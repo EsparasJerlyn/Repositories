@@ -76,8 +76,8 @@
                 record.Breach_Date__c <= lowerKeyDateOffSetBoundary && 
                 record.Breach_Date__c >= upperKeyDateOffSetBoundary && 
                 (
-                    record.Breach_Status__c == programEnrollmentBreachCriteria.ACTIVE_BREACH_STATUS ||
-                    record.Breach_Status__c == programEnrollmentBreachCriteria.WAIT_FOR_STUDENT_ACTION_STATUS
+                    record.Breach_Status__c == ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS ||
+                    record.Breach_Status__c == ProgramEnrollmentBreachesDAO.WAIT_FOR_STUDENT_ACTION_STATUS
                 )
             )
             {
