@@ -79,16 +79,31 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        String soql = 
-            'WHERE ' +
-            ' Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-            ' AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
-            ' AND Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
-            ' AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-            ' AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-            ' AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
-
-        return soql;     
+        String soql = '';
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND Enrollment_Status__c IN(' + programEnrollmentCriteria.enrollmentStatus + ') ' ;
+        }
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        }
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+        }
+    
+        return soql; 
     }
 
     public String getContactQueryByCriteria(

@@ -103,18 +103,47 @@ public with sharing class ProgramEnrollmentsDAOTest {
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String whereClauseString = ProgramEnrollmentsDAO.newInstance()
-                .getWhereClauseByCriteria(
-                    new ProgramEnrollmentsDAO.Criteria(),
-                    new ContactsDAO.Criteria()
-                );
-            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.isQUTStudent = true;
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.contactIdSet = new Set<Id>{contactId};
+            contactCriteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
+            programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentCriteria.enrollmentStatus = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+
+            String whereClauseString = ProgramEnrollmentsDAO.newInstance().getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
+            String expectedWhereClause = 'WHERE '
+                + 'Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
+                + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND Enrollment_Status__c IN(' + programEnrollmentCriteria.enrollmentStatus + ') '
+                + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
+                + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
+                + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }
 
     @isTest
-static void getContactQueryByCriteriaTest() {
+    static void getWhereClauseByNoCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            String whereClauseString = ProgramEnrollmentsDAO.newInstance().getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
+            String expectedWhereClause = '';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactQueryByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             String whereClauseString = ProgramEnrollmentsDAO.newInstance()
@@ -122,7 +151,7 @@ static void getContactQueryByCriteriaTest() {
                     new ProgramEnrollmentsDAO.Criteria(),
                     new ContactsDAO.Criteria()
                 );
-                String expectedWhereClause = '';
+                String expectedWhereClause = 'SELECT hed__Contact__c FROM hed__Program_Enrollment__c ';
                 System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
