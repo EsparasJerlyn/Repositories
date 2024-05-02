@@ -27,12 +27,11 @@ public with sharing class ELCParser {
 
     private ELCContactParser eLCContactParser;
     private ELCProgramEnrollmentParser eLCProgramEnrollmentParser;
-    private ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria;
-    private CompletedCadencesDAO.Criteria completedCadenceCriteria;
-    private CourseConnectionsDAO.Criteria courseConnectionCriteria;
-    private CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria;
-    private ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria;
-    private LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria;   
+    private ELCCompletedCadenceParser eLCCompletedCadenceParser;
+    private ELCCourseConnectionParser eLCCourseConnectionParser;
+    private ELCCourseConnectionAssessmentParser eLCCourseConnectionAssessmentParser;
+    private ELCProgramEnrollmentBreachParser eLCProgramEnrollmentBreachParser;
+    private ELCLeaveOfAbsenceParser eLCLeaveOfAbsenceParser;
 
     public ELCParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
@@ -43,14 +42,13 @@ public with sharing class ELCParser {
     private void parse() {
         eLCContactParser = new ELCContactParser(engagementListCriteria, executionDate);
         eLCProgramEnrollmentParser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
-        completedCadenceCriteria = ELCCompletedCadenceParser.processCompletedCadenceCriteria(engagementListCriteria, completedCadenceCriteria);
-        courseConnectionCriteria = ELCCourseConnectionParser.processCourseConnectionCriteria(engagementListCriteria, courseConnectionCriteria);
-        programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
-        courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
-        courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
-        leaveOfAbsenceCriteria = processLeaveOfAbsenceIsOnLeave(engagementListCriteria, leaveOfAbsenceCriteria);
+        eLCCompletedCadenceParser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
+        eLCCourseConnectionParser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
+        eLCCourseConnectionAssessmentParser = new ELCCourseConnectionAssessmentParser(engagementListCriteria, executionDate);
+        eLCProgramEnrollmentBreachParser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
+        eLCLeaveOfAbsenceParser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
 
-        if(engagementListCriteria.Key_Date__c != null){
+       /*  if(engagementListCriteria.Key_Date__c != null){
             if(engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
                 leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(engagementListCriteria, leaveOfAbsenceCriteria);
             } else if(engagementListCriteria.Key_Date__c == 'Completed Cadence Date'){ //declare to engagement list criteria dao
@@ -59,87 +57,9 @@ public with sharing class ELCParser {
                 programEnrollmentBreachCriteria = processProgramEnrollmentBreachKeyDate(engagementListCriteria, programEnrollmentBreachCriteria);
             } 
             //add others
-        }
-
-        applyProgramEnrollmentBreachHiddenCriteria(this.programEnrollmentBreachCriteria);
-        // similar for other sObjects
+        } */
+        
     }
-
-    /**
-     * Hidden criterias for each sObjects
-     */ 
-    
-    // Completed Cadence
-    
-
-    // Course Connection
-    
-
-    // Program Enrollment Breach
-    private ProgramEnrollmentBreachesDAO.Criteria applyProgramEnrollmentBreachHiddenCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (programEnrollmentBreachCriteria == null) {
-            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-        }
-        programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
-
-        return programEnrollmentBreachCriteria;
-    }
-    
-    /**************************************************************
-     * Criterions
-     */
-
-    
-
-    private CourseConnectionAssessmentsDAO.Criteria processFailedToSubmitAssessment(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (engagementListCriteria.Failed_To_Submit_Assessment__c != null) {
-            if (courseConnectionAssessmentCriteria == null) {
-                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            }
-            if(engagementListCriteria.Failed_To_Submit_Assessment__c == 'Yes'){
-                courseConnectionAssessmentCriteria.assessmentGrade = null;
-                courseConnectionAssessmentCriteria.submissionDate = null;
-            }
-            
-        }
-        return courseConnectionAssessmentCriteria;
-    }
-
-    private CourseConnectionAssessmentsDAO.Criteria processAssessmentPriority(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (engagementListCriteria.Assessment_Priority__c != null) {
-            if (courseConnectionAssessmentCriteria == null) {
-                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            }
-            courseConnectionAssessmentCriteria.assessmentPriority = engagementListCriteria.Assessment_Priority__c;
-        }
-        return courseConnectionAssessmentCriteria;
-    }
-
-
-    private ProgramEnrollmentBreachesDAO.Criteria processBreachName(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (engagementListCriteria.Breach__c != null) {
-            if (programEnrollmentBreachCriteria == null) {
-                programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            }
-            programEnrollmentBreachCriteria.breach = engagementListCriteria.Breach__c;
-        }
-        return programEnrollmentBreachCriteria;
-    }
-
-    private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceIsOnLeave(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (engagementListCriteria.Is_On_Leave_of_Absence__c != null) {
-            if (leaveOfAbsenceCriteria == null) {
-                leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            }
-            if (engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes') {
-                leaveOfAbsenceCriteria.isOnLeave = true;
-            } else {
-                leaveOfAbsenceCriteria.isOnLeave = false;
-            }
-        }
-        return leaveOfAbsenceCriteria;
-    }   
-    
     /**
      * Criterions with Key Dates
      */
@@ -187,24 +107,24 @@ public with sharing class ELCParser {
         return eLCProgramEnrollmentParser;
     }
 
-    public CompletedCadencesDAO.Criteria getCompletedCadenceCriteria() {
-        return completedCadenceCriteria;
+    public ELCCompletedCadenceParser getELCCompletedCadenceParser(){
+        return eLCCompletedCadenceParser;
     }
-    
-    public CourseConnectionsDAO.Criteria getCourseConnectionCriteria() {
-        return courseConnectionCriteria;
-    }
-
-    public CourseConnectionAssessmentsDAO.Criteria getCourseConnectionAssessmentCriteria() {
-        return courseConnectionAssessmentCriteria;
+        
+    public ELCCourseConnectionParser getELCCourseConnectionParser(){
+        return eLCCourseConnectionParser;
     }
 
-    public ProgramEnrollmentBreachesDAO.Criteria getProgramEnrollmentBreachCriteria() {
-        return programEnrollmentBreachCriteria;
+    public ELCCourseConnectionAssessmentParser getELCCourseConnectionAssessmentParser(){
+        return eLCCourseConnectionAssessmentParser;
     }
 
-    public LeaveOfAbsencesDAO.Criteria getLeaveOfAbsencesCriteria() {
-        return leaveOfAbsenceCriteria;
+    public ELCProgramEnrollmentBreachParser getELCProgramEnrollmentBreachParser(){
+        return eLCProgramEnrollmentBreachParser;
+    }
+
+    public ELCLeaveOfAbsenceParser getELCLeaveOfAbsenceParser(){
+        return eLCLeaveOfAbsenceParser;
     }
 
 }
