@@ -9,6 +9,14 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Assessment__c</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <content>Student_Success_Enquiry_Home_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#113B71</headerColor>
         <logo>QUT_logo_Blue_RGB_PNG_11</logo>

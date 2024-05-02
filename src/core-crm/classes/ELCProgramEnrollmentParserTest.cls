@@ -11,27 +11,57 @@
 @isTest
 public with sharing class ELCProgramEnrollmentParserTest {
     
-    @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+    @TestSetup
+    static void setupMethod(){
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
     }
 
     @isTest
-    static void setBodyValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+    static void parseProgramEnrollmentAcademicStatusTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
             
-            String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            Test.startTest();
+            String academicStatus = 'Showcause';
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
-
-            Test.startTest();
-            ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
+            engagementListCriteria.Academic_Status__c = academicStatus;
+            
+            ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            //Checking on the criterions 
-            System.assertEquals(parser.getContactCriteria().citizenshipStatus, citizenshipStatus, 'Incorrect Citizenship Status.');
-            System.assertEquals(parser.getContactCriteria().recordType, ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
-            System.assertEquals(parser.getContactCriteria().isQUTStudent, true, 'Contact is not set as QUT student');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().academicStatus, academicStatus, 'Incorrect Academic Status');
+        }
+    }
+
+    @isTest
+    static void parseProgramEnrollmentCategoryTypeTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            Date executionDate = Date.today();
+            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+
+            ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+            Test.stopTest();
+
+            System.assertEquals(parser.getProgramEnrollmentCriteria().categoryType, 'Graduate Certificate', 'Incorrect Category Type');            
+        }
+    }
+
+    @isTest
+    static void parseProgramEnrollmentHiddenCriteriaTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            Date executionDate = Date.today();
+            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+
+            ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+            Test.stopTest();
+
+            System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStage, ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStatus, ProgramEnrollmentsDAO.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
 
         }
     }
