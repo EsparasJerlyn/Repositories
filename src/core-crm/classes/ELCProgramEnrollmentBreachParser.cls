@@ -44,6 +44,17 @@ public with sharing class ELCProgramEnrollmentBreachParser {
         return programEnrollmentBreachCriteria;
     }
 
+    private ProgramEnrollmentBreachesDAO.Criteria processProgramEnrollmentBreachKeyDate(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
+        if (programEnrollmentBreachCriteria == null) {
+            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+        }
+
+        programEnrollmentBreachCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
+        programEnrollmentBreachCriteria.executionDate = this.executionDate;
+
+        return programEnrollmentBreachCriteria;
+    }
+
     public ProgramEnrollmentBreachesDAO.Criteria getProgramEnrollmentBreachCriteria() {
         return programEnrollmentBreachCriteria;
     }

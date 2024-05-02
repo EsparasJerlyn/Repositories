@@ -44,6 +44,17 @@ public with sharing class ELCCompletedCadenceParser {
 
         return completedCadenceCriteria;
     }
+
+    private CompletedCadencesDAO.Criteria processCompletedCadenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
+        if (completedCadenceCriteria == null) {
+            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+        }
+
+        completedCadenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
+        completedCadenceCriteria.executionDate = this.executionDate;
+
+        return completedCadenceCriteria;
+    }
     
     public CompletedCadencesDAO.Criteria getCompletedCadenceCriteria() {
         return completedCadenceCriteria;
