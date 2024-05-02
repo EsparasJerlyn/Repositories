@@ -58,42 +58,6 @@ public with sharing class ELCParser {
             } 
             //add others
         } */
-        
-    }
-    /**
-     * Criterions with Key Dates
-     */
-    private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (leaveOfAbsenceCriteria == null) {
-            leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-        }
-
-        leaveOfAbsenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
-        leaveOfAbsenceCriteria.executionDate = this.executionDate;
-
-        return leaveOfAbsenceCriteria;
-    }
-
-    private CompletedCadencesDAO.Criteria processCompletedCadenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (completedCadenceCriteria == null) {
-            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-        }
-
-        completedCadenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
-        completedCadenceCriteria.executionDate = this.executionDate;
-
-        return completedCadenceCriteria;
-    }
-
-    private ProgramEnrollmentBreachesDAO.Criteria processProgramEnrollmentBreachKeyDate(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (programEnrollmentBreachCriteria == null) {
-            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-        }
-
-        programEnrollmentBreachCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
-        programEnrollmentBreachCriteria.executionDate = this.executionDate;
-
-        return programEnrollmentBreachCriteria;
     }
 
     /**
