@@ -10,7 +10,7 @@
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
  *    |                                |                       |                        |                                                |
  */
-
+@isTest
  public inherited sharing class ProgramEnrollmentBreachesDAOMock extends DmlBaseMock implements IProgramEnrollmentBreachesDAO {
     public Map<Id, Program_Enrollment_Breach__c> programEnrollmentBreachMap;
 
