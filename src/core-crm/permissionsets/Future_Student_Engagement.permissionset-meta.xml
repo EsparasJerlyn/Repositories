@@ -1889,6 +1889,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Attendance_Mode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Enrollment__c.Birthdate__c</field>
         <readable>true</readable>
     </fieldPermissions>
