@@ -27,6 +27,7 @@ public with sharing class ELCProgramEnrollmentParser {
         programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
     }
     
+    //configurable criteria
     private ProgramEnrollmentsDAO.Criteria processAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (engagementListCriteria.Academic_Status__c != null) {
             if (programEnrollmentCriteria == null) {
@@ -37,7 +38,6 @@ public with sharing class ELCProgramEnrollmentParser {
         return programEnrollmentCriteria;
     }
 
-    //Not sure if this is Program Plan related in Program Enrollment????
     private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (engagementListCriteria.Category_Type__c != null) {
             if (programEnrollmentCriteria == null) {
@@ -48,6 +48,7 @@ public with sharing class ELCProgramEnrollmentParser {
         return programEnrollmentCriteria;
     }
 
+    //hidden criteria
     private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (programEnrollmentCriteria == null) {
             programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();

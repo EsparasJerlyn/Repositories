@@ -26,6 +26,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
         courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
     }
 
+    //configurable criteria
     private CourseConnectionAssessmentsDAO.Criteria processFailedToSubmitAssessment(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
         if (engagementListCriteria.Failed_To_Submit_Assessment__c != null) {
             if (courseConnectionAssessmentCriteria == null) {

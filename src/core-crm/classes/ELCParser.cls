@@ -47,23 +47,9 @@ public with sharing class ELCParser {
         eLCCourseConnectionAssessmentParser = new ELCCourseConnectionAssessmentParser(engagementListCriteria, executionDate);
         eLCProgramEnrollmentBreachParser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
         eLCLeaveOfAbsenceParser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
-
-       /*  if(engagementListCriteria.Key_Date__c != null){
-            if(engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
-                leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(engagementListCriteria, leaveOfAbsenceCriteria);
-            } else if(engagementListCriteria.Key_Date__c == 'Completed Cadence Date'){ //declare to engagement list criteria dao
-                completedCadenceCriteria = processCompletedCadenceKeyDate(engagementListCriteria, completedCadenceCriteria);
-            } else if(engagementListCriteria.Key_Date__c == 'Breach Start Date'){ //declare to engagement list criteria dao
-                programEnrollmentBreachCriteria = processProgramEnrollmentBreachKeyDate(engagementListCriteria, programEnrollmentBreachCriteria);
-            } 
-            //add others
-        } */
     }
 
-    /**
-     * Getter methods
-     */
-    public ELCContactParser getELCContactParser() {
+    public ELCContactParser getELCContactParser(){
         return eLCContactParser;
     }
     

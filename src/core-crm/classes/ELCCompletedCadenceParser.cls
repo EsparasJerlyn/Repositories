@@ -26,6 +26,7 @@ public with sharing class ELCCompletedCadenceParser {
         completedCadenceCriteria = applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
     }
     
+    //configurable criteria
     private CompletedCadencesDAO.Criteria processCadenceName(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
         if (engagementListCriteria.Completed_Cadence__c != null) {
             if (completedCadenceCriteria == null) {
@@ -36,15 +37,6 @@ public with sharing class ELCCompletedCadenceParser {
         return completedCadenceCriteria;
     }
 
-    private CompletedCadencesDAO.Criteria applyCompletedCadenceHiddenCriteria(CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (completedCadenceCriteria == null) {
-            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-        }
-        completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
-
-        return completedCadenceCriteria;
-    }
-
     private CompletedCadencesDAO.Criteria processCompletedCadenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
         if (completedCadenceCriteria == null) {
             completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
@@ -52,6 +44,16 @@ public with sharing class ELCCompletedCadenceParser {
 
         completedCadenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
         completedCadenceCriteria.executionDate = this.executionDate;
+
+        return completedCadenceCriteria;
+    }
+
+    //hidden criteria
+    private CompletedCadencesDAO.Criteria applyCompletedCadenceHiddenCriteria(CompletedCadencesDAO.Criteria completedCadenceCriteria) {
+        if (completedCadenceCriteria == null) {
+            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+        }
+        completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
 
         return completedCadenceCriteria;
     }

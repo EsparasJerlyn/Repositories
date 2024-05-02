@@ -26,7 +26,7 @@ public with sharing class ELCContactParser{
         contactCriteria = applyContactHiddenCriteria(contactCriteria);
     }
 
-    //criterion
+    //configurable criteria
     private ContactsDAO.Criteria processCitizenshipStatus(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
         if (engagementListCriteria.Citizenship_Status__c != null) {
             if (contactCriteria == null) {

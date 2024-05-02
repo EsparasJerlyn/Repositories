@@ -26,6 +26,7 @@ public with sharing class ELCCourseConnectionParser {
         courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
     }
 
+    //configurable criteria
     private CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseConnectionCriteria) {
         if (engagementListCriteria.Course_Grade__c != null) {
             if (courseConnectionCriteria == null) {
@@ -36,6 +37,7 @@ public with sharing class ELCCourseConnectionParser {
         return courseConnectionCriteria;
     }
 
+    //hidden criteria
     private CourseConnectionsDAO.Criteria applyCourseConnectionHiddenCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria) {
         if (courseConnectionCriteria == null) {
             courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
