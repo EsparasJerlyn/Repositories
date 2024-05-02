@@ -124,7 +124,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' ;
         }
         if(contactCriteria.isQUTStudent != null){
-            soql += 'AND Contact__r.QUT_Student__c = \'' + contactCriteria.isQUTStudent + '\' ' ;
+            soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
         }
         if(contactCriteria.recordType != null){
             soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
@@ -146,7 +146,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
          CompletedCadencesDAO.Criteria completedCadenceCriteria, 
          ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return soql.trim();
     }
 
     public List<Completed_Cadence__c> findByCriteria(
@@ -160,7 +161,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        String soql = 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return soql.trim();
     }
 
     public class Criteria {

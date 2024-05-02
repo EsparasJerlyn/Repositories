@@ -92,12 +92,33 @@ public with sharing class CompletedCadencesDAOTest {
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            String whereClauseString = CompletedCadencesDAO.newInstance()
-                .getWhereClauseByCriteria(
-                    new CompletedCadencesDAO.Criteria(),
+            String completedCadenceName = 'Domestic Accepted and Admitted';
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.completedCadence = completedCadenceName;
+            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.isQUTStudent = true;
+
+            String whereClauseString = CompletedCadencesDAO.newInstance().getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+            String expectedWhereClauseString = 'WHERE Cadence_Name__c = \'' + completedCadenceName + '\' AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' AND Contact__r.QUT_Student__c = ' + true + ' AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
+            System.assertEquals(expectedWhereClauseString, whereClauseString, 'Incorrect Where Clause by criteria.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByCriteriaEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            String whereClauseString = CompletedCadencesDAO.newInstance().
+                getWhereClauseByCriteria(
+                    new CompletedCadencesDAO.Criteria(), 
                     new ContactsDAO.Criteria()
                 );
-            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+            System.assertEquals('', whereClauseString, 'Incorrect Where Clause by criteria.');
         }
         Test.stopTest();
     }
@@ -125,7 +146,7 @@ public with sharing class CompletedCadencesDAOTest {
                     new CompletedCadencesDAO.Criteria(),
                     new ContactsDAO.Criteria()
                 );
-                String expectedWhereClause = '';
+                String expectedWhereClause = 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c';
                 System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
