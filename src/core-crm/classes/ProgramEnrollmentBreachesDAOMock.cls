@@ -29,31 +29,8 @@
         ContactsDAO.Criteria contactCriteria
     ){ 
         String soql = '';
-        if(programEnrollmentBreachCriteria.breachStatus != null){
-            soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.breachStatus + ') ' ;
-        }
-        if(programEnrollmentBreachCriteria.breach != null){
-            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
-        }
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
-        }
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
-        }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
-        }
-        if(contactCriteria.recordType != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
-        }
-        
+        soql = whereClauseCheckerForProgramEnrollmentBreachCriteria(programEnrollmentBreachCriteria) + whereClauseCheckerForProgramEnrollmentBreachCriteria(programEnrollmentBreachCriteria) + whereClauseCheckerForContactCriteria(contactCriteria);
+         
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
         }
@@ -109,4 +86,48 @@
         }
         return programEnrollmentBreachList;
     }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentBreachCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria){
+        
+        String soql = '';
+
+        if(programEnrollmentBreachCriteria.breachStatus != null){
+            soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.breachStatus + ') ' ;
+        }
+        if(programEnrollmentBreachCriteria.breach != null){
+            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
+        }
+
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        }
+
+        return soql;
+    }
+
 }
