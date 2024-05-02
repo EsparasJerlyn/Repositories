@@ -497,24 +497,42 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return contactList[0];
     }
 
+    public String getContactWhereClauseByCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ';
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+        }
+        if(contactCriteria.contactIdSet != null){
+            soql += 'AND Id IN (' + formatIdSetForWhereClause(contactCriteria.contactIdSet) + ') ';
+        }
+        return soql;
+    }
+    
     public String getWhereClauseByCriteria(
-        Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria
     ){
-        return 
-            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-              'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' +
-              'AND Id IN (' + contactCriteria.contactIdSet + ') ';
+        String soql = getContactWhereClauseByCriteria(contactCriteria);
+
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+        }
+        return soql;
     }
 
-    public Database.QueryLocator getQueryLocatorByCriteria(Criteria criteria) {        
+    public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
         String query =
             'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
               'FROM Contact ' + getWhereClauseByCriteria(criteria);
         return Database.getQueryLocator(query);
     }
 
-    public Database.QueryLocator getQueryLocatorBySubQuery(Criteria criteria) {   
+    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   
         String query =
             'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
               'FROM Contact ' + getWhereClauseByCriteria(criteria);
@@ -522,7 +540,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     }
 
     public List<Contact> findByCriteria(
-        Criteria criteria, 
+        ContactsDAO.Criteria criteria, 
         AccessLevel accessLevel
     ){
         if(criteria != null && !criteria.isEmpty()){
@@ -534,6 +552,14 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
         return new List<Contact>();
     }  
+
+    private String formatIdSetForWhereClause(Set<Id> contactIdSet){
+        List<String> formattedIds = new List<String>();
+        for(Id contactId : contactIdSet){
+            formattedIds.add('\'' + contactId + '\'');
+        }
+        return String.join(formattedIds, ', ');
+    }
 
     /**
      * @Description:Wrapper Class that represents the extracted application details.
