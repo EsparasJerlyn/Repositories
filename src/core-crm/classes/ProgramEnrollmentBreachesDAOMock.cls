@@ -73,9 +73,12 @@
         for (Program_Enrollment_Breach__c record : programEnrollmentBreachMap.values()) {
             if(
                 record.Breach_Name__c == programEnrollmentBreachCriteria.breach &&
-                record.Breach_Status__c == programEnrollmentBreachCriteria.breachStatus && 
                 record.Breach_Date__c <= lowerKeyDateOffSetBoundary && 
-                record.Breach_Date__c >= upperKeyDateOffSetBoundary
+                record.Breach_Date__c >= upperKeyDateOffSetBoundary && 
+                (
+                    record.Breach_Status__c == programEnrollmentBreachCriteria.ACTIVE_BREACH_STATUS ||
+                    record.Breach_Status__c == programEnrollmentBreachCriteria.WAIT_FOR_STUDENT_ACTION_STATUS
+                )
             )
             {
                 programEnrollmentBreachList.add(record);
