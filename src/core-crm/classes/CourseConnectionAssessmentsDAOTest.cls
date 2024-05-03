@@ -217,7 +217,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
 
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentCriteria.assessmentGrade = '100';
