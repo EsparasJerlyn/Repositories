@@ -24,19 +24,18 @@ public with sharing class ELCLeaveOfAbsenceParser {
         leaveOfAbsenceCriteria = processLeaveOfAbsenceIsOnLeave(engagementListCriteria, leaveOfAbsenceCriteria);
     }
 
+    //configurable criteria
     private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceIsOnLeave(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
         if (engagementListCriteria.Is_On_Leave_of_Absence__c != null) {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            if (engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes') {
-                leaveOfAbsenceCriteria.isOnLeave = true;
-            } else {
-                leaveOfAbsenceCriteria.isOnLeave = false;
-            }
+
+            leaveOfAbsenceCriteria.isOnLeave = engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes';
         }
         return leaveOfAbsenceCriteria;
     }   
+
     
     public LeaveOfAbsencesDAO.Criteria getLeaveOfAbsencesCriteria() {
         return leaveOfAbsenceCriteria;

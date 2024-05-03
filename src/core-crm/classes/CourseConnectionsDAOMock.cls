@@ -129,15 +129,36 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 
-            'WHERE Enrollment_Status__c = \'' + courseConnectionCriteria.status + '\' ' +
-              'AND hed__Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' +
-              'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-              'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
-              'AND hed__Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
-              'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-              'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+        String soql = '';
+        if(courseConnectionCriteria.status != null){
+            soql += 'AND Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ' ;
+        }
+        if(courseConnectionCriteria.courseGrade != null){
+            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' ;
+        }
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
+        }
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        }
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+        return soql;
     }
 
     public String getContactQueryByCriteria(

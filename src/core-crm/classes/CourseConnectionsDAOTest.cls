@@ -142,13 +142,45 @@ public with sharing class CourseConnectionsDAOTest {
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String whereClauseString = CourseConnectionsDAO.newInstance()
-                .getWhereClauseByCriteria(
-                    new CourseConnectionsDAO.Criteria(),
-                    new ProgramEnrollmentsDAO.Criteria(),
-                    new ContactsDAO.Criteria()
-                );
-            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.isQUTStudent = true;
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.contactIdSet = new Set<Id>{contactId};
+            contactCriteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
+            programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
+            courseConnectionCriteria.courseGrade = '100';
+            courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+
+            String whereClauseString = CourseConnectionsDAO.newInstance().getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+            String expectedWhereClause = 'WHERE '
+                + 'Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') '
+                + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
+                + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
+                + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
+                + 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
+                + 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByNoCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
+            String whereClauseString = CourseConnectionsDAO.newInstance().getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+            String expectedWhereClause = '';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }

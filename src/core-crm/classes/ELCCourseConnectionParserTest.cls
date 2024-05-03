@@ -1,6 +1,6 @@
 /**
- * @description Test class for ELCContactParser
- * @ELCContactParser
+ * @description Test class for ELCCourseConnectionParser
+ * @ELCCourseConnectionParser
  *
  * @history
  *
@@ -9,44 +9,40 @@
       | eccarius.munoz                 | May 2, 2024           | DEPP-7528              | Created file                 |
  */
 @isTest
-public with sharing class ELCContactParserTest {
-    
+public with sharing class ELCCourseConnectionParserTest {
     @TestSetup
     static void setupMethod(){
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
     }
 
     @isTest
-    static void parseContactCitizenshipStatusTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-
+    static void parseCourseConnCourseGradeTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+            
             Test.startTest();
-            String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
-
-            ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
+            engagementListCriteria.Course_Grade__c = '100';
+            
+            ELCCourseConnectionParser parser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getContactCriteria().citizenshipStatus, citizenshipStatus, 'Incorrect Citizenship Status.');
-
+            System.assertEquals(parser.getCourseConnectionCriteria().courseGrade, '100', 'Incorrect Course Grade');
         }
     }
 
     @isTest
-    static void parseContactHiddenCriteriaTest() {
+    static void parseCourseConnHiddenCriteriaTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
 
-            ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
+            ELCCourseConnectionParser parser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getContactCriteria().recordType, ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
-            System.assertEquals(parser.getContactCriteria().isQUTStudent, true, 'Contact is not set as QUT student');
+            System.assertEquals(parser.getCourseConnectionCriteria().status, CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
 
         }
     }

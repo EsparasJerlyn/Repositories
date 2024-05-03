@@ -37,19 +37,42 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){ 
-        String soql = 'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' +
-        ' AND Breach_Status__c = \'' + programEnrollmentBreachCriteria.breachStatus + '\' ' +
-        ' AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-        ' AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
-        ' AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-        ' AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-        ' AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
-
-        if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.executionDate != null){
-            Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
-            Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
-            soql = soql + 'AND Breach_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND Breach_Date__c >= ' + upperKeyDateOffSetBoundary ;
+        String soql = '';
+        if(programEnrollmentBreachCriteria.breachStatus != null){
+            soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.breachStatus + ') ' ;
         }
+        if(programEnrollmentBreachCriteria.breach != null){
+            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
+        }
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
+        }
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        }
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+        
+        /*temporarily commented out*/
+        // if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.executionDate != null){
+        //     Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
+        //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
+        //     soql = soql + 'AND Breach_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND Breach_Date__c >= ' + upperKeyDateOffSetBoundary ;
+        // }
 
         return soql;
     }

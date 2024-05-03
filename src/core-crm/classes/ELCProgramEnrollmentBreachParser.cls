@@ -25,6 +25,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
         programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
     }
 
+    //configurable criteria
     private ProgramEnrollmentBreachesDAO.Criteria processBreachName(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
         if (engagementListCriteria.Breach__c != null) {
             if (programEnrollmentBreachCriteria == null) {
@@ -35,6 +36,18 @@ public with sharing class ELCProgramEnrollmentBreachParser {
         return programEnrollmentBreachCriteria;
     }
 
+    private ProgramEnrollmentBreachesDAO.Criteria processProgramEnrollmentBreachKeyDate(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
+        if (programEnrollmentBreachCriteria == null) {
+            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+        }
+
+        programEnrollmentBreachCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
+        programEnrollmentBreachCriteria.executionDate = this.executionDate;
+
+        return programEnrollmentBreachCriteria;
+    }
+
+    //hidden criteria
     private ProgramEnrollmentBreachesDAO.Criteria applyProgramEnrollmentBreachHiddenCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
         if (programEnrollmentBreachCriteria == null) {
             programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();

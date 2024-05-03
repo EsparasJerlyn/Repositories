@@ -29,16 +29,15 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){ 
-        return 
-        'WHERE Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' ' +
-          'AND Submission_Date__c = ' + courseConnectionAssessmentsCriteria.submissionDate + ' ' +
-          'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' ' +
-          'AND Course_Connection__r.hed__Display_Grade__c   = \'' + courseConnectionCriteria.courseGrade + '\' ' +
-          'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-          'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
-          'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-          'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-          'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        String soql = '';
+        //Collate all criteria checked in every Criteria fields
+        soql = whereClauseCheckerForCourseConnectionAssessmentCriteria(courseConnectionAssessmentsCriteria) + whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) + whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + whereClauseCheckerForContactCriteria(contactCriteria); 
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+    
+        return soql;
     }
 
     public String getContactQueryByCriteria(
@@ -68,6 +67,66 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         return 'SELECT Id, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Assessment_Priority__c, Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c ' + getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForCourseConnectionAssessmentCriteria(CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria){
+        
+        String soql = '';
+        if(courseConnectionAssessmentsCriteria.assessmentGrade != null){
+            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' ' ;
+        }
+        if(courseConnectionAssessmentsCriteria.submissionDate != null){
+            soql += 'AND Submission_Date__c = ' + courseConnectionAssessmentsCriteria.submissionDate + ' ' ;
+        }
+        if(courseConnectionAssessmentsCriteria.assessmentPriority != null){
+            soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' ';
+        }
+
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
+        String soql = '';
+
+        if(courseConnectionCriteria.courseGrade != null){
+            soql += 'AND Course_Connection__r.hed__Display_Grade__c   = \'' + courseConnectionCriteria.courseGrade + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        }
+        if(programEnrollmentCriteria.categoryType != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        }
+
+        return soql;
+    }
+
+    
 
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.

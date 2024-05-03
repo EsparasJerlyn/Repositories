@@ -111,7 +111,7 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
     }
 
     public List<Completed_Cadence__c> findByCriteria(

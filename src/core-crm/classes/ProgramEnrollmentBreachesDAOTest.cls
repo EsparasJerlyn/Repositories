@@ -34,13 +34,45 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance()
-                .getWhereClauseByCriteria(
-                    new ProgramEnrollmentBreachesDAO.Criteria(),
-                    new ProgramEnrollmentsDAO.Criteria(), 
-                    new ContactsDAO.Criteria()
-                );
-            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.isQUTStudent = true;
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.contactIdSet = new Set<Id>{contactId};
+            contactCriteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
+            programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+            programEnrollmentBreachCriteria.breach = mockIdGen.getMockId();
+            programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
+
+            String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
+            String expectedWhereClause = 'WHERE '
+                + 'Breach_Status__c IN(' + programEnrollmentBreachCriteria.breachStatus + ') '
+                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' '
+                + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
+                + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
+                + 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
+                + 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByNoCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+            String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
+            String expectedWhereClause = '';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }

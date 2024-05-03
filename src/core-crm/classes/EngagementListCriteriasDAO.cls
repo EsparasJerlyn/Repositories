@@ -6,7 +6,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | vincent.ferrer                 |  May 1, 2024          | DEPP-8492              | Created file
+      | vincent.ferrer                 |  May 1, 2024          | DEPP-8492              | Created file                 |
  */
 
  public inherited sharing class EngagementListCriteriasDAO extends DmlBase implements IEngagementListCriteriasDAO {

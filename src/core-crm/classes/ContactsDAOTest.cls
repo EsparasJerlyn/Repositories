@@ -409,11 +409,53 @@ private class ContactsDAOTest {
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String whereClauseString = ContactsDAO.newInstance()
-                .getWhereClauseByCriteria(
-                    new ContactsDAO.Criteria()
-                );
-            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            criteria.isQUTStudent = true;
+            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            criteria.contactIdSet = new Set<Id>{contactId};
+            criteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
+            String expectedWhereClause = 'WHERE hed__Citizenship_Status__c = \'' + ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL + '\' AND QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+             
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByCriteriaNoCitizenshipTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            criteria.isQUTStudent = true;
+            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            criteria.contactIdSet = new Set<Id>{contactId};
+
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
+            String expectedWhereClause = 'WHERE QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByNoCriteria() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
+            String expectedWhereClause = '';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }

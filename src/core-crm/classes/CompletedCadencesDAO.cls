@@ -116,26 +116,38 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         //since criterias are being checked from batch, do we need to check if fields under criterias are empty or null?
-        String soql = 'WHERE Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' +
-            ' AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' +
-            ' AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-            ' AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-            ' AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
-        
+        String soql = '';
+        if(completedCadenceCriteria.completedCadence != null){
+            soql += 'AND Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' ;
+        }
+        if(completedCadenceCriteria.status != null){
+            soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' ;
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        }        
         if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
             Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);
             Date upperKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(completedCadenceCriteria.keyDateOffset);
-            soql = soql + ' AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
+            soql += 'AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
         }
         
-        return soql;
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+    
+        return soql; 
     }
 
     public String getContactQueryByCriteria(
          CompletedCadencesDAO.Criteria completedCadenceCriteria, 
          ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return soql.trim();
     }
 
     public List<Completed_Cadence__c> findByCriteria(
@@ -149,7 +161,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        String soql = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return soql.trim();
     }
 
     public class Criteria {

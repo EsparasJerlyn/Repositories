@@ -26,16 +26,18 @@ public with sharing class ELCCourseConnectionParser {
         courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
     }
 
-    private CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseGradeCriteria) {
+    //configurable criteria
+    private CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseConnectionCriteria) {
         if (engagementListCriteria.Course_Grade__c != null) {
-            if (courseGradeCriteria == null) {
-                courseGradeCriteria = new CourseConnectionsDAO.Criteria();
+            if (courseConnectionCriteria == null) {
+                courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             }
-            courseGradeCriteria.courseGrade = engagementListCriteria.Course_Grade__c;
+            courseConnectionCriteria.courseGrade = engagementListCriteria.Course_Grade__c;
         }
-        return courseGradeCriteria;
+        return courseConnectionCriteria;
     }
 
+    //hidden criteria
     private CourseConnectionsDAO.Criteria applyCourseConnectionHiddenCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria) {
         if (courseConnectionCriteria == null) {
             courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
