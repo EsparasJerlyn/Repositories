@@ -18,8 +18,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
 
     public static final Set<String> STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH = new Set<String>{
         ACTIVE_BREACH_STATUS,
-        WAIT_FOR_STUDENT_ACTION_STATUS,
-        NULL_STATUS
+        WAIT_FOR_STUDENT_ACTION_STATUS
     };   
 
     public static IProgramEnrollmentBreachesDAO newInstance() {
@@ -38,30 +37,11 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         ContactsDAO.Criteria contactCriteria
     ){ 
         String soql = '';
-        if(programEnrollmentBreachCriteria.breachStatus != null){
-            soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.breachStatus + ') ' ;
-        }
-        if(programEnrollmentBreachCriteria.breach != null){
-            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
-        }
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
-        }
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
-        }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
-        }
-        if(contactCriteria.recordType != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
-        }
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForProgramEnrollmentBreach(programEnrollmentBreachCriteria) + 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
         
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
@@ -73,6 +53,62 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
         //     soql = soql + 'AND Breach_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND Breach_Date__c >= ' + upperKeyDateOffSetBoundary ;
         // }
+
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentBreach(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria){
+        
+        String soql = '';
+        if(programEnrollmentBreachCriteria.breachStatus != null){
+            soql += 'AND Breach_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentBreachCriteria.breachStatus) + ') ' ;
+        }
+        if(programEnrollmentBreachCriteria.breach != null){
+            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
+        }
+
+        return soql;
+    }
+
+    private String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String lineString : stringSet){
+            formattedStrings.add('\'' + lineString + '\'');
+        }
+        return String.join(formattedStrings, ', ');
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
+        }
+        if(programEnrollmentCriteria.categoryType != null){
+            soql += 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        }
 
         return soql;
     }

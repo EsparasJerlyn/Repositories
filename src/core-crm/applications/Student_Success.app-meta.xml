@@ -128,6 +128,42 @@
         <type>Flexipage</type>
         <profile>Student Success</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Engagement_List_Entry_Criteria_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
+        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
+        <type>Flexipage</type>
+        <profile>Student Success</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Engagement_List_Entry_Criteria_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
+        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Engagement_List_Criteria_Imported_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
+        <recordType>Engagement_List_Criteria__c.Imported</recordType>
+        <type>Flexipage</type>
+        <profile>Student Success</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Engagement_List_Criteria_Imported_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
+        <recordType>Engagement_List_Criteria__c.Imported</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Case</tabs>
     <tabs>standard-Contact</tabs>

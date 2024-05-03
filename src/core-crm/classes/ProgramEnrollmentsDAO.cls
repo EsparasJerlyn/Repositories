@@ -88,30 +88,50 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND Enrollment_Status__c IN(' + programEnrollmentCriteria.enrollmentStatus + ') ' ;
-        }
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
-        }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
-        }
-        if(contactCriteria.recordType != null){
-            soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
-        }
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
         
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
     
         return soql; 
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
+        }
+        if(programEnrollmentCriteria.categoryType != null){
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        }
+
+        return soql;
     }
 
     public String getContactQueryByCriteria(
