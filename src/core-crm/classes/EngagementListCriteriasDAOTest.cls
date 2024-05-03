@@ -38,11 +38,11 @@ public with sharing class EngagementListCriteriasDAOTest {
     }
 
     @isTest
-    static void findActiveEngagementListCriteriaTest() {
+    static void findActiveEntryCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Criteria__c> engagementListCriteriaList = EngagementListCriteriasDAO.newInstance()
-                .findActiveEngagementListCriteria(
+                .findActiveEntryCriteria(
                     system.today(),
                     AccessLevel.USER_MODE
                 );
@@ -52,11 +52,11 @@ public with sharing class EngagementListCriteriasDAOTest {
     }
 
     @isTest
-    static void findActiveEngagementListCriteriaEmptyTest() {
+    static void findActiveEntryCriteriaEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Criteria__c> engagementListCriteriaList = EngagementListCriteriasDAO.newInstance()
-                .findActiveEngagementListCriteria(
+                .findActiveEntryCriteria(
                     null,
                     AccessLevel.USER_MODE
                 );

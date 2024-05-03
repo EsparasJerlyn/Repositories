@@ -30,11 +30,8 @@ public with sharing class ELCLeaveOfAbsenceParser {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            if (engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes') {
-                leaveOfAbsenceCriteria.isOnLeave = true;
-            } else {
-                leaveOfAbsenceCriteria.isOnLeave = false;
-            }
+
+            leaveOfAbsenceCriteria.isOnLeave = engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes';
         }
         return leaveOfAbsenceCriteria;
     }   

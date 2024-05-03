@@ -63,10 +63,11 @@
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
- *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
+ *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
- *
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
  **/
 
 @isTest
@@ -320,6 +321,23 @@ public class TestDataFactory {
             );
         }
         return newLeads;
+    }
+
+    /**
+     * @description Method for creating Leave Of Absences Record
+     * @param nLeaveOfAbsence - number of Course Connection to be created
+     * @return leaveOfAbsenceRecord - List of Course Connection Created
+     */
+    public static List<Leave_of_Absence__c> createLeaveOfAbsenceRecord(
+        Integer nLeaveOfAbsence
+    ) {
+        List<Leave_of_Absence__c> leaveOfAbsenceRecord = new List<Leave_of_Absence__c>();
+        for (Integer i = 0; i < nLeaveOfAbsence; i++) {
+            leaveOfAbsenceRecord.add(
+                new Leave_of_Absence__c()
+            );
+        }
+        return leaveOfAbsenceRecord;
     }
 
     /**
@@ -1389,6 +1407,28 @@ public class TestDataFactory {
         }
         return courseConnectionRecord;
     }
+
+    /**
+     * @description Method for creating Course Connection Assessment Record
+     * @param nCourseConnectionAssessment - number of Course Connection to be created
+     * @param courseConnectionId - Course Connection Id to be related to Course Connection Assessment
+     * @return courseConnectionAssessmentRecord - List of Course Connection Created
+     */
+    public static List<Course_Connection_Assessment__c> createTestCourseConnectionAssessmentRecord(
+        Integer nCourseConnectionAssessment,
+        Id courseConnectionId
+    ) {
+        List<Course_Connection_Assessment__c> courseConnectionAssessmentRecord = new List<Course_Connection_Assessment__c>();
+        for (Integer i = 0; i < nCourseConnectionAssessment; i++) {
+            courseConnectionAssessmentRecord.add(
+                new Course_Connection_Assessment__c(
+                    Course_Connection__c = courseConnectionId
+                )
+            );
+        }
+        return courseConnectionAssessmentRecord;
+    }
+
 
     /**
      * @description method to create test data for create Account

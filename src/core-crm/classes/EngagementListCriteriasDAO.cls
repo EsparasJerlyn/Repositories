@@ -20,29 +20,31 @@
         return (IEngagementListCriteriasDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Criteria__c.SObjectType);
     }
 
-    public static List<Engagement_List_Criteria__c> findActiveEngagementListCriteria(Date executionDate,AccessLevel accessLevel) {
+    public static List<Engagement_List_Criteria__c> findActiveEntryCriteria(Date executionDate,AccessLevel accessLevel) {
 
         if(executionDate == null){
             return new List<Engagement_List_Criteria__c>();
         }
 
         return Database.query(
-            'SELECT Id, ' +
-            'Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c, ' +
-            'Engagement_List_Configuration__r.Start_Date__c, ' +
-            'Engagement_List_Configuration__r.End_Date__c, ' +
-            'Is_Active__c, ' +
-            'End_Date__c, ' +
-            'Start_Date__c, ' +
-            'Engagement_List_Criteria_Type__c ' +
-            'FROM Engagement_List_Criteria__c ' +
-            'WHERE Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c = \'Active\' ' +
-            'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
-            'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
-            'AND Start_Date__c <= :executionDate ' +
-            'AND End_Date__c >= :executionDate',
-            accessLevel
-        );
+        'SELECT Id, ' +
+        'Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c, ' +
+        'Engagement_List_Configuration__r.Start_Date__c, ' +
+        'Engagement_List_Configuration__r.End_Date__c, ' +
+        'Is_Active__c, ' +
+        'End_Date__c, ' +
+        'Start_Date__c, ' +
+        'Engagement_List_Criteria_Type__c ' +
+        'FROM Engagement_List_Criteria__c ' +
+        'WHERE Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c = \'Active\' ' +
+        'AND Is_Active__c = true ' +
+        'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
+        'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
+        'AND Start_Date__c <= :executionDate ' +
+        'AND RecordType.DeveloperName = \'Entry_Criteria\' '+ 
+        'AND End_Date__c >= :executionDate',
+        accessLevel
+    );
     }
     
 }

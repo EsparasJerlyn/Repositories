@@ -11,6 +11,7 @@
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
+    public static final String ACADEMIC_STATUS_SHOW_CAUSE = 'Showcause';    
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
     public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
@@ -23,11 +24,6 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         'Passed',
         'Conditionally Complete',
         'Potentially Complete'
-    };
-
-    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
-        ENROLLMENT_STATUS_ADMITTED,
-        ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
     };
 
     public Schema.SObjectType getSObjectType(){
@@ -112,7 +108,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         }
         
         if(soql != '') {
-            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
     
         return soql; 

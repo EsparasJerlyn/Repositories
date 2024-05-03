@@ -61,7 +61,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStage, ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
-            System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStatus, ProgramEnrollmentsDAO.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStatus, ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
 
         }
     }

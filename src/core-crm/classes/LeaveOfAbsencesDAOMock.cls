@@ -50,7 +50,7 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
         }
         
         if(soql != '') {
-            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
         
         /*temporarily commented out*/

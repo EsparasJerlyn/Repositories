@@ -127,12 +127,25 @@ public with sharing class CompletedCadencesDAOTest {
     static void getContactQueryByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            String wherClauseString = CompletedCadencesDAO.newInstance()
+            String completedCadenceName = 'Domestic Accepted and Admitted';
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.completedCadence = completedCadenceName;
+            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.isQUTStudent = true;
+            
+            String actualQueryString = CompletedCadencesDAO.newInstance()
                 .getContactQueryByCriteria(
-                    new CompletedCadencesDAO.Criteria(),
-                    new ContactsDAO.Criteria()
+                    completedCadenceCriteria,
+                    contactCriteria
                 );
-            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
+            
+            String expectedQueryString = 'SELECT Contact__c FROM Completed_Cadence__c WHERE Cadence_Name__c = \'' + completedCadenceName + '\' AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' AND Contact__r.QUT_Student__c = ' + true + ' AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
+            
+            System.assertEquals(expectedQueryString, actualQueryString, 'Contact query by criteria should not be null.');
         }
         Test.stopTest();
     }
@@ -141,13 +154,24 @@ public with sharing class CompletedCadencesDAOTest {
     static void getQueryByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            String whereClauseString = CompletedCadencesDAO.newInstance()
+            String completedCadenceName = 'Domestic Accepted and Admitted';
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.completedCadence = completedCadenceName;
+            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.isQUTStudent = true;
+            
+            String actualQueryString = CompletedCadencesDAO.newInstance()
                 .getQueryByCriteria(
-                    new CompletedCadencesDAO.Criteria(),
-                    new ContactsDAO.Criteria()
+                    completedCadenceCriteria,
+                    contactCriteria
                 );
-                String expectedWhereClause = 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c';
-                System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+            String expectedQueryString = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c WHERE Cadence_Name__c = \'' + completedCadenceName + '\' AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' AND Contact__r.QUT_Student__c = ' + true + ' AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
+            
+            System.assertEquals(expectedQueryString, actualQueryString, 'Incorrect Where Clause');
         }
         Test.stopTest();
     }
@@ -156,12 +180,44 @@ public with sharing class CompletedCadencesDAOTest {
     static void findByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            //Create record
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+            
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+                nurtureList.add(
+                    new Nurture_Track_Configuration__c(
+                        Id = nurtureTrackConfig.Id,
+                        Cadence_Name__c = 'Domestic Accepted and Admitted',
+                        Lead_Score_Threshold__c = 3
+                    )
+                );
+            }
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);    
+
+            List<Completed_Cadence__c> completedCadenceListCreated = TestDataFactory.createCompletedCadence('Successful',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.isQUTStudent = true;
+            contactCriteria.citizenshipStatus = 'Domestic';
+    
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .findByCriteria(
-                    new CompletedCadencesDAO.Criteria(),
-                    new ContactsDAO.Criteria()
+                    completedCadenceCriteria,
+                    contactCriteria
                 );
-            System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
+
+            System.assertEquals(completedCadenceListCreated.size(), completedCadenceList.size(),'completedCadenceList should not be empty.');
         }
         Test.stopTest();
     }
@@ -172,6 +228,21 @@ public with sharing class CompletedCadencesDAOTest {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             CompletedCadencesDAO.Criteria criteria = new CompletedCadencesDAO.Criteria();
             System.assert(criteria.isEmpty(), 'Criteria should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void criteriaIsNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            String completedCadenceName = 'Domestic Accepted and Admitted';
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.completedCadence = completedCadenceName;
+            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            
+            System.assert(!completedCadenceCriteria.isEmpty(), 'Criteria should be not be empty.');
         }
         Test.stopTest();
     }

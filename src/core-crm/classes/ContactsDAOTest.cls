@@ -477,27 +477,42 @@ private class ContactsDAOTest {
     static void getQueryLocatorByCriteriaTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
-            System.assert(
-                ContactsDAO.newInstance().getQueryLocatorByCriteria(
-                    new ContactsDAO.Criteria()
-                ) != null,
-                'contactList should not be empty.'
-            );
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            criteria.isQUTStudent = true;
+            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            criteria.contactIdSet = new Set<Id>{contactId};
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorByCriteria(criteria);
+            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+
             Test.stopTest();
+
+            System.assertEquals(expectedWhereClause, contactQueryLocator.getQuery(), 'Incorrect Where Clause');
         }
+        
     }
 
     @isTest
     static void getQueryLocatorBySubQueryTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
-            System.assert(
-                ContactsDAO.newInstance().getQueryLocatorBySubQuery(
-                    new ContactsDAO.Criteria()
-                ) != null,
-                'contactList should not be empty.'
-            );
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            criteria.isQUTStudent = true;
+            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            criteria.contactIdSet = new Set<Id>{contactId};
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(criteria);
+            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+
             Test.stopTest();
+
+            System.assertEquals(expectedWhereClause, contactQueryLocator.getQuery(), 'Incorrect Where Clause');
         }
     }
 }

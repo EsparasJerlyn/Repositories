@@ -129,14 +129,14 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         if(contactCriteria.recordType != null){
             soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
         }        
-        if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
-            Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);
-            Date upperKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(completedCadenceCriteria.keyDateOffset);
-            soql += 'AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
-        }
+        // if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
+        //     Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);
+        //     Date upperKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(completedCadenceCriteria.keyDateOffset);
+        //     soql += 'AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
+        // }
         
         if(soql != '') {
-            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
     
         return soql; 
@@ -161,7 +161,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        String soql = 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        String soql = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
         return soql.trim();
     }
 
