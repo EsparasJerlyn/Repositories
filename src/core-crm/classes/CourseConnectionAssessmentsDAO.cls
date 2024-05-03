@@ -117,6 +117,9 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         if(programEnrollmentCriteria.categoryType != null){
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
         }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (' + formatSetForWhereClause(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH) + ') ';
+        }
         
         return soql;
     }
