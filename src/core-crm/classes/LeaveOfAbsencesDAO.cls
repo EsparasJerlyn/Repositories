@@ -27,32 +27,27 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        if(leaveOfAbsenceCriteria.isOnLeave != null){
-            soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' ;
-        }
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
-        }
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
-        }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
-        }
-        if(contactCriteria.recordType != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
-        }
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForLeaveOfAbsenceCriteria(leaveOfAbsenceCriteria) + 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
         
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
+    
+        return soql;    
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForLeaveOfAbsenceCriteria(LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria){
         
+        String soql = '';
+        if(leaveOfAbsenceCriteria.isOnLeave != null){
+            soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' ;
+        }
+
         /*temporarily commented out*/
         // if(leaveOfAbsenceCriteria.keyDateOffset != null && leaveOfAbsenceCriteria.executionDate != null){
         //     Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
@@ -60,7 +55,41 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         //     soql = soql + 'AND End_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND End_Date__c >= ' + upperKeyDateOffSetBoundary ;
         // }
 
-        return soql;     
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
+        }
+        if(programEnrollmentCriteria.categoryType != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        }
+
+        return soql;
     }
 
     public String getContactQueryByCriteria(
