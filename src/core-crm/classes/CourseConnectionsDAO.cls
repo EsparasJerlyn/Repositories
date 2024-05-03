@@ -130,31 +130,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        if(courseConnectionCriteria.status != null){
-            soql += 'AND Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ' ;
-        }
-        if(courseConnectionCriteria.courseGrade != null){
-            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' ;
-        }
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
-        }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
-        }
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
-        }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
-        }
-        if(contactCriteria.recordType != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
-        }
-        
+        soql = whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) + whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + whereClauseCheckerForContactCriteria(contactCriteria);        
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
@@ -189,6 +165,54 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     ){
         return Database.query(getQueryByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria));
     }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
+        String soql = '';
+        if(courseConnectionCriteria.status != null){
+            soql += 'AND Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ' ;
+        }
+        if(courseConnectionCriteria.courseGrade != null){
+            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' ;
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.academicStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+        }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.citizenshipStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
+        }
+        if(contactCriteria.isQUTStudent != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        }
+        if(contactCriteria.recordType != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        }
+
+        return soql;
+    }
+
 
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
