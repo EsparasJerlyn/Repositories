@@ -16,6 +16,7 @@ public with sharing class ELCCourseConnectionParser {
         CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED,
         CourseConnectionsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
     };
+    
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
 

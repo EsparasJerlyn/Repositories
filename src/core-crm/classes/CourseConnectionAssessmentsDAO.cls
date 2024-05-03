@@ -31,7 +31,11 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     ){ 
         String soql = '';
         //Collate all criteria checked in every Criteria fields
-        soql = whereClauseCheckerForCourseConnectionAssessmentCriteria(courseConnectionAssessmentsCriteria) + whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) + whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + whereClauseCheckerForContactCriteria(contactCriteria); 
+        soql = 
+            whereClauseCheckerForCourseConnectionAssessmentCriteria(courseConnectionAssessmentsCriteria) + 
+            whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) + 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
         
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
@@ -55,7 +59,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        return Database.query(getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria));
+        String soql = getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+        return Database.query(soql);
     }
 
     public String getQueryByCriteria(
@@ -75,7 +80,9 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' ' ;
         }
         if(courseConnectionAssessmentsCriteria.submissionDate != null){
-            soql += 'AND Submission_Date__c = ' + courseConnectionAssessmentsCriteria.submissionDate + ' ' ;
+            Date submissionDate = courseConnectionAssessmentsCriteria.submissionDate;
+            String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
+            soql += 'AND Submission_Date__c = ' + submissionDateString + ' ' ;
         }
         if(courseConnectionAssessmentsCriteria.assessmentPriority != null){
             soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' ';
@@ -88,7 +95,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
         if(courseConnectionCriteria.status != null){
-            soql += 'AND Course_Connection__r.Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ';
+            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.status) + ') ';
         }
         if(courseConnectionCriteria.courseGrade != null){
             soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ';
@@ -131,7 +138,13 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         return soql;
     }
 
-    
+    private String formatSetForWhereClause(Set<String> statusSet){
+        List<String> formattedStatus = new List<String>();
+        for(String status : statusSet){
+            formattedStatus.add('\'' + status + '\'');
+        }
+        return String.join(formattedStatus, ', ');
+    }
 
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
