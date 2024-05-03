@@ -68,6 +68,7 @@
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
  **/
 
 @isTest
@@ -1281,6 +1282,23 @@ public class TestDataFactory {
         }
 
         return programEnrollmentList;
+    }
+
+    /**
+     * @description Method for creating test Program_Enrollment_Breach__c records
+     * @param numberOfRecordsToCreate - number of hed__Program_Enrollment__c records to be created
+     * @return programEnrollmentBreachList - list of Program_Enrollment_Breach__c created
+     */
+    public static List<Program_Enrollment_Breach__c> createTestProgramEnrollmentBreachRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            programEnrollmentBreachList.add(new Program_Enrollment_Breach__c());
+        }
+
+        return programEnrollmentBreachList;
     }
 
     /**

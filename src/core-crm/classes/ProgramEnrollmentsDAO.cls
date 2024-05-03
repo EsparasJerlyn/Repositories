@@ -88,15 +88,42 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+    
+        return soql; 
+    }   
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
         if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
         }
         if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
         }
         if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND Enrollment_Status__c IN(' + programEnrollmentCriteria.enrollmentStatus + ') ' ;
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.enrollmentStatus) + ') ';
         }
+        if(programEnrollmentCriteria.categoryType != null){
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
         if(contactCriteria.getCitizenshipStatus() != null){
             soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
         }
@@ -106,12 +133,8 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         if(contactCriteria.getRecordType() != null){
             soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
         }
-        
-        if(soql != '') {
-            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
-        }
-    
-        return soql; 
+
+        return soql;
     }
 
     public String getContactQueryByCriteria(
@@ -152,5 +175,13 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         public Boolean isEmpty() {
             return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus == null;
         }
+    }
+
+    private String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String lineString : stringSet){
+            formattedStrings.add('\'' + lineString + '\'');
+        }
+        return String.join(formattedStrings, ', ');
     }
 }

@@ -68,9 +68,12 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         if(programEnrollmentCriteria.enrollmentStage != null){
             soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
         }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (' + formatSetForWhereClause(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH) + ') ';
+        }
         if(programEnrollmentCriteria.categoryType != null){
             soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
-        }
+        } 
         
         return soql;
     }
@@ -132,6 +135,14 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         public Boolean isEmpty() {
             return isOnLeave == null && keyDateOffset == null && executionDate == null;
         }
+    }
+
+    private String formatSetForWhereClause(Set<String> statusSet){
+        List<String> formattedStatus = new List<String>();
+        for(String status : statusSet){
+            formattedStatus.add('\'' + status + '\'');
+        }
+        return String.join(formattedStatus, ', ');
     }
 
 }

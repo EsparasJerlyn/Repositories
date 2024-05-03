@@ -47,7 +47,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
-            
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.isOnLeave = true;
 
@@ -56,6 +56,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' '
                 + 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
@@ -97,7 +98,8 @@ public with sharing class LeaveOfAbsencesDAOTest {
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
-
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
+            
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.isOnLeave = true;
 
@@ -106,6 +108,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' '
                 + 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
@@ -133,6 +136,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.isOnLeave = true;
@@ -146,6 +150,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' '
                 + 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
