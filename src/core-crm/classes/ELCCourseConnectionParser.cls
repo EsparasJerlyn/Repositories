@@ -10,6 +10,12 @@
 */
 public with sharing class ELCCourseConnectionParser {
 
+    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
+        CourseConnectionsDAO.ENROLLMENT_STATUS_DESIGNATED,
+        CourseConnectionsDAO.ENROLLMENT_STATUS_FAILED,
+        CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED,
+        CourseConnectionsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
+    };
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
 
@@ -42,7 +48,7 @@ public with sharing class ELCCourseConnectionParser {
         if (courseConnectionCriteria == null) {
             courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
         }
-        courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+        courseConnectionCriteria.status = ENROLLMENT_STATUS_FOR_OUTREACH;
 
         return courseConnectionCriteria;
     }

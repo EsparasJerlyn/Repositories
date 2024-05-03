@@ -32,13 +32,6 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
        'Admitted'
     };      
     
-    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
-        ENROLLMENT_STATUS_DESIGNATED,
-        ENROLLMENT_STATUS_FAILED,
-        ENROLLMENT_STATUS_ENROLLED,
-        ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
-    };
-    
     public static ICourseConnectionsDAO newInstance() {
         return (ICourseConnectionsDAO) ImplementationSelector.DAO.newInstance(hed__Course_Enrollment__c.SObjectType);
     }

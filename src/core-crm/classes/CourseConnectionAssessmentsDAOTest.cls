@@ -47,7 +47,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.assessmentGrade = '100';
             courseConnectionAssessmentsCriteria.submissionDate = Date.today();
@@ -87,7 +87,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.assessmentGrade = '100';
             courseConnectionAssessmentsCriteria.submissionDate = Date.today();
@@ -127,7 +127,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.assessmentGrade = '100';
             courseConnectionAssessmentsCriteria.submissionDate = Date.today();
