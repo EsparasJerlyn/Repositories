@@ -190,7 +190,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             soql += 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
         }
         if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.enrollmentStatus) + ') ';
         }
         
         return soql;
