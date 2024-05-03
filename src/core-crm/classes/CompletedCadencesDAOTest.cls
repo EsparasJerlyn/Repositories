@@ -185,9 +185,6 @@ public with sharing class CompletedCadencesDAOTest {
             List<Contact> contactList;
             List<Completed_Cadence__c> completedCadenceListCreated;
     
-            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-            ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
-    
             contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].Calculated_Cadence__c = 'test cadence';
