@@ -29,7 +29,7 @@ public with sharing class ELCContactParserTest {
             ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getContactCriteria().citizenshipStatus, citizenshipStatus, 'Incorrect Citizenship Status.');
+            System.assertEquals(parser.getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
 
         }
     }
@@ -45,8 +45,8 @@ public with sharing class ELCContactParserTest {
             ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getContactCriteria().recordType, ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
-            System.assertEquals(parser.getContactCriteria().isQUTStudent, true, 'Contact is not set as QUT student');
+            System.assertEquals(parser.getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
+            System.assertEquals(parser.getContactCriteria().getIsQUTStudent(), true, 'Contact is not set as QUT student');
 
         }
     }

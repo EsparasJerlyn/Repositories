@@ -501,17 +501,17 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        if(contactCriteria.getCitizenshipStatus() != null){
+            soql += 'AND hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ';
         }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ';
+        if(contactCriteria.getIsQUTStudent() != null){
+            soql += 'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ';
         }
-        if(contactCriteria.recordType != null){
-            soql += 'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+        if(contactCriteria.getRecordType() != null){
+            soql += 'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         }
-        if(contactCriteria.contactIdSet != null){
-            soql += 'AND Id IN (' + formatIdSetForWhereClause(contactCriteria.contactIdSet) + ') ';
+        if(contactCriteria.getContactIdSet() != null){
+            soql += 'AND Id IN (' + formatIdSetForWhereClause(contactCriteria.getContactIdSet()) + ') ';
         }
 
         if(soql != '') {
@@ -594,10 +594,42 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public Boolean isQUTStudent;
-        public String recordType;
-        public Set<Id> contactIdSet; 
-        public String citizenshipStatus;
+        private Boolean isQUTStudent;
+        private String recordType;
+        private Set<Id> contactIdSet; 
+        private String citizenshipStatus;
+
+        public Boolean getIsQUTStudent() {
+            return isQUTStudent;
+        }
+
+        public void setIsQUTStudent(Boolean isQUTStudent) {
+            this.isQUTStudent = isQUTStudent;
+        }
+
+        public String getRecordType() {
+            return recordType;
+        }
+
+        public void setRecordType(String recordType) {
+            this.recordType = recordType;
+        }
+
+        public Set<Id> getContactIdSet() {
+            return contactIdSet;
+        }
+
+        public void setContactIdSet(Set<Id> contactIdSet) {
+            this.contactIdSet = contactIdSet;
+        }
+
+        public String getCitizenshipStatus() {
+            return citizenshipStatus;
+        }
+
+        public void setCitizenshipStatus(String citizenshipStatus) {
+            this.citizenshipStatus = citizenshipStatus;
+        }
 
         public Boolean isEmpty() {
             return isQUTStudent == null && recordType == null && contactIdSet == null && citizenshipStatus == null;

@@ -79,14 +79,14 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
     private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
         String soql = '';
 
-        if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ';
+        if(contactCriteria.getCitizenshipStatus() != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ';
         }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        if(contactCriteria.getIsQUTStudent() != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
-        if(contactCriteria.recordType != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        if(contactCriteria.getRecordType() != null){
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
         }
 
         return soql;

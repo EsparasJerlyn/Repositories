@@ -87,9 +87,9 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
     ){
         String soql = 'WHERE Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' +
             ' AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' +
-            ' AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-            ' AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-            ' AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+            ' AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
+            ' AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
+            ' AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         
         if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
             Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);

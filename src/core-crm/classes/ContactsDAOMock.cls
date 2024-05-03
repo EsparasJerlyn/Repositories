@@ -354,10 +354,10 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         ContactsDAO.Criteria contactCriteria
     ){
         return 
-            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-              'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' +
-              'AND Id = IN (' + contactCriteria.contactIdSet + ') ';
+            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
+              'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
+              'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' +
+              'AND Id = IN (' + contactCriteria.getContactIdSet() + ') ';
     }
 
     public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
@@ -382,9 +382,9 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
 
         for (Contact record : contactsMap.values()) {
             if(
-                record.hed__Citizenship_Status__c == contactCriteria.citizenshipStatus &&
-                record.QUT_Student__c == contactCriteria.isQUTStudent &&
-                record.RecordType.DeveloperName == contactCriteria.recordType 
+                record.hed__Citizenship_Status__c == contactCriteria.getCitizenshipStatus() &&
+                record.QUT_Student__c == contactCriteria.getIsQUTStudent() &&
+                record.RecordType.DeveloperName == contactCriteria.getRecordType() 
             )
             {
                 contactList.add(record);

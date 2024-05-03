@@ -32,7 +32,7 @@ public with sharing class ELCContactParser{
             if (contactCriteria == null) {
                 contactCriteria = new ContactsDAO.Criteria();
             }
-            contactCriteria.citizenshipStatus = engagementListCriteria.Citizenship_Status__c;
+            contactCriteria.setCitizenshipStatus(engagementListCriteria.Citizenship_Status__c);
         }
         return contactCriteria;
     }
@@ -42,8 +42,8 @@ public with sharing class ELCContactParser{
         if (contactCriteria == null) {
             contactCriteria = new ContactsDAO.Criteria();
         }
-        contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-        contactCriteria.isQUTStudent = true;
+        contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+        contactCriteria.setIsQUTStudent(true);
         return contactCriteria;
     }
 

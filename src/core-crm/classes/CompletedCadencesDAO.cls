@@ -123,11 +123,11 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         if(completedCadenceCriteria.status != null){
             soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' ;
         }
-        if(contactCriteria.isQUTStudent != null){
-            soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+        if(contactCriteria.getIsQUTStudent() != null){
+            soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
-        if(contactCriteria.recordType != null){
-            soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+        if(contactCriteria.getRecordType() != null){
+            soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
         }        
         // if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
         //     Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);

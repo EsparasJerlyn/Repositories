@@ -99,8 +99,8 @@ public with sharing class CompletedCadencesDAOTest {
             completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.isQUTStudent = true;
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
 
             String whereClauseString = CompletedCadencesDAO.newInstance().getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
             String expectedWhereClauseString = 'WHERE Cadence_Name__c = \'' + completedCadenceName + '\' AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' AND Contact__r.QUT_Student__c = ' + true + ' AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
@@ -134,8 +134,8 @@ public with sharing class CompletedCadencesDAOTest {
             completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.isQUTStudent = true;
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
             
             String actualQueryString = CompletedCadencesDAO.newInstance()
                 .getContactQueryByCriteria(
@@ -161,8 +161,8 @@ public with sharing class CompletedCadencesDAOTest {
             completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.isQUTStudent = true;
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
             
             String actualQueryString = CompletedCadencesDAO.newInstance()
                 .getQueryByCriteria(
@@ -207,9 +207,9 @@ public with sharing class CompletedCadencesDAOTest {
             completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.isQUTStudent = true;
-            contactCriteria.citizenshipStatus = 'Domestic';
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
     
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .findByCriteria(

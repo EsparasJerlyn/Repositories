@@ -107,10 +107,10 @@ public with sharing class ProgramEnrollmentsDAOTest {
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.isQUTStudent = true;
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.contactIdSet = new Set<Id>{contactId};
-            contactCriteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
@@ -121,9 +121,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND Enrollment_Status__c IN(' + programEnrollmentCriteria.enrollmentStatus + ') '
-                + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
-                + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
-                + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+                + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();

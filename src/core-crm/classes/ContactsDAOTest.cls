@@ -412,13 +412,13 @@ private class ContactsDAOTest {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
-            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
-            criteria.isQUTStudent = true;
-            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            criteria.contactIdSet = new Set<Id>{contactId};
-            criteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
 
-            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(contactCriteria);
             String expectedWhereClause = 'WHERE hed__Citizenship_Status__c = \'' + ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL + '\' AND QUT_Student__c = ' + true +
              ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
              
@@ -434,12 +434,12 @@ private class ContactsDAOTest {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
-            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
-            criteria.isQUTStudent = true;
-            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            criteria.contactIdSet = new Set<Id>{contactId};
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
 
-            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(contactCriteria);
             String expectedWhereClause = 'WHERE QUT_Student__c = ' + true +
              ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
 
@@ -480,11 +480,12 @@ private class ContactsDAOTest {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
-            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
-            criteria.isQUTStudent = true;
-            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            criteria.contactIdSet = new Set<Id>{contactId};
-            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorByCriteria(criteria);
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorByCriteria(contactCriteria);
             String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
              ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
 
@@ -502,11 +503,12 @@ private class ContactsDAOTest {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
-            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
-            criteria.isQUTStudent = true;
-            criteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            criteria.contactIdSet = new Set<Id>{contactId};
-            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(criteria);
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(contactCriteria);
             String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
              ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
 
