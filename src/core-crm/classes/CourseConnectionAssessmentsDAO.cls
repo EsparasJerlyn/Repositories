@@ -34,7 +34,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         soql = whereClauseCheckerForCourseConnectionAssessmentCriteria(courseConnectionAssessmentsCriteria) + whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) + whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + whereClauseCheckerForContactCriteria(contactCriteria); 
         
         if(soql != '') {
-            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
     
         return soql;

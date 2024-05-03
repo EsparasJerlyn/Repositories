@@ -156,7 +156,7 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
         }
         
         if(soql != '') {
-            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
         return soql;
     }

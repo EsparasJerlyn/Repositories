@@ -136,7 +136,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         }
         
         if(soql != '') {
-            soql = 'WHERE ' + soql.trim().replaceFirst('^AND\\s*', '').trim();
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
     
         return soql; 
