@@ -42,7 +42,7 @@ public with sharing class ELCCourseConnectionParserTest {
             ELCCourseConnectionParser parser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCourseConnectionCriteria().status, CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
+            System.assertEquals(parser.getCourseConnectionCriteria().status, ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
 
         }
     }

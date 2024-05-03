@@ -183,12 +183,9 @@ public with sharing class CompletedCadencesDAOTest {
             //Create record
 
             List<Contact> contactList;
-            List<Lead> leadList;
             List<Completed_Cadence__c> completedCadenceListCreated;
     
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-            ImplementationSelector.DAO.setMock(new LeadsDAOMock());
-            ImplementationSelector.DAO.setMock(new ActionCadenceTrackersDAOMock());
             ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
     
             contactList = TestDataFactory.createTestContactRecords(1);
@@ -196,14 +193,8 @@ public with sharing class CompletedCadencesDAOTest {
             contactList[0].Calculated_Cadence__c = 'test cadence';
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
     
-            leadList = TestDataFactory.createTestLeadRecords(1);
-            leadList[0].Lead_Type__c = 'Learner';
-            leadList[0].Calculated_Cadence__c = 'test cadence';
-            LeadsDAO.newInstance().insertRecords(leadList,true,AccessLevel.USER_MODE);
-    
             completedCadenceListCreated = TestDataFactory.createCompletedCadence('Successful',null,new Set<Id>{contactList[0].Id});
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated,true,AccessLevel.SYSTEM_MODE);
-
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
@@ -217,8 +208,7 @@ public with sharing class CompletedCadencesDAOTest {
                     completedCadenceCriteria,
                     contactCriteria
                 );
-            System.debug('completedCadenceListCreated' + completedCadenceListCreated);
-            System.debug('completedCadenceList' + completedCadenceList);
+        
             System.assertEquals(completedCadenceList.size(), completedCadenceListCreated.size(),  'completedCadenceList should not be empty.');
         }
         Test.stopTest();

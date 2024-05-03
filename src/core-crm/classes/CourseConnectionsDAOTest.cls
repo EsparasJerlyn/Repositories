@@ -155,7 +155,7 @@ public with sharing class CourseConnectionsDAOTest {
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
 
             String whereClauseString = CourseConnectionsDAO.newInstance().getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '

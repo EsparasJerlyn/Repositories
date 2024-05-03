@@ -26,11 +26,6 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         'Potentially Complete'
     };
 
-    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
-        ENROLLMENT_STATUS_ADMITTED,
-        ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
-    };
-
     public Schema.SObjectType getSObjectType(){
 		return hed__Program_Enrollment__c.SObjectType;
 	}
