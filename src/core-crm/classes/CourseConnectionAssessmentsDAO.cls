@@ -87,9 +87,11 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     //Checks to ensure fields have values
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
-
+        if(courseConnectionCriteria.status != null){
+            soql += 'AND Course_Connection__r.Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ';
+        }
         if(courseConnectionCriteria.courseGrade != null){
-            soql += 'AND Course_Connection__r.hed__Display_Grade__c   = \'' + courseConnectionCriteria.courseGrade + '\' ';
+            soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ';
         }
         
         return soql;
@@ -100,7 +102,10 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         String soql = '';
 
         if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        }
+        if(programEnrollmentCriteria.enrollmentStage != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
         }
         if(programEnrollmentCriteria.categoryType != null){
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
