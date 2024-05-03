@@ -53,6 +53,14 @@
         <layout>Engagement_List_Criteria__c-Engagement List Criteria Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Engagement_List_Criteria__c-Engagement List Criteria Imported Page Layout</layout>
+        <recordType>Engagement_List_Criteria__c.Imported</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_List_Criteria__c-Engagement List Entry Criteria Page Layout</layout>
+        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Engagement_List_Event__c-Engagement List Event Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

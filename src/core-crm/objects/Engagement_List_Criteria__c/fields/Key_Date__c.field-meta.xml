@@ -28,6 +28,21 @@
                 <default>false</default>
                 <label>Completed Cadence Date</label>
             </value>
+            <value>
+                <fullName>Breach Start Date</fullName>
+                <default>false</default>
+                <label>Breach Start Date</label>
+            </value>
+            <value>
+                <fullName>Academic Status Date</fullName>
+                <default>false</default>
+                <label>Academic Status Date</label>
+            </value>
+            <value>
+                <fullName>Assessment Due Date</fullName>
+                <default>false</default>
+                <label>Assessment Due Date</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
