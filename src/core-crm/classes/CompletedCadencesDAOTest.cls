@@ -182,18 +182,25 @@ public with sharing class CompletedCadencesDAOTest {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             //Create record
 
-            List<Contact> contactList;
-            List<Completed_Cadence__c> completedCadenceListCreated;
-    
-            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-            ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
-    
-            contactList = TestDataFactory.createTestContactRecords(1);
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
-            contactList[0].Calculated_Cadence__c = 'test cadence';
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
-    
-            completedCadenceListCreated = TestDataFactory.createCompletedCadence('Successful',null,new Set<Id>{contactList[0].Id});
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+            
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+                nurtureList.add(
+                    new Nurture_Track_Configuration__c(
+                        Id = nurtureTrackConfig.Id,
+                        Cadence_Name__c = 'Domestic Accepted and Admitted',
+                        Lead_Score_Threshold__c = 3
+                    )
+                );
+            }
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);    
+
+            List<Completed_Cadence__c> completedCadenceListCreated = TestDataFactory.createCompletedCadence('Successful',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated,true,AccessLevel.SYSTEM_MODE);
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
@@ -202,14 +209,15 @@ public with sharing class CompletedCadencesDAOTest {
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
             contactCriteria.isQUTStudent = true;
+            contactCriteria.citizenshipStatus = 'Domestic';
     
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .findByCriteria(
                     completedCadenceCriteria,
                     contactCriteria
                 );
-        
-            System.assertEquals(completedCadenceList.size(), completedCadenceListCreated.size(),  'completedCadenceList should not be empty.');
+
+            System.assertEquals(completedCadenceListCreated.size(), completedCadenceList.size(),'completedCadenceList should not be empty.');
         }
         Test.stopTest();
     }
