@@ -217,8 +217,7 @@ public with sharing class CompletedCadencesDAOTest {
                     completedCadenceCriteria,
                     contactCriteria
                 );
-            System.debug('completedCadenceListCreated' + completedCadenceListCreated);
-            System.debug('completedCadenceList' + completedCadenceList);
+        
             System.assertEquals(completedCadenceList.size(), completedCadenceListCreated.size(),  'completedCadenceList should not be empty.');
         }
         Test.stopTest();
