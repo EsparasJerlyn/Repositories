@@ -199,5 +199,20 @@ public with sharing class CompletedCadencesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void criteriaIsNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            String completedCadenceName = 'Domestic Accepted and Admitted';
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.completedCadence = completedCadenceName;
+            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            
+            System.assert(!completedCadenceCriteria.isEmpty(), 'Criteria should be not be empty.');
+        }
+        Test.stopTest();
+    }
        
 }
