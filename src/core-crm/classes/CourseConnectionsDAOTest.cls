@@ -16,13 +16,14 @@
       |                                |                       |                        | getCourseConnectionByStatusTest                   |
       | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseConnectionByCartItemTest|
       |                                |                       |                        | getCourseConnectionByCartItemNotEmptyTest         |
+      | julie.jane.alegre              | May 03, 2024          | DEPP-7528              | Added test classes for Program Enrollment         |
  */
 @isTest
 public with sharing class CourseConnectionsDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' , 'QUT_ESB' });
     }
     
     @isTest
@@ -155,6 +156,7 @@ public with sharing class CourseConnectionsDAOTest {
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.courseGrade = '100';
@@ -166,6 +168,7 @@ public with sharing class CourseConnectionsDAOTest {
                 + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
                 + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
                 + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
                 + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
@@ -206,6 +209,7 @@ public with sharing class CourseConnectionsDAOTest {
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.isQUTStudent = true;
@@ -224,6 +228,7 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                    + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                     + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
                     + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
                     + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
@@ -284,7 +289,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             //Created record
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -340,7 +345,8 @@ public with sharing class CourseConnectionsDAOTest {
                 );
             
             List<hed__Course_Enrollment__c> courseConnectionList2 = [SELECT Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName FROM hed__Course_Enrollment__c WHERE Id =: courseConnectionListCreated[0].Id ];
-            System.assertNotEquals(courseConnectionListCreated.size(), courseConnectionList.size(), 'courseConnectionList should not be empty.');
+            System.debug(courseConnectionList2);
+            System.assertEquals(courseConnectionListCreated.size(), courseConnectionList.size(), 'courseConnectionList should not be empty.');
         }
         Test.stopTest();
     }
