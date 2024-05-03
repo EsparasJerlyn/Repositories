@@ -21,7 +21,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
         this.engagementListCriteriaMap = (Map<Id, Engagement_List_Criteria__c>) super.records;
     }
 
-    public List<Engagement_List_Criteria__c> findActiveEngagementListCriteria(
+    public List<Engagement_List_Criteria__c> findActiveEntryCriteria(
         Date executionDate,
         AccessLevel accessLevel
     ) {
@@ -31,6 +31,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
             if (record.Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c == 'Active' && 
                 record.Engagement_List_Configuration__r.Start_Date__c <= executionDate &&
                 record.Engagement_List_Configuration__r.End_Date__c >= executionDate &&
+                record.Is_Active__c == true &&
                 record.Start_Date__c <= executionDate && 
                 record.End_Date__c >= executionDate) {
                 engagementListCriteriaList.add(record);
