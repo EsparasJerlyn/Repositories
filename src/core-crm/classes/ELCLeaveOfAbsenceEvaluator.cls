@@ -1,0 +1,39 @@
+public with sharing class ELCLeaveOfAbsenceEvaluator {
+    
+    private ELCParser elcParser;
+
+    ELCLeaveOfAbsenceEvaluator(ELCParser elcParser) {
+        this.elcParser = elcParser;
+    }
+
+    // Return null if query not executed
+    public Map<Id, List<Leave_of_Absence__c>> evaluate(Map<Id, Contact> contactMap) {  
+        if (!elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsenceCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
+            // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
+            elcParser.getContactCriteria().setContactIdSet(contactMap.keySet());
+            //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
+
+            //add contact id set into soql
+            List<Leave_of_Absence__c> leaveOfAbsences = LeaveOfAbsencesDAO.findByCriteria(elcParser.getLeaveOfAbsenceCriteria(), elcParser.getContactCriteria());
+            return groupByContact(leaveOfAbsences);
+        }
+        // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
+        return null;
+    }
+
+
+    private Map<Id, List<Leave_of_Absence__c>> groupByContact(List<Leave_of_Absence__c> leaveOfAbsences) {
+        Map<Id, List<Leave_of_Absence__c>> leaveOfAbsenceByContactMap = new Map<Id, List<Leave_of_Absence__c>>();
+
+        for(Leave_of_Absence__c leaveOfAbsenceList : leaveofAbsences){
+            if(leaveOfAbsenceByContactMap.containsKey(leaveofAbsences.Contact__c)){
+                leaveOfAbsenceByContactMap.get(leaveofAbsences.Contact__c).add(leaveofAbsences);
+            }else{
+                List<Leave_of_Absence__c> leaveOfAbsenceList = new List<Leave_of_Absence__c>();
+                leaveOfAbsenceByContactMap.put(leaveofAbsences.Contact__c, leaveOfAbsenceList.add(leaveofAbsences));
+            }
+        }
+        
+        return leaveOfAbsenceByContactMap;
+    }
+}
