@@ -146,7 +146,7 @@ public with sharing class CompletedCadencesDAOTest {
                     new CompletedCadencesDAO.Criteria(),
                     new ContactsDAO.Criteria()
                 );
-                String expectedWhereClause = 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c';
+                String expectedWhereClause = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c';
                 System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
