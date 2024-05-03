@@ -151,10 +151,10 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         return 'SELECT ' + 
-        ' Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
-        ' hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
-        ' hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
-        ' FROM hed__Course_Enrollment__c ' +
+        'Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
+        'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
+        'hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
+        'FROM hed__Course_Enrollment__c ' +
         getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
@@ -170,7 +170,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
         if(courseConnectionCriteria.status != null){
-            soql += 'AND Enrollment_Status__c IN(' + courseConnectionCriteria.status + ') ' ;
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.status) + ') ';
         }
         if(courseConnectionCriteria.courseGrade != null){
             soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' ;
@@ -184,13 +184,13 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         String soql = '';
 
         if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
         }
         if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
         }
         if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.enrollmentStatus) + ') ';
         }
         
         return soql;
@@ -201,16 +201,24 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         String soql = '';
 
         if(contactCriteria.citizenshipStatus != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' ;
         }
         if(contactCriteria.isQUTStudent != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' ;
         }
         if(contactCriteria.recordType != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' ;
         }
 
         return soql;
+    }
+
+    private String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String lineString : stringSet){
+            formattedStrings.add('\'' + lineString + '\'');
+        }
+        return String.join(formattedStrings, ', ');
     }
 
 
