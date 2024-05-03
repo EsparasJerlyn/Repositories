@@ -11,5 +11,6 @@
     NOT(ISBLANK(Activation_Start_Date__c)),
     Activation_Start_Date__c &gt;= Activation_End_Date__c
 )</errorConditionFormula>
+    <errorDisplayField>Activation_Start_Date__c</errorDisplayField>
     <errorMessage>Activation Start Date should be less than Activation End Date</errorMessage>
 </ValidationRule>

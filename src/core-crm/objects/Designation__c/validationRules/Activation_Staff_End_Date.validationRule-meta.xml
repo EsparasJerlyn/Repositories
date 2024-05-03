@@ -11,5 +11,6 @@
     NOT(ISBLANK(Activation_End_Date__c)),
     Activation_End_Date__c &lt;  Staff_Giving_Publish_End_Date__c  
 )</errorConditionFormula>
+    <errorDisplayField>Activation_End_Date__c</errorDisplayField>
     <errorMessage>Activation End Date should be Greater than or equal to Staff Giving Publish End Date</errorMessage>
 </ValidationRule>

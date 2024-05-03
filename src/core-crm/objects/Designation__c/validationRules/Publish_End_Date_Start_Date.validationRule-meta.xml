@@ -11,5 +11,6 @@
     NOT(ISBLANK(Public_Giving_Publish_End_Date__c)),
     Public_Giving_Publish_End_Date__c &lt;= Public_Giving_Publish_Start_Date__c
 )</errorConditionFormula>
+    <errorDisplayField>Public_Giving_Publish_End_Date__c</errorDisplayField>
     <errorMessage>Public Giving Publish End Date should be greater than Public Giving Publish Start Date</errorMessage>
 </ValidationRule>
