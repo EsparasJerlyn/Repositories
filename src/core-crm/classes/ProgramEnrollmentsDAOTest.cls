@@ -5,10 +5,12 @@
  *
  * @history
  *
- *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
- */
+ *    | Developer                      | Date                  | JIRA                   | Change Summary                             |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Created File                               |
+ *    | julie.jane.alegre              | May 03, 2024          | DEPP-5728              | Add test  method for Program Enrollment    |
+ */  
+
 @isTest
 public with sharing class ProgramEnrollmentsDAOTest {
     @testSetup
@@ -114,12 +116,14 @@ public with sharing class ProgramEnrollmentsDAOTest {
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
 
             String whereClauseString = ProgramEnrollmentsDAO.newInstance().getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
@@ -157,12 +161,15 @@ public with sharing class ProgramEnrollmentsDAOTest {
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
+
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
 
             String whereClauseString = ProgramEnrollmentsDAO.newInstance().getContactQueryByCriteria(programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT hed__Contact__c FROM hed__Program_Enrollment__c WHERE '
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
@@ -187,6 +194,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
 
             String whereClauseString = ProgramEnrollmentsDAO.newInstance().getQueryByCriteria(programEnrollmentCriteria, contactCriteria);
@@ -198,6 +206,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + ' FROM hed__Program_Enrollment__c WHERE ' 
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
+                + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '

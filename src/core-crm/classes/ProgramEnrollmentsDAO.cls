@@ -110,6 +110,9 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         if(programEnrollmentCriteria.enrollmentStage != null){
             soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
         }
+        if(programEnrollmentCriteria.enrollmentStatus != null){
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.enrollmentStatus) + ') ';
+        }
         if(programEnrollmentCriteria.categoryType != null){
             soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
         }
@@ -172,5 +175,13 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         public Boolean isEmpty() {
             return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus == null;
         }
+    }
+
+    private String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String lineString : stringSet){
+            formattedStrings.add('\'' + lineString + '\'');
+        }
+        return String.join(formattedStrings, ', ');
     }
 }
