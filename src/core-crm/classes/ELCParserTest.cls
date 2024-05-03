@@ -64,7 +64,7 @@ public with sharing class ELCParserTest {
             System.assertEquals(parser.getELCContactParser().getContactCriteria().recordType, ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().isQUTStudent, true, 'Contact is not set as QUT student');
             System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().enrollmentStage, ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().enrollmentStatus, ProgramEnrollmentsDAO.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
+            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().enrollmentStatus, ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
             System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().status, CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().status, ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
             System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().breachStatus, ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');

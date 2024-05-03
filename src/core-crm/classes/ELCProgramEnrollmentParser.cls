@@ -10,6 +10,11 @@
 */
 public with sharing class ELCProgramEnrollmentParser {
 
+    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
+        ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED,
+        ProgramEnrollmentsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
+    };
+
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
 
@@ -54,7 +59,7 @@ public with sharing class ELCProgramEnrollmentParser {
             programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
         }
         programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
-        programEnrollmentCriteria.enrollmentStatus = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+        programEnrollmentCriteria.enrollmentStatus = ENROLLMENT_STATUS_FOR_OUTREACH;
 
         return programEnrollmentCriteria;
     }
