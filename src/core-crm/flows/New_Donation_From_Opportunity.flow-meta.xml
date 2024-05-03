@@ -95,6 +95,24 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>Pledge_Donation_Detail_Page_Navigation</name>
+        <label>Pledge Donation Detail Page Navigation</label>
+        <locationX>2690</locationX>
+        <locationY>1322</locationY>
+        <actionName>c:detailPageNavigation</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>Create_Pledge_Donation_Records</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>c:detailPageNavigation</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>314</locationX>
@@ -144,9 +162,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Donation_Pledge_Custom_Error_Value</name>
+        <label>Assign Donation Pledge Custom Error Value</label>
+        <locationX>2426</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>DonationCausePaymentTypeIsEmpty</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Collect_Pledge_Donation_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>2228</locationX>
+        <locationX>2822</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -162,7 +197,7 @@
     <assignments>
         <name>Assign_Record_Type_Selected</name>
         <label>Assign Record Type Selected</label>
-        <locationX>1238</locationX>
+        <locationX>1634</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>AssignRecordTypeSelected</assignToReference>
@@ -236,9 +271,46 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_User_Input_as_Temporary_Values_Pledge</name>
+        <label>Assign User Input as Temporary Values</label>
+        <locationX>2426</locationX>
+        <locationY>1214</locationY>
+        <assignmentItems>
+            <assignToReference>DonationObject.Donation_Comment__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Donation_Comment_Pledge</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DonationObject.Total_Amount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Total_Amount_Pledge</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DonationObject.Is_Anonymous_Donation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Anonymous_Donation_Pledge</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DonationObject.Has_Designation_Split__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Has_Designation_Split</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Donation_Pledge_Custom_Error_Value</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Donation_Object_Assignment</name>
         <label>Donation Object Assignment</label>
-        <locationX>1238</locationX>
+        <locationX>1634</locationX>
         <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>DonationObject.RecordTypeId</assignToReference>
@@ -302,9 +374,34 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Donation_Pledge_Payment_Type</name>
+        <label>Check Donation Pledge Payment Type</label>
+        <locationX>2558</locationX>
+        <locationY>1106</locationY>
+        <defaultConnector>
+            <targetReference>Create_Pledge_Donation_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Empty_Pledge</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DonationObject.Payment_Type__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_User_Input_as_Temporary_Values_Pledge</targetReference>
+            </connector>
+            <label>Is Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>2228</locationX>
+        <locationX>2822</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Error_Screen</targetReference>
@@ -350,7 +447,7 @@
     <decisions>
         <name>What_RecordType_is_Selected_for_Donation_Screen</name>
         <label>What RecordType is Selected for Donation Screen</label>
-        <locationX>1238</locationX>
+        <locationX>1634</locationX>
         <locationY>890</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -397,6 +494,21 @@
                 <targetReference>Collect_Endowment_Donation_Details</targetReference>
             </connector>
             <label>Endowment</label>
+        </rules>
+        <rules>
+            <name>Pledge</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Select_a_Record_Type</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pledge</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Collect_Pledge_Donation_Details</targetReference>
+            </connector>
+            <label>Pledge</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -700,6 +812,81 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
+        <name>Create_Pledge_Donation_Records</name>
+        <label>Create Pledge Donation Records</label>
+        <locationX>2690</locationX>
+        <locationY>1214</locationY>
+        <connector>
+            <targetReference>Pledge_Donation_Detail_Page_Navigation</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Account__c</field>
+            <value>
+                <elementReference>Get_Parent_Opportunity_Record.AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Contact__c</field>
+            <value>
+                <elementReference>Get_Parent_Opportunity_Record.Contact__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Donation_Comment__c</field>
+            <value>
+                <elementReference>Donation_Comment_Pledge</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Has_Designation_Split__c</field>
+            <value>
+                <elementReference>Has_Designation_Split</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Anonymous_Donation__c</field>
+            <value>
+                <elementReference>Is_Anonymous_Donation_Pledge</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Opportunity__c</field>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Payment_Type__c</field>
+            <value>
+                <elementReference>DonationObject.Payment_Type__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Proposed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Total_Amount__c</field>
+            <value>
+                <elementReference>Total_Amount_Pledge</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Donation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Related_Donation_Asset_Records</name>
         <label>Create Related Donation Asset Records</label>
         <locationX>50</locationX>
@@ -729,7 +916,7 @@
     <recordLookups>
         <name>Get_Donation_Record_Type</name>
         <label>Get Donation Record Type</label>
-        <locationX>1238</locationX>
+        <locationX>1634</locationX>
         <locationY>674</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -761,7 +948,7 @@
     <recordLookups>
         <name>Get_Parent_Opportunity_Record</name>
         <label>Get Parent Opportunity Record</label>
-        <locationX>1238</locationX>
+        <locationX>1634</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1158,6 +1345,121 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Collect_Pledge_Donation_Details</name>
+        <label>Collect Pledge Donation Details</label>
+        <locationX>2558</locationX>
+        <locationY>998</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Cancel</backButtonLabel>
+        <connector>
+            <targetReference>Check_Donation_Pledge_Payment_Type</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_1_of_DonationSummaryEndowment</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Donation Summary&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Collect_Pledge_Donation_Details_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Collect_Pledge_Donation_Details_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>DonationObject.Payment_Type__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <name>PaymentTypePledgeError</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Please select a choice.&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(228, 36, 36);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>DonationCausePaymentTypeIsEmpty</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>Is_Anonymous_Donation_Pledge</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <elementReference>DonationObject.Is_Anonymous_Donation__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Is Anonymous Donation</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>Donation_Comment_Pledge</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>DonationObject.Donation_Comment__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Donation Comment</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Collect_Pledge_Donation_Details_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Total_Amount_Pledge</name>
+                    <dataType>Currency</dataType>
+                    <defaultValue>
+                        <elementReference>DonationObject.Total_Amount__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Total Amount</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <scale>0</scale>
+                </fields>
+                <fields>
+                    <name>Has_Designation_Split</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <elementReference>DonationObject.Has_Designation_Split__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Has Designation Split</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Error</name>
         <label>Error</label>
         <locationX>314</locationX>
@@ -1176,7 +1478,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>3218</locationX>
+        <locationX>4010</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1192,7 +1494,7 @@
     <screens>
         <name>Record_Type_Selection</name>
         <label>Record Type Selection</label>
-        <locationX>1238</locationX>
+        <locationX>1634</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1218,7 +1520,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>2102</locationX>
+        <locationX>2696</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
