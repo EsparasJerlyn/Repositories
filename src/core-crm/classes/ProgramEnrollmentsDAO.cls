@@ -11,6 +11,7 @@
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
+    public static final String ACADEMIC_STATUS_SHOW_CAUSE = 'Showcause';    
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
     public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
