@@ -158,9 +158,10 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
 
     public List<hed__Program_Enrollment__c> findByCriteria(
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ){
-        return Database.query(getQueryByCriteria(programEnrollmentCriteria, contactCriteria));
+        return Database.query(getQueryByCriteria(programEnrollmentCriteria, contactCriteria), accessLevel);
     }
 
     /**

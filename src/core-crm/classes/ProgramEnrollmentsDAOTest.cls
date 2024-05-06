@@ -254,7 +254,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
             List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
                 .findByCriteria(
                     programEnrollmentCriteria,
-                    contactCriteria
+                    contactCriteria,
+                    AccessLevel.USER_MODE
                 );
 
             System.assertEquals(programEnrollmentList.size(), programEnrollmentListCreated.size(),  'programEnrollmentList should not be empty.');

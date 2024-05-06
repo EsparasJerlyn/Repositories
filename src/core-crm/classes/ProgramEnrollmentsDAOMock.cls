@@ -150,7 +150,8 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
 
     public List<hed__Program_Enrollment__c> findByCriteria(
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel AccessLevel
     ) {
         List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
 

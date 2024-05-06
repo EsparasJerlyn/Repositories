@@ -32,6 +32,7 @@ public interface IProgramEnrollmentsDAO extends DmlInterface{
 
     List<hed__Program_Enrollment__c> findByCriteria(
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     );
 }
