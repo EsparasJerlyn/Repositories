@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
+ *    | julie.jane.alegre              | May 06, 2024          | DEPP-8049              | Add access level                                                 |
  *    |                                |                       |                        |                                                |
  */
 @isTest
@@ -144,7 +145,8 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
         CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
         CourseConnectionsDAO.Criteria courseConnectionCriteria, 
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ) {
         List<Course_Connection_Assessment__c> courseConnectionAssessmentList = new List<Course_Connection_Assessment__c>();
 

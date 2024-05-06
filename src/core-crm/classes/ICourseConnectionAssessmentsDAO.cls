@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8049              | Add access level                               |
  *    |                                |                       |                        |                                                |
  */
 public interface ICourseConnectionAssessmentsDAO extends DmlInterface {
@@ -35,7 +36,8 @@ public interface ICourseConnectionAssessmentsDAO extends DmlInterface {
         CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
         CourseConnectionsDAO.Criteria courseConnectionCriteria, 
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     );
 
 }

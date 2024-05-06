@@ -238,7 +238,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                     courseConnectionAssessmentCriteria,
                     courseConnectionCriteria,
                     programEnrollmentCriteria,
-                    contactCriteria
+                    contactCriteria,
+                    AccessLevel.USER_MODE
                 );
 
             System.assertEquals(courseConnectionAssessmentList.size(), courseConnectionAssessmentListCreated.size(),  'courseConnectionAssessmentList should not be empty.');

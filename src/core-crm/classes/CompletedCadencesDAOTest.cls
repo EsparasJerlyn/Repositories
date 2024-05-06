@@ -217,7 +217,7 @@ public with sharing class CompletedCadencesDAOTest {
                 .findByCriteria(
                     completedCadenceCriteria,
                     contactCriteria,
-                    AccessLevel.SYSTEM_MODE
+                    AccessLevel.USER_MODE
                 );
 
             System.assertEquals(completedCadenceListCreated.size(), completedCadenceList.size(),'completedCadenceList should not be empty.');

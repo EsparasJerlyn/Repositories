@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
+ *    | julie.jane.alegre              | May 06, 2024          | DEPP-8049              | Add access level                                                 |
  *    |                                |                       |                        |                                                |
  */
 public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase implements ICourseConnectionAssessmentsDAO {
@@ -57,10 +58,10 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
         CourseConnectionsDAO.Criteria courseConnectionCriteria, 
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ){
-        String soql = getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
-        return Database.query(soql);
+        return Database.query(getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria), accessLevel);
     }
 
     public String getQueryByCriteria(
