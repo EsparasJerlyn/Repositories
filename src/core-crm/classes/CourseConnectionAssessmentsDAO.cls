@@ -166,7 +166,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             this.assessmentGrade = assessmentGrade;
         }        
 
-        private Date getSubmissionDate(){
+        public Date getSubmissionDate(){
             return submissionDate;
         }
 
@@ -174,7 +174,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             this.submissionDate = submissionDate;
         }
 
-        private String getAssessmentPriority() {
+        public String getAssessmentPriority() {
             return assessmentPriority;
         }
 
