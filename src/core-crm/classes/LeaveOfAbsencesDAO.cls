@@ -44,8 +44,8 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
     private String whereClauseCheckerForLeaveOfAbsenceCriteria(LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria){
         
         String soql = '';
-        if(leaveOfAbsenceCriteria.isOnLeave != null){
-            soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' ;
+        if(leaveOfAbsenceCriteria.getIsOnLeave() != null){
+            soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' ' ;
         }
 
         /*temporarily commented out*/
@@ -128,9 +128,25 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public Boolean isOnLeave;
+        private Boolean isOnLeave;
         public Integer keyDateOffset;    
-        public Date executionDate;
+        private Date executionDate;
+
+        public Boolean getIsOnLeave(){
+            return isOnLeave;
+        }
+
+        public void setIsOnleave(Boolean isOnLeave){
+            this.isOnLeave = isOnLeave;
+        }
+
+        public Date getExecutionDate(){
+            return executionDate;
+        }
+
+        public void setExecutionDate(Date executionDate){
+            this.executionDate = executionDate;
+        }
         
         public Boolean isEmpty() {
             return isOnLeave == null && keyDateOffset == null && executionDate == null;

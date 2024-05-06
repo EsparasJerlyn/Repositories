@@ -27,7 +27,7 @@ public with sharing class ELCLeaveOfAbsenceParserTest {
             ELCLeaveOfAbsenceParser parser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getLeaveOfAbsencesCriteria().isOnLeave, true, 'Is On Leave should not be false');
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getIsOnLeave(), true, 'Is On Leave should not be false');
         }
     }
 
@@ -43,7 +43,7 @@ public with sharing class ELCLeaveOfAbsenceParserTest {
             ELCLeaveOfAbsenceParser parser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getLeaveOfAbsencesCriteria().isOnLeave, false, 'Is On Leave should not be false');
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getIsOnLeave(), false, 'Is On Leave should not be false');
         }
     }
 

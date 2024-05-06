@@ -48,12 +48,13 @@ public with sharing class LeaveOfAbsencesDAOTest {
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
+            
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            leaveOfAbsenceCriteria.isOnLeave = true;
+            leaveOfAbsenceCriteria.setIsOnleave(true);
 
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
-                + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' '
+                + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -101,11 +102,11 @@ public with sharing class LeaveOfAbsencesDAOTest {
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            leaveOfAbsenceCriteria.isOnLeave = true;
+            leaveOfAbsenceCriteria.setIsOnleave(true);
 
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getContactQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT hed_Program_Enrollment__r.hed__Contact__c FROM Leave_Of_Absence__c WHERE '
-                + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' '
+                + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -139,7 +140,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            leaveOfAbsenceCriteria.isOnLeave = true;
+            leaveOfAbsenceCriteria.setIsOnleave(true);
 
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT ' 
@@ -147,7 +148,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' 
                 + ' hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' 
                 + ' FROM Leave_Of_Absence__c WHERE ' +
-                + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' '
+                + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -191,7 +192,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
             LeaveOfAbsencesDAO.newInstance().insertRecords(leaveOfAbsenceListCreated,true,AccessLevel.SYSTEM_MODE);
 
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            leaveOfAbsenceCriteria.isOnLeave = true;
+            leaveOfAbsenceCriteria.setIsOnleave(true);
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;

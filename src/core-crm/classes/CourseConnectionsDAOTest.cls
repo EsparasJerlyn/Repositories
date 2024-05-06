@@ -212,10 +212,10 @@ public with sharing class CourseConnectionsDAOTest {
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.isQUTStudent = true;
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.contactIdSet = new Set<Id>{contactId};
-            contactCriteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
 
             String whereClauseString = CourseConnectionsDAO.newInstance()
                 .getContactQueryByCriteria(
@@ -229,9 +229,9 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
             
             String expectedClauseString = 'SELECT hed__Program_Enrollment__r.hed__Contact__c FROM hed__Course_Enrollment__c ' +  expectedWhereClause;
             System.assertEquals(expectedClauseString, whereClauseString, 'Contact query by criteria should not be null.');
@@ -255,10 +255,10 @@ public with sharing class CourseConnectionsDAOTest {
             programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.isQUTStudent = true;
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.contactIdSet = new Set<Id>{contactId};
-            contactCriteria.citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
 
             String whereClauseString = CourseConnectionsDAO.newInstance()
                 .getQueryByCriteria(
@@ -271,9 +271,9 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
             
             String expectedClauseString = 'SELECT ' + 
                                         'Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
@@ -333,9 +333,8 @@ public with sharing class CourseConnectionsDAOTest {
 
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.isQUTStudent = true;
-
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
 
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .findByCriteria(

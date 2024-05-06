@@ -27,8 +27,8 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        if(leaveOfAbsenceCriteria.isOnLeave != null){
-            soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' ;
+        if(leaveOfAbsenceCriteria.getIsOnLeave() != null){
+            soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' ' ;
         }
         if(programEnrollmentCriteria.academicStatus != null){
             soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
@@ -91,14 +91,14 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
     ) {
         List<Leave_Of_Absence__c> leaveOfAbsenceList = new List<Leave_Of_Absence__c>();
 
-        Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
+        /* Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
         Date upperKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(leaveOfAbsenceCriteria.keyDateOffset);
-
+ */
         for (Leave_Of_Absence__c record : leaveOfAbsenceMap.values()) {
             if(
-                record.Is_On_Leave__c == leaveOfAbsenceCriteria.isOnLeave &&
+                record.Is_On_Leave__c == leaveOfAbsenceCriteria.getIsOnLeave() /* &&
                 record.End_Date__c <= lowerKeyDateOffSetBoundary && 
-                record.End_Date__c >= upperKeyDateOffSetBoundary  
+                record.End_Date__c >= upperKeyDateOffSetBoundary   */
             )
             {
                 leaveOfAbsenceList.add(record);
