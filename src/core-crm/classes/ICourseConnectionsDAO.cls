@@ -66,6 +66,7 @@ public interface ICourseConnectionsDAO extends DmlInterface{
     List<hed__Course_Enrollment__c> findByCriteria(
         CourseConnectionsDAO.Criteria courseConnectionCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     );
 }

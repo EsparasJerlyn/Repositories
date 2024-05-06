@@ -340,7 +340,8 @@ public with sharing class CourseConnectionsDAOTest {
                 .findByCriteria(
                     courseConnectionCriteria,
                     programEnrollmentCriteria,
-                    contactCriteria
+                    contactCriteria,
+                    AccessLevel.USER_MODE
                 );
                 
             System.assertEquals(courseConnectionListCreated.size(), courseConnectionList.size(), 'courseConnectionList should not be empty.');

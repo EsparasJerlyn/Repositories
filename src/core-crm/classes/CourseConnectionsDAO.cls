@@ -161,9 +161,10 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     public List<hed__Course_Enrollment__c> findByCriteria(
         CourseConnectionsDAO.Criteria courseConnectionCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ){
-        return Database.query(getQueryByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria));
+        return Database.query(getQueryByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria), accessLevel);
     }
 
     //Checks to ensure fields have values
@@ -201,13 +202,13 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         String soql = '';
 
         if(contactCriteria.getCitizenshipStatus() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
         }
         if(contactCriteria.getIsQUTStudent() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
         }
 
         return soql;
