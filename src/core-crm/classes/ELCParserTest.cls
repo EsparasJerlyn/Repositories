@@ -48,9 +48,9 @@ public with sharing class ELCParserTest {
 
             //Checking on the criterions 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().academicStatus, academicStatus, 'Incorrect Academic Status');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().categoryType, 'Graduate Certificate', 'Incorrect Category Type');
-            System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().completedCadence, completedCadenceName, 'Incorrect Completed Cadence');
+            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');
+            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');
+            System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getCompletedCadence(), completedCadenceName, 'Incorrect Completed Cadence');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().courseGrade, '100', 'Incorrect Course Grade');
             System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().assessmentGrade, null, 'Assessment grade should be null');
@@ -63,9 +63,9 @@ public with sharing class ELCParserTest {
             //Checking on the hidden criterias
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getIsQUTStudent(), true, 'Contact is not set as QUT student');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().enrollmentStage, ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().enrollmentStatus, ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
-            System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().status, CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');
+            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
+            System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getStatus(), CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().status, ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
             System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreachStatus(), ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
 

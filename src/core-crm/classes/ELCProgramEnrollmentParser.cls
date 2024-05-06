@@ -38,7 +38,7 @@ public with sharing class ELCProgramEnrollmentParser {
             if (programEnrollmentCriteria == null) {
                 programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             }
-            programEnrollmentCriteria.academicStatus = engagementListCriteria.Academic_Status__c;
+            programEnrollmentCriteria.setAcademicStatus(engagementListCriteria.Academic_Status__c);
         }
         return programEnrollmentCriteria;
     }
@@ -48,7 +48,7 @@ public with sharing class ELCProgramEnrollmentParser {
             if (programEnrollmentCriteria == null) {
                 programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             }
-            programEnrollmentCriteria.categoryType = engagementListCriteria.Category_Type__c;
+            programEnrollmentCriteria.setCategoryType(engagementListCriteria.Category_Type__c);
         }
         return programEnrollmentCriteria;
     }
@@ -58,8 +58,8 @@ public with sharing class ELCProgramEnrollmentParser {
         if (programEnrollmentCriteria == null) {
             programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
         }
-        programEnrollmentCriteria.enrollmentStage = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
-        programEnrollmentCriteria.enrollmentStatus = ENROLLMENT_STATUS_FOR_OUTREACH;
+        programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
+        programEnrollmentCriteria.setEnrollmentStatus(ENROLLMENT_STATUS_FOR_OUTREACH);
 
         return programEnrollmentCriteria;
     }

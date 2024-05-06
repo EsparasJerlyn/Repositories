@@ -76,16 +76,16 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     private String whereClauseCheckerForCourseConnectionAssessmentCriteria(CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria){
         
         String soql = '';
-        if(courseConnectionAssessmentsCriteria.assessmentGrade != null){
-            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' ' ;
+        if(courseConnectionAssessmentsCriteria.getAssessmentGrade() != null){
+            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' ' ;
         }
-        if(courseConnectionAssessmentsCriteria.submissionDate != null){
-            Date submissionDate = courseConnectionAssessmentsCriteria.submissionDate;
+        if(courseConnectionAssessmentsCriteria.getSubmissionDate() != null){
+            Date submissionDate = courseConnectionAssessmentsCriteria.getSubmissionDate();
             String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             soql += 'AND Submission_Date__c = ' + submissionDateString + ' ' ;
         }
-        if(courseConnectionAssessmentsCriteria.assessmentPriority != null){
-            soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' ';
+        if(courseConnectionAssessmentsCriteria.getAssessmentPriority() != null){
+            soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
         }
 
         return soql;
@@ -108,16 +108,16 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
         String soql = '';
 
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        if(programEnrollmentCriteria.getAcademicStatus() != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
+        if(programEnrollmentCriteria.getEnrollmentStage() != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
-        if(programEnrollmentCriteria.categoryType != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        if(programEnrollmentCriteria.getCategoryType() != null){
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
         }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
+        if(programEnrollmentCriteria.getEnrollmentStatus() != null){
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (' + formatSetForWhereClause(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH) + ') ';
         }
         
@@ -153,9 +153,34 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public String assessmentGrade;
-        public Date submissionDate;
-        public String assessmentPriority;
+        private String assessmentGrade;
+        private Date submissionDate;
+        private String assessmentPriority;
+
+
+        public String getAssessmentGrade() {
+            return assessmentGrade;
+        }
+
+        public void setAssessmentGrade(String assessmentGrade) {
+            this.assessmentGrade = assessmentGrade;
+        }        
+
+        private Date getSubmissionDate(){
+            return submissionDate;
+        }
+
+        public void setSubmissionDate(Date submissionDate) {
+            this.submissionDate = submissionDate;
+        }
+
+        private String getAssessmentPriority() {
+            return assessmentPriority;
+        }
+
+        public void setAssessmentPriority(String assessmentPriority) {
+            this.assessmentPriority = assessmentPriority;
+        }
 
         public Boolean isEmpty() {
             return assessmentGrade == null && submissionDate == null && assessmentPriority == null;

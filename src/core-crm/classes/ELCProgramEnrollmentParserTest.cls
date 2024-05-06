@@ -29,7 +29,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentCriteria().academicStatus, academicStatus, 'Incorrect Academic Status');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');
         }
     }
 
@@ -45,7 +45,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentCriteria().categoryType, 'Graduate Certificate', 'Incorrect Category Type');            
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');            
         }
     }
 
@@ -60,8 +60,8 @@ public with sharing class ELCProgramEnrollmentParserTest {
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStage, ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
-            System.assertEquals(parser.getProgramEnrollmentCriteria().enrollmentStatus, ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
 
         }
     }

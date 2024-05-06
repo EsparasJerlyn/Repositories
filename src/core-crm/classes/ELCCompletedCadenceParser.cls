@@ -32,7 +32,7 @@ public with sharing class ELCCompletedCadenceParser {
             if (completedCadenceCriteria == null) {
                 completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             }
-            completedCadenceCriteria.completedCadence = engagementListCriteria.Completed_Cadence__c;
+            completedCadenceCriteria.setCompletedCadence(engagementListCriteria.Completed_Cadence__c);
         }
         return completedCadenceCriteria;
     }
@@ -43,7 +43,7 @@ public with sharing class ELCCompletedCadenceParser {
         }
 
         completedCadenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
-        completedCadenceCriteria.executionDate = this.executionDate;
+        completedCadenceCriteria.setExecutionDate(this.executionDate);
 
         return completedCadenceCriteria;
     }
@@ -53,8 +53,7 @@ public with sharing class ELCCompletedCadenceParser {
         if (completedCadenceCriteria == null) {
             completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
         }
-        completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
-
+        completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
         return completedCadenceCriteria;
     }
     

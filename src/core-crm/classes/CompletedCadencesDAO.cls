@@ -166,11 +166,36 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     }
 
     public class Criteria {
-        public String status;
-        public String completedCadence;
+        private String status;
+        private String completedCadence;
         public Integer keyDateOffset;    
-        public Date executionDate;
+        private Date executionDate;
 
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getCompletedCadence() {
+            return completedCadence;
+        }
+
+        public void setCompletedCadence(String completedCadence) {
+            this.completedCadence = completedCadence;
+        }
+
+        public Date getExecutionDate() {
+            return executionDate;
+        }
+
+        public void setExecutionDate(Date executionDate) {
+            this.executionDate = executionDate;
+        }
+
+        
         public Boolean isEmpty() {
             return status == null && completedCadence == null && keyDateOffset == null && executionDate == null;
         }

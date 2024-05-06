@@ -80,15 +80,42 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' ;
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' ;
+    
+        return soql; 
+    }   
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.getAcademicStatus() != null){
+            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND Enrollment_Status__c IN(' + programEnrollmentCriteria.enrollmentStatus + ') ' ;
+        if(programEnrollmentCriteria.getEnrollmentStage() != null){
+            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
+        if(programEnrollmentCriteria.getEnrollmentStatus() != null){
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus()) + ') ';
+        }
+        if(programEnrollmentCriteria.getCategoryType() != null){
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
         if(contactCriteria.getCitizenshipStatus() != null){
             soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
         }
@@ -98,12 +125,8 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         if(contactCriteria.getRecordType() != null){
             soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
         }
-        
-        if(soql != '') {
-            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
-        }
-    
-        return soql; 
+
+        return soql;
     }
 
     public String getContactQueryByCriteria(
@@ -133,8 +156,8 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
 
         for (hed__Program_Enrollment__c record : programEnrollmentMap.values()) {
             if(
-                record.Academic_Status__c == programEnrollmentCriteria.academicStatus &&
-                record.Enrollment_Stage__c == programEnrollmentCriteria.enrollmentStage &&
+                record.Academic_Status__c == programEnrollmentCriteria.getAcademicStatus() &&
+                record.Enrollment_Stage__c == programEnrollmentCriteria.getEnrollmentStage() &&
                 (
                     record.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED ||
                     record.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
@@ -147,4 +170,11 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         return programEnrollmentList;
     }
     
+    private String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String lineString : stringSet){
+            formattedStrings.add('\'' + lineString + '\'');
+        }
+        return String.join(formattedStrings, ', ');
+    }
 }

@@ -104,17 +104,17 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
         String soql = '';
 
-        if(programEnrollmentCriteria.academicStatus != null){
-            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ';
+        if(programEnrollmentCriteria.getAcademicStatus() != null){
+            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
-        if(programEnrollmentCriteria.enrollmentStage != null){
-            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ';
+        if(programEnrollmentCriteria.getEnrollmentStage() != null){
+            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
-        if(programEnrollmentCriteria.enrollmentStatus != null){
-            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.enrollmentStatus) + ') ';
+        if(programEnrollmentCriteria.getEnrollmentStatus() != null){
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus()) + ') ';
         }
-        if(programEnrollmentCriteria.categoryType != null){
-            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ';
+        if(programEnrollmentCriteria.getCategoryType() != null){
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
         }
         
         return soql;
@@ -167,10 +167,42 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public String academicStatus;
-        public String enrollmentStage;
-        public Set<String> enrollmentStatus;
-        public String categoryType;
+        private String academicStatus;
+        private String enrollmentStage;
+        private Set<String> enrollmentStatus;
+        private String categoryType;
+
+        public String getAcademicStatus(){
+            return this.academicStatus;
+        }
+
+        public void setAcademicStatus(String varAcademicStatus){
+            this.academicStatus = varAcademicStatus;
+        }
+        
+        public String getEnrollmentStage(){
+            return this.enrollmentStage;
+        }
+
+        public void setEnrollmentStage(String varEnrollmentStage){
+            this.enrollmentStage = varEnrollmentStage;
+        }
+
+        public Set<String> getEnrollmentStatus(){
+            return this.enrollmentStatus;
+        }
+
+        public void setEnrollmentStatus(Set<String> varEnrollmentStatus){
+            this.enrollmentStatus = varEnrollmentStatus;
+        }
+
+        public String getCategoryType(){
+            return this.categoryType;
+        }
+
+        public void setCategoryType(String varCategoryType){
+            this.categoryType = varCategoryType;
+        }
        
         public Boolean isEmpty() {
             return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus == null;
