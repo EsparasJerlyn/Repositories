@@ -117,11 +117,11 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     ){
         //since criterias are being checked from batch, do we need to check if fields under criterias are empty or null?
         String soql = '';
-        if(completedCadenceCriteria.completedCadence != null){
-            soql += 'AND Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' ;
+        if(completedCadenceCriteria.getCompletedCadence() != null){
+            soql += 'AND Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' ' ;
         }
-        if(completedCadenceCriteria.status != null){
-            soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' ;
+        if(completedCadenceCriteria.getStatus() != null){
+            soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.getStatus() + '\' ' ;
         }
         if(contactCriteria.getIsQUTStudent() != null){
             soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
