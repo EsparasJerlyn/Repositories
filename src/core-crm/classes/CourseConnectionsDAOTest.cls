@@ -159,13 +159,13 @@ public with sharing class CourseConnectionsDAOTest {
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-            courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.setCourseGrade('100');
+            courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
             String whereClauseString = CourseConnectionsDAO.newInstance().getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
                 + 'Enrollment_Status__c IN(\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
-                + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
+                + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
@@ -203,8 +203,8 @@ public with sharing class CourseConnectionsDAOTest {
             Id contactId = mockIdGen.getMockId();
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-            courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.setCourseGrade('100');
+            courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
@@ -225,7 +225,7 @@ public with sharing class CourseConnectionsDAOTest {
                 );
             String expectedWhereClause = 'WHERE '
                     + 'Enrollment_Status__c IN(\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
-                    + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
+                    + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
@@ -247,9 +247,8 @@ public with sharing class CourseConnectionsDAOTest {
             Id contactId = mockIdGen.getMockId();
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-            courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
-
+            courseConnectionCriteria.setCourseGrade('100');
+            courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
@@ -268,7 +267,7 @@ public with sharing class CourseConnectionsDAOTest {
                 );
             String expectedWhereClause = 'WHERE '
                     + 'Enrollment_Status__c IN(\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
-                    + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
+                    + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                     + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
@@ -329,8 +328,8 @@ public with sharing class CourseConnectionsDAOTest {
 
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-            courseConnectionCriteria.courseGrade = '100';
-            courseConnectionCriteria.status = ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH;
+            courseConnectionCriteria.setCourseGrade('100');
+            courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();

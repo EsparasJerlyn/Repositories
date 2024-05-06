@@ -173,7 +173,7 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
                     record.Enrollment_Status__c == CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED ||
                     record.Enrollment_Status__c == CourseConnectionsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE 
                 ) &&
-                record.hed__Display_Grade__c == courseConnectionCriteria.courseGrade)
+                record.hed__Display_Grade__c == courseConnectionCriteria.getCourseGrade())
             {
                 courseConnectionList.add(record);
             }
@@ -184,11 +184,11 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
     //Checks to ensure fields have values
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
-        if(courseConnectionCriteria.status != null){
-            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.status) + ') ';
+        if(courseConnectionCriteria.getStatus() != null){
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
         }
-        if(courseConnectionCriteria.courseGrade != null){
-            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' ;
+        if(courseConnectionCriteria.getCourseGrade() != null){
+            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ' ;
         }
         
         return soql;

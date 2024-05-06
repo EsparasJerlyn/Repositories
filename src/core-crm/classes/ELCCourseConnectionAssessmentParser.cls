@@ -33,8 +33,8 @@ public with sharing class ELCCourseConnectionAssessmentParser {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
             if(engagementListCriteria.Failed_To_Submit_Assessment__c == 'Yes'){
-                courseConnectionAssessmentCriteria.assessmentGrade = null;
-                courseConnectionAssessmentCriteria.submissionDate = null;
+                courseConnectionAssessmentCriteria.setAssessmentGrade(null);
+                courseConnectionAssessmentCriteria.setSubmissionDate(null);
             }
             
         }
@@ -46,7 +46,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
-            courseConnectionAssessmentCriteria.assessmentPriority = engagementListCriteria.Assessment_Priority__c;
+            courseConnectionAssessmentCriteria.setAssessmentPriority(engagementListCriteria.Assessment_Priority__c);
         }
         return courseConnectionAssessmentCriteria;
     }

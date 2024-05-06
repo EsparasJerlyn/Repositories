@@ -169,11 +169,11 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     //Checks to ensure fields have values
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
-        if(courseConnectionCriteria.status != null){
-            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.status) + ') ';
+        if(courseConnectionCriteria.getStatus() != null){
+            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
         }
-        if(courseConnectionCriteria.courseGrade != null){
-            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' ;
+        if(courseConnectionCriteria.getCourseGrade() != null){
+            soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ' ;
         }
         
         return soql;
@@ -226,8 +226,24 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public String courseGrade;
-        public Set<String> status;
+        private String courseGrade;
+        private Set<String> status;
+
+        public String getCourseGrade() {
+            return courseGrade;
+        }
+
+        public void setCourseGrade(String courseGrade) {
+            this.courseGrade = courseGrade;
+        }
+
+        public Set<String> getStatus() {
+            return status;
+        }
+
+        public void setStatus(Set<string> status) {
+            this.status = status;
+        }
 
         public Boolean isEmpty() {
             return courseGrade == null && status == null;

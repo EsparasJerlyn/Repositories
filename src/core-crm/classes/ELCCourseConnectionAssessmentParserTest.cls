@@ -28,8 +28,8 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
             ELCCourseConnectionAssessmentParser parser = new ELCCourseConnectionAssessmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().assessmentGrade, null, 'Assessment grade should be null');
-            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().submissionDate, null, 'Submission Date should be null');
+            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getAssessmentGrade(), null, 'Assessment grade should be null');
+            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getSubmissionDate(), null, 'Submission Date should be null');
         }
     }
 
@@ -45,7 +45,7 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
             ELCCourseConnectionAssessmentParser parser = new ELCCourseConnectionAssessmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().assessmentPriority, 'High', 'Incorrect Assessment Priority');
+            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getAssessmentPriority(), 'High', 'Incorrect Assessment Priority');
         }
     }
 }

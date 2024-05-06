@@ -75,7 +75,7 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
             String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             soql += 'AND Submission_Date__c = ' + submissionDateString + ' ' ;
         }
-        if(courseConnectionAssessmentsCriteria.assessmentPriority != null){
+        if(courseConnectionAssessmentsCriteria.getAssessmentPriority() != null){
             soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
         }
 
@@ -85,11 +85,11 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
     //Checks to ensure fields have values
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
-        if(courseConnectionCriteria.status != null){
-            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.status) + ') ';
+        if(courseConnectionCriteria.getStatus() != null){
+            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
         }
-        if(courseConnectionCriteria.courseGrade != null){
-            soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ';
+        if(courseConnectionCriteria.getCourseGrade() != null){
+            soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ';
         }
         
         return soql;

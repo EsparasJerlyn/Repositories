@@ -95,7 +95,7 @@
         if(programEnrollmentBreachCriteria.getBreachStatus() != null){
             soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.getBreachStatus() + ') ' ;
         }
-        if(programEnrollmentBreachCriteria.breach != null){
+        if(programEnrollmentBreachCriteria.getBreach() != null){
             soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' ' ;
         }
 

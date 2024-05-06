@@ -39,7 +39,7 @@ public with sharing class ELCCourseConnectionParser {
             if (courseConnectionCriteria == null) {
                 courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             }
-            courseConnectionCriteria.courseGrade = engagementListCriteria.Course_Grade__c;
+            courseConnectionCriteria.setcourseGrade(engagementListCriteria.Course_Grade__c);
         }
         return courseConnectionCriteria;
     }
@@ -49,7 +49,7 @@ public with sharing class ELCCourseConnectionParser {
         if (courseConnectionCriteria == null) {
             courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
         }
-        courseConnectionCriteria.status = ENROLLMENT_STATUS_FOR_OUTREACH;
+        courseConnectionCriteria.setStatus(ENROLLMENT_STATUS_FOR_OUTREACH);
 
         return courseConnectionCriteria;
     }

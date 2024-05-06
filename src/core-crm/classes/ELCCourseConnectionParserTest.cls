@@ -27,7 +27,7 @@ public with sharing class ELCCourseConnectionParserTest {
             ELCCourseConnectionParser parser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCourseConnectionCriteria().courseGrade, '100', 'Incorrect Course Grade');
+            System.assertEquals(parser.getCourseConnectionCriteria().getCourseGrade(), '100', 'Incorrect Course Grade');
         }
     }
 
@@ -42,7 +42,7 @@ public with sharing class ELCCourseConnectionParserTest {
             ELCCourseConnectionParser parser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCourseConnectionCriteria().status, ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
+            System.assertEquals(parser.getCourseConnectionCriteria().getStatus(), ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
 
         }
     }

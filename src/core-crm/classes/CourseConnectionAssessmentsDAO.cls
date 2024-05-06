@@ -94,11 +94,11 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     //Checks to ensure fields have values
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
-        if(courseConnectionCriteria.status != null){
-            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.status) + ') ';
+        if(courseConnectionCriteria.getStatus() != null){
+            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
         }
-        if(courseConnectionCriteria.courseGrade != null){
-            soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ';
+        if(courseConnectionCriteria.getCourseGrade() != null){
+            soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ';
         }
         
         return soql;
