@@ -9,6 +9,8 @@
  *    | nicole.genon                   | March 29, 2023      | DEPP-8167              | Created file                                         |
  *    | kenneth.f.alsay                | April 23, 2024      | DEPP-8528              | Added test methods for getDonationsBySetRecordIds    |
  *    | kenneth.f.alsay                | April 24, 2024      | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdateTest     |
+ *    | nicole.genon                   | May 2, 2024         | DEPP-8673              | Added getDonationsBySetDonationParentIdsTest,        |
+ *    |                                |                     |                        | getDonationsBySetRecordTypeIdsTest                   |
  */
 @isTest
 private class DonationsDAOTest {
@@ -28,7 +30,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsByOpportunityIdsTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactory.getAdvancementManager()){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
             List<Donation__c> donationList = DonationsDAO.newInstance()
@@ -43,7 +45,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsByOpportunityIdsEmptyTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactory.getAdvancementManager()){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsByOpportunityIds(
@@ -76,6 +78,64 @@ private class DonationsDAOTest {
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsBySetRecordIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationsBySetDonationParentIdsTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationsBySetDonationParentIds(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationsBySetDonationParentIdsEmptyTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationsBySetDonationParentIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationsBySetRecordTypeIdsTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Recordtype.getSObjectType());
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationsBySetRecordTypeIds(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationsBySetRecordTypeIdsEmptyTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationsBySetRecordTypeIds(
                     new Set<Id>(),
                     AccessLevel.USER_MODE
                 );

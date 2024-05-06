@@ -15,4 +15,6 @@ public interface IDonationsDAO extends DmlInterface {
     Database.QueryLocator queryLocatorGetDonationsForStageUpdate();
     List<Donation__c> getDonationsByOpportunityIds(Set<Id> opportunityIds, AccessLevel accessLevel);
     List<Donation__c> getDonationsBySetRecordIds(Set<Id> recordIds, AccessLevel accessLevel);
+    List<Donation__c> getDonationsBySetDonationParentIds(Set<Id> donationParentIds, AccessLevel accessLevel);
+    List<Donation__c> getDonationsBySetRecordTypeIds(Set<Id> recordTypeIds, AccessLevel accessLevel);
 }

@@ -9,6 +9,8 @@
       | nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                   |
       | kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds               |
       | kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdate   |
+      |  nicole.genon                  | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,      |
+      |                                |                       |                        | getDonationsBySetRecordTypeIds                 |
 */
 @isTest
 public inherited sharing class DonationsDAOMock extends DmlBaseMock implements IDonationsDAO {
@@ -47,6 +49,32 @@ public inherited sharing class DonationsDAOMock extends DmlBaseMock implements I
         List<Donation__c> donationList = new List<Donation__c>();
         for (Donation__c record : donationsMap.values()) {
             if (recordIds.contains(record.Id)) {
+                donationList.add(record);
+            }
+        }
+        return donationList;
+    }
+
+    public List<Donation__c> getDonationsBySetDonationParentIds(
+        Set<Id> donationParentIds,
+        AccessLevel accessLevel
+    ) {
+        List<Donation__c> donationList = new List<Donation__c>();
+        for (Donation__c record : donationsMap.values()) {
+            if (donationParentIds.contains(record.Donation_Parent__c)) {
+                donationList.add(record);
+            }
+        }
+        return donationList;
+    }
+
+    public List<Donation__c> getDonationsBySetRecordTypeIds(
+        Set<Id> recordTypeIds,
+        AccessLevel accessLevel
+    ) {
+        List<Donation__c> donationList = new List<Donation__c>();
+        for (Donation__c record : donationsMap.values()) {
+            if (recordTypeIds.contains(record.RecordTypeId)) {
                 donationList.add(record);
             }
         }
