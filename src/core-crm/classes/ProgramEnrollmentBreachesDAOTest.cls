@@ -48,13 +48,13 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
-            programEnrollmentBreachCriteria.breach = mockIdGen.getMockId();
+            programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
+            programEnrollmentBreachCriteria.setBreach(mockIdGen.getMockId());
             
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
-                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' '
+                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -99,13 +99,13 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
-            programEnrollmentBreachCriteria.breach = mockIdGen.getMockId();
+            programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
+            programEnrollmentBreachCriteria.setBreach(mockIdGen.getMockId());
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getContactQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Program_Enrollment__r.hed__Contact__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
-                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' '
+                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -136,13 +136,13 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentCriteria.enrollmentStatus = ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH;
             programEnrollmentCriteria.categoryType = 'Graduate Certificate';
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
-            programEnrollmentBreachCriteria.breach = mockIdGen.getMockId();
+            programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
+            programEnrollmentBreachCriteria.setBreach(mockIdGen.getMockId());
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
-                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' '
+                + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -186,8 +186,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
-            programEnrollmentBreachCriteria.breach = breachCreated.Id;
+            programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
+            programEnrollmentBreachCriteria.setBreach(breachCreated.Id);
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.academicStatus = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;

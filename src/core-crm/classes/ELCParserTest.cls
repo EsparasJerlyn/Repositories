@@ -52,7 +52,7 @@ public with sharing class ELCParserTest {
             System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().categoryType, 'Graduate Certificate', 'Incorrect Category Type');
             System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().completedCadence, completedCadenceName, 'Incorrect Completed Cadence');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().courseGrade, '100', 'Incorrect Course Grade');
-            System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().breach, breach.Id, 'Incorrect Breach Id assigned');
+            System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().assessmentGrade, null, 'Assessment grade should be null');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().submissionDate, null, 'Submission Date should be null');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().assessmentPriority, 'High', 'Incorrect Assessment Priority');
@@ -67,7 +67,7 @@ public with sharing class ELCParserTest {
             System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().enrollmentStatus, ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
             System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().status, CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().status, ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
-            System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().breachStatus, ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
+            System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreachStatus(), ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
 
         }
     }
