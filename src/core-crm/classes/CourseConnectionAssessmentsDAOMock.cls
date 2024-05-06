@@ -67,16 +67,16 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
     private String whereClauseCheckerForCourseConnectionAssessmentCriteria(CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria){
         
         String soql = '';
-        if(courseConnectionAssessmentsCriteria.assessmentGrade != null){
-            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' ' ;
+        if(courseConnectionAssessmentsCriteria.getAssessmentGrade() != null){
+            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' ' ;
         }
-        if(courseConnectionAssessmentsCriteria.submissionDate != null){
-            Date submissionDate = courseConnectionAssessmentsCriteria.submissionDate;
+        if(courseConnectionAssessmentsCriteria.getSubmissionDate() != null){
+            Date submissionDate = courseConnectionAssessmentsCriteria.getSubmissionDate();
             String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             soql += 'AND Submission_Date__c = ' + submissionDateString + ' ' ;
         }
         if(courseConnectionAssessmentsCriteria.assessmentPriority != null){
-            soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' ';
+            soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
         }
 
         return soql;
@@ -150,9 +150,9 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
 
         for (Course_Connection_Assessment__c record : courseConnectionAssessmentMap.values()) {
             if(
-                record.Assessment_Grade__c == courseConnectionAssessmentsCriteria.assessmentGrade &&
-                record.Submission_Date__c == courseConnectionAssessmentsCriteria.submissionDate &&
-                record.Assessment_Name__r.Assessment_Priority__c == courseConnectionAssessmentsCriteria.assessmentPriority)
+                record.Assessment_Grade__c == courseConnectionAssessmentsCriteria.getAssessmentGrade() &&
+                record.Submission_Date__c == courseConnectionAssessmentsCriteria.getSubmissionDate() &&
+                record.Assessment_Name__r.Assessment_Priority__c == courseConnectionAssessmentsCriteria.getAssessmentPriority())
             {
                 courseConnectionAssessmentList.add(record);
             }
