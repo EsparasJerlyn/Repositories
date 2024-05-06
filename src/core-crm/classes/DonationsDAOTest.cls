@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                | JIRA                   | Change Summary                                       |
  *    |--------------------------------|---------------------|------------------------|------------------------------------------------------|
  *    | nicole.genon                   | March 29, 2023      | DEPP-8167              | Created file                                         |
+ *    | kim.howard.capanas             | April 22, 2024      | DEPP-8499              | Added test method for getDonationAssetsByDonationId  |
  *    | kenneth.f.alsay                | April 23, 2024      | DEPP-8528              | Added test methods for getDonationsBySetRecordIds    |
  *    | kenneth.f.alsay                | April 24, 2024      | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdateTest     |
  *    | nicole.genon                   | May 2, 2024         | DEPP-8673              | Added getDonationsBySetDonationParentIdsTest,        |
@@ -49,6 +50,35 @@ private class DonationsDAOTest {
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsByOpportunityIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationAssetsByDonationIdTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationAssetsByDonationId(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationAssetsByDonationIdEmptyTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationAssetsByDonationId(
                     new Set<Id>(),
                     AccessLevel.USER_MODE
                 );

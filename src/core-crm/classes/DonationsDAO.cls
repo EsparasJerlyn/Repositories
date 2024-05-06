@@ -7,6 +7,7 @@
  *    |  Developer Email                | Date                  | JIRA                   | Change Summary                                 |
       |---------------------------------|-----------------------|------------------------|------------------------------------------------|
       |  nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                   |
+      |  kim.howard.capanas             | April 18, 2024        | DEPP-8499              | added getDonationAssetsByDonationId method     |
       |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added CAUSE_RECTYPE_ID                         |
       |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds               |
       |  kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added final Strings for stages and payment type|
@@ -89,6 +90,21 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
             return new List<Donation__c>();
         }
     }
+
+    public List<Donation__c> getDonationAssetsByDonationId(
+        Set<Id> donationIds,
+        AccessLevel accessLevel
+    ){
+        if(donationIds.isEmpty()){
+            return new List<Donation__c>();
+        }
+        return Database.query(
+            'SELECT Id, Donation_Asset__c ' +
+            'FROM Donation__c ' +
+            'WHERE Id IN :donationIds ',
+            accessLevel
+        );
+    }    
 
     public List<Donation__c> getDonationsBySetRecordIds(
         Set<Id> recordIds,

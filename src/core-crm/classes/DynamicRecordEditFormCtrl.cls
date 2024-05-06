@@ -6,9 +6,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | kim.howard.capanas             | March 18, 2024        | DEP1-8203              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                               |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------|
+ *    | kim.howard.capanas             | March 18, 2024        | DEP1-8203              | Created file                                                 |
+ *    | kim.howard.capanas             | April 18, 2024        | DEPP-8499              | Modified getRecordIds to fetch recordId from Donation Asset  |
+ *    |                                |                       |                        |                                                              |
  */
 public with sharing class DynamicRecordEditFormCtrl {
 
@@ -19,15 +21,21 @@ public with sharing class DynamicRecordEditFormCtrl {
      * @return recordId
      */
     @AuraEnabled(cacheable=true)
-    public static String getRecordIds(String recordId, String objectApiName) { //, String objectApiName
+    public static String getRecordIds(String recordId, String objectApiName) {
         String recId = recordId;
         
-        //For future development use the same logic to get values from other Object
-        //todo make this method dynamic
+        // For future development use the same logic to get values from other Object
+        // @TODO - make this method dynamic
         if (objectApiName == 'Product2') {
             List<Product2> product2RecList = ProductsDAO.newInstance().getProductByDesignationId(new Set<Id>{Id.valueOf(recordId)}, AccessLevel.USER_MODE);
 
             recId = product2RecList.get(0).Id;
+        }
+
+        if (objectApiName == 'Donation_Asset__c') {
+            List<Donation__c> donationAssetList = DonationsDAO.newInstance().getDonationAssetsByDonationId(new Set<Id>{Id.valueOf(recordId)}, AccessLevel.USER_MODE);
+
+            recId = donationAssetList.get(0).Donation_Asset__c;
         }
 
         return recId;
