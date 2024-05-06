@@ -203,7 +203,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 .findByCriteria(
                     programEnrollmentBreachCriteria,
                     programEnrollmentCriteria,
-                    contactCriteria
+                    contactCriteria,
+                    AccessLevel.USER_MODE
                 );
 
             System.assertEquals(programEnrollmentBreachList.size(), programEnrollmentBreachListCreated.size(),  'programEnrollmentBreachList should not be empty.');

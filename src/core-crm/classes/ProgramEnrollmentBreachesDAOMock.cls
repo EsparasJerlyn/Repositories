@@ -64,7 +64,8 @@
     public List<Program_Enrollment_Breach__c> findByCriteria(
         ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ) {
         List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
         Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(-programEnrollmentBreachCriteria.getKeyDateOffset());

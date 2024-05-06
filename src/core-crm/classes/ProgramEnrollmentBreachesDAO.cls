@@ -135,9 +135,10 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
     public List<Program_Enrollment_Breach__c> findByCriteria(
         ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ){
-        return Database.query(getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria));
+        return Database.query(getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria), accessLevel);
     }
 
     /**

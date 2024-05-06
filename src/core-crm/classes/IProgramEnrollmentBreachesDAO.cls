@@ -33,7 +33,8 @@ public interface IProgramEnrollmentBreachesDAO extends DmlInterface {
     List<Program_Enrollment_Breach__c> findByCriteria(
         ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     );
 
 }
