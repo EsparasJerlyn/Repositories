@@ -1,3 +1,13 @@
+/**
+ * @description Class to be used in parsing Engagement_List_Criteria__c for outreach case
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
+      | vincent.ferrer                 | May 03, 2024          | DEPP-8750              | Created file                                                |
+*/
 public with sharing class ELCCompletedCadenceEvaluator {
     
     private ELCParser elcParser;
