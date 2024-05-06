@@ -464,11 +464,21 @@ private class ContactsDAOTest {
     static void findByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
+            contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactListCreated[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
+            contactCriteria.isQUTStudent = true;
+            
             List<Contact> contactList = ContactsDAO.newInstance()
                 .findByCriteria(
-                    new ContactsDAO.Criteria(), AccessLevel.SYSTEM_MODE
+                    contactCriteria, 
+                    AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should not be empty.');
+            System.assertEquals(contactListCreated.size(), contactList.size(), 'contactList should not be empty.');
         }
         Test.stopTest();
     }
