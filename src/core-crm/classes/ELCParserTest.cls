@@ -25,6 +25,7 @@ public with sharing class ELCParserTest {
             );
             insert breach; 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            String keyDateLeaveOfAbsence = 'Leave Of Absence End Date';
             String academicStatus = 'Showcause';
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
@@ -39,8 +40,9 @@ public with sharing class ELCParserTest {
             engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
             engagementListCriteria.Assessment_Priority__c = 'High';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
-            engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
-            engagementListCriteria.Key_Date_Offset__c = 10;
+            engagementListCriteria.Key_Date__c = keyDateLeaveOfAbsence;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
 
             Test.startTest();
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
@@ -57,8 +59,13 @@ public with sharing class ELCParserTest {
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getSubmissionDate(), null, 'Submission Date should be null');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getAssessmentPriority(), 'High', 'Incorrect Assessment Priority');
             System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getIsOnLeave(), true, 'Is On Leave should not be false');
-            // System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().keyDateOffset, 10, 'Incorrect Key Date Offset');
-            // System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().executionDate, executionDate, 'Incorrect Excecution Date');
+            
+            //Checking on the key date criterions
+            Date execDateLower = executionDate.addDays(-10);
+            Date execDateUpper = executionDate.addDays(10);
+            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getkeyDateOffsetLowerBoundary(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getkeyDateOffsetUpperBoundary(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getExecutionDate(), executionDate, 'Incorrect Excecution Date');
 
             //Checking on the hidden criterias
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 

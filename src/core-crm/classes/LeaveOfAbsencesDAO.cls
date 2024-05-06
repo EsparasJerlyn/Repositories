@@ -48,12 +48,15 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' ' ;
         }
 
-        /*temporarily commented out*/
-        // if(leaveOfAbsenceCriteria.keyDateOffset != null && leaveOfAbsenceCriteria.executionDate != null){
-        //     Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
-        //     Date upperKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(leaveOfAbsenceCriteria.keyDateOffset);
-        //     soql = soql + 'AND End_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND End_Date__c >= ' + upperKeyDateOffSetBoundary ;
-        // }
+        if(
+            leaveOfAbsenceCriteria.executionDate != null 
+            && leaveOfAbsenceCriteria.keyDateOffsetLowerBoundary != null  
+            && leaveOfAbsenceCriteria.keyDateOffsetUpperBoundary != null
+        ){
+            soql = soql 
+            + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+            + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getkeyDateOffsetUpperBoundary() + ' ';
+        }
 
         return soql;
     }
@@ -131,6 +134,9 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         private Boolean isOnLeave;
         public Integer keyDateOffset;    
         private Date executionDate;
+        private Integer keyDateOffsetLowerBoundary;
+        private Integer keyDateOffsetUpperBoundary;
+        
 
         public Boolean getIsOnLeave(){
             return isOnLeave;
@@ -146,6 +152,34 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
 
         public void setExecutionDate(Date executionDate){
             this.executionDate = executionDate;
+        }
+
+        public String getkeyDateOffsetLowerBoundary(){
+            if ( this.executionDate != null ) {
+                Date returnDate = this.executionDate.addDays(this.keyDateOffsetLowerBoundary);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                return strReturnDate;
+            } else {
+                return null;
+            }
+        }
+
+        public void setkeyDateOffsetLowerBoundary(Integer keyDateOffsetLowerBoundary){
+            this.keyDateOffsetLowerBoundary = keyDateOffsetLowerBoundary;
+        }
+
+        public String getkeyDateOffsetUpperBoundary(){
+            if ( this.executionDate != null ) {
+                Date returnDate = this.executionDate.addDays(this.keyDateOffsetUpperBoundary);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                return strReturnDate;
+            } else {
+                return null;
+            }
+        }
+
+        public void setkeyDateOffsetUpperBoundary(Integer keyDateOffsetUpperBoundary){
+            this.keyDateOffsetUpperBoundary = keyDateOffsetUpperBoundary;
         }
         
         public Boolean isEmpty() {
