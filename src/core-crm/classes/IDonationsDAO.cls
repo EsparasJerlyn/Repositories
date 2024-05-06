@@ -7,7 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
       | nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                    |
-      | kim.howard.capanas             | April 18, 2024         | DEPP-8499             | added getDonationAssetsByDonationId method      |
+      | kim.howard.capanas             | April 18, 2024        | DEPP-8499              | Added getDonationAssetsByDonationId method      |
       | kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds                |
       | kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdate    |
 */

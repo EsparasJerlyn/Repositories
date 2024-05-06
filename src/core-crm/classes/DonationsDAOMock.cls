@@ -11,6 +11,7 @@
       | kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdate   |
       |  nicole.genon                  | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,      |
       |                                |                       |                        | getDonationsBySetRecordTypeIds                 |
+      | kenneth.f.alsay                | May 6, 2024           | DEPP-8499              | Added getDonationAssetsByDonationId            |
 */
 @isTest
 public inherited sharing class DonationsDAOMock extends DmlBaseMock implements IDonationsDAO {
@@ -49,6 +50,19 @@ public inherited sharing class DonationsDAOMock extends DmlBaseMock implements I
         List<Donation__c> donationList = new List<Donation__c>();
         for (Donation__c record : donationsMap.values()) {
             if (recordIds.contains(record.Id)) {
+                donationList.add(record);
+            }
+        }
+        return donationList;
+    }
+
+    public List<Donation__c> getDonationAssetsByDonationId(
+        Set<Id> donationIds,
+        AccessLevel accessLevel
+    ){
+        List<Donation__c> donationList = new List<Donation__c>();
+        for (Donation__c record : donationsMap.values()) {
+            if (donationIds.contains(record.Id)) {
                 donationList.add(record);
             }
         }
