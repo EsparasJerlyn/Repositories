@@ -122,9 +122,10 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
     public List<Leave_Of_Absence__c> findByCriteria(
         LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ){
-        return Database.query(getQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria));
+        return Database.query(getQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria), accessLevel);
     }
 
     /**

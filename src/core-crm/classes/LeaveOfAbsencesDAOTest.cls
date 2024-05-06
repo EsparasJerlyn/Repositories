@@ -224,7 +224,8 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 .findByCriteria(
                     leaveOfAbsenceCriteria,
                     programEnrollmentCriteria,
-                    contactCriteria
+                    contactCriteria,
+                    AccessLevel.USER_MODE
                 );
             System.assertEquals(leaveOfAbsenceList.size(), leaveOfAbsenceListCreated.size(),  'leaveOfAbsenceList should not be empty.');
         }

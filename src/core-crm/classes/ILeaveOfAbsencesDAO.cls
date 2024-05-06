@@ -31,6 +31,7 @@ public interface ILeaveOfAbsencesDAO extends DmlInterface {
     List<Leave_Of_Absence__c> findByCriteria(
         LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     );
 }

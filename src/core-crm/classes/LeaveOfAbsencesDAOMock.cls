@@ -119,7 +119,8 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
     public List<Leave_Of_Absence__c> findByCriteria(
         LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ) {
         List<Leave_Of_Absence__c> leaveOfAbsenceList = new List<Leave_Of_Absence__c>();
 
