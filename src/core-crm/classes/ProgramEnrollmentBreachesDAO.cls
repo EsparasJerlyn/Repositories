@@ -149,11 +149,11 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         private Integer keyDateOffset;    
         private Date executionDate;
 
-        public Id isEmpty() {
+        public Boolean isEmpty() {
             return breach == null && breachStatus == null && keyDateOffset == null && executionDate == null;
         }
 
-        public void getBreach(){
+        public Id getBreach(){
             return breach;
         }
 
@@ -161,7 +161,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
             this.breach = breach;
         }
 
-        public void getBreachStatus(){
+        public Set<String> getBreachStatus(){
             return breachStatus;
         }
 
@@ -169,7 +169,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
             this.breachStatus = breachStatus;
         }
 
-        public void getKeyDateOffset(){
+        public Integer getKeyDateOffset(){
             return keyDateOffset;
         }
 
@@ -177,7 +177,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
             this.keyDateOffset = keyDateOffset;
         }
 
-        public void getExecutionDate(){
+        public Date getExecutionDate(){
             return executionDate;
         }
 
