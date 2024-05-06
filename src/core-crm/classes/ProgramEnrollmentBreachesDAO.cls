@@ -48,9 +48,9 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         }
         
         /*temporarily commented out*/
-        // if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.executionDate != null){
-        //     Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
-        //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
+        // if(programEnrollmentBreachCriteria.getKeyDateOffset() != null && programEnrollmentBreachCriteria.getExecutionDate() != null){
+        //     Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(-programEnrollmentBreachCriteria.getKeyDateOffset());
+        //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(programEnrollmentBreachCriteria.getKeyDateOffset());
         //     soql = soql + 'AND Breach_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND Breach_Date__c >= ' + upperKeyDateOffSetBoundary ;
         // }
 
@@ -61,11 +61,11 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
     private String whereClauseCheckerForProgramEnrollmentBreach(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria){
         
         String soql = '';
-        if(programEnrollmentBreachCriteria.breachStatus != null){
-            soql += 'AND Breach_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentBreachCriteria.breachStatus) + ') ' ;
+        if(programEnrollmentBreachCriteria.getBreachStatus() != null){
+            soql += 'AND Breach_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentBreachCriteria.getBreachStatus()) + ') ' ;
         }
-        if(programEnrollmentBreachCriteria.breach != null){
-            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
+        if(programEnrollmentBreachCriteria.getBreach() != null){
+            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' ' ;
         }
 
         return soql;
@@ -144,13 +144,45 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public Id breach;
-        public Set<String> breachStatus;
-        public Integer keyDateOffset;    
-        public Date executionDate;
+        private Id breach;
+        private Set<String> breachStatus;
+        private Integer keyDateOffset;    
+        private Date executionDate;
 
         public Boolean isEmpty() {
             return breach == null && breachStatus == null && keyDateOffset == null && executionDate == null;
+        }
+
+        public Id getBreach(){
+            return breach;
+        }
+
+        public void setBreach(Id breach){
+            this.breach = breach;
+        }
+
+        public Set<String> getBreachStatus(){
+            return breachStatus;
+        }
+
+        public void setBreachStatus(Set<String> breachStatus){
+            this.breachStatus = breachStatus;
+        }
+
+        public Integer getKeyDateOffset(){
+            return keyDateOffset;
+        }
+
+        public void setKeyDateOffset(Integer keyDateOffset){
+            this.keyDateOffset = keyDateOffset;
+        }
+
+        public Date getExecutionDate(){
+            return executionDate;
+        }
+
+        public void setExecutionDate(Date executionDate){
+            this.executionDate = executionDate;
         }
     }
 

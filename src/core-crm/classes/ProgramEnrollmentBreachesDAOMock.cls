@@ -36,9 +36,9 @@
         }
         
         /*temporarily commented out*/
-        // if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.executionDate != null){
-        //     Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
-        //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
+        // if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.getExecutionDate() != null){
+        //     Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(-programEnrollmentBreachCriteria.keyDateOffset);
+        //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(programEnrollmentBreachCriteria.keyDateOffset);
         //     soql = soql + 'AND Breach_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND Breach_Date__c >= ' + upperKeyDateOffSetBoundary ;
         // }
 
@@ -67,12 +67,12 @@
         ContactsDAO.Criteria contactCriteria
     ) {
         List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
-        Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
-        Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
+        Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(-programEnrollmentBreachCriteria.getKeyDateOffset());
+        Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(programEnrollmentBreachCriteria.getKeyDateOffset());
 
         for (Program_Enrollment_Breach__c record : programEnrollmentBreachMap.values()) {
             if(
-                record.Breach_Name__c == programEnrollmentBreachCriteria.breach &&
+                record.Breach_Name__c == programEnrollmentBreachCriteria.getBreach() &&
                 record.Breach_Date__c <= lowerKeyDateOffSetBoundary && 
                 record.Breach_Date__c >= upperKeyDateOffSetBoundary && 
                 (
@@ -92,11 +92,11 @@
         
         String soql = '';
 
-        if(programEnrollmentBreachCriteria.breachStatus != null){
-            soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.breachStatus + ') ' ;
+        if(programEnrollmentBreachCriteria.getBreachStatus() != null){
+            soql += 'AND Breach_Status__c IN(' + programEnrollmentBreachCriteria.getBreachStatus() + ') ' ;
         }
         if(programEnrollmentBreachCriteria.breach != null){
-            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' ;
+            soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' ' ;
         }
 
         return soql;

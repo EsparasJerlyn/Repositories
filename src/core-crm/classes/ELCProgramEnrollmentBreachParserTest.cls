@@ -32,7 +32,7 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
             ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().breach, breach.Id, 'Incorrect Breach Id assigned');
+            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
         }
     }
 
@@ -47,7 +47,7 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
             ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().breachStatus, ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
+            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreachStatus(), ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
         }
     }
 }
