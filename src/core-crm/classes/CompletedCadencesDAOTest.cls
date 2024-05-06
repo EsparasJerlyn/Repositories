@@ -95,8 +95,8 @@ public with sharing class CompletedCadencesDAOTest {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            completedCadenceCriteria.completedCadence = completedCadenceName;
-            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            completedCadenceCriteria.setCompletedCadence(completedCadenceName);
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -130,8 +130,8 @@ public with sharing class CompletedCadencesDAOTest {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            completedCadenceCriteria.completedCadence = completedCadenceName;
-            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            completedCadenceCriteria.setCompletedCadence(completedCadenceName);
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -157,8 +157,8 @@ public with sharing class CompletedCadencesDAOTest {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            completedCadenceCriteria.completedCadence = completedCadenceName;
-            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            completedCadenceCriteria.setCompletedCadence(completedCadenceName);
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -204,7 +204,7 @@ public with sharing class CompletedCadencesDAOTest {
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated,true,AccessLevel.SYSTEM_MODE);
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -239,8 +239,8 @@ public with sharing class CompletedCadencesDAOTest {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            completedCadenceCriteria.completedCadence = completedCadenceName;
-            completedCadenceCriteria.status = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            completedCadenceCriteria.setCompletedCadence(completedCadenceName);
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
             
             System.assert(!completedCadenceCriteria.isEmpty(), 'Criteria should be not be empty.');
         }

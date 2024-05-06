@@ -29,7 +29,7 @@ public with sharing class ELCCompletedCadenceParserTest {
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCompletedCadenceCriteria().completedCadence, completedCadenceName, 'Incorrect Completed Cadence');
+            System.assertEquals(parser.getCompletedCadenceCriteria().getCompletedCadence(), completedCadenceName, 'Incorrect Completed Cadence');
         }
     }
 
@@ -44,7 +44,7 @@ public with sharing class ELCCompletedCadenceParserTest {
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCompletedCadenceCriteria().status, CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');      
+            System.assertEquals(parser.getCompletedCadenceCriteria().getStatus(), CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');      
         }
     }
 }
