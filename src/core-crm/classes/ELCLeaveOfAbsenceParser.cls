@@ -39,6 +39,7 @@ public with sharing class ELCLeaveOfAbsenceParser {
     private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
         if (
             this.executionDate != null
+            && engagementListCriteria.Key_Date__c == 'Leave Of Absence End Date'
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
