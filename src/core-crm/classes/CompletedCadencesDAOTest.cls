@@ -10,6 +10,8 @@
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added test method                                                    |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated test method getCompletedCadenceByTargetIdsAndCadenceNameTest |
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | added test method for outreach case methods                          |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
+
  */
 @isTest
 public with sharing class CompletedCadencesDAOTest {
@@ -214,7 +216,8 @@ public with sharing class CompletedCadencesDAOTest {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .findByCriteria(
                     completedCadenceCriteria,
-                    contactCriteria
+                    contactCriteria,
+                    AccessLevel.SYSTEM_MODE
                 );
 
             System.assertEquals(completedCadenceListCreated.size(), completedCadenceList.size(),'completedCadenceList should not be empty.');

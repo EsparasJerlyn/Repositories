@@ -20,6 +20,7 @@
       | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
       | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for outreach case.                                 |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -152,9 +153,10 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
 
     public List<Completed_Cadence__c> findByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ){
-        return Database.query(getQueryByCriteria(completedCadenceCriteria, contactCriteria));
+        return Database.query(getQueryByCriteria(completedCadenceCriteria, contactCriteria) , accessLevel);
     }
 
     public String getQueryByCriteria(

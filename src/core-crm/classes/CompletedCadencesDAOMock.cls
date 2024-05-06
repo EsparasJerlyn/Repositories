@@ -9,6 +9,7 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6107              | Created file                                                |
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query                                             |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | updated method getCompletedCadenceByTargetIdsAndCadenceName |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
  */
 @isTest
 public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock implements ICompletedCadencesDAO {
@@ -116,7 +117,8 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
 
     public List<Completed_Cadence__c> findByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel AccessLevel
     ) {
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.getExecutionDate().addDays(-completedCadenceCriteria.keyDateOffset);
