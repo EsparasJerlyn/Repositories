@@ -57,15 +57,15 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             Date submissionDate = Date.today();
             String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            courseConnectionAssessmentsCriteria.assessmentGrade = '100';
-            courseConnectionAssessmentsCriteria.submissionDate = submissionDate;
-            courseConnectionAssessmentsCriteria.assessmentPriority = 'Low';
+            courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
+            courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
+            courseConnectionAssessmentsCriteria.setAssessmentPriority('Low');
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
-                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' '
+                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
-                + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' '
+                + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -106,15 +106,15 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             Date submissionDate = Date.today();
             String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            courseConnectionAssessmentsCriteria.assessmentGrade = '100';
-            courseConnectionAssessmentsCriteria.submissionDate = submissionDate;
-            courseConnectionAssessmentsCriteria.assessmentPriority = 'Low';
+            courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
+            courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
+            courseConnectionAssessmentsCriteria.setAssessmentPriority('Low');
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getContactQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
-                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' '
+                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
-                + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' '
+                + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -156,15 +156,15 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
 
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            courseConnectionAssessmentsCriteria.assessmentGrade = '100';
-            courseConnectionAssessmentsCriteria.submissionDate = submissionDate;
-            courseConnectionAssessmentsCriteria.assessmentPriority = 'Low';
+            courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
+            courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
+            courseConnectionAssessmentsCriteria.setAssessmentPriority ('Low');
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Id, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Assessment_Priority__c, Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
-                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' '
+                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
-                + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' '
+                + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '

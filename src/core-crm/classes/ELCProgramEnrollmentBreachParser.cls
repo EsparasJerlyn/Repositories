@@ -31,7 +31,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
             if (programEnrollmentBreachCriteria == null) {
                 programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             }
-            programEnrollmentBreachCriteria.breach = engagementListCriteria.Breach__c;
+            programEnrollmentBreachCriteria.setBreach(engagementListCriteria.Breach__c);
         }
         return programEnrollmentBreachCriteria;
     }
@@ -41,8 +41,8 @@ public with sharing class ELCProgramEnrollmentBreachParser {
             programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         }
 
-        programEnrollmentBreachCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
-        programEnrollmentBreachCriteria.executionDate = this.executionDate;
+        programEnrollmentBreachCriteria.setKeyDateOffset(Integer.valueOf(engagementListCriteria.Key_Date_Offset__c));
+        programEnrollmentBreachCriteria.setExecutionDate(this.executionDate);
 
         return programEnrollmentBreachCriteria;
     }
@@ -52,7 +52,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
         if (programEnrollmentBreachCriteria == null) {
             programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         }
-        programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
+        programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
 
         return programEnrollmentBreachCriteria;
     }
