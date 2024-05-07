@@ -91,12 +91,12 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
 
         if(
             courseConnectionAssessmentsCriteria.executionDate != null 
-            && courseConnectionAssessmentsCriteria.courseConnectionAssessmentDateFrom != null  
-            && courseConnectionAssessmentsCriteria.courseConnectionAssessmentDateTo != null
+            && courseConnectionAssessmentsCriteria.dueDateFrom != null  
+            && courseConnectionAssessmentsCriteria.dueDateTo != null
         ){
             soql = soql 
-            + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getCourseConnectionAssessmentDateFrom() + ' ' 
-            + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getCourseConnectionAssessmentDateTo() + ' ';
+            + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getDueDateFrom() + ' ' 
+            + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getDueDateTo() + ' ';
         }
 
         return soql;
@@ -168,8 +168,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         private Date submissionDate;
         private String assessmentPriority; 
         private Date executionDate;
-        private Integer courseConnectionAssessmentDateFrom;
-        private Integer courseConnectionAssessmentDateTo;
+        private Integer dueDateFrom;
+        private Integer dueDateTo;
 
 
         public String getAssessmentGrade() {
@@ -204,9 +204,9 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             this.executionDate = executionDate;
         }
 
-        public String getCourseConnectionAssessmentDateFrom(){
+        public String getDueDateFrom(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.courseConnectionAssessmentDateFrom);
+                Date returnDate = this.executionDate.addDays(this.dueDateFrom);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -214,13 +214,13 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             }
         }
 
-        public void setCourseConnectionAssessmentDateFrom(Integer courseConnectionAssessmentDateFrom){
-            this.courseConnectionAssessmentDateFrom = courseConnectionAssessmentDateFrom;
+        public void setDueDateFrom(Integer dueDateFrom){
+            this.dueDateFrom = dueDateFrom;
         }
 
-        public String getCourseConnectionAssessmentDateTo(){
+        public String getDueDateTo(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.courseConnectionAssessmentDateTo);
+                Date returnDate = this.executionDate.addDays(this.dueDateTo);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -228,8 +228,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             }
         }
 
-        public void setCourseConnectionAssessmentDateTo(Integer courseConnectionAssessmentDateTo){
-            this.courseConnectionAssessmentDateTo = courseConnectionAssessmentDateTo;
+        public void setDueDateTo(Integer dueDateTo){
+            this.dueDateTo = dueDateTo;
         }
 
         public Boolean isEmpty() {
