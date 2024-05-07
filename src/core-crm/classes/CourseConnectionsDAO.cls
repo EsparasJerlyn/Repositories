@@ -23,6 +23,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     public static final String ENROLLMENT_STATUS_FAILED = 'Failed';
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
+    public static final String ENROLLMENT_STATUS_CANCELLED = 'Cancelled';
     
     public static final Set<String> enrollmentStatus = new Set<String>{
        'Withdrawn'
