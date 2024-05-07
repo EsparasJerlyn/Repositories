@@ -264,6 +264,51 @@ public with sharing class ProgramEnrollmentsDAOTest {
     }
 
     @isTest
+    static void findByCriteriaNegativeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+    
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+
+            List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlanListCreated[0].Category_Type__c = 'Graduate Certificate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlanListCreated,true,AccessLevel.SYSTEM_MODE);
+            
+            //Create a Program Enrollment record to test negative scenario
+            List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_WITHDRAWN;
+            programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
+            programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
+            
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
+            programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
+            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
+                .findByCriteria(
+                    programEnrollmentCriteria,
+                    contactCriteria,
+                    AccessLevel.USER_MODE
+                );
+
+            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment record should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {

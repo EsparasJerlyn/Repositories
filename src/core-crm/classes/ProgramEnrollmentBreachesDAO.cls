@@ -15,6 +15,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
     public static final String NULL_STATUS = '';
     public static final String ACTIVE_BREACH_STATUS = 'Active Breach';
     public static final String WAIT_FOR_STUDENT_ACTION_STATUS = 'Wait For Student Action';
+    public static final String BREACH_RESOLVED_STATUS = 'Breach Resolved';
 
     public static final Set<String> STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH = new Set<String>{
         ACTIVE_BREACH_STATUS,

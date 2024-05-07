@@ -232,6 +232,68 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     }
 
     @isTest
+    static void findByCriteriaNegativeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = false;
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+
+            List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlanListCreated[0].Category_Type__c = 'Graduate Certificate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlanListCreated,true,AccessLevel.SYSTEM_MODE);
+    
+            List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_WITHDRAWN;
+            programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
+            programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            Breach__c breachCreated = new Breach__c();
+            insert breachCreated;
+            
+            //Create a Program Enrollment Breach record to test negative scenario
+            List<Program_Enrollment_Breach__c> programEnrollmentBreachListCreated = TestDataFactory.createTestProgramEnrollmentBreachRecords(1);
+            programEnrollmentBreachListCreated[0].Breach_Status__c = ProgramEnrollmentBreachesDAO.BREACH_RESOLVED_STATUS; 
+            programEnrollmentBreachListCreated[0].Breach_Name__c = breachCreated.Id;
+            programEnrollmentBreachListCreated[0].Breach_Date__c = Date.today();
+            programEnrollmentBreachListCreated[0].Program_Enrollment__c = programEnrollmentListCreated[0].Id;
+            ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+            programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
+            programEnrollmentBreachCriteria.setBreach(breachCreated.Id);
+            programEnrollmentBreachCriteria.setExecutionDate(Date.today());
+            programEnrollmentBreachCriteria.setBreachDateFrom(-10);
+            programEnrollmentBreachCriteria.setBreachDateTo(10);
+            
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
+            programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
+            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+                        
+            List<Program_Enrollment_Breach__c> programEnrollmentBreachList = ProgramEnrollmentBreachesDAO.newInstance()
+                .findByCriteria(
+                    programEnrollmentBreachCriteria,
+                    programEnrollmentCriteria,
+                    contactCriteria,
+                    AccessLevel.USER_MODE
+                );
+
+            System.assert(programEnrollmentBreachList.isEmpty(), 'Program Enrollment Breach record should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
