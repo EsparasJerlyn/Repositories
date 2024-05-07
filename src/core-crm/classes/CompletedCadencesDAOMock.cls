@@ -92,10 +92,8 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
             ' AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
             ' AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         
-        if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.getExecutionDate() != null){
-            Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.getExecutionDate().addDays(-completedCadenceCriteria.keyDateOffset);
-            Date upperKeyDateOffSetBoundary = completedCadenceCriteria.getExecutionDate().addDays(completedCadenceCriteria.keyDateOffset);
-            soql = soql + ' AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
+        if(completedCadenceCriteria.getCompletedCadanceDateFrom() != null && completedCadenceCriteria.getCompletedCadanceDateTo() != null && completedCadenceCriteria.getExecutionDate() != null){
+            soql = soql + ' AND LastModifiedDate >= ' + completedCadenceCriteria.getCompletedCadanceDateFrom() + ' ' + 'AND LastModifiedDate <= ' + completedCadenceCriteria.getCompletedCadanceDateTo();
         }
         
         return soql;
@@ -121,14 +119,10 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
         AccessLevel AccessLevel
     ) {
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
-        Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.getExecutionDate().addDays(-completedCadenceCriteria.keyDateOffset);
-        Date upperKeyDateOffSetBoundary = completedCadenceCriteria.getExecutionDate().addDays(completedCadenceCriteria.keyDateOffset);
         for (Completed_Cadence__c record : completedCadencesMap.values()) {
             if(
                 record.Cadence_Name__c == completedCadenceCriteria.getCompletedCadence() &&
-                record.Completed_Cadence_Status__c == completedCadenceCriteria.getStatus() &&
-                record.LastModifiedDate <= lowerKeyDateOffSetBoundary && 
-                record.LastModifiedDate >= upperKeyDateOffSetBoundary  
+                record.Completed_Cadence_Status__c == completedCadenceCriteria.getStatus() 
             )
             {
                 completedCadenceList.add(record);

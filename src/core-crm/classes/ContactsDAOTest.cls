@@ -484,6 +484,31 @@ private class ContactsDAOTest {
     }
 
     @isTest
+    static void findByCriteriaNegativeTest() {
+        Test.startTest();
+        
+        //Create a contact with MC Persona recordtype and not a student
+        List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
+        contactListCreated[0].RecordTypeId = ContactsDAO.MC_PERSONA_RECORDTYPE_ID;
+        contactListCreated[0].QUT_Student__c = false;
+        ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
+
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
+            
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .findByCriteria(
+                    contactCriteria, 
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'Contact record should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getQueryLocatorByCriteriaTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();

@@ -50,12 +50,12 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
 
         if(
             leaveOfAbsenceCriteria.executionDate != null 
-            && leaveOfAbsenceCriteria.leaveOfAbsenceDateFrom != null  
-            && leaveOfAbsenceCriteria.leaveOfAbsenceDateTo != null
+            && leaveOfAbsenceCriteria.endDateFrom != null  
+            && leaveOfAbsenceCriteria.endDateTo != null
         ){
             soql = soql 
-            + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateFrom() + ' ' 
-            + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateTo() + ' ';
+            + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getEndDateFrom() + ' ' 
+            + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getEndDateTo() + ' ';
         }
 
         return soql;
@@ -134,8 +134,8 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
     public class Criteria {
         private Boolean isOnLeave;  
         private Date executionDate;
-        private Integer leaveOfAbsenceDateFrom;
-        private Integer leaveOfAbsenceDateTo;
+        private Integer endDateFrom;
+        private Integer endDateTo;
         
 
         public Boolean getIsOnLeave(){
@@ -154,9 +154,9 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             this.executionDate = executionDate;
         }
 
-        public String getleaveOfAbsenceDateFrom(){
+        public String getEndDateFrom(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.leaveOfAbsenceDateFrom);
+                Date returnDate = this.executionDate.addDays(this.endDateFrom);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -164,13 +164,13 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             }
         }
 
-        public void setleaveOfAbsenceDateFrom(Integer leaveOfAbsenceDateFrom){
-            this.leaveOfAbsenceDateFrom = leaveOfAbsenceDateFrom;
+        public void setEndDateFrom(Integer endDateFrom){
+            this.endDateFrom = endDateFrom;
         }
 
-        public String getleaveOfAbsenceDateTo(){
+        public String getEndDateTo(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.leaveOfAbsenceDateTo);
+                Date returnDate = this.executionDate.addDays(this.endDateTo);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -178,12 +178,12 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             }
         }
 
-        public void setleaveOfAbsenceDateTo(Integer leaveOfAbsenceDateTo){
-            this.leaveOfAbsenceDateTo = leaveOfAbsenceDateTo;
+        public void setEndDateTo(Integer endDateTo){
+            this.endDateTo = endDateTo;
         }
         
         public Boolean isEmpty() {
-            return isOnLeave == null && executionDate == null && leaveOfAbsenceDateTo == null && leaveOfAbsenceDateFrom == null;
+            return isOnLeave == null && executionDate == null && endDateTo == null && endDateFrom == null;
         }
     }
 

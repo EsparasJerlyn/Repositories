@@ -63,8 +63,8 @@ public with sharing class ELCParserTest {
             //Checking on the key date criterions
             Date execDateLower = executionDate.addDays(-10);
             Date execDateUpper = executionDate.addDays(10);
-            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getkeyDateOffsetLowerBoundary(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getkeyDateOffsetUpperBoundary(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateFrom(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateTo(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
             System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getExecutionDate(), executionDate, 'Incorrect Excecution Date');
 
             //Checking on the hidden criterias
