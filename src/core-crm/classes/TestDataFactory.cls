@@ -3942,4 +3942,22 @@ public class TestDataFactory {
             Alternate_Id_Type__c = idType
         );
     }
+
+    /** @description Method for creating test student sanction records
+     * @return Student_Sanction__c record
+     */
+    public static List<Student_Sanction__c> createStudentSanctionRecords(Integer count) {
+        List<Student_Sanction__c> studentSanctionList = new List<Student_Sanction__c>();
+
+        for(Integer i = 0; i< count; i++){
+            studentSanctionList.add( 
+                new Student_Sanction__c(
+                    Sanction_Code__c = 'DUP',
+                    QUT_Student_ID__c = String.valueOf(i)
+                )
+            );
+        }
+
+        return studentSanctionList;
+    }
 }

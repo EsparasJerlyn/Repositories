@@ -24,6 +24,7 @@ private class MaidenFirstNameStemMatchingValidatorTest {
         
         ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(new Map<String,String>{
             'firstName' => 'firstname',
+            'lastName' => 'lastName',
             'birthDate' => '1996-09-29',
             'mobilePhone' => '12345'
         });

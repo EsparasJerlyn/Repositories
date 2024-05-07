@@ -87,11 +87,10 @@ public inherited sharing class ContactMatchingService {
             //checks if payload information is enough
             if(isPayloadNotEnough(matchingRecord)){
                 result = new MatchingResult('','Insufficient information to match');
-                matchingResultMap.put(matchingRecordKey, result);
-                continue;
+            }else{
+                // do criteria based matching
+                result = processCriteriaBasedMatching(matchingRecord);
             }
-            
-            result = processCriteriaBasedMatching(matchingRecord);
 
             // Add the matched contact to the map using the matchingRecordKey
             // matchingRecordKey is the concatenated string with the noise
@@ -113,7 +112,7 @@ public inherited sharing class ContactMatchingService {
         // Initialize the result with default values
         MatchingResult result = new MatchingResult('','');
     
-        // Process matching based on criteria and retrieve the matched contact or log an error
+        // Process matching based on criteria and retrieve the matched contact or return an error as result
         if (SystemKeyMatchingValidator.isSystemKeyMatch(matchingRecord, systemKeyMatchingMap)) {
             result = SystemKeyMatchingValidator.processSystemKeyMatching(matchingRecord, systemKeyMatchingMap);
         } else if (PartialNaturalKeyMatchingValidator.isPartialNaturalKeyMatch(matchingRecord, partialNaturalKeyMatchingMap)) {

@@ -64,6 +64,13 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
         ContactMatchingService.MatchingAttributes matchingRecord,
         Map<String, List<Contact>> maidenOrFirstNameStemMatchingMap
     ) {
+
+        // skip if one of the fields below is blank
+        if( String.isBlank(matchingRecord.get('firstName')) ||
+            String.isBlank(matchingRecord.get('lastName')) ||
+            String.isBlank(matchingRecord.get('birthDate'))){
+            return false;
+        }
         
         String uniqueKeyForMaidenNameEmail = ContactMatchingService.generateUniqueKey(
             matchingRecord,

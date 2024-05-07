@@ -73,8 +73,37 @@ private class ContactAlternateIdsDAOTest {
         }
         Test.stopTest();
     }
-   
 
+    @isTest
+    static void getActiveAndSupersededStudentAlternateIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType); 
+            List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
+                .getActiveAndSupersededStudentAlternateIds(
+                    new Set<String>{'test'},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactAlternateIdsList.isEmpty(), 'contactAlternateIdsList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getActiveAndSupersededStudentAlternateIdsTestEmpty() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType); 
+            List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
+                .getActiveAndSupersededStudentAlternateIds(
+                    new Set<String>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactAlternateIdsList.isEmpty(), 'contactAlternateIdsList is not empty');
+        }
+        Test.stopTest();
+    }
+   
     @isTest
     static void newInstanceTest() {
         Test.startTest();

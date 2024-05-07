@@ -101,4 +101,20 @@ public inherited sharing class ContactAlternateIdsDAOMock extends DmlBaseMock im
 		return conaltIdList;
     }
 
+	public List<Contact_Alternate_ID__c> getActiveAndSupersededStudentAlternateIds(Set<String> qutStudentIds, AccessLevel accessLevel){
+
+		List<Contact_Alternate_ID__c> conaltIdList = new List<Contact_Alternate_ID__c>();
+
+		//TO DO: Add inner query
+		for(Contact_Alternate_ID__c conAltId: conAltIdsMap.values()){
+			if(	conAltId.Alternate_Id_Status__c == ContactAlternateIdsDAO.SUPERSEDED_STATUS &&
+				conAltId.Alternate_Id_Type__c == ContactAlternateIdsDAO.STUDENT_ID_TYPE &&
+				qutStudentIds.contains(conAltId.Contact_Alternate_Id__c)){
+					conaltIdList.add(conAltId);
+			}
+		}
+
+		return conaltIdList;
+    }
+
 }
