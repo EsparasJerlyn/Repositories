@@ -1,4 +1,13 @@
-
+/**
+ * @description Class to be used as an Evaluator Class for Program Enrollment
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
+      | kim.howard.capanas             | May 3, 2024           | DEPP-8488              | Created file                                                |
+*/
 public with sharing class ELCProgramEnrollmentEvaluator {
 
     private ELCParser elcParser;
