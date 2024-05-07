@@ -30,6 +30,7 @@ public with sharing class ELCProgramEnrollmentParser {
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
         programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
         programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
+        programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
     }
     
     //configurable criteria
@@ -41,6 +42,23 @@ public with sharing class ELCProgramEnrollmentParser {
             programEnrollmentCriteria.setAcademicStatus(engagementListCriteria.Academic_Status__c);
         }
         return programEnrollmentCriteria;
+    }
+
+    private ProgramEnrollmentsDAO.Criteria processProgramEnrollmentKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentsCriteria) {
+        if (
+            this.executionDate != null
+            && engagementListCriteria.Key_Date__c == 'Academic Status Date'
+            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
+            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
+        ) {
+            if (programEnrollmentsCriteria == null) {
+                programEnrollmentsCriteria = new ProgramEnrollmentsDAO.Criteria();
+            }
+            programEnrollmentsCriteria.setAcademicStatusDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
+            programEnrollmentsCriteria.setAcademicStatusDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
+            programEnrollmentsCriteria.setExecutionDate(this.executionDate);
+        }
+        return programEnrollmentsCriteria;
     }
 
     private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {

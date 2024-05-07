@@ -118,6 +118,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setExecutionDate(Date.today());
+            programEnrollmentCriteria.setAcademicStatusDateFrom(-10);
+            programEnrollmentCriteria.setAcademicStatusDateTo(10);
 
             String whereClauseString = ProgramEnrollmentsDAO.newInstance().getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
@@ -125,6 +128,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
+                + 'AND Academic_Status_Date__c >= ' + programEnrollmentCriteria.getAcademicStatusDateFrom() + ' ' 
+                + 'AND Academic_Status_Date__c <= ' + programEnrollmentCriteria.getAcademicStatusDateTo() + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
@@ -165,6 +170,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setExecutionDate(Date.today());
+            programEnrollmentCriteria.setAcademicStatusDateFrom(-10);
+            programEnrollmentCriteria.setAcademicStatusDateTo(10);
 
             String whereClauseString = ProgramEnrollmentsDAO.newInstance().getContactQueryByCriteria(programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT hed__Contact__c FROM hed__Program_Enrollment__c WHERE '
@@ -172,6 +180,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
+                + 'AND Academic_Status_Date__c >= ' + programEnrollmentCriteria.getAcademicStatusDateFrom() + ' ' 
+                + 'AND Academic_Status_Date__c <= ' + programEnrollmentCriteria.getAcademicStatusDateTo() + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
@@ -199,6 +209,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setExecutionDate(Date.today());
+            programEnrollmentCriteria.setAcademicStatusDateFrom(-10);
+            programEnrollmentCriteria.setAcademicStatusDateTo(10);
 
             String whereClauseString = ProgramEnrollmentsDAO.newInstance().getQueryByCriteria(programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 
@@ -211,6 +224,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
+                + 'AND Academic_Status_Date__c >= ' + programEnrollmentCriteria.getAcademicStatusDateFrom() + ' ' 
+                + 'AND Academic_Status_Date__c <= ' + programEnrollmentCriteria.getAcademicStatusDateTo() + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
@@ -239,6 +254,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
             programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
+            programEnrollmentListCreated[0].Academic_Status_Date__c = Date.today();
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
@@ -246,6 +262,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setExecutionDate(Date.today());
+            programEnrollmentCriteria.setAcademicStatusDateFrom(-10);
+            programEnrollmentCriteria.setAcademicStatusDateTo(10);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);
@@ -255,7 +274,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 .findByCriteria(
                     programEnrollmentCriteria,
                     contactCriteria,
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
 
             System.assertEquals(programEnrollmentList.size(), programEnrollmentListCreated.size(),  'programEnrollmentList should not be empty.');
@@ -291,6 +310,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setExecutionDate(Date.today());
+            programEnrollmentCriteria.setAcademicStatusDateFrom(-10);
+            programEnrollmentCriteria.setAcademicStatusDateTo(10);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);
@@ -300,7 +322,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 .findByCriteria(
                     programEnrollmentCriteria,
                     contactCriteria,
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
 
             System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment record should be empty.');
