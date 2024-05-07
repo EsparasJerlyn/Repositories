@@ -470,8 +470,8 @@ private class ContactsDAOTest {
             ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
-            contactCriteria.isQUTStudent = true;
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
             
             List<Contact> contactList = ContactsDAO.newInstance()
                 .findByCriteria(
