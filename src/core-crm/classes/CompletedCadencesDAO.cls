@@ -116,7 +116,23 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        //since criterias are being checked from batch, do we need to check if fields under criterias are empty or null?
+        String soql = '';
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForCompletedCadenceCriteria(completedCadenceCriteria, contactCriteria) + 
+            whereClauseCheckerForContactCriteria(completedCadenceCriteria, contactCriteria); 
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+    
+        return soql;   
+    }
+
+    public String whereClauseCheckerForCompletedCadenceCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
         String soql = '';
         if(completedCadenceCriteria.getCompletedCadence() != null){
             soql += 'AND Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' ' ;
@@ -124,21 +140,30 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         if(completedCadenceCriteria.getStatus() != null){
             soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.getStatus() + '\' ' ;
         }
+        if(
+            completedCadenceCriteria.executionDate != null 
+            && completedCadenceCriteria.completedCadanceDateFrom != null  
+            && completedCadenceCriteria.completedCadanceDateTo != null
+        ){
+            soql = soql 
+            + 'AND LastModifiedDate >= ' + completedCadenceCriteria.getCompletedCadanceDateFrom() + ' ' 
+            + 'AND LastModifiedDate <= ' + completedCadenceCriteria.getCompletedCadanceDateTo() + ' ';
+        }  
+    
+        return soql; 
+    }
+
+    public String whereClauseCheckerForContactCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = '';
         if(contactCriteria.getIsQUTStudent() != null){
             soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
             soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
-        }        
-        // if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
-        //     Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);
-        //     Date upperKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(completedCadenceCriteria.keyDateOffset);
-        //     soql += 'AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
-        // }
-        
-        if(soql != '') {
-            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
-        }
+        }     
     
         return soql; 
     }
@@ -172,11 +197,10 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
      */
     public class Criteria {
         private String status;
-        private String completedCadence;
-        public Integer keyDateOffset;    
+        private String completedCadence;   
         private Date executionDate;
-        private Integer keyDateOffsetLowerBoundary;
-        private Integer keyDateOffsetUpperBoundary;
+        private Integer completedCadanceDateFrom;
+        private Integer completedCadanceDateTo;
 
         public String getStatus() {
             return status;
@@ -202,33 +226,35 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             this.executionDate = executionDate;
         }
 
-        public String getkeyDateOffsetLowerBoundary(){
+        public String getCompletedCadanceDateFrom(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.keyDateOffsetLowerBoundary);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                Date returnDate = this.executionDate.addDays(this.completedCadanceDateFrom);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd HH:mm:ss');
+                strReturnDate = strReturnDate.replaceFirst(' ', 'T') + 'Z';
                 return strReturnDate;
             } else {
                 return null;
             }
         }
-        public void setkeyDateOffsetLowerBoundary(Integer keyDateOffsetLowerBoundary){
-            this.keyDateOffsetLowerBoundary = keyDateOffsetLowerBoundary;
+        public void setCompletedCadanceDateFrom(Integer completedCadanceDateFrom){
+            this.completedCadanceDateFrom = completedCadanceDateFrom;
         }
-        public String getkeyDateOffsetUpperBoundary(){
+        public String getCompletedCadanceDateTo(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.keyDateOffsetUpperBoundary);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                Date returnDate = this.executionDate.addDays(this.completedCadanceDateTo);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd HH:mm:ss');
+                strReturnDate = strReturnDate.replaceFirst(' ', 'T') + 'Z';
                 return strReturnDate;
             } else {
                 return null;
             }
         }
-        public void setkeyDateOffsetUpperBoundary(Integer keyDateOffsetUpperBoundary){
-            this.keyDateOffsetUpperBoundary = keyDateOffsetUpperBoundary;
+        public void setCompletedCadanceDateTo(Integer completedCadanceDateTo){
+            this.completedCadanceDateTo = completedCadanceDateTo;
         }
         
         public Boolean isEmpty() {
-            return status == null && completedCadence == null && keyDateOffsetLowerBoundary == null && keyDateOffsetUpperBoundary == null && executionDate == null;
+            return status == null && completedCadence == null && completedCadanceDateTo == null && completedCadanceDateFrom == null && executionDate == null;
         }
     }
    
