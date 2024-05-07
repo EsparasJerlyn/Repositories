@@ -68,14 +68,10 @@
         AccessLevel accessLevel
     ) {
         List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
-        Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(-programEnrollmentBreachCriteria.getKeyDateOffset());
-        Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(programEnrollmentBreachCriteria.getKeyDateOffset());
 
         for (Program_Enrollment_Breach__c record : programEnrollmentBreachMap.values()) {
             if(
                 record.Breach_Name__c == programEnrollmentBreachCriteria.getBreach() &&
-                record.Breach_Date__c <= lowerKeyDateOffSetBoundary && 
-                record.Breach_Date__c >= upperKeyDateOffSetBoundary && 
                 (
                     record.Breach_Status__c == ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS ||
                     record.Breach_Status__c == ProgramEnrollmentBreachesDAO.WAIT_FOR_STUDENT_ACTION_STATUS

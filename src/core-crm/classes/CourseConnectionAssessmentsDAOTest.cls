@@ -328,8 +328,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionAssessmentCriteria.setAssessmentGrade('100');
             courseConnectionAssessmentCriteria.setSubmissionDate(Date.today());
             courseConnectionAssessmentCriteria.setExecutionDate(Date.today());
-            courseConnectionAssessmentCriteria.setCourseConnectionAssessmentDateFrom(-10);
-            courseConnectionAssessmentCriteria.setCourseConnectionAssessmentDateTo(10);
+            courseConnectionAssessmentCriteria.getDueDateFrom(-10);
+            courseConnectionAssessmentCriteria.getDueDateTo(10);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
