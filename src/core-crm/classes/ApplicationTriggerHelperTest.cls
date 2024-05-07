@@ -30,7 +30,7 @@ private class ApplicationTriggerHelperTest {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
         TestDataFactory.loadEDATriggers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -53,7 +53,7 @@ private class ApplicationTriggerHelperTest {
 
     @isTest
     private static void testApplicationInsertWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -73,7 +73,7 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testApplicationUpdateRemoveContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'SYSTEM_MODE');   

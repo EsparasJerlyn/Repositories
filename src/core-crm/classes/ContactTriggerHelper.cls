@@ -51,6 +51,7 @@ public without sharing class ContactTriggerHelper {
             //non person contact process start
 
             birthDateValidation(con); //validates contact birthdate
+            setMatchingFirstAndLastName(con,oldItems); // remove special characters from the first and last name field
 
             //person contacts processes start
             if (!isPerson) {
@@ -724,6 +725,35 @@ public without sharing class ContactTriggerHelper {
         }
     }
 
+    /**
+     * @description Sets the Matching_Firstname__c and Matching_Lastname__c fields 
+     *              on a Contact record by removing any non-letter characters from the 
+     *              First Name and Last Name fields, only if the first name or last name 
+     *              has been newly added or updated.
+     * @param con The Contact record for which to set the matching first and last names.
+     * @param oldItems A map containing the old versions of Contact records before the update.
+     */
+    private static void setMatchingFirstAndLastName(Contact con, Map<Id, Contact> oldItems) {
+
+        // Check if the first name or last name has been newly added or updated
+        boolean isFirstNameNewOrUpdated = oldItems == null || con.FirstName != oldItems.get(con.Id).FirstName;
+        boolean isLastNameNewOrUpdated = oldItems == null || con.LastName != oldItems.get(con.Id).LastName;
+
+        // Regular expression pattern to match any character that is not a letter
+        String regexPattern = '[^a-zA-Z]';
+
+        // Check if the first name is not blank and contains only letters
+        if (isFirstNameNewOrUpdated && String.isNotBlank(con.FirstName)) {
+            // Update the Matching_Firstname__c field with the cleaned first name
+            con.Matching_Firstname__c =  con.FirstName.replaceAll(regexPattern, '');
+        }
+
+        // Check if the last name is not blank and contains only letters
+        if (isLastNameNewOrUpdated && String.isNotBlank(con.LastName)){
+            // Update the Matching_Lastname__c field with the cleaned last name
+            con.Matching_Lastname__c =  con.LastName.replaceAll(regexPattern, '');
+        }
+    }
     /**
      * @description check or uncheck and QUT_Staff based on the contact details
      *
