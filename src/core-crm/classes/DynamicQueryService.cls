@@ -132,6 +132,14 @@ public inherited sharing class DynamicQueryService {
         );
     }
 
+    public String formatContactIdSetForWhereClause(Set<Id> contactIdSet){
+        List<String> formattedIds = new List<String>();
+        for(Id contactId : contactIdSet){
+            formattedIds.add('\'' + contactId + '\'');
+        }
+        return String.join(formattedIds, ', ');
+    }
+
     public class FilterWrapper{
         public Set<Id> recordIds;
         public SObjectType sObjectType;
