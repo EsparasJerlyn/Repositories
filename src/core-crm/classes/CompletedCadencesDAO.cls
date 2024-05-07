@@ -201,6 +201,31 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         public void setExecutionDate(Date executionDate) {
             this.executionDate = executionDate;
         }
+
+        public String getkeyDateOffsetLowerBoundary(){
+            if ( this.executionDate != null ) {
+                Date returnDate = this.executionDate.addDays(this.keyDateOffsetLowerBoundary);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                return strReturnDate;
+            } else {
+                return null;
+            }
+        }
+        public void setkeyDateOffsetLowerBoundary(Integer keyDateOffsetLowerBoundary){
+            this.keyDateOffsetLowerBoundary = keyDateOffsetLowerBoundary;
+        }
+        public String getkeyDateOffsetUpperBoundary(){
+            if ( this.executionDate != null ) {
+                Date returnDate = this.executionDate.addDays(this.keyDateOffsetUpperBoundary);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                return strReturnDate;
+            } else {
+                return null;
+            }
+        }
+        public void setkeyDateOffsetUpperBoundary(Integer keyDateOffsetUpperBoundary){
+            this.keyDateOffsetUpperBoundary = keyDateOffsetUpperBoundary;
+        }
         
         public Boolean isEmpty() {
             return status == null && completedCadence == null && keyDateOffsetLowerBoundary == null && keyDateOffsetUpperBoundary == null && executionDate == null;
