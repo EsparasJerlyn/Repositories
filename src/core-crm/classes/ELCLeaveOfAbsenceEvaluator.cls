@@ -35,12 +35,13 @@ public with sharing class ELCLeaveOfAbsenceEvaluator {
     private Map<Id, List<Leave_of_Absence__c>> groupByContact(List<Leave_of_Absence__c> leaveOfAbsences) {
         Map<Id, List<Leave_of_Absence__c>> leaveOfAbsenceByContactMap = new Map<Id, List<Leave_of_Absence__c>>();
 
-        for(Leave_of_Absence__c leaveOfAbsenceList : leaveofAbsences){
-            if(leaveOfAbsenceByContactMap.containsKey(leaveofAbsences.Contact__c)){
-                leaveOfAbsenceByContactMap.get(leaveofAbsences.Contact__c).add(leaveofAbsences);
+        for(Leave_of_Absence__c leaveOfAbsence : leaveofAbsences){
+            if(leaveOfAbsenceByContactMap.containsKey(leaveOfAbsence.hed_Program_Enrollment__r.hed__Contact__c)){
+                leaveOfAbsenceByContactMap.get(leaveOfAbsence.hed_Program_Enrollment__r.hed__Contact__c).add(leaveOfAbsence);
             }else{
                 List<Leave_of_Absence__c> leaveOfAbsenceList = new List<Leave_of_Absence__c>();
-                leaveOfAbsenceByContactMap.put(leaveofAbsences.Contact__c, leaveOfAbsenceList.add(leaveofAbsences));
+                leaveOfAbsenceList.add(leaveOfAbsence);
+                leaveOfAbsenceByContactMap.put(leaveofAbsence.hed_Program_Enrollment__r.hed__Contact__c, leaveOfAbsenceList);
             }
         }
         
