@@ -91,12 +91,12 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
 
         if(
             courseConnectionAssessmentsCriteria.executionDate != null 
-            && courseConnectionAssessmentsCriteria.keyDateOffsetLowerBoundary != null  
-            && courseConnectionAssessmentsCriteria.keyDateOffsetUpperBoundary != null
+            && courseConnectionAssessmentsCriteria.courseConnectionAssessmentDateFrom != null  
+            && courseConnectionAssessmentsCriteria.courseConnectionAssessmentDateTo != null
         ){
             soql = soql 
-            + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-            + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' ';
+            + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getCourseConnectionAssessmentDateFrom() + ' ' 
+            + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getCourseConnectionAssessmentDateTo() + ' ';
         }
 
         return soql;
@@ -168,8 +168,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         private Date submissionDate;
         private String assessmentPriority; 
         private Date executionDate;
-        private Integer keyDateOffsetLowerBoundary;
-        private Integer keyDateOffsetUpperBoundary;
+        private Integer courseConnectionAssessmentDateFrom;
+        private Integer courseConnectionAssessmentDateTo;
 
 
         public String getAssessmentGrade() {
@@ -204,9 +204,9 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             this.executionDate = executionDate;
         }
 
-        public String getkeyDateOffsetLowerBoundary(){
+        public String getCourseConnectionAssessmentDateFrom(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.keyDateOffsetLowerBoundary);
+                Date returnDate = this.executionDate.addDays(this.courseConnectionAssessmentDateFrom);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -214,13 +214,13 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             }
         }
 
-        public void setkeyDateOffsetLowerBoundary(Integer keyDateOffsetLowerBoundary){
-            this.keyDateOffsetLowerBoundary = keyDateOffsetLowerBoundary;
+        public void setCourseConnectionAssessmentDateFrom(Integer courseConnectionAssessmentDateFrom){
+            this.courseConnectionAssessmentDateFrom = courseConnectionAssessmentDateFrom;
         }
 
-        public String getkeyDateOffsetUpperBoundary(){
+        public String getCourseConnectionAssessmentDateTo(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.keyDateOffsetUpperBoundary);
+                Date returnDate = this.executionDate.addDays(this.courseConnectionAssessmentDateTo);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -228,8 +228,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             }
         }
 
-        public void setkeyDateOffsetUpperBoundary(Integer keyDateOffsetUpperBoundary){
-            this.keyDateOffsetUpperBoundary = keyDateOffsetUpperBoundary;
+        public void setCourseConnectionAssessmentDateTo(Integer courseConnectionAssessmentDateTo){
+            this.courseConnectionAssessmentDateTo = courseConnectionAssessmentDateTo;
         }
 
         public Boolean isEmpty() {

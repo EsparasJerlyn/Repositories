@@ -41,7 +41,7 @@ public with sharing class ELCCompletedCadenceParser {
     private CompletedCadencesDAO.Criteria processCompletedCadenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
         if (
             this.executionDate != null
-            && engagementListCriteria.Key_Date__c == EngagementListCriteriasDAO.KEY_DATE_COMPLETED_CADENCE_DATE
+            && engagementListCriteria.Key_Date__c == 'Completed Cadence Date'
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
@@ -49,8 +49,8 @@ public with sharing class ELCCompletedCadenceParser {
                 completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             }
     
-            completedCadenceCriteria.setkeyDateOffsetLowerBoundary(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
-            completedCadenceCriteria.setkeyDateOffsetUpperBoundary(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
+            completedCadenceCriteria.setCompletedCadanceDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
+            completedCadenceCriteria.setCompletedCadanceDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
             completedCadenceCriteria.setExecutionDate(this.executionDate);
         }
         return completedCadenceCriteria;

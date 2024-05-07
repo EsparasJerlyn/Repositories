@@ -52,14 +52,14 @@ public with sharing class LeaveOfAbsencesDAOTest {
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
             leaveOfAbsenceCriteria.setExecutionDate(Date.today());
-            leaveOfAbsenceCriteria.setkeyDateOffsetLowerBoundary(10);
-            leaveOfAbsenceCriteria.setkeyDateOffsetUpperBoundary(10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateFrom(-10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateTo(10);
 
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
-                + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-                + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getkeyDateOffsetUpperBoundary() + ' '+ 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateFrom() + ' ' 
+                + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateTo() + ' '+ 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
@@ -108,14 +108,14 @@ public with sharing class LeaveOfAbsencesDAOTest {
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
             leaveOfAbsenceCriteria.setExecutionDate(Date.today());
-            leaveOfAbsenceCriteria.setkeyDateOffsetLowerBoundary(10);
-            leaveOfAbsenceCriteria.setkeyDateOffsetUpperBoundary(10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateFrom(-10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateTo(10);
 
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getContactQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT hed_Program_Enrollment__r.hed__Contact__c FROM Leave_Of_Absence__c WHERE '
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
-                + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-                + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getkeyDateOffsetUpperBoundary() + ' '+ 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateFrom() + ' ' 
+                + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateTo() + ' '+ 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
@@ -150,8 +150,8 @@ public with sharing class LeaveOfAbsencesDAOTest {
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
             leaveOfAbsenceCriteria.setExecutionDate(Date.today());
-            leaveOfAbsenceCriteria.setkeyDateOffsetLowerBoundary(-10);
-            leaveOfAbsenceCriteria.setkeyDateOffsetUpperBoundary(10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateFrom(-10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateTo(10);
 
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT ' 
@@ -160,8 +160,8 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + ' hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' 
                 + ' FROM Leave_Of_Absence__c WHERE ' +
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
-                + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-                + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getkeyDateOffsetUpperBoundary() + ' '
+                + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateFrom() + ' ' 
+                + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateTo() + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -207,8 +207,8 @@ public with sharing class LeaveOfAbsencesDAOTest {
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
             leaveOfAbsenceCriteria.setExecutionDate(Date.today());
-            leaveOfAbsenceCriteria.setkeyDateOffsetLowerBoundary(-10);
-            leaveOfAbsenceCriteria.setkeyDateOffsetUpperBoundary(10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateFrom(-10);
+            leaveOfAbsenceCriteria.setleaveOfAbsenceDateTo(10);
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);

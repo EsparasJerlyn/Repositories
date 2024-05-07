@@ -62,8 +62,8 @@ public with sharing class ELCCourseConnectionAssessmentParser {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
-            courseConnectionAssessmentCriteria.setkeyDateOffsetLowerBoundary(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
-            courseConnectionAssessmentCriteria.setkeyDateOffsetUpperBoundary(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
+            courseConnectionAssessmentCriteria.setCourseConnectionAssessmentDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
+            courseConnectionAssessmentCriteria.setCourseConnectionAssessmentDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
             courseConnectionAssessmentCriteria.setExecutionDate(this.executionDate);
         }
         return courseConnectionAssessmentCriteria;
