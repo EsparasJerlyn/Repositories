@@ -345,7 +345,6 @@ public with sharing class CourseConnectionsDAOTest {
                 );
             
             List<hed__Course_Enrollment__c> courseConnectionList2 = [SELECT Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName FROM hed__Course_Enrollment__c WHERE Id =: courseConnectionListCreated[0].Id ];
-            System.debug(courseConnectionList2);
             System.assertEquals(courseConnectionListCreated.size(), courseConnectionList.size(), 'courseConnectionList should not be empty.');
         }
         Test.stopTest();
