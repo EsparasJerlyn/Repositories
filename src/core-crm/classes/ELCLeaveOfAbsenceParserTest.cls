@@ -47,6 +47,25 @@ public with sharing class ELCLeaveOfAbsenceParserTest {
         }
     }
 
-    
+    @isTest
+    static void parseprocessKeyDateOffsetsTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Date executionDate = Date.today();
+            Date execDateLower = executionDate.addDays(-10);
+            Date execDateUpper = executionDate.addDays(10);
 
+            Test.startTest();
+            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+            engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
+
+            ELCLeaveOfAbsenceParser parser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
+            Test.stopTest();
+
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getExecutionDate(), executionDate, 'Incorrect Execution Date');
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getkeyDateOffsetLowerBoundary(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getkeyDateOffsetUpperBoundary(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+        }
+    }
 }
