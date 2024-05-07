@@ -4,8 +4,8 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona Data Cloud Admin</label>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
-    <!--<permissionSets>Data_Cloud_Admin_QUT</permissionSets>
-    <permissionSets>Data_Cloud_Marketing_Admin_QUT</permissionSets>-->
+    <permissionSets>Data_Cloud_Admin_QUT</permissionSets>
+    <permissionSets>Data_Cloud_Marketing_Admin_QUT</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
