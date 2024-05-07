@@ -153,14 +153,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
 
         return soql;
     }
-
-    private String formatSetForWhereClause(Set<String> statusSet){
-        List<String> formattedStatus = new List<String>();
-        for(String status : statusSet){
-            formattedStatus.add('\'' + status + '\'');
-        }
-        return String.join(formattedStatus, ', ');
-    }
+    
 
     /**
      * @Description:Wrapper Class that represents the Criteria for Course Connection Assessment.

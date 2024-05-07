@@ -210,12 +210,5 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             return academicStatus == null && enrollmentStage == null && categoryType == null && enrollmentStatus == null;
         }
     }
-
-    private String formatStringSetForWhereClause(Set<String> stringSet){
-        List<String> formattedStrings = new List<String>();
-        for(String lineString : stringSet){
-            formattedStrings.add('\'' + lineString + '\'');
-        }
-        return String.join(formattedStrings, ', ');
-    }
+    
 }

@@ -172,7 +172,8 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
         if(courseConnectionCriteria.getStatus() != null){
-            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(courseConnectionCriteria.getStatus());
+            soql += 'AND Enrollment_Status__c IN(' + statusSetString + ') ';
         }
         if(courseConnectionCriteria.getCourseGrade() != null){
             soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ' ;
@@ -192,7 +193,8 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             soql += 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ' ;
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
-            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(' + statusSetString + ') ';
         }
         
         return soql;
@@ -215,13 +217,6 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         return soql;
     }
 
-    private String formatStringSetForWhereClause(Set<String> stringSet){
-        List<String> formattedStrings = new List<String>();
-        for(String lineString : stringSet){
-            formattedStrings.add('\'' + lineString + '\'');
-        }
-        return String.join(formattedStrings, ', ');
-    }
 
 
     /**

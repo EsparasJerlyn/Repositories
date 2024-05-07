@@ -552,14 +552,6 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return new List<Contact>();
     }  
 
-    private String formatIdSetForWhereClause(Set<Id> contactIdSet){
-        List<String> formattedIds = new List<String>();
-        for(Id contactId : contactIdSet){
-            formattedIds.add('\'' + contactId + '\'');
-        }
-        return String.join(formattedIds, ', ');
-    }
-
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
