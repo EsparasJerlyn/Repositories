@@ -170,6 +170,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         private String completedCadence;
         public Integer keyDateOffset;    
         private Date executionDate;
+        private Integer keyDateOffsetLowerBoundary;
+        private Integer keyDateOffsetUpperBoundary;
 
         public String getStatus() {
             return status;
@@ -194,10 +196,9 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         public void setExecutionDate(Date executionDate) {
             this.executionDate = executionDate;
         }
-
         
         public Boolean isEmpty() {
-            return status == null && completedCadence == null && keyDateOffset == null && executionDate == null;
+            return status == null && completedCadence == null && keyDateOffsetLowerBoundary == null && keyDateOffsetUpperBoundary == null && executionDate == null;
         }
     }
    
