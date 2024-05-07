@@ -64,8 +64,8 @@ public with sharing class ELCLeaveOfAbsenceParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getLeaveOfAbsencesCriteria().getExecutionDate(), executionDate, 'Incorrect Execution Date');
-            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getleaveOfAbsenceDateFrom(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getleaveOfAbsenceDateTo(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getEndDateFrom(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(parser.getLeaveOfAbsencesCriteria().getEndDateTo(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
         }
     }
 }
