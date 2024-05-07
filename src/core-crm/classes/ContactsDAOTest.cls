@@ -467,7 +467,7 @@ private class ContactsDAOTest {
             List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
             contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactListCreated[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+            ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
