@@ -142,7 +142,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
     }
 
     /**
-     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     * @Description:Wrapper Class that represents the Criteria for Program Enrollment Breach.
      */
     public class Criteria {
         private Id breach;

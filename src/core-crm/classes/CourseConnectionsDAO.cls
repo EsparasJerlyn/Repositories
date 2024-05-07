@@ -224,7 +224,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
 
 
     /**
-     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     * @Description:Wrapper Class that represents the Criteria for Course Connection.
      */
     public class Criteria {
         private String courseGrade;

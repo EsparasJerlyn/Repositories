@@ -165,7 +165,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     }
 
     /**
-     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     * @Description:Wrapper Class that represents the Criteria for Program Enrollment.
      */
     public class Criteria {
         private String academicStatus;

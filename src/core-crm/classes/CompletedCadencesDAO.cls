@@ -167,6 +167,9 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         return soql.trim();
     }
 
+    /**
+     * @Description:Wrapper Class that represents the Criteria for Completed Cadence.
+     */
     public class Criteria {
         private String status;
         private String completedCadence;

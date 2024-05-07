@@ -129,7 +129,7 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
     }
 
     /**
-     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     * @Description:Wrapper Class that represents the Criteria for Leave of Absence.
      */
     public class Criteria {
         private Boolean isOnLeave;
