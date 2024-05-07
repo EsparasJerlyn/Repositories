@@ -9,6 +9,7 @@
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId
       | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationId
+      | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references
  */
 @isTest
 public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IProductsDAO {
@@ -38,19 +39,6 @@ public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IP
         return productList;
     }
 
-    public List<Product2> getProductByDonationCauseId(
-        Set<Id> donationCauseIds,
-        AccessLevel accessLevel
-    ){
-        List<Product2> productList = new List<Product2>();
-        for (Product2 record : productsMap.values()) {
-            if (donationCauseIds.contains(record.Donation_Cause__c)){
-                productList.add(record);
-            }
-        }
-        return productList;
-    }
-
     public List<Product2> getProductByDesignationId(
         Set<Id> designationIds,
         AccessLevel accessLevel
@@ -64,4 +52,3 @@ public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IP
         return productList;
     }
 }
-
