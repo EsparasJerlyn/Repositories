@@ -3943,6 +3943,86 @@ public class TestDataFactory {
         );
     }
 
+    /** 
+     * @description Method for creating contact required for Application record
+     * @param Integer startAtCount - number of record to start 
+     * @param Integer endBeforeCount - number of record to end
+     * @return List<Contact> - list of contact record to insert
+     */    
+    public static List<Contact> createTestApplicationContactRecords(
+        Integer startAtCount,
+        Integer endBeforeCount
+    ) {
+        String email = 'testmail@mail.test';
+        List<Contact> newContacts = new List<Contact>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newContacts.add(
+                new Contact(
+                    FirstName = 'TestfirstName' + i,
+                    LastName = i + 'Testlastname',
+                    BirthDate = Date.valueOf('2000-06-28'),
+                    Email = i + EMAIL,
+                    QUT_Learner_Email__c = 'learner' + i + email,
+                    QUT_Staff_Email__c = 'staff' + i + email,
+                    Work_Email__c = 'work' + i + email,
+                    hed__Preferred_Email__c = 'Alternate Email',
+                    hed__AlternateEmail__c = i + email,
+                    RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
+                )
+            );
+        }
+        return newContacts;
+    }
+    /** 
+     * @description Method for creating studylink application record
+     * @param Integer startAtCount - number of record to start 
+     * @param Integer endBeforeCount - number of record to end
+     * @param String applicationStatus - status of the studylink application
+     * @return List<hed__application__c> - list of application record to insert
+     */      
+    public static List<hed__Application__c> createTestApplicationStudyLinkRecords(Integer startAtCount, Integer endBeforeCount, String applicationStatus) {
+        List<hed__Application__c> newApplications = new List<hed__Application__c>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            String email = 'testmail@mail.test';
+            newApplications.add(
+                new hed__Application__c(
+                    FirstName__c = 'TestfirstName' + i,
+                    LastName__c = i + 'Testlastname',
+                    BirthDate__c = Date.valueOf('2000-06-28'),
+                    Email__c = 'work' + i + email,
+                    Application_Status__c = applicationStatus,
+                    RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                    Indigenous_Status__c = 'Aboriginal',
+                    Citizenship_Country__c = 'Australia',
+                    Mobile__c = '0400000000',
+                    Citizenship_Status__c = 'Domestic'
+                )
+            );
+        }
+        return newApplications;
+    }  
+    /** 
+     * @description Method for creating lead required for Application record
+     * @param Integer startAtCount - number of record to start 
+     * @param Integer endBeforeCount - number of record to end
+     * @return List<Lead> - list of lead record to insert
+     */     
+    public static List<Lead> createTestLeadRecordForApplication(Integer startAtCount, Integer endBeforeCount) {
+        List<Lead> newLeads = new List<Lead>();
+        String email = 'testmail@mail.test';
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newLeads.add(
+                new Lead(
+                    FirstName = 'TestfirstName',
+                    LastName = 'Testlastname' + i,
+                    Email = i + email,
+                    Work_Email__c = 'work' + i + email,
+                    Company = 'Learner' + i
+                )
+            );
+        }
+        return newLeads;
+    }
     /** @description Method for creating test student sanction records
      * @return Student_Sanction__c record
      */

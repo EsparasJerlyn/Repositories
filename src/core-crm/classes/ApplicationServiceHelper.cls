@@ -6,127 +6,410 @@
  * @author Accenture
  * 
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | mark.j.mahilum                 | June 19,2023          | DEPP-5846	            | Created File                  | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                 |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------------------|
+ *    | mark.j.mahilum                 | June 19,2023          | DEPP-5846	            | Created File                                                                   |
+ *    | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Repurposed this application helper to be use in ApplicationContactMatchingBatch|
+ *    |                                |                       |                        | updated logic of application to contact matching                               |
  */
-public without sharing class ApplicationServiceHelper {
-    public static Map<String, Set<Id>>  mapOfContactIds;
-
+public inherited sharing class ApplicationServiceHelper {
+    
+    //contact matching type
+    private static final Set<String> matchingTypes = new Set<String>{
+        'System Key Matching','Partial Natural Key Matching','No DOB Matching',
+        'Natural Key Matching','First Name Stem Matching','Maiden Name Matching'
+    };
+    
     /**
-     * Processes non-matching application records and performs necessary updates.
-     *
-     * @param newItems The list of hed__Application__c objects.
-     * @return A list of updated hed__Application__c objects.
+     * Execute the application to contact matching logic based on the given application records
+     * using the ContactMatchingService class.
+     * 
+     * @param List<hed__Application__c> The list of hed__Application__c objects.
+     * @param contactsMap The map of string keys to nested maps of Ids to Contact objects.
      */
-    public static List<hed__Application__c> processNonMatchingContacts(List<hed__Application__c> newItems) {
-        List<hed__Application__c> updateApplicationList = new List<hed__Application__c>();
-        Map<String, hed__Application__c> newItemsapplication = new Map<String, hed__Application__c>();
-        Set<String> applicationEmailsToMatch = new Set<String>();
-        List<hed__Application__c> applicationStatusForLeadChecking = new List<hed__Application__c>();
-        List<Lead> updateLeadRecords = new List<Lead>();
+    public static void executeApplicationContactMatching(List<hed__Application__c> applicationList){
         
-        for (hed__Application__c application : newItems) {
-            Boolean isApplicationStatusNewUnsubmitted = application.Application_Status__c != null && (application.Application_Status__c == 'New' || application.Application_Status__c == 'Unsubmitted');
+        Map<Id, String> mapOfApplicationUniqueKeys = new Map<Id, String>();       
+        List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
+        
+        for(hed__Application__c app: applicationList){
             
-            if(isApplicationStatusNewUnsubmitted && application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID){
-                if(application.Lead__c != null){
-                    Lead lead = createLeadFromApplication(application);
-                    lead.Id = application.Lead__c;
-                    updateLeadRecords.add(lead);
-                    continue;
-                }
-                applicationStatusForLeadChecking.add(application);
-                applicationEmailsToMatch.add(application.Email__c);
-                continue;
-            }
+            app.Batch_Process__c = 'Processed';           
+            ContactMatchingService.MatchingAttributes contactMatchingAttribute = getMatchingAttributes(app);            
+            matchingRecords.add(contactMatchingAttribute);            
             
-            newItemsapplication.put(application.Email__c, application);          
+            String uniqueKey = ContactMatchingService.generateUniqueKey(contactMatchingAttribute,new List<String>(contactMatchingAttribute.fieldValues.keySet()));          
+            if(String.isNotBlank(uniqueKey)){
+                mapOfApplicationUniqueKeys.put(app.Id,uniqueKey);
+            }           
         }
         
-        updateApplicationList.addAll(checkForExistingDuplicateEmails(newItemsapplication));
-        updateApplicationList.addAll(checkApplicationOnLeadRecords(applicationStatusForLeadChecking, applicationEmailsToMatch)); 
-        
-        LeadsDAO.newInstance().updateRecords(updateLeadRecords, false, AccessLevel.SYSTEM_MODE);
-        
-        return updateApplicationList;
-    }
-
-   /**
-    * @description: Checks for existing duplicate emails in the given newItemsapplication map.
-    * 				Creates contacts and performs necessary updates based on the matching logic.
-    *
-    * @param newItemsapplication A map of application IDs to hed__Application__c records
-    */ 
-    private static List<hed__Application__c> checkForExistingDuplicateEmails(Map<String, hed__Application__c> newItemsapplication) {
-        List<Contact> conList = new List<Contact>();
-        List<hed__Application__c>  updateApplicationList = new List<hed__Application__c>();
-        List<Contact> existingContactsWithMatchingEmails = getContactsWithMatchingEmails(newItemsapplication.keySet());
-        
-        for (Contact con : existingContactsWithMatchingEmails) {
-            if (hasMatchingEmail(con, newItemsapplication)) {
-                hed__Application__c application = getMatchingApplication(con, newItemsapplication);
-                mapOfContactIds.put(application.Id, new Set<Id>{ con.Id });
+        try{
+            // Process the contact matching
+            Map<String, MatchingResult> resultMap = ContactMatchingService.processContactMatchingWithKeyChange(matchingRecords);
+            
+            // Process the matching results
+            processMatchingResults(applicationList,resultMap,mapOfApplicationUniqueKeys);
+            
+        } catch(Exception e){
+            // Log any exceptions encountered during the process
+            Logger.error('Exception caught in method execute in class ApplicationServiceHelper method executeApplicationContactMatching.')
+                .setExceptionDetails(e);
+        } finally {
+            // Update application and save log if necessary
+            if(!applicationList.isEmpty()){
+                ApplicationsDAO.newInstance().updateRecords(applicationList, false, AccessLevel.SYSTEM_MODE);
+            }            
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
             }
         }
-        
-        for (hed__Application__c app : newItemsapplication.values()) {
-            if (!mapOfContactIds.containsKey(app.Id)) {
-                conList.add(createContactFromApplication(app));
-            }
-        }
-        
-        ContactsDAO.newInstance().insertRecords(conList, false, AccessLevel.SYSTEM_MODE);
-        updateApplicationList = updateApplicationApplicants(newItemsapplication, conList);
-        
-        return updateApplicationList;
-    }
-  
-   /**
-    * @description: Checks  if email contains in the map of newItemsApplication
-    * @param Boolean return true if email is in the map else false
-    */     
-    private Static Boolean hasMatchingEmail(Contact con, Map<String, hed__Application__c> newItemsapplication) {
-        return newItemsapplication.containsKey(con.Email) ||
-               newItemsapplication.containsKey(con.QUT_Learner_Email__c) ||
-               newItemsapplication.containsKey(con.QUT_Staff_Email__c) ||
-               newItemsapplication.containsKey(con.Work_Email__c);
     }
     
    /**
-    * @description: get the newItemsApplication details contains in the map
-    * @param hed__Application__c return the matching application details
-    */ 
-    private static hed__Application__c getMatchingApplication(Contact con, Map<String, hed__Application__c> newItemsapplication) {
-        if (newItemsapplication.containsKey(con.Email)) {
-            return newItemsapplication.get(con.Email);
-        }
-        if (newItemsapplication.containsKey(con.QUT_Learner_Email__c)) {
-            return newItemsapplication.get(con.QUT_Learner_Email__c);
-        }
-        if (newItemsapplication.containsKey(con.QUT_Staff_Email__c)) {
-            return newItemsapplication.get(con.QUT_Staff_Email__c);
-        }
-        if (newItemsapplication.containsKey(con.Work_Email__c)) {
-            return newItemsapplication.get(con.Work_Email__c);
-        }
-        return null;
-    }
-  
-   /**
-    * @description: Retrieves the list of Contacts with matching emails.
+    * @description: process match application to contact
     * 
-    * @param Set<String> email The email of the application records.
-    * @return The list of Contacts with matching details.
-    */     
-    private static List<Contact> getContactsWithMatchingEmails(Set<String> emailsToMatch) {
-        return ContactsDAO.newInstance()
-            .getContactsWithMatchingEmails(
-                emailsToMatch,
-                'SYSTEM_MODE'
-            );
+    * @param List<hed__Application__c> applicationList
+    * @param Map<String, MatchingResult> resultMap
+    * @param Map<Id, String> mapOfApplicationUniqueKeys
+    */       
+    private static void processMatchingResults(List<hed__Application__c> applicationList,Map<String, MatchingResult> resultMap,Map<Id, String> mapOfApplicationUniqueKeys){
+        
+        List<hed__Application__c> updateMatchApplication = new List<hed__Application__c>();
+        List<hed__Application__c> notMatchedApplications = new List<hed__Application__c>();
+        
+        for(hed__Application__c app: applicationList){
+            
+            if(mapOfApplicationUniqueKeys.containsKey(app.Id)){                
+                String appUniqueKey = mapOfApplicationUniqueKeys.get(app.Id);
+                MatchingResult result = resultMap.get(appUniqueKey);                   
+                boolean isError = result.error && String.isNotBlank(result.errorMessage);
+                
+                if(!result.error && matchingTypes.contains(result.matchingType)){
+                    app.hed__Applicant__c = (id) result.contactIds.iterator().next();
+                    updateMatchApplication.add(app);
+                }else if(isError){
+                    // Log error message from contact matching                     
+                    if(result.errorMessage =='Multiple match found'){
+                        String logMessage = 'There has been multiple matches found for the following application '+ app.Name + ' , please investigate for manual matching of records - contact ' + result.contactIds;
+                        Logger.error(logMessage, app.Id);
+                    }else{
+                        Logger.error(result.errorMessage, app.Id);
+                    }
+                }else{
+                    notMatchedApplications.add(app); 
+                }                
+            }         
+        }
+        
+        //update match application record
+        if(!updateMatchApplication.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(updateMatchApplication, false, AccessLevel.SYSTEM_MODE);
+        }
+        
+        //process not matching application
+        processNotMatchingApplications(notMatchedApplications);
     }
-
+    
+    /**
+     * Processes not-matching application records and performs necessary updates.
+     *
+     * @param newItems The list of hed__Application__c objects.
+     */
+    private static void processNotMatchingApplications(List<hed__Application__c> notMatchApplications) {
+        
+        if(notMatchApplications.isEmpty()){
+            return;
+        }
+        
+        Map<String,Contact> contactToInsertMap = new Map<String,Contact>();
+        List<Contact> contactToInsert = new List<Contact>();
+        List<hed__Application__c> applicationToLeadMatching = new List<hed__Application__c>();
+        Map<String, List<hed__Application__c>> mapOfApplicationToContactKeys = new Map<String, List<hed__Application__c>>();
+        
+        for(hed__Application__c app: notMatchApplications){
+            Boolean isApplicationStatusNewUnsubmitted = app.Application_Status__c == 'New' || app.Application_Status__c == 'Unsubmitted';
+            
+            if(isApplicationStatusNewUnsubmitted && app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID){
+                
+                //add studylink application for lead matching
+                if(String.isNotBlank(app.Email__c) || app.Lead__c != null){
+                   applicationToLeadMatching.add(app);
+                }else{
+                    // Log error message
+                    Logger.error('Application email is empty',app.Id);
+                }
+                
+            }else{
+                ContactMatchingService.MatchingAttributes contactMatchingAttribute = getApplicationMatchingAttributes(app);            
+                String uniqueKey = ContactMatchingService.generateUniqueKey(contactMatchingAttribute,new List<String>(contactMatchingAttribute.fieldValues.keySet()));          
+                
+                if(String.isNotBlank(app.Email__c)){
+                  uniqueKey = app.Email__c;
+                }
+                
+                // If the unique key value is not already a key in the map, create a new list for it
+                if (!mapOfApplicationToContactKeys.containsKey(uniqueKey)) {
+                    mapOfApplicationToContactKeys.put(
+                        uniqueKey,
+                        new List<hed__Application__c>()
+                    );
+                }
+                
+                // Add the contact record to the list associated with the system key value in the map
+                mapOfApplicationToContactKeys.get(uniqueKey).add(app);
+                
+                if(String.isNotBlank(app.Email__c)){
+                    contactToInsertMap.put(app.Email__c,createContactFromApplication(app));
+                }else{
+                    contactToInsert.add(createContactFromApplication(app));
+                }               
+            }
+        }
+        
+        if(!contactToInsertMap.values().isEmpty()){
+            contactToInsert.addAll(contactToInsertMap.values());
+        }
+        
+        //create new contact and link to the application record
+        createContactAndUpdateApplicationApplicants(contactToInsert,mapOfApplicationToContactKeys);
+        //match StudyLink application to existing unconverted lead record
+        matchApplicationToLead(applicationToLeadMatching);
+    }
+    
+   /**
+    * @description: Create new contact and link the created contact to the application
+    * 
+    * @param List<Contact> contactToInsert  a list of contact record that will be created.
+    * @param Map<String, List<hed__Application__c>> mapOfApplicationToContactKeys map of application list.
+    */       
+    private static void createContactAndUpdateApplicationApplicants(List<Contact> contactToInsert,Map<String, List<hed__Application__c>> mapOfApplicationToContactKeys) {
+        
+        if(contactToInsert.isEmpty()){
+            return;
+        }
+        
+        List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();                
+        Database.SaveResult[] saveResults = Database.insert(contactToInsert, false);
+        
+        //DML Contact save result
+        for( integer i=0; i < saveResults.size(); i++ ){
+            
+            Contact con = contactToInsert[i];           
+            ContactMatchingService.MatchingAttributes contactMatchingAttribute = new ContactMatchingService.MatchingAttributes(
+                new Map<String,String>{
+                    'firstName' => String.isNotBlank(con.FirstName) ? con.FirstName : '',
+                    'lastName' => String.isNotBlank(con.LastName) ? con.LastName : '',
+                    'birthDate' => String.isNotBlank(String.valueOf(con.Birthdate)) ? String.valueOf(con.Birthdate) :'',
+                    'mobilePhone' => String.isNotBlank(con.MobilePhone) ? String.valueOf(con.MobilePhone) : '',
+                    'email' => String.isNotBlank(con.Email) ? con.Email : ''
+                }
+            ); 
+            
+            String uniqueKey = ContactMatchingService.generateUniqueKey(contactMatchingAttribute,new List<String>(contactMatchingAttribute.fieldValues.keySet()));
+            
+            if(String.isNotBlank(con.Email)){
+                uniqueKey = con.Email;
+            }
+            
+            if (saveResults.get(i).isSuccess()) {
+                //add the code here if you want to do something in success case
+                if(mapOfApplicationToContactKeys.containsKey(uniqueKey)){
+                    for(hed__Application__c app: mapOfApplicationToContactKeys.get(uniqueKey)){
+                        app.hed__applicant__c = saveResults.get(i).getId();
+                        applicationToUpdate.add(app);
+                    }
+                } 
+            } else if(!saveResults.get(i).isSuccess()){              
+                // Operation failed, so get all errors and relate to the application record      
+                Database.Error dbError = saveResults.get(i).getErrors().get(0);
+                if(mapOfApplicationToContactKeys.containsKey(uniqueKey)){
+                    for(hed__Application__c app: mapOfApplicationToContactKeys.get(uniqueKey)){
+                        // Log error message
+                        Logger.error(dbError.getStatusCode() + ': ' + dbError.getMessage(),app.Id);
+                    }
+                }            
+            }
+        }
+        
+        if(!applicationToUpdate.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }      
+    }
+    
+   /**
+    * @description: Match application to Existing Unconverted lead record using email
+    * 
+    * @param List<hed__Application__c>> applicationList application list record.
+    */       
+    private static void matchApplicationToLead(List<hed__Application__c> applicationList) {
+        
+        if(applicationList.isEmpty()){
+            return;
+        }
+        
+        Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys = new Map<String, List<hed__Application__c>>();
+		List<Lead> updateLeadRecords = new List<Lead>();
+        
+        for(hed__Application__c app: applicationList){
+            
+            if(app.Lead__c != NULL){
+                Lead lead = createLeadFromApplication(app);
+                lead.Id = app.Lead__c;
+                updateLeadRecords.add(lead);
+            }else{
+                String uniqueKey = app.Email__c;
+                // If the unique key value is not already a key in the map, create a new list for it
+                if (!mapOfApplicationToLeadKeys.containsKey(uniqueKey)) {
+                    mapOfApplicationToLeadKeys.put(
+                        uniqueKey,
+                        new List<hed__Application__c>()
+                    );
+                }                
+                // Add the application record to the unique key
+                mapOfApplicationToLeadKeys.get(uniqueKey).add(app);
+            }
+        }
+        
+        if(!updateLeadRecords.isEmpty()){
+            LeadsDAO.newInstance().updateRecords(updateLeadRecords, false, AccessLevel.SYSTEM_MODE);
+        }
+        
+        //match application record to existing lead using email fields
+        matchApplicationEmailToExistingLead(mapOfApplicationToLeadKeys);
+    }
+    
+   /**
+    * @description: Checks for existing emails in the mapOfApplicationToLeadKeys map.
+    * 				Match the existing lead if has one match and link to application
+    *               Else if multiple matched throw error log 
+    *               Creates Lead and link to application if not existing
+    *
+    * @param Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys
+    */ 
+    private static void matchApplicationEmailToExistingLead(Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys) {
+        
+        if(mapOfApplicationToLeadKeys.values().isEmpty()){
+            return;
+        }
+        
+        Map<String,Lead> mapOfLeads = new Map<String,Lead>();
+        List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
+        
+        for(Lead lead: LeadsDAO.newInstance().getExistingUnconvertedLeads(mapOfApplicationToLeadKeys.keySet(), 'SYSTEM_MODE')){
+            if(String.isNotBlank(lead.email)){
+                mapOfLeads.put(lead.email,lead);
+            }           
+            if(String.isNotBlank(lead.Work_Email__c)){
+                mapOfLeads.put(lead.Work_Email__c,lead);
+            }
+        }
+        
+        for(String uniqueKey: mapOfApplicationToLeadKeys.keySet()){          
+            if(mapOfLeads.containsKey(uniqueKey)){
+                for(hed__Application__c app: mapOfApplicationToLeadKeys.get(uniqueKey)){
+                    app.Lead__c = mapOfLeads.get(uniqueKey).Id;
+                    applicationToUpdate.add(app);
+                }
+            }else{
+                for(hed__Application__c app: mapOfApplicationToLeadKeys.get(uniqueKey)){
+                    Lead lead = createLeadFromApplication(app);
+                    mapOfLeads.put(lead.email,lead);
+                }
+            }
+        }
+        
+        if(!applicationToUpdate.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+        
+        //create lead and link to the application record
+        createLeadAndUpdateApplicationLead(mapOfLeads.values(),mapOfApplicationToLeadKeys);
+    }
+    
+   /**
+    * @description: Create new lead and link the created lead to the application
+    * 
+    * @param List<Lead> leadToInsert  a list of lead record that will be created.
+    * @param Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys
+    */       
+    private static void createLeadAndUpdateApplicationLead(List<Lead> leadToInsert,Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys) {
+        
+        if(leadToInsert.isEmpty()){
+            return;
+        }
+        
+        List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();        
+        Database.SaveResult[] saveResults = Database.insert(leadToInsert, false);
+        
+        //DML save result
+        for( integer i=0; i < saveResults.size(); i++ ){
+            
+            Lead lead = leadToInsert[i];
+            
+            if (saveResults.get(i).isSuccess()) {
+                //add the code here if you want to do something in success case
+                if(mapOfApplicationToLeadKeys.containsKey(lead.Email)){
+                    for(hed__Application__c app: mapOfApplicationToLeadKeys.get(lead.Email)){
+                        app.Lead__c = saveResults.get(i).getId();
+                        applicationToUpdate.add(app);
+                    }
+                } 
+            } else if(!saveResults.get(i).isSuccess()){              
+                // Operation failed, so get all errors        
+                Database.Error dbError = saveResults.get(i).getErrors().get(0);
+                if(mapOfApplicationToLeadKeys.containsKey(lead.Email)){
+                    for(hed__Application__c app: mapOfApplicationToLeadKeys.get(lead.Email)){
+                        // Log error message
+                        Logger.error(dbError.getStatusCode() + ': ' + dbError.getMessage(),app.Id);
+                    }
+                }            
+            }
+        }
+        
+        if(!applicationToUpdate.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }      
+    }
+    
+   /**
+    * @description: mapping of Contact Matching Attribute fields
+    * 
+    * @param hed__Application__c   hed__Application__c objects.
+    * @return ContactMatchingService.MatchingAttributes
+    */    
+    private static ContactMatchingService.MatchingAttributes getMatchingAttributes(hed__Application__c app) {
+        Map<String, String> attributesMap = new Map<String, String>{
+            'firstName' => String.isNotBlank(app.FirstName__c) ? app.FirstName__c : '',
+            'lastName' => String.isNotBlank(app.LastName__c) ? app.LastName__c : '',
+            'birthDate' => String.isNotBlank(String.valueOf(app.BirthDate__c)) ? String.valueOf(app.BirthDate__c) :'',
+            'mobilePhone' => String.isNotBlank(app.Mobile__c) ? String.valueOf(app.Mobile__c) : '',
+            'email' => String.isNotBlank(app.Email__c) ? app.Email__c : '',
+            'qutStudentId' => String.isNotBlank(app.QUT_Student_ID__c) ? app.QUT_Student_ID__c : '',
+            'studyLinkApplicantId' => String.isNotBlank(app.StudyLink_ApplicantID__c) ? app.StudyLink_ApplicantID__c : '',
+            'qtacApplicantId' => String.isNotBlank(app.QTAC_ApplicantID__c) ? app.QTAC_ApplicantID__c : '',
+            'qutEmployeeId' => ''
+        };  
+        return new ContactMatchingService.MatchingAttributes(attributesMap);
+    }
+    
+   /**
+    * @description: mapping of Contact attribute fields
+    * 
+    * @param hed__Application__c   hed__Application__c objects.
+    * @return ContactMatchingService.MatchingAttributes
+    */    
+    private static ContactMatchingService.MatchingAttributes getApplicationMatchingAttributes(hed__Application__c app) {
+        Map<String, String> attributesMap = new Map<String, String>{
+            'firstName' => String.isNotBlank(app.FirstName__c) ? app.FirstName__c : '',
+            'lastName' => String.isNotBlank(app.LastName__c) ? app.LastName__c : '',
+            'birthDate' => String.isNotBlank(String.valueOf(app.BirthDate__c)) ? String.valueOf(app.BirthDate__c) :'',
+            'mobilePhone' => String.isNotBlank(app.Mobile__c) ? String.valueOf(app.Mobile__c) : '',
+            'email' => String.isNotBlank(app.Email__c) ? app.Email__c : ''
+        };  
+        return new ContactMatchingService.MatchingAttributes(attributesMap);
+    }
+    
    /**
     * @description: mapping of application fields to contact
     * 
@@ -149,176 +432,36 @@ public without sharing class ApplicationServiceHelper {
     }
     
    /**
-    * @description: updateApplicationApplicants details to link the created contact
-    * 
-    * @param Map<String, hed__Application__c> map of application records to be updated
-    * @param List<Contact> conList  a list of contact record that will be created.
-    */       
-    private static List<hed__Application__c> updateApplicationApplicants(Map<String, hed__Application__c> newItemsapplication, List<Contact> conList) {
-        List<hed__Application__c> updateApplicationLink = new List<hed__Application__c>();
-        
-        for (Contact con : conList) {
-            hed__Application__c applObject = new hed__Application__c();          
-            hed__Application__c application = newItemsapplication.get(con.Email);
-            applObject.Id = application.Id;
-            applObject.hed__Applicant__c = con.Id;
-                       
-            updateApplicationLink.add(applObject);
-        }
-        
-        return updateApplicationLink;
-    }
-    
-   /**
-    * @description: check an existing lead in the system with the application email
-    * 
-    * @param List<hed__Application__c> newItemsapplication 
-    * @param Set<String> applicationEmailsToMatch
-    */        
-    private static List<hed__Application__c> checkApplicationOnLeadRecords(List<hed__Application__c> newItemsapplication, Set<String> applicationEmailsToMatch) {
-        List<hed__Application__c> updateApplicationList = new List<hed__Application__c>();
-        Map<String, Lead> newLeads = new Map<String, Lead>();
-        Map<String, hed__Application__c> newMapApplication = new Map<String, hed__Application__c>();
-
-        List<Lead> existingLeadsWithMatchingEmails = LeadsDAO.newInstance()
-            .getExistingUnconvertedLeads(applicationEmailsToMatch, 'SYSTEM_MODE');
-
-        Map<String, Lead> mapLeads = createLeadMapFromExistingLeads(existingLeadsWithMatchingEmails);
-
-        for (hed__Application__c app : newItemsapplication) {
-            if (mapLeads.containsKey(app.Email__c)) {
-                hed__Application__c appNew = createApplicationWithLeadId(app, mapLeads.get(app.Email__c).Id);
-                updateApplicationList.add(appNew);
-            } else {
-                Lead lead = createLeadFromApplication(app);
-                newLeads.put(app.Email__c, lead);
-                newMapApplication.put(app.Email__c, app);
-            }
-        }
-
-        updateApplicationList.addAll(createNewLeadsAndApplications(newLeads, newMapApplication));
-        return updateApplicationList;
-    }
-    
-   /**
-    * @description: get the existing lead and use email as a mapping key
-    * 
-    * @param List<Lead> leads existing leads 
-    * @return Map<String, Lead> mapLeads
-    */      
-    private static Map<String, Lead> createLeadMapFromExistingLeads(List<Lead> leads) {
-        Map<String, Lead> mapLeads = new Map<String, Lead>();
-        for (Lead lead : leads) {
-            if (lead.Email != null || lead.Work_Email__c != null) {
-                String emailLead = (lead.Email != null)?lead.Email:lead.Work_Email__c;
-                mapLeads.put(emailLead, lead);
-            }
-        }
-        return mapLeads;
-    }
-    
-   /**
-    * @description: get the existing lead and use email as a mapping key
-    * 
-    * @param hed__Application__cleads new application mapping
-    * @param Id leadId lead id to map
-    * @return hed__Application__c application
-    */   
-    private static hed__Application__c createApplicationWithLeadId(hed__Application__c app, Id leadId) {
-        hed__Application__c appNew = new hed__Application__c();
-        appNew.Id = app.Id;
-        appNew.Lead__c = leadId;
-        return appNew;
-    }
-    
-   /**
     * @description: map application details to lead fields
     * 
     * @param hed__Application__cleads new application mapping
     * @return lead object
     */      
     private static Lead createLeadFromApplication(hed__Application__c app) {
+        
         Lead lead = new Lead();
-        lead.FirstName = app.FirstName__c;
-        lead.LastName = app.LastName__c;
-        lead.Email = app.Email__c;
-        lead.Mobile_No_Locale__c = app.Mobile__c;
-        lead.Company = LeadsDAO.COMPANY_LEARNER;
-        lead.Lead_Type__c = LeadsDAO.LEARNER_LEAD_TYPE;
-        lead.Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_STUDY_APPLICATION;
-        lead.LeadSource = LeadsDAO.LEAD_SOURCE_STUDYLINK_STUDYLINK_UNSUBMITTED;
+        //Lead Fields as Key => Application fields as value
+        Map<String, String> fieldMapping = new Map<String, String>{
+            'FirstName' => 'FirstName__c',
+            'LastName' => 'LastName__c',
+            'Email' => 'Email__c',
+            'Mobile_No_Locale__c' => 'Mobile__c'
+        };
+        
+        //Lead Object fields is use as the key for the Application field 
+        for (String key : fieldMapping.keySet()) {
+            //targetField is the contact object fields
+            String targetField = fieldMapping.get(key);
+            
+            //only the application field that is not null will be updated into the contact object fields
+            if (app.get(targetField) != null) {
+                 lead.put(key, app.get(targetField)); 
+            }
+        }
+
+        lead.put('Company','Learner');
+        lead.put('Lead_Type__c','Learner');
+        
         return lead;
     }
-    
-   /**
-    * @description: create a new lead record and update the application to link lead and application
-    * 
-    * @param Map<String, Lead> newLeads - new leads record to be created
-    * @param Map<String, hed__Application__c> newMapApplication application record to be updated
-    * @param List<hed__Application__c> updateApplicationList
-    */   
-    private static List<hed__Application__c> createNewLeadsAndApplications(
-        Map<String, Lead> newLeads,
-        Map<String, hed__Application__c> newMapApplication       
-    ) {
-        List<hed__Application__c> updateApplicationList = new List<hed__Application__c>();      
-        LeadsDAO.newInstance().insertRecords(newLeads.values(), false, AccessLevel.SYSTEM_MODE);
-        for (String key : newLeads.keySet()) {
-            Lead newLead = newLeads.get(key);
-            hed__Application__c app = newMapApplication.get(key);
-            hed__Application__c updateApp = createApplicationWithLeadId(app, newLead.Id);
-            updateApplicationList.add(updateApp);
-        }
-        
-        return updateApplicationList;
-    }
-    
-        
-   /**
-    * @description: Adds a contact to the contacts map for the specified identifier.
-    *
-    * @param contactsMap Map of contacts matching the applications
-    * @param identifier  Application identifier
-    * @param contact     Contact to add to the map
-    */       
-    public static void addToContactsMap(Map<String, Map<Id,Contact>> contactsMap, String identifier, Contact contact) {
-        if (contactsMap.containsKey(identifier)) {
-            Map<Id, Contact> existingContact = contactsMap.get(identifier);
-            existingContact.put(contact.Id, contact);
-        } else {
-            Map<Id, Contact> newContacts = new Map<Id, Contact>();
-            newContacts.put(contact.Id, contact);
-            contactsMap.put(identifier, newContacts);
-        }
-    }
-
-   /**
-    * @description: Checks if a contact matches the given application based on specific fields.
-    *
-    * @param contact     Contact record to compare
-    * @param application Application record to compare
-    * @return True if the contact matches the application, false otherwise
-    */    
-    public static boolean contactMatchesApplication(Contact con, hed__Application__c app) {      
-        boolean namesMatch = isFieldEqual(con.FirstName, app.FirstName__c) && isFieldEqual(con.LastName, app.LastName__c);
-        boolean emailsMatch = isFieldEqual(con.Email, app.Email__c) || isFieldEqual(con.QUT_Learner_Email__c, app.Email__c) || 
-          					  isFieldEqual(con.QUT_Staff_Email__c, app.Email__c) || isFieldEqual(con.Work_Email__c, app.Email__c);          
-        boolean birthdateMatch = isFieldEqual(con.Birthdate, app.Birthdate__c);
-        boolean isSAMSRecord = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
-        boolean isNominated = app.Nominated_Student_ID__c !=null && app.Nominated_Student_ID__c == con.QUT_Student_ID__c && isSAMSRecord;
-        
-        return (namesMatch && emailsMatch) || (namesMatch && birthdateMatch) || isNominated;
-    }  
-       
-   /**
-    * @description: Checks if two fields are equal.
-    *
-    * @param field1 First field
-    * @param field2 Second field
-    * @return True if the fields are equal, false otherwise
-    */ 
-    private static boolean isFieldEqual(Object field1, Object field2) {
-        return (field1 == null && field2 == null) || (field1 != null && field1.equals(field2));
-    }
-
 }
