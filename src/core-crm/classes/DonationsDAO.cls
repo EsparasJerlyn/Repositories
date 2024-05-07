@@ -15,6 +15,7 @@
       |  nicole.genon                   | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,      |
       |                                 |                       |                        | getDonationsBySetRecordTypeIds                 |
 */
+
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
     //Strings for payment types
     public static final String RECURRING_PAYMENT_TYPE = 'Recurring Payment';

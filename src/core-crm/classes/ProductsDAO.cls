@@ -9,7 +9,9 @@
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId
       | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationId
+      | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references
  */
+
 public inherited sharing class ProductsDAO extends DmlBase implements IProductsDAO{
 
     public Schema.SObjectType getSObjectType()
@@ -36,21 +38,6 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             accessLevel
         );
     }
-
-    public List<Product2> getProductByDonationCauseId(
-        Set<Id> donationCauseIds,
-        AccessLevel accessLevel
-    ){
-        if(donationCauseIds.isEmpty()){
-            return new List<Product2>();
-        }
-        return Database.query(
-            'SELECT Id, Name, Description__c, Title_Image_URL__c, Donation_Cause__c ' +
-            'FROM Product2 ' +
-            'WHERE Donation_Cause__c IN :donationCauseIds ',
-            accessLevel
-        );
-    }
     
     public List<Product2> getProductByDesignationId(
         Set<Id> designationIds,
@@ -66,5 +53,4 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             accessLevel
         );
     }    
-    
 }
