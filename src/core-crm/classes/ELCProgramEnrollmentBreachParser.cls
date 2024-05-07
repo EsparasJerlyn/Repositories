@@ -23,6 +23,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
     private void parse() {
         programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
         programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
+        programEnrollmentBreachCriteria = processLeaveOfAbsenceKeyDateOffsets(engagementListCriteria, programEnrollmentBreachCriteria);
     }
 
     //configurable criteria
@@ -36,14 +37,20 @@ public with sharing class ELCProgramEnrollmentBreachParser {
         return programEnrollmentBreachCriteria;
     }
 
-    private ProgramEnrollmentBreachesDAO.Criteria processProgramEnrollmentBreachKeyDate(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (programEnrollmentBreachCriteria == null) {
-            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+    private ProgramEnrollmentBreachesDAO.Criteria processLeaveOfAbsenceKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
+        if (
+            this.executionDate != null
+            && engagementListCriteria.Key_Date__c == 'Breach Start Date'
+            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
+            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
+        ) {
+            if (programEnrollmentBreachCriteria == null) {
+                programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+            }
+            programEnrollmentBreachCriteria.setBreachDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
+            programEnrollmentBreachCriteria.setBreachDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
+            programEnrollmentBreachCriteria.setExecutionDate(this.executionDate);
         }
-
-        programEnrollmentBreachCriteria.setKeyDateOffset(Integer.valueOf(engagementListCriteria.Key_Date_Offset__c));
-        programEnrollmentBreachCriteria.setExecutionDate(this.executionDate);
-
         return programEnrollmentBreachCriteria;
     }
 
