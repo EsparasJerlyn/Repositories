@@ -15,7 +15,7 @@
 private class DynamicQueryServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager','QUT_IE_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager','QUT_IE_Partnership_Manager', 'QUT_ESB' });
 
         List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance()
@@ -167,6 +167,36 @@ private class DynamicQueryServiceTest {
                 !accountListWithFilter.isEmpty(),
                 'List should not be empty.'
             );
+
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    private static void formatStringSetForWhereClauseTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+
+            String expected = '\'Active\', \'Enrolled\'';
+            String actual = DynamicQueryService.formatStringSetForWhereClause(new Set<String>{'Active', 'Enrolled'});
+
+            System.assertEquals(expected, actual, 'Incorrect String format.');
+
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    private static void formatStringSetForWhereClauseNegativeTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            
+            String expected = '\'Active\', \'Enrolled\'';
+            String actual = DynamicQueryService.formatStringSetForWhereClause(new Set<String>{'Active', 'Accepted'});
+
+            System.assert(expected != actual, 'String format should not be equal.');
 
             Test.stopTest();
         }
