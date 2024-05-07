@@ -226,6 +226,54 @@ public with sharing class CompletedCadencesDAOTest {
     }
 
     @isTest
+    static void findByCriteriaNegativeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            //Create record
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+            
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+                nurtureList.add(
+                    new Nurture_Track_Configuration__c(
+                        Id = nurtureTrackConfig.Id,
+                        Cadence_Name__c = 'Domestic Accepted and Admitted',
+                        Lead_Score_Threshold__c = 3
+                    )
+                );
+            }
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);    
+
+            //Create complete cadence with unsuccessful status
+            List<Completed_Cadence__c> completedCadenceListCreated = TestDataFactory.createCompletedCadence('Unsuccessful',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
+    
+            List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
+                .findByCriteria(
+                    completedCadenceCriteria,
+                    contactCriteria,
+                    AccessLevel.USER_MODE
+                );
+
+            System.assert(completedCadenceList.isEmpty(),'CompletedCadenceList record should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
