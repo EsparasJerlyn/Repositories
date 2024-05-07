@@ -511,7 +511,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             soql += 'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         }
         if(contactCriteria.getContactIdSet() != null){
-            soql += 'AND Id IN (' + formatIdSetForWhereClause(contactCriteria.getContactIdSet()) + ') ';
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(
+                (Set<String>)JSON.deserialize(JSON.serialize(contactCriteria.getContactIdSet()), Set<String>.class)
+            );
+            soql += 'AND Id IN (' + contactIdString + ') ';
         }
 
         if(soql != '') {
