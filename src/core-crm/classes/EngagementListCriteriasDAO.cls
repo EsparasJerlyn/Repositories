@@ -41,8 +41,7 @@
             'Engagement_List_Configuration__r.End_Date__c, ' +
             'Status__c, ' +
             'End_Date__c, ' +
-            'Start_Date__c, ' +
-            'Engagement_List_Criteria_Type__c ' +
+            'Start_Date__c ' +
             'FROM Engagement_List_Criteria__c ' +
             'WHERE Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c = \'Active\' ' +
             'AND Status__c = \'Active\' ' +
