@@ -286,7 +286,7 @@
         </values>
         <values>
             <fullName>Draft</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

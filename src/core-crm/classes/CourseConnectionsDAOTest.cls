@@ -342,7 +342,7 @@ public with sharing class CourseConnectionsDAOTest {
                     programEnrollmentCriteria,
                     contactCriteria
                 );
-
+                
             System.assertEquals(courseConnectionListCreated.size(), courseConnectionList.size(), 'courseConnectionList should not be empty.');
         }
         Test.stopTest();
