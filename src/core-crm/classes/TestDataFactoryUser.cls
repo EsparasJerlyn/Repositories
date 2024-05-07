@@ -145,7 +145,7 @@ public class TestDataFactoryUser {
         get {
             InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
             usr.FirstName = 'Test';
-            usr.LastName = 'SystemAdministratorReadOnlyUser';
+            usr.LastName = 'SystemAdministratorReadOnly';
             usr.Persona = 'System Administrator - Read Only';
             usr.profileName = 'Internal Base';
 
