@@ -50,12 +50,12 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
 
         if(
             leaveOfAbsenceCriteria.executionDate != null 
-            && leaveOfAbsenceCriteria.keyDateOffsetLowerBoundary != null  
-            && leaveOfAbsenceCriteria.keyDateOffsetUpperBoundary != null
+            && leaveOfAbsenceCriteria.leaveOfAbsenceDateFrom != null  
+            && leaveOfAbsenceCriteria.leaveOfAbsenceDateTo != null
         ){
             soql = soql 
-            + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-            + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getkeyDateOffsetUpperBoundary() + ' ';
+            + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateFrom() + ' ' 
+            + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getleaveOfAbsenceDateTo() + ' ';
         }
 
         return soql;
@@ -132,11 +132,10 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
      * @Description:Wrapper Class that represents the Criteria for Leave of Absence.
      */
     public class Criteria {
-        private Boolean isOnLeave;
-        public Integer keyDateOffset;    
+        private Boolean isOnLeave;  
         private Date executionDate;
-        private Integer keyDateOffsetLowerBoundary;
-        private Integer keyDateOffsetUpperBoundary;
+        private Integer leaveOfAbsenceDateFrom;
+        private Integer leaveOfAbsenceDateTo;
         
 
         public Boolean getIsOnLeave(){
@@ -155,9 +154,9 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             this.executionDate = executionDate;
         }
 
-        public String getkeyDateOffsetLowerBoundary(){
+        public String getleaveOfAbsenceDateFrom(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.keyDateOffsetLowerBoundary);
+                Date returnDate = this.executionDate.addDays(this.leaveOfAbsenceDateFrom);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -165,13 +164,13 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             }
         }
 
-        public void setkeyDateOffsetLowerBoundary(Integer keyDateOffsetLowerBoundary){
-            this.keyDateOffsetLowerBoundary = keyDateOffsetLowerBoundary;
+        public void setleaveOfAbsenceDateFrom(Integer leaveOfAbsenceDateFrom){
+            this.leaveOfAbsenceDateFrom = leaveOfAbsenceDateFrom;
         }
 
-        public String getkeyDateOffsetUpperBoundary(){
+        public String getleaveOfAbsenceDateTo(){
             if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.keyDateOffsetUpperBoundary);
+                Date returnDate = this.executionDate.addDays(this.leaveOfAbsenceDateTo);
                 String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
                 return strReturnDate;
             } else {
@@ -179,12 +178,12 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             }
         }
 
-        public void setkeyDateOffsetUpperBoundary(Integer keyDateOffsetUpperBoundary){
-            this.keyDateOffsetUpperBoundary = keyDateOffsetUpperBoundary;
+        public void setleaveOfAbsenceDateTo(Integer leaveOfAbsenceDateTo){
+            this.leaveOfAbsenceDateTo = leaveOfAbsenceDateTo;
         }
         
         public Boolean isEmpty() {
-            return isOnLeave == null && keyDateOffset == null && executionDate == null;
+            return isOnLeave == null && executionDate == null && leaveOfAbsenceDateTo == null && leaveOfAbsenceDateFrom == null;
         }
     }
 

@@ -66,8 +66,8 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getExecutionDate(), executionDate, 'Incorrect Execution Date');
-            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getkeyDateOffsetLowerBoundary(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getkeyDateOffsetUpperBoundary(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getCourseConnectionAssessmentDateFrom(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getCourseConnectionAssessmentDateTo(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
         }
     }
 }
