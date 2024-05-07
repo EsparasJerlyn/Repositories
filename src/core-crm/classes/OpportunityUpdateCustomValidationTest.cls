@@ -6,16 +6,16 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA              | Change Summary                                                   |
- *    |---------------------------|-----------------------|-------------------|------------------------------------------------------------------|
- *    | nicole.genon    	      | February 29, 2024     | DEPP-7905         | Created file                                                     |
- *    | kenneth.f.alsay           | March 29, 2024        | DEPP-8165,8166    | Added methods opportunityWithDonationsNotDeclinedTest &          |
- *    |                           |                       |                   | opportunityWithDonationsDeclinedTest                             |
- *    | kathleen.mae.caceres      | April 2, 2024         | DEPP-8168         | Added methods: checkOrganisationStageUpdateWithProposedDonations,|
- *    |                           |                       |                   | checkOrganisationStageUpdateNoAcceptedOrCompletedDonations       |
- *    |                           |                       |                   | checkOrganisationStageUpdateSuccessful                           |
- *    | ryan.j.a.dela.cruz        | May 7, 2024           | DEPP-7905,ST FIX  | Set user run as Advancement Manager                              |
- *    |                           |                       |                   |                                                                  |
+ *    | Developer                 | Date                  | JIRA                    | Change Summary                                                   |
+ *    |---------------------------|-----------------------|-------------------------|------------------------------------------------------------------|
+ *    | nicole.genon    	      | February 29, 2024     | DEPP-7905               | Created file                                                     |
+ *    | kenneth.f.alsay           | March 29, 2024        | DEPP-8165,8166          | Added methods opportunityWithDonationsNotDeclinedTest &          |
+ *    |                           |                       |                         | opportunityWithDonationsDeclinedTest                             |
+ *    | kathleen.mae.caceres      | April 2, 2024         | DEPP-8168               | Added methods: checkOrganisationStageUpdateWithProposedDonations,|
+ *    |                           |                       |                         | checkOrganisationStageUpdateNoAcceptedOrCompletedDonations       |
+ *    |                           |                       |                         | checkOrganisationStageUpdateSuccessful                           |
+ *    | ryan.j.a.dela.cruz        | May 7, 2024           | DEPP-8165,8166, ST FIX  | Set user run as Advancement Manager                              |
+ *    |                           |                       |                         |                                                                  |
  */
 @isTest
 public with sharing class OpportunityUpdateCustomValidationTest {
