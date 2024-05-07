@@ -106,7 +106,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
         if(courseConnectionCriteria.getStatus() != null){
-            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(courseConnectionCriteria.getStatus());
+            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         if(courseConnectionCriteria.getCourseGrade() != null){
             soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ';
@@ -129,7 +130,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (' + formatSetForWhereClause(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         
         return soql;

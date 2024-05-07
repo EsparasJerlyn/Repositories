@@ -132,12 +132,12 @@ public inherited sharing class DynamicQueryService {
         );
     }
 
-    public String formatContactIdSetForWhereClause(Set<Id> contactIdSet){
-        List<String> formattedIds = new List<String>();
-        for(Id contactId : contactIdSet){
-            formattedIds.add('\'' + contactId + '\'');
+    public static String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String stringValue : stringSet){
+            formattedStrings.add('\'' + stringValue + '\'');
         }
-        return String.join(formattedIds, ', ');
+        return String.join(formattedStrings, ', ');
     }
 
     public class FilterWrapper{

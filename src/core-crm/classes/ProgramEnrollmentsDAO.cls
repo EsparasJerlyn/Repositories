@@ -112,7 +112,8 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
-            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND Enrollment_Status__c IN(' + statusSetString + ') ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
             soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
