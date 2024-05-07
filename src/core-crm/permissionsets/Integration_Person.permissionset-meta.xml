@@ -2518,6 +2518,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact_Matching_Staging__c.Work_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contextual_Role__c.Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8423,6 +8428,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Student_Sanction__c.Batch_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Student_Sanction__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9119,6 +9129,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Application__c.Assessment_Result__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.Batch_Process__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

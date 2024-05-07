@@ -11,6 +11,9 @@
 public inherited sharing class ContactAlternateIdsDAO extends DmlBase implements IContactAlternateIdsDAO{
 
     public static final String ACTIVE_STATUS = 'Active';
+    public static final String SUPERSEDED_STATUS = 'Superseded';
+    public static final String DUPLICATE_SANCTION_STATUS = 'Duplicate Sanction';
+    public static final String STUDENT_ID_TYPE = 'QUT Student ID';
 
     public Schema.SObjectType getSObjectType()
 	{
@@ -57,6 +60,28 @@ public inherited sharing class ContactAlternateIdsDAO extends DmlBase implements
             'AND Alternate_Id_Type__c != null '+
             'AND Alternate_Id_Status__c =: ACTIVE_STATUS ' +
             'AND Contact_Alternate_Id__c != null ',
+            accessLevel 
+        );
+    }
+
+    public List<Contact_Alternate_ID__c> getActiveAndSupersededStudentAlternateIds(Set<String> qutStudentIds, AccessLevel accessLevel){
+
+        if(qutStudentIds.isEmpty()){
+            return new List<Contact_Alternate_ID__c>();
+        }
+       
+        return Database.query(
+        'SELECT Id, Contact__c, Contact_Alternate_ID__c,  Succeeding_Id__r.Contact_Alternate_Id__c, Alternate_Id_Status__c, ' +
+            '(   SELECT Id, Contact_Alternate_ID__c ' +
+                'FROM Contact_Alternate_IDs__r ' +
+                'WHERE Alternate_Id_Status__c =: SUPERSEDED_STATUS '  +
+                'AND Alternate_Id_Type__c =: STUDENT_ID_TYPE ' +
+                'ORDER BY CreatedDate DESC ' +
+                'LIMIT 1 ' +
+            ') ' + 
+        'FROM Contact_Alternate_ID__c '+
+        'WHERE Contact_Alternate_Id__c IN: qutStudentIds ' +
+        'AND Alternate_Id_Type__c =: STUDENT_ID_TYPE ',
             accessLevel 
         );
     }
