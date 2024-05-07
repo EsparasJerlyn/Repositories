@@ -89,6 +89,16 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
         }
 
+        if(
+            courseConnectionAssessmentsCriteria.executionDate != null 
+            && courseConnectionAssessmentsCriteria.keyDateOffsetLowerBoundary != null  
+            && courseConnectionAssessmentsCriteria.keyDateOffsetUpperBoundary != null
+        ){
+            soql = soql 
+            + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+            + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' ';
+        }
+
         return soql;
     }
 
@@ -156,7 +166,10 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     public class Criteria {
         private String assessmentGrade;
         private Date submissionDate;
-        private String assessmentPriority;
+        private String assessmentPriority; 
+        private Date executionDate;
+        private Integer keyDateOffsetLowerBoundary;
+        private Integer keyDateOffsetUpperBoundary;
 
 
         public String getAssessmentGrade() {
@@ -181,6 +194,42 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
 
         public void setAssessmentPriority(String assessmentPriority) {
             this.assessmentPriority = assessmentPriority;
+        }
+
+        public Date getExecutionDate(){
+            return executionDate;
+        }
+
+        public void setExecutionDate(Date executionDate){
+            this.executionDate = executionDate;
+        }
+
+        public String getkeyDateOffsetLowerBoundary(){
+            if ( this.executionDate != null ) {
+                Date returnDate = this.executionDate.addDays(this.keyDateOffsetLowerBoundary);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                return strReturnDate;
+            } else {
+                return null;
+            }
+        }
+
+        public void setkeyDateOffsetLowerBoundary(Integer keyDateOffsetLowerBoundary){
+            this.keyDateOffsetLowerBoundary = keyDateOffsetLowerBoundary;
+        }
+
+        public String getkeyDateOffsetUpperBoundary(){
+            if ( this.executionDate != null ) {
+                Date returnDate = this.executionDate.addDays(this.keyDateOffsetUpperBoundary);
+                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
+                return strReturnDate;
+            } else {
+                return null;
+            }
+        }
+
+        public void setkeyDateOffsetUpperBoundary(Integer keyDateOffsetUpperBoundary){
+            this.keyDateOffsetUpperBoundary = keyDateOffsetUpperBoundary;
         }
 
         public Boolean isEmpty() {

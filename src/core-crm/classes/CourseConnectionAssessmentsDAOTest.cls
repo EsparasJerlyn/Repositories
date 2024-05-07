@@ -60,12 +60,17 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
             courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
             courseConnectionAssessmentsCriteria.setAssessmentPriority('Low');
+            courseConnectionAssessmentsCriteria.setExecutionDate(Date.today());
+            courseConnectionAssessmentsCriteria.setkeyDateOffsetLowerBoundary(-10);
+            courseConnectionAssessmentsCriteria.setkeyDateOffsetUpperBoundary(10);
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
                 + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
+                + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+                + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -109,12 +114,17 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
             courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
             courseConnectionAssessmentsCriteria.setAssessmentPriority('Low');
+            courseConnectionAssessmentsCriteria.setExecutionDate(Date.today());
+            courseConnectionAssessmentsCriteria.setkeyDateOffsetLowerBoundary(-10);
+            courseConnectionAssessmentsCriteria.setkeyDateOffsetUpperBoundary(10);
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getContactQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
                 + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
+                + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+                + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -159,12 +169,17 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
             courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
             courseConnectionAssessmentsCriteria.setAssessmentPriority ('Low');
+            courseConnectionAssessmentsCriteria.setExecutionDate(Date.today());
+            courseConnectionAssessmentsCriteria.setkeyDateOffsetLowerBoundary(-10);
+            courseConnectionAssessmentsCriteria.setkeyDateOffsetUpperBoundary(10);
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Id, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Assessment_Priority__c, Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
                 + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
+                + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+                + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -228,6 +243,9 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentCriteria.setAssessmentGrade('100');
             courseConnectionAssessmentCriteria.setSubmissionDate(Date.today());
+            courseConnectionAssessmentCriteria.setExecutionDate(Date.today());
+            courseConnectionAssessmentCriteria.setkeyDateOffsetLowerBoundary(-10);
+            courseConnectionAssessmentCriteria.setkeyDateOffsetUpperBoundary(10);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -239,7 +257,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                     courseConnectionCriteria,
                     programEnrollmentCriteria,
                     contactCriteria,
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
 
             System.assertEquals(courseConnectionAssessmentList.size(), courseConnectionAssessmentListCreated.size(),  'courseConnectionAssessmentList should not be empty.');

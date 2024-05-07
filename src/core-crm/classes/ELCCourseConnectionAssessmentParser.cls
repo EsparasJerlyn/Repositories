@@ -24,6 +24,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     private void parse() {
         courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
         courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
+        courseConnectionAssessmentCriteria = processKeyDateOffsets(engagementListCriteria, courseConnectionAssessmentCriteria);
     }
 
     //configurable criteria
@@ -47,6 +48,23 @@ public with sharing class ELCCourseConnectionAssessmentParser {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
             courseConnectionAssessmentCriteria.setAssessmentPriority(engagementListCriteria.Assessment_Priority__c);
+        }
+        return courseConnectionAssessmentCriteria;
+    }
+
+    private CourseConnectionAssessmentsDAO.Criteria processKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
+        if (
+            this.executionDate != null
+            && engagementListCriteria.Key_Date__c == 'Assessment Due Date'
+            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
+            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
+        ) {
+            if (courseConnectionAssessmentCriteria == null) {
+                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
+            }
+            courseConnectionAssessmentCriteria.setkeyDateOffsetLowerBoundary(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
+            courseConnectionAssessmentCriteria.setkeyDateOffsetUpperBoundary(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
+            courseConnectionAssessmentCriteria.setExecutionDate(this.executionDate);
         }
         return courseConnectionAssessmentCriteria;
     }
