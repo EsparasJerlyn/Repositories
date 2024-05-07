@@ -13,12 +13,17 @@ private class ELCProgramEnrollmentEvaluatorTest{
 
 	@TestSetup
 	static void setupMethod(){
-		TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+		TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
 	}
 
 	@isTest
 	static void evaluateTest() {
-		System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+		System.runAs(TestDataFactory.getSystemAdminUser()) {         
+			
+			Breach__c breach = new Breach__c(
+					Name = 'Breach Test 01'
+			);
+			insert breach;   
 			
 			Test.startTest();
 			String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
@@ -26,7 +31,15 @@ private class ELCProgramEnrollmentEvaluatorTest{
 			Date executionDate = Date.today();
 			Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
 			engagementListCriteria.Academic_Status__c = academicStatus;
-			ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+			engagementListCriteria.Course_Grade__c = '100';
+			engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
+			engagementListCriteria.Breach__c = breach.Id;
+			engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
+			ELCProgramEnrollmentParser programEnrollmentParser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+			ELCLeaveOfAbsenceParser loaParser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
+			ELCProgramEnrollmentBreachParser progEnrollmentBreachParser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
+			ELCCourseConnectionAssessmentParser courseConnectionAssesmentParser = new ELCCourseConnectionAssessmentParser(engagementListCriteria, executionDate);
+			ELCCourseConnectionParser courseConnectionParser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
 
 			ELCParser elcParser = new ELCParser(engagementListCriteria, executionDate);
 			// Contact contact = new Contact();
@@ -39,7 +52,12 @@ private class ELCProgramEnrollmentEvaluatorTest{
 			ELCProgramEnrollmentEvaluator progEnrollment = new ELCProgramEnrollmentEvaluator(elcParser);
 			progEnrollment.evaluate(contactMap);
 			Test.stopTest();
-			System.assertEquals(parser.getProgramEnrollmentCriteria().academicStatus, academicStatus, 'Incorrect Academic Status');
+			System.assertEquals(programEnrollmentParser.getProgramEnrollmentCriteria().academicStatus, academicStatus, 'Incorrect Academic Status');
+			System.assertEquals(loaParser.getLeaveOfAbsencesCriteria().isOnLeave, true, 'Is On Leave should not be false');
+			System.assertEquals(progEnrollmentBreachParser.getProgramEnrollmentBreachCriteria().breach, breach.Id, 'Incorrect Breach Id assigned');
+			System.assertEquals(courseConnectionAssesmentParser.getCourseConnectionAssessmentCriteria().assessmentGrade, null, 'Assessment grade should be null');
+			System.assertEquals(courseConnectionAssesmentParser.getCourseConnectionAssessmentCriteria().submissionDate, null, 'Submission Date should be null');
+			System.assertEquals(courseConnectionParser.getCourseConnectionCriteria().courseGrade, '100', 'Incorrect Course Grade');
 		}
 	}
 

@@ -18,7 +18,7 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
     // Return null if query not executed
     public Map<Id, List<hed__Program_enrollment__c>> evaluate(Map<Id, Contact> contactMap) {  
-        if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
+        if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty() && !isAllChildCriteriaEmpty()) { 
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
