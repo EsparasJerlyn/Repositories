@@ -38,7 +38,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
             Id contactId = mockIdGen.getMockId();
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
-            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setIsQUTStudent(false);
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
             contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
@@ -228,6 +228,65 @@ public with sharing class LeaveOfAbsencesDAOTest {
                     AccessLevel.USER_MODE
                 );
             System.assertEquals(leaveOfAbsenceList.size(), leaveOfAbsenceListCreated.size(),  'leaveOfAbsenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaNegativeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+    
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+
+            List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlanListCreated[0].Category_Type__c = 'Graduate Certificate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlanListCreated,true,AccessLevel.SYSTEM_MODE);
+    
+            List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
+            programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
+            programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            //Create leave of absence record to test negative scenarios
+            List<Leave_of_Absence__c> leaveOfAbsenceListCreated = TestDataFactory.createLeaveOfAbsenceRecord(1);
+            leaveOfAbsenceListCreated[0].Start_Date__c = null; 
+            leaveOfAbsenceListCreated[0].End_Date__c = null; 
+            leaveOfAbsenceListCreated[0].hed_Program_Enrollment__c = programEnrollmentListCreated[0].Id;
+            leaveOfAbsenceListCreated[0].Leave_No__c = 001;
+            leaveOfAbsenceListCreated[0].Student__c = contactList[0].Id;
+            LeaveOfAbsencesDAO.newInstance().insertRecords(leaveOfAbsenceListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
+            leaveOfAbsenceCriteria.setIsOnleave(true);
+            leaveOfAbsenceCriteria.setExecutionDate(Date.today());
+            leaveOfAbsenceCriteria.setEndDateFrom(-10);
+            leaveOfAbsenceCriteria.setEndDateTo(10);
+            
+            ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
+            programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
+            programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
+            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
+            
+            List<Leave_of_Absence__c> leaveOfAbsenceList = LeaveOfAbsencesDAO.newInstance()
+                .findByCriteria(
+                    leaveOfAbsenceCriteria,
+                    programEnrollmentCriteria,
+                    contactCriteria,
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leaveOfAbsenceList.isEmpty(),  'Leave Of Absence record should be empty.');
         }
         Test.stopTest();
     }
