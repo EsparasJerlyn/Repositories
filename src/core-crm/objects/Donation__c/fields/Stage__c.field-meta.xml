@@ -36,6 +36,11 @@
                 <label>Received</label>
             </value>
             <value>
+                <fullName>Completed - Part Paid</fullName>
+                <default>false</default>
+                <label>Completed - Part Paid</label>
+            </value>
+            <value>
                 <fullName>Completed</fullName>
                 <default>false</default>
                 <label>Completed</label>
@@ -49,11 +54,6 @@
                 <fullName>New</fullName>
                 <default>false</default>
                 <label>New</label>
-            </value>
-            <value>
-                <fullName>Completed - Part Paid</fullName>
-                <default>false</default>
-                <label>Completed - Part Paid</label>
             </value>
             <value>
                 <fullName>Active</fullName>

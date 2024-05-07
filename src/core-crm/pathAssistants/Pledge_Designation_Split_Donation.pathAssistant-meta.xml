@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Donation__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>Pledge Designation Split Donation</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Accepted’ indicates that the donation distribution has been agreed by donor for donation to QUT.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Accepted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Cancelled’ indicates that the donation distribution has been cancelled.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Cancelled</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Completed’ indicates that the donation has been distributed to the cause&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Pledge_Designation_Split</recordTypeName>
+</PathAssistant>
