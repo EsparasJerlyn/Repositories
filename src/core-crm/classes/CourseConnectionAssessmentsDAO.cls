@@ -95,8 +95,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             && courseConnectionAssessmentsCriteria.keyDateOffsetUpperBoundary != null
         ){
             soql = soql 
-            + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-            + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' ';
+            + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+            + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' ';
         }
 
         return soql;

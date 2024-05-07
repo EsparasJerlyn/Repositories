@@ -69,8 +69,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                 + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
-                + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-                + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
+                + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+                + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -123,8 +123,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                 + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
-                + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-                + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
+                + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+                + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -178,8 +178,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                 + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
                 + 'AND Submission_Date__c = ' + submissionDateString + ' '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
-                + 'AND Submission_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
-                + 'AND Submission_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
+                + 'AND Assessment_Name__r.Due_Date__c >= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetLowerBoundary() + ' ' 
+                + 'AND Assessment_Name__r.Due_Date__c <= ' + courseConnectionAssessmentsCriteria.getkeyDateOffsetUpperBoundary() + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
@@ -225,9 +225,15 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionListCreated[0].hed__Display_Grade__c = '100';
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
             
+            Assessment__c assessmentCreated = new Assessment__c();
+            assessmentCreated.Assessment_Priority__c = 'Low';
+            assessmentCreated.Due_Date__c = Date.today();
+            insert assessmentCreated;
+            
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Assessment_Grade__c = '100';
             courseConnectionAssessmentListCreated[0].Submission_Date__c = Date.today();
+            courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentCreated.Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
