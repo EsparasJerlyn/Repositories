@@ -49,13 +49,12 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         }
 
         if(
-            leaveOfAbsenceCriteria.executionDate != null 
-            && leaveOfAbsenceCriteria.endDateFrom != null  
+            leaveOfAbsenceCriteria.endDateFrom != null  
             && leaveOfAbsenceCriteria.endDateTo != null
         ){
             soql = soql 
-            + 'AND End_Date__c >= ' + leaveOfAbsenceCriteria.getEndDateFrom() + ' ' 
-            + 'AND End_Date__c <= ' + leaveOfAbsenceCriteria.getEndDateTo() + ' ';
+            + 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' 
+            + 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' ';
         }
 
         return soql;
@@ -134,9 +133,8 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
      */
     public class Criteria {
         private Boolean isOnLeave;  
-        private Date executionDate;
-        private Integer endDateFrom;
-        private Integer endDateTo;
+        private Date endDateFrom;
+        private Date endDateTo;
         
 
         public Boolean getIsOnLeave(){
@@ -147,44 +145,24 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             this.isOnLeave = isOnLeave;
         }
 
-        public Date getExecutionDate(){
-            return executionDate;
+        public Date getEndDateFrom(){
+            return this.endDateFrom;
         }
 
-        public void setExecutionDate(Date executionDate){
-            this.executionDate = executionDate;
-        }
-
-        public String getEndDateFrom(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.endDateFrom);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
-                return strReturnDate;
-            } else {
-                return null;
-            }
-        }
-
-        public void setEndDateFrom(Integer endDateFrom){
+        public void setEndDateFrom(Date endDateFrom){
             this.endDateFrom = endDateFrom;
         }
 
-        public String getEndDateTo(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.endDateTo);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
-                return strReturnDate;
-            } else {
-                return null;
-            }
+        public Date getEndDateTo(){
+            return this.endDateTo;
         }
 
-        public void setEndDateTo(Integer endDateTo){
+        public void setEndDateTo(Date endDateTo){
             this.endDateTo = endDateTo;
         }
         
         public Boolean isEmpty() {
-            return isOnLeave == null && executionDate == null && endDateTo == null && endDateFrom == null;
+            return isOnLeave == null && endDateTo == null && endDateFrom == null;
         }
     }
 

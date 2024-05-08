@@ -145,6 +145,11 @@ public inherited sharing class DynamicQueryService {
         return returnDate;
     }
 
+    public static String convertDatetoDateString(Date varDate){
+        String strReturnDate =  DateTime.newInstance(varDate.year(), varDate.month(), varDate.day()).format('YYYY-MM-dd');
+        return strReturnDate;
+    }
+
     public static String convertDatetoDateTimeGMTString(Date varDate){
         String strReturnDate =  DateTime.newInstance(varDate.year(), varDate.month(), varDate.day()).format('YYYY-MM-dd HH:mm:ss');
         strReturnDate = strReturnDate.replaceFirst(' ', 'T') + 'Z';
