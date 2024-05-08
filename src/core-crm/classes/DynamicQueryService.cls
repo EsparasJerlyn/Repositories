@@ -140,6 +140,15 @@ public inherited sharing class DynamicQueryService {
         return String.join(formattedStrings, ', ');
     }
 
+    public static String formatStringSetForWhereClause(Set<Id> idSet){
+        Set<String> stringIdSet = (Set<String>)JSON.deserialize(JSON.serialize(idSet), Set<String>.class);
+        List<String> formattedStrings = new List<String>();
+        for(String stringValue : stringIdSet){
+            formattedStrings.add('\'' + stringValue + '\'');
+        }
+        return String.join(formattedStrings, ', ');
+    }
+
     public class FilterWrapper{
         public Set<Id> recordIds;
         public SObjectType sObjectType;

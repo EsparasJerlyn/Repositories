@@ -188,15 +188,17 @@ private class DynamicQueryServiceTest {
     }
 
     @isTest
-    private static void formatStringSetForWhereClauseNegativeTest() {
+    private static void formatIdStringSetForWhereClauseTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
-            Test.startTest();
-            
-            String expected = '\'Active\', \'Enrolled\'';
-            String actual = DynamicQueryService.formatStringSetForWhereClause(new Set<String>{'Active', 'Accepted'});
+            Test.startTest();                      
+            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType);
+            Id contactId1 = contactMock.getMockId();
+            Id contactId2 = contactMock.getMockId();
+            String expected = '\'' + contactId1 + '\', \'' + contactId2 + '\'';
+            String actual = DynamicQueryService.formatStringSetForWhereClause(new Set<Id>{contactId1, contactId2});
 
-            System.assert(expected != actual, 'String format should not be equal.');
+            System.assertEquals(expected, actual, 'Incorrect String format.');
 
             Test.stopTest();
         }
