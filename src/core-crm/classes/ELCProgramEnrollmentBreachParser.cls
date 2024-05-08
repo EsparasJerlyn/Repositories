@@ -47,9 +47,8 @@ public with sharing class ELCProgramEnrollmentBreachParser {
             if (programEnrollmentBreachCriteria == null) {
                 programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             }
-            programEnrollmentBreachCriteria.setBreachDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
-            programEnrollmentBreachCriteria.setBreachDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
-            programEnrollmentBreachCriteria.setExecutionDate(this.executionDate);
+            programEnrollmentBreachCriteria.setBreachDateFrom(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+            programEnrollmentBreachCriteria.setBreachDateTo(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return programEnrollmentBreachCriteria;
     }
