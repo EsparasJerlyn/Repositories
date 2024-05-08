@@ -99,9 +99,8 @@ public with sharing class CompletedCadencesDAOTest {
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             completedCadenceCriteria.setCompletedCadence(completedCadenceName);
             completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
-            completedCadenceCriteria.setExecutionDate(Date.today());
-            completedCadenceCriteria.setCompletedCadanceDateFrom(-10);
-            completedCadenceCriteria.setCompletedCadanceDateTo(10);
+            completedCadenceCriteria.setCompletedCadanceDateFrom(Date.today().addDays(-10));
+            completedCadenceCriteria.setCompletedCadanceDateTo(Date.today().addDays(10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -111,8 +110,8 @@ public with sharing class CompletedCadencesDAOTest {
             String expectedWhereClauseString = 'WHERE '
             + 'Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' '
             + 'AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' ' 
-            + 'AND LastModifiedDate >= ' + completedCadenceCriteria.getCompletedCadanceDateFrom() + ' ' 
-            + 'AND LastModifiedDate <= ' + completedCadenceCriteria.getCompletedCadanceDateTo() + ' '
+            + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
             + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
             System.assertEquals(expectedWhereClauseString, whereClauseString, 'Incorrect Where Clause by criteria.');
@@ -143,9 +142,8 @@ public with sharing class CompletedCadencesDAOTest {
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             completedCadenceCriteria.setCompletedCadence(completedCadenceName);
             completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
-            completedCadenceCriteria.setExecutionDate(Date.today());
-            completedCadenceCriteria.setCompletedCadanceDateFrom(-10);
-            completedCadenceCriteria.setCompletedCadanceDateTo(10);
+            completedCadenceCriteria.setCompletedCadanceDateFrom(Date.today().addDays(-10));
+            completedCadenceCriteria.setCompletedCadanceDateTo(Date.today().addDays(10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -160,8 +158,8 @@ public with sharing class CompletedCadencesDAOTest {
             String expectedQueryString = 'SELECT Contact__c FROM Completed_Cadence__c WHERE '
             + 'Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' '
             + 'AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' ' 
-            + 'AND LastModifiedDate >= ' + completedCadenceCriteria.getCompletedCadanceDateFrom() + ' ' 
-            + 'AND LastModifiedDate <= ' + completedCadenceCriteria.getCompletedCadanceDateTo() + ' '
+            + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
             + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
             
@@ -179,9 +177,8 @@ public with sharing class CompletedCadencesDAOTest {
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             completedCadenceCriteria.setCompletedCadence(completedCadenceName);
             completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
-            completedCadenceCriteria.setExecutionDate(Date.today());
-            completedCadenceCriteria.setCompletedCadanceDateFrom(-10);
-            completedCadenceCriteria.setCompletedCadanceDateTo(10);
+            completedCadenceCriteria.setCompletedCadanceDateFrom(Date.today().addDays(-10));
+            completedCadenceCriteria.setCompletedCadanceDateTo(Date.today().addDays(10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -195,8 +192,8 @@ public with sharing class CompletedCadencesDAOTest {
             String expectedQueryString = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c WHERE '
             + 'Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' '
             + 'AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' ' 
-            + 'AND LastModifiedDate >= ' + completedCadenceCriteria.getCompletedCadanceDateFrom() + ' ' 
-            + 'AND LastModifiedDate <= ' + completedCadenceCriteria.getCompletedCadanceDateTo() + ' '
+            + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
             + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
             System.assertEquals(expectedQueryString, actualQueryString, 'Incorrect Where Clause');
@@ -233,9 +230,8 @@ public with sharing class CompletedCadencesDAOTest {
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
-            completedCadenceCriteria.setExecutionDate(Date.today());
-            completedCadenceCriteria.setCompletedCadanceDateFrom(-10);
-            completedCadenceCriteria.setCompletedCadanceDateTo(10);
+            completedCadenceCriteria.setCompletedCadanceDateFrom(Date.today().addDays(-10));
+            completedCadenceCriteria.setCompletedCadanceDateTo(Date.today().addDays(10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
