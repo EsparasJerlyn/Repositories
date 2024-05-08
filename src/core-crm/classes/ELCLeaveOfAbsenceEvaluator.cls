@@ -18,13 +18,13 @@ public with sharing class ELCLeaveOfAbsenceEvaluator {
 
     // Return null if query not executed
     public Map<Id, List<Leave_of_Absence__c>> evaluate(Map<Id, Contact> contactMap) {  
-        if (!elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsenceCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
+        if (!elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
-            elcParser.getContactCriteria().setContactIdSet(contactMap.keySet());
+            elcParser.getELCContactParser().getContactCriteria().contactIdSet = contactMap.keySet();
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
             //add contact id set into soql
-            List<Leave_of_Absence__c> leaveOfAbsences = LeaveOfAbsencesDAO.findByCriteria(elcParser.getLeaveOfAbsenceCriteria(), elcParser.getContactCriteria());
+            List<Leave_of_Absence__c> leaveOfAbsences = LeaveOfAbsencesDAO.newInstance().findByCriteria(elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria(),elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), elcParser.getELCContactParser().getContactCriteria());
             return groupByContact(leaveOfAbsences);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
