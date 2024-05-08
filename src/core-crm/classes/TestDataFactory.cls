@@ -69,6 +69,9 @@
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
+ *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
+
+
  **/
 
 @isTest
@@ -109,7 +112,8 @@ public class TestDataFactory {
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
-        'QUT_International_Future_Student_Agent'
+        'QUT_International_Future_Student_Agent',
+        'QUT_Student_Success_Outreach_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -2351,6 +2355,21 @@ public class TestDataFactory {
         return sysAdmin;
     }
 
+    /**
+     * @description Method for creating Student Success Outreach Manager
+     * @param void
+     * @return studentSuccessOutreachManager - Student Success Outreach Manager User
+     */
+    public static User getStudentSuccessOutreachManager() {
+        User studentSuccessOutreachManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Student_Success_Outreach_Manager%'
+            LIMIT 1
+        ];
+        return studentSuccessOutreachManager;
+    }
+
     class TestUserGenerator {
         private Map<String, Id> groupMap;
         private Map<String, Id> profileMap;
@@ -3083,6 +3102,22 @@ public class TestDataFactory {
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            /** START - Creation of  Student Success Users : DEPP-8078 (Persona Guide for IT4) */
+            else if (name == 'QUT_Student_Success_Outreach_Manager') {
+                userName = 'QUT_Student_Success_Outreach_Manager';
+                profileName = 'Student Success';
+                roleName = 'Student Success Outreach Manager';
+                permSets = 'Student_Success_Base,Student_Success_Super_User';
+                publicGroups = 'Student Success Outreach Manager';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
                 isMarketingUser = false;
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
@@ -3998,5 +4033,22 @@ public class TestDataFactory {
         newWorkTypes.get(0).Name = 'International Phone Calls';
         newWorkTypes.get(1).Name = 'Domestic Phone Calls';
         return newWorkTypes;
+    }
+
+    /** @description Method for Assessment Records
+     * @return workTypes - list of WorkTypes created
+     */
+    public static List<Assessment__c> createTestAssessmentRecords(Integer numberOfAssesmentRecords) {
+        List<Assessment__c> assessmentRecords = new List<Assessment__c>();
+        for (Integer i = 0; i < numberOfAssesmentRecords; i++) {
+            assessmentRecords.add(
+                new Assessment__c(
+                    Name = 'Test' + i,
+                    Assessment_Priority__c = 'High'
+                )
+            );
+        }
+
+        return assessmentRecords;
     }
 }
