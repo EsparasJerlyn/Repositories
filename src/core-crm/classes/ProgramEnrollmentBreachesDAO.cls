@@ -62,13 +62,12 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
             soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' ' ;
         }
         if(
-            programEnrollmentBreachCriteria.executionDate != null 
-            && programEnrollmentBreachCriteria.breachDateFrom != null  
+            programEnrollmentBreachCriteria.breachDateFrom != null  
             && programEnrollmentBreachCriteria.breachDateTo != null
         ){
             soql = soql 
-            + 'AND Breach_Date__c >= ' + programEnrollmentBreachCriteria.getBreachDateFrom() + ' ' 
-            + 'AND Breach_Date__c <= ' + programEnrollmentBreachCriteria.getBreachDateTo() + ' ';
+            + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+            + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' ';
         }
 
         return soql;
@@ -151,12 +150,11 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
     public class Criteria {
         private Id breach;
         private Set<String> breachStatus;
-        private Date executionDate;
-        private Integer breachDateFrom;
-        private Integer breachDateTo;
+        private Date breachDateFrom;
+        private Date breachDateTo;
 
         public Boolean isEmpty() {
-            return breach == null && breachStatus == null && executionDate == null 
+            return breach == null && breachStatus == null 
                 && breachDateFrom == null && breachDateTo == null;
         }
 
@@ -176,40 +174,20 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
             this.breachStatus = breachStatus;
         }
 
-        public Date getExecutionDate(){
-            return executionDate;
+        public Date getBreachDateFrom(){
+            return breachDateFrom;
         }
 
-        public String getBreachDateFrom(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.breachDateFrom);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
-                return strReturnDate;
-            } else {
-                return null;
-            }
-        }
-
-        public void setBreachDateFrom(Integer breachDateFrom){
+        public void setBreachDateFrom(Date breachDateFrom){
             this.breachDateFrom = breachDateFrom;
         }
 
-        public String getBreachDateTo(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.breachDateTo);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
-                return strReturnDate;
-            } else {
-                return null;
-            }
+        public Date getBreachDateTo(){
+            return breachDateTo;
         }
 
-        public void setBreachDateTo(Integer breachDateTo){
+        public void setBreachDateTo(Date breachDateTo){
             this.breachDateTo = breachDateTo;
-        }
-
-        public void setExecutionDate(Date executionDate){
-            this.executionDate = executionDate;
         }
     }
     

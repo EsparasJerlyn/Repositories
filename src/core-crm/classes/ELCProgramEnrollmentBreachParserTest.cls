@@ -67,9 +67,8 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
             ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getExecutionDate(), executionDate, 'Incorrect Execution Date');
-            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreachDateFrom(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreachDateTo(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateFrom()), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateTo()), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
         }
     }
 }

@@ -50,16 +50,15 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
             programEnrollmentBreachCriteria.setBreach(mockIdGen.getMockId());
-            programEnrollmentBreachCriteria.setExecutionDate(Date.today());
-            programEnrollmentBreachCriteria.setBreachDateFrom(-10);
-            programEnrollmentBreachCriteria.setBreachDateTo(10);
+            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(-10));
+            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
             
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
-                + 'AND Breach_Date__c >= ' + programEnrollmentBreachCriteria.getBreachDateFrom() + ' ' 
-                + 'AND Breach_Date__c <= ' + programEnrollmentBreachCriteria.getBreachDateTo() + ' '
+                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -106,16 +105,15 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
             programEnrollmentBreachCriteria.setBreach(mockIdGen.getMockId());
-            programEnrollmentBreachCriteria.setExecutionDate(Date.today());
-            programEnrollmentBreachCriteria.setBreachDateFrom(-10);
-            programEnrollmentBreachCriteria.setBreachDateTo(10);
+            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(-10));
+            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getContactQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Program_Enrollment__r.hed__Contact__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
-                + 'AND Breach_Date__c >= ' + programEnrollmentBreachCriteria.getBreachDateFrom() + ' ' 
-                + 'AND Breach_Date__c <= ' + programEnrollmentBreachCriteria.getBreachDateTo() + ' '
+                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -148,16 +146,15 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
             programEnrollmentBreachCriteria.setBreach(mockIdGen.getMockId());
-            programEnrollmentBreachCriteria.setExecutionDate(Date.today());
-            programEnrollmentBreachCriteria.setBreachDateFrom(-10);
-            programEnrollmentBreachCriteria.setBreachDateTo(10);
+            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(-10));
+            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
-                + 'AND Breach_Date__c >= ' + programEnrollmentBreachCriteria.getBreachDateFrom() + ' ' 
-                + 'AND Breach_Date__c <= ' + programEnrollmentBreachCriteria.getBreachDateTo() + ' '
+                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -204,9 +201,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
             programEnrollmentBreachCriteria.setBreach(breachCreated.Id);
-            programEnrollmentBreachCriteria.setExecutionDate(Date.today());
-            programEnrollmentBreachCriteria.setBreachDateFrom(-10);
-            programEnrollmentBreachCriteria.setBreachDateTo(10);
+            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(-10));
+            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
@@ -266,9 +262,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
             programEnrollmentBreachCriteria.setBreach(breachCreated.Id);
-            programEnrollmentBreachCriteria.setExecutionDate(Date.today());
-            programEnrollmentBreachCriteria.setBreachDateFrom(-10);
-            programEnrollmentBreachCriteria.setBreachDateTo(10);
+            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(-10));
+            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);

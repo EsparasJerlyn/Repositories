@@ -68,9 +68,8 @@ public with sharing class ELCCompletedCadenceParserTest {
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getCompletedCadenceCriteria().getExecutionDate(), executionDate, 'Incorrect Execution Date');
-            System.assertEquals(parser.getCompletedCadenceCriteria().getCompletedCadanceDateFrom(), expectedDateFrom, 'Incorrect Key Date Offset Lower');
-            System.assertEquals(parser.getCompletedCadenceCriteria().getCompletedCadanceDateTo(), expectedDateTo, 'Incorrect Key Date Offset Upper');
+            System.assertEquals(DynamicQueryService.convertDatetoDateTimeGMTString(parser.getCompletedCadenceCriteria().getCompletedCadanceDateFrom()), expectedDateFrom, 'Incorrect Key Date Offset Lower');
+            System.assertEquals(DynamicQueryService.convertDatetoDateTimeGMTString(parser.getCompletedCadenceCriteria().getCompletedCadanceDateTo()), expectedDateTo, 'Incorrect Key Date Offset Upper');
         }
     }
 }

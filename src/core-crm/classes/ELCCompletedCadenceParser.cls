@@ -48,10 +48,9 @@ public with sharing class ELCCompletedCadenceParser {
             if (completedCadenceCriteria == null) {
                 completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             }
-    
-            completedCadenceCriteria.setCompletedCadanceDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
-            completedCadenceCriteria.setCompletedCadanceDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
-            completedCadenceCriteria.setExecutionDate(this.executionDate);
+
+            completedCadenceCriteria.setCompletedCadanceDateFrom(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+            completedCadenceCriteria.setCompletedCadanceDateTo(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return completedCadenceCriteria;
     }
@@ -68,4 +67,6 @@ public with sharing class ELCCompletedCadenceParser {
     public CompletedCadencesDAO.Criteria getCompletedCadenceCriteria() {
         return completedCadenceCriteria;
     }
+
+    
 }

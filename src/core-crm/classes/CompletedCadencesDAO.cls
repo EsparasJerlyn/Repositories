@@ -141,13 +141,12 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.getStatus() + '\' ' ;
         }
         if(
-            completedCadenceCriteria.executionDate != null 
-            && completedCadenceCriteria.completedCadanceDateFrom != null  
-            && completedCadenceCriteria.completedCadanceDateTo != null
+            completedCadenceCriteria.getCompletedCadanceDateFrom() != null  
+            && completedCadenceCriteria.getCompletedCadanceDateTo() != null
         ){
             soql = soql 
-            + 'AND LastModifiedDate >= ' + completedCadenceCriteria.getCompletedCadanceDateFrom() + ' ' 
-            + 'AND LastModifiedDate <= ' + completedCadenceCriteria.getCompletedCadanceDateTo() + ' ';
+            + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' ';
         }  
     
         return soql; 
@@ -198,9 +197,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     public class Criteria {
         private String status;
         private String completedCadence;   
-        private Date executionDate;
-        private Integer completedCadanceDateFrom;
-        private Integer completedCadanceDateTo;
+        private Date completedCadanceDateFrom;
+        private Date completedCadanceDateTo;
 
         public String getStatus() {
             return status;
@@ -218,43 +216,24 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             this.completedCadence = completedCadence;
         }
 
-        public Date getExecutionDate() {
-            return executionDate;
-        }
+        public Date getCompletedCadanceDateFrom(){
+            return this.completedCadanceDateFrom;
+        } 
 
-        public void setExecutionDate(Date executionDate) {
-            this.executionDate = executionDate;
-        }
-
-        public String getCompletedCadanceDateFrom(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.completedCadanceDateFrom);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd HH:mm:ss');
-                strReturnDate = strReturnDate.replaceFirst(' ', 'T') + 'Z';
-                return strReturnDate;
-            } else {
-                return null;
-            }
-        }
-        public void setCompletedCadanceDateFrom(Integer completedCadanceDateFrom){
+        public void setCompletedCadanceDateFrom(Date completedCadanceDateFrom){
             this.completedCadanceDateFrom = completedCadanceDateFrom;
-        }
-        public String getCompletedCadanceDateTo(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.completedCadanceDateTo);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd HH:mm:ss');
-                strReturnDate = strReturnDate.replaceFirst(' ', 'T') + 'Z';
-                return strReturnDate;
-            } else {
-                return null;
-            }
-        }
-        public void setCompletedCadanceDateTo(Integer completedCadanceDateTo){
+        } 
+
+        public Date getCompletedCadanceDateTo(){
+            return this.completedCadanceDateTo;
+        } 
+
+        public void setCompletedCadanceDateTo(Date completedCadanceDateTo){
             this.completedCadanceDateTo = completedCadanceDateTo;
         }
         
         public Boolean isEmpty() {
-            return status == null && completedCadence == null && completedCadanceDateTo == null && completedCadanceDateFrom == null && executionDate == null;
+            return status == null && completedCadence == null && completedCadanceDateTo == null && completedCadanceDateFrom == null;
         }
     }
    

@@ -149,6 +149,22 @@ public inherited sharing class DynamicQueryService {
         return String.join(formattedStrings, ', ');
     }
 
+    public static Date calculateDateOffset(Date varDate, Integer offSetDays){
+        Date returnDate = varDate.addDays(offSetDays);
+        return returnDate;
+    }
+
+    public static String convertDatetoDateString(Date varDate){
+        String strReturnDate =  DateTime.newInstance(varDate.year(), varDate.month(), varDate.day()).format('YYYY-MM-dd');
+        return strReturnDate;
+    }
+
+    public static String convertDatetoDateTimeGMTString(Date varDate){
+        String strReturnDate =  DateTime.newInstance(varDate.year(), varDate.month(), varDate.day()).format('YYYY-MM-dd HH:mm:ss');
+        strReturnDate = strReturnDate.replaceFirst(' ', 'T') + 'Z';
+        return strReturnDate;
+    }
+
     public class FilterWrapper{
         public Set<Id> recordIds;
         public SObjectType sObjectType;
