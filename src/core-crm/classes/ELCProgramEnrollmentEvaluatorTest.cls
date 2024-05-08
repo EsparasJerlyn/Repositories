@@ -52,12 +52,12 @@ private class ELCProgramEnrollmentEvaluatorTest{
 			ELCProgramEnrollmentEvaluator progEnrollment = new ELCProgramEnrollmentEvaluator(elcParser);
 			progEnrollment.evaluate(contactMap);
 			Test.stopTest();
-			System.assertEquals(programEnrollmentParser.getProgramEnrollmentCriteria().academicStatus, academicStatus, 'Incorrect Academic Status');
-			System.assertEquals(loaParser.getLeaveOfAbsencesCriteria().isOnLeave, true, 'Is On Leave should not be false');
-			System.assertEquals(progEnrollmentBreachParser.getProgramEnrollmentBreachCriteria().breach, breach.Id, 'Incorrect Breach Id assigned');
-			System.assertEquals(courseConnectionAssesmentParser.getCourseConnectionAssessmentCriteria().assessmentGrade, null, 'Assessment grade should be null');
-			System.assertEquals(courseConnectionAssesmentParser.getCourseConnectionAssessmentCriteria().submissionDate, null, 'Submission Date should be null');
-			System.assertEquals(courseConnectionParser.getCourseConnectionCriteria().courseGrade, '100', 'Incorrect Course Grade');
+			System.assertEquals(programEnrollmentParser.getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');
+			System.assertEquals(loaParser.getLeaveOfAbsencesCriteria().getIsOnLeave(), true, 'Is On Leave should not be false');
+			System.assertEquals(progEnrollmentBreachParser.getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
+			System.assertEquals(courseConnectionAssesmentParser.getCourseConnectionAssessmentCriteria().getAssessmentGrade(), null, 'Assessment grade should be null');
+			System.assertEquals(courseConnectionAssesmentParser.getCourseConnectionAssessmentCriteria().getSubmissionDate(), null, 'Submission Date should be null');
+			System.assertEquals(courseConnectionParser.getCourseConnectionCriteria().getCourseGrade(), '100', 'Incorrect Course Grade');
 		}
 	}
 

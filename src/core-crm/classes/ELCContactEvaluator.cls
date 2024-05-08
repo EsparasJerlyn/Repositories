@@ -22,7 +22,7 @@ public with sharing class ELCContactEvaluator {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
-            elcParser.getELCContactParser().getContactCriteria().contactIdSet = contactMap.keySet();
+            elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
 
             //add contact id set into soql
             List<Contact> contacts = ContactsDAO.newInstance().findByCriteria(elcParser.getELCContactParser().getContactCriteria(), AccessLevel.SYSTEM_MODE);

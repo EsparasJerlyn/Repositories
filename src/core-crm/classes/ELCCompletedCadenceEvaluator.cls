@@ -20,11 +20,15 @@ public with sharing class ELCCompletedCadenceEvaluator {
     public Map<Id, List<Completed_Cadence__c>> evaluate(Map<Id, Contact> contactMap) {  
         if (!elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
-            elcParser.getELCContactParser().getContactCriteria().contactIdSet = contactMap.keySet();
+            elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
             //add contact id set into soql
-            List<Completed_Cadence__c> completedCadences = CompletedCadencesDAO.newInstance().findByCriteria(elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(), elcParser.getELCContactParser().getContactCriteria());
+            List<Completed_Cadence__c> completedCadences = CompletedCadencesDAO.newInstance().findByCriteria(
+                elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(), 
+                elcParser.getELCContactParser().getContactCriteria(), 
+                AccessLevel.SYSTEM_MODE
+            );
             return groupByContact(completedCadences);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild

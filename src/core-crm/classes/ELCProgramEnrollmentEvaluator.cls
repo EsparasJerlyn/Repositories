@@ -22,10 +22,15 @@ public with sharing class ELCProgramEnrollmentEvaluator {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
-            elcParser.getELCContactParser().getContactCriteria().contactIdSet = contactMap.keySet();
+            elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
 
             //add contact id set into soql
-            List<hed__Program_Enrollment__c> programEnrollments = ProgramEnrollmentsDAO.newInstance().findByCriteria(elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), elcParser.getELCContactParser().getContactCriteria());
+            List<hed__Program_Enrollment__c> programEnrollments = ProgramEnrollmentsDAO.newInstance().findByCriteria(
+                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), 
+                elcParser.getELCContactParser().getContactCriteria(), 
+                AccessLevel.SYSTEM_MODE
+            );
+            
             return groupByContact(programEnrollments);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
