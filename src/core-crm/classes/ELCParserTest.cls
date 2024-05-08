@@ -63,9 +63,8 @@ public with sharing class ELCParserTest {
             //Checking on the key date criterions
             Date execDateLower = executionDate.addDays(-10);
             Date execDateUpper = executionDate.addDays(10);
-            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateFrom(), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateTo(), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
-            System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getExecutionDate(), executionDate, 'Incorrect Excecution Date');
+            System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateFrom()), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
+            System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateTo()), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
 
             //Checking on the hidden criterias
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
