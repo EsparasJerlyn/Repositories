@@ -4,17 +4,18 @@
  *
  * @history
  *
- *    |  Developer Email                | Date                  | JIRA                   | Change Summary                                 |
-      |---------------------------------|-----------------------|------------------------|------------------------------------------------|
-      |  nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                   |
-      |  kim.howard.capanas             | April 18, 2024        | DEPP-8499              | added getDonationAssetsByDonationId method     |
-      |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added CAUSE_RECTYPE_ID                         |
-      |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds               |
-      |  kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added final Strings for stages and payment type|
-      |                                 |                       |                        | queryLocatorGetDonationsForStageUpdate         |
-      |  nicole.genon                   | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,      |
-      |                                 |                       |                        | getDonationsBySetRecordTypeIds                 |
+ *    |  Developer Email                | Date                  | JIRA                   | Change Summary                                                        |
+      |---------------------------------|-----------------------|------------------------|-----------------------------------------------------------------------|
+      |  nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                                          |
+      |  kim.howard.capanas             | April 18, 2024        | DEPP-8499              | added getDonationAssetsByDonationId method                            |
+      |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added CAUSE_RECTYPE_ID                                                |
+      |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds                                      |
+      |  kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added final Strings for stages and payment type                       |
+      |                                 |                       |                        | queryLocatorGetDonationsForStageUpdate                                |
+      |  nicole.genon                   | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,                             |
+      |                                 |                       |                        | getDonationsBySetRecordTypeIds                                        |
 */
+
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
     //Strings for payment types
     public static final String RECURRING_PAYMENT_TYPE = 'Recurring Payment';
@@ -143,7 +144,7 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     ) {
         if (!recordTypeIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Stage__c, Opportunity__c, Payment_Type__c, To_Designation__c, Contact__c ' + 
+                'SELECT Id, Stage__c, Opportunity__c, Payment_Type__c, To_Designation__c, Contact__c, Cancellation_Reason__c, Cancellation_Comment__c, Cancellation_Date__c ' + 
                 'FROM Donation__c WHERE RecordTypeId IN :recordTypeIds',
                 accessLevel
             );

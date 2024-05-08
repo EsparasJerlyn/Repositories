@@ -12,6 +12,8 @@
       |                                |                       |                        | stageToCompletedPartPaidHasAcceptedStageEndowmentTest,   |
       |                                |                       |                        | stageToCompletedPartPaidPledgeTest,                      |
       |                                |                       |                        | stageToCompletedPartPaidHasAcceptedStagePledgeTest       |
+      | nicole.genon                   | May 6, 2024           | DEPP-8606              | stageToCancelledHasCompletedStagePledgeTest              |
+      |                                |                       |                        | stageToCancelledPledgeTest                               |
  */
 @isTest
 public class DonationStageUpdateFlowTest {
@@ -85,7 +87,7 @@ public class DonationStageUpdateFlowTest {
             List<Donation__c> donationPledgeList = TestDataFactory.createDonationRecordsWithRecordType(1,DonationsDAO.PLEDGE_RECTYPE_ID);
             for(Donation__c donation : donationPledgeList){
                 donation.Payment_Type__c = 'Payment Plan';
-                donation.Stage__c = 'Completed';
+                donation.Stage__c = 'Accepted';
                 donation.Total_Amount__c = 1000;
                 donation.Opportunity__c = individualOpportunityRecords[0].Id;
                 donation.Contact__c = individualOpportunityRecords[0].Contact__c;
@@ -99,7 +101,6 @@ public class DonationStageUpdateFlowTest {
                 donationChild.Total_Amount__c = 5;
                 donationChild.Contact__c = donationPledgeList[0].Contact__c;
                 donationChild.Donation_Parent__c = donationPledgeList[0].Id;
-                System.debug('Pledge parent: ' + donationChild.Donation_Parent__c);
                 donationChild.Instalment_Date__c = System.Today();
                 donationChild.Stage__c = (pledgeCounter < 50)? 'Completed' : 'Cancelled';
                 pledgeCounter++;
@@ -245,6 +246,61 @@ public class DonationStageUpdateFlowTest {
             List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
             for(Donation__c donation : donationsToCheck){
             	System.assertNotEquals('Completed - Part Paid', donation.Stage__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    private static void stageToCancelledPledgeTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
+
+            //Get Child Donation Records
+            List<Donation__c> childDonations = DonationsDAO.newInstance().getDonationsBySetDonationParentIds(new Set<Id>{donationsToUpdate[0].Id}, AccessLevel.USER_MODE);
+
+            for(Donation__c childDon : childDonations){
+                childDon.Stage__c = 'Accepted';
+            } 
+            DonationsDAO.newInstance().updateRecords(childDonations, false, AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c donation : donationsToUpdate){
+                donation.Cancellation_Comment__c = 'Test Cancelled Pledge';
+                donation.Cancellation_Reason__c = 'Donor Requested Cancellation';
+                donation.Stage__c = 'Cancelled';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertEquals('Cancelled', donation.Stage__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    private static void stageToCancelledHasCompletedStagePledgeTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c donation : donationsToUpdate){
+                donation.Stage__c = 'Cancelled';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertNotEquals('Cancelled', donation.Stage__c, 'Donation record not updated');
             }
             Test.stopTest();
         }

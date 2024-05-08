@@ -9,6 +9,8 @@
  *    |--------------------------------|-----------------------|------------------------|---------------------------------|
  *    | ryan.j.a.dela.cruz             | February 2, 2024      | DEPP-6950              | Created file                    |
  *    | kim.howard.capanas             | March 18, 2024        | DEPP-8203              | Added dynamic filters and logic parameter support for flexipage                 |
+ *    | marygrace.li                   | May 6, 2024           | DEPP-8203              | Updated messageChannel name to  |
+ *    |                                |                       |                        | designationMessageChannel       |
  *    |                                |                       |                        |                                 |
  */
 
@@ -20,7 +22,7 @@ import customForm from "@salesforce/resourceUrl/CustomRecordEditForm";
 import getRecordIds from "@salesforce/apex/DynamicRecordEditFormCtrl.getRecordIds";
 import getUiBehavior from "@salesforce/apex/DynamicRecordEditFormCtrl.getUiBehavior";
 import getContentBlockFilter from "@salesforce/apex/DynamicRecordEditFormCtrl.getContentBlockFilter";
-import donationCauseMessageChannel from '@salesforce/messageChannel/DonationCause__c';
+import designationMessageChannel from '@salesforce/messageChannel/Designation__c';
 
 export default class DynamicRecordEditForm extends LightningElement {
   // start of params
@@ -166,7 +168,7 @@ export default class DynamicRecordEditForm extends LightningElement {
   subscribeToMessageChannel(){
     this.subscription = subscribe(
       this.messageContext, 
-      donationCauseMessageChannel, 
+      designationMessageChannel, 
       (message) => {
         this.handleMessage(message)
       },
@@ -190,7 +192,7 @@ export default class DynamicRecordEditForm extends LightningElement {
         data : lmsMessage
       }
     }
-    publish(this.messageContext, donationCauseMessageChannel, message);
+    publish(this.messageContext, designationMessageChannel, message);
   }
 
   handleCancel(event) {
