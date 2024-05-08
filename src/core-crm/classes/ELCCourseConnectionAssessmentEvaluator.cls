@@ -39,7 +39,8 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
                                                                 elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
                                                                 elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria(), 
                                                                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), 
-                                                                elcParser.getELCContactParser().getContactCriteria()
+                                                                elcParser.getELCContactParser().getContactCriteria(),
+                                                                AccessLevel.SYSTEM_MODE
                                                                 );
             courseConnectionAssessmentsMap = groupByContact(courseConnectionAssessments);
         }
