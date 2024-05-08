@@ -94,4 +94,4 @@ public inherited sharing class DonationsDAOMock extends DmlBaseMock implements I
         }
         return donationList;
     }
-}
+} 

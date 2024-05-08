@@ -14,6 +14,7 @@
       |                                |                       |                        | stageToCompletedPartPaidHasAcceptedStagePledgeTest       |
       | nicole.genon                   | May 6, 2024           | DEPP-8606              | stageToCancelledHasCompletedStagePledgeTest              |
       |                                |                       |                        | stageToCancelledPledgeTest                               |
+      | kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added stageToCancelledCauseTest                          |
  */
 @isTest
 public class DonationStageUpdateFlowTest {
@@ -112,7 +113,7 @@ public class DonationStageUpdateFlowTest {
     }
 
     @isTest
-    private static void stageToCompletedRecurringTest(){
+    private static void stageToCompletedRecurringCauseTest(){
         System.runAs(TestDataFactory.getAdvancementManager()) {
             //Create 1 Designation Record to add to To_Designation__c field
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
@@ -305,4 +306,82 @@ public class DonationStageUpdateFlowTest {
             Test.stopTest();
         }
     }
-}
+    
+    @isTest
+    private static void stageToCancelledCauseTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            //Create 1 Designation Record to add to To_Designation__c field
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
+            
+            //Create Donation Records
+            List<Donation__c> donationList = TestDataFactory.createDonationRecordsWithRecordType(100,DonationsDAO.CAUSE_RECTYPE_ID);
+            for(Donation__c donation : donationList){
+                donation.Payment_Type__c = 'Recurring Payment';
+                donation.Stage__c = 'Accepted';
+                donation.Total_Amount__c = 1000;
+                donation.To_Designation__c = designationList[0].Id;
+            }
+            DonationsDAO.newInstance().insertRecords(donationList, false, AccessLevel.USER_MODE);
+            
+            Test.startTest();
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationList)).keySet(), AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c donation : donationsToUpdate){
+                donation.Cancellation_Date__c = System.Today();
+                donation.Cancellation_Reason__c = 'Designation Discontinued';
+                donation.Cancellation_Comment__c = 'Test Record';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertEquals('Cancelled', donation.Stage__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+    
+    @isTest
+    private static void stageToCancelledCauseWithoutDateTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            //Create 1 Designation Record to add to To_Designation__c field
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
+            
+            //Create Donation Records
+            List<Donation__c> donationList = TestDataFactory.createDonationRecordsWithRecordType(100,DonationsDAO.CAUSE_RECTYPE_ID);
+            for(Donation__c donation : donationList){
+                donation.Payment_Type__c = 'Recurring Payment';
+                donation.Stage__c = 'Accepted';
+                donation.Total_Amount__c = 1000;
+                donation.To_Designation__c = designationList[0].Id;
+            }
+            DonationsDAO.newInstance().insertRecords(donationList, false, AccessLevel.USER_MODE);
+            
+            Test.startTest();
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationList)).keySet(), AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c donation : donationsToUpdate){
+                donation.Stage__c = 'Cancelled';
+                donation.Cancellation_Reason__c = 'Designation Discontinued';
+                donation.Cancellation_Comment__c = 'Test Record';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertEquals(System.Today(), donation.Cancellation_Date__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+} 
