@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | kenneth.f.alsay      	       | April 24, 2024        | DEPP-8528              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                          |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------------|
+      | kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Created file                                            |
+      | kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added updating Cause stage to Cancelled                 |
  */
 public class DonationStageUpdateBatch implements Database.Batchable<sObject>{
     /**
@@ -29,11 +30,18 @@ public class DonationStageUpdateBatch implements Database.Batchable<sObject>{
             List<Donation__c> donationsToUpdate = new List<Donation__c>();
             
             for (Donation__c donation : donationList) {
-                if (isForCompletedRecurring(donation)) {
+                if (isForCauseCompletedRecurring(donation)) {
                     buildDonationWithNewStage(
                         donationsToUpdate,
                         donation,
                         DonationsDAO.COMPLETED_STAGE
+                    );
+                }
+                if (isForCauseCancelledStage(donation)) {
+                    buildDonationWithNewStage(
+                        donationsToUpdate,
+                        donation,
+                        DonationsDAO.CANCELLED_STAGE
                     );
                 }
             }
@@ -54,7 +62,7 @@ public class DonationStageUpdateBatch implements Database.Batchable<sObject>{
         }
     }
 
-    private boolean isForCompletedRecurring(Donation__c donation) {
+    private boolean isForCauseCompletedRecurring(Donation__c donation) {
         return donation.RecordTypeId == DonationsDAO.CAUSE_RECTYPE_ID &&
             donation.Payment_Type__c == DonationsDAO.RECURRING_PAYMENT_TYPE &&
             donation.Final_Instalment_Date__c <= System.today() &&
@@ -62,6 +70,14 @@ public class DonationStageUpdateBatch implements Database.Batchable<sObject>{
             donation.Stage__c != DonationsDAO.CANCELLED_STAGE &&
             donation.Stage__c != DonationsDAO.DECLINED_STAGE &&
             donation.Stage__c != DonationsDAO.PROPOSED_STAGE;
+    }
+
+    private boolean isForCauseCancelledStage(Donation__c donation) {
+        return donation.RecordTypeId == DonationsDAO.CAUSE_RECTYPE_ID &&
+            donation.Cancellation_Date__c <= System.today() &&
+            donation.Stage__c != DonationsDAO.COMPLETED_STAGE &&
+            donation.Stage__c != DonationsDAO.CANCELLED_STAGE &&
+            donation.Stage__c != DonationsDAO.DECLINED_STAGE;
     }
     
     private void buildDonationWithNewStage(
@@ -75,4 +91,4 @@ public class DonationStageUpdateBatch implements Database.Batchable<sObject>{
     @SuppressWarnings('PMD.EmptyStatementBlock')
     public void finish(Database.BatchableContext bc) {
     }
-}
+} 

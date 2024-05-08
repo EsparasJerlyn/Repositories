@@ -18,4 +18,4 @@ public interface IDonationsDAO extends DmlInterface {
     List<Donation__c> getDonationsBySetRecordIds(Set<Id> recordIds, AccessLevel accessLevel);
     List<Donation__c> getDonationsBySetDonationParentIds(Set<Id> donationParentIds, AccessLevel accessLevel);
     List<Donation__c> getDonationsBySetRecordTypeIds(Set<Id> recordTypeIds, AccessLevel accessLevel);
-}  
+} 

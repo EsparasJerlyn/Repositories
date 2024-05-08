@@ -14,6 +14,9 @@
       |                                 |                       |                        | queryLocatorGetDonationsForStageUpdate                                |
       |  nicole.genon                   | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,                             |
       |                                 |                       |                        | getDonationsBySetRecordTypeIds                                        |
+      |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added Cancellation_Date__c to getDonationsBySetRecordTypeIds SOQL     |
+      |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added COMPLETED_PART_PAID_STAGE final string                          |
+      |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added stageToCancelledCauseRule string                                |
 */
 
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
@@ -26,6 +29,7 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     public static final String COMPLETED_STAGE = 'Completed';
     public static final String DECLINED_STAGE = 'Declined';
     public static final String PROPOSED_STAGE = 'Proposed';
+    public static final String COMPLETED_PART_PAID_STAGE = 'Completed - Part Paid';
 
     //Record Type Ids
     public static final Id CAUSE_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
@@ -58,7 +62,7 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     }
 
     public Database.QueryLocator queryLocatorGetDonationsForStageUpdate() {
-        String stageToCompletedRecurringRule =
+        String stageToCompletedRecurringCauseRule =
             ' (RecordTypeId = :CAUSE_RECTYPE_ID ' +
             'AND Payment_Type__c = :RECURRING_PAYMENT_TYPE ' +
             'AND Final_Instalment_Date__c <= TODAY ' + 
@@ -68,11 +72,20 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
             'AND Stage__c !=: PROPOSED_STAGE) ' +
             ')';
 
+        String stageToCancelledCauseRule =
+            ' (RecordTypeId = :CAUSE_RECTYPE_ID ' +
+            'AND Cancellation_Date__c <= TODAY ' + 
+            'AND (Stage__c !=: COMPLETED_STAGE ' +
+            'AND Stage__c !=: CANCELLED_STAGE ' +
+            'AND Stage__c !=: DECLINED_STAGE) ' +
+            ')';
+
         String queryFilter =
-            'SELECT Id, Payment_Type__c, Final_Instalment_Date__c, Stage__c, RecordTypeId ' +
+            'SELECT Id, Payment_Type__c, Final_Instalment_Date__c, Stage__c, RecordTypeId, Cancellation_Date__c ' +
             'FROM Donation__c ' +
             'WHERE ' +
-            stageToCompletedRecurringRule;
+            stageToCompletedRecurringCauseRule + ' OR ' +
+            stageToCancelledCauseRule;
 
         return Database.getQueryLocator(queryFilter);
     }
@@ -113,7 +126,7 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     ){
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Final_Instalment_Date__c, Stage__c, Payment_Type__c ' + 
+                'SELECT Id, Final_Instalment_Date__c, Stage__c, Payment_Type__c, Cancellation_Date__c ' + 
                 'FROM Donation__c ' + 
                 'WHERE Id IN :recordIds ',
                 accessLevel
@@ -152,4 +165,4 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
             return new List<Donation__c>();
         }
     }
-}
+}  
