@@ -1,13 +1,21 @@
 <template>
+    <c-logger></c-logger>
     <div class="slds-p-bottom_medium">
         <div class="slds-clearfix box-card-with-border">
             <div class="slds-clearfix">
                 <div class="slds-float_left slds-p-top_xx-small">
                     <p class="slds-p-top_xxx-small"><b>Distribution Management</b></p>
                 </div>
-                <div class="slds-float_right">
-                    <lightning-button label="New" class="slds-m-left_x-small"></lightning-button>
-                </div>
+                <template lwc:if={statusNotArchived}>
+                    <div class="slds-float_right">
+                        <lightning-button
+                            label="New"
+                            class="slds-m-left_x-small"
+                            onclick={handleDistributionManagementModal}
+                            disabled={disableDistribMngmntButton}
+                        ></lightning-button>
+                    </div>
+                </template>
             </div>
 
             <template lwc:if={checkLoading}>
@@ -25,9 +33,11 @@
                 <template for:each={data} for:item="obj">
                     <article key={obj.Id} class="slds-card">
                         <p class="slds-float_left slds-p-right_small"><b>{obj.Name}</b></p>
-                        <lightning-button-menu alternative-text="View More" icon-size="x-small" class="slds-m-left_xx-small">
-                            <lightning-menu-item disabled={obj.isEditActionDisabled} value="edit" label="Edit"></lightning-menu-item>
-                        </lightning-button-menu>
+                        <template lwc:if={statusNotArchived}>
+                            <lightning-button-menu alternative-text="View More" icon-size="x-small" class="slds-m-left_xx-small">
+                                <lightning-menu-item disabled={obj.isEditActionDisabled} value="edit" label="Edit" data-id={obj.Id} onclick={handleEditButton}></lightning-menu-item>
+                            </lightning-button-menu>
+                        </template>
 
                         <div class="slds-card__body slds-card__body_inner">
                             <div class="slds-grid slds-wrap">
@@ -59,8 +69,7 @@
                             key-field="Id"
                             columns={columns}
                             data={obj.distributionSplit}
-                            hide-checkbox-column="true"
-                        >
+                            hide-checkbox-column="true">
                         </lightning-datatable>
                     </article>
                 </template>
@@ -74,4 +83,13 @@
             </template>
         </div>
     </div>
+    <template lwc:if={isShowDistributionModal}>
+        <c-distribution-management-modal
+            designation-record-id={recordId}
+            dbmanagement={dbmanagement}
+            onclosedistributionmodal={handleCloseDistributionManagementModal}
+            ongetdistributionmanagementandsplit={getDistributionManagementAndSplit}
+            object-api-name={objectApiName}>
+        </c-distribution-management-modal>
+    </template>
 </template>

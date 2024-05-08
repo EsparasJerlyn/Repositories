@@ -28,7 +28,7 @@ public inherited sharing class DistributionSplitsDAO extends DmlBase implements 
         }
 
         return Database.query(
-            'SELECT Id, Name, GL_Account_Code__c, Participating_Group__c, Percentage_Split__c, Distribution_Management__r.Name, Finance_GL_Account__r.Name ' +
+            'SELECT Id, Name, GL_Account_Code__c, Participating_Group__c, Percentage_Split__c, Distribution_Management__r.Name, Finance_GL_Account__r.Name, Is_Soft_Deleted__c ' +
             'FROM Distribution_Split__c ' +
             'WHERE Distribution_Management__c IN :ids ',
             accessLevel
