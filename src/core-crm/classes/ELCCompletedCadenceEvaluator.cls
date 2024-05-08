@@ -18,13 +18,13 @@ public with sharing class ELCCompletedCadenceEvaluator {
 
     // Return null if query not executed
     public Map<Id, List<Completed_Cadence__c>> evaluate(Map<Id, Contact> contactMap) {  
-        if (!elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
+        if (!elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
-            elcParser.getContactCriteria().setContactIdSet(contactMap.keySet());
+            elcParser.getELCContactParser().getContactCriteria().contactIdSet = contactMap.keySet();
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
             //add contact id set into soql
-            List<Completed_Cadence__c> completedCadences = CompletedCadencesDAO.findByCriteria(elcParser.getCompletedCadenceCriteria(), elcParser.getContactCriteria());
+            List<Completed_Cadence__c> completedCadences = CompletedCadencesDAO.newInstance().findByCriteria(elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(), elcParser.getELCContactParser().getContactCriteria());
             return groupByContact(completedCadences);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
@@ -40,7 +40,8 @@ public with sharing class ELCCompletedCadenceEvaluator {
                 completedCadenceByContactMap.get(comCadence.Contact__c).add(comCadence);
             }else{
                 List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
-                completedCadenceByContactMap.put(comCadence.Contact__c, completedCadenceList.add(completedCadenceList));
+                completedCadenceList.add(comCadence);
+                completedCadenceByContactMap.put(comCadence.Contact__c, completedCadenceList);
             }
         }
         

@@ -20,11 +20,11 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
     public Map<Id, List<Program_Enrollment_Breach__c>> evaluate(Map<Id, Contact> contactMap) {  
         if (!elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
-            elcParser.getContactCriteria().setContactIdSet(contactMap.keySet());
+            elcParser.getELCContactParser().getContactCriteria().contactIdSet = contactMap.keySet();
             //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
             //add contact id set into soql
-            List<Program_Enrollment_Breach__c> programEnrollmentBreaches = ProgramEnrollmentBreachesDAO.findByCriteria(elcParser.getProgramEnrollmentBreachCriteria(), elcParser.getContactCriteria());
+            List<Program_Enrollment_Breach__c> programEnrollmentBreaches = ProgramEnrollmentBreachesDAO.newInstance().findByCriteria(elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria(),elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), elcParser.getELCContactParser().getContactCriteria());
             return groupByContact(programEnrollmentBreaches);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
@@ -41,7 +41,7 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
             }else{
                 List<Program_Enrollment_Breach__c> programEnrollmentList = new List<Program_Enrollment_Breach__c>();
                 programEnrollmentList.add(programEnrollmentbreach);
-                programEnrollmentBreachByContactMap.put(programEnrollmentbreach.Contact__c, programEnrollmentbreach);
+                programEnrollmentBreachByContactMap.put(programEnrollmentbreach.Contact__c, programEnrollmentList);
             }
         }
         
