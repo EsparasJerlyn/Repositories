@@ -119,13 +119,12 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
         }
         if(
-            programEnrollmentCriteria.executionDate != null 
-            && programEnrollmentCriteria.academicStatusDateFrom != null  
+            programEnrollmentCriteria.academicStatusDateFrom != null  
             && programEnrollmentCriteria.academicStatusDateTo != null
         ){
             soql = soql 
-            + 'AND Academic_Status_Date__c >= ' + programEnrollmentCriteria.getAcademicStatusDateFrom() + ' ' 
-            + 'AND Academic_Status_Date__c <= ' + programEnrollmentCriteria.getAcademicStatusDateTo() + ' ';
+            + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+            + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' ';
         }
         
         return soql;
@@ -183,9 +182,8 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         private String enrollmentStage;
         private Set<String> enrollmentStatus;
         private String categoryType;
-        private Date executionDate;
-        private Integer academicStatusDateFrom;
-        private Integer academicStatusDateTo;
+        private Date academicStatusDateFrom;
+        private Date academicStatusDateTo;
 
         public String getAcademicStatus(){
             return this.academicStatus;
@@ -219,47 +217,26 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             this.categoryType = varCategoryType;
         }
 
-        public Date getExecutionDate(){
-            return executionDate;
+        public Date getAcademicStatusDateFrom(){
+            return this.academicStatusDateFrom;
         }
 
-        public void setExecutionDate(Date executionDate){
-            this.executionDate = executionDate;
-        }
-
-        public String getAcademicStatusDateFrom(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.academicStatusDateFrom);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
-                return strReturnDate;
-            } else {
-                return null;
-            }
-        }
-
-        public void setAcademicStatusDateFrom(Integer academicStatusDateFrom){
+        public void setAcademicStatusDateFrom(Date academicStatusDateFrom){
             this.academicStatusDateFrom = academicStatusDateFrom;
         }
 
-        public String getAcademicStatusDateTo(){
-            if ( this.executionDate != null ) {
-                Date returnDate = this.executionDate.addDays(this.academicStatusDateTo);
-                String strReturnDate =  DateTime.newInstance(returnDate.year(), returnDate.month(), returnDate.day()).format('YYYY-MM-dd');
-                return strReturnDate;
-            } else {
-                return null;
-            }
+        public Date getAcademicStatusDateTo(){
+            return this.academicStatusDateTo;
         }
 
-        public void setAcademicStatusDateTo(Integer academicStatusDateTo){
+        public void setAcademicStatusDateTo(Date academicStatusDateTo){
             this.academicStatusDateTo = academicStatusDateTo;
         }
        
         public Boolean isEmpty() {
             return academicStatus == null && enrollmentStage == null 
                 && categoryType == null && enrollmentStatus == null
-                && executionDate == null && academicStatusDateFrom == null
-                && academicStatusDateTo == null;
+                && academicStatusDateFrom == null && academicStatusDateTo == null;
         }
     }
     

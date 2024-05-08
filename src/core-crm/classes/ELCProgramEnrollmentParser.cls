@@ -54,9 +54,8 @@ public with sharing class ELCProgramEnrollmentParser {
             if (programEnrollmentsCriteria == null) {
                 programEnrollmentsCriteria = new ProgramEnrollmentsDAO.Criteria();
             }
-            programEnrollmentsCriteria.setAcademicStatusDateFrom(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c));
-            programEnrollmentsCriteria.setAcademicStatusDateTo(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c));
-            programEnrollmentsCriteria.setExecutionDate(this.executionDate);
+            programEnrollmentsCriteria.setAcademicStatusDateFrom(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+            programEnrollmentsCriteria.setAcademicStatusDateTo(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return programEnrollmentsCriteria;
     }
