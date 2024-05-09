@@ -49,8 +49,8 @@ public with sharing class ELCCompletedCadenceParser {
                 completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             }
 
-            completedCadenceCriteria.setCompletedCadanceDateFrom(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            completedCadenceCriteria.setCompletedCadanceDateTo(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+            completedCadenceCriteria.setCompletedCadanceDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+            completedCadenceCriteria.setCompletedCadanceDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return completedCadenceCriteria;
     }
