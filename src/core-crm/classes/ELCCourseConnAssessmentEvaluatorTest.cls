@@ -22,7 +22,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
-            String completedCadenceName = 'Domestic Accepted and Admitted';
 
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
@@ -46,7 +45,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
-            String completedCadenceName = 'Domestic Accepted and Admitted';
 
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
@@ -94,8 +92,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentRecord[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
-
-
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
             ELCCourseConnectionAssessmentEvaluator evaluator = new ELCCourseConnectionAssessmentEvaluator(parser);
             Map<Id, List<Course_Connection_Assessment__c>> evaluateMap =  evaluator.evaluate(new Map<Id, Contact>(contactList));
@@ -116,7 +112,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
-            String completedCadenceName = 'Domestic Accepted and Admitted';
 
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
@@ -158,8 +153,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
-
-
 
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
             ELCCourseConnectionAssessmentEvaluator evaluator = new ELCCourseConnectionAssessmentEvaluator(parser);
