@@ -134,6 +134,6 @@ public with sharing class ELCEvaluator {
             
         }
 
-        return mapELECandidateIngredient;       
+        return eleCandidateIngredientMap;       
     }
 }
