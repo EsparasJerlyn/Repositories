@@ -4083,11 +4083,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Engagement_List_Criteria_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Equity_Scholarship_Bursary__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4118,17 +4113,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Is_Active__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Is_On_Leave_of_Absence__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Key_Date_Offset__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
