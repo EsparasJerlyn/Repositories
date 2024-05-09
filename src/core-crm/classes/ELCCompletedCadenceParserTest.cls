@@ -54,10 +54,9 @@ public with sharing class ELCCompletedCadenceParserTest {
             Date executionDate = Date.today();
             Date execDateLower = executionDate.addDays(-10);
             Date execDateUpper = executionDate.addDays(10);
-            String expectedDateFrom = DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd HH:mm:ss');
-            expectedDateFrom = expectedDateFrom.replaceFirst(' ', 'T') + 'Z';
-            String expectedDateTo = DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd HH:mm:ss');
-            expectedDateTo = expectedDateTo.replaceFirst(' ', 'T') + 'Z';
+                                      
+            String expectedDateFrom = DateTime.newInstanceGmt(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd\'T\'HH:mm:ssZ', 'GMT');
+            String expectedDateTo = DateTime.newInstanceGmt(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd\'T\'HH:mm:ssZ', 'GMT');
 
             Test.startTest();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();

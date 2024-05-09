@@ -46,8 +46,8 @@ public with sharing class ELCLeaveOfAbsenceParser {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            leaveOfAbsenceCriteria.setEndDateFrom(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            leaveOfAbsenceCriteria.setEndDateTo(DynamicQueryService.calculateDateOffset(this.executionDate, Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+            leaveOfAbsenceCriteria.setEndDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+            leaveOfAbsenceCriteria.setEndDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return leaveOfAbsenceCriteria;
     }
