@@ -920,11 +920,18 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
+                    <name>pageUniqueParam</name>
+                    <value>Donation Endowment Payment tab</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText2</identifier>
+                <componentName>childDonation</componentName>
+                <identifier>c_childDonation</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Payment_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Payment Plan</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-fa5d16f7-03dd-4355-9184-efd8bd504566</name>

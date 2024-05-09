@@ -9,7 +9,10 @@
       | nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                   |
       | kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds               |
       | kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdate   |
-      |  nicole.genon                  | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,      |
+      | neil.s.h.lesidan               | April 30, 2024        | DEPP-8610              | Add method getDonationsByParentIdRecordType    |
+      |                                |                       | DEPP-8570              |                                                |
+      |                                |                       | DEPP-8682              |                                                |
+      | nicole.genon                   | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,      |
       |                                |                       |                        | getDonationsBySetRecordTypeIds                 |
       | kenneth.f.alsay                | May 6, 2024           | DEPP-8499              | Added getDonationAssetsByDonationId            |
 */
@@ -94,4 +97,18 @@ public inherited sharing class DonationsDAOMock extends DmlBaseMock implements I
         }
         return donationList;
     }
-} 
+
+    public List<Donation__c> getDonationsByParentIdRecordType(
+        Set<Id> parentDonations,
+        Id recordTypeId,
+        AccessLevel accessLevel
+    ) {
+        List<Donation__c> donationList = new List<Donation__c>();
+        for (Donation__c record : donationsMap.values()) {
+            if (parentDonations.contains(record.Donation_Parent__c) && record.RecordTypeId == recordTypeId) {
+                donationList.add(record);
+            }
+        }
+        return donationList;
+    }
+}

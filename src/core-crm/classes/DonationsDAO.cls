@@ -12,6 +12,9 @@
       |  kenneth.f.alsay                | April 23, 2024        | DEPP-8528              | Added getDonationsBySetRecordIds                                      |
       |  kenneth.f.alsay                | April 24, 2024        | DEPP-8528              | Added final Strings for stages and payment type                       |
       |                                 |                       |                        | queryLocatorGetDonationsForStageUpdate                                |
+      |  neil.s.h.lesidan               | April 30, 2024        | DEPP-8610              | Add method getDonationsByParentIdRecordType                           |
+      |                                 |                       | DEPP-8570              |                                                                       |
+      |                                 |                       | DEPP-8682              |                                                                       |
       |  nicole.genon                   | May 2, 2024           | DEPP-8673              | Added getDonationsBySetDonationParentIds,                             |
       |                                 |                       |                        | getDonationsBySetRecordTypeIds                                        |
       |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added Cancellation_Date__c to getDonationsBySetRecordTypeIds SOQL     |
@@ -22,6 +25,7 @@
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
     //Strings for payment types
     public static final String RECURRING_PAYMENT_TYPE = 'Recurring Payment';
+    public static final String PAYMENT_PLAN_PAYMENT_TYPE = 'Payment Plan';
 
     //Strings for stages
     public static final String ACCEPTED_STAGE = 'Accepted';
@@ -35,6 +39,7 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     public static final Id CAUSE_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
     .get('Cause')
     .getRecordTypeId();
+
     public static final Id GIFT_IN_KIND_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
     .get('Gift_In_Kind')
     .getRecordTypeId();
@@ -134,6 +139,20 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
         } else {
             return new List<Donation__c>();
         }
+    }
+
+    public static List<Donation__c> getDonationsByParentIdRecordType(
+        Set<Id> parentDonations,
+        Id recordTypeId,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Name, Donation_Parent__c, Total_Amount__c, Instalment_Date__c, Stage__c, Instalment_Number__c, ' +
+            'Contact__c, Account__c, From_Designation__c, Is_Anonymous_Donation__c ' +
+            'FROM Donation__c WHERE Donation_Parent__c  IN :parentDonations ' +
+            'AND RecordTypeId = :recordTypeId',
+            accessLevel
+        );
     }
 
     public static List<Donation__c> getDonationsBySetDonationParentIds(
