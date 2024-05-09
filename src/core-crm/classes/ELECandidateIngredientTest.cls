@@ -41,7 +41,6 @@ public with sharing class ELECandidateIngredientTest {
             
             ELECandidateIngredient eleIngredient = new ELECandidateIngredient();            
             // set setter value
-            eleIngredient.setEngagementListCriteria(new Engagement_List_Criteria__c());
             eleIngredient.setELCParser(parser);
             eleIngredient.setContact(new Contact());
             eleIngredient.setProgramEnrollments(new List<hed__Program_Enrollment__c>());
@@ -52,7 +51,6 @@ public with sharing class ELECandidateIngredientTest {
             eleIngredient.setProgramEnrollmentBreaches(new List<Program_Enrollment_Breach__c>()); 
             Test.stopTest();
             // Test getter
-            System.assertEquals(new Engagement_List_Criteria__c(), eleIngredient.getEngagementListCriteria(),'Object Engagement_List_Criteria__c value is not match');
             System.assertEquals(parser, eleIngredient.getELCParser(), 'Object ELCParser value is not match');
             System.assertEquals(new Contact(), eleIngredient.getContact(),'Object Contact value is not match');
             System.assertEquals(new List<hed__Program_Enrollment__c>(), eleIngredient.getProgramEnrollments(),'Object List<hed__Program_Enrollment__c> value is not match');

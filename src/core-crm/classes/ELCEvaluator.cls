@@ -91,32 +91,32 @@ public with sharing class ELCEvaluator {
             ELECandidateIngredient eleIngredient = new ELECandidateIngredient();           
             eleIngredient.setELCParser(elcParser);
             
-            if(contactListMap.containsKey(contactId)){
+            if(contactListMap !=null && contactListMap.containsKey(contactId)){
                 Contact con = contactListMap.get(contactId).iterator().next();
                 eleIngredient.setContact(con);                
             }
             
-            if(programEnrollmentsByContact.containsKey(contactId)){
+            if(programEnrollmentsByContact !=null && programEnrollmentsByContact.containsKey(contactId)){
                 eleIngredient.setProgramEnrollments(programEnrollmentsByContact.get(contactId));
             }
                         
-            if(courseEnrollmentsByContact.containsKey(contactId)){
+            if(courseEnrollmentsByContact !=null && courseEnrollmentsByContact.containsKey(contactId)){
                 eleIngredient.setCourseEnrollments(courseEnrollmentsByContact.get(contactId));
             }
             
-            if(courseConnectionAssessmentsByContact.containsKey(contactId)){
+            if(courseConnectionAssessmentsByContact !=null && courseConnectionAssessmentsByContact.containsKey(contactId)){
                 eleIngredient.setCourseConnectionAssessments(courseConnectionAssessmentsByContact.get(contactId));
             }
             
-            if(leaveOfAbsenceByContact.containsKey(contactId)){
+            if(leaveOfAbsenceByContact !=null && leaveOfAbsenceByContact.containsKey(contactId)){
                 eleIngredient.setLeaveOfAbsences(leaveOfAbsenceByContact.get(contactId));
             }
             
-            if(completedCadenceByContact.containsKey(contactId)){
+            if(completedCadenceByContact !=null && completedCadenceByContact.containsKey(contactId)){
                 eleIngredient.setCompletedCadences(completedCadenceByContact.get(contactId));
             }
             
-            if(programEnrollmentBreachByContact.containsKey(contactId)){
+            if(programEnrollmentBreachByContact !=null && programEnrollmentBreachByContact.containsKey(contactId)){
                 eleIngredient.setProgramEnrollmentBreaches(programEnrollmentBreachByContact.get(contactId));
             }
             // Add the ELECandidateIngredient to the existing map using contact Id

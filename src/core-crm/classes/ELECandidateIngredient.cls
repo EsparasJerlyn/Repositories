@@ -10,7 +10,6 @@
  */
 public with sharing class ELECandidateIngredient {
     
-    private Engagement_List_Criteria__c engagementListCriteria;
     private ELCParser elcParser;
     private Contact contact;
     private List<hed__Program_Enrollment__c> programEnrollments;
@@ -20,16 +19,7 @@ public with sharing class ELECandidateIngredient {
     private List<Completed_Cadence__c> completedCadences;
     private List<Program_Enrollment_Breach__c> programEnrollmentBreaches;
     
-    // Getter and setter for engagementListCriteria
-    public Engagement_List_Criteria__c getEngagementListCriteria() {
-        return engagementListCriteria;
-    }
-    
-    public void setEngagementListCriteria(Engagement_List_Criteria__c engagementListCriteria) {
-        this.engagementListCriteria = engagementListCriteria;
-    }
-    
-    // Getter and setter for contact
+    // Getter and setter for ELCParser
     public ELCParser getELCParser() {
         return elcParser;
     }
