@@ -113,8 +113,8 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Engagement_List_Criteria_Type__c</fields>
-        <fields>Is_Active__c</fields>
+        <fields>RECORDTYPE</fields>
+        <fields>Status__c</fields>
         <fields>Start_Date__c</fields>
         <fields>End_Date__c</fields>
         <relatedList>Engagement_List_Criteria__c.Engagement_List_Configuration__c</relatedList>
@@ -152,7 +152,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9r000002mF6r</masterLabel>
+        <masterLabel>00hBm0000057fA2</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
