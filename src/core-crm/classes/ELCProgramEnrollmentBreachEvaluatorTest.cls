@@ -24,17 +24,16 @@ public with sharing class ELCProgramEnrollmentBreachEvaluatorTest {
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
 
-            Breach__c breach = new Breach__c(
-					Name = 'Breach Test 01'
-			);
-			insert breach;
+            List<Breach__c> breachList = TestDataFactory.createTestBreachRecords(1);
+            breachList[0].Name = 'Breach Test 01';
+			BreachesDAO.newInstance().insertRecords(breachList,true,AccessLevel.USER_MODE);
 
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
             engagementListCriteria.Category_Type__c = 'Graduate Certificate';
-            engagementListCriteria.Breach__c = breach.Id;
+            engagementListCriteria.Breach__c = breachList[0].Id;
 
     
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
@@ -57,7 +56,7 @@ public with sharing class ELCProgramEnrollmentBreachEvaluatorTest {
 
             List<Program_Enrollment_Breach__c> programEnrollmentBreachListCreated = TestDataFactory.createTestProgramEnrollmentBreachRecords(1);
             programEnrollmentBreachListCreated[0].Contact__c = contactList[0].Id;
-            programEnrollmentBreachListCreated[0].Breach_Name__c = breach.Id;
+            programEnrollmentBreachListCreated[0].Breach_Name__c = breachList[0].Id;
             programEnrollmentBreachListCreated[0].Program_Enrollment__c = programEnrollmentListCreated[0].Id;
             programEnrollmentBreachListCreated[0].Breach_Status__c = ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS;
             ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachListCreated,true,AccessLevel.SYSTEM_MODE);

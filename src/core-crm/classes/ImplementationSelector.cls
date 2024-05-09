@@ -62,6 +62,7 @@ public class ImplementationSelector {
             Asset.SObjectType => AssetsDAO.class,
             Assessment__c.SObjectType => AssessmentsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
+            Breach__c.SObjectType => BreachesDAO.class,
             BuyerGroup.SObjectType => BuyerGroupsDAO.class,
             BuyerGroupPriceBook.SObjectType => BuyerGroupPriceBooksDAO.class,
             CommerceEntitlementProduct.SObjectType => CommerceEntitlementProductsDAO.class,
