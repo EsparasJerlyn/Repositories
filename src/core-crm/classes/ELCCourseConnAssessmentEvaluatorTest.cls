@@ -28,7 +28,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            engagementListCriteria.Key_Date_Offset__c = 10;
 
             Test.startTest();
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
