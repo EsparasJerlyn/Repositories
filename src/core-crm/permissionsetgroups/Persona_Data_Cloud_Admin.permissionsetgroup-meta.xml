@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group for Persona Data Cloud Admin. Essentially like a System Admin Read only user with access to view and configure Data Cloud and Marketing Cloud</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Persona Data Cloud Admin</label>
+    <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
+    <permissionSets>Data_Cloud_Admin_QUT</permissionSets>
+    <permissionSets>Data_Cloud_Marketing_Admin_QUT</permissionSets>
+    <permissionSets>Permission_API_Enabled</permissionSets>
+    <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
+    <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
+    <permissionSets>Permission_All_Flows</permissionSets>
+    <permissionSets>Permission_All_Lightning_Apps</permissionSets>
+    <permissionSets>Permission_All_Object_and_FLAs_View</permissionSets>
+    <permissionSets>Permission_All_Tabs_Available_and_Visible</permissionSets>
+    <permissionSets>Permission_Export_Reports</permissionSets>
+    <permissionSets>Permission_Multi_Factor_Authentication_for_User_Interface_Logins</permissionSets>
+    <permissionSets>Permission_Query_All_Files_with_ViewAllData</permissionSets>
+    <permissionSets>Permission_View_All_Data</permissionSets>
+    <permissionSets>Permission_View_All_Users</permissionSets>
+    <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
+    <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
+    <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
