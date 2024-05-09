@@ -17,7 +17,10 @@ public with sharing class ELCCompletedCadenceEvaluator {
     }
 
     // Return null if query not executed
-    public Map<Id, List<Completed_Cadence__c>> evaluate(Map<Id, Contact> contactMap) {  
+    public Map<Id, List<Completed_Cadence__c>> evaluate(Map<Id, Contact> contactMap) {
+
+        Map<Id, List<Completed_Cadence__c>> completedCadencesMap;
+
         if (!elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
@@ -29,10 +32,10 @@ public with sharing class ELCCompletedCadenceEvaluator {
                 elcParser.getELCContactParser().getContactCriteria(), 
                 AccessLevel.SYSTEM_MODE
             );
-            return groupByContact(completedCadences);
+            completedCadencesMap = groupByContact(completedCadences);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
-        return null;
+        return completedCadencesMap;
     }
 
 

@@ -12,12 +12,15 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
     
     private ELCParser elcParser;
 
-    ELCProgramEnrollmentBreachEvaluator(ELCParser elcParser) {
+    public ELCProgramEnrollmentBreachEvaluator(ELCParser elcParser) {
         this.elcParser = elcParser;
     }
 
     // Return null if query not executed
-    public Map<Id, List<Program_Enrollment_Breach__c>> evaluate(Map<Id, Contact> contactMap) {  
+    public Map<Id, List<Program_Enrollment_Breach__c>> evaluate(Map<Id, Contact> contactMap) {
+
+        Map<Id, List<Program_Enrollment_Breach__c>> programEnrollmentBreachMap;
+
         if (!elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
@@ -28,13 +31,11 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
                 elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria(),
                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), 
                 elcParser.getELCContactParser().getContactCriteria(),
-                AccessLevel.SYSTEM_MODE
-            );
-            
-            return groupByContact(programEnrollmentBreaches);
+                AccessLevel.SYSTEM_MODE);
+            programEnrollmentBreachMap = groupByContact(programEnrollmentBreaches);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
-        return null;
+        return programEnrollmentBreachMap;
     }
 
 
@@ -42,12 +43,12 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
         Map<Id, List<Program_Enrollment_Breach__c>> programEnrollmentBreachByContactMap = new Map<Id, List<Program_Enrollment_Breach__c>>();
 
         for(Program_Enrollment_Breach__c programEnrollmentbreach : programEnrollmentBreaches){
-            if(programEnrollmentBreachByContactMap.containsKey(programEnrollmentbreach.Contact__c)){
-                programEnrollmentBreachByContactMap.get(programEnrollmentbreach.Contact__c).add(programEnrollmentbreach);
+            if(programEnrollmentBreachByContactMap.containsKey(programEnrollmentbreach.Program_Enrollment__r.hed__Contact__c)){
+                programEnrollmentBreachByContactMap.get(programEnrollmentbreach.Program_Enrollment__r.hed__Contact__c).add(programEnrollmentbreach);
             }else{
-                List<Program_Enrollment_Breach__c> programEnrollmentList = new List<Program_Enrollment_Breach__c>();
-                programEnrollmentList.add(programEnrollmentbreach);
-                programEnrollmentBreachByContactMap.put(programEnrollmentbreach.Contact__c, programEnrollmentList);
+                List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
+                programEnrollmentBreachList.add(programEnrollmentbreach);
+                programEnrollmentBreachByContactMap.put(programEnrollmentbreach.Program_Enrollment__r.hed__Contact__c, programEnrollmentBreachList);
             }
         }
         

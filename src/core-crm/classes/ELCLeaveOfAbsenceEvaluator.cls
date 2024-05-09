@@ -12,12 +12,15 @@ public with sharing class ELCLeaveOfAbsenceEvaluator {
     
     private ELCParser elcParser;
 
-    ELCLeaveOfAbsenceEvaluator(ELCParser elcParser) {
+    public ELCLeaveOfAbsenceEvaluator(ELCParser elcParser) {
         this.elcParser = elcParser;
     }
 
     // Return null if query not executed
-    public Map<Id, List<Leave_of_Absence__c>> evaluate(Map<Id, Contact> contactMap) {  
+    public Map<Id, List<Leave_of_Absence__c>> evaluate(Map<Id, Contact> contactMap) {
+
+        Map<Id, List<Leave_of_Absence__c>> leaveOfAbsencesMap;
+
         if (!elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
             // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
@@ -30,10 +33,10 @@ public with sharing class ELCLeaveOfAbsenceEvaluator {
                 elcParser.getELCContactParser().getContactCriteria(),
                 AccessLevel.SYSTEM_MODE
             );
-            return groupByContact(leaveOfAbsences);
+            leaveOfAbsencesMap = groupByContact(leaveOfAbsences);
         }
         // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
-        return null;
+        return leaveOfAbsencesMap;
     }
 
 
