@@ -22,13 +22,11 @@ public with sharing class ELCCourseEnrollmentEvaluatorTest {
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
-            String completedCadenceName = 'Domestic Accepted and Admitted';
 
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            engagementListCriteria.Key_Date_Offset__c = 10;
 
             Test.startTest();
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
@@ -47,7 +45,6 @@ public with sharing class ELCCourseEnrollmentEvaluatorTest {
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
-            String completedCadenceName = 'Domestic Accepted and Admitted';
 
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
@@ -58,7 +55,6 @@ public with sharing class ELCCourseEnrollmentEvaluatorTest {
             engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
-            engagementListCriteria.Key_Date_Offset__c = 10;
     
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;

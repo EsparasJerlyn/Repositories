@@ -121,7 +121,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
-            engagementListCriteria.Key_Date_Offset__c = 10;
     
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;

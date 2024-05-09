@@ -18,8 +18,8 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
     public Map<Id, List<hed__Program_enrollment__c>> evaluate(Map<Id, Contact> contactMap) {  
         if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty() && !isAllChildCriteriaEmpty()) { 
-            elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
 
+            elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<hed__Program_Enrollment__c> programEnrollments = ProgramEnrollmentsDAO.newInstance().findByCriteria(
                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), 
                 elcParser.getELCContactParser().getContactCriteria(), 
@@ -31,15 +31,7 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
         return null;
     }
-
-    private Boolean isAllChildCriteriaEmpty() {
-        return 
-            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
-            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
-            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
-            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty();
-    }
-
+    
     private Map<Id, List<hed__Program_enrollment__c>> groupByContact(List<hed__Program_enrollment__c> programEnrollments) {
         Map<Id, List<hed__Program_enrollment__c>> programEnrollmentByContactMap = new Map<Id, List<hed__Program_enrollment__c>>();
 
@@ -54,5 +46,13 @@ public with sharing class ELCProgramEnrollmentEvaluator {
         }
         
         return programEnrollmentByContactMap;
+    }
+
+    private Boolean isAllChildCriteriaEmpty() {
+        return 
+            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
+            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty();
     }
 }

@@ -16,7 +16,6 @@ public with sharing class ELCCompletedCadenceEvaluator {
         this.elcParser = elcParser;
     }
 
-    // Return null if query not executed
     public Map<Id, List<Completed_Cadence__c>> evaluate(Map<Id, Contact> contactMap) {
 
         Map<Id, List<Completed_Cadence__c>> completedCadencesMap;
