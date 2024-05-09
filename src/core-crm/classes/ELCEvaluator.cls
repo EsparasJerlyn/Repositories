@@ -18,44 +18,43 @@ public with sharing class ELCEvaluator {
     // return a map of ELECandidateIngredient by contact id
     public Map<Id, List<ELECandidateIngredient>> evaluate(List<Contact> contacts) {
         
-        Map<Id, Contact> contactMap = new Map<Id, Contact>(contacts);
-        Map<Id, List<ELECandidateIngredient>> eleCandidateIngredientMap = new Map<Id, List<ELECandidateIngredient>>();    
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(contacts);       
         Set<Id> contactIdSetIntersection = new Set<Id>();
         
         //Contact Evaluator
         ELCContactEvaluator contactEvaluator = new ELCContactEvaluator(elcParser);
         Map<Id, List<Contact>> contactListMap = contactEvaluator.evaluate(contactMap);
-        Set<Id> contactIds = contactListMap.keySet();        
+        Set<Id> contactIds = contactListMap?.keySet();        
         
 		//Program Enrollment Evaluator
         ELCProgramEnrollmentEvaluator programEnrollmentEvaluator = new ELCProgramEnrollmentEvaluator(elcParser);
         Map<Id, List<hed__Program_enrollment__c>> programEnrollmentsByContact = programEnrollmentEvaluator.evaluate(contactMap);
-        Set<Id> programEnrollmentContactIds = programEnrollmentsByContact.keySet();
+        Set<Id> programEnrollmentContactIds = programEnrollmentsByContact?.keySet();
         
         //Course Enrollment Evaluator
         ELCCourseEnrollmentEvaluator courseEnrollmentEvaluator = new ELCCourseEnrollmentEvaluator(elcParser);
         Map<Id, List<hed__Course_Enrollment__c>> courseEnrollmentsByContact = courseEnrollmentEvaluator.evaluate(contactMap);
-        Set<Id> courseEnrollmentContactIds = courseEnrollmentsByContact.keySet();
+        Set<Id> courseEnrollmentContactIds = courseEnrollmentsByContact?.keySet();
         
         //Course Connection Assessment Evaluator
         ELCCourseConnectionAssessmentEvaluator courseConnectionAssessmentEvaluator = new ELCCourseConnectionAssessmentEvaluator(elcParser);
         Map<Id, List<Course_Connection_Assessment__c>> courseConnectionAssessmentsByContact = courseConnectionAssessmentEvaluator.evaluate(contactMap);
-        Set<Id> courseConnectionsIds = courseConnectionAssessmentsByContact.keySet();
+        Set<Id> courseConnectionsIds = courseConnectionAssessmentsByContact?.keySet();
         
         //Leave of Absence Evaluator
         ELCLeaveOfAbsenceEvaluator leaveOfAbsenceEvaluator = new ELCLeaveOfAbsenceEvaluator(elcParser);
         Map<Id, List<Leave_of_Absence__c>> leaveOfAbsenceByContact = leaveOfAbsenceEvaluator.evaluate(contactMap);
-        Set<Id> leaveOfAbsenceIds = leaveOfAbsenceByContact.keySet();
+        Set<Id> leaveOfAbsenceIds = leaveOfAbsenceByContact?.keySet();
         
         //Completed Cadence Evaluator
         ELCCompletedCadenceEvaluator completedCadenceEvaluator = new ELCCompletedCadenceEvaluator(elcParser);
         Map<Id, List<Completed_Cadence__c>> completedCadenceByContact = completedCadenceEvaluator.evaluate(contactMap);
-        Set<Id> completedCadenceIds = completedCadenceByContact.keySet();
+        Set<Id> completedCadenceIds = completedCadenceByContact?.keySet();
 
         //Program Enrollment Breach Evaluator
         ELCProgramEnrollmentBreachEvaluator programEnrollmentBreachEvaluator = new ELCProgramEnrollmentBreachEvaluator(elcParser);
         Map<Id, List<Program_Enrollment_Breach__c>> programEnrollmentBreachByContact = programEnrollmentBreachEvaluator.evaluate(contactMap);
-        Set<Id> programEnrollmentBreachIds = programEnrollmentBreachByContact.keySet();        
+        Set<Id> programEnrollmentBreachIds = programEnrollmentBreachByContact?.keySet();        
         
         
         if(contactIds !=null){
@@ -85,7 +84,9 @@ public with sharing class ELCEvaluator {
         if(programEnrollmentBreachIds !=null){
             contactIdSetIntersection.retainAll(programEnrollmentBreachIds);
         }
-                
+        
+        Map<Id, List<ELECandidateIngredient>> eleCandidateIngredientMap = new Map<Id, List<ELECandidateIngredient>>();
+        
         for (Id contactId : contactIdSetIntersection) {
             
             String uniqueKey = contactId;
