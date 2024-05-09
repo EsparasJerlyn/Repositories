@@ -94,6 +94,10 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         if(contactCriteria.getRecordType() != null){
             soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
         }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
+        }
 
         return soql;
     }
