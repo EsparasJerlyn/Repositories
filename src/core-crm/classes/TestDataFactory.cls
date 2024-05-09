@@ -4040,4 +4040,21 @@ public class TestDataFactory {
 
         return studentSanctionList;
     }
+
+    /** @description Method for creating test contact matching staging records
+     * @return Contact_Matching_Staging__c record
+     */
+    public static List<Contact_Matching_Staging__c> createContactMatchingStagings(Integer count) {
+        List<Contact_Matching_Staging__c> contactMatchingStagingList = new List<Contact_Matching_Staging__c>();
+
+        for(Integer i = 0; i< count; i++){
+            contactMatchingStagingList.add( 
+                new Contact_Matching_Staging__c(
+                    LastName__c = 'Test'+i
+                )
+            );
+        }
+
+        return contactMatchingStagingList;
+    }
 }

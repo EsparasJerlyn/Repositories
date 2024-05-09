@@ -3023,6 +3023,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact_Matching_Staging__c.Batch_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact_Matching_Staging__c.Birthdate__c</field>
         <readable>true</readable>
     </fieldPermissions>

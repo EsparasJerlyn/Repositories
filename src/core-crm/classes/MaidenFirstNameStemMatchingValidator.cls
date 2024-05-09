@@ -18,7 +18,6 @@
  *    | roy.nino.s.regala              | April 01, 2024        | DEPP-7986              | Created file                 |
  */
 public inherited sharing class MaidenFirstNameStemMatchingValidator {
-
     // List of fields required for matching with maiden name and email
     private static final List<String> MAIDEN_NAME_FIELDS_WITH_EMAIL = new List<String>{
         'firstName',
@@ -64,14 +63,15 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
         ContactMatchingService.MatchingAttributes matchingRecord,
         Map<String, List<Contact>> maidenOrFirstNameStemMatchingMap
     ) {
-
         // skip if one of the fields below is blank
-        if( String.isBlank(matchingRecord.get('firstName')) ||
+        if (
+            String.isBlank(matchingRecord.get('firstName')) ||
             String.isBlank(matchingRecord.get('lastName')) ||
-            String.isBlank(matchingRecord.get('birthDate'))){
+            String.isBlank(matchingRecord.get('birthDate'))
+        ) {
             return false;
         }
-        
+
         String uniqueKeyForMaidenNameEmail = ContactMatchingService.generateUniqueKey(
             matchingRecord,
             MAIDEN_NAME_FIELDS_WITH_EMAIL
@@ -133,7 +133,7 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
 
         String matchingType = '';
 
-        if(maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForMaidenNameEmail)){
+        if (maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForMaidenNameEmail)) {
             matchingContacts.addAll(
                 maidenOrFirstNameStemMatchingMap.get(uniqueKeyForMaidenNameEmail)
             );
@@ -141,7 +141,7 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             matchingType = MAIDEN_NAME_MATCHING_TYPE;
         }
 
-        if(maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForMaidenNameMobile)){
+        if (maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForMaidenNameMobile)) {
             matchingContacts.addAll(
                 maidenOrFirstNameStemMatchingMap.get(uniqueKeyForMaidenNameMobile)
             );
@@ -149,7 +149,7 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             matchingType = MAIDEN_NAME_MATCHING_TYPE;
         }
 
-        if(maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForFirstNameStemEmail)){
+        if (maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForFirstNameStemEmail)) {
             matchingContacts.addAll(
                 maidenOrFirstNameStemMatchingMap.get(uniqueKeyForFirstNameStemEmail)
             );
@@ -157,7 +157,7 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             matchingType = FIRST_NAME_STEM_MATCHING_TYPE;
         }
 
-        if(maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForFirstNameStemMobile)){
+        if (maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForFirstNameStemMobile)) {
             matchingContacts.addAll(
                 maidenOrFirstNameStemMatchingMap.get(uniqueKeyForFirstNameStemMobile)
             );
@@ -165,12 +165,12 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             matchingType = FIRST_NAME_STEM_MATCHING_TYPE;
         }
 
-        return new MatchingResult(matchingContacts,matchingType);
+        return new MatchingResult(matchingContacts, matchingType);
     }
 
     /**
      * Builds a map of maiden names or first name stems to corresponding contacts from a single existing contact.
-     * 
+     *
      * @param existingContact The existing contact from which to extract maiden names or first name stems.
      * @param maidenOrFirstNameStemMatchingMap The map to populate with maiden names or first name stems and corresponding contacts.
      */
@@ -178,7 +178,6 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
         Contact existingContact,
         Map<String, List<Contact>> maidenOrFirstNameStemMatchingMap
     ) {
-
         if (!hasRequiredMaidenOrFirtsNameStemFields(existingContact)) {
             // Skip contacts without necessary matching attributes
             return;
@@ -205,21 +204,25 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
      * @return True if the contact has the required attributes, false otherwise.
      */
     private static Boolean hasRequiredMaidenOrFirtsNameStemFields(Contact contact) {
+        boolean isEmailOrMobilePhonePopulated =
+            contact.Email != null ||
+            contact.QUT_Staff_Email__c != null ||
+            contact.QUT_Learner_Email__c != null ||
+            contact.Work_Email__c != null ||
+            contact.MobilePhone != null;
 
-        boolean isEmailOrMobilePhonePopulated = contact.Email != null || 
-                                                contact.QUT_Staff_Email__c != null || 
-                                                contact.QUT_Learner_Email__c != null || 
-                                                contact.Work_Email__c != null || 
-                                                contact.MobilePhone != null;
+        boolean isBaseMaidenCriteriaPassed =
+            contact.Matching_Firstname__c != null &&
+            contact.Birthdate != null;
 
-        boolean isBaseMaidenCriteriaPassed = contact.Matching_Firstname__c != null && contact.Birthdate != null;
+        boolean isBaseFirstNameStemCriteriaPassed =
+            contact.Matching_Firstname__c != null &&
+            contact.Matching_Firstname__c.length() > 2 &&
+            contact.Matching_Lastname__c != null &&
+            contact.Birthdate != null;
 
-        boolean isBaseFirstNameStemCriteriaPassed =   contact.Matching_Firstname__c != null &&
-                                                            contact.Matching_Firstname__c.length() > 2 &&
-                                                            contact.Matching_Lastname__c != null &&
-                                                            contact.Birthdate != null;
-
-        return isEmailOrMobilePhonePopulated && (isBaseMaidenCriteriaPassed || isBaseFirstNameStemCriteriaPassed);
+        return isEmailOrMobilePhonePopulated &&
+            (isBaseMaidenCriteriaPassed || isBaseFirstNameStemCriteriaPassed);
     }
 
     /**
@@ -238,13 +241,13 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             return; // Skip if the field value is null
         }
 
-         // Generate the unique maiden name key for the contact based on specified field values
-         String uniqueKey = '';
+        // Generate the unique maiden name key for the contact based on specified field values
+        String uniqueKey = '';
 
         uniqueKey += contact.Matching_Firstname__c;
         uniqueKey += String.valueOf(contact.Birthdate);
         uniqueKey += String.valueOf(contact.get(fieldApiName));
-        
+
         uniqueKey = uniqueKey.toLowerCase();
 
         // Add the contact to the corresponding list in the map based on the generated unique key
@@ -307,7 +310,7 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             if (String.isBlank(record.get(fieldName))) {
                 continue;
             }
-            
+
             if (fieldName == 'firstName' && record.get(fieldName).length() > 2) {
                 uniqueKey += String.valueOf(record.get(fieldName)).subString(0, 3);
             } else {
