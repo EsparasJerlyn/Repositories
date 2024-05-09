@@ -33,7 +33,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT BuyerGroupId,WebStoreId FROM WebStoreBuyerGroup",
+            "query": "SELECT Id, BuyerGroupId, WebStoreId, WebStore.Name FROM WebStoreBuyerGroup",
             "operation": "Upsert",
             "externalId": "BuyerGroupId",
             "useCSVValuesMapping": true,
@@ -227,7 +227,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,BuyerGroupId,Name,IsActive,Pricebook2Id,Priority,BuyerGroup.Id,Pricebook2.Name from BuyerGroupPricebook",
+            "query": "SELECT Id,BuyerGroupId,Name,IsActive,Pricebook2Id,Priority,Pricebook2.Name from BuyerGroupPricebook",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -235,7 +235,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,BuyerGroupId,PolicyId,BuyerGroup.Id,Policy.Name from CommerceEntitlementBuyerGroup",
+            "query": "SELECT Id,BuyerGroupId,PolicyId,Policy.Name from CommerceEntitlementBuyerGroup",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
