@@ -4,7 +4,7 @@
     <assignments>
         <name>Assign_Cancelled</name>
         <label>Assign Cancelled</label>
-        <locationX>2184</locationX>
+        <locationX>2844</locationX>
         <locationY>2027</locationY>
         <assignmentItems>
             <assignToReference>HasCancelledStage</assignToReference>
@@ -20,7 +20,7 @@
     <assignments>
         <name>Compute_Total_Amount_of_Child_Records</name>
         <label>Compute Total Amount of Child Records</label>
-        <locationX>1920</locationX>
+        <locationX>2580</locationX>
         <locationY>2027</locationY>
         <assignmentItems>
             <assignToReference>ChildTotalAmountSum</assignToReference>
@@ -49,7 +49,7 @@
     <assignments>
         <name>Set_Stage_to_Cancelled</name>
         <label>Set Stage to Cancelled</label>
-        <locationX>2162</locationX>
+        <locationX>2690</locationX>
         <locationY>1319</locationY>
         <assignmentItems>
             <assignToReference>$Record.Stage__c</assignToReference>
@@ -75,7 +75,7 @@
     <assignments>
         <name>Set_Stage_to_Completed_Part_Paid</name>
         <label>Set Stage to Completed - Part Paid</label>
-        <locationX>1436</locationX>
+        <locationX>2096</locationX>
         <locationY>2519</locationY>
         <assignmentItems>
             <assignToReference>$Record.Stage__c</assignToReference>
@@ -88,7 +88,7 @@
     <customErrors>
         <name>Has_Child_Error</name>
         <label>Has Child Error</label>
-        <locationX>1656</locationX>
+        <locationX>2316</locationX>
         <locationY>2027</locationY>
         <customErrorMessages>
             <errorMessage>You cannot update the stage to Completed Part Paid because some of the instalments are still in Accepted stage.</errorMessage>
@@ -96,9 +96,19 @@
         </customErrorMessages>
     </customErrors>
     <customErrors>
+        <name>Has_Completed_Endowment_Child_Error</name>
+        <label>Has Completed Endowment Child Error</label>
+        <locationX>1722</locationX>
+        <locationY>935</locationY>
+        <customErrorMessages>
+            <errorMessage>You cannot cancel the Endowment when a payment is received.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
         <name>Has_Completed_Stage_Child_Error</name>
         <label>Has Completed Stage Child Error</label>
-        <locationX>2250</locationX>
+        <locationX>2778</locationX>
         <locationY>935</locationY>
         <customErrorMessages>
             <errorMessage>You cannot cancel the Pledge when a payment is received.</errorMessage>
@@ -108,7 +118,7 @@
     <decisions>
         <name>Check_Child_Donation_Records</name>
         <label>Check Child Donation Records</label>
-        <locationX>2052</locationX>
+        <locationX>2712</locationX>
         <locationY>1919</locationY>
         <defaultConnector>
             <targetReference>Child_Donation_Records_Loop</targetReference>
@@ -161,9 +171,34 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Endowment_Instalment_Child_Donation_Stage</name>
+        <label>Check Endowment Instalment Child Donation Stage</label>
+        <locationX>1854</locationX>
+        <locationY>827</locationY>
+        <defaultConnector>
+            <targetReference>Child_Endowment_Instalment_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Completed_Endowment_Instalment_Stage</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Child_Endowment_Instalment_Records.Stage__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Has_Completed_Endowment_Child_Error</targetReference>
+            </connector>
+            <label>Completed Endowment Instalment Stage</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Pledge_Instalment_Child_Donation_Stage</name>
         <label>Check Pledge Instalment Child Donation Stage</label>
-        <locationX>2382</locationX>
+        <locationX>2910</locationX>
         <locationY>827</locationY>
         <defaultConnector>
             <targetReference>Child_Pledge_Instalment_Records</targetReference>
@@ -188,7 +223,7 @@
     <decisions>
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
-        <locationX>1568</locationX>
+        <locationX>2228</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -217,7 +252,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Evaluation_Endowment_Stage_Criteria</targetReference>
+                <targetReference>Get_Endowment_Instalment_Record_Type</targetReference>
             </connector>
             <label>Endowment</label>
         </rules>
@@ -236,11 +271,42 @@
             </connector>
             <label>Pledge</label>
         </rules>
+        <rules>
+            <name>Endowment_Instalment</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Endowment_Instalment</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <isGoTo>true</isGoTo>
+                <targetReference>Evaluation_Instalment_Stage_Criteria</targetReference>
+            </connector>
+            <label>Endowment Instalment</label>
+        </rules>
+        <rules>
+            <name>Pledge_Instalment</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pledge_Instalment</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Evaluation_Instalment_Stage_Criteria</targetReference>
+            </connector>
+            <label>Pledge Instalment</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_Sum_of_the_Total_Amount_of_Child_Donations</name>
         <label>Check Sum of the Total Amount of Child Donations</label>
-        <locationX>1568</locationX>
+        <locationX>2228</locationX>
         <locationY>2411</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -407,8 +473,8 @@
     <decisions>
         <name>Evaluation_Endowment_Stage_Criteria</name>
         <label>Evaluation Endowment Stage Criteria</label>
-        <locationX>1238</locationX>
-        <locationY>395</locationY>
+        <locationX>1502</locationX>
+        <locationY>503</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Completed_Part_Paid_Endowment_Stage_Update</name>
@@ -435,15 +501,80 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Endowment_Instalment_Record_Type</targetReference>
+                <targetReference>Get_Child_Donation_Records</targetReference>
             </connector>
             <label>Completed - Part Paid Endowment Stage Update</label>
+        </rules>
+        <rules>
+            <name>Cancelled_Endowment_Stage_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Payment_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Payment Plan</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Related_Endowment_Instalment_Child_Records</targetReference>
+            </connector>
+            <label>Cancelled Endowment Stage Update</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Evaluation_Instalment_Stage_Criteria</name>
+        <label>Evaluation Instalment Stage Criteria</label>
+        <locationX>3614</locationX>
+        <locationY>395</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Instalment_Update_to_Cancelled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Cancellation_Comment__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Cancellation_Reason__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Instalment_Stage_to_Cancelled</targetReference>
+            </connector>
+            <label>Instalment Update to Cancelled</label>
         </rules>
     </decisions>
     <decisions>
         <name>Evaluation_Pledge_Stage_Criteria</name>
         <label>Evaluation Pledge Stage Criteria</label>
-        <locationX>2030</locationX>
+        <locationX>2558</locationX>
         <locationY>503</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -511,7 +642,7 @@
     <loops>
         <name>Child_Donation_Records_Loop</name>
         <label>Child Donation Records Loop</label>
-        <locationX>1568</locationX>
+        <locationX>2228</locationX>
         <locationY>1811</locationY>
         <collectionReference>Get_Child_Donation_Records</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -523,9 +654,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Child_Endowment_Instalment_Records</name>
+        <label>Child Endowment Instalment Records</label>
+        <locationX>1634</locationX>
+        <locationY>719</locationY>
+        <collectionReference>Get_Related_Endowment_Instalment_Child_Records</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Endowment_Instalment_Child_Donation_Stage</targetReference>
+        </nextValueConnector>
+    </loops>
+    <loops>
         <name>Child_Pledge_Instalment_Records</name>
         <label>Child Pledge Instalment Records</label>
-        <locationX>2162</locationX>
+        <locationX>2690</locationX>
         <locationY>719</locationY>
         <collectionReference>Get_Related_Pledge_Instalment_Child_Records</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -558,7 +700,7 @@
     <recordLookups>
         <name>Get_Child_Donation_Records</name>
         <label>Get Child Donation Records</label>
-        <locationX>1568</locationX>
+        <locationX>2228</locationX>
         <locationY>1703</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -586,11 +728,11 @@
     <recordLookups>
         <name>Get_Endowment_Instalment_Record_Type</name>
         <label>Get Endowment Instalment Record Type</label>
-        <locationX>1106</locationX>
-        <locationY>503</locationY>
+        <locationX>1502</locationX>
+        <locationY>395</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Child_Donation_Records</targetReference>
+            <targetReference>Evaluation_Endowment_Stage_Criteria</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -616,7 +758,7 @@
     <recordLookups>
         <name>Get_Pledge_Instalment_Record_Type</name>
         <label>Get Pledge Instalment Record Type</label>
-        <locationX>2030</locationX>
+        <locationX>2558</locationX>
         <locationY>395</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -644,9 +786,37 @@
         </outputAssignments>
     </recordLookups>
     <recordLookups>
+        <name>Get_Related_Endowment_Instalment_Child_Records</name>
+        <label>Get Related Endowment Instalment Child Records</label>
+        <locationX>1634</locationX>
+        <locationY>611</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Child_Endowment_Instalment_Records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Donation_Parent__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ChildRecordTypeId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Donation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Related_Pledge_Instalment_Child_Records</name>
         <label>Get Related Pledge Instalment Child Records</label>
-        <locationX>2162</locationX>
+        <locationX>2690</locationX>
         <locationY>611</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -671,8 +841,21 @@
         <object>Donation__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Instalment_Stage_to_Cancelled</name>
+        <label>Update Instalment Stage to Cancelled</label>
+        <locationX>3482</locationX>
+        <locationY>503</locationY>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
     <start>
-        <locationX>1442</locationX>
+        <locationX>2102</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Record_Type</targetReference>
