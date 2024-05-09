@@ -10,6 +10,9 @@
  *    | kim.howard.capanas             | April 22, 2024      | DEPP-8499              | Added test method for getDonationAssetsByDonationId  |
  *    | kenneth.f.alsay                | April 23, 2024      | DEPP-8528              | Added test methods for getDonationsBySetRecordIds    |
  *    | kenneth.f.alsay                | April 24, 2024      | DEPP-8528              | Added queryLocatorGetDonationsForStageUpdateTest     |
+ *    | neil.s.h.lesidan               | April 30, 2024      | DEPP-8610              | Add method getDonationsByParentIdRecordTypeTest      |
+ *    |                                |                     | DEPP-8570              |                                                      |
+ *    |                                |                     | DEPP-8682              |                                                      |
  *    | nicole.genon                   | May 2, 2024         | DEPP-8673              | Added getDonationsBySetDonationParentIdsTest,        |
  *    |                                |                     |                        | getDonationsBySetRecordTypeIdsTest                   |
  */
@@ -194,4 +197,19 @@ private class DonationsDAOTest {
         }
         Test.stopTest();
     }
-}  
+
+    @isTest
+    static void getDonationsByParentIdRecordTypeTest() {
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            List<Donation__c> donationList = DonationsDAO.newInstance()
+                .getDonationsByParentIdRecordType(
+                    new Set<Id>(),
+                    DonationsDAO.ENDOWMENT_INSTALMENT_RECTYPE_ID,
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(donationList.isEmpty(), 'DonationList should be empty.');
+        }
+    }
+}
