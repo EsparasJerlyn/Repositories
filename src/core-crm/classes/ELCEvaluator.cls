@@ -18,8 +18,8 @@ public with sharing class ELCEvaluator {
     // return a map of ELECandidateIngredient by contact id
     public Map<Id, List<ELECandidateIngredient>> evaluate(List<Contact> contacts) {
         
-        Map<Id, Contact> contactMap = new Map<Id, Contact>(contacts);       
-        Map<Id, List<ELECandidateIngredient>> mapELECandidateIngredient = new Map<Id, List<ELECandidateIngredient>>();
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(contacts);
+        Map<Id, List<ELECandidateIngredient>> eleCandidateIngredientMap = new Map<Id, List<ELECandidateIngredient>>();    
         Set<Id> contactIdSetIntersection = new Set<Id>();
         
         //Contact Evaluator
@@ -85,9 +85,7 @@ public with sharing class ELCEvaluator {
         if(programEnrollmentBreachIds !=null){
             contactIdSetIntersection.retainAll(programEnrollmentBreachIds);
         }
-        
-        Map<Id, List<ELECandidateIngredient>> eleCandidateIngredientMap = new Map<Id, List<ELECandidateIngredient>>();
-        
+                
         for (Id contactId : contactIdSetIntersection) {
             
             String uniqueKey = contactId;
