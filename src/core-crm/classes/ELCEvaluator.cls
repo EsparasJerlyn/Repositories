@@ -16,10 +16,11 @@ public with sharing class ELCEvaluator {
         this.elcParser = elcParser;
     }
     // return a map of ELECandidateIngredient by contact id
-    public Map<Id, List<ELECandidateIngredient>> evaluate(List<Contact> contacts) {
+    public Map<Id, ELECandidateIngredient> evaluate(List<Contact> contacts) {
         
         Map<Id, Contact> contactMap = new Map<Id, Contact>(contacts);       
         Set<Id> contactIdSetIntersection = new Set<Id>();
+        Map<Id, ELECandidateIngredient> eleCandidateIngredientMap = new Map<Id, ELECandidateIngredient>();
         
         //Contact Evaluator
         ELCContactEvaluator contactEvaluator = new ELCContactEvaluator(elcParser);
@@ -84,21 +85,10 @@ public with sharing class ELCEvaluator {
         if(programEnrollmentBreachIds !=null){
             contactIdSetIntersection.retainAll(programEnrollmentBreachIds);
         }
-        
-        Map<Id, List<ELECandidateIngredient>> eleCandidateIngredientMap = new Map<Id, List<ELECandidateIngredient>>();
-        
+                
         for (Id contactId : contactIdSetIntersection) {
             
-            String uniqueKey = contactId;
-            // If the unique key value is not already a key in the map, create a new list for it
-            if (!eleCandidateIngredientMap.containsKey(uniqueKey)) {
-                eleCandidateIngredientMap.put(
-                    uniqueKey,
-                    new List<ELECandidateIngredient>()
-                );
-            }
-            ELECandidateIngredient eleIngredient = new ELECandidateIngredient(); 
-            
+            ELECandidateIngredient eleIngredient = new ELECandidateIngredient();           
             eleIngredient.setELCParser(elcParser);
             
             if(contactListMap.containsKey(contactId)){
@@ -129,8 +119,8 @@ public with sharing class ELCEvaluator {
             if(programEnrollmentBreachByContact.containsKey(contactId)){
                 eleIngredient.setProgramEnrollmentBreaches(programEnrollmentBreachByContact.get(contactId));
             }
-            // Add the ELECandidateIngredient to the existing map using unique key
-            eleCandidateIngredientMap.get(uniqueKey).add(eleIngredient);
+            // Add the ELECandidateIngredient to the existing map using contact Id
+            eleCandidateIngredientMap.put(contactId,eleIngredient);
             
         }
 
