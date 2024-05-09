@@ -4036,7 +4036,8 @@ public class TestDataFactory {
     }
 
     /** @description Method for Assessment Records
-     * @return workTypes - list of WorkTypes created
+     * @param numberOfAssesmentRecords - number of Assessment Records to be created
+     * @return assessmentRecords - list of assessment records created
      */
     public static List<Assessment__c> createTestAssessmentRecords(Integer numberOfAssesmentRecords) {
         List<Assessment__c> assessmentRecords = new List<Assessment__c>();
