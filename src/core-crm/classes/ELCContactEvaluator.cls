@@ -16,8 +16,10 @@ public with sharing class ELCContactEvaluator {
         this.elcParser = elcParser;
     }
 
-    // Return null if query not executed
-    public Map<Id, List<Contact>> evaluate(Map<Id, Contact> contactMap) {  
+    public Map<Id, List<Contact>> evaluate(Map<Id, Contact> contactMap) { 
+
+        Map<Id, List<Contact>> contactListMap;
+
         if (!elcParser.getELCContactParser().getContactCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
@@ -26,10 +28,10 @@ public with sharing class ELCContactEvaluator {
                 AccessLevel.SYSTEM_MODE
             );
 
-            return groupByContact(contacts);
+            contactListMap = groupByContact(contacts);
         }
-        // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
-        return null;
+
+        return contactListMap;
     }
 
     private Map<Id, List<Contact>> groupByContact(List<Contact> contacts) {
@@ -55,8 +57,7 @@ public with sharing class ELCContactEvaluator {
             elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
             elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty() && 
             elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty() && 
-            elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty() &&
-            elcParser.getELCContactParser().getContactCriteria().isEmpty();
+            elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty();
     }
     
 }

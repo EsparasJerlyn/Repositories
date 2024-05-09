@@ -30,11 +30,8 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
         Map<Id, List<Course_Connection_Assessment__c>> courseConnectionAssessmentsMap;
 
         if (!elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
-            // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
-            //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());            
-            //add contact id set into soql
             List<Course_Connection_Assessment__c> courseConnectionAssessments = CourseConnectionAssessmentsDAO.newInstance().findByCriteria(
                                                                 elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
                                                                 elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria(), 
@@ -45,7 +42,6 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
             courseConnectionAssessmentsMap = groupByContact(courseConnectionAssessments);
         }
         
-        // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
         return courseConnectionAssessmentsMap;
     }
 

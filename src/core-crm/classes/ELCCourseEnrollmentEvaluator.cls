@@ -33,14 +33,9 @@ public with sharing class ELCCourseEnrollmentEvaluator {
     public Map<Id, List<hed__Course_Enrollment__c>> evaluate(Map<Id, Contact> contactMap) {  
         Map<Id, List<hed__Course_Enrollment__c>> courseConnectionByContactMap;
 			
-        System.debug('isAllChildEmpty --> ' + isAllChildCriteriaEmpty());
-        System.debug('parser empty --> ' + elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty());
         if (!elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
-            // if none of the child or grand child criteria defined, fire query and inherit parent / grand parent criteria
-            //elcParser.getContactCriteria().contactIdSet.addAll(contactMap.keySet());
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());            
-            //add contact id set into soql
             List<hed__Course_Enrollment__c> courseConnections = CourseConnectionsDAO.newInstance().findByCriteria(
                                                                 elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria(), 
                                                                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(), 
@@ -49,7 +44,7 @@ public with sharing class ELCCourseEnrollmentEvaluator {
                                                                 );
             courseConnectionByContactMap = groupByContact(courseConnections);
         }
-        // if any of the child or grandchild criteria defined, only run the query in the child or grandchild
+
         return courseConnectionByContactMap;
     }
 
