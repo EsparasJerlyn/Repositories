@@ -70,6 +70,7 @@
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
  *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
+ *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
 
 
  **/
@@ -1303,6 +1304,23 @@ public class TestDataFactory {
         }
 
         return programEnrollmentBreachList;
+    }
+
+    /**
+     * @description Method for creating test Breach__c records
+     * @param numberOfRecordsToCreate - number of Breach__c records to be created
+     * @return BreachList - list of Breach__c created
+     */
+    public static List<Breach__c> createTestBreachRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<Breach__c> BreachList = new List<Breach__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            BreachList.add(new Breach__c());
+        }
+
+        return BreachList;
     }
 
     /**
