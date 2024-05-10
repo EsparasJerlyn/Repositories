@@ -264,6 +264,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleOutreachCasePriority(){
         
+        List<Group> groupList = [SELECT Id, Name FROM Group WHERE  Type = 'Queue' and Name = 'Student Success - Student Retention'];
         System.runAs(TestDataFactory.getESBIntegrationUser()){
 
             Integer numberOfContactsForHigh = 50;
@@ -308,8 +309,9 @@ private class CaseTriggerHelperTest {
                 caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
                 caseRecord.Origin = 'Email';
                 caseRecord.Case_Type__c = 'Student Success - Retention';
+                caseRecord.OwnerId = groupList[0].Id;
             }
-            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+            CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
             Integer highPrioCase = 0;
