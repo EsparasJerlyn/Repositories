@@ -12033,11 +12033,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Qualtrics_Survey__c.Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Qualtrics_Survey__c.Completed_Survey_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
