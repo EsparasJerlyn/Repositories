@@ -42,7 +42,8 @@ public with sharing class ELCContactParserTest {
             ELCContactParser parser = new ELCContactParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assert(parser.getContactCriteria().isEmpty(), 'No Criteria should be parsed.'); 
+            System.assertEquals(parser.getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE, 'Record type of contact must be Person.');
+            System.assert(parser.getContactCriteria().getIsQUTStudent(), 'Is QUT Student must be true');
 
         }
     }
