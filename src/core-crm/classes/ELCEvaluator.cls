@@ -24,7 +24,7 @@ public with sharing class ELCEvaluator {
         
         //Contact Evaluator
         ELCContactEvaluator contactEvaluator = new ELCContactEvaluator(elcParser);
-        Map<Id, List<Contact>> contactListMap = contactEvaluator.evaluate(contactMap);
+        Map<Id, List<Contact>> contactListMap = (contactEvaluator.evaluate(contactMap) !=null)? contactEvaluator.evaluate(contactMap): contactMap;
         Set<Id> contactIds = contactListMap?.keySet();        
         
 		//Program Enrollment Evaluator
