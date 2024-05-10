@@ -80,7 +80,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         if(!courseConnectionAssessmentsCriteria.getIsSubmissionDateNull()){
             soql += 'AND Submission_Date__c != null ';
         }else if(courseConnectionAssessmentsCriteria.getIsSubmissionDateNull()){
-            soql += 'AND Submission_Date__c == null ';
+            soql += 'AND Submission_Date__c = null ';
         }
 
         if(courseConnectionAssessmentsCriteria.getAssessmentPriority() != null){
