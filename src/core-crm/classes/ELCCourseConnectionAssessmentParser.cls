@@ -33,9 +33,9 @@ public with sharing class ELCCourseConnectionAssessmentParser {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
+            courseConnectionAssessmentCriteria.setIsSubmissionDateNull(false);
             if(engagementListCriteria.Failed_To_Submit_Assessment__c == 'Yes'){
-                courseConnectionAssessmentCriteria.setAssessmentGrade(null);
-                courseConnectionAssessmentCriteria.setSubmissionDate(null);
+                courseConnectionAssessmentCriteria.setIsSubmissionDateNull(true);
             }
             
         }

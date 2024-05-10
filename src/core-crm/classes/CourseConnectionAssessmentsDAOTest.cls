@@ -54,19 +54,16 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionCriteria.setCourseGrade('100');
             courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
-            Date submissionDate = Date.today();
-            String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
-            courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
+            courseConnectionAssessmentsCriteria.setIsSubmissionDateNull(false);
             courseConnectionAssessmentsCriteria.setAssessmentPriority('Low');
             courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-10));
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'WHERE '
-                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
-                + 'AND Submission_Date__c = ' + submissionDateString + ' '
+                + 'Submission_Date__c != null ' 
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
                 + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
                 + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
@@ -77,7 +74,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
 
@@ -89,13 +87,9 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
 
-            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
-            Id contactId = mockIdGen.getMockId();
-
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
-            contactCriteria.setContactIdSet(new Set<Id>{contactId});
             contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
@@ -107,19 +101,16 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionCriteria.setCourseGrade('100');
             courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
-            Date submissionDate = Date.today();
-            String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
-            courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
+            courseConnectionAssessmentsCriteria.setIsSubmissionDateNull(false);
             courseConnectionAssessmentsCriteria.setAssessmentPriority('Low');
             courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-10));
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getContactQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
-                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
-                + 'AND Submission_Date__c = ' + submissionDateString + ' '
+                + 'Submission_Date__c != null '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
                 + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
                 + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
@@ -160,20 +151,16 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionCriteria.setCourseGrade('100');
             courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
-            Date submissionDate = Date.today();
-            String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
-
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
-            courseConnectionAssessmentsCriteria.setSubmissionDate(submissionDate);
+            courseConnectionAssessmentsCriteria.setIsSubmissionDateNull(true);
             courseConnectionAssessmentsCriteria.setAssessmentPriority ('Low');
             courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-10));
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT Id, Course_Connection__r.hed__Contact__c, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Assessment_Priority__c, Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
-                + 'Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' '
-                + 'AND Submission_Date__c = ' + submissionDateString + ' '
+                + 'Submission_Date__c == null '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
                 + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
                 + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
@@ -184,7 +171,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' 
+                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.Id IN (' + DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Query');
         }
 
@@ -222,15 +210,14 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionListCreated[0].hed__Display_Grade__c = '100';
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
             
-            Assessment__c assessmentCreated = new Assessment__c();
-            assessmentCreated.Assessment_Priority__c = 'Low';
-            assessmentCreated.Due_Date__c = Date.today();
-            insert assessmentCreated;
+            List<Assessment__c> assessmentList = TestDataFactory.createTestAssessmentRecords(1);
+            assessmentList[0].Assessment_Priority__c = 'Low';
+            assessmentList[0].Due_Date__c = Date.today();
+            AssessmentsDAO.newInstance().insertRecords(assessmentList, true, AccessLevel.SYSTEM_MODE);
             
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
-            courseConnectionAssessmentListCreated[0].Assessment_Grade__c = '100';
             courseConnectionAssessmentListCreated[0].Submission_Date__c = Date.today();
-            courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentCreated.Id;
+            courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
@@ -244,8 +231,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
-            courseConnectionAssessmentsCriteria.setSubmissionDate(Date.today());
+            courseConnectionAssessmentsCriteria.setIsSubmissionDateNull(false);
             courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-10));
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
@@ -305,7 +291,6 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             
             //Create a course connection record for the negative 
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
-            courseConnectionAssessmentListCreated[0].Assessment_Grade__c = null;
             courseConnectionAssessmentListCreated[0].Submission_Date__c = null;
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentCreated.Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
@@ -322,7 +307,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
 
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.setAssessmentGrade('100');
-            courseConnectionAssessmentsCriteria.setSubmissionDate(Date.today());
+            courseConnectionAssessmentsCriteria.setIsSubmissionDateNull(false);
             courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-10));
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
