@@ -20,7 +20,7 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
 
         Map<Id, List<Program_Enrollment_Breach__c>> programEnrollmentBreachMap;
 
-        if (!elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) {
+        if (!isAllParserEmpty() && !elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) {
             
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<Program_Enrollment_Breach__c> programEnrollmentBreaches = ProgramEnrollmentBreachesDAO.newInstance().findByCriteria(
@@ -50,5 +50,12 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
         }
         
         return programEnrollmentBreachByContactMap;
+    }
+
+    Boolean isAllParserEmpty(){
+        return 
+            elcParser.getELCContactParser().isEmpty() && 
+            elcParser.getELCProgramEnrollmentParser().isEmpty() &&
+            elcParser.getELCProgramEnrollmentBreachParser().isEmpty();
     }
 }

@@ -20,7 +20,7 @@ public with sharing class ELCCompletedCadenceEvaluator {
 
         Map<Id, List<Completed_Cadence__c>> completedCadencesMap;
 
-        if (!elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) {
+        if (!isAllParserEmpty() && !elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) {
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<Completed_Cadence__c> completedCadences = CompletedCadencesDAO.newInstance().findByCriteria(
@@ -34,7 +34,6 @@ public with sharing class ELCCompletedCadenceEvaluator {
 
         return completedCadencesMap;
     }
-
 
     private Map<Id, List<Completed_Cadence__c>> groupByContact(List<Completed_Cadence__c> completedCadences) {
         Map<Id, List<Completed_Cadence__c>> completedCadenceByContactMap = new Map<Id, List<Completed_Cadence__c>>();
@@ -50,6 +49,12 @@ public with sharing class ELCCompletedCadenceEvaluator {
         }
         
         return completedCadenceByContactMap;
+    }
+
+    Boolean isAllParserEmpty(){
+        return 
+            elcParser.getELCContactParser().isEmpty() &&
+            elcParser.getELCCompletedCadenceParser().isEmpty();
     }
 
 }

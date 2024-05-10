@@ -23,9 +23,7 @@ public with sharing class ELCContactParser{
 
     private void parse() {
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
-        if(contactCriteria != null && !contactCriteria.isEmpty()){
-            contactCriteria = applyContactHiddenCriteria(contactCriteria);
-        }
+        contactCriteria = applyContactHiddenCriteria(contactCriteria);
     }
 
     //configurable criteria

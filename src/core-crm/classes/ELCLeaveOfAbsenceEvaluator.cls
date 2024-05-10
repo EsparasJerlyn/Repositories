@@ -21,7 +21,7 @@ public with sharing class ELCLeaveOfAbsenceEvaluator {
 
         Map<Id, List<Leave_of_Absence__c>> leaveOfAbsencesMap;
 
-        if (!elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
+        if (!isAllParserEmpty() && !elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<Leave_of_Absence__c> leaveOfAbsences = LeaveOfAbsencesDAO.newInstance().findByCriteria(
@@ -52,5 +52,12 @@ public with sharing class ELCLeaveOfAbsenceEvaluator {
         }
         
         return leaveOfAbsenceByContactMap;
+    }
+
+    Boolean isAllParserEmpty(){
+        return 
+            elcParser.getELCContactParser().isEmpty() && 
+            elcParser.getELCProgramEnrollmentParser().isEmpty() &&
+            elcParser.getELCLeaveOfAbsenceParser().isEmpty();
     }
 }
