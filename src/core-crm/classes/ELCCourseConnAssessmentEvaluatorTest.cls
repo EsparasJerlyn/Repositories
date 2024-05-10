@@ -118,7 +118,6 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             engagementListCriteria.Academic_Status__c = academicStatus;
             engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
-            engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
     
