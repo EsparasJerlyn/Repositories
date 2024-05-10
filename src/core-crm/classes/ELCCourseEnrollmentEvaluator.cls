@@ -63,7 +63,8 @@ public with sharing class ELCCourseEnrollmentEvaluator {
     }
 
     Boolean isAllChildCriteriaEmpty() {
-        return elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty();
+        return 
+            (!elcParser.getELCCourseConnectionParser().isEmpty() && elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty());
     }
     
     Boolean isAllParserEmpty(){

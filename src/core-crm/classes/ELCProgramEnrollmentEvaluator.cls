@@ -54,10 +54,10 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
     private Boolean isAllChildCriteriaEmpty() {
         return 
-            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
-            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
-            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
-            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty();
+            (!elcParser.getELCLeaveOfAbsenceParser().isEmpty() && elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) && 
+            (!elcParser.getELCProgramEnrollmentBreachParser().isEmpty() && elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) && 
+            (!elcParser.getELCCourseConnectionParser().isEmpty() && elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) && 
+            (!elcParser.getELCCourseConnectionAssessmentParser().isEmpty() && elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty());
     }
 
     Boolean isAllParserEmpty(){
