@@ -186,7 +186,8 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
         if(courseConnectionCriteria.getStatus() != null){
-            soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(courseConnectionCriteria.getStatus());
+            soql += 'AND Enrollment_Status__c IN(' + statusSetString + ') ';
         }
         if(courseConnectionCriteria.getCourseGrade() != null){
             soql += 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ' ;
@@ -206,7 +207,8 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
             soql += 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ' ;
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
-            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(' + statusSetString + ') ';
         }
         
         return soql;
@@ -217,23 +219,21 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
         String soql = '';
 
         if(contactCriteria.getCitizenshipStatus() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
         }
         if(contactCriteria.getIsQUTStudent() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
+        }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
         }
 
         return soql;
     }
 
-    private String formatStringSetForWhereClause(Set<String> stringSet){
-        List<String> formattedStrings = new List<String>();
-        for(String lineString : stringSet){
-            formattedStrings.add('\'' + lineString + '\'');
-        }
-        return String.join(formattedStrings, ', ');
-    }
+
 }

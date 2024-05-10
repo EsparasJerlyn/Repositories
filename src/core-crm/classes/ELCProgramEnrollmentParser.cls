@@ -27,45 +27,38 @@ public with sharing class ELCProgramEnrollmentParser {
     }
 
     private void parse() {
+        programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
-        programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
+        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
+        if(programEnrollmentCriteria != null && !programEnrollmentCriteria.isEmpty()){
+            programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
+        }
     }
     
     //configurable criteria
     private ProgramEnrollmentsDAO.Criteria processAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (engagementListCriteria.Academic_Status__c != null) {
-            if (programEnrollmentCriteria == null) {
-                programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Academic_Status__c)) {
             programEnrollmentCriteria.setAcademicStatus(engagementListCriteria.Academic_Status__c);
         }
         return programEnrollmentCriteria;
     }
 
-    private ProgramEnrollmentsDAO.Criteria processProgramEnrollmentKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentsCriteria) {
+    private ProgramEnrollmentsDAO.Criteria processProgramEnrollmentKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (
             this.executionDate != null
             && engagementListCriteria.Key_Date__c == 'Academic Status Date'
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
-            if (programEnrollmentsCriteria == null) {
-                programEnrollmentsCriteria = new ProgramEnrollmentsDAO.Criteria();
-            }
-            
-            programEnrollmentsCriteria.setAcademicStatusDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            programEnrollmentsCriteria.setAcademicStatusDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+            programEnrollmentCriteria.setAcademicStatusDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+            programEnrollmentCriteria.setAcademicStatusDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
-        return programEnrollmentsCriteria;
+        return programEnrollmentCriteria;
     }
 
     private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (engagementListCriteria.Category_Type__c != null) {
-            if (programEnrollmentCriteria == null) {
-                programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Category_Type__c)) {
             programEnrollmentCriteria.setCategoryType(engagementListCriteria.Category_Type__c);
         }
         return programEnrollmentCriteria;
@@ -73,9 +66,6 @@ public with sharing class ELCProgramEnrollmentParser {
 
     //hidden criteria
     private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (programEnrollmentCriteria == null) {
-            programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-        }
         programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
         programEnrollmentCriteria.setEnrollmentStatus(ENROLLMENT_STATUS_FOR_OUTREACH);
 
@@ -85,4 +75,9 @@ public with sharing class ELCProgramEnrollmentParser {
     public ProgramEnrollmentsDAO.Criteria getProgramEnrollmentCriteria() {
         return programEnrollmentCriteria;
     }
+
+    public Boolean isEmpty(){
+        return programEnrollmentCriteria == null;
+    }
+
 }

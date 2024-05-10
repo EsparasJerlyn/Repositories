@@ -30,6 +30,8 @@ public with sharing class ELCProgramEnrollmentParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
         }
     }
 
@@ -45,23 +47,21 @@ public with sharing class ELCProgramEnrollmentParserTest {
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');            
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');       
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');     
         }
     }
 
     @isTest
-    static void parseProgramEnrollmentHiddenCriteriaTest() {
+    static void parseNoProgramEnrollmentCriteriaTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
-            Date executionDate = Date.today();
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-
-            ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+            ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
-            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
+            System.assert(parser.getProgramEnrollmentCriteria() == null, 'No Criteria should be parsed.'); 
 
         }
     }

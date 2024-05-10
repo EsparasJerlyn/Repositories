@@ -180,9 +180,13 @@ public with sharing class CompletedCadencesDAOTest {
             completedCadenceCriteria.setCompletedCadanceDateFrom(Date.today().addDays(-10));
             completedCadenceCriteria.setCompletedCadanceDateTo(Date.today().addDays(10));
 
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
             
             String actualQueryString = CompletedCadencesDAO.newInstance()
                 .getQueryByCriteria(
@@ -195,7 +199,8 @@ public with sharing class CompletedCadencesDAOTest {
             + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
             + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
-            + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
+            + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' '
+            + 'AND Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedQueryString, actualQueryString, 'Incorrect Where Clause');
         }
         Test.stopTest();

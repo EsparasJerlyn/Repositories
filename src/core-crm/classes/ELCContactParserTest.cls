@@ -17,36 +17,32 @@ public with sharing class ELCContactParserTest {
     }
 
     @isTest
-    static void parseContactCitizenshipStatusTest() {
+    static void parseContactCriteriaTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
-            String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
-            Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
+            engagementListCriteria.Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
 
-            ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
+            ELCContactParser parser = new ELCContactParser(engagementListCriteria, Date.today());
             Test.stopTest();
 
-            System.assertEquals(parser.getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
+            System.assertEquals(parser.getContactCriteria().getCitizenshipStatus(), ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL, 'Incorrect Citizenship Status.');
+            System.assertEquals(parser.getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE, 'Record type of contact must be Person.');
+            System.assert(parser.getContactCriteria().getIsQUTStudent(), 'Is QUT Student must be true');
 
         }
     }
 
     @isTest
-    static void parseContactHiddenCriteriaTest() {
+    static void parseNoContactCriteriaTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
-            Date executionDate = Date.today();
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-
-            ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
+            ELCContactParser parser = new ELCContactParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assertEquals(parser.getContactCriteria().getRecordType(), ContactsDAO.PERSON_RECORDTYPE , 'Incorrect Contact record type'); 
-            System.assertEquals(parser.getContactCriteria().getIsQUTStudent(), true, 'Contact is not set as QUT student');
+            System.assert(parser.getContactCriteria() == null, 'No Criteria should be parsed.'); 
 
         }
     }

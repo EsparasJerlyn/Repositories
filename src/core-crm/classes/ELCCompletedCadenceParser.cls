@@ -22,17 +22,17 @@ public with sharing class ELCCompletedCadenceParser {
     }
 
     private void parse() {
+        completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
         completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
         completedCadenceCriteria = processCompletedCadenceKeyDate(engagementListCriteria, completedCadenceCriteria);
-        completedCadenceCriteria = applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
+        if(completedCadenceCriteria != null && !completedCadenceCriteria.isEmpty()){
+            completedCadenceCriteria = applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
+        }
     }
     
     //configurable criteria
     private CompletedCadencesDAO.Criteria processCadenceName(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (engagementListCriteria.Completed_Cadence__c != null) {
-            if (completedCadenceCriteria == null) {
-                completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Completed_Cadence__c)) {
             completedCadenceCriteria.setCompletedCadence(engagementListCriteria.Completed_Cadence__c);
         }
         return completedCadenceCriteria;
@@ -45,10 +45,6 @@ public with sharing class ELCCompletedCadenceParser {
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
-            if (completedCadenceCriteria == null) {
-                completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-            }
-
             completedCadenceCriteria.setCompletedCadanceDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
             completedCadenceCriteria.setCompletedCadanceDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
@@ -57,9 +53,6 @@ public with sharing class ELCCompletedCadenceParser {
 
     //hidden criteria
     private CompletedCadencesDAO.Criteria applyCompletedCadenceHiddenCriteria(CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (completedCadenceCriteria == null) {
-            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-        }
         completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
         return completedCadenceCriteria;
     }
@@ -68,5 +61,7 @@ public with sharing class ELCCompletedCadenceParser {
         return completedCadenceCriteria;
     }
 
-    
+    public Boolean isEmpty(){
+        return completedCadenceCriteria == null;
+    }
 }

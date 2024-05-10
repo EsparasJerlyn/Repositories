@@ -21,17 +21,17 @@ public with sharing class ELCProgramEnrollmentBreachParser {
     }
 
     private void parse() {
+        programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
-        programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
         programEnrollmentBreachCriteria = processLeaveOfAbsenceKeyDateOffsets(engagementListCriteria, programEnrollmentBreachCriteria);
+        if(programEnrollmentBreachCriteria != null && !programEnrollmentBreachCriteria.isEmpty()){
+            programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
+        }
     }
 
     //configurable criteria
     private ProgramEnrollmentBreachesDAO.Criteria processBreachName(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (engagementListCriteria.Breach__c != null) {
-            if (programEnrollmentBreachCriteria == null) {
-                programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Breach__c)) {
             programEnrollmentBreachCriteria.setBreach(engagementListCriteria.Breach__c);
         }
         return programEnrollmentBreachCriteria;
@@ -44,10 +44,6 @@ public with sharing class ELCProgramEnrollmentBreachParser {
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
-            if (programEnrollmentBreachCriteria == null) {
-                programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-            }
-                       
             programEnrollmentBreachCriteria.setBreachDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
             programEnrollmentBreachCriteria.setBreachDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
@@ -56,16 +52,16 @@ public with sharing class ELCProgramEnrollmentBreachParser {
 
     //hidden criteria
     private ProgramEnrollmentBreachesDAO.Criteria applyProgramEnrollmentBreachHiddenCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (programEnrollmentBreachCriteria == null) {
-            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-        }
         programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
-
         return programEnrollmentBreachCriteria;
     }
 
     public ProgramEnrollmentBreachesDAO.Criteria getProgramEnrollmentBreachCriteria() {
         return programEnrollmentBreachCriteria;
+    }
+
+    public Boolean isEmpty(){
+        return programEnrollmentBreachCriteria == null;
     }
 
 }
