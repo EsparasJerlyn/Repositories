@@ -29,7 +29,7 @@ public inherited sharing class ContactMatchingStagingsDAO extends DmlBase implem
 		' Mailing_City__c, Mailing_Country__c, Mailing_State__c, Mailing_Street__c, Mailing_PostalCode__c, MiddleName__c, Mobile_No_Locale__c, MobilePhone__c, ' +
 		' Preferred_Given_Name__c, QUT_Employee_ID__c, QUT_Identity_ID__c, Work_Email__c, QUT_Learner_Email__c, QUT_Staff_Email__c, QUT_Staff_Username__c, QUT_Student_ID__c, ' +
 		' QUT_Student_Username__c, Residential_City__c, Residential_Country__c, Residential_State__c, Residential_Street__c, Residential_PostalCode__c,  ' +
-		' Salutation__c, Staff_End_Date__c, Batch_Process__c  ' +
+		' Salutation__c, Staff_End_Date__c, Batch_Process__c, External_Id__c, External_Key__c, Migration_Id__c, Migration_Key__c ' +
 		' FROM Contact_Matching_Staging__c ' +
 		' WHERE Batch_Process__c IN: batchProcessSet ';
         return Database.getQueryLocator(query,accessLevel);

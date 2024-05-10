@@ -43,7 +43,11 @@ public inherited sharing class ContactMatchingStagingBatchManager {
         'Residential_Street__c' => 'OtherStreet',
         'Residential_PostalCode__c' => 'OtherPostalCode',
         'Salutation__c' => 'Salutation',
-        'Staff_End_Date__c' => 'Staff_End_Date__c'
+        'Staff_End_Date__c' => 'Staff_End_Date__c',
+        'External_Id__c' => 'External_Id__c',
+        'External_Key__c' => 'External_Key__c',
+        'Migration_Id__c' => 'Migration_Id__c',
+        'Migration_Key__c' => 'Migration_Key__c'
     };
 
     /**
