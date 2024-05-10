@@ -1,0 +1,14 @@
+<template>
+  <lightning-card  variant="Narrow"  title="Case" icon-name="standard:case" >
+    <lightning-button label="Import List" onclick={handleButtonOpenModal} slot="actions"></lightning-button>
+    <lightning-datatable
+                key-field="id"
+                data={data}
+                columns={columns}>
+        </lightning-datatable>
+
+    <template if:true={showModal}>
+      <c-outreach-case-import-modal onopenmodal={handleCloseModal}></c-outreach-case-import-modal>
+    </template>
+</lightning-card>
+</template>
