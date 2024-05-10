@@ -60,8 +60,4 @@ public with sharing class ELCProgramEnrollmentBreachParser {
         return programEnrollmentBreachCriteria;
     }
 
-    public Boolean isEmpty(){
-        return programEnrollmentBreachCriteria == null;
-    }
-
 }

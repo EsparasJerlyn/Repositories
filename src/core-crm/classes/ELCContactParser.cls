@@ -46,8 +46,4 @@ public with sharing class ELCContactParser{
         return contactCriteria;
     }
 
-    public Boolean isEmpty(){
-        return contactCriteria == null;
-    }
-    
 }
