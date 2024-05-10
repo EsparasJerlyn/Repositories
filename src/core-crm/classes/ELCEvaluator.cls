@@ -18,6 +18,10 @@ public with sharing class ELCEvaluator {
     // return a map of ELECandidateIngredient by contact id
     public Map<Id, ELECandidateIngredient> evaluate(List<Contact> contacts) {
         
+        if(contacts.isEmpty()){
+            return null;
+        }
+        
         Map<Id, Contact> contactMap = new Map<Id, Contact>(contacts);       
         Set<Id> contactIdSetIntersection = new Set<Id>();
         Map<Id, ELECandidateIngredient> eleCandidateIngredientMap = new Map<Id, ELECandidateIngredient>();
