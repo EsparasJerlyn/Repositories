@@ -39,7 +39,7 @@ public with sharing class ELCContactEvaluator {
             elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
             elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
             elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
-          //  elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty() && 
             elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty() && 
             elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty();
     }
