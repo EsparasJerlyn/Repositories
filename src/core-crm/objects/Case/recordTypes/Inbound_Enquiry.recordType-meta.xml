@@ -148,6 +148,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Initial_Communication_Status__c</picklist>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>My_Citizenship_Status__c</picklist>
         <values>
             <fullName>Australian Citizen or Permanent Resident</fullName>
