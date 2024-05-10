@@ -23,7 +23,7 @@ public with sharing class ELCContactParser{
 
     private void parse() {
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
-        if(!contactCriteria.isEmpty()){
+        if(contactCriteria != null && !contactCriteria.isEmpty()){
             contactCriteria = applyContactHiddenCriteria(contactCriteria);
         }
     }
@@ -41,9 +41,6 @@ public with sharing class ELCContactParser{
 
     //hidden criteria
     private ContactsDAO.Criteria applyContactHiddenCriteria(ContactsDAO.Criteria contactCriteria) {
-        if (contactCriteria == null) {
-            contactCriteria = new ContactsDAO.Criteria();
-        }
         contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
         contactCriteria.setIsQUTStudent(true);
         return contactCriteria;
