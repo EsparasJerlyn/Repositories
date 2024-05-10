@@ -117,7 +117,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Calculated_Cadence__c,
                 hed__Citizenship_Status__c,
                 HasOptedOutOfEmail,
-                Email_Opt_In_DateTime__c
+                Email_Opt_In_DateTime__c,
+                hed__Deceased__c,
+                QUT_Student_ID__c,
+                QUT_Employee_ID__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates

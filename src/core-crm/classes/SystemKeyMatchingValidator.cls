@@ -15,7 +15,6 @@
  */
 
 public inherited sharing class SystemKeyMatchingValidator {
-
     // Matching type variables
     private static final String SYSTEM_KEY_MATCHING_TYPE = 'System Key Matching';
 
@@ -29,12 +28,12 @@ public inherited sharing class SystemKeyMatchingValidator {
         ContactMatchingService.MatchingAttributes matchingRecord,
         Map<String, List<Contact>> systemKeyMatchingMap
     ) {
-        Map<String,String> systemKeyToTypeMap = ContactAlternateIdService.SYSTEM_KEY_TO_TYPE_MAP;
+        Map<String, String> systemKeyToTypeMap = ContactAlternateIdService.SYSTEM_KEY_TO_TYPE_MAP;
         // Loop through each contact ID field to check for matches
         for (String systemKeyField : systemKeyToTypeMap.keySet()) {
-
             //e.g. 123456QUT Employee ID
-            String uniqueKey = matchingRecord.get(systemKeyField) + systemKeyToTypeMap.get(systemKeyField);
+            String uniqueKey =
+                matchingRecord.get(systemKeyField) + systemKeyToTypeMap.get(systemKeyField);
             // Check if the system key matching map contains the current contact ID field value
             if (
                 String.isNotBlank(matchingRecord.get(systemKeyField)) &&
@@ -59,11 +58,10 @@ public inherited sharing class SystemKeyMatchingValidator {
         Map<String, List<Contact>> systemKeyMatchingMap
     ) {
         Set<Contact> matchingContacts = new Set<Contact>();
-        Map<String,String> systemKeyToTypeMap = ContactAlternateIdService.SYSTEM_KEY_TO_TYPE_MAP;
+        Map<String, String> systemKeyToTypeMap = ContactAlternateIdService.SYSTEM_KEY_TO_TYPE_MAP;
 
         // Loop through each contact ID field to check for matches
         for (String systemKeyField : systemKeyToTypeMap.keySet()) {
-
             if (String.isBlank(matchingRecord.get(systemKeyField))) {
                 continue;
             }
@@ -74,23 +72,21 @@ public inherited sharing class SystemKeyMatchingValidator {
             // Check if the system key matching map contains the current contact ID field value + the system key type
             if (systemKeyMatchingMap.containsKey(uniqueKey)) {
                 // Retrieve the list of contacts associated with the current contact ID field value + the system key type
-                matchingContacts.addAll(
-                    systemKeyMatchingMap.get(uniqueKey)
-                );
+                matchingContacts.addAll(systemKeyMatchingMap.get(uniqueKey));
             }
         }
- 
-        return new MatchingResult(matchingContacts,SYSTEM_KEY_MATCHING_TYPE);
+
+        return new MatchingResult(matchingContacts, SYSTEM_KEY_MATCHING_TYPE);
     }
 
     /**
      * @description Builds a map of contacts grouped by system key values.
      *              This method iterates through the list of existing contact alternate IDs and organizes them into a map,
-     *              where keys are system key values (e.g., 123456,1234567) + system key types (e.g., QUT Employee ID, QUT Student ID) 
+     *              where keys are system key values (e.g., 123456,1234567) + system key types (e.g., QUT Employee ID, QUT Student ID)
      *              and values are lists of contacts associated with the corresponding system key.
      *
-     *              Contacts are grouped based on the presence of non-null system key values + system key types on the Active child Contact Alternate ID records. 
-     *              If a contact alternate id record has a non-null value for a specific system key field and system key type, 
+     *              Contacts are grouped based on the presence of non-null system key values + system key types on the Active child Contact Alternate ID records.
+     *              If a contact alternate id record has a non-null value for a specific system key field and system key type,
      *              the parent contact is added to the list corresponding to that key in the map.
      *
      * @param contactAlternateIds - The list of contact alternate IDs containing references to contacts and their related information.
@@ -121,13 +117,11 @@ public inherited sharing class SystemKeyMatchingValidator {
             );
 
             //e.g. 123456QUT Employee ID
-            String uniqueKey = alternateIdRecord.Contact_Alternate_Id__c + alternateIdRecord.Alternate_Id_Type__c;
+            String uniqueKey =
+                alternateIdRecord.Contact_Alternate_Id__c + alternateIdRecord.Alternate_Id_Type__c;
             // If the system key value is not already a key in the map, create a new list for it
             if (!systemKeyMatchingMap.containsKey(uniqueKey)) {
-                systemKeyMatchingMap.put(
-                    uniqueKey,
-                    new List<Contact>()
-                );
+                systemKeyMatchingMap.put(uniqueKey, new List<Contact>());
             }
             // Add the contact record to the list associated with the system key value in the map
             systemKeyMatchingMap.get(uniqueKey).add(contactRecord);
