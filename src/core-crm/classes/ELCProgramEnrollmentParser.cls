@@ -84,4 +84,9 @@ public with sharing class ELCProgramEnrollmentParser {
     public ProgramEnrollmentsDAO.Criteria getProgramEnrollmentCriteria() {
         return programEnrollmentCriteria;
     }
+
+    public Boolean isEmpty(){
+        return programEnrollmentCriteria == null;
+    }
+
 }

@@ -51,10 +51,13 @@ public with sharing class ELCLeaveOfAbsenceParser {
         }
         return leaveOfAbsenceCriteria;
     }
-
     
     public LeaveOfAbsencesDAO.Criteria getLeaveOfAbsencesCriteria() {
         return leaveOfAbsenceCriteria;
+    }
+
+    public Boolean isEmpty(){
+        return leaveOfAbsenceCriteria == null;
     }
 
 }

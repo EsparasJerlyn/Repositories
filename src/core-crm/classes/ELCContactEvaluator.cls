@@ -20,7 +20,8 @@ public with sharing class ELCContactEvaluator {
 
         Map<Id, Contact> contactEvaluatedMap;
 
-        if (!elcParser.getELCContactParser().getContactCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
+        Boolean isChildrenEMpty = isAllParserEmpty() && isAllChildCriteriaEmpty();
+        if (isChildrenEMpty && !elcParser.getELCContactParser().getContactCriteria().isEmpty()) {
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<Contact> contacts = ContactsDAO.newInstance().findByCriteria(
@@ -32,6 +33,18 @@ public with sharing class ELCContactEvaluator {
         }
 
         return contactEvaluatedMap;
+    }
+
+    private Boolean isAllParserEmpty(){
+        return 
+            elcParser.getELCContactParser().isEmpty() &&
+            elcParser.getELCLeaveOfAbsenceParser().isEmpty() && 
+            elcParser.getELCProgramEnrollmentBreachParser().isEmpty() && 
+            elcParser.getELCCourseConnectionParser().isEmpty() && 
+            elcParser.getELCCourseConnectionAssessmentParser().isEmpty() && 
+            elcParser.getELCCompletedCadenceParser().isEmpty() && 
+            elcParser.getELCProgramEnrollmentParser().isEmpty();
+           
     }
 
     private Boolean isAllChildCriteriaEmpty() {

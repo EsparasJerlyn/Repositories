@@ -67,5 +67,7 @@ public with sharing class ELCCompletedCadenceParser {
         return completedCadenceCriteria;
     }
 
-    
+    public Boolean isEmpty(){
+        return completedCadenceCriteria == null;
+    }
 }

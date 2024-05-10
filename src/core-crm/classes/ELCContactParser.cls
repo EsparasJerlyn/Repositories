@@ -49,5 +49,9 @@ public with sharing class ELCContactParser{
     public ContactsDAO.Criteria getContactCriteria() {
         return contactCriteria;
     }
+
+    public Boolean isEmpty(){
+        return contactCriteria == null;
+    }
     
 }

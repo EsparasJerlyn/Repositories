@@ -72,5 +72,8 @@ public with sharing class ELCCourseConnectionAssessmentParser {
         return courseConnectionAssessmentCriteria;
     }
 
+    public Boolean isEmpty(){
+        return courseConnectionAssessmentCriteria == null;
+    }
 
 }
