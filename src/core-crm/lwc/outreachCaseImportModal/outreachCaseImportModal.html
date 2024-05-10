@@ -1,4 +1,7 @@
 <template>
+  <template if:true={modalOpen}>
+
+  
   <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
   class={modalClass}>
     <div class="slds-modal__container">
@@ -23,8 +26,62 @@
             <label class="slds-form-element__label" for="horizontal-input-id-02">Description</label>
             <div class="slds-form-element__control">
               <textarea id="horizontal-input-id-02" placeholder="Placeholder text…" class="slds-textarea"></textarea>
-              <lightning-input type="file" onchange={handleFileChange}></lightning-input>
+              <lightning-input
+                  type="file"
+                  accept=".csv"
+                  onchange={handleFileUpload}
+                  >
+               </lightning-input>
             </div>
+            <template if:true={showTabset}>
+              <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                 <lightning-layout>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                       <div class="custom-box">Summary</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                       <div class="custom-box">Rows: {rowCount} </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                       <div class="custom-box">Student Found: {rowCount} </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                       <div class="custom-box">Exclusions: </div>
+                    </lightning-layout-item>
+                 </lightning-layout>
+              </div>
+              <lightning-tabset>
+                 <lightning-tab label="Students Found">
+                    <div class="slds-grid slds-grid_vertical slds-clearfix">
+                       <div onkeyup={handleKeyUp} class="slds-col slds-size_1-of-5 slds-float_right">
+                          <lightning-input class="slds-p-bottom_large"
+                              name="Search"
+                              type="search"
+                              placeholder="search"
+                          ></lightning-input>
+                      </div>
+                       <div style="height: 300px" class="slds-col">
+                          <lightning-datatable 
+                             key-field="id" 
+                             data={data} 
+                             columns={columns} 
+                             hide-checkbox-column 
+                             show-row-number-column> </lightning-datatable>
+                       </div>
+                    </div>
+                 </lightning-tab>
+                 <lightning-tab label="Exclusions" title="Exclusions">
+                    <div style="height: 300px">
+                       <lightning-datatable 
+                          key-field="id" 
+                          data={data} 
+                          columns={exclusionsColumns} 
+                          hide-checkbox-column 
+                          show-row-number-column> </lightning-datatable>
+                    </div>
+                 </lightning-tab>
+              </lightning-tabset>
+           </template>
           </div>
         </div>
       </div>
@@ -35,4 +92,6 @@
     </div>
   </section>
   <div class={backdropClass} role="presentation"></div>
+
+</template>
 </template>

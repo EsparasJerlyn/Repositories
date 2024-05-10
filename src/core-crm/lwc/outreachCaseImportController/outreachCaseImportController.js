@@ -33,8 +33,8 @@ export default class OutreachCaseImportController extends LightningElement {
     this.showModal = true;
   }
 
-  handleCloseModal() {
-    this.showModal = false;
+  handleCloseModal(event) {
+    this.showModal = event.detail;
 }
   
 }
