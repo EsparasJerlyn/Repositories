@@ -39,6 +39,7 @@
     </types>
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
+        <members>Engagement_List_Criteria__c-Engagement List Criteria Layout</members><!--DEPP-7584-->
         <name>Layout</name>
     </types>
     <types>

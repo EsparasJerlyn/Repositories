@@ -28,6 +28,11 @@
                 <label>System Administrator - Read Only</label>
             </value>
             <value>
+                <fullName>Data Cloud Admin</fullName>
+                <default>false</default>
+                <label>Data Cloud Admin</label>
+            </value>
+            <value>
                 <fullName>Development Team</fullName>
                 <default>false</default>
                 <label>Development Team</label>

@@ -163,21 +163,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Engagement_List_Criteria_Type__c</picklist>
-        <values>
-            <fullName>Entry</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Exit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Imported</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Equity_Scholarship_Bursary__c</picklist>
         <values>
             <fullName>No</fullName>
