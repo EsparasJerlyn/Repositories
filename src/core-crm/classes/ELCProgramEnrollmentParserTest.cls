@@ -61,7 +61,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assert(parser.getProgramEnrollmentCriteria() == null, 'No Criteria should be parsed.'); 
+            System.assert(parser.getProgramEnrollmentCriteria().isEmpty(), 'No Criteria should be parsed.'); 
 
         }
     }

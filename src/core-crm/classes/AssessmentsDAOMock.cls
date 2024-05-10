@@ -9,6 +9,7 @@
       | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Created file                 |
  */
 
+@isTest
 public inherited sharing class AssessmentsDAOMock extends DmlBaseMock implements IAssessmentsDAO {
 
 	public Map<Id, Assessment__c> assessmentMap;

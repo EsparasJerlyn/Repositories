@@ -76,8 +76,4 @@ public with sharing class ELCProgramEnrollmentParser {
         return programEnrollmentCriteria;
     }
 
-    public Boolean isEmpty(){
-        return programEnrollmentCriteria == null;
-    }
-
 }

@@ -40,7 +40,7 @@ public with sharing class ELCCourseConnectionParserTest {
             ELCCourseConnectionParser parser = new ELCCourseConnectionParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assert(parser.getCourseConnectionCriteria() == null, 'No Criteria should be parsed.'); 
+            System.assert(parser.getCourseConnectionCriteria().isEmpty(), 'No Criteria should be parsed.'); 
 
         }
     }

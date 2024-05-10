@@ -42,7 +42,7 @@ public with sharing class ELCCompletedCadenceParserTest {
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assert(parser.getCompletedCadenceCriteria() == null, 'No Criteria should be parsed.'); 
+            System.assert(parser.getCompletedCadenceCriteria().isEmpty(), 'No Criteria should be parsed.'); 
         }
     }
 

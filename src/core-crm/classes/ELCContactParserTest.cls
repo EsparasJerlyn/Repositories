@@ -42,7 +42,7 @@ public with sharing class ELCContactParserTest {
             ELCContactParser parser = new ELCContactParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assert(parser.getContactCriteria() == null, 'No Criteria should be parsed.'); 
+            System.assert(parser.getContactCriteria().isEmpty(), 'No Criteria should be parsed.'); 
 
         }
     }

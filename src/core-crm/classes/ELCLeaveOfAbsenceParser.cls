@@ -51,8 +51,4 @@ public with sharing class ELCLeaveOfAbsenceParser {
         return leaveOfAbsenceCriteria;
     }
 
-    public Boolean isEmpty(){
-        return leaveOfAbsenceCriteria == null;
-    }
-
 }

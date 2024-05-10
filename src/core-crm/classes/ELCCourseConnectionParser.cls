@@ -53,8 +53,5 @@ public with sharing class ELCCourseConnectionParser {
     public CourseConnectionsDAO.Criteria getCourseConnectionCriteria() {
         return courseConnectionCriteria;
     }
-
-    public Boolean isEmpty(){
-        return courseConnectionCriteria == null;
-    }
+    
 }
