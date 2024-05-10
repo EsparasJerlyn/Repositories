@@ -30,7 +30,7 @@ public with sharing class ELCCourseConnectionParser {
 
     private void parse() {
         courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
-        if(!courseConnectionCriteria.isEmpty()){
+        if(courseConnectionCriteria != null && !courseConnectionCriteria.isEmpty()){
             courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
         }
     }
@@ -48,11 +48,7 @@ public with sharing class ELCCourseConnectionParser {
 
     //hidden criteria
     private CourseConnectionsDAO.Criteria applyCourseConnectionHiddenCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria) {
-        if (courseConnectionCriteria == null) {
-            courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-        }
         courseConnectionCriteria.setStatus(ENROLLMENT_STATUS_FOR_OUTREACH);
-
         return courseConnectionCriteria;
     }
 

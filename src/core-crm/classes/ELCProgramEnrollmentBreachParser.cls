@@ -23,7 +23,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
     private void parse() {
         programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
         programEnrollmentBreachCriteria = processLeaveOfAbsenceKeyDateOffsets(engagementListCriteria, programEnrollmentBreachCriteria);
-        if(!programEnrollmentBreachCriteria.isEmpty()){
+        if(programEnrollmentBreachCriteria != null && !programEnrollmentBreachCriteria.isEmpty()){
             programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
         }
     }
@@ -58,11 +58,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
 
     //hidden criteria
     private ProgramEnrollmentBreachesDAO.Criteria applyProgramEnrollmentBreachHiddenCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (programEnrollmentBreachCriteria == null) {
-            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
-        }
         programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
-
         return programEnrollmentBreachCriteria;
     }
 

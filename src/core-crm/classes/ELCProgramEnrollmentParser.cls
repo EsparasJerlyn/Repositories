@@ -30,7 +30,7 @@ public with sharing class ELCProgramEnrollmentParser {
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
         programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
-        if(!programEnrollmentCriteria.isEmpty()){
+        if(programEnrollmentCriteria != null && !programEnrollmentCriteria.isEmpty()){
             programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
         }
     }
@@ -75,9 +75,6 @@ public with sharing class ELCProgramEnrollmentParser {
 
     //hidden criteria
     private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (programEnrollmentCriteria == null) {
-            programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
-        }
         programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
         programEnrollmentCriteria.setEnrollmentStatus(ENROLLMENT_STATUS_FOR_OUTREACH);
 

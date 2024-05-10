@@ -24,7 +24,7 @@ public with sharing class ELCCompletedCadenceParser {
     private void parse() {
         completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
         completedCadenceCriteria = processCompletedCadenceKeyDate(engagementListCriteria, completedCadenceCriteria);
-        if(!completedCadenceCriteria.isEmpty()){
+        if(completedCadenceCriteria != null && !completedCadenceCriteria.isEmpty()){
             completedCadenceCriteria = applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
         }
     }
@@ -59,9 +59,6 @@ public with sharing class ELCCompletedCadenceParser {
 
     //hidden criteria
     private CompletedCadencesDAO.Criteria applyCompletedCadenceHiddenCriteria(CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (completedCadenceCriteria == null) {
-            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
-        }
         completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
         return completedCadenceCriteria;
     }
