@@ -29,7 +29,7 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
 
         Map<Id, List<Course_Connection_Assessment__c>> courseConnectionAssessmentsMap;
 
-        if (!isAllParserEmpty() && !elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
+        if (!elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());            
             List<Course_Connection_Assessment__c> courseConnectionAssessments = CourseConnectionAssessmentsDAO.newInstance().findByCriteria(
@@ -60,14 +60,6 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
         }
         
         return courseConnectionAssesmentByContactMap;
-    }
-
-    Boolean isAllParserEmpty(){
-        return 
-            elcParser.getELCContactParser().isEmpty() && 
-            elcParser.getELCProgramEnrollmentParser().isEmpty() &&
-            elcParser.getELCCourseConnectionParser().isEmpty() &&
-            elcParser.getELCCourseConnectionAssessmentParser().isEmpty();
     }
 
 }

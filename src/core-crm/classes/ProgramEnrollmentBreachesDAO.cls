@@ -113,7 +113,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
             soql += 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+            soql += 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         }
         if(contactCriteria.getContactIdSet() != null){
             String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());

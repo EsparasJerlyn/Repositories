@@ -20,8 +20,7 @@ public with sharing class ELCContactEvaluator {
 
         Map<Id, Contact> contactEvaluatedMap;
 
-        Boolean isValid = !isAllParserEmpty() && isAllChildCriteriaEmpty();
-        if (isValid && !elcParser.getELCContactParser().getContactCriteria().isEmpty()) {
+        if(!elcParser.getELCContactParser().getContactCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<Contact> contacts = ContactsDAO.newInstance().findByCriteria(
@@ -35,18 +34,14 @@ public with sharing class ELCContactEvaluator {
         return contactEvaluatedMap;
     }
 
-    private Boolean isAllParserEmpty(){
-        return elcParser.getELCContactParser().isEmpty();
-    }
-
     private Boolean isAllChildCriteriaEmpty() {
         return 
-            (!elcParser.getELCLeaveOfAbsenceParser().isEmpty() && elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) && 
-            (!elcParser.getELCProgramEnrollmentBreachParser().isEmpty() && elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) && 
-            (!elcParser.getELCCourseConnectionParser().isEmpty() && elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) && 
-            (!elcParser.getELCCourseConnectionAssessmentParser().isEmpty() && elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) && 
-            (!elcParser.getELCCompletedCadenceParser().isEmpty() && elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) && 
-            (!elcParser.getELCProgramEnrollmentParser().isEmpty() && elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty());
+            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
+            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty() && 
+            elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty() && 
+            elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty();
     }
     
 }

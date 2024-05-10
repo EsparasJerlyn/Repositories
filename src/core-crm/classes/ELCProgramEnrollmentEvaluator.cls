@@ -20,8 +20,7 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
         Map<Id, List<hed__Program_enrollment__c>> programEnrollmentsByContactMap;
 
-        Boolean isValid = !isAllParserEmpty() && isAllChildCriteriaEmpty();
-        if (isValid && !elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) { 
+        if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty() && isAllChildCriteriaEmpty()) { 
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<hed__Program_Enrollment__c> programEnrollments = ProgramEnrollmentsDAO.newInstance().findByCriteria(
@@ -54,16 +53,10 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
     private Boolean isAllChildCriteriaEmpty() {
         return 
-            (!elcParser.getELCLeaveOfAbsenceParser().isEmpty() && elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) && 
-            (!elcParser.getELCProgramEnrollmentBreachParser().isEmpty() && elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) && 
-            (!elcParser.getELCCourseConnectionParser().isEmpty() && elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) && 
-            (!elcParser.getELCCourseConnectionAssessmentParser().isEmpty() && elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty());
+            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
+            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty();
     }
 
-    Boolean isAllParserEmpty(){
-        return 
-            elcParser.getELCContactParser().isEmpty() && 
-            elcParser.getELCProgramEnrollmentParser().isEmpty();
-    }
-    
 }
