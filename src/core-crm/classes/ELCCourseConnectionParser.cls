@@ -30,7 +30,9 @@ public with sharing class ELCCourseConnectionParser {
 
     private void parse() {
         courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
-        courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
+        if(!courseConnectionCriteria.isEmpty()){
+            courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
+        }
     }
 
     //configurable criteria

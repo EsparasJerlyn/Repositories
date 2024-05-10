@@ -22,8 +22,10 @@ public with sharing class ELCProgramEnrollmentBreachParser {
 
     private void parse() {
         programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
-        programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
         programEnrollmentBreachCriteria = processLeaveOfAbsenceKeyDateOffsets(engagementListCriteria, programEnrollmentBreachCriteria);
+        if(!programEnrollmentBreachCriteria.isEmpty()){
+            programEnrollmentBreachCriteria = applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
+        }
     }
 
     //configurable criteria

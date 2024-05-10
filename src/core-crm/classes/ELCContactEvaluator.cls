@@ -16,9 +16,9 @@ public with sharing class ELCContactEvaluator {
         this.elcParser = elcParser;
     }
 
-    public Map<Id, List<Contact>> evaluate(Map<Id, Contact> contactMap) { 
+    public Map<Id, Contact> evaluate(Map<Id, Contact> contactMap) { 
 
-        Map<Id, List<Contact>> contactListMap;
+        Map<Id, Contact> contactEvaluatedMap;
 
         if (!elcParser.getELCContactParser().getContactCriteria().isEmpty() && isAllChildCriteriaEmpty()) {
 
@@ -28,26 +28,10 @@ public with sharing class ELCContactEvaluator {
                 AccessLevel.SYSTEM_MODE
             );
 
-            contactListMap = groupByContact(contacts);
+            contactEvaluatedMap = new Map<Id, Contact>(contacts);
         }
 
-        return contactListMap;
-    }
-
-    private Map<Id, List<Contact>> groupByContact(List<Contact> contacts) {
-        Map<Id, List<Contact>> contactByContactMap = new Map<Id, List<Contact>>();
-
-        for(Contact con : contacts){
-            if(contactByContactMap.containsKey(con.Id)){
-                contactByContactMap.get(con.Id).add(con);
-            }else{
-                List<Contact> conList = new List<Contact>();
-                conList.add(con);
-                contactByContactMap.put(con.Id, conList);
-            }
-        }
-        
-        return contactByContactMap;
+        return contactEvaluatedMap;
     }
 
     private Boolean isAllChildCriteriaEmpty() {

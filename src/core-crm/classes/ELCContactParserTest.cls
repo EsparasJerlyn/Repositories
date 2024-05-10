@@ -41,6 +41,7 @@ public with sharing class ELCContactParserTest {
             Test.startTest();
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+            String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
 
             ELCContactParser parser = new ELCContactParser(engagementListCriteria, executionDate);
             Test.stopTest();

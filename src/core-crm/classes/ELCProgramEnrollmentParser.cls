@@ -28,9 +28,11 @@ public with sharing class ELCProgramEnrollmentParser {
 
     private void parse() {
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
-        programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
+        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
+        if(!programEnrollmentCriteria.isEmpty()){
+            programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
+        }
     }
     
     //configurable criteria

@@ -24,7 +24,9 @@ public with sharing class ELCCompletedCadenceParser {
     private void parse() {
         completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
         completedCadenceCriteria = processCompletedCadenceKeyDate(engagementListCriteria, completedCadenceCriteria);
-        completedCadenceCriteria = applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
+        if(!completedCadenceCriteria.isEmpty()){
+            completedCadenceCriteria = applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
+        }
     }
     
     //configurable criteria
