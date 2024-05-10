@@ -22,6 +22,7 @@ public with sharing class ELCContactParser{
     }
 
     private void parse() {
+        contactCriteria = new ContactsDAO.Criteria();
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
         contactCriteria = applyContactHiddenCriteria(contactCriteria);
     }
@@ -29,9 +30,6 @@ public with sharing class ELCContactParser{
     //configurable criteria
     private ContactsDAO.Criteria processCitizenshipStatus(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
         if (String.isNotBlank(engagementListCriteria.Citizenship_Status__c)) {
-            if (contactCriteria == null) {
-                contactCriteria = new ContactsDAO.Criteria();
-            }
             contactCriteria.setCitizenshipStatus(engagementListCriteria.Citizenship_Status__c);
         }
         return contactCriteria;
