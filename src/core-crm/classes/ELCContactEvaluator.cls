@@ -41,12 +41,12 @@ public with sharing class ELCContactEvaluator {
 
     private Boolean isAllChildCriteriaEmpty() {
         return 
-            (!elcParser.getELCLeaveOfAbsenceParser().isEmpty() && elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) && 
-            (!elcParser.getELCProgramEnrollmentBreachParser().isEmpty() && elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()) && 
-            (!elcParser.getELCCourseConnectionParser().isEmpty() && elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) && 
-            (!elcParser.getELCCourseConnectionAssessmentParser().isEmpty() && elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) && 
-            (!elcParser.getELCCompletedCadenceParser().isEmpty() && elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) && 
-            (!elcParser.getELCProgramEnrollmentParser().isEmpty() && elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty());
+            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
+            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
+            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty() && 
+            elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty() && 
+            elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty();
     }
     
 }
