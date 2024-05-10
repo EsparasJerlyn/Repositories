@@ -30,7 +30,7 @@ public with sharing class ELCProgramEnrollmentBreachParser {
 
     //configurable criteria
     private ProgramEnrollmentBreachesDAO.Criteria processBreachName(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
-        if (engagementListCriteria.Breach__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Breach__c)) {
             if (programEnrollmentBreachCriteria == null) {
                 programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             }

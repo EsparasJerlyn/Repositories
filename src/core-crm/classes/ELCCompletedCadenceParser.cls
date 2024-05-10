@@ -31,7 +31,7 @@ public with sharing class ELCCompletedCadenceParser {
     
     //configurable criteria
     private CompletedCadencesDAO.Criteria processCadenceName(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (engagementListCriteria.Completed_Cadence__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Completed_Cadence__c)) {
             if (completedCadenceCriteria == null) {
                 completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
             }

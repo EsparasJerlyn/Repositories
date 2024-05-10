@@ -37,7 +37,7 @@ public with sharing class ELCProgramEnrollmentParser {
     
     //configurable criteria
     private ProgramEnrollmentsDAO.Criteria processAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (engagementListCriteria.Academic_Status__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Academic_Status__c)) {
             if (programEnrollmentCriteria == null) {
                 programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             }
@@ -64,7 +64,7 @@ public with sharing class ELCProgramEnrollmentParser {
     }
 
     private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (engagementListCriteria.Category_Type__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Category_Type__c)) {
             if (programEnrollmentCriteria == null) {
                 programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             }

@@ -27,7 +27,7 @@ public with sharing class ELCLeaveOfAbsenceParser {
 
     //configurable criteria
     private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceIsOnLeave(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (engagementListCriteria.Is_On_Leave_of_Absence__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Is_On_Leave_of_Absence__c)) {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }

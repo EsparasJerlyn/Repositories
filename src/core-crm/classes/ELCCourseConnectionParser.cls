@@ -37,7 +37,7 @@ public with sharing class ELCCourseConnectionParser {
 
     //configurable criteria
     private CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseConnectionCriteria) {
-        if (engagementListCriteria.Course_Grade__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Course_Grade__c)) {
             if (courseConnectionCriteria == null) {
                 courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             }

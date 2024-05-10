@@ -29,7 +29,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
 
     //configurable criteria
     private CourseConnectionAssessmentsDAO.Criteria processFailedToSubmitAssessment(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (engagementListCriteria.Failed_To_Submit_Assessment__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Failed_To_Submit_Assessment__c)) {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
@@ -43,7 +43,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     }
 
     private CourseConnectionAssessmentsDAO.Criteria processAssessmentPriority(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (engagementListCriteria.Assessment_Priority__c != null) {
+        if (String.isNotBlank(engagementListCriteria.Assessment_Priority__c)) {
             if (courseConnectionAssessmentCriteria == null) {
                 courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             }
