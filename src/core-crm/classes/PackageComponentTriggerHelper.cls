@@ -22,6 +22,7 @@ public with sharing class PackageComponentTriggerHelper {
      public static void updateStudyLinkApplicationCalculatedDateOnPackageComponent(List<Package_Component__c> newItems,Map<Id,Package_Component__c> oldMap) {
         try{
             appMinStartDateMap.clear();
+            Set<Id> newPackageComponentId = new Set<Id>();
             Set<Id> applicationPreferenceIds = PackageComponentService.getAllApplicationPreferenceIdInPackageComponent(newItems);
             Map<Id,hed__Application__c> updateApplicationMap = new Map<Id,hed__Application__c>();
             Map<Id,Application_Preference__c> appPrefRecords = checkStudyLinkApplicationPreference(applicationPreferenceIds);
@@ -34,12 +35,15 @@ public with sharing class PackageComponentTriggerHelper {
             for(Package_Component__c newPackageComp : newItems){
                 if( appPrefRecords.containsKey(newPackageComp.Application_Preference__c) && (oldMap == null || newPackageComp.Start_Date__c != oldMap.get(newPackageComp.Id).Start_Date__c)){
                     compareStartDate(appPrefRecords.get(newPackageComp.Application_Preference__c).Application__c, newPackageComp.Start_Date__c);
+                    if( oldMap != null ){
+                        newPackageComponentId.add(newPackageComp.Id);
+                    }
                 }
             }
             List<Package_Component__c> existingPackageComponentsList = PackageComponentDAO.newInstance().getPackageComponentsByAppPrefIdSet(appPrefRecordsId, AccessLevel.USER_MODE);
 
             for(Package_Component__c existingPackageComp : existingPackageComponentsList){
-                if( existingPackageComp.Start_Date__c != null ){
+                if( existingPackageComp.Start_Date__c != null && !newPackageComponentId.contains(existingPackageComp.Id) ){
                     compareStartDate(appPrefRecords.get(existingPackageComp.Application_Preference__c).Application__c, existingPackageComp.Start_Date__c);
                 }
             }
