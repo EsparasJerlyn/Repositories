@@ -3928,6 +3928,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Donation__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Donation__c.Donate_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
