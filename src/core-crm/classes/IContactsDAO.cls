@@ -118,8 +118,12 @@ public interface IContactsDAO extends DmlInterface {
         ContactsDAO.Criteria criteria
     ); 
 
-    Database.QueryLocator getQueryLocatorBySubQuery(
+    Database.QueryLocator getQueryLocatorBySubQuery(        //delete
         ContactsDAO.Criteria criteria
+    );
+
+    Database.QueryLocator getQueryLocatorBySubQuery(
+        String subQueryString
     );
 
     List<Contact> findByCriteria(

@@ -543,7 +543,7 @@ private class ContactsDAOTest {
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
             
-            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(contactCriteria);
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(contactCriteria); //update to string
             String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
              ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
 

@@ -536,6 +536,13 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return Database.getQueryLocator(query);
     }
 
+    public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact WHERE Id IN (' + subQueryString + ')';
+        return Database.getQueryLocator(query);
+    }
+
     public List<Contact> findByCriteria(
         ContactsDAO.Criteria criteria, 
         AccessLevel accessLevel

@@ -367,7 +367,7 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         return Database.getQueryLocator(query);
     }
 
-    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   
+    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   //update to string
         String query =
             'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
               'FROM Contact ' + getWhereClauseByCriteria(criteria);

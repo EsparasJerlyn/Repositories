@@ -61,28 +61,32 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
         //check if for subquery
         if (contactQuery != null) {
             ContactsDAO contactsDAO = new ContactsDAO();
-            return contactsDAO.getQueryLocatorBySubquery(eLCParser.getELCContactParser().getContactCriteria());
+            return contactsDAO.getQueryLocatorBySubquery(contactQuery);
         }
 
-        return new ContactsDAO().getQueryLocatorByCriteria(eLCParser.getELCContactParser().getContactCriteria()); //need pa ba to?
+        return new ContactsDAO().getQueryLocatorByCriteria(eLCParser.getELCContactParser().getContactCriteria());
     }
 
     public void execute(Database.BatchableContext bc, List<Contact> contacts){
         System.debug(contacts);
-        //execute(contacts);
+        Logger.info('CONTACTS: ' + contacts);
+        Logger.saveLog();
+        execute(contacts);
     }
 
-    /* public void execute(List<Contact> contacts) {
+    public void execute(List<Contact> contacts) {
         ELCEvaluator eLCEvaluator = new ELCEvaluator(elcParser);
-        Map<Id, List<ELECandidateIngrident>> eleCandidateIngridentMap = eLCEvaluator.evaluate(contacts);
+        Map<Id, ELECandidateIngredient> eLECandidateIngredientByContact = eLCEvaluator.evaluate(contacts);
+        
         List<Engagement_List_Event__c> engagementListEvents = new List<Engagement_List_Event__c>();
         ELECandidateGenerator eLECandidateGenerator = new ELECandidateGenerator();
-        for (ELECandidateIngrident eLECandidateIngrident : eleCandidateIngridentMap.values()) {
-          engagementListEvents.add(eLECandidateGenerator.generate(eLECandidateIngrident));
+        for (ELECandidateIngredient eLECandidateIngredient : eLECandidateIngredientByContact.values()) {
+          //engagementListEvents.add(eLECandidateGenerator.generate(eLECandidateIngredient));
         }
+
         ELECandidateProcessor eLECandidateProcessor = new ELECandidateProcessor();
-        eLECandidateProcessor.process(engagementListEvents);
-    } */
+        //eLECandidateProcessor.process(engagementListEvents);
+    }
 
     public void finish(Database.BatchableContext bc) {
       // log error with job id and ExtendedStatus if NumberOfErrors != 0 
