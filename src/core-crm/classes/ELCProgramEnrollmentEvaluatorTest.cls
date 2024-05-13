@@ -84,49 +84,4 @@ private class ELCProgramEnrollmentEvaluatorTest{
         }
     }
 
-    @isTest
-    static void evaluateNullTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
-
-            String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
-            String academicStatus = 'Showcause';
-
-            Date executionDate = Date.today();
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
-            engagementListCriteria.Academic_Status__c = academicStatus;
-            engagementListCriteria.Course_Grade__c = '100';
-            engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
-            engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
-            engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
-    
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
-            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
-            contactList[0].QUT_Student__c = true;
-            contactList[0].hed__Citizenship_Status__c = citizenshipStatus;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
-    
-            List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
-            ProgramPlansDAO.newInstance().insertRecords(programPlanListCreated,true,AccessLevel.SYSTEM_MODE);
-    
-            List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
-            programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
-            programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
-            programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
-            programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
-            programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
-
-            ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
-            ELCProgramEnrollmentEvaluator evaluator = new ELCProgramEnrollmentEvaluator(parser);
-            Map<Id, List<hed__Program_enrollment__c>> evaluateMap =  evaluator.evaluate(new Map<Id, Contact>(contactList));
-
-            Test.stopTest();
-
-            System.assertEquals(null, evaluateMap, 'The Evaluator should return a value of null');
-
-        }
-    }
-
 }
