@@ -1,15 +1,27 @@
 import { LightningElement,track } from 'lwc';
 
+const exclusionsColumns = [
+  { label: 'Student Id', fieldName: 'studentId' },
+  { label: 'Error', fieldName: 'error'},
+];
+
 export default class OutReachCaseImportModal extends LightningElement {
   
   @track modalOpen = true;
   @track isCreateButtonDisabled = true;
+  @track data = [];
+  @track exclusionData = [];
+  @track paramsMap = {};
+  @track exclData = [];
 
-  data = [];
   showTabset = false;
-  rowCount;
+  @track rowCount;
+  // @track exclRowCount = 0;
   showModal = false;
   queryTerm;
+  fileName;
+  exclusionsColumns = exclusionsColumns;
+  tempData = [];
 
   closeModal() {
     const closeModalEvent = new CustomEvent('closemodal', {
@@ -35,11 +47,14 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleFileUpload(event) {
+    console.log('detail ::: ', event.detail);
+    console.log('files ::: ', event.detail.files);
+    console.log('file name ::: ', event.detail.files[0].name);
     const files = event.detail.files;
     
     if (files.length > 0) {
       const file = files[0];
-      
+      this.fileName = file.name;
       // start reading the uploaded csv file
       this.read(file);
       this.showTabset = true;
@@ -53,7 +68,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       
       // execute the logic for parsing the uploaded csv file
       this.parse(result);
-      
+      this.exclusionData = [];
       console.log('sucess parse');
     } catch (e) {
       this.error = e;
@@ -79,7 +94,6 @@ export default class OutReachCaseImportModal extends LightningElement {
     console.log('parse');
     // parse the csv file and treat each line as one item of an array
     const lines = csv.split(/\r\n|\n/);
-    
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
     this.rowCount = lines.length - 2;
@@ -88,7 +102,6 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.columns = headers.map((header) => {
       return { label: header, fieldName: header };
     });
-  
     const data = [];
     
     // iterate through csv file rows and transform them to format supported by the datatable
@@ -107,10 +120,9 @@ export default class OutReachCaseImportModal extends LightningElement {
       }
 
     });
-    
     // assign the converted csv data for the lightning datatable
-    this.data = data;
-    console.log(this.data);
+    this.data = data.sort((a, b) => a.QUT_Student_ID__c - b.QUT_Student_ID__c);
+    console.log('DATA ::: ', JSON.stringify(this.data));
   }
 
   importList(){
@@ -121,12 +133,39 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.showModal = !this.showModal;
   }
 
-  
+  handleDeleteAction(event){
+    let selectedStudentId = event.target.dataset.id;
 
-  handleKeyUp(evt) {
-    const isEnterKey = evt.keyCode === 13;
+    const obj = {};
+    obj[this.exclusionsColumns[0].fieldName] = selectedStudentId;
+    obj[this.exclusionsColumns[1].fieldName] = 'Manually removed';
+    this.exclData.push(obj);
+    this.exclusionData = this.exclData;
+    this.exclusionData.sort((a, b) => a.studentId - b.studentId);
+    this.data.splice(this.data.findIndex(row => row.QUT_Student_ID__c == selectedStudentId), 1);
+    this.rowCount--;
+  }
+
+  get exclRowCount() {
+    return this.exclusionData.length === 0 ? 0 : this.exclusionData.length;
+  }
+
+  handleSearch(event) {
+    const isEnterKey = event.keyCode === 13;
+    this.queryTerm = event.target.value;
+    let searchedData = [];
+    this.tempData = this.data;
     if (isEnterKey) {
-      this.queryTerm = evt.target.value;
+      if (this.queryTerm != null) {
+        const found = this.data.find((element) =>
+          element.QUT_Student_ID__c == this.queryTerm || element.Full_Name__c == this.queryTerm || element.QUT_Learner_Email__c == this.queryTerm || element.Mobile__c == this.queryTerm
+        );
+        searchedData.push(found);
+        this.data = searchedData;
+      } else {
+        this.data = this.tempData;
+      }
+      
     }
   }
 }
