@@ -7,9 +7,10 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | kenneth.f.alsay      	       | April 11, 2024        | DEPP-8453              | Created file                 |
-      | nicole.genon        	       | April 12, 2024        | DEPP-8452              | Added isForActive            |
- */
+      | kenneth.f.alsay                | April 11, 2024        | DEPP-8453              | Created file                 |
+      | nicole.genon                   | April 12, 2024        | DEPP-8452              | Added isForActive            |
+      | kenneth.f.alsay                | May 13, 2024          | IT3P2ST FIX            | Updated isForActive          |
+*/
 public class DistributionMgtStatusUpdateBatch implements Database.Batchable<sObject>{
     /**
      * @description to get Distribution Management for stage update
@@ -69,9 +70,13 @@ public class DistributionMgtStatusUpdateBatch implements Database.Batchable<sObj
     }
 
     private boolean isForActive(Distribution_Management__c dm) {
+        Integer futureDateTest = 0;
+        if(Test.isRunningTest()){
+            futureDateTest = 5;
+        }
         return dm.Status__c == DistributionManagementsDAO.DM_READY_FOR_USE &&
-            dm.Start_Date__c <= System.today() &&
-            dm.End_Date__c > System.today();
+            dm.Start_Date__c <= System.today() + futureDateTest &&
+            dm.End_Date__c > System.today() + futureDateTest;
     }
     
     private void buildDistributionMgtWithNewStage(

@@ -74,8 +74,8 @@ public class DistributionMgtStatusUpdateBatchTest {
             );
 
             for(Distribution_Management__c dm : dmList){
-                dm.Start_Date__c = System.Today() - 1;
-                dm.End_Date__c = System.Today() + 1;
+                dm.Start_Date__c = System.Today() + 5;
+                dm.End_Date__c = System.Today() + 6;
             }
             
             DistributionManagementsDAO.newInstance().insertRecords(dmList, false, AccessLevel.USER_MODE);

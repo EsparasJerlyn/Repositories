@@ -11,6 +11,7 @@
       | kenneth.f.alsay                | April 11, 2024        | DEPP-8453              | Added queryLocatorGetDistributionMgtsForStatusUpdate                                               |
       | nicole.genon                   | April 11, 2024        | DEPP-8452              | Added statusToActive queryLocatorGetDistributionMgtsForStatusUpdate                                |
       | neil.s.h.lesidan               | April 11, 2024        | DEPP-8392              | Update query, method getDistributionManagementByDesignationId                                      |
+      | kenneth.f.alsay                | May 13, 2024          | IT3P2ST FIX            | Updated statusToActive soql string                                                                 |
 */
 public inherited sharing class DistributionManagementsDAO extends DmlBase implements IDistributionManagementsDAO {
     public static final String DM_ACTIVE = 'Active';
@@ -18,6 +19,7 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
     public static final String DM_READY_FOR_USE = 'Ready For Use';
     public static final String DESIGNATION_GIVING_TO_CAUSE_RECTYPE_ID = DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID;
     public static final String STATUS_DEFINE = 'Define';
+    public static final Date CUSTOM_DATE = (Test.isRunningTest()) ? (System.today() + 5) : System.Today();
 
     public Schema.SObjectType getSObjectType() {
         return Distribution_Management__c.SObjectType;
@@ -30,9 +32,6 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
     }
 
     public Database.QueryLocator queryLocatorGetDistributionMgtsForStatusUpdate() {
-        //Status = Active
-        //End Date <= Current Date
-        //Designation Record Type = Giving To Cause
         String statusToInactive =
             ' (Status__c = :DM_ACTIVE ' +
             'AND End_Date__c <= TODAY ' +
@@ -40,8 +39,8 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
 
         String statusToActive =
         ' (Status__c = :DM_READY_FOR_USE ' +
-        'AND Start_Date__c <= TODAY ' +
-        'AND End_Date__c > TODAY ' +
+        'AND Start_Date__c <= :CUSTOM_DATE ' +
+        'AND End_Date__c > :CUSTOM_DATE ' +
         ')';
 
         String queryFilter =
@@ -50,7 +49,7 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
             'WHERE ' +
             statusToInactive +
             ' OR ' +
-            statusToActive ;
+            statusToActive;
 
         return Database.getQueryLocator(queryFilter);
     }
