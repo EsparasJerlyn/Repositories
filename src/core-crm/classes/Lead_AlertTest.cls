@@ -39,7 +39,7 @@ public without sharing class Lead_AlertTest {
             marketingStaging.My_Primary_NSA__c = 'Accounting and Financial Planning';
             marketingStaging.My_Funding_Source__c = 'I will fund my studies myself';
             marketingStaging.Lead_Source__c = 'Enquiry';
-            marketingStaging.Lead_Source_Category__c = 'Enquiry';
+            marketingStaging.Lead_Source_Category__c = 'Other';
             marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
             marketingStaging.Enquiry_Type__c = 'Application process';
             Database.SaveResult saveResult = Database.insert(marketingStaging);
@@ -67,7 +67,7 @@ public without sharing class Lead_AlertTest {
             marketingStaging.My_Primary_NSA__c = 'Accounting and Financial Planning';
             marketingStaging.My_Funding_Source__c = 'I will fund my studies myself';
             marketingStaging.Lead_Source__c = 'Enquiry';
-            marketingStaging.Lead_Source_Category__c = 'Enquiry';
+            marketingStaging.Lead_Source_Category__c = 'Other';
             marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
             marketingStaging.Enquiry_Type__c = 'Application process';
             Database.SaveResult saveResult = Database.insert(marketingStaging);
@@ -95,7 +95,7 @@ public without sharing class Lead_AlertTest {
             marketingStaging.My_Primary_NSA__c = 'Accounting and Financial Planning';
             marketingStaging.My_Funding_Source__c = 'I will fund my studies myself';
             marketingStaging.Lead_Source__c = 'Enquiry';
-            marketingStaging.Lead_Source_Category__c = 'Enquiry';
+            marketingStaging.Lead_Source_Category__c = 'Other';
             marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
             marketingStaging.Enquiry_Type__c = 'Application process';
             Database.SaveResult saveResult = Database.insert(marketingStaging);
@@ -124,7 +124,7 @@ public without sharing class Lead_AlertTest {
             marketingStaging.My_Primary_NSA__c = 'Accounting and Financial Planning';
             marketingStaging.My_Funding_Source__c = 'I will fund my studies myself';
             marketingStaging.Lead_Source__c = 'Enquiry';
-            marketingStaging.Lead_Source_Category__c = 'Enquiry';
+            marketingStaging.Lead_Source_Category__c = 'Other';
             marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
             marketingStaging.Enquiry_Type__c = 'Application process';
             Database.SaveResult saveResult = Database.insert(marketingStaging);
@@ -152,7 +152,7 @@ public without sharing class Lead_AlertTest {
             marketingStaging.My_Primary_NSA__c = 'Accounting and Financial Planning';
             marketingStaging.My_Funding_Source__c = 'I will fund my studies myself';
             marketingStaging.Lead_Source__c = 'Enquiry';
-            marketingStaging.Lead_Source_Category__c = 'Enquiry';
+            marketingStaging.Lead_Source_Category__c = 'Other';
             marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
             marketingStaging.Enquiry_Type__c = 'Application process';
             Database.SaveResult saveResult = Database.insert(marketingStaging);
