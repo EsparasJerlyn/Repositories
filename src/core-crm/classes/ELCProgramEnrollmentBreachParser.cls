@@ -17,11 +17,11 @@ public with sharing class ELCProgramEnrollmentBreachParser {
     public ELCProgramEnrollmentBreachParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
         programEnrollmentBreachCriteria = processLeaveOfAbsenceKeyDateOffsets(engagementListCriteria, programEnrollmentBreachCriteria);
         if(programEnrollmentBreachCriteria != null && !programEnrollmentBreachCriteria.isEmpty()){

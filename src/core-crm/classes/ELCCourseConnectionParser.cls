@@ -25,11 +25,11 @@ public with sharing class ELCCourseConnectionParser {
     public ELCCourseConnectionParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
         courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
         if(courseConnectionCriteria != null && !courseConnectionCriteria.isEmpty()){
             courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);

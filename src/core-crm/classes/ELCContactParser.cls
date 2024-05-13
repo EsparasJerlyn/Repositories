@@ -18,11 +18,11 @@ public with sharing class ELCContactParser{
     public ELCContactParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        contactCriteria = new ContactsDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        contactCriteria = new ContactsDAO.Criteria();
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
         contactCriteria = applyContactHiddenCriteria(contactCriteria);
     }

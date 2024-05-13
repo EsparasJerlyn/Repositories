@@ -23,11 +23,11 @@ public with sharing class ELCProgramEnrollmentParser {
     public ELCProgramEnrollmentParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
         programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);

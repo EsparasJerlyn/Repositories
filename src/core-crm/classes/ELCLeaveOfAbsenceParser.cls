@@ -17,11 +17,11 @@ public with sharing class ELCLeaveOfAbsenceParser {
     public ELCLeaveOfAbsenceParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
         leaveOfAbsenceCriteria = processLeaveOfAbsenceIsOnLeave(engagementListCriteria, leaveOfAbsenceCriteria);
         leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDateOffsets(engagementListCriteria, leaveOfAbsenceCriteria);
     }

@@ -18,11 +18,11 @@ public with sharing class ELCCompletedCadenceParser {
     public ELCCompletedCadenceParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
         completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
         completedCadenceCriteria = processCompletedCadenceKeyDate(engagementListCriteria, completedCadenceCriteria);
         if(completedCadenceCriteria != null && !completedCadenceCriteria.isEmpty()){

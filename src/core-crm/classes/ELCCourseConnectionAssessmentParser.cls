@@ -18,11 +18,11 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     public ELCCourseConnectionAssessmentParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
         parse();
     }
 
     private void parse() {
-        courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
         courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
         courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
         courseConnectionAssessmentCriteria = processKeyDateOffsets(engagementListCriteria, courseConnectionAssessmentCriteria);
