@@ -56,7 +56,7 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
                 List<Course_Connection_Assessment__c> courseConnectionAssessmentList = new List<Course_Connection_Assessment__c>();
                 courseConnectionAssessmentList.add(courseConnectionAssessment);
                 courseConnectionAssesmentByContactMap.put(courseConnectionAssessment.Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c, courseConnectionAssessmentList);
-            } // courseConnectionAssessment.Course_Connection__r.hed__Contact__c -- scenario??
+            }
         }
         
         return courseConnectionAssesmentByContactMap;
