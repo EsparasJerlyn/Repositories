@@ -27,9 +27,7 @@ public with sharing class ELCEvaluator {
         Map<Id, ELECandidateIngredient> eleCandidateIngredientMap = new Map<Id, ELECandidateIngredient>();
         
         //Contact Evaluator
-        ELCContactEvaluator contactEvaluator = new ELCContactEvaluator(elcParser);
-        Map<Id, Contact> contactEvalMap = (contactEvaluator.evaluate(contactMap) !=null) ? contactEvaluator.evaluate(contactMap): contactMap;
-        Set<Id> contactIds = contactEvalMap?.keySet();       
+        Set<Id> contactIds = contactMap?.keySet();       
         
 		//Program Enrollment Evaluator
         ELCProgramEnrollmentEvaluator programEnrollmentEvaluator = new ELCProgramEnrollmentEvaluator(elcParser);
@@ -95,8 +93,8 @@ public with sharing class ELCEvaluator {
             ELECandidateIngredient eleIngredient = new ELECandidateIngredient();           
             eleIngredient.setELCParser(elcParser);
             
-            if(contactEvalMap !=null && contactEvalMap.containsKey(contactId)){
-                Contact con = contactEvalMap.get(contactId);
+            if(contactMap !=null && contactMap.containsKey(contactId)){
+                Contact con = contactMap.get(contactId);
                 eleIngredient.setContact(con);                
             }
             

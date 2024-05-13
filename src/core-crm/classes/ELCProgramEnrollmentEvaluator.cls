@@ -20,7 +20,7 @@ public with sharing class ELCProgramEnrollmentEvaluator {
 
         Map<Id, List<hed__Program_enrollment__c>> programEnrollmentsByContactMap;
 
-        if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty() && isAllChildCriteriaEmpty()) { 
+        if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) { 
 
             elcParser.getELCContactParser().getContactCriteria().setContactIdSet(contactMap.keySet());
             List<hed__Program_Enrollment__c> programEnrollments = ProgramEnrollmentsDAO.newInstance().findByCriteria(
@@ -49,14 +49,6 @@ public with sharing class ELCProgramEnrollmentEvaluator {
         }
         
         return programEnrollmentByContactMap;
-    }
-
-    private Boolean isAllChildCriteriaEmpty() {
-        return 
-            elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty() && 
-            elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty() && 
-            elcParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty() && 
-            elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty();
     }
 
 }
