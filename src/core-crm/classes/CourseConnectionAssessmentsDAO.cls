@@ -77,14 +77,12 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
     private String whereClauseCheckerForCourseConnectionAssessmentCriteria(CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria){
         
         String soql = '';
-        if(courseConnectionAssessmentsCriteria.getAssessmentGrade() != null){
-            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' ' ;
+        if(!courseConnectionAssessmentsCriteria.getIsSubmissionDateNull()){
+            soql += 'AND Submission_Date__c != null ';
+        }else if(courseConnectionAssessmentsCriteria.getIsSubmissionDateNull()){
+            soql += 'AND Submission_Date__c = null ';
         }
-        if(courseConnectionAssessmentsCriteria.getSubmissionDate() != null){
-            Date submissionDate = courseConnectionAssessmentsCriteria.getSubmissionDate();
-            String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
-            soql += 'AND Submission_Date__c = ' + submissionDateString + ' ' ;
-        }
+
         if(courseConnectionAssessmentsCriteria.getAssessmentPriority() != null){
             soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
         }
@@ -147,7 +145,11 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
+        }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
         }
 
         return soql;
@@ -159,7 +161,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
      */
     public class Criteria {
         private String assessmentGrade;
-        private Date submissionDate;
+        private Boolean isSubmissionDateNull;
         private String assessmentPriority; 
         private Date dueDateFrom;
         private Date dueDateTo;
@@ -171,14 +173,14 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
 
         public void setAssessmentGrade(String assessmentGrade) {
             this.assessmentGrade = assessmentGrade;
-        }        
-
-        public Date getSubmissionDate(){
-            return submissionDate;
+        }       
+        
+        public Boolean getIsSubmissionDateNull(){
+            return isSubmissionDateNull;
         }
 
-        public void setSubmissionDate(Date submissionDate) {
-            this.submissionDate = submissionDate;
+        public void setIsSubmissionDateNull(Boolean isSubmissionDateNull){
+            this.isSubmissionDateNull = isSubmissionDateNull;
         }
 
         public String getAssessmentPriority() {
@@ -206,7 +208,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         }
 
         public Boolean isEmpty() {
-            return assessmentGrade == null && submissionDate == null && assessmentPriority == null;
+            return isSubmissionDateNull == null && assessmentPriority == null;
         }
     }
 

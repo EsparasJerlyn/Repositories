@@ -30,21 +30,19 @@ public with sharing class ELCCompletedCadenceParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getCompletedCadenceCriteria().getCompletedCadence(), completedCadenceName, 'Incorrect Completed Cadence');
+            System.assertEquals(parser.getCompletedCadenceCriteria().getStatus(), CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful'); 
         }
     }
 
     @isTest
-    static void parseCompletedCadenceHiddenCriteriaTest() {
+    static void parseNoCompletedCadenceCriteriaTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
-            Date executionDate = Date.today();
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            
-            ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
+            ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assertEquals(parser.getCompletedCadenceCriteria().getStatus(), CompletedCadencesDAO.SUCCESSFUL_STATUS, 'Status should be set to Succesful');      
+            System.assert(parser.getCompletedCadenceCriteria().isEmpty(), 'No Criteria should be parsed.'); 
         }
     }
 

@@ -17,6 +17,7 @@ public with sharing class ELCLeaveOfAbsenceParser {
     public ELCLeaveOfAbsenceParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
         parse();
     }
 
@@ -27,10 +28,7 @@ public with sharing class ELCLeaveOfAbsenceParser {
 
     //configurable criteria
     private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceIsOnLeave(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (engagementListCriteria.Is_On_Leave_of_Absence__c != null) {
-            if (leaveOfAbsenceCriteria == null) {
-                leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Is_On_Leave_of_Absence__c)) {
             leaveOfAbsenceCriteria.setIsOnleave(engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes');
         }
         return leaveOfAbsenceCriteria;
@@ -43,15 +41,11 @@ public with sharing class ELCLeaveOfAbsenceParser {
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
-            if (leaveOfAbsenceCriteria == null) {
-                leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            }
             leaveOfAbsenceCriteria.setEndDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
             leaveOfAbsenceCriteria.setEndDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return leaveOfAbsenceCriteria;
     }
-
     
     public LeaveOfAbsencesDAO.Criteria getLeaveOfAbsencesCriteria() {
         return leaveOfAbsenceCriteria;

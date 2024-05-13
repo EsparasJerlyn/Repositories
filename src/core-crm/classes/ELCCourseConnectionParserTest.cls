@@ -28,21 +28,19 @@ public with sharing class ELCCourseConnectionParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getCourseConnectionCriteria().getCourseGrade(), '100', 'Incorrect Course Grade');
+            System.assertEquals(parser.getCourseConnectionCriteria().getStatus(), ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
         }
     }
 
     @isTest
-    static void parseCourseConnHiddenCriteriaTest() {
+    static void parseNoCourseConnCriteriaTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
-            Date executionDate = Date.today();
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-
-            ELCCourseConnectionParser parser = new ELCCourseConnectionParser(engagementListCriteria, executionDate);
+            ELCCourseConnectionParser parser = new ELCCourseConnectionParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assertEquals(parser.getCourseConnectionCriteria().getStatus(), ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Status should be set to Outreach');
+            System.assert(parser.getCourseConnectionCriteria().isEmpty(), 'No Criteria should be parsed.'); 
 
         }
     }
