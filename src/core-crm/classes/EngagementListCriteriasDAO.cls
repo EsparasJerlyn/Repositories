@@ -28,7 +28,11 @@
         return (IEngagementListCriteriasDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Criteria__c.SObjectType);
     }
 
-    public static List<Engagement_List_Criteria__c> findActiveEntryCriteria(Date executionDate, AccessLevel accessLevel) {
+    public static List<Engagement_List_Criteria__c> findActiveEntryCriteria(
+        String recordType,
+        Date executionDate, 
+        AccessLevel accessLevel
+    ) {
 
         if(executionDate == null){
             return new List<Engagement_List_Criteria__c>();
@@ -48,7 +52,7 @@
             'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
             'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
             'AND Start_Date__c <= :executionDate ' +
-            'AND RecordType.DeveloperName =: RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA '+ 
+            'AND RecordType.DeveloperName =: recordType '+ 
             'AND End_Date__c >= :executionDate',
             accessLevel
         );
