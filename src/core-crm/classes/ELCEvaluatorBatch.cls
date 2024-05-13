@@ -21,9 +21,7 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
         // Starting fom the leave of each brranch in the cirterion hierarchy, so that it inherit as much parent's criteria as possible.
         String contactQuery;
 
-        //Course Connection Assessment > Course Connection > Program Enrollment > Contact Heirarchy
         if (!eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
-            //gawin parser na lang yung param para di apat 
             contactQuery = new CourseConnectionAssessmentsDAO().getContactQueryByCriteria(
                 eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
                 eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
@@ -36,43 +34,24 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                 elcParser.getELCContactParser().getContactCriteria()
             );
-        } else if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
-            contactQuery = new ProgramEnrollmentsDAO().getContactQueryByCriteria(
-                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-                elcParser.getELCContactParser().getContactCriteria()
-            );
-        }
-
-        //Leave of Absence > Program Enrollment > Contact Heirarchy
-        if(!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()){
+        } else if(!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()){
             contactQuery = new LeaveOfAbsencesDAO().getContactQueryByCriteria(
                 eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria(),
                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                 elcParser.getELCContactParser().getContactCriteria()
             );
-        }else if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
-            contactQuery = new ProgramEnrollmentsDAO().getContactQueryByCriteria(
-                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-                elcParser.getELCContactParser().getContactCriteria()
-            );
-        }
-
-        //Program Enrollment Breach > Program Enrollment > Contact Heirarchy
-        if(!eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()){
+        } else if(!eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()){
             contactQuery = new ProgramEnrollmentBreachesDAO().getContactQueryByCriteria(
                 eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria(),
                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                 elcParser.getELCContactParser().getContactCriteria()
             );
-        }else if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
+        } else if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
             contactQuery = new ProgramEnrollmentsDAO().getContactQueryByCriteria(
                 elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                 elcParser.getELCContactParser().getContactCriteria()
             );
-        }
-
-        //Completed Cadence > Contact Heirarchy
-        if(!eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()){
+        } else if(!eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()){
             contactQuery = new CompletedCadencesDAO().getContactQueryByCriteria(
                 elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(),
                 elcParser.getELCContactParser().getContactCriteria()
