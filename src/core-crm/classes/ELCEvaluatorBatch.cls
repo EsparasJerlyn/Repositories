@@ -26,7 +26,7 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        // Starting fom the leave of each brranch in the cirterion hierarchy, so that it inherit as much parent's criteria as possible.
+        // Starting fom the leave of each branch in the cirterion hierarchy, so that it inherit as much parent's criteria as possible.
         String contactQuery;
 
         if (!eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
