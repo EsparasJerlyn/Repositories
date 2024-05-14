@@ -6,12 +6,13 @@
  * @author Accenture
  *
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | arsenio.jr.dayrit              | September 27,2023     | DEPP-6720	            | Created File                  |
- *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | Added new methods             |
- *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | updateCases                   |
- *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | getInnerFieldsOfListCases     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+ *    | arsenio.jr.dayrit              | September 27,2023     | DEPP-6720	            | Created File                               |
+ *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | Added new methods                          |
+ *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | updateCases                                |
+ *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | getInnerFieldsOfListCases                  |
+ *    | gabriel.p.ventayen             | April 29,2023         | DEPP-8614	            | insertEngagementListConfigurationCases     |
  */
 public inherited sharing class CaseService {
     /**
@@ -162,5 +163,46 @@ public inherited sharing class CaseService {
                 Logger.saveLog();
             }
         }
+    }
+
+    /**  
+     * @description insert cases from Engagement List Configuration.
+     * @param listEngagementListConfiguration - list of case to be from EngagementListConfiguration
+     * @param accessLevel - access level of dml operation
+     */
+    public static List<Database.SaveResult> insertEngagementListConfigurationCases(List<Engagement_List_Configuration__c> listEngagementListConfiguration, AccessLevel accessLevel) {
+        String groupName = 'Student Success - Student Retention';
+        Id studentRetentionQueue = GroupsDAO.newInstance().getQueueByName(groupName);
+        List<Case> toInsertCaseFromEngagementListConfiguration  = new List<Case>();
+        List<Database.SaveResult> saveRecords = new List<Database.SaveResult>();
+        try {
+            for (Engagement_List_Configuration__c item : listEngagementListConfiguration) {
+                Case toInsertCase = new Case(); 
+                toInsertCase.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+                toInsertCase.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+                toInsertCase.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+                toInsertCase.Subject = item.Name;
+                toInsertCase.OwnerId = studentRetentionQueue;
+                toInsertCase.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+                toInsertCase.Engagement_List_Configuration__c = item.Id;
+                toInsertCase.Status = CasesDAO.STATUS_CREATED;
+                toInsertCase.Priority = CasesDAO.PRIORITY_LOW;
+
+                toInsertCaseFromEngagementListConfiguration.add(toInsertCase);
+            }
+            
+            saveRecords = CasesDAO.newInstance().insertRecords(toInsertCaseFromEngagementListConfiguration, true, accessLevel);
+            
+        } catch (Exception e) {
+            Logger.error(
+                    'Exception caught in method insertEngagementListConfigurationCases in class CaseService.'
+                )
+                .setExceptionDetails(e);
+        } finally {
+            if (Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
+        return saveRecords;
     }
 }
