@@ -25,7 +25,7 @@ public inherited sharing class ContactMatchingStagingsDAO extends DmlBase implem
 
 	public Database.QueryLocator queryLocatorGetContactMarketingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
         String query =
-		' SELECT Id, Birthdate__c, Citizenship_Status__c, Date_Deceased__c, Deceased__c, Email__c, FirstName__c, LastName__c, Indigenous_Status__c, ' +
+		' SELECT Id, Contact__c, Birthdate__c, Citizenship_Status__c, Date_Deceased__c, Deceased__c, Email__c, FirstName__c, LastName__c, Indigenous_Status__c, ' +
 		' Mailing_City__c, Mailing_Country__c, Mailing_State__c, Mailing_Street__c, Mailing_PostalCode__c, MiddleName__c, Mobile_No_Locale__c, MobilePhone__c, ' +
 		' Preferred_Given_Name__c, QUT_Employee_ID__c, QUT_Identity_ID__c, Work_Email__c, QUT_Learner_Email__c, QUT_Staff_Email__c, QUT_Staff_Username__c, QUT_Student_ID__c, ' +
 		' QUT_Student_Username__c, Residential_City__c, Residential_Country__c, Residential_State__c, Residential_Street__c, Residential_PostalCode__c,  ' +

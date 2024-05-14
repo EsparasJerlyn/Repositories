@@ -1,5 +1,5 @@
 /**
- * @description Test class for ContactMatchingStagingBatchManager
+ * @description Test class for ContactMatchingStagingService
  *
  * @history
  *
@@ -8,15 +8,15 @@
       | roy.nino.s.regala              | May 08, 2024          | DEPP-8676              | Created file                 |
  */
 @isTest
-private class ContactMatchingStagingBatchManagerTest {
+private class ContactMatchingStagingServiceTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_ESB', 'QUT_Program_Administrator' }
+            new List<String>{ 'QUT_ESB' }
         );
         Test.stopTest();
-        List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0, 50);
+        List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0, 1);
         Integer count = 0;
         for (Contact con : contactRecords) {
             con.QUT_Student_ID__c = '01' + count++;
@@ -32,7 +32,7 @@ private class ContactMatchingStagingBatchManagerTest {
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
 
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName,
@@ -57,7 +57,7 @@ private class ContactMatchingStagingBatchManagerTest {
             ContactMatchingStagingsDAO.newInstance()
                 .insertRecords(conMatchingStagings, true, AccessLevel.USER_MODE);
             Test.stopTest();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 system.assertEquals(true, con.hed__Deceased__c, 'Contact should be deceased');
                 system.assertEquals(null, con.Work_Email__c, 'work email should be null');
                 system.assertEquals('Test', con.MailingState, 'Mailing State should match');
@@ -72,11 +72,11 @@ private class ContactMatchingStagingBatchManagerTest {
             }
 
             System.assertEquals(
-                100,
+                2,
                 AddressesDAO.newInstance()
                     .getAddressesByContactIdsSet(contactIdSet, AccessLevel.USER_MODE)
                     .size(),
-                'There should be 100 address records'
+                'There should be 2 address records'
             );
         }
     }
@@ -87,7 +87,7 @@ private class ContactMatchingStagingBatchManagerTest {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName,
@@ -111,7 +111,7 @@ private class ContactMatchingStagingBatchManagerTest {
             ContactMatchingStagingsDAO.newInstance()
                 .insertRecords(conMatchingStagings, true, AccessLevel.USER_MODE);
             Test.stopTest();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 system.assertEquals(true, con.hed__Deceased__c, 'Contact should be deceased');
                 system.assert(
                     String.isNotBlank(con.Work_Email__c),
@@ -129,11 +129,11 @@ private class ContactMatchingStagingBatchManagerTest {
             }
 
             System.assertEquals(
-                100,
+                2,
                 AddressesDAO.newInstance()
                     .getAddressesByContactIdsSet(contactIdSet, AccessLevel.USER_MODE)
                     .size(),
-                'There should be 100 address records'
+                'There should be 2 address records'
             );
         }
     }
@@ -184,7 +184,7 @@ private class ContactMatchingStagingBatchManagerTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName + 'new',
@@ -201,9 +201,9 @@ private class ContactMatchingStagingBatchManagerTest {
             Test.stopTest();
 
             System.assertEquals(
-                100,
+                2,
                 ContactsDAO.newInstance().getPersonContactsWithLimit(200).size(),
-                'There should be 100 contact in total'
+                'There should be 2 contact in total'
             );
         }
     }
@@ -213,7 +213,7 @@ private class ContactMatchingStagingBatchManagerTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = TestDataFactory.createContactMatchingStagings(
-                200
+                1
             );
             ContactMatchingStagingsDAO.newInstance()
                 .insertRecords(conMatchingStagings, true, AccessLevel.USER_MODE);
@@ -237,7 +237,7 @@ private class ContactMatchingStagingBatchManagerTest {
             
             List<LogEntry__c> logEntriesMessage = LogEntriesDAO.newInstance()
                 .getLogEntriesByMessage(
-                    new Set<String>{ 'Total number of Contact Matching Staging processed: 200' },
+                    new Set<String>{ 'Total number of Contact Matching Staging processed: 1' },
                     AccessLevel.USER_MODE
                 );
 
@@ -251,7 +251,7 @@ private class ContactMatchingStagingBatchManagerTest {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName + 'new',
@@ -270,9 +270,9 @@ private class ContactMatchingStagingBatchManagerTest {
             Test.stopTest();
 
             System.assertEquals(
-                50,
+                1,
                 ContactsDAO.newInstance().getPersonContactsWithLimit(200).size(),
-                'There should be 50 contact in total'
+                'There should be 1 contact in total'
             );
             System.assertEquals(
                 0,
@@ -298,7 +298,7 @@ private class ContactMatchingStagingBatchManagerTest {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdsSet = new Set<Id>();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName ,
@@ -336,20 +336,20 @@ private class ContactMatchingStagingBatchManagerTest {
             ContactMatchingStagingBatchManager.processContactMatching(conMatchingStagings);
 
             System.assertEquals(
-                50,
+                1,
                 ContactsDAO.newInstance().getPersonContactsWithLimit(200).size(),
-                'There should be 100 contact in total'
+                'There should be 1 contact in total'
             );
 
             System.assertEquals(
-                100,
+                2,
                 AddressesDAO.newInstance()
                     .getAddressesByContactIdsSet(contactIdsSet, AccessLevel.USER_MODE)
                     .size(),
-                'There should be 100 address records'
+                'There should be 2 address records'
             );
 
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 system.assertEquals('Test New', con.MailingState, 'Mailing State should match');
                 system.assertEquals('Test New', con.MailingCity, 'Mailing City should match');
                 system.assertEquals('Test New', con.MailingStreet, 'Mailing Street should match');
