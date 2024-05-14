@@ -33,7 +33,7 @@ public with sharing class AsyncApexJobsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance()
-            .findById(null);
+            .findById(null, AccessLevel.SYSTEM_MODE);
             System.assertEquals(null,asyncApexJob,'asyncApexJob is not null');
         }
         Test.stopTest();
@@ -44,7 +44,7 @@ public with sharing class AsyncApexJobsDAOTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             MockIdGenerator mockIdGen = new MockIdGenerator(AsyncApexJob.SObjectType);
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance()
-            .findById(mockIdGen.getMockId());
+            .findById(mockIdGen.getMockId(), AccessLevel.SYSTEM_MODE);
             System.assertEquals(null,asyncApexJob,'asyncApexJob is not null');
         }
         Test.stopTest();

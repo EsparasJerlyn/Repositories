@@ -33,7 +33,7 @@ public with sharing class AttachmentsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findByName(null);
+            .findByName(null, AccessLevel.USER_MODE);
             System.assert(attachmentList.isEmpty(), 'Attachment list should be empty.');
         }
         Test.stopTest();
@@ -43,7 +43,7 @@ public with sharing class AttachmentsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findByName('Test');
+            .findByName('Test', AccessLevel.USER_MODE);
             System.assert(attachmentList.isEmpty(), 'Attachment list should be empty.');
         }
         Test.stopTest();

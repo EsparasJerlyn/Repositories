@@ -10,5 +10,5 @@
  *    |                                |                       |                        |                                                |
  */
 public interface IAsyncApexJobsDAO extends DmlInterface {
-    AsyncApexJob findById(Id previewJobId); 
+    AsyncApexJob findById(Id previewJobId, AccessLevel accessLevel); 
 } 

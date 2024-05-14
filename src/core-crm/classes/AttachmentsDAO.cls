@@ -20,11 +20,16 @@ public inherited sharing class AttachmentsDAO extends DmlBase implements IAttach
     public Schema.SObjectType getSObjectType() {
         return 	Attachment.SObjectType;
     }
-    public List<Attachment> findByName(String name){
+    public List<Attachment> findByName(String name, AccessLevel accessLevel){
         if(String.isBlank(name)){
             return new List<Attachment>();
         }
-        List<Attachment> attachmentRec = [SELECT Id, Name FROM Attachment WHERE Name =: name WITH SYSTEM_MODE];
-        return attachmentRec;    
+        return Database.query(
+            'SELECT Id, ' +
+            'Name ' +
+            'FROM Attachment ' +
+            'WHERE Name =: name',
+            accessLevel
+        ); 
     }
 }
