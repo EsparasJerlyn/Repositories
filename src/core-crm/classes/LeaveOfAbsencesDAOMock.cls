@@ -69,7 +69,8 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
             soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
-            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
             soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
@@ -89,7 +90,11 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
             soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
+        }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
         }
 
         return soql;

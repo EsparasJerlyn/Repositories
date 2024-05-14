@@ -162,7 +162,14 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         }
         if(contactCriteria.getRecordType() != null){
             soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
-        }     
+        }   
+        if(contactCriteria.getCitizenshipStatus() != null){
+            soql += 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
+        } 
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND Contact__r.Id IN (' + contactIdString + ') ';
+        } 
     
         return soql; 
     }

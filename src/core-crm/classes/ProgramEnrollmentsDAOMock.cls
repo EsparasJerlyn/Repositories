@@ -125,6 +125,10 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         if(contactCriteria.getRecordType() != null){
             soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
         }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND hed__Contact__r.Id IN (' + contactIdString + ') ';
+        }
 
         return soql;
     }

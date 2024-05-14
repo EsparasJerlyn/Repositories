@@ -45,6 +45,8 @@
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
  *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
  *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
+ *    | eugene.andrew.abuan            | May 08, 2023          | DEPP-8487              | Added object mapping for Assessment__c                        |
+
  */
 public class ImplementationSelector { 
 
@@ -59,9 +61,11 @@ public class ImplementationSelector {
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
             Asset.SObjectType => AssetsDAO.class,
+            Assessment__c.SObjectType => AssessmentsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             AsyncApexJob.SObjectType => AsyncApexJobsDAO.class,
             Attachment.SObjectType => AttachmentsDAO.class,
+            Breach__c.SObjectType => BreachesDAO.class,
             BuyerGroup.SObjectType => BuyerGroupsDAO.class,
             BuyerGroupPriceBook.SObjectType => BuyerGroupPriceBooksDAO.class,
             CommerceEntitlementProduct.SObjectType => CommerceEntitlementProductsDAO.class,
