@@ -44,7 +44,8 @@
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
  *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
- *    | eugene.andrew.abuan            | May 08, 2023          | DEPP-8487              | Added object mapping for Assessment__c                        |
+ *    | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Added object mapping for Assessment__c                        |
+ *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
 
  */
 public class ImplementationSelector { 
@@ -85,6 +86,7 @@ public class ImplementationSelector {
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Engagement_List_Criteria__c.SobjectType => EngagementListCriteriasDAO.class,
+            Engagement_List_Event__c.SobjectType => EngagementListEventsDAO.class,
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
