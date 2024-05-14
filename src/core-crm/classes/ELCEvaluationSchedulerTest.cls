@@ -39,25 +39,14 @@ public with sharing class ELCEvaluationSchedulerTest {
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
-            List<Program_Offering__c> programOfferingListCreated = TestDataFactory.createTestProgramOfferingRecords(1, programPlanListCreated);
-            ProgramOfferingsDAO.newInstance().insertRecords(programOfferingListCreated,true,AccessLevel.SYSTEM_MODE);
+            List<Leave_of_Absence__c> leaveOfAbsenceListCreated = TestDataFactory.createLeaveOfAbsenceRecord(1);
+            leaveOfAbsenceListCreated[0].Start_Date__c = Date.today().addDays(-1); 
+            leaveOfAbsenceListCreated[0].End_Date__c = Date.today().addDays(1); 
+            leaveOfAbsenceListCreated[0].hed_Program_Enrollment__c = programEnrollmentListCreated[0].Id;
+            leaveOfAbsenceListCreated[0].Leave_No__c = 001;
+            leaveOfAbsenceListCreated[0].Student__c = contactList[0].Id;
+            LeaveOfAbsencesDAO.newInstance().insertRecords(leaveOfAbsenceListCreated,true,AccessLevel.SYSTEM_MODE);
 
-            List<hed__Course_Enrollment__c> courseConnectionListCreated = TestDataFactory.createTestCourseConnectionRecordProgram(1, contactList[0].Id, programOfferingListCreated);
-            courseConnectionListCreated[0].hed__Program_Enrollment__c = programEnrollmentListCreated[0].Id;
-            courseConnectionListCreated[0].Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED;
-            courseConnectionListCreated[0].hed__Display_Grade__c = '100';
-            CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
-            
-            List<Assessment__c> assessmentList = TestDataFactory.createTestAssessmentRecords(1);
-            assessmentList[0].Assessment_Priority__c = 'High';
-            assessmentList[0].Due_Date__c = Date.today();
-            AssessmentsDAO.newInstance().insertRecords(assessmentList, true, AccessLevel.SYSTEM_MODE);
-            
-            List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
-            courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentList[0].Id;
-            //courseConnectionAssessmentListCreated[0].Submission_Date__c = Date.today();
-            CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
-            
             Engagement_List_Configuration__c engagementListConfig = new Engagement_List_Configuration__c();
             engagementListConfig.Engagement_List_Configuration_Status__c = 'Active';
             engagementListConfig.Start_Date__c = Date.today().addDays(-3);
@@ -81,7 +70,8 @@ public with sharing class ELCEvaluationSchedulerTest {
             engagementListCriteria.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
-            engagementListCriteria.Key_Date__c = EngagementListCriteriasDAO.KEY_DATE_ASSESSMENT_DUE_DATE;
+            engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
+            engagementListCriteria.Key_Date__c = EngagementListCriteriasDAO.KEY_DATE_LEAVE_OF_ABSENCE_END_DATE;
             engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
             insert engagementListCriteria;
@@ -97,7 +87,7 @@ public with sharing class ELCEvaluationSchedulerTest {
             Test.StartTest();
             ELCEvaluationScheduler testScheduler = new ELCEvaluationScheduler();
             String sch = '0 0 7 * * ?'; 
-            String jobID = system.schedule('Test status Check', sch, testScheduler );
+            System.schedule('Test status Check', sch, testScheduler );
             Test.stopTest();
                     
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'ELCEvaluationScheduler'].isEmpty() , 'ELCEvaluationScheduler Job was not executed');

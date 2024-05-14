@@ -31,69 +31,52 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
         Set<Id> contactIds = new Set<Id>();
 
         if (!eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
-            System.debug('ELCCourseConAssParser');
-            contactIds = new CourseConnectionAssessmentsDAO().getContactIdsByCriteria(
-                eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
-                eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
-                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-                elcParser.getELCContactParser().getContactCriteria()
-            );
             // contactQuery = new CourseConnectionAssessmentsDAO().getContactQueryByCriteria(
             //     eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
             //     eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
             //     elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
             //     elcParser.getELCContactParser().getContactCriteria()
             // );
-        // } else if (!eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) {
-        //     contactQuery = new CourseConnectionsDAO().getContactQueryByCriteria(
-        //         eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
-        //         elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-        //         elcParser.getELCContactParser().getContactCriteria()
-        //     );
-        // } else if(!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()){
-        //     contactQuery = new LeaveOfAbsencesDAO().getContactQueryByCriteria(
-        //         eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria(),
-        //         elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-        //         elcParser.getELCContactParser().getContactCriteria()
-        //     );
-        // } else if(!eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()){
-        //     contactQuery = new ProgramEnrollmentBreachesDAO().getContactQueryByCriteria(
-        //         eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria(),
-        //         elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-        //         elcParser.getELCContactParser().getContactCriteria()
-        //     );
-        // } else if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
-        //     contactQuery = new ProgramEnrollmentsDAO().getContactQueryByCriteria(
-        //         elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-        //         elcParser.getELCContactParser().getContactCriteria()
-        //     );
-        // } else if(!eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()){
-        //     contactQuery = new CompletedCadencesDAO().getContactQueryByCriteria(
-        //         elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(),
-        //         elcParser.getELCContactParser().getContactCriteria()
-        //     );
+        } else if (!eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) {
+            contactQuery = new CourseConnectionsDAO().getContactQueryByCriteria(
+                eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
+                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
+                elcParser.getELCContactParser().getContactCriteria()
+            );
+        } else if(!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()){
+            contactQuery = new LeaveOfAbsencesDAO().getContactQueryByCriteria(
+                eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria(),
+                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
+                elcParser.getELCContactParser().getContactCriteria()
+            );
+        } else if(!eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().isEmpty()){
+            contactQuery = new ProgramEnrollmentBreachesDAO().getContactQueryByCriteria(
+                eLCParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria(),
+                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
+                elcParser.getELCContactParser().getContactCriteria()
+            );
+        } else if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
+            contactQuery = new ProgramEnrollmentsDAO().getContactQueryByCriteria(
+                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
+                elcParser.getELCContactParser().getContactCriteria()
+            );
+        } else if(!eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()){
+            contactQuery = new CompletedCadencesDAO().getContactQueryByCriteria(
+                elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(),
+                elcParser.getELCContactParser().getContactCriteria()
+            );
         }
 
-        system.debug('ContactIdsSIZE: ' + contactIds.size());
-        system.debug('ContactIds: ' + contactIds);
-        //check if for subquery
-        if (contactIds.size() > 0) {
+        // check if for subquery
+        if (contactQuery != null) {
             ContactsDAO contactsDAO = new ContactsDAO();
-            system.debug('FormattedContactIds: ' + DynamicQueryService.formatStringSetForWhereClause(contactIds));
-            return contactsDAO.getQueryLocatorBySubquery(DynamicQueryService.formatStringSetForWhereClause(contactIds));
+            return contactsDAO.getQueryLocatorBySubquery(contactQuery);
         }
-        // if (contactQuery != null) {
-        //     ContactsDAO contactsDAO = new ContactsDAO();
-        //     system.debug('QUERY: ' + contactQuery);
-        //     return contactsDAO.getQueryLocatorBySubquery(contactQuery);
-        // }
-
 
         return new ContactsDAO().getQueryLocatorByCriteria(eLCParser.getELCContactParser().getContactCriteria());
     }
 
     public void execute(Database.BatchableContext bc, List<Contact> contacts){
-        //System.debug(contacts);
         Logger.info('CONTACTS: ' + contacts);
         Logger.saveLog();
         execute(contacts);

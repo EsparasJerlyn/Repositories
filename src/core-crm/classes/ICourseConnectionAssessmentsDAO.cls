@@ -25,13 +25,6 @@ public interface ICourseConnectionAssessmentsDAO extends DmlInterface {
         ContactsDAO.Criteria contactCriteria
     );
 
-    Set<Id> getContactIdsByCriteria(
-        CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
-        CourseConnectionsDAO.Criteria courseConnectionCriteria, 
-        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
-        ContactsDAO.Criteria contactCriteria
-    );
-
     String getQueryByCriteria(
         CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
         CourseConnectionsDAO.Criteria courseConnectionCriteria, 
