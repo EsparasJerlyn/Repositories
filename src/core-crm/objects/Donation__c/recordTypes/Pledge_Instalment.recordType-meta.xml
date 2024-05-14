@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Pledge_Instalment</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Pledge_Instalment_Compact_Layout</compactLayoutAssignment>
     <description>Create a child Donation record for a Pledge Donation where the Pledge requires a Payment Plan.</description>
     <label>Pledge Instalment</label>
     <picklistValues>
