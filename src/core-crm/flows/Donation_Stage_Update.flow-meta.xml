@@ -341,7 +341,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Completed_Stage_Recurring</name>
-            <conditionLogic>1 AND 2 AND 3 AND (4 AND 5 AND 6 AND 7)</conditionLogic>
+            <conditionLogic>1 AND 2 AND 3 AND (4 AND 5 AND 6 AND 7 AND 8)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Payment_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -389,6 +389,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Proposed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed - Part Paid</stringValue>
                 </rightValue>
             </conditions>
             <connector>

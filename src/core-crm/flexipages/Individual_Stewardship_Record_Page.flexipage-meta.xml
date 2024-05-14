@@ -668,6 +668,51 @@
                 <identifier>c_dynamicDataTable3</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>lookupField</name>
+                    <value>Contact__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Contact</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Donation Reference&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Record Type&quot;,&quot;fieldName&quot;:&quot;RecordType.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;To Designation&quot;,&quot;fieldName&quot;:&quot;To_Designation__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;Stage__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Total Amount&quot;,&quot;fieldName&quot;:&quot;Total_Amount__c&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Contact Donations</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Donation__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>siblingLookupField</name>
+                    <value>Contact__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTableSiblingDisplay</componentName>
+                <identifier>c_dynamicDataTableSiblingDisplay</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-9d2aea0f-198a-4f5c-8837-d887a8a1a8de</name>
         <type>Facet</type>
     </flexiPageRegions>

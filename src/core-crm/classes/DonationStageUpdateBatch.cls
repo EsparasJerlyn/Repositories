@@ -69,7 +69,8 @@ public class DonationStageUpdateBatch implements Database.Batchable<sObject>{
             donation.Stage__c != DonationsDAO.COMPLETED_STAGE &&
             donation.Stage__c != DonationsDAO.CANCELLED_STAGE &&
             donation.Stage__c != DonationsDAO.DECLINED_STAGE &&
-            donation.Stage__c != DonationsDAO.PROPOSED_STAGE;
+            donation.Stage__c != DonationsDAO.PROPOSED_STAGE &&
+            donation.Stage__c != DonationsDAO.COMPLETED_PART_PAID_STAGE;
     }
 
     private boolean isForCauseCancelledStage(Donation__c donation) {

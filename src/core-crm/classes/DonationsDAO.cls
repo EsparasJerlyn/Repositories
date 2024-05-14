@@ -20,6 +20,7 @@
       |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added Cancellation_Date__c to getDonationsBySetRecordTypeIds SOQL     |
       |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added COMPLETED_PART_PAID_STAGE final string                          |
       |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added stageToCancelledCauseRule string                                |
+      |  kenneth.f.alsay                | May 10, 2024          | DEPP-8566              | Added PLEDGE_DESIGNATION_SPLIT_RECTYPE_ID final string                |
 */
 
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
@@ -55,6 +56,9 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     public static final Id PLEDGE_INSTALMENT_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
     .get('Pledge_Instalment')
     .getRecordTypeId();
+    public static final Id PLEDGE_DESIGNATION_SPLIT_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
+    .get('Pledge_Designation_Split')
+    .getRecordTypeId();
 
     public Schema.SObjectType getSObjectType() {
         return Donation__c.SObjectType;
@@ -74,7 +78,8 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
             'AND (Stage__c !=: COMPLETED_STAGE ' +
             'AND Stage__c !=: CANCELLED_STAGE ' +
             'AND Stage__c !=: DECLINED_STAGE ' +
-            'AND Stage__c !=: PROPOSED_STAGE) ' +
+            'AND Stage__c !=: PROPOSED_STAGE ' +
+            'AND Stage__c !=: COMPLETED_PART_PAID_STAGE) ' +
             ')';
 
         String stageToCancelledCauseRule =
