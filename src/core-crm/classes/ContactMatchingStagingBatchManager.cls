@@ -10,46 +10,6 @@
  *    | roy.nino.s.regala         | May 01, 2024| DEPP-8676| Created File               |
  */
 public inherited sharing class ContactMatchingStagingBatchManager {
-    // Map of fields in Contact Matching Staging records to corresponding Contact fields
-    private static final Map<String, String> FIELDS_TO_CONTACT_MAP = new Map<String, String>{
-        'Birthdate__c' => 'Birthdate',
-        'Citizenship_Status__c' => 'hed__Citizenship_Status__c',
-        'Date_Deceased__c' => 'hed__Date_Deceased__c',
-        'Deceased__c' => 'hed__Deceased__c',
-        'Email__c' => 'Email',
-        'FirstName__c' => 'FirstName',
-        'Indigenous_Status__c' => 'ATSI_Code__c',
-        'LastName__c' => 'LastName',
-        'Mailing_City__c' => 'MailingCity',
-        'Mailing_Country__c' => 'MailingCountry',
-        'Mailing_State__c' => 'MailingState',
-        'Mailing_Street__c' => 'MailingStreet',
-        'Mailing_PostalCode__c' => 'MailingPostalCode',
-        'MiddleName__c' => 'MiddleName',
-        'Mobile_No_Locale__c' => 'Mobile_No_Locale__c',
-        'MobilePhone__c' => 'MobilePhone',
-        'Preferred_Given_Name__c' => 'Preferred_Given_Name__c',
-        'QUT_Employee_ID__c' => 'QUT_Employee_ID__c',
-        'QUT_Identity_ID__c' => 'QUT_Identity_ID__c',
-        'Work_Email__c' => 'Work_Email__c',
-        'QUT_Learner_Email__c' => 'QUT_Learner_Email__c',
-        'QUT_Staff_Email__c' => 'QUT_Staff_Email__c',
-        'QUT_Staff_Username__c' => 'QUT_Staff_Username__c',
-        'QUT_Student_ID__c' => 'QUT_Student_ID__c',
-        'QUT_Student_Username__c' => 'QUT_Student_Username__c',
-        'Residential_City__c' => 'OtherCity',
-        'Residential_Country__c' => 'OtherCountry',
-        'Residential_State__c' => 'OtherState',
-        'Residential_Street__c' => 'OtherStreet',
-        'Residential_PostalCode__c' => 'OtherPostalCode',
-        'Salutation__c' => 'Salutation',
-        'Staff_End_Date__c' => 'Staff_End_Date__c',
-        'External_Id__c' => 'External_Id__c',
-        'External_Key__c' => 'External_Key__c',
-        'Migration_Id__c' => 'Migration_Id__c',
-        'Migration_Key__c' => 'Migration_Key__c'
-    };
-
     /**
      * Processes the Contact Matching Staging records.
      * This method evaluates the contact matching staging records, performs contact matching,
@@ -111,40 +71,41 @@ public inherited sharing class ContactMatchingStagingBatchManager {
                 )
                 .setExceptionDetails(e);
         } finally {
-            // Update staging records and save log if necessary
-            if (!conMatchingStagings.isEmpty()) {
-                ContactMatchingStagingsDAO.newInstance()
-                    .updateRecords(conMatchingStagings, false, AccessLevel.USER_MODE);
-            }
-            if (Logger.getBufferSize() > 0) {
-                Logger.saveLog();
-            }
+            ContactMatchingStagingsDAO.newInstance()
+                .updateRecords(conMatchingStagings, false, AccessLevel.USER_MODE);
         }
     }
 
     /**
      * Processes the matching results and updates or inserts contact records accordingly.
+     * This method evaluates the matching results for each Contact Matching Staging record,
+     * updates existing contact records, inserts new contact records, and upserts addresses.
      *
      * @param conMatchingStagings List of Contact Matching Staging records.
-     * @param matchingResults Map of matching result keys to MatchingResult objects.
-     * @param contactMatchingToMatchingResultKey Map of staging record IDs to matching result keys.
+     * @param matchingResults Map containing matching result keys mapped to MatchingResult objects.
+     * @param contactMatchingToMatchingResultKey Map mapping staging record IDs to matching result keys.
      */
     private static void processMatchingResult(
         List<Contact_Matching_Staging__c> conMatchingStagings,
         Map<String, MatchingResult> matchingResults,
         Map<Id, String> contactMatchingToMatchingResultKey
     ) {
+        // Maps to store contacts to update, insert, and addresses to upsert
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
         Map<Id, Contact> contactsToInsert = new Map<Id, Contact>();
+        Map<String, hed__Address__c> addressToUpsert = new Map<String, hed__Address__c>();
         Id contactIdMatch;
         MatchingResult result;
         Contact newContact;
+
+        // Iterate through each Contact Matching Staging record
         for (Contact_Matching_Staging__c conMatchingStage : conMatchingStagings) {
             // Get the matching result key for the staging record
             String stagingUniqueKey = contactMatchingToMatchingResultKey.get(conMatchingStage.Id);
             // Get the matching result for the key
             result = matchingResults.get(stagingUniqueKey);
 
+            // Check matching types and errors
             boolean isSystemKeyMatch =
                 !result.error && result.matchingType == 'System Key Matching';
             boolean isNonSystemKeyMatch = !result.error && String.isNotBlank(result.matchingType);
@@ -155,39 +116,54 @@ public inherited sharing class ContactMatchingStagingBatchManager {
                 contactIdMatch = result.contactIds.iterator().next();
                 contactsToUpdate.put(
                     contactIdMatch,
-                    buildContactRecords(false, contactIdMatch, conMatchingStage)
+                    ContactMatchingStagingService.buildContactRecord(
+                        false,
+                        contactIdMatch,
+                        conMatchingStage
+                    )
                 );
                 conMatchingStage.Contact__c = contactIdMatch;
+                ContactMatchingStagingService.buildAddressMapping(
+                    false,
+                    addressToUpsert,
+                    conMatchingStage
+                );
             } else if (isNonSystemKeyMatch) {
                 // Handle non-system key match
                 contactIdMatch = result.contactIds.iterator().next();
                 contactsToUpdate.put(
                     contactIdMatch,
-                    buildContactRecords(true, contactIdMatch, conMatchingStage)
+                    ContactMatchingStagingService.buildContactRecord(
+                        true,
+                        contactIdMatch,
+                        conMatchingStage
+                    )
                 );
                 conMatchingStage.Contact__c = contactIdMatch;
+                ContactMatchingStagingService.buildAddressMapping(
+                    true,
+                    addressToUpsert,
+                    conMatchingStage
+                );
             } else if (isError) {
                 // Log error message
                 Logger.error(JSON.serializePretty(result), conMatchingStage.Id);
             } else {
                 // Insert new contact record
-                newContact = buildContactRecords(false, null, conMatchingStage);
+                newContact = ContactMatchingStagingService.buildContactRecord(
+                    false,
+                    null,
+                    conMatchingStage
+                );
                 contactsToInsert.put(conMatchingStage.Id, newContact);
+                ContactMatchingStagingService.buildAddressMapping(
+                    false,
+                    addressToUpsert,
+                    conMatchingStage
+                );
             }
         }
 
-        performDml(contactsToUpdate, contactsToInsert);
-
-        linkNewContact(contactsToInsert, conMatchingStagings);
-    }
-
-    /**
-     * Performs DML operations to update existing contact records and insert new contact records.
-     *
-     * @param contactsToUpdate Map<Id,Contact> The list of contact records to update.
-     * @param contactsToInsert Nap<Id,Contact> The list of contact records to insert.
-     */
-    private static void performDml(Map<Id,Contact> contactsToUpdate, Map<Id,Contact> contactsToInsert) {
         // Update existing contact records
         if (!contactsToUpdate.isEmpty()) {
             ContactsDAO.newInstance()
@@ -207,62 +183,12 @@ public inherited sharing class ContactMatchingStagingBatchManager {
                     AccessLevel.USER_MODE
                 );
         }
-    }
 
-    /**
-     * Links new contact records with their corresponding Contact Matching Staging records.
-     *
-     * @param contactsToInsert Map<Id, Contact> A map containing the Ids of new contact records
-     *                         to be inserted as keys and the corresponding Contact records as values.
-     * @param conMatchingStagings List<Contact_Matching_Staging__c> The list of Contact Matching Staging
-     *                            records to link with new contact records.
-     */
-    private static void linkNewContact(
-        Map<Id, Contact> contactsToInsert,
-        List<Contact_Matching_Staging__c> conMatchingStagings
-    ) {
-        for (Contact_Matching_Staging__c conMatchingStage : conMatchingStagings) {
-            if (contactsToInsert.containsKey(conMatchingStage.Id)) {
-                // Set the Contact__c field of Contact Matching Staging record to the Id of the corresponding new contact record
-                conMatchingStage.Contact__c = contactsToInsert.get(conMatchingStage.Id).Id;
-            }
-        }
-    }
-
-    /**
-     * Constructs a new Contact record based on the data provided from a Contact Matching Staging record.
-     * @param isNonSystemKeyMatch Boolean value indicating whether the match is a non-system key match.
-     * @param contactId The ID of an existing contact record if matched, or null otherwise.
-     * @param conMatchingStage The Contact Matching Staging record from which to extract data.
-     * @return A Contact record populated with data from the Contact Matching Staging record.
-     */
-    private static Contact buildContactRecords(
-        Boolean isNonSystemKeyMatch,
-        Id contactId,
-        Contact_Matching_Staging__c conMatchingStage
-    ) {
-        // Initialize a new Contact object
-        Contact con = new Contact();
-
-        // Set the Contact's ID field if a contactId is provided
-        con.put('Id', contactId);
-
-        // Iterate through each field in the FIELDS_TO_CONTACT_MAP
-        for (String conMatchingStagingField : FIELDS_TO_CONTACT_MAP.keySet()) {
-            // Retrieve the corresponding Contact field name from the map
-            String contactField = FIELDS_TO_CONTACT_MAP.get(conMatchingStagingField);
-
-            // Check if the match is a non-system key match and the value from the Contact Matching Staging record is null
-            if (isNonSystemKeyMatch && conMatchingStage.get(conMatchingStagingField) == null) {
-                // Skip setting the field in the Contact object if it's a non-system key match and the value is null
-                continue;
-            }
-
-            // Set the field in the Contact object using the retrieved field name and value from the Contact Matching Staging record
-            con.put(contactField, conMatchingStage.get(conMatchingStagingField));
-        }
-
-        // Return the constructed Contact object
-        return con;
+        // link the contact to address and staging
+        ContactMatchingStagingService.linkContactAddressAndStagingRecords(
+            contactsToInsert,
+            conMatchingStagings,
+            addressToUpsert
+        );
     }
 }

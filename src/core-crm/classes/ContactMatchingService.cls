@@ -13,7 +13,7 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | roy.nino.s.regala              | April 01, 2024        | DEPP-7986              | Created file                 |
  */
-public inherited sharing class ContactMatchingService {
+public without sharing class ContactMatchingService {
     // Maps to store contacts grouped by different matching criteria
     private static Map<String, List<Contact>> systemKeyMatchingMap;
     private static Map<String, List<Contact>> naturalKeyMatchingMap;
@@ -350,6 +350,93 @@ public inherited sharing class ContactMatchingService {
 
         return ContactsDAO.newInstance()
             .getContactsByMatchingAttributes(fieldSetMap, birthDateSet, AccessLevel.SYSTEM_MODE);
+    }
+
+    /**
+     * Invocable method to process contact matching based on provided attributes.
+     * @param attributes List of FlowMatchingAttributes containing contact attributes
+     * @return List of FlowMatchingResult indicating matching results for each attribute set
+     */
+    @InvocableMethod(label='Process Contact Matching')
+    public static List<FlowMatchingResult> processContactMatchingInFlows(
+        List<FlowMatchingAttributes> attributes
+    ) {
+        List<MatchingAttributes> matchingRecords = new List<MatchingAttributes>();
+        Map<String, MatchingResult> matchingResult = new Map<String, MatchingResult>();
+        MatchingResult result;
+        List<FlowMatchingResult> flowMatchingResults = new List<FlowMatchingResult>();
+
+        // Processing each FlowMatchingAttributes
+        for (FlowMatchingAttributes attribute : attributes) {
+            // Building formatted mobile phone if available
+            String mobilePhone = String.isNotBlank(attribute.mobileLocale) &&
+                String.isNotBlank(attribute.mobileNoLocale) &&
+                attribute.mobileNoLocale.length() > 6
+                ? MobileLoqateValidationService.buildMobile(
+                      attribute.mobileNoLocale,
+                      attribute.mobileLocale
+                  )
+                : '';
+
+            // Creating map of attributes
+            Map<String, String> attributesMap = new Map<String, String>{
+                'firstName' => attribute.firstName,
+                'lastName' => attribute.lastName,
+                'mobilePhone' => mobilePhone,
+                'email' => attribute.email
+            };
+
+            // Adding attributes to matching records
+            matchingRecords.add(new MatchingAttributes(attributesMap));
+        }
+
+        // Processing contact matching
+        matchingResult = processContactMatching(matchingRecords);
+
+        // Creating FlowMatchingResults based on matching results
+        for (String resultKey : matchingResult.keySet()) {
+            result = matchingResult.get(resultKey);
+            boolean error = !result.contactIds.isEmpty();
+            flowMatchingResults.add(new FlowMatchingResult(error, resultKey));
+        }
+
+        return flowMatchingResults;
+    }
+
+    /**
+     * Inner class representing attributes for contact matching in flows.
+     */
+    public class FlowMatchingAttributes {
+        @InvocableVariable
+        public String firstName;
+        @InvocableVariable
+        public String lastName;
+        @InvocableVariable
+        public String email;
+        @InvocableVariable
+        public String mobileLocale;
+        @InvocableVariable
+        public String mobileNoLocale;
+    }
+
+    /**
+     * Inner class representing result of contact matching for flows.
+     */
+    public class FlowMatchingResult {
+        @InvocableVariable
+        public boolean error;
+        @InvocableVariable
+        public String uniqueKey;
+
+        /**
+         * Constructor to initialize FlowMatchingResult.
+         * @param error Indicates if there's an error in matching
+         * @param uniqueKey Unique identifier for the result
+         */
+        public FlowMatchingResult(boolean error, String uniqueKey) {
+            this.error = error;
+            this.uniqueKey = uniqueKey;
+        }
     }
 
     /**

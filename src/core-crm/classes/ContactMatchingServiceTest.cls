@@ -1118,4 +1118,128 @@ private class ContactMatchingServiceTest {
        
     }
 
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Service class is mocked, user will never create/update records. 
+    //With this user access cannot be tested
+    private static void processContactMatchingInFlowsTest(){
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactAlternateIdsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactMatchingConfigurationsDAOMock());
+        List<ContactMatchingService.FlowMatchingAttributes> flowAttributes = new List<ContactMatchingService.FlowMatchingAttributes>();
+        List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0,100);
+        ContactsDAO.newInstance().insertRecords(contactRecords,true,AccessLevel.SYSTEM_MODE);
+        ContactMatchingService.FlowMatchingAttributes flowAttribute = new ContactMatchingService.FlowMatchingAttributes();
+
+
+        for(Integer i = 0; i < 20; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName;
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].Email;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 20; i < 40; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName;
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].QUT_Learner_Email__c;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 40; i < 60; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName;
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].QUT_Staff_Email__c;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 60; i < 80; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName;
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].Work_Email__c;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 80; i < 100; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName;
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.mobileLocale = '(+123)';
+            String originalString = contactRecords[i].mobilePhone;
+            String removeFirstThreeChar = originalString.substring(3);
+            flowAttribute.mobileNoLocale = removeFirstThreeChar;
+
+            flowAttributes.add(flowAttribute);
+        }
+        
+        for(ContactMatchingService.FlowMatchingResult matchingResult: ContactMatchingService.processContactMatchingInFlows(flowAttributes)){
+            system.assertEquals(true,matchingResult.error,'there should be an error');
+        }
+
+    }
+
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Service class is mocked, user will never create/update records. 
+    //With this user access cannot be tested
+    private static void processContactMatchingInFlowsNoMatchTest(){
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactAlternateIdsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactMatchingConfigurationsDAOMock());
+        List<ContactMatchingService.FlowMatchingAttributes> flowAttributes = new List<ContactMatchingService.FlowMatchingAttributes>();
+        List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0,100);
+        ContactsDAO.newInstance().insertRecords(contactRecords,true,AccessLevel.SYSTEM_MODE);
+        ContactMatchingService.FlowMatchingAttributes flowAttribute = new ContactMatchingService.FlowMatchingAttributes();
+
+
+        for(Integer i = 0; i < 20; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName + 'mismatch';
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].Email;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 20; i < 40; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName + 'mismatch'; 
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].QUT_Learner_Email__c;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 40; i < 60; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName + 'mismatch';
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].QUT_Staff_Email__c;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 60; i < 80; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName + 'mismatch';
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.email = contactRecords[i].Work_Email__c;
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(Integer i = 80; i < 100; i ++ ){
+            flowAttribute.firstName = contactRecords[i].FirstName + 'mismatch';
+            flowAttribute.lastName = contactRecords[i].LastName;
+            flowAttribute.mobileLocale = '';
+            flowAttribute.mobileNoLocale = '';
+
+            flowAttributes.add(flowAttribute);
+        }
+
+        for(ContactMatchingService.FlowMatchingResult matchingResult: ContactMatchingService.processContactMatchingInFlows(flowAttributes)){
+            system.assertEquals(false,matchingResult.error,'there should be no error');
+        }
+
+    }
+
 }
