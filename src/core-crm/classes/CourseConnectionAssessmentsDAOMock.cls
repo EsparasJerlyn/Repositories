@@ -55,6 +55,20 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
         return 'SELECT Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c ' + getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
+    public Set<Id> getContactIdsByCriteria(
+        CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
+        CourseConnectionsDAO.Criteria courseConnectionCriteria, 
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        Set<Id> returnIds = new Set<Id>();
+        List<Course_Connection_Assessment__c> listCourseConectionAssessment = Database.query('SELECT Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c ' + getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria));
+        for (Course_Connection_Assessment__c cca: listCourseConectionAssessment){
+            returnIds.add(cca.Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c);
+        }
+        return returnIds;
+    }
+
     public String getQueryByCriteria(
         CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria, 
         CourseConnectionsDAO.Criteria courseConnectionCriteria, 
