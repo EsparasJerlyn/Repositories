@@ -1,0 +1,30 @@
+/**
+ * @description DAO Class for Async Apex Job object. Contains soql and constants related to the Async Apex Job object.
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+ *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Created file                                   |
+ *    |                                |                       |                        |                                                |
+ */
+public inherited sharing class AsyncApexJobsDAO extends DmlBase implements IAsyncApexJobsDAO {
+    
+    public static IAsyncApexJobsDAO newInstance() {
+        return (IAsyncApexJobsDAO) ImplementationSelector.DAO.newInstance(
+            AsyncApexJob.SObjectType
+        );
+    }
+    public Schema.SObjectType getSObjectType() {
+        return 	AsyncApexJob.SObjectType;
+    }
+    public AsyncApexJob findById(Id previewJobId){
+        if(String.isBlank(previewJobId)){
+            return null;
+        }
+        List<AsyncApexJob> asyncApexJob = [SELECT Id, NumberOfErrors  FROM AsyncApexJob WHERE Id =: previewJobId WITH SYSTEM_MODE LIMIT 1];
+        return asyncApexJob.isEmpty()?null:asyncApexJob[0];    
+    }
+}
