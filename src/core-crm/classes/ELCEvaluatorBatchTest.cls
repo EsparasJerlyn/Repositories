@@ -103,39 +103,34 @@ public with sharing class ELCEvaluatorBatchTest {
             courseConnectionAssessmentList[0].Submission_Date__c = Date.today();
             courseConnectionAssessmentList[0].Assessment_Name__c = assessmentList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentList,true,AccessLevel.SYSTEM_MODE);
-
-            Test.startTest();			            
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            engagementListCriteria.Citizenship_Status__c = null;
-            engagementListCriteria.Academic_Status__c = null;
-            engagementListCriteria.Category_Type__c = null;
-            engagementListCriteria.Completed_Cadence__c = null;
-            engagementListCriteria.Course_Grade__c = null;
-            engagementListCriteria.Breach__c = null;
-            engagementListCriteria.Failed_To_Submit_Assessment__c = null;
-            engagementListCriteria.Assessment_Priority__c = null;
-            engagementListCriteria.Is_On_Leave_of_Absence__c = null;
-            engagementListCriteria.Key_Date__c = null;
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = null;
-            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = null;
-            
-            ELCParser elcParser = new ELCParser(engagementListCriteria, date.today());
-
-            //get contact
-            List<Contact> contacts = ContactsDAO.newInstance().findByCriteria(elcParser.getELCContactParser().getContactCriteria(), AccessLevel.SYSTEM_MODE); 
-            
-            //Contact Evaluator
-            ELCEvaluator evaluator = new ELCEvaluator(elcParser);
-            Map<Id, ELECandidateIngredient> evaluatorMap = evaluator.evaluate(contacts);
-            
-            Test.stopTest();
             
         }
     }
     
     @isTest
     static void testBatchExecution() {
-        //batch execution test here
+        
+        List<Engagement_List_Criteria__c> engagementListCriteriaList = new List<Engagement_List_Criteria__c>();
+        Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+        engagementListCriteria.Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        engagementListCriteria.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+        engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+        engagementListCriteria.Completed_Cadence__c = 'Domestic Accepted and Admitted';
+        engagementListCriteria.Course_Grade__c = '100';
+        engagementListCriteria.Breach__c = 'Breach Test 01';
+        engagementListCriteria.Failed_To_Submit_Assessment__c = null;
+        engagementListCriteria.Assessment_Priority__c = null;
+        engagementListCriteria.Is_On_Leave_of_Absence__c = null;
+        engagementListCriteria.Key_Date__c = null;
+        engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = null;
+        engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = null;
+        engagementListCriteriaList.add(engagementListCriteria);
+
+        //Run batch class
+        // ELCEvaluatorBatch batch = new ELCEvaluatorBatch();
+        // Database.executeBatch(batch);
+
+        // System.debug('Contacts: ' + contacts);
     }
 
 }

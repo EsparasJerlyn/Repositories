@@ -40,12 +40,12 @@ public with sharing class ELCProgramEnrollmentBreachEvaluator {
         Map<Id, List<Program_Enrollment_Breach__c>> programEnrollmentBreachByContactMap = new Map<Id, List<Program_Enrollment_Breach__c>>();
 
         for(Program_Enrollment_Breach__c programEnrollmentbreach : programEnrollmentBreaches){
-            if(programEnrollmentBreachByContactMap.containsKey(programEnrollmentbreach.Program_Enrollment__r.hed__Contact__c)){
-                programEnrollmentBreachByContactMap.get(programEnrollmentbreach.Program_Enrollment__r.hed__Contact__c).add(programEnrollmentbreach);
+            if(programEnrollmentBreachByContactMap.containsKey(programEnrollmentbreach.Contact__c)){
+                programEnrollmentBreachByContactMap.get(programEnrollmentbreach.Contact__c).add(programEnrollmentbreach);
             }else{
                 List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
                 programEnrollmentBreachList.add(programEnrollmentbreach);
-                programEnrollmentBreachByContactMap.put(programEnrollmentbreach.Program_Enrollment__r.hed__Contact__c, programEnrollmentBreachList);
+                programEnrollmentBreachByContactMap.put(programEnrollmentbreach.Contact__c, programEnrollmentBreachList);
             }
         }
         

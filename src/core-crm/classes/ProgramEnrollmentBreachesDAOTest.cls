@@ -63,10 +63,10 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                + 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                + 'AND Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
@@ -110,7 +110,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getContactQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
-            String expectedWhereClause = 'SELECT Program_Enrollment__r.hed__Contact__c FROM Program_Enrollment_Breach__c WHERE '
+            String expectedWhereClause = 'SELECT Contact__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
                 + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
@@ -119,10 +119,10 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                + 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                + 'AND Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
@@ -152,7 +152,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
-            String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c, Program_Enrollment__r.hed__Contact__c FROM Program_Enrollment_Breach__c WHERE '
+            String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c, Contact__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
                 + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
@@ -161,10 +161,10 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                + 'AND Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                + 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                + 'AND Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
@@ -199,6 +199,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentBreachListCreated[0].Breach_Name__c = breachCreated.Id;
             programEnrollmentBreachListCreated[0].Breach_Date__c = Date.today();
             programEnrollmentBreachListCreated[0].Program_Enrollment__c = programEnrollmentListCreated[0].Id;
+            programEnrollmentBreachListCreated[0].Contact__c = contactList[0].Id;
             ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
@@ -260,6 +261,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentBreachListCreated[0].Breach_Name__c = breachCreated.Id;
             programEnrollmentBreachListCreated[0].Breach_Date__c = Date.today();
             programEnrollmentBreachListCreated[0].Program_Enrollment__c = programEnrollmentListCreated[0].Id;
+            programEnrollmentBreachListCreated[0].Contact__c = contactList[0].Id;
             ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
