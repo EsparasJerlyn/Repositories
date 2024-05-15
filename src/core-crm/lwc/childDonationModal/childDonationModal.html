@@ -20,17 +20,19 @@
                         <p><b>{title}</b></p>
                     </div>
                     <div class="box-notes slds-col slds-size_1-of-1 slds-p-around_x-small">
-                        <ul>
-                            <li>
-                                "Please input the total amount and the number of instalments. Then, click 'Auto-generate' for the system to generate equal instalment amounts.
-                            </li>
-                            <li>
-                                If the instalments are not equal, you can adjust the amount and instalment date.
-                            </li>
-                            <li>
-                                Click 'Add Row' to manually add new instalments."
-                            </li>
-                        </ul>
+                        <div class="slds-p-left_medium">
+                            <ul>
+                                <li>
+                                    "Please input the total amount and the number of instalments. Then, click 'Auto-generate' for the system to generate equal instalment amounts.
+                                </li>
+                                <li>
+                                    If the instalments are not equal, you can adjust the amount and instalment date.
+                                </li>
+                                <li>
+                                    Click 'Add Row' to manually add new instalments."
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-around_x-small">
                         <lightning-input type="number" formatter="currency" value={toUpsert.totalAmount}  label="Total Amount" data-name="totalAmount" onchange={handleChange}></lightning-input>
@@ -50,24 +52,40 @@
                         </div>
                     </template>
                 </div>
-                <div if:true={isErrorMessage} class="slds-text-color_destructive slds-text-align_center slds-p-around_x-small slds-text-heading_small">
-                    <p><strong>Please ensure the sum of all the instalments is greater than or equal to the Total Amount on the Endowment record.</strong></p>
+                <div if:true={isErrorMessage} class="slds-text-color_destructive slds-text-align_center slds-p-around_x-small">
+                    <template lwc:if={isDonationEndowmentPaymentTab}>
+                        <p><strong>Please ensure the sum of all the instalments is greater than or equal to the Total Amount on the Endowment record.</strong></p>
+                    </template>
+                    <template lwc:if={isDonationPledgePaymentTab}>
+                        <template lwc:if={isPledgeDesignationSplit}>
+                            <p><strong>The sum of all the splits must be equal to the Total Amount field on Pledge record.</strong></p>
+                        </template>
+                        <template lwc:if={isPledgeInstalment}>
+                            <template lwc:if={isEdit}>
+                                <p><strong>Please ensure the sum of all the instalments is greater than or equal to the Total Amount of Pledge record</strong></p>
+                            </template>
+                            <template lwc:else>
+                                <p><strong>Please ensure the sum of all the instalments is greater than or equal to the Total Amount</strong></p>
+                            </template>
+                        </template>
+                    </template>
                 </div>
                 <div class="slds-clearfix slds-wrap slds-p-top_small">
-                    <lightning-datatable
+                    <c-custom-datatable-columned
                         class="slds-max-medium-table_stacked"
                         key-field="Id"
                         data={data}
                         columns={columns}
                         oncellchange={handleCellChange}
                         onpicklistselect={handlePicklistSelect}
+                        onlookupselect={handleLookupSelect}
                         onrowaction={handleRowAction}
                         draft-values={draftValues}
                         hide-checkbox-column="true"
                         show-row-number-column="false"
                         errors={errors}
                         suppress-bottom-bar
-                    ></lightning-datatable>
+                    ></c-custom-datatable-columned>
                 </div>
                 <div class="slds-clearfix slds-wrap slds-p-top_small">
                     <div class="slds-float_right">

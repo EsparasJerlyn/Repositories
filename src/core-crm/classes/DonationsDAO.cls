@@ -21,6 +21,12 @@
       |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added COMPLETED_PART_PAID_STAGE final string                          |
       |  kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added stageToCancelledCauseRule string                                |
       |  kenneth.f.alsay                | May 10, 2024          | DEPP-8566              | Added PLEDGE_DESIGNATION_SPLIT_RECTYPE_ID final string                |
+      |  neil.s.h.lesidan               | April 30, 2024        | DEPP-8595              | Add PLEDGE_DESIGNATION_SPLIT_RECTYPE_NAME final string                |
+      |                                 |                       | DEPP-8632              | Add ENDOWMENT_INSTALMENT_RECTYPE_NAME final string                    |
+      |                                 |                       | DEPP-8596              | Add PLEDGE_INSTALMENT_RECTYPE_NAME final string                       |
+      |                                 |                       | DEPP-8621              |                                                                       |
+      |                                 |                       | DEPP-8720              |                                                                       |
+      |                                 |                       | DEPP-8721              |                                                                       |
 */
 
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
@@ -40,7 +46,6 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     public static final Id CAUSE_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
     .get('Cause')
     .getRecordTypeId();
-
     public static final Id GIFT_IN_KIND_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
     .get('Gift_In_Kind')
     .getRecordTypeId();
@@ -59,6 +64,17 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     public static final Id PLEDGE_DESIGNATION_SPLIT_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
     .get('Pledge_Designation_Split')
     .getRecordTypeId();
+
+    //Record Type Names
+    public static final String ENDOWMENT_INSTALMENT_RECTYPE_NAME = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
+    .get('Endowment_Instalment')
+    .getName();
+    public static final String PLEDGE_INSTALMENT_RECTYPE_NAME = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
+    .get('Pledge_Instalment')
+    .getName();
+    public static final String PLEDGE_DESIGNATION_SPLIT_RECTYPE_NAME = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
+    .get('Pledge_Designation_Split')
+    .getName();
 
     public Schema.SObjectType getSObjectType() {
         return Donation__c.SObjectType;
@@ -152,8 +168,8 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
         AccessLevel accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Name, Donation_Parent__c, Total_Amount__c, Instalment_Date__c, Stage__c, Instalment_Number__c, ' +
-            'Contact__c, Account__c, From_Designation__c, Is_Anonymous_Donation__c ' +
+            'SELECT Id, Name, Donation_Parent__c, Total_Amount__c, Instalment_Date__c, Stage__c, Instalment_Number__c, To_Designation__c, To_Designation__r.Name, ' +
+            'Donation_Comment__c, Payment_Type__c, Contact__c, Account__c, From_Designation__c, Is_Anonymous_Donation__c ' +
             'FROM Donation__c WHERE Donation_Parent__c  IN :parentDonations ' +
             'AND RecordTypeId = :recordTypeId',
             accessLevel
@@ -181,7 +197,8 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     ) {
         if (!recordTypeIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Stage__c, Opportunity__c, Payment_Type__c, To_Designation__c, Contact__c, Cancellation_Reason__c, Cancellation_Comment__c, Cancellation_Date__c ' + 
+                'SELECT Id, Stage__c, Opportunity__c, Payment_Type__c, To_Designation__c, Contact__c, Cancellation_Reason__c, Cancellation_Comment__c, Cancellation_Date__c, ' +
+                'Donation_Parent__c, RecordTypeId, Donation_Comment__c, Total_Amount__c ' +
                 'FROM Donation__c WHERE RecordTypeId IN :recordTypeIds',
                 accessLevel
             );

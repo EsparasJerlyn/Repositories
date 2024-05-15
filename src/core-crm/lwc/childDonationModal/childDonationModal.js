@@ -4,26 +4,39 @@
  * @author Accenture
  *
  * @history
- *    | Developer                      | Date                  | JIRA                   | Change Summary                                  |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
-      | neil.s.h.lesidan               | April 30, 2024        | DEPP-8610              | Created file                                    |
-      |                                |                       | DEPP-8570              |                                                 |
-      |                                |                       | DEPP-8682              |                                                 |
+ *    | Developer                      | Date                  | JIRA                   | Change Summary                                                                |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
+      | neil.s.h.lesidan               | April 30, 2024        | DEPP-8610              | Created file                                                                  |
+      |                                |                       | DEPP-8570              |                                                                               |
+      |                                |                       | DEPP-8682              |                                                                               |
+      | neil.s.h.lesidan               | April 30, 2024        | DEPP-8595              | Add functionality that can view, create and edit                              |
+      |                                |                       | DEPP-8632              | Pledge Designation Split and Pledge Instalment                                |
+      |                                |                       | DEPP-8720              |                                                                               |
+      |                                |                       | DEPP-8596              |                                                                               |
+      |                                |                       | DEPP-8621              |                                                                               |
+      |                                |                       | DEPP-8721              |                                                                               |
+      |                                |                       |                        |                                                                               |
 */
 import { LightningElement, api, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-import upsertDonationChildEndownmentInstalment from "@salesforce/apex/ChildDonationModalCtrl.upsertDonationChildEndownmentInstalment";
+import DESIGNATION_NAME from '@salesforce/schema/Designation__c.Name';
+
+import upsertDonationChild from "@salesforce/apex/ChildDonationModalCtrl.upsertDonationChild";
+
 
 export default class ChildDonationModal extends LightningElement {
     @api recordId;
     @api pageUniqueParam;
     @api existingData;
     @api title;
+    @api isDonationEndowmentPaymentTab;
+    @api isDonationPledgePaymentTab;
 
     errors;
     modalHeader = "New Donation";
     isErrorMessage = false;
+    isEdit = false;
     title = '';
 
     @track data = [];
@@ -32,7 +45,9 @@ export default class ChildDonationModal extends LightningElement {
         numberInstalments: ''
     };
     @track draftValues = [];
-    @track columns = [
+    @track columns = [];
+
+    donationColumns = [
         {
             label: 'Instalment Number',
             fieldName: 'instalmentNumber',
@@ -46,7 +61,7 @@ export default class ChildDonationModal extends LightningElement {
             fieldName: 'Total_Amount__c',
             apiFieldName:'Total_Amount__c',
             editable: true,
-            sortable: true,
+            sortable: false,
             type: 'currency',
         },
         {
@@ -54,7 +69,7 @@ export default class ChildDonationModal extends LightningElement {
             fieldName: 'Instalment_Date__c',
             apiFieldName:'Instalment_Date__c',
             editable: true,
-            sortable: true,
+            sortable: false,
             type: "date-local",
             typeAttributes:{
                 month: "2-digit",
@@ -68,6 +83,23 @@ export default class ChildDonationModal extends LightningElement {
             wrapText: false,
             sortable: false,
             type: 'text',
+        },
+        {
+            label: 'To Designation',
+            type: 'customLookupColumn',
+            editable: true,
+            typeAttributes: {
+                tableObjectType: 'Donation__c',
+                rowDraftId: { fieldName: 'rowId' },
+                rowRecordId: { fieldName: 'Id' },
+                lookupValue: { fieldName: 'To_Designation__c' },
+                lookupValueFieldName: [DESIGNATION_NAME],
+                lookupFieldName: 'To_Designation__c',
+                editable: { fieldName: 'editable' }
+            },
+            cellAttributes: {
+                class: { fieldName: 'toDesignationClass' }
+            }
         },
         {
             type: 'button-icon',
@@ -93,6 +125,22 @@ export default class ChildDonationModal extends LightningElement {
         this._parentDonationDetail = value;
     }
 
+    get isPledgeInstalment() {
+        const parentDonationDetail = this._parentDonationDetail;
+        if (this.isDonationPledgePaymentTab && parentDonationDetail.Payment_Type__c.value === 'Payment Plan') {
+            return true;
+        }
+        return false;
+    }
+
+    get isPledgeDesignationSplit() {
+        const parentDonationDetail = this._parentDonationDetail;
+        if (this.isDonationPledgePaymentTab && parentDonationDetail.Payment_Type__c.value === 'One-Off Payment') {
+            return true;
+        }
+        return false;
+    }
+
     get saveBtnDisabled() {
         return this.saveButtonDisabled || !this.data.length ? true : false;
     }
@@ -101,30 +149,81 @@ export default class ChildDonationModal extends LightningElement {
         return this.existingData.length ? false : true;
     }
 
-    async connectedCallback() {
+    connectedCallback() {
         const existingData = JSON.parse(JSON.stringify(this.existingData));
+        const parentDonationDetail = this._parentDonationDetail;
+        const newColumn = [];
+
+        let donationColumns = this.donationColumns;
+        let toDisplayTableColumns = [];
+        let toAddAction = false;
+
+        if (this.isDonationEndowmentPaymentTab) {
+            toDisplayTableColumns = ['Instalment Number', 'Total Amount', 'Instalment Date', 'Stage'];
+            toAddAction = true;
+
+        } else if (this.isDonationPledgePaymentTab) {
+            if (parentDonationDetail.Payment_Type__c.value === 'One-Off Payment') {
+                toDisplayTableColumns = ['Total Amount', 'To Designation', 'Stage'];
+            }
+
+            if (parentDonationDetail.Payment_Type__c.value === 'Payment Plan') {
+                toDisplayTableColumns = ['Instalment Number', 'Total Amount', 'Instalment Date', 'To Designation', 'Stage'];
+
+                if (!parentDonationDetail.Has_Designation_Split__c.value) {
+                    let newArr = [];
+                    donationColumns.forEach((obj) => {
+                        if (obj.label != 'To Designation') {
+                            newArr.push(obj);
+                        }
+                    });
+
+                    donationColumns = newArr;
+                }
+            }
+
+            toAddAction = true;
+        }
+
+
+        toDisplayTableColumns.forEach((name) => {
+            donationColumns.forEach((obj) => {
+                if (obj.label === name) {
+                    newColumn.push(obj);
+                }
+            })
+        });
+
+        if (toAddAction) {
+            newColumn.push(donationColumns[donationColumns.length - 1]);
+        }
+
+        this.columns = newColumn;
 
         if (existingData && existingData.length) {
+            this.isEdit = true;
             const newData = [];
 
-            if (this.pageUniqueParam === 'Donation Endowment Payment tab') {
-                existingData.forEach((obj, key) => {
-                    const data = {
-                        rowId: `row-${key}`,
-                        fieldId: obj.Id,
-                        instalmentNumber: key + 1,
-                        Stage__c: obj.Stage__c,
-                        Total_Amount__c: obj.Total_Amount__c,
-                        Instalment_Date__c: obj.Instalment_Date__c,
-                        parentId: obj.Donation_Parent__c,
-                        deleteDisabled: true,
-                    }
+            existingData.forEach((obj, key) => {
+                const data = {
+                    rowId: `row-${key}`,
+                    fieldId: obj.Id,
+                    instalmentNumber: key + 1,
+                    Stage__c: obj.Stage__c || '',
+                    Total_Amount__c: obj.Total_Amount__c || '',
+                    Instalment_Date__c: obj.Instalment_Date__c || '',
+                    parentId: obj.Donation_Parent__c || '',
+                    To_Designation__c: obj.To_Designation__c || '',
+                    Donation_Comment__c: obj.Donation_Comment__c || '',
+                    Payment_Type__c: obj.Payment_Type__c || '',
+                    deleteDisabled: true,
+                    editable: true,
+                }
 
-                    newData.push(data);
-                })
+                newData.push(data);
+            })
 
-                this.modalHeader = "Edit Donation";
-            }
+            this.modalHeader = "Edit Donation";
 
             this.data = newData;
         }
@@ -206,12 +305,14 @@ export default class ChildDonationModal extends LightningElement {
     generateNewRow(eachRowTotalAmount = '', rowCount = 0) {
         return {
             rowId: `row-${rowCount}`,
-            instalmentNumber: rowCount,
+            instalmentNumber: rowCount + 1,
             Total_Amount__c: eachRowTotalAmount,
             Instalment_Date__c: '',
+            To_Designation__c: '',
             Stage__c: 'Accepted',
             deleteDisabled: false,
             parentId: this.recordId,
+            editable: true,
         };
     }
 
@@ -242,6 +343,17 @@ export default class ChildDonationModal extends LightningElement {
     //updates draft values if table cell is changed
     handleCellChange(event){
         this.updateDraftToDataValues(event.detail.draftValues[0]);
+    }
+
+    //updates look up if table cell is changed
+    handleLookupSelect(event){
+        let eventValue = event.detail.value;
+        let draftId = event.detail.draftId;
+
+        this.updateDraftToDataValues({
+            Id: draftId,
+            To_Designation__c: eventValue || ''
+        });
     }
 
     //updates draftValues
@@ -315,15 +427,34 @@ export default class ChildDonationModal extends LightningElement {
             data.forEach((obj) => {
                 const toUpsertRecord = {
                     Total_Amount__c: obj.Total_Amount__c,
-                    Instalment_Date__c: obj.Instalment_Date__c,
                     Stage__c: obj.Stage__c,
                     Donation_Parent__c: obj.parentId,
                     Contact__c: parentDonationDetail.Contact__c ? parentDonationDetail.Contact__c.value : "",
                     Account__c: parentDonationDetail.Account__c ? parentDonationDetail.Account__c.value : "",
                     From_Designation__c: parentDonationDetail.From_Designation__c ? parentDonationDetail.From_Designation__c.value : "",
-                    To_Designation__c: parentDonationDetail.To_Designation__c ? parentDonationDetail.To_Designation__c.value : "",
                     Is_Anonymous_Donation__c: parentDonationDetail.Is_Anonymous_Donation__c ? parentDonationDetail.Is_Anonymous_Donation__c.value : "",
                 };
+
+                if (this.isDonationEndowmentPaymentTab) {
+                    toUpsertRecord.Instalment_Date__c = obj.Instalment_Date__c;
+                    toUpsertRecord.To_Designation__c = parentDonationDetail.To_Designation__c ? parentDonationDetail.To_Designation__c.value : "";
+                } else if (this.isDonationPledgePaymentTab) {
+                    let addToDesignation = true;
+                    if (parentDonationDetail.Payment_Type__c.value === 'Payment Plan') {
+                        toUpsertRecord.Instalment_Date__c = obj.Instalment_Date__c;
+
+                        if (!parentDonationDetail.Has_Designation_Split__c.value) {
+                            addToDesignation = false;
+                        }
+                    }
+
+                    if (addToDesignation) {
+                        toUpsertRecord.To_Designation__c = obj.To_Designation__c;
+                    }
+
+                    toUpsertRecord.Donation_Comment__c = parentDonationDetail.Donation_Comment__c.value;
+                    toUpsertRecord.Payment_Type__c = parentDonationDetail.Payment_Type__c.value;
+                }
 
                 totalRowAmount = parseFloat(obj.Total_Amount__c) + totalRowAmount;
 
@@ -336,7 +467,21 @@ export default class ChildDonationModal extends LightningElement {
 
             if (this.toUpsert.totalAmount && totalRowAmount >= parseFloat(this.toUpsert.totalAmount)) {
                 if (!hasError && toUpsertList.length) {
-                    upsertDonationChildEndownmentInstalment({donationsList: toUpsertList})
+                    let recordType = '';
+
+                    if (this.isDonationEndowmentPaymentTab) {
+                        recordType = 'Endowment Instalment';
+                    } else if (this.isDonationPledgePaymentTab) {
+                        if (parentDonationDetail.Payment_Type__c.value === 'One-Off Payment') {
+                            recordType = 'Pledge Designation Split';
+                        }
+
+                        if (parentDonationDetail.Payment_Type__c.value === 'Payment Plan') {
+                            recordType = 'Pledge Instalment';
+                        }
+                    }
+
+                    upsertDonationChild({donationsList: toUpsertList, recordType: recordType})
                         .then((response) => {
                             if (this.isNew) {
                                 this.generateToast('Success.', 'Record successfully created!','success');
@@ -352,7 +497,7 @@ export default class ChildDonationModal extends LightningElement {
                         .catch((e) => {
                             if (logger) {
                                 logger.error(
-                                    "Exception caught in apex method upsertDonationChildEndownmentInstalment in LWC childDonationModal: ",
+                                    "Exception caught in apex method upsertDonationChild in LWC childDonationModal: ",
                                     JSON.stringify(error)
                                 );
                             }
@@ -373,19 +518,41 @@ export default class ChildDonationModal extends LightningElement {
 
     rowvalidation() {
         const data = JSON.parse(JSON.stringify(this.data));
-
+        const parentDonationDetail = this._parentDonationDetail;
         let rowsValidation = {};
         let hasError = false;
 
         data.map(obj => {
             let fieldNames = [];
             let messages = [];
-            if (!obj.Total_Amount__c) {
-                messages.push('Participating Group is a mandatory field');
+            let validateColumns = [];
+
+            if (this.isDonationEndowmentPaymentTab) {
+                validateColumns = ['Total_Amount__c', 'Instalment_Date__c'];
+            } else if (this.isDonationPledgePaymentTab) {
+                if (parentDonationDetail.Payment_Type__c.value === 'One-Off Payment') {
+                    validateColumns = ['Total_Amount__c', 'To_Designation__c'];
+                }
+
+                if (parentDonationDetail.Payment_Type__c.value === 'Payment Plan') {
+                    validateColumns = ['Total_Amount__c', 'Instalment_Date__c', 'To_Designation__c'];
+
+                    if (!parentDonationDetail.Has_Designation_Split__c.value) {
+                        validateColumns = ['Total_Amount__c', 'Instalment_Date__c'];
+                    }
+                }
             }
 
-            if (!obj.Instalment_Date__c) {
+            if (!obj.Total_Amount__c && validateColumns.indexOf('Total_Amount__c') >= 0) {
+                messages.push('Total Amount is a mandatory field');
+            }
+
+            if (!obj.Instalment_Date__c && validateColumns.indexOf('Instalment_Date__c') >= 0) {
                 messages.push('Instalment Date is a mandatory field');
+            }
+
+            if (!obj.To_Designation__c && validateColumns.indexOf('To_Designation__c') >= 0) {
+                messages.push('To Designation is a mandatory field');
             }
 
             if (messages.length > 0 ) {
