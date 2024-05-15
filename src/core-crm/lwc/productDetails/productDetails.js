@@ -25,6 +25,7 @@
 			|                           | August 24, 2022       |                      | Addded new method for CCE Product Details    |
 			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
 			| mary.grace.li             | February 9, 2022      | DEPP-5157 / 5180     | Removed renderedCallback in CCE              |
+			| sebastianne.k.trias       | May 15, 2024          | DEPP-8410            | Added showErrorMessageSetToTrue method       |
 */
 
 import { LightningElement, wire, api } from "lwc";
@@ -67,6 +68,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
   fromCategoryName;
   fromCategoryId;
   ccePricebookEntryId;
+  showErrorMessage = false;
 
   tempAcct;
   subscription;
@@ -198,6 +200,10 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 		// For Study 
 		getProductDetails({ productId: productId })
 		.then((result) => {
+			if(result.productOnPage.IsActive == false){
+				this.showErrorMessageSetToTrue();
+				return;
+			}
 			this.isProgramFlex = !result.isNotFlexProgram;
 			this.productDetails = result.productOnPage;
 			this.priceBookEntryList = result.pricebookWrapperList;
@@ -523,6 +529,13 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 				this.redirectToListingPage();
 			}
 		});
+	}
+
+	showErrorMessageSetToTrue(){
+		this.showProductDetailsDisplay = false;
+		this.showPrescribedProgram = false;
+		this.showProductDetailsSingle = false;
+		this.showErrorMessage = true;
 	}
 
 

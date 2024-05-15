@@ -113,6 +113,7 @@ public without sharing class ProductDetailsCtrl {
 				More_Details__c,
 				Do_not_Show_Start_Date__c,
 				Product_Category__c, 
+				IsActive,
 				(
 					SELECT Id, Pricebook2.Name, UnitPrice, Early_Bird_No_of_Days__c
 					FROM PricebookEntries
