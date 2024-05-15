@@ -110,13 +110,13 @@ export default class OutReachCaseImportModal extends LightningElement {
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
   
-    // Check for incorrect columns
-    if (headers.length !== 1 || headers[0].trim() !== 'StudentID') {
-      this.error = "The file should only contain one column with the column header 'StudentID'.";
-      console.log(this.error);
+    // Check if the header does not contain 'StudentID'
+    if (!headers.includes('StudentID')) {
+      this.error = "The file should contain a column with the header 'StudentID'.";
       this.showTabset = false;
+      console.log(this.error);
       return;
-   } 
+    }
 
     this.rowCount = lines.length - 2;
 
