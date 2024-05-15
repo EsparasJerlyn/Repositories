@@ -550,6 +550,23 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return new List<Contact>();
     }  
 
+    public List<Contact> getContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    ){
+        if(studentIdList.isEmpty()){
+            return new List<Contact>();
+        }
+
+        return Database.query(
+            'SELECT Id, QUT_Student_ID__c, Name, MobilePhone, Email FROM Contact ' +
+            'Where RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
+            'AND QUT_Student__c = true ' +
+            'AND QUT_Student_Id__c in :studentIdList', 
+            accessLevel
+        );
+    }  
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
