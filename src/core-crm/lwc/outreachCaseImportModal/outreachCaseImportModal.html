@@ -171,6 +171,11 @@
                  </lightning-tab>
               </lightning-tabset>
            </template>
+           <template if:true={error}>
+            <div class="slds-text-color_error slds-m-top_medium">
+                {error}
+            </div>
+          </template>
           </div>
         </div>
       </div>

@@ -14,6 +14,8 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track paramsMap = {};
   @track exclData = [];
 
+  @track error = null;
+
   showTabset = false;
   @track rowCount;
   // @track exclRowCount = 0;
@@ -55,6 +57,13 @@ export default class OutReachCaseImportModal extends LightningElement {
     if (files.length > 0) {
       const file = files[0];
       this.fileName = file.name;
+      // Check if the file has a .csv extension
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        this.error = 'Invalid file format. Please ensure the file is a comma separated (.csv) file.';
+        this.showTabset = false;
+        console.log(this.error);
+        return;
+    }
       // start reading the uploaded csv file
       this.read(file);
       this.showTabset = true;
@@ -72,6 +81,9 @@ export default class OutReachCaseImportModal extends LightningElement {
       console.log('sucess parse');
     } catch (e) {
       this.error = e;
+      const timestamp = new Date().toISOString();
+      this.error = `System error. A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`;
+      this.showTabset = false; 
       console.log(this.error);
     }
   }
@@ -94,9 +106,33 @@ export default class OutReachCaseImportModal extends LightningElement {
     console.log('parse');
     // parse the csv file and treat each line as one item of an array
     const lines = csv.split(/\r\n|\n/);
+    
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
+  
+    // Check for incorrect columns
+    if (headers.length !== 1 || headers[0].trim() !== 'StudentID') {
+      this.error = "The file should only contain one column with the column header 'StudentID'.";
+      console.log(this.error);
+      this.showTabset = false;
+      return;
+   } 
+
     this.rowCount = lines.length - 2;
+
+    if (this.rowCount === 0) {
+      this.error = 'The file you have uploaded does not contain any data.';
+      this.showTabset = false;
+      console.log(this.error);
+      return;
+    }
+
+    if (this.rowCount > 3) {
+      this.error = 'The CSV file contains too many rows. Please limit this to 3000 rows maximum.';
+      console.log(this.error);
+      this.showTabset = false;
+      return;
+  }
     
     // iterate through csv headers and transform them to column format supported by the datatable
     this.columns = headers.map((header) => {
