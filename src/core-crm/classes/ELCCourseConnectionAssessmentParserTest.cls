@@ -29,7 +29,7 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getAssessmentGrade(), null, 'Assessment grade should be null');
-            System.assertEquals(parser.getCourseConnectionAssessmentCriteria().getSubmissionDate(), null, 'Submission Date should be null');
+            System.assert(parser.getCourseConnectionAssessmentCriteria().getIsSubmissionDateNull(), 'Submission Date should be null');
         }
     }
 

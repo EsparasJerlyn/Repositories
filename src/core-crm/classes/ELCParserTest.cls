@@ -56,7 +56,7 @@ public with sharing class ELCParserTest {
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().getCourseGrade(), '100', 'Incorrect Course Grade');
             System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getAssessmentGrade(), null, 'Assessment grade should be null');
-            System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getSubmissionDate(), null, 'Submission Date should be null');
+            System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getIsSubmissionDateNull(), true, 'Submission Date should be null');
             System.assertEquals(parser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getAssessmentPriority(), 'High', 'Incorrect Assessment Priority');
             System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getIsOnLeave(), true, 'Is On Leave should not be false');
             

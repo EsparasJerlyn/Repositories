@@ -25,20 +25,20 @@ public with sharing class ELCCourseConnectionParser {
     public ELCCourseConnectionParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
         parse();
     }
 
     private void parse() {
         courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
-        courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
+        if(courseConnectionCriteria != null && !courseConnectionCriteria.isEmpty()){
+            courseConnectionCriteria = applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
+        }
     }
 
     //configurable criteria
     private CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseConnectionCriteria) {
-        if (engagementListCriteria.Course_Grade__c != null) {
-            if (courseConnectionCriteria == null) {
-                courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Course_Grade__c)) {
             courseConnectionCriteria.setcourseGrade(engagementListCriteria.Course_Grade__c);
         }
         return courseConnectionCriteria;
@@ -46,15 +46,12 @@ public with sharing class ELCCourseConnectionParser {
 
     //hidden criteria
     private CourseConnectionsDAO.Criteria applyCourseConnectionHiddenCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria) {
-        if (courseConnectionCriteria == null) {
-            courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
-        }
         courseConnectionCriteria.setStatus(ENROLLMENT_STATUS_FOR_OUTREACH);
-
         return courseConnectionCriteria;
     }
 
     public CourseConnectionsDAO.Criteria getCourseConnectionCriteria() {
         return courseConnectionCriteria;
     }
+    
 }

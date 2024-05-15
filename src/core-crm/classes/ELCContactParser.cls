@@ -18,6 +18,7 @@ public with sharing class ELCContactParser{
     public ELCContactParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        contactCriteria = new ContactsDAO.Criteria();
         parse();
     }
 
@@ -28,10 +29,7 @@ public with sharing class ELCContactParser{
 
     //configurable criteria
     private ContactsDAO.Criteria processCitizenshipStatus(Engagement_List_Criteria__c engagementListCriteria, ContactsDAO.Criteria contactCriteria){
-        if (engagementListCriteria.Citizenship_Status__c != null) {
-            if (contactCriteria == null) {
-                contactCriteria = new ContactsDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Citizenship_Status__c)) {
             contactCriteria.setCitizenshipStatus(engagementListCriteria.Citizenship_Status__c);
         }
         return contactCriteria;
@@ -39,9 +37,6 @@ public with sharing class ELCContactParser{
 
     //hidden criteria
     private ContactsDAO.Criteria applyContactHiddenCriteria(ContactsDAO.Criteria contactCriteria) {
-        if (contactCriteria == null) {
-            contactCriteria = new ContactsDAO.Criteria();
-        }
         contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
         contactCriteria.setIsQUTStudent(true);
         return contactCriteria;
@@ -50,5 +45,5 @@ public with sharing class ELCContactParser{
     public ContactsDAO.Criteria getContactCriteria() {
         return contactCriteria;
     }
-    
+
 }

@@ -33,6 +33,7 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
             Test.stopTest();
 
             System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
+            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreachStatus(), ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
         }
     }
 
@@ -41,13 +42,10 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             Test.startTest();
-            Date executionDate = Date.today();
-            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-
-            ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
+            ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(new Engagement_List_Criteria__c(), Date.today());
             Test.stopTest();
 
-            System.assertEquals(parser.getProgramEnrollmentBreachCriteria().getBreachStatus(), ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH, 'Status shoul be set to Breach Statuses');
+            System.assert(parser.getProgramEnrollmentBreachCriteria().isEmpty(), 'No Criteria should be parsed.'); 
         }
     }
 
