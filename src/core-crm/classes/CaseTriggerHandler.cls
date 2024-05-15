@@ -20,6 +20,7 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     public void beforeInsert(List<SObject> newItems) { 
         CaseTriggerHelper.caseRecordByMobileMatching((List<Case>) newItems);
         CaseTriggerHelper.updateCaseAutoPriorityAssignment((List<Case>) newItems);
+        CaseTriggerHelper.handleOutreachCasePriority((List<Case>) newItems);
     }
 
    /**

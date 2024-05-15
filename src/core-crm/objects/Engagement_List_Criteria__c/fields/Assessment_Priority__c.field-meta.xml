@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Priority__c</fullName>
+    <description>The priority of the assessment the criteria should filter students by</description>
+    <externalId>false</externalId>
+    <label>Assessment Priority</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Priority</valueSetName>
+    </valueSet>
+</CustomField>

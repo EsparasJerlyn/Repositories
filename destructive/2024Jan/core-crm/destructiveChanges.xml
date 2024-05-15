@@ -13,6 +13,12 @@
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
         <!--End DEPP-6659-->
         <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
+        <!--Start DEPP-8075-->
+        <members>Student_Success_Configuration_UtilityBar</members>
+        <!--End DEPP-8075-->
+        <!--Start DEPP-7584-->
+        <members>Engagement_List_Criteria_Record_Page</members>
+        <!--End DEPP-7584-->
         <name>FlexiPage</name>
     </types>
     <!-- <types> -->
@@ -33,6 +39,7 @@
     </types>
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
+        <members>Engagement_List_Criteria__c-Engagement List Criteria Layout</members><!--DEPP-7584-->
         <name>Layout</name>
     </types>
     <types>
@@ -55,5 +62,50 @@
       <!-- <name>PermissionSetGroup</name>
   </types> -->
     </types>
+    <types>
+        <!-- (Start) DEPP-8142 -->
+        <members>Contact.At_Risk_Rating__c</members>
+        <!--(End) DEPP-8142 -->
+        <!-- (Start) DEPP-7584 -->
+        <members>Engagement_List_Criteria__c.Engagement_List_Criteria_Type__c</members>
+        <members>Engagement_List_Criteria__c.Is_Active__c</members>
+        <members>Engagement_List_Criteria__c.Key_Date_Offset__c</members>
+        <!--(End) DEPP-7584 -->
+        <name>CustomField</name>
+    </types>
+    <types>
+        <!--Start DEPP-8242-->
+        <members>Case_Domestic_Future_Student_Path</members>
+        <members>Case_International_Future_Student_Path</members>
+        <!--End DEPP-8242-->
+        <name>PathAssistant</name>
+    </types>
+
+    <types>
+        <!--(Start) DEPP-8584-->
+        <members>Case.International_Online_Enquires</members>
+        <members>Case.Domestic_Online_Enquires</members>
+        <!--(End) DEPP-8584-->
+        <name>ListView</name>
+    </types>
+    <types>
+        <!--DEPP-8075 Start-->
+        <members>Student_Success_Configuration</members>
+        <!-- DEPP-8075 End-->
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <!--DEPP-8242 Start-->
+        <members>Case.International Enquiry</members>
+        <!-- DEPP-8242 End-->
+        <name>BusinessProcess</name>
+    </types>
+    <types>
+        <!--DEPP-8542 Start-->
+        <members>Case.Future Student Domestic Acknowledgement</members>
+        <!--DEPP-8542 Start-->
+        <name>AutoResponseRule</name>
+    </types>
+    
     <version>59.0</version> 
 </Package>

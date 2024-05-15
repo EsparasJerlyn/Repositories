@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Student Success Staff</label>
+    <mutingPermissionSets>Student_Success_Staff_Muted</mutingPermissionSets>
+    <permissionSets>Student_Success_Base</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

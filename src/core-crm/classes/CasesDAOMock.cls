@@ -142,6 +142,8 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
                 tempCase.RecordTypeId = record.RecordTypeId;
                 tempCase.Auto_Priority_Assignment__c = record.Auto_Priority_Assignment__c;
                 tempCase.Priority = record.Priority;
+                tempCase.Case_Type__c = record.Case_Type__c;
+
                 caseList.add(tempCase);
             }
         }
