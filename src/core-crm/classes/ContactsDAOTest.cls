@@ -238,9 +238,9 @@ private class ContactsDAOTest {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getPersonContactsBySetIds(
                     new Set<Id>{contactMock.getMockId()},
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'leadList should be empty');
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
         }
         Test.stopTest();
     }
@@ -436,5 +436,153 @@ private class ContactsDAOTest {
             System.assert(contactList.isEmpty(), 'contactList should be empty');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
+
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(contactCriteria);
+            String expectedWhereClause = 'WHERE hed__Citizenship_Status__c = \'' + ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL + '\' AND QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+             
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByCriteriaNoCitizenshipTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(contactCriteria);
+            String expectedWhereClause = 'WHERE QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWhereClauseByNoCriteria() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
+            String expectedWhereClause = '';
+            System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
+            contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactListCreated[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
+
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
+            
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .findByCriteria(
+                    contactCriteria, 
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assertEquals(contactListCreated.size(), contactList.size(), 'contactList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaNegativeTest() {
+        Test.startTest();
+        
+        //Create a contact with MC Persona recordtype and not a student
+        List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
+        contactListCreated[0].RecordTypeId = ContactsDAO.MC_PERSONA_RECORDTYPE_ID;
+        contactListCreated[0].QUT_Student__c = false;
+        ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
+
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setIsQUTStudent(true);
+            
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .findByCriteria(
+                    contactCriteria, 
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'Contact record should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryLocatorByCriteriaTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorByCriteria(contactCriteria);
+            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+
+            Test.stopTest();
+
+            System.assertEquals(expectedWhereClause, contactQueryLocator.getQuery(), 'Incorrect Where Clause');
+        }
+        
+    }
+
+    @isTest
+    static void getQueryLocatorBySubQueryTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            Id contactId = mockIdGen.getMockId();
+            ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
+            contactCriteria.setIsQUTStudent(true);
+            contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
+            contactCriteria.setContactIdSet(new Set<Id>{contactId});
+            
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(contactCriteria);
+            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
+             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
+
+            Test.stopTest();
+
+            System.assertEquals(expectedWhereClause, contactQueryLocator.getQuery(), 'Incorrect Where Clause');
+        }
     }
 }

@@ -5229,6 +5229,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Program_Enrollment__c.Academic_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Program_Enrollment__c.Academic_Status_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Program_Enrollment__c.Commencement_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6188,6 +6198,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Case.International_Future_Student_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

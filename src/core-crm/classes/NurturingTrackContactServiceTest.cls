@@ -1538,7 +1538,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             Case caseRec = new Case (
                     ContactId = contactList[0].Id,
-                    Category__c = 'Applying for a course'
+                    Category__c = 'Applying for a course',
+                    Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                 );
             CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.USER_MODE);
             Test.stopTest();
@@ -1588,7 +1589,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
             Case caseRec = new Case (
                     ContactId = contactList[0].Id,
-                    Category__c = 'Applying for a course'
+                    Category__c = 'Applying for a course',
+                    Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                 );
             CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.USER_MODE);
             Test.stopTest();

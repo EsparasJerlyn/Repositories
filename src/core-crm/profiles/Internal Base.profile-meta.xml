@@ -14,6 +14,12 @@
         <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Assessment__c-Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Breach__c-Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Case-Case Layout</layout>
         <recordType>Case.International_Future_Student_Enquiry</recordType>
     </layoutAssignments>
@@ -29,6 +35,9 @@
         <recordType>Contact.Person</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -36,6 +45,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Outlook-Outlook Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Academic Program</layout>
+        <recordType>Account.Academic_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
      <layout>Account-Administrative Account Layout</layout>
@@ -228,6 +241,9 @@
         <recordType>Opportunity.Research_Partnership</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Program_Enrollment_Breach__c-Program Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Promotion-promotion Layout</layout>
     </layoutAssignments>
      <layoutAssignments>
@@ -246,6 +262,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>SMS_Template__c-SMS Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Success_Action__c-Success Action Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Success_Plan__c-Success Plan Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Task-SMS Layout</layout>

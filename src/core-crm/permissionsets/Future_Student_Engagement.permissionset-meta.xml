@@ -1889,6 +1889,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Enrollment__c.Attendance_Mode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Enrollment__c.Birthdate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2830,6 +2835,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.hed__Time_Block__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Program_Enrollment__c.Academic_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Program_Enrollment__c.Academic_Status_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6153,11 +6168,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>Case.International_Future_Student_Enquiry</recordType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
