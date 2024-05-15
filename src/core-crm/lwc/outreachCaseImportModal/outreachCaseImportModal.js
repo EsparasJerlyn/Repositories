@@ -1,4 +1,6 @@
-import { LightningElement,track } from 'lwc';
+import { LightningElement,track,wire } from 'lwc';
+// import validate from'@salesforce/apex/StudentIdValidator.validate';
+// import getContactValidation from'@salesforce/apex/OutreachCaseImportCtrl.getContactValidation';
 
 const exclusionsColumns = [
   { label: 'Student Id', fieldName: 'studentId' },
@@ -14,14 +16,16 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track paramsMap = {};
   @track exclData = [];
 
+  @track error = null;
+  
   showTabset = false;
   @track rowCount;
   // @track exclRowCount = 0;
   showModal = false;
-  queryTerm;
   fileName;
   exclusionsColumns = exclusionsColumns;
-  tempData = [];
+  @track tempData = [];
+  studentIds = [];
 
   closeModal() {
     const closeModalEvent = new CustomEvent('closemodal', {
@@ -47,18 +51,20 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleFileUpload(event) {
-    console.log('detail ::: ', event.detail);
-    console.log('files ::: ', event.detail.files);
-    console.log('file name ::: ', event.detail.files[0].name);
     const files = event.detail.files;
     
     if (files.length > 0) {
       const file = files[0];
       this.fileName = file.name;
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        this.error = 'Invalid file format. Please ensure the file is a comma separated (.csv) file.';
+        this.showTabset = false;
+        console.log(this.error);
+        return;
+      }
       // start reading the uploaded csv file
       this.read(file);
       this.showTabset = true;
-      console.log('sucess Read');
     }
   }
   async read(file) {
@@ -69,9 +75,11 @@ export default class OutReachCaseImportModal extends LightningElement {
       // execute the logic for parsing the uploaded csv file
       this.parse(result);
       this.exclusionData = [];
-      console.log('sucess parse');
     } catch (e) {
       this.error = e;
+      const timestamp = new Date().toISOString();
+      this.error = `System error. A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`;
+      this.showTabset = false; 
       console.log(this.error);
     }
   }
@@ -96,7 +104,30 @@ export default class OutReachCaseImportModal extends LightningElement {
     const lines = csv.split(/\r\n|\n/);
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
+
+    // Check if the header does not contain 'StudentID'
+    if (!headers.includes('StudentID')) {
+      this.error = "The file should contain a column with the header 'StudentID'.";
+      this.showTabset = false;
+      console.log(this.error);
+      return;
+    }
+
     this.rowCount = lines.length - 2;
+
+    if (this.rowCount === 0) {
+      this.error = 'The file you have uploaded does not contain any data.';
+      this.showTabset = false;
+      console.log(this.error);
+      return;
+    }
+
+    if (this.rowCount > 3000) {
+      this.error = 'The CSV file contains too many rows. Please limit this to 3000 rows maximum.';
+      console.log(this.error);
+      this.showTabset = false;
+      return;
+    }
     
     // iterate through csv headers and transform them to column format supported by the datatable
     this.columns = headers.map((header) => {
@@ -122,8 +153,22 @@ export default class OutReachCaseImportModal extends LightningElement {
     });
     // assign the converted csv data for the lightning datatable
     this.data = data.sort((a, b) => a.QUT_Student_ID__c - b.QUT_Student_ID__c);
-    console.log('DATA ::: ', JSON.stringify(this.data));
+    this.tempData = data.sort((a, b) => a.QUT_Student_ID__c - b.QUT_Student_ID__c);
+
+    this.data.forEach( (data, i) => {
+      this.studentIds[i] = data.QUT_Student_ID__c.toString();
+    });
+
+    validate({ studentIds: this.studentIds.toString() })
+		.then(result => {
+			console.log('result ::: ', result);
+      console.log('result ::: ', result.data);
+		})
+		.catch(error => {
+			console.log('error ::: ', error);
+		});
   }
+
 
   importList(){
     this.showModal = true;
@@ -151,21 +196,23 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleSearch(event) {
-    const isEnterKey = event.keyCode === 13;
-    this.queryTerm = event.target.value;
-    let searchedData = [];
-    this.tempData = this.data;
-    if (isEnterKey) {
-      if (this.queryTerm != null) {
-        const found = this.data.find((element) =>
-          element.QUT_Student_ID__c == this.queryTerm || element.Full_Name__c == this.queryTerm || element.QUT_Learner_Email__c == this.queryTerm || element.Mobile__c == this.queryTerm
-        );
-        searchedData.push(found);
-        this.data = searchedData;
-      } else {
-        this.data = this.tempData;
-      }
+
+    let searchKey = event.target.value;
+    let searchString = searchKey.toUpperCase();
+    let allRecords = this.tempData;
+    let new_search_result = [];
       
+    for (let i = 0; i < allRecords.length; i++) {
+    if ((allRecords[i].Name) && searchString != '' && (allRecords[i].Name.toUpperCase().includes(searchString) || allRecords[i].QUT_Student_ID__c.toUpperCase().includes(searchString) || allRecords[i].QUT_Learner_Email__c.toUpperCase().includes(searchString) || allRecords[i].MobilePhone.toUpperCase().includes(searchString))) {
+        new_search_result.push(allRecords[i]);
+      }
     }
+    if(new_search_result.length !=0){
+      this.data = new_search_result;
+    }else if((new_search_result.length ==0 && searchString != '')){
+      this.data = [];
+    }else{
+      this.data = this.tempData;
+    }       	
   }
 }

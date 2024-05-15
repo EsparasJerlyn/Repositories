@@ -57,11 +57,13 @@
               <lightning-tabset>
                  <lightning-tab label="Students Found">
                     <div class="slds-grid slds-grid_vertical slds-clearfix">
-                      <div onkeyup={handleSearch} class="slds-col slds-float_right">
-                        <lightning-input class="slds-p-bottom_large"
+                      <div class="slds-col slds-float_right">
+                        <lightning-input 
+                          class="slds-p-bottom_large"
                           name="Search"
                           type="search"
                           placeholder="search"
+                          onchange={handleSearch}
                         ></lightning-input>
                       </div>
                       <lightning-card>
@@ -97,7 +99,7 @@
                                       </th>
                                       <td data-label="Full Name">
                                         <div class="slds-truncate" title="Cloudhub" data-id={data.QUT_Student_ID__c}>
-                                          {data.Full_Name__c}
+                                          {data.Name}
                                         </div>
                                           <!-- <lightning-input type="text" class="fields" variant="label-hidden" label="Last Name" name="LastName" value={obj.LastName} data-id={obj.Id} onchange={updateValues}></lightning-input> -->
                                       </td>
@@ -109,7 +111,7 @@
                                       </td>
                                       <td data-label="Mobile">
                                         <div class="slds-truncate" title="Cloudhub" data-id={data.QUT_Student_ID__c}>
-                                          {data.Mobile__c}
+                                          {data.MobilePhone}
                                         </div>
                                       </td>
                                       <td data-label="Delete Action">
@@ -171,6 +173,11 @@
                  </lightning-tab>
               </lightning-tabset>
            </template>
+           <template if:true={error}>
+              <div class="slds-text-color_error slds-m-top_medium">
+                {error}
+              </div>
+            </template>
           </div>
         </div>
       </div>
