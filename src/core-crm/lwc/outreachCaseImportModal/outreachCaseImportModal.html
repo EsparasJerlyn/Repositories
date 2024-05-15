@@ -173,11 +173,15 @@
                  </lightning-tab>
               </lightning-tabset>
            </template>
-           <template if:true={error}>
-              <div class="slds-text-color_error slds-m-top_medium">
-                {error}
-              </div>
-            </template>
+           <template if:true={errors.length}>
+            <div class="slds-text-color_error slds-m-top_medium">
+                <ul>
+                    <template for:each={errors} for:item="error">
+                        <li key={error}>{error}</li>
+                    </template>
+                </ul>
+            </div>
+        </template>
           </div>
         </div>
       </div>

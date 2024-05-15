@@ -16,7 +16,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track paramsMap = {};
   @track exclData = [];
 
-  @track error = null;
+  @track errors = [];
   showTabset = false;
   @track rowCount;
   // @track exclRowCount = 0;
@@ -57,7 +57,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.fileName = file.name;
       // Check if the file has a .csv extension
       if (!file.name.toLowerCase().endsWith('.csv')) {
-        this.error = 'Invalid file format. Please ensure the file is a comma separated (.csv) file.';
+        this.errors.push('Invalid file format. Please ensure the file is a comma separated (.csv) file.');
         this.showTabset = false;
         console.log(this.error);
         return;
@@ -79,7 +79,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     } catch (e) {
       this.error = e;
       const timestamp = new Date().toISOString();
-      this.error = `System error. A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`;
+      this.errors.push(`System error. A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`);
       this.showTabset = false; 
       console.log(this.error);
     }
@@ -109,26 +109,23 @@ export default class OutReachCaseImportModal extends LightningElement {
   
     // Check if the header does not contain 'StudentID'
     if (!headers.includes('StudentID')) {
-      this.error = "The file should contain a column with the header 'StudentID'.";
+      this.errors.push("The file should contain a column with the header 'StudentID'.");
       this.showTabset = false;
       console.log(this.error);
-      return;
     }
 
     this.rowCount = lines.length - 2;
 
     if (this.rowCount === 0) {
-      this.error = 'The file you have uploaded does not contain any data.';
+      this.errors.push('The file you have uploaded does not contain any data.');
       this.showTabset = false;
       console.log(this.error);
-      return;
     }
 
     if (this.rowCount > 3000) {
-      this.error = 'The CSV file contains too many rows. Please limit this to 3000 rows maximum.';
+      this.errors.push('The CSV file contains too many rows. Please limit this to 3000 rows maximum.');
       console.log(this.error);
       this.showTabset = false;
-      return;
     }
     
     // iterate through csv headers and transform them to column format supported by the datatable
