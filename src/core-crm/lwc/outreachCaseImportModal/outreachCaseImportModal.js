@@ -127,7 +127,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       return;
     }
 
-    if (this.rowCount > 3) {
+    if (this.rowCount > 3000) {
       this.error = 'The CSV file contains too many rows. Please limit this to 3000 rows maximum.';
       console.log(this.error);
       this.showTabset = false;
