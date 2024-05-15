@@ -12,7 +12,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track isCreateButtonDisabled = true;
   @track data = [];
   @track exclusionData = [];
-  @track paramsMap = {};
   @track exclData = [];
 
   @track errors = [];
@@ -25,7 +24,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   exclusionsColumns = exclusionsColumns;
   @track tempData = [];
   studentIds = [];
-  @track csvData =[];
+  loaded = false;
 
   closeModal() {
     const closeModalEvent = new CustomEvent('closemodal', {
@@ -51,6 +50,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleFileUpload(event) {
+    this.loaded = false;
     const files = event.detail.files;
     
     if (files.length > 0) {
@@ -101,7 +101,9 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   parse(csv) {
-    console.log('parse');
+    this.data = [];
+    this.exclusionData = [];
+    this.exclData = [];
     // parse the csv file and treat each line as one item of an array
     const lines = csv.split(/\r\n|\n/);
     
@@ -151,15 +153,13 @@ export default class OutReachCaseImportModal extends LightningElement {
       }
 
     });
-    this.csvData = data;
 
-    this.csvData.forEach( (data, i) => {
+    data.forEach( (data, i) => {
       this.studentIds[i] = data.StudentID.toString();
     });
 
     validate({ studentIds: this.studentIds })
 		.then(result => {
-
       this.tempData = result; // for search
       let allStudentsData = result;
       const exclData = this.exclData;
@@ -183,6 +183,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       
       this.rowCount = this.data.length;
       const duplicates = this.studentIds.filter((item, index) => this.studentIds.indexOf(item) !== index);
+      console.log('duplicates: ', duplicates);
       duplicates.forEach(i => {
         let obj = {};
         obj[this.exclusionsColumns[0].fieldName] = i;
@@ -198,6 +199,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       }
       this.studentsFound = this.data.length;
       this.exclusionData = this.exclData;
+      this.loaded = true;
 		})
 		.catch(error => {
 			console.log('error ::: ', error);

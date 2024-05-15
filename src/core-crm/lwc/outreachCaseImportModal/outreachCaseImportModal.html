@@ -38,141 +38,132 @@
               </div>
             </div>
             <template if:true={showTabset}>
-              <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
-                 <lightning-layout>
-                    <lightning-layout-item flexibility="auto" padding="around-small">
-                       <div class="custom-box">Summary</div>
-                    </lightning-layout-item>
-                    <lightning-layout-item flexibility="auto" padding="around-small">
-                       <div class="custom-box">Rows: {studentsFound} </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item flexibility="auto" padding="around-small">
-                       <div class="custom-box">Student Found: {studentsFound} </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item flexibility="auto" padding="around-small">
-                       <div class="custom-box">Exclusions: {exclRowCount} </div>
-                    </lightning-layout-item>
-                 </lightning-layout>
-              </div>
-              <lightning-tabset>
-                 <lightning-tab label="Students Found">
-                    <div class="slds-grid slds-grid_vertical slds-clearfix">
-                      <div class="slds-col slds-float_right">
-                        <lightning-input 
-                          class="slds-p-bottom_large"
-                          name="Search"
-                          type="search"
-                          placeholder="search"
-                          onchange={handleSearch}
-                        ></lightning-input>
+              <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+              </template>
+              <template if:true={loaded}>
+                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                   <lightning-layout>
+                      <lightning-layout-item flexibility="auto" padding="around-small">
+                         <div class="custom-box">Summary</div>
+                      </lightning-layout-item>
+                      <lightning-layout-item flexibility="auto" padding="around-small">
+                         <div class="custom-box">Rows: {studentsFound} </div>
+                      </lightning-layout-item>
+                      <lightning-layout-item flexibility="auto" padding="around-small">
+                         <div class="custom-box">Student Found: {studentsFound} </div>
+                      </lightning-layout-item>
+                      <lightning-layout-item flexibility="auto" padding="around-small">
+                         <div class="custom-box">Exclusions: {exclRowCount} </div>
+                      </lightning-layout-item>
+                   </lightning-layout>
+                </div>
+                <lightning-tabset>
+                   <lightning-tab label="Students Found">
+                      <div class="slds-grid slds-grid_vertical slds-clearfix">
+                        <div class="slds-col slds-float_right">
+                          <lightning-input 
+                            class="slds-p-bottom_large"
+                            name="Search"
+                            type="search"
+                            placeholder="search"
+                            onchange={handleSearch}
+                          ></lightning-input>
+                        </div>
+                        <lightning-card>
+                          <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="QUT Student ID">QUT Student ID</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="Full Name">Full Name</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="QUT Learner Email">QUT Learner Email</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="Mobile">Mobile</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="Delete Action"></div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={data} for:item="data">
+                                    <tr key={data.studentId}>
+                                        <th data-label="QUT Student ID" scope="row">
+                                          <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
+                                            {data.studentId}
+                                          </div>
+                                        </th>
+                                        <td data-label="Full Name">
+                                          <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
+                                            {data.fullName}
+                                          </div>
+                                        </td>
+                                        <td data-label="QUT Learner Email">
+                                          <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
+                                            {data.email}
+                                          </div>
+                                        </td>
+                                        <td data-label="Mobile">
+                                          <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
+                                            {data.mobilePhone}
+                                          </div>
+                                        </td>
+                                        <td data-label="Delete Action">
+                                          <div class="slds-truncate">
+                                            <lightning-button-icon icon-name="action:delete"  alternative-text="Delete" title="Delete" data-id={data.studentId} onclick={handleDeleteAction}></lightning-button-icon>
+                                          </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                          </table>
+                        </lightning-card>
                       </div>
-                      <lightning-card>
-                        <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
-                          <thead>
-                              <tr class="slds-line-height_reset">
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="QUT Student ID">QUT Student ID</div>
-                                  </th>
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="Full Name">Full Name</div>
-                                  </th>
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="QUT Learner Email">QUT Learner Email</div>
-                                  </th>
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="Mobile">Mobile</div>
-                                  </th>
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="Delete Action"></div>
-                                  </th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <template for:each={data} for:item="data">
-                                  <tr key={data.studentId}>
+                   </lightning-tab>
+                   <lightning-tab label="Exclusions" title="Exclusions">
+                      <div style="height: 300px">
+                        <lightning-card>
+                          <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="Student ID">Student ID</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                      <div class="slds-truncate" title="Error">Error</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={exclusionData} for:item="exData">
+                                    <tr key={exData.studentId}>
                                       <th data-label="QUT Student ID" scope="row">
-                                        <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
-                                          {data.studentId}
+                                        <div class="slds-truncate" title="Cloudhub" data-id={exData.studentId}>
+                                          {exData.studentId}
                                         </div>
-
-                                        <!-- <lightning-input type="text" class="fields" variant="label-hidden" label="First Name" name="FirstName" value={obj.FirstName} data-id={obj.Id} onchange={updateValues}></lightning-input> -->
                                       </th>
                                       <td data-label="Full Name">
-                                        <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
-                                          {data.fullName}
-                                        </div>
-                                          <!-- <lightning-input type="text" class="fields" variant="label-hidden" label="Last Name" name="LastName" value={obj.LastName} data-id={obj.Id} onchange={updateValues}></lightning-input> -->
-                                      </td>
-                                      <td data-label="QUT Learner Email">
-                                        <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
-                                          {data.email}
-                                        </div>
-                                         <!-- <lightning-input type="text" class="fields" variant="label-hidden" label="Email" name="Email" value={obj.Email} data-id={obj.Id} onchange={updateValues}></lightning-input> -->
-                                      </td>
-                                      <td data-label="Mobile">
-                                        <div class="slds-truncate" title="Cloudhub" data-id={data.studentId}>
-                                          {data.mobilePhone}
+                                        <div class="slds-truncate" title="Cloudhub" data-id={exData.studentId}>
+                                          {exData.error}
                                         </div>
                                       </td>
-                                      <td data-label="Delete Action">
-                                        <div class="slds-truncate">
-                                          <lightning-button-icon icon-name="action:delete"  alternative-text="Delete" title="Delete" data-id={data.studentId} onclick={handleDeleteAction}></lightning-button-icon>
-                                        </div>
-                                      </td>
-                                  </tr>
-                              </template>
-                          </tbody>
-                      </table>
-                      </lightning-card>
-                       <div if:false={modalOpen} style="height: 300px" class="slds-col">
-                          <lightning-datatable 
-                             key-field="id" 
-                             data={data} 
-                             columns={columns} 
-                             hide-checkbox-column 
-                             show-row-number-column> </lightning-datatable>
-                       </div>
-                    </div>
-                 </lightning-tab>
-                 <lightning-tab label="Exclusions" title="Exclusions">
-                    <div style="height: 300px">
-                      <lightning-card>
-                        <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
-                          <thead>
-                              <tr class="slds-line-height_reset">
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="Student ID">Student ID</div>
-                                  </th>
-                                  <th class="" scope="col">
-                                    <div class="slds-truncate" title="Error">Error</div>
-                                  </th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <template for:each={exclusionData} for:item="exData">
-                                  <tr key={exData.studentId}>
-                                    <th data-label="QUT Student ID" scope="row">
-                                      <div class="slds-truncate" title="Cloudhub" data-id={exData.studentId}>
-                                        {exData.studentId}
-                                      </div>
-
-                                      <!-- <lightning-input type="text" class="fields" variant="label-hidden" label="First Name" name="FirstName" value={obj.FirstName} data-id={obj.Id} onchange={updateValues}></lightning-input> -->
-                                    </th>
-                                    <td data-label="Full Name">
-                                      <div class="slds-truncate" title="Cloudhub" data-id={exData.studentId}>
-                                        {exData.error}
-                                      </div>
-                                        <!-- <lightning-input type="text" class="fields" variant="label-hidden" label="Last Name" name="LastName" value={obj.LastName} data-id={obj.Id} onchange={updateValues}></lightning-input> -->
-                                    </td>
-                                  </tr>
-                              </template>
-                          </tbody>
-                      </table>
-                      </lightning-card>
-                    </div>
-                 </lightning-tab>
-              </lightning-tabset>
-           </template>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        </lightning-card>
+                      </div>
+                   </lightning-tab>
+                </lightning-tabset>
+              </template>
+            </template>
+            
            <template if:true={errors.length}>
             <div class="slds-text-color_error slds-m-top_medium">
                 <ul>
