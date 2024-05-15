@@ -1,6 +1,5 @@
 import { LightningElement,track,wire } from 'lwc';
-// import validate from'@salesforce/apex/StudentIdValidator.validate';
-// import getContactValidation from'@salesforce/apex/OutreachCaseImportCtrl.getContactValidation';
+import validate from'@salesforce/apex/StudentIdValidator.validate';
 
 const exclusionsColumns = [
   { label: 'Student Id', fieldName: 'studentId' },
@@ -19,12 +18,14 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track error = null;
   showTabset = false;
   @track rowCount;
+  @track studentsFound;
   // @track exclRowCount = 0;
   showModal = false;
   fileName;
   exclusionsColumns = exclusionsColumns;
   @track tempData = [];
   studentIds = [];
+  @track csvData =[];
 
   closeModal() {
     const closeModalEvent = new CustomEvent('closemodal', {
@@ -62,10 +63,10 @@ export default class OutReachCaseImportModal extends LightningElement {
         console.log(this.error);
         return;
       }
-    }
       // start reading the uploaded csv file
       this.read(file);
       this.showTabset = true;
+    }
   }
 
   async read(file) {
@@ -153,22 +154,58 @@ export default class OutReachCaseImportModal extends LightningElement {
       }
 
     });
-    // assign the converted csv data for the lightning datatable
-    this.data = data.sort((a, b) => a.QUT_Student_ID__c - b.QUT_Student_ID__c);
-    this.tempData = data.sort((a, b) => a.QUT_Student_ID__c - b.QUT_Student_ID__c);
+    this.csvData = data;
 
-    this.data.forEach( (data, i) => {
-      this.studentIds[i] = data.QUT_Student_ID__c.toString();
+    this.csvData.forEach( (data, i) => {
+      this.studentIds[i] = data.StudentID.toString();
     });
 
-    validate({ studentIds: this.studentIds.toString() })
+    validate({ studentIds: this.studentIds })
 		.then(result => {
-			console.log('result ::: ', result);
-      console.log('result ::: ', result.data);
+
+      this.tempData = result; // for search
+      let allStudentsData = result;
+      const exclData = this.exclData;
+      const data = this.data;
+      for (let i = 0; i < allStudentsData.length; i++) {
+        const obj = {};
+        if (result[i].resultCode == 'VALID') {
+          data.push(allStudentsData[i]);
+        } 
+        if (result[i].resultCode == 'MULTIPLE_MATCH') {
+          obj[this.exclusionsColumns[0].fieldName] = result[i].studentId;
+          obj[this.exclusionsColumns[1].fieldName] = 'Multiple students found with the same Student ID in DEP';
+          exclData.push(obj);
+        } 
+        if (result[i].resultCode == 'INVALID') {
+          obj[this.exclusionsColumns[0].fieldName] = result[i].studentId;
+          obj[this.exclusionsColumns[1].fieldName] = 'Student ID was not found';
+          exclData.push(obj);
+        } 
+      }
+      
+      this.rowCount = this.data.length;
+      const duplicates = this.studentIds.filter((item, index) => this.studentIds.indexOf(item) !== index);
+      duplicates.forEach(i => {
+        let obj = {};
+        obj[this.exclusionsColumns[0].fieldName] = i;
+        obj[this.exclusionsColumns[1].fieldName] = 'Duplicate student ID found in list, duplicates will be ignored';
+        exclData.push(obj);
+      });
+
+      if (exclData.length > 0) {
+        this.exclData = exclData.sort((a, b) => a.studentId - b.studentId);;
+      }
+      if (data.length > 0) {
+        this.data = data.sort((a, b) => a.studentId - b.studentId);
+      }
+      this.studentsFound = this.data.length;
+      this.exclusionData = this.exclData;
 		})
 		.catch(error => {
 			console.log('error ::: ', error);
 		});
+
   }
 
 
@@ -182,15 +219,14 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   handleDeleteAction(event){
     let selectedStudentId = event.target.dataset.id;
-
     const obj = {};
     obj[this.exclusionsColumns[0].fieldName] = selectedStudentId;
     obj[this.exclusionsColumns[1].fieldName] = 'Manually removed';
     this.exclData.push(obj);
     this.exclusionData = this.exclData;
     this.exclusionData.sort((a, b) => a.studentId - b.studentId);
-    this.data.splice(this.data.findIndex(row => row.QUT_Student_ID__c == selectedStudentId), 1);
-    this.rowCount--;
+    this.data.splice(this.data.findIndex(row => row.StudentID == selectedStudentId), 1);
+    this.studentsFound--;
   }
 
   get exclRowCount() {
@@ -198,17 +234,17 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleSearch(event) {
-
     let searchKey = event.target.value;
     let searchString = searchKey.toUpperCase();
     let allRecords = this.tempData;
     let new_search_result = [];
       
     for (let i = 0; i < allRecords.length; i++) {
-    if ((allRecords[i].Name) && searchString != '' && (allRecords[i].Name.toUpperCase().includes(searchString) || allRecords[i].QUT_Student_ID__c.toUpperCase().includes(searchString) || allRecords[i].QUT_Learner_Email__c.toUpperCase().includes(searchString) || allRecords[i].MobilePhone.toUpperCase().includes(searchString))) {
+      if ((allRecords[i].fullName) && searchString != '' && (allRecords[i].studentId.toUpperCase().includes(searchString) || allRecords[i].fullName.toUpperCase().includes(searchString) || allRecords[i].email.toUpperCase().includes(searchString) || allRecords[i].mobilePhone.toUpperCase().includes(searchString))) {
         new_search_result.push(allRecords[i]);
       }
     }
+
     if(new_search_result.length !=0){
       this.data = new_search_result;
     }else if((new_search_result.length ==0 && searchString != '')){
