@@ -18,4 +18,33 @@ public inherited sharing class EngagementListEventsDAO extends DmlBase implement
         return (IEngagementListEventsDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Event__c.SObjectType);
     }
 
+    public List<Engagement_List_Event__c> getEngagementListEventsByRelatedRecordIds(
+        Map<String, Set<Id>> relatedRecordIdMap,
+        AccessLevel accessLevel
+    ){
+        if(relatedRecordIdMap != null || relatedRecordIdMap.isEmpty()){
+            String soql = 'SELECT Id, Case__r.ContactId, Case__r.Status, Engagement_List_Criteria__c, Engagement_List_Criteria__r.Id, Program_Enrollment__c, ' +
+                                'Completed_Cadence__c, Course_Connection__c, Course_Connection_Assessment__c, Program_Enrollment_Breach__c, ' +
+                                'Leave_of_Absence__c, Academic_Status__c, Course_Enrollment_Status__c, Key_Date__c, Program_Enrollment_Status__c ' + 
+                            'FROM Engagement_List_Event__c WHERE Engagement_List_Criteria__c = ' + DynamicQueryService.formatStringSetForWhereClause(relatedRecordIdMap.get('engagementListCriteriaId'));
+
+            soql = setWhereClause(soql, relatedRecordIdMap.get('programEnrollmentIds'), 'Program_Enrollment__c');
+            soql = setWhereClause(soql, relatedRecordIdMap.get('completedCadenceIds'), 'Completed_Cadence__c');
+            soql = setWhereClause(soql, relatedRecordIdMap.get('courseConnectionIds'), 'Course_Connection__c');
+            soql = setWhereClause(soql, relatedRecordIdMap.get('courseConnectionAssessmentIds'), 'Course_Connection_Assessment__c');
+            soql = setWhereClause(soql, relatedRecordIdMap.get('programEnrollmentBreachIds'), 'Program_Enrollment_Breach__c');
+            soql = setWhereClause(soql, relatedRecordIdMap.get('leaveOfAbsenceIds'), 'Leave_of_Absence__c');
+
+            return Database.query(soql, accessLevel);
+        }
+        
+        return new List<Engagement_List_Event__c>();
+    }
+
+    private String setWhereClause(String soql, Set<Id> idSet, String fieldName){
+        if(!idSet.isEmpty()){
+            soql += ' AND ' + fieldName + ' IN (' + DynamicQueryService.formatStringSetForWhereClause(idSet) + ')';
+        }
+        return soql;
+    }
 }

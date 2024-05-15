@@ -10,4 +10,9 @@
  */
 public interface IEngagementListEventsDAO extends DmlInterface{
     
+     List<Engagement_List_Event__c> getEngagementListEventsByRelatedRecordIds(
+        Map<String, Set<Id>> relatedRecordIdMap,
+        AccessLevel accessLevel
+    );
+    
 }
