@@ -17,7 +17,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track exclData = [];
 
   @track error = null;
-  
   showTabset = false;
   @track rowCount;
   // @track exclRowCount = 0;
@@ -56,17 +55,19 @@ export default class OutReachCaseImportModal extends LightningElement {
     if (files.length > 0) {
       const file = files[0];
       this.fileName = file.name;
+      // Check if the file has a .csv extension
       if (!file.name.toLowerCase().endsWith('.csv')) {
         this.error = 'Invalid file format. Please ensure the file is a comma separated (.csv) file.';
         this.showTabset = false;
         console.log(this.error);
         return;
       }
+    }
       // start reading the uploaded csv file
       this.read(file);
       this.showTabset = true;
-    }
   }
+
   async read(file) {
     try {
       const result = await this.load(file);
@@ -102,9 +103,10 @@ export default class OutReachCaseImportModal extends LightningElement {
     console.log('parse');
     // parse the csv file and treat each line as one item of an array
     const lines = csv.split(/\r\n|\n/);
+    
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
-
+  
     // Check if the header does not contain 'StudentID'
     if (!headers.includes('StudentID')) {
       this.error = "The file should contain a column with the header 'StudentID'.";
