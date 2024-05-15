@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Is_Active__c</fullName>
-    <defaultValue>false</defaultValue>
-    <description>Indicates that engagement list criteria is active or not</description>
+    <fullName>Academic_Status_Date__c</fullName>
+    <description>The date in which the academic status changed.</description>
     <externalId>false</externalId>
-    <label>Is Active</label>
+    <label>Academic Status Date</label>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
+    <type>Date</type>
 </CustomField>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Key_Date_Offset__c</fullName>
-    <description>The number of days to offset form key date field. Positive numbers indicate days after while the negative indicate days prior to date in Key date field</description>
+    <fullName>Cases_Created__c</fullName>
+    <description>The total number of cases that have been created for that criteria</description>
     <externalId>false</externalId>
-    <label>Key Date Offset</label>
-    <precision>2</precision>
+    <label>Cases Created</label>
+    <precision>4</precision>
     <required>false</required>
     <scale>0</scale>
     <securityClassification>Official</securityClassification>

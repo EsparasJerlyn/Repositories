@@ -1497,6 +1497,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Initial_Communication_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.IsClosedOnCreate</field>
         <readable>true</readable>
@@ -1579,6 +1584,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Priority</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Qualtrics_Survey_In_Progress_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4043,6 +4053,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Cases_Created__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Category_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4073,7 +4088,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Engagement_List_Criteria_Type__c</field>
+        <field>Engagement_List_Criteria__c.Engagement_List_Criteria_Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4108,17 +4123,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Is_Active__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Is_On_Leave_of_Absence__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Key_Date_Offset__c</field>
+        <field>Engagement_List_Criteria__c.Key_Date_Offset_Lower_Boundary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Key_Date_Offset_Upper_Boundary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4138,7 +4153,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Preview_Job_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Preview_Result_Attachment_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Preview_Result_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Preview_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12003,11 +12043,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Qualtrics_Survey__c.Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Qualtrics_Survey__c.Completed_Survey_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -19603,6 +19638,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Program_Enrollment__c.Academic_Status_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Program_Enrollment__c.Commencement_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -24910,6 +24950,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Engagement__c.Research_Partnership</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Engagement_List_Criteria__c.Imported</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

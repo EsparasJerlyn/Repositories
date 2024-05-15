@@ -11,8 +11,13 @@
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
+    public static final String ACADEMIC_STATUS_SHOW_CAUSE = 'Showcause';    
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
+    public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
+
+    public static final String ENROLLMENT_STAGE_ADMITTED = 'Admitted';
+    public static final String ENROLLMENT_STAGE_WITHDRAWN = 'Withdrawn';
 
     public static final Set<String> ENROLLMENT_STATUS = new Set<String>{
         'Early Withdrawn',
@@ -78,4 +83,165 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
              'WHERE hed__Contact__c IN :recordIds';
         return Database.getQueryLocator(query);
     }
+
+    public String getWhereClauseByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = '';
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + 
+            whereClauseCheckerForContactCriteria(contactCriteria); 
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+    
+        return soql; 
+    }   
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForProgramEnrollmentCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria){
+        String soql = '';
+
+        if(programEnrollmentCriteria.getAcademicStatus() != null){
+            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
+        }
+        if(programEnrollmentCriteria.getEnrollmentStage() != null){
+            soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
+        }
+        if(programEnrollmentCriteria.getEnrollmentStatus() != null){
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND Enrollment_Status__c IN(' + statusSetString + ') ';
+        }
+        if(programEnrollmentCriteria.getCategoryType() != null){
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
+        }
+        if(
+            programEnrollmentCriteria.academicStatusDateFrom != null  
+            && programEnrollmentCriteria.academicStatusDateTo != null
+        ){
+            soql = soql 
+            + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+            + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' ';
+        }
+        
+        return soql;
+    }
+
+    //Checks to ensure fields have values
+    private String whereClauseCheckerForContactCriteria(ContactsDAO.Criteria contactCriteria){
+        String soql = '';
+
+        if(contactCriteria.getCitizenshipStatus() != null){
+            soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
+        }
+        if(contactCriteria.getIsQUTStudent() != null){
+            soql += 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
+        }
+        if(contactCriteria.getRecordType() != null){
+            soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
+        }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND hed__Contact__r.Id IN (' + contactIdString + ') ';
+        }
+
+        return soql;
+    }
+
+    public String getContactQueryByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT hed__Contact__c FROM hed__Program_Enrollment__c ' + getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
+    }
+
+    public String getQueryByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT ' + 
+        ' Id, hed__Contact__c, Name,  ' +
+        ' Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, ' +
+        ' hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
+        ' FROM hed__Program_Enrollment__c ' +
+        getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
+    }
+
+    public List<hed__Program_Enrollment__c> findByCriteria(
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    ){
+        return Database.query(getQueryByCriteria(programEnrollmentCriteria, contactCriteria), accessLevel);
+    }
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for Program Enrollment.
+     */
+    public class Criteria {
+        private String academicStatus;
+        private String enrollmentStage;
+        private Set<String> enrollmentStatus;
+        private String categoryType;
+        private Date academicStatusDateFrom;
+        private Date academicStatusDateTo;
+
+        public String getAcademicStatus(){
+            return this.academicStatus;
+        }
+
+        public void setAcademicStatus(String varAcademicStatus){
+            this.academicStatus = varAcademicStatus;
+        }
+        
+        public String getEnrollmentStage(){
+            return this.enrollmentStage;
+        }
+
+        public void setEnrollmentStage(String varEnrollmentStage){
+            this.enrollmentStage = varEnrollmentStage;
+        }
+
+        public Set<String> getEnrollmentStatus(){
+            return this.enrollmentStatus;
+        }
+
+        public void setEnrollmentStatus(Set<String> varEnrollmentStatus){
+            this.enrollmentStatus = varEnrollmentStatus;
+        }
+
+        public String getCategoryType(){
+            return this.categoryType;
+        }
+
+        public void setCategoryType(String varCategoryType){
+            this.categoryType = varCategoryType;
+        }
+
+        public Date getAcademicStatusDateFrom(){
+            return this.academicStatusDateFrom;
+        }
+
+        public void setAcademicStatusDateFrom(Date academicStatusDateFrom){
+            this.academicStatusDateFrom = academicStatusDateFrom;
+        }
+
+        public Date getAcademicStatusDateTo(){
+            return this.academicStatusDateTo;
+        }
+
+        public void setAcademicStatusDateTo(Date academicStatusDateTo){
+            this.academicStatusDateTo = academicStatusDateTo;
+        }
+       
+        public Boolean isEmpty() {
+            return academicStatus == null && enrollmentStage == null 
+                && categoryType == null && enrollmentStatus == null
+                && academicStatusDateFrom == null && academicStatusDateTo == null;
+        }
+    }
+    
 }

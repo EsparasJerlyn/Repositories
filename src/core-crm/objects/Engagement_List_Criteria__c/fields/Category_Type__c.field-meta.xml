@@ -103,6 +103,11 @@
                 <default>false</default>
                 <label>Diploma and University Diploma</label>
             </value>
+            <value>
+                <fullName>Advanced Dip (AQF Term)/Diploma (Pre-AQF Term) (Hist Only)</fullName>
+                <default>false</default>
+                <label>Advanced Dip (AQF Term)/Diploma (Pre-AQF Term) (Hist Only)</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
-</CustomField>
+</CustomField> 

@@ -80,6 +80,16 @@
                 <identifier>RecordDiscontinued_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Academic_Status_Date__c</fieldItem>
+                <identifier>RecordAcademic_Status_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-4002a26c-f10c-425e-8050-aa5ef9fccc7c</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -426,6 +436,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Course_Code__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Attendance_Mode__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Course_Offering_Start_Date__c</value>

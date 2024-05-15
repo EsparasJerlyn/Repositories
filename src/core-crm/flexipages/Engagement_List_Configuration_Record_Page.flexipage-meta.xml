@@ -74,10 +74,10 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Engagement_List_Criteria_Type__c</value>
+                            <value>RECORDTYPE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Is_Active__c</value>
+                            <value>Status__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Start_Date__c</value>
