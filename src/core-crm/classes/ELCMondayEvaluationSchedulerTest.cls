@@ -60,12 +60,12 @@ public with sharing class ELCMondayEvaluationSchedulerTest {
         engagementListCriteria.Start_Date__c = Date.today().addDays(-3);
         engagementListCriteria.End_Date__c = Date.today().addDays(3);
         engagementListCriteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
-        engagementListCriteria.Assessment_Priority__c = 'High';
-        engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
+        engagementListCriteria.Assessment_Priority__c = null;
+        engagementListCriteria.Failed_To_Submit_Assessment__c = null;
         engagementListCriteria.Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         engagementListCriteria.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
         engagementListCriteria.Category_Type__c = 'Graduate Certificate';
-        engagementListCriteria.Course_Grade__c = '100';
+        engagementListCriteria.Course_Grade__c = null;
         engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
         engagementListCriteria.Key_Date__c = EngagementListCriteriasDAO.KEY_DATE_LEAVE_OF_ABSENCE_END_DATE;
         engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
