@@ -86,6 +86,42 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Endowment_Funds_Transfer_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Funds_Transfer_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Funds_Transfer_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Funds_Transfer_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Giving_to_Cause_Designation_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Designation__c</pageOrSobjectType>
@@ -534,6 +570,24 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
+     <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Contact_Record_Page_Advancement</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Person</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Contact_Record_Page_Advancement</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Person</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Endowment_Instalment_Record_Page</content>
@@ -711,42 +765,6 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Donation__c</pageOrSobjectType>
         <recordType>Donation__c.Pledge_Instalment</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Endowment_Funds_Transfer_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
-        <type>Flexipage</type>
-        <profile>Advancement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Endowment_Funds_Transfer_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
-        <type>Flexipage</type>
-        <profile>Advancement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Endowment_Funds_Transfer_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Endowment_Funds_Transfer_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
