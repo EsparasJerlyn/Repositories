@@ -7,7 +7,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | gabriel.p.ventayen             | May 13, 2024          | DEPP-8658              | Created file                 |
+      | gabriel.p.ventayen             | May 13, 2024          | DEPP-8490              | Created file                 |
       |                                |                       |                        |                              |
  */
 @isTest
