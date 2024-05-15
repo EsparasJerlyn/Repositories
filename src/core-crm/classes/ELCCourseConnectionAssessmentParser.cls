@@ -18,6 +18,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     public ELCCourseConnectionAssessmentParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
         this.engagementListCriteria = engagementListCriteria;
         this.executionDate = executionDate;
+        courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
         parse();
     }
 
@@ -29,13 +30,10 @@ public with sharing class ELCCourseConnectionAssessmentParser {
 
     //configurable criteria
     private CourseConnectionAssessmentsDAO.Criteria processFailedToSubmitAssessment(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (engagementListCriteria.Failed_To_Submit_Assessment__c != null) {
-            if (courseConnectionAssessmentCriteria == null) {
-                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Failed_To_Submit_Assessment__c)) {
+            courseConnectionAssessmentCriteria.setIsSubmissionDateNull(false);
             if(engagementListCriteria.Failed_To_Submit_Assessment__c == 'Yes'){
-                courseConnectionAssessmentCriteria.setAssessmentGrade(null);
-                courseConnectionAssessmentCriteria.setSubmissionDate(null);
+                courseConnectionAssessmentCriteria.setIsSubmissionDateNull(true);
             }
             
         }
@@ -43,10 +41,7 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     }
 
     private CourseConnectionAssessmentsDAO.Criteria processAssessmentPriority(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (engagementListCriteria.Assessment_Priority__c != null) {
-            if (courseConnectionAssessmentCriteria == null) {
-                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            }
+        if (String.isNotBlank(engagementListCriteria.Assessment_Priority__c)) {
             courseConnectionAssessmentCriteria.setAssessmentPriority(engagementListCriteria.Assessment_Priority__c);
         }
         return courseConnectionAssessmentCriteria;
@@ -59,9 +54,6 @@ public with sharing class ELCCourseConnectionAssessmentParser {
             && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
             && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
         ) {
-            if (courseConnectionAssessmentCriteria == null) {
-                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
-            }
             courseConnectionAssessmentCriteria.setDueDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
             courseConnectionAssessmentCriteria.setDueDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
@@ -71,6 +63,5 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     public CourseConnectionAssessmentsDAO.Criteria getCourseConnectionAssessmentCriteria() {
         return courseConnectionAssessmentCriteria;
     }
-
 
 }

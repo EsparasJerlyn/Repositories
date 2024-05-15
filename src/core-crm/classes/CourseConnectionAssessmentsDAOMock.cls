@@ -66,18 +66,24 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
 
     //Checks to ensure fields have values
     private String whereClauseCheckerForCourseConnectionAssessmentCriteria(CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria){
-        
         String soql = '';
-        if(courseConnectionAssessmentsCriteria.getAssessmentGrade() != null){
-            soql += 'AND Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentGrade() + '\' ' ;
+        if(!courseConnectionAssessmentsCriteria.getIsSubmissionDateNull()){
+            soql += 'AND Submission_Date__c != null ';
+        }else if(courseConnectionAssessmentsCriteria.getIsSubmissionDateNull()){
+            soql += 'AND Submission_Date__c == null ';
         }
-        if(courseConnectionAssessmentsCriteria.getSubmissionDate() != null){
-            Date submissionDate = courseConnectionAssessmentsCriteria.getSubmissionDate();
-            String submissionDateString = DateTime.newInstance(submissionDate.year(), submissionDate.month(), submissionDate.day()).format('YYYY-MM-dd');
-            soql += 'AND Submission_Date__c = ' + submissionDateString + ' ' ;
-        }
+
         if(courseConnectionAssessmentsCriteria.getAssessmentPriority() != null){
             soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
+        }
+
+        if(
+            courseConnectionAssessmentsCriteria.getDueDateFrom() != null  
+            && courseConnectionAssessmentsCriteria.getDueDateTo() != null
+        ){
+            soql = soql 
+            + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
+            + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' ';
         }
 
         return soql;
@@ -87,7 +93,8 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
     private String whereClauseCheckerForCourseConnectionCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria){
         String soql = '';
         if(courseConnectionCriteria.getStatus() != null){
-            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + formatSetForWhereClause(courseConnectionCriteria.getStatus()) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(courseConnectionCriteria.getStatus());
+            soql += 'AND Course_Connection__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         if(courseConnectionCriteria.getCourseGrade() != null){
             soql += 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' ';
@@ -110,7 +117,8 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (' + formatSetForWhereClause(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH) + ') ';
+            String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         
         return soql;
@@ -127,18 +135,13 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         }
-
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
+        }
         return soql;
-    }
-
-    private String formatSetForWhereClause(Set<String> statusSet){
-        List<String> formattedStatus = new List<String>();
-        for(String status : statusSet){
-            formattedStatus.add('\'' + status + '\'');
-        }
-        return String.join(formattedStatus, ', ');
     }
 
     public List<Course_Connection_Assessment__c> findByCriteria(
@@ -152,8 +155,6 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
 
         for (Course_Connection_Assessment__c record : courseConnectionAssessmentMap.values()) {
             if(
-                record.Assessment_Grade__c == courseConnectionAssessmentsCriteria.getAssessmentGrade() &&
-                record.Submission_Date__c == courseConnectionAssessmentsCriteria.getSubmissionDate() &&
                 record.Assessment_Name__r.Assessment_Priority__c == courseConnectionAssessmentsCriteria.getAssessmentPriority())
             {
                 courseConnectionAssessmentList.add(record);
