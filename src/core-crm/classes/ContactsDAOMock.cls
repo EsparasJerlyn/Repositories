@@ -349,4 +349,47 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
+              'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
+              'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' +
+              'AND Id = IN (' + contactCriteria.getContactIdSet() + ') ';
+    }
+
+    public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
+    }
+
+    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
+    }
+
+    public List<Contact> findByCriteria(
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+
+        for (Contact record : contactsMap.values()) {
+            if(
+                record.hed__Citizenship_Status__c == contactCriteria.getCitizenshipStatus() &&
+                record.QUT_Student__c == contactCriteria.getIsQUTStudent() &&
+                record.RecordType.DeveloperName == contactCriteria.getRecordType() 
+            )
+            {
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
 }

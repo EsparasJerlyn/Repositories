@@ -16,6 +16,9 @@
         <!--Start DEPP-8075-->
         <members>Student_Success_Configuration_UtilityBar</members>
         <!--End DEPP-8075-->
+        <!--Start DEPP-7584-->
+        <members>Engagement_List_Criteria_Record_Page</members>
+        <!--End DEPP-7584-->
         <name>FlexiPage</name>
     </types>
     <!-- <types> -->
@@ -36,6 +39,7 @@
     </types>
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
+        <members>Engagement_List_Criteria__c-Engagement List Criteria Layout</members><!--DEPP-7584-->
         <name>Layout</name>
     </types>
     <types>
@@ -62,6 +66,11 @@
         <!-- (Start) DEPP-8142 -->
         <members>Contact.At_Risk_Rating__c</members>
         <!--(End) DEPP-8142 -->
+        <!-- (Start) DEPP-7584 -->
+        <members>Engagement_List_Criteria__c.Engagement_List_Criteria_Type__c</members>
+        <members>Engagement_List_Criteria__c.Is_Active__c</members>
+        <members>Engagement_List_Criteria__c.Key_Date_Offset__c</members>
+        <!--(End) DEPP-7584 -->
         <name>CustomField</name>
     </types>
     <types>

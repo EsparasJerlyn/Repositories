@@ -11,10 +11,14 @@
  *    | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
  *    | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
  *    | gabriel.p.ventayen             | April 26, 2024        | DEPP-8544              | change case rectype map to inbound enquiry  |
+ *    | gabriel.p.ventayen             | April 29, 2024        | DEPP-8614              | added some variables for Student Success    |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public static final String ORIGIN_WHATSAPP = 'WhatsApp';
+    public static final String ORIGIN_ENGAGEMENT_LIST = 'Engagement List';
+    public static final String STATUS_CREATED = 'Created';
+    public static final String DESCRIPTION_ENGAGEMENT_LIST = 'This case has been automatically generated as part of an Engagement List Configuration.';
 
     public static final Id INBOUND_ENQUIRY_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
         .get('Inbound_Enquiry')
@@ -29,6 +33,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public static final String CASE_TYPE_DOMESTIC = 'Domestic Future Student Enquiry';
     public static final String CASE_TYPE_INTERNATIONAL = 'International Future Student Enquiry';
+    public static final String CASE_TYPE_STUDENT_SUCCESS_RETENTION = 'Student Success - Retention';
     public static final String PRIORITY_HIGH = 'High';
     public static final String PRIORITY_MEDIUM = 'Medium';
     public static final String PRIORITY_LOW = 'Low';

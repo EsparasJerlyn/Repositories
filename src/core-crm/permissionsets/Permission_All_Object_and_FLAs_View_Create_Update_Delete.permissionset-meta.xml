@@ -1497,6 +1497,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Initial_Communication_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.IsClosedOnCreate</field>
         <readable>true</readable>
@@ -1579,6 +1584,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Priority</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Qualtrics_Survey_In_Progress_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4083,11 +4093,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Engagement_List_Criteria_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Equity_Scholarship_Bursary__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4118,17 +4123,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Is_Active__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Is_On_Leave_of_Absence__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Key_Date_Offset__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12044,11 +12039,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Pure_Project__c.Pure_Project_Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Qualtrics_Survey__c.Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
