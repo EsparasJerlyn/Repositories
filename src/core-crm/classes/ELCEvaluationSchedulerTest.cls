@@ -86,7 +86,7 @@ public with sharing class ELCEvaluationSchedulerTest {
 		System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.StartTest();
             ELCEvaluationScheduler testScheduler = new ELCEvaluationScheduler();
-            String sch = '0 0 7 * * ?'; 
+            String sch = '0 0 7 ? * TUE-THU'; 
             System.schedule('Test status Check', sch, testScheduler );
             Test.stopTest();
                     
