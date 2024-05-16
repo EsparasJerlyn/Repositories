@@ -29,22 +29,38 @@ public with sharing class AttachmentsDAOTest {
         Test.stopTest();
     }
     @isTest
-    static void findByNameEmptyTest() {
+    static void findAttachmentsByNameEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findByName(null, AccessLevel.USER_MODE);
+            .findAttachmentsByName(null, AccessLevel.USER_MODE);
             System.assert(attachmentList.isEmpty(), 'Attachment list should be empty.');
         }
         Test.stopTest();
     }
     @isTest
-    static void findByNameTest() {
+    static void findAttachmentsByNameTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
+            contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactListCreated[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            Blob b = Blob.valueOf('Test Data');
+            List<Attachment> attachList = new List<Attachment>();
+            Attachment attach = new Attachment();
+            attach.Name = 'Test';
+            attach.Body = b;
+            attach.ParentId = contactListCreated[0].Id;
+            attachList.add(attach);
+
+            AttachmentsDAO.newInstance().insertRecords(attachList,true,AccessLevel.SYSTEM_MODE);
+
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findByName('Test', AccessLevel.USER_MODE);
-            System.assert(attachmentList.isEmpty(), 'Attachment list should be empty.');
+            .findAttachmentsByName('Test', AccessLevel.SYSTEM_MODE);
+            System.assertEquals(attachList.size(),attachmentList.size(), 'Attachment list should be empty.');
         }
         Test.stopTest();
     }

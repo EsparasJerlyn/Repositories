@@ -20,7 +20,7 @@ public inherited sharing class AttachmentsDAOMock extends DmlBaseMock implements
     public Schema.SObjectType getSObjectType() {
         return Attachment.SObjectType;
     }
-    public List<Attachment> findByName(String name, AccessLevel accessLevel){
+    public List<Attachment> findAttachmentsByName(String name, AccessLevel accessLevel){
         List<Attachment> attachmentList = new List<Attachment>();
         for(Attachment record : attachmentMap.values()){
             if(record.Name == name){

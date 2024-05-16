@@ -20,7 +20,7 @@ public inherited sharing class AsyncApexJobsDAOMock extends DmlBaseMock implemen
     public Schema.SObjectType getSObjectType() {
         return AsyncApexJob.SObjectType;
     }
-    public AsyncApexJob findById(Id previewJobId, AccessLevel accessLevel){
+    public AsyncApexJob findasyncApexJobById(Id previewJobId, AccessLevel accessLevel){
         AsyncApexJob asyncApexJob = new AsyncApexJob();
         for(AsyncApexJob record : asyncApexJobMap.values()){
             if(record.Id == previewJobId){
