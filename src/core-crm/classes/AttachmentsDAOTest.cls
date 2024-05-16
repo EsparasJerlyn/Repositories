@@ -60,7 +60,7 @@ public with sharing class AttachmentsDAOTest {
 
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
             .findAttachmentsByName('Test', AccessLevel.USER_MODE);
-            System.assertEquals(attachList.size(),attachmentList.size(), 'Attachment list should be empty.');
+            System.assertEquals(attachList.size(),attachmentList.size(), 'Attachment list should not be empty.');
         }
         Test.stopTest();
     }
