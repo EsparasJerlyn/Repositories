@@ -29,17 +29,17 @@ public with sharing class AsyncApexJobsDAOTest {
         Test.stopTest();
     }
     @isTest
-    static void findasyncApexJobByIdEmptTest() {
+    static void findAsyncApexJobByIdEmptTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance()
-            .findasyncApexJobById(null, AccessLevel.SYSTEM_MODE);
+            .findAsyncApexJobById(null, AccessLevel.SYSTEM_MODE);
             System.assertEquals(null,asyncApexJob,'asyncApexJob is not null');
         }
         Test.stopTest();
     }
     @isTest
-    static void findasyncApexJobByIdTest() {
+    static void findAsyncApexJobByIdTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
@@ -49,7 +49,7 @@ public with sharing class AsyncApexJobsDAOTest {
             List<AsyncApexJob> asyncApex = [SELECT Id,ApexClass.Name  FROM AsyncApexJob WHERE ApexClass.Name =: 'AssetToCompleteBatch' LIMIT 1];
 
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance()
-            .findasyncApexJobById(asyncApex[0].Id, AccessLevel.SYSTEM_MODE);
+            .findAsyncApexJobById(asyncApex[0].Id, AccessLevel.SYSTEM_MODE);
             System.assertEquals(asyncApex[0].ApexClass.Name,asyncApexJob.ApexClass.Name,'asyncApexJob is not null');
         }
         Test.stopTest();

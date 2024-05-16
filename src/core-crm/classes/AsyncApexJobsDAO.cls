@@ -20,7 +20,7 @@ public inherited sharing class AsyncApexJobsDAO extends DmlBase implements IAsyn
     public Schema.SObjectType getSObjectType() {
         return 	AsyncApexJob.SObjectType;
     }
-    public AsyncApexJob findasyncApexJobById(Id previewJobId, AccessLevel accessLevel){
+    public AsyncApexJob findAsyncApexJobById(Id previewJobId, AccessLevel accessLevel){
         if(String.isBlank(previewJobId)){
             return null;
         }
