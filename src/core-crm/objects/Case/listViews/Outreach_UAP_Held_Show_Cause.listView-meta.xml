@@ -33,6 +33,11 @@
         <operation>notEqual</operation>
         <value>Callback</value>
     </filters>
+    <filters>
+        <field>Initial_Communication_Status__c</field>
+        <operation>equals</operation>
+        <value>Sent</value>
+    </filters>
     <label>Outreach - UAP - Held Show Cause</label>
     <sharedTo>
         <group>Development_Team</group>

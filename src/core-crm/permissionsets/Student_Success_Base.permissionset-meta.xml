@@ -3132,6 +3132,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>User.QUT_Persona__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Application__c.Admission_Basis__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5881,5 +5886,9 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>RunFlow</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>TransferAnyCase</name>
     </userPermissions>
 </PermissionSet>
