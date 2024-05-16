@@ -22,7 +22,7 @@ private class CaseTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB', 'QUT_Student_Success_Outreach_Manager'});
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
@@ -264,7 +264,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleOutreachCasePriority(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()){
 
             Integer numberOfContactsForHigh = 50;
             Integer numberOfContactsForMedium = 30;
