@@ -393,4 +393,17 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public List<Contact> getContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel){
+        List<Contact> contactList = new List<Contact>();
+
+        for(Contact con : contactsMap.values()) {
+            if(studentIdList.contains(String.valueOf(con.Id))) {
+                contactList.add(con);
+            }
+        }
+        return contactList;  
+    }
 }
