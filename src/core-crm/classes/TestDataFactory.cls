@@ -4087,4 +4087,24 @@ public class TestDataFactory {
         insert listNewEngagementListConfiguration;
         return listNewEngagementListConfiguration;
     }
+
+    public static Case createTestOutreachCaseRecord(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        Id contactId
+    ) {
+
+        Case caseRecord = new Case();
+        caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+        caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+        caseRecord.Subject = elConfig.Name;
+        caseRecord.ContactId = contactId;
+        caseRecord.OwnerId = ownerId;
+        caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+        caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+        caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+        caseRecord.Status = CasesDAO.STATUS_CREATED;
+        caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+        return caseRecord;
+    }
 }
