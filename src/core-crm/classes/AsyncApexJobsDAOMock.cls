@@ -12,17 +12,17 @@
  */
 @isTest
 public inherited sharing class AsyncApexJobsDAOMock extends DmlBaseMock implements IAsyncApexJobsDAO {
-    public Map<Id, AsyncApexJob> asyncApexJobMap;
+    public Map<Id, AsyncApexJob> asyncApexJobsMap;
     public AsyncApexJobsDAOMock() {
         super(new Map<Id, AsyncApexJob>(), Schema.AsyncApexJob.SObjectType);
-        this.asyncApexJobMap = (Map<Id, AsyncApexJob>) super.records;
+        this.asyncApexJobsMap = (Map<Id, AsyncApexJob>) super.records;
     }
     public Schema.SObjectType getSObjectType() {
         return AsyncApexJob.SObjectType;
     }
     public AsyncApexJob findAsyncApexJobById(Id previewJobId, AccessLevel accessLevel){
         AsyncApexJob asyncApexJob = new AsyncApexJob();
-        for(AsyncApexJob record : asyncApexJobMap.values()){
+        for(AsyncApexJob record : asyncApexJobsMap.values()){
             if(record.Id == previewJobId){
                 asyncApexJob = record;
             }
