@@ -45,9 +45,9 @@
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
  *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
  *    | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Added object mapping for Assessment__c                        |
+ *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
  *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
  *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
-
  */
 public class ImplementationSelector { 
 
@@ -64,6 +64,8 @@ public class ImplementationSelector {
             Asset.SObjectType => AssetsDAO.class,
             Assessment__c.SObjectType => AssessmentsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
+            AsyncApexJob.SObjectType => AsyncApexJobsDAO.class,
+            Attachment.SObjectType => AttachmentsDAO.class,
             Breach__c.SObjectType => BreachesDAO.class,
             BuyerGroup.SObjectType => BuyerGroupsDAO.class,
             BuyerGroupPriceBook.SObjectType => BuyerGroupPriceBooksDAO.class,
@@ -92,7 +94,7 @@ public class ImplementationSelector {
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
-            Group.SObjectType => GroupsDAO.class,
+            Group.SObjectType => GroupsDAO.class, 
             hed__Address__c.SObjectType => AddressesDAO.class,
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,

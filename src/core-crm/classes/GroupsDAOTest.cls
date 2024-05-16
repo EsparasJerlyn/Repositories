@@ -44,9 +44,10 @@ public with sharing class GroupsDAOTest {
     static void getQueueByNameTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Id expectedQueueId = GroupsDAO.newInstance()
-            .getQueueByName('Test');
-            System.assertEquals(null,expectedQueueId,'expectedQueueId is not null');
+            String queueName = GroupsDAO.STUDENT_RETENTION_QUEUE;
+            Id expectedQueueId = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name =: queueName WITH SYSTEM_MODE LIMIT 1]?.Id;
+            Id actualQueueId = GroupsDAO.newInstance().getQueueByName(queueName);
+            System.assertEquals(actualQueueId, expectedQueueId, 'expectedQueueId is not equals to actualQueueId');
         }
         Test.stopTest();
     }
