@@ -46,7 +46,7 @@ public with sharing class AttachmentsDAOTest {
             List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
             contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactListCreated[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
 
             Blob b = Blob.valueOf('Test Data');
             List<Attachment> attachList = new List<Attachment>();
@@ -56,10 +56,10 @@ public with sharing class AttachmentsDAOTest {
             attach.ParentId = contactListCreated[0].Id;
             attachList.add(attach);
 
-            AttachmentsDAO.newInstance().insertRecords(attachList,true,AccessLevel.SYSTEM_MODE);
+            AttachmentsDAO.newInstance().insertRecords(attachList,true,AccessLevel.USER_MODE);
 
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findAttachmentsByName('Test', AccessLevel.SYSTEM_MODE);
+            .findAttachmentsByName('Test', AccessLevel.USER_MODE);
             System.assertEquals(attachList.size(),attachmentList.size(), 'Attachment list should be empty.');
         }
         Test.stopTest();
