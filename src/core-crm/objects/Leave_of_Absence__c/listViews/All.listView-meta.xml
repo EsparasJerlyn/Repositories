@@ -11,6 +11,8 @@
     <label>All</label>
     <sharedTo>
         <group>Development_Team</group>
+        <group>Future_Students_Domestic</group>
+        <group>Future_Students_International</group>
         <group>Student_Success_Outreach_Manager</group>
         <group>Student_Success_Outreach_Staff</group>
         <group>System_Administrator</group>
