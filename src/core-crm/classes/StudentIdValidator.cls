@@ -76,7 +76,7 @@
         public String getResultCode() {
             return resultCode.name();
         }
-
+        
         @AuraEnabled
         public String getStudentId() {
             return studentId;
