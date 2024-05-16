@@ -542,7 +542,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Qualtrics_Survey_In_Progress_URL__c</field>
+        <field>Case.Qualtrics_Survey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3052,7 +3052,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Success_Action__c.External_ID__c</field>
+        <field>Success_Action__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3067,7 +3067,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Success_Action__c.Migration_ID__c</field>
+        <field>Success_Action__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4822,12 +4822,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Program_Enrollment__c.Academic_Status__c</field>
+        <field>hed__Program_Enrollment__c.Academic_Status_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Program_Enrollment__c.Academic_Status_Date__c</field>
+        <field>hed__Program_Enrollment__c.Academic_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
