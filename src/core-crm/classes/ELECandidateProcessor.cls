@@ -8,9 +8,9 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 |  May 15, 2024         | DEPP-8484              | Created file                 |
  */
-public with sharing class ELECandidateProcessor {          
+public with sharing class ELECandidateProcessor {
 
-    public List<ELECandidateProcessResult> process(Map<Id, Engagement_List_Event__c> eventCandidateMap, Engagement_List_Criteria__c criteria){
+    public List<ELECandidateProcessResult> process(Map<Id, List<Engagement_List_Event__c>> eventCandidateMap, Engagement_List_Criteria__c criteria){
                   
         List<ELECandidateProcessResult> result = new List<ELECandidateProcessResult>();        
         EngagementListEventsDAO elEventsDAO = new EngagementListEventsDAO();
@@ -29,14 +29,14 @@ public with sharing class ELECandidateProcessor {
         Map<EngagementListEventKey, ELEventCandidate> eventCandidateKeyMap = new Map<EngagementListEventKey, ELEventCandidate>();
         Set<Id> contactIds = eventCandidateMap.keySet();
         for(Id contactId : contactIds){
-            for(Engagement_List_Event__c eventCandidate : eventCandidateMap.values()){
+            for(Engagement_List_Event__c eventCandidate : eventCandidateMap.get(contactId)){
                 programEnrollmentIds = setIds(eventCandidate.Program_Enrollment__c, programEnrollmentIds);
                 completedCadenceIds = setIds(eventCandidate.Completed_Cadence__c, completedCadenceIds);
                 courseConnectionIds = setIds(eventCandidate.Course_Connection__c, courseConnectionIds);
                 courseConnectionAssessmentIds = setIds(eventCandidate.Course_Connection_Assessment__c, courseConnectionAssessmentIds);
                 programEnrollmentBreachIds = setIds(eventCandidate.Program_Enrollment_Breach__c, programEnrollmentBreachIds);
                 leaveOfAbsenceIds = setIds(eventCandidate.Leave_of_Absence__c, leaveOfAbsenceIds);
-                EngagementListEventKey eventCandidateKey = generateKey(eventCandidate, contactId, criteriaId);
+                EngagementListEventKey eventCandidateKey = generateKey(eventCandidate, contactId, eventCandidate.Engagement_List_Criteria__c); 
                 eventCandidateKeyMap.put(eventCandidateKey, new ELEventCandidate(eventCandidate, contactId));
             }
         }
@@ -51,35 +51,30 @@ public with sharing class ELECandidateProcessor {
             'leaveOfAbsenceIds' => leaveOfAbsenceIds
         };
 
-        System.debug('relatedRecordIdMap: ' + relatedRecordIdMap);
-        Map<Id, Case> openCaseMap = new Map<Id, Case>();
-        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByStatusAndRecordType(new Set<String>{CasesDAO.CASE_STATUS_OPEN}, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+        Map<Id, Case> openCaseMap = new Map<Id, Case>();        
+        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByStatusAndRecordType(contactIds, new Set<String>{CasesDAO.CASE_STATUS_OPEN}, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
         for(Case caseRecord : openOutreachCases){
             openCaseMap.put(caseRecord.ContactId, caseRecord);
         }
-        System.debug('openCaseMap: ' + openCaseMap);
-        Map<Case, Engagement_List_Event__c> outreachCaseMap = new Map<Case, Engagement_List_Event__c>();
+        
+        Map<Engagement_List_Event__c, Case> outreachCaseMap = new Map<Engagement_List_Event__c, Case>();
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         for(Engagement_List_Event__c existingEvent : elEventsDAO.getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
             EngagementListEventKey existingEventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
             for(EngagementListEventKey eventCandidateKey : eventCandidateKeyMap.KeySet()){
                 if(!eventCandidateKey.isDuplicate(existingEventKey)){
-                    System.debug('Key not existing: ');
                     Id eventCandidateContactId = eventCandidateKeyMap.get(eventCandidateKey).getContactId();
                     Engagement_List_Event__c event = eventCandidateKeyMap.get(eventCandidateKey).getEvent();
                     event.Engagement_List_Criteria__c = criteriaId;
                     if(openCaseMap.containsKey(eventCandidateContactId)){
-                        System.debug('Creating Events only...');
                         event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
                         newEvents.add(event);
                         result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
                     }else{
-                        System.debug('Creating case...');
-                        outreachCaseMap.put(createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)), event);
+                        outreachCaseMap.put(event, createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)));
+                        result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
                     }
-                    
                 }else{
-                    System.debug('Key IS existing: ');
                     result.add(new ELECandidateProcessResult(eventCandidateKeyMap.get(eventCandidateKey).getEvent(), ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED));
                 }
                 eventCandidateKeyMap.remove(eventCandidateKey);
@@ -87,21 +82,19 @@ public with sharing class ELECandidateProcessor {
             
         }
 
-        List<Case> outReachCases = new List<Case>();
-        outReachCases.addAll(outreachCaseMap.keySet());
-
-        if(!outreachCaseMap.isEmpty()){
-            CasesDAO.newInstance().insertRecords(outReachCases, false, AccessLevel.SYSTEM_MODE);   
+        if(!outreachCaseMap.values().isEmpty()){
+            CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), false, AccessLevel.SYSTEM_MODE);   
         }
 
-        for(Case caseRec : outReachCases){
-            for(Engagement_List_Event__c event : outreachCaseMap.values()){
-                event.Case__c = caseRec.Id;
+        for(Engagement_List_Event__c event : outreachCaseMap.keySet()){
+            if(outreachCaseMap.get(event).Id != null){
+                event.Case__c = outreachCaseMap.get(event).Id;
                 newEvents.add(event);
             }
         }
+
         if(!newEvents.isEmpty()){
-            insert newEvents;
+            elEventsDAO.insertRecords(newEvents, false, AccessLevel.SYSTEM_MODE);   
         }
 
         return result;

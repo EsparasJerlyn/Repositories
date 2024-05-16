@@ -24,4 +24,20 @@ public with sharing class ELECandidateProcessResult {
         EVENT_NOT_CREATED
     }
 
+    public Outcome getResult(){
+        return result;
+    }
+
+    public void setResult(Outcome result){
+        this.result = result;
+    }
+
+    public Engagement_List_Event__c getEngagementListEvent(){
+        return engagementListEvent;
+    }
+
+    public void setEngagementListEvent(Engagement_List_Event__c engagementListEvent){
+        this.engagementListEvent = engagementListEvent;
+    }
+
 }
