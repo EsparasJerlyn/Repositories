@@ -25144,6 +25144,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Case.Outreach</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Case.International_Future_Student_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

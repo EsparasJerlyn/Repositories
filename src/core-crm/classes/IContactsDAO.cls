@@ -18,6 +18,7 @@
  *    | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added getContactByCaseMobile           |
  *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | added getPersonContactsByNameUsingSOSL |
+ *    | eugene.andrew.abuan            | May 14, 2024          | DEPP-8485              | Added getContactsByStudentId           |
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(
@@ -131,6 +132,11 @@ public interface IContactsDAO extends DmlInterface {
 
     List<Contact> findByCriteria(
         ContactsDAO.Criteria Criteria, 
+        AccessLevel accessLevel
+    );
+
+    List<Contact> getContactByStudentId (        
+        List<String> studentIdList,
         AccessLevel accessLevel
     );
 }
