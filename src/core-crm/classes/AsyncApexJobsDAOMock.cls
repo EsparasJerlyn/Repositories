@@ -39,7 +39,7 @@ public inherited sharing class AsyncApexJobsDAOMock extends DmlBaseMock implemen
 
     public AsyncApexJob findAsyncApexJobById(Id previewJobId, AccessLevel accessLevel){
         AsyncApexJob asyncApexJob = new AsyncApexJob();
-        for(AsyncApexJob record : asyncApexJobMap.values()){
+        for(AsyncApexJob record : asyncApexJobsMap.values()){
             if(record.Id == previewJobId){
                 asyncApexJob = record;
             }
