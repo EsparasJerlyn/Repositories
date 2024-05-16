@@ -50,7 +50,7 @@ public with sharing class AsyncApexJobsDAOTest {
 
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance()
             .findAsyncApexJobById(asyncApex[0].Id, AccessLevel.SYSTEM_MODE);
-            System.assertEquals(asyncApex[0].ApexClass.Name,asyncApexJob.ApexClass.Name,'asyncApexJob is not null');
+            System.assertEquals(asyncApex[0].ApexClass.Name,asyncApexJob.ApexClass.Name,'asyncApexJob does not match');
         }
         Test.stopTest();
     }
