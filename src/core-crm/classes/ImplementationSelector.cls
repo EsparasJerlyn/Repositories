@@ -88,7 +88,7 @@ public class ImplementationSelector {
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
-            Group.SObjectType => GroupsDAO.class,
+            Group.SObjectType => GroupsDAO.class, 
             hed__Address__c.SObjectType => AddressesDAO.class,
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
