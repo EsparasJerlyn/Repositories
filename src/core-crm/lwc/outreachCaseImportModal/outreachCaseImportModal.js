@@ -34,7 +34,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   get modalClass() {
-    return this.modalOpen ? 'slds-modal slds-fade-in-open' : 'slds-modal slds-fade-in-close';
+    return this.modalOpen ? 'slds-modal slds-fade-in-open slds-modal_small' : 'slds-modal slds-fade-in-close';
   }
 
   get backdropClass() {
