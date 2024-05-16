@@ -45,6 +45,7 @@ public interface ICasesDAO extends DmlInterface{
     );
 
     List<Case> getCasesByStatusAndRecordType(
+        Set<Id> contactIds,
         Set<String> status,
         Id recordTypeId,
         AccessLevel accessLevel

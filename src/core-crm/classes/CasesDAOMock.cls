@@ -159,6 +159,7 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
     }
 
     public List<Case> getCasesByStatusAndRecordType(
+        Set<Id> contactIds,
         Set<String> status,
         Id recordTypeId,
         AccessLevel accessLevel
@@ -166,7 +167,7 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         List<Case> caseList = new List<Case>();
 
         for (Case record : caseMap.values()) {
-            if (status.contains(record.Status) && recordTypeId == record.RecordTypeId) {
+            if (contactIds.contains(record.ContactId) && status.contains(record.Status) && recordTypeId == record.RecordTypeId) {
                 caseList.add(record);
             }
         }

@@ -46,6 +46,7 @@
  *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
  *    | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Added object mapping for Assessment__c                        |
  *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
+ *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
 
  */
 public class ImplementationSelector { 
@@ -85,6 +86,7 @@ public class ImplementationSelector {
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Engagement_List_Configuration__c.SobjectType => EngagementListConfigurationsDAO.class,
             Engagement_List_Criteria__c.SobjectType => EngagementListCriteriasDAO.class,
             Engagement_List_Event__c.SobjectType => EngagementListEventsDAO.class,
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,

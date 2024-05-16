@@ -147,6 +147,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     }
 
     public List<Case> getCasesByStatusAndRecordType(
+        Set<Id> contactIds,
         Set<String> status,
         Id recordTypeId,
         AccessLevel accessLevel
@@ -155,7 +156,8 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
             'SELECT Id, ContactId, Status ' +
               'FROM Case ' +
              'WHERE Status IN : status ' +
-               'AND RecordTypeId =: recordTypeId', 
+               'AND RecordTypeId =: recordTypeId ' +
+               'AND ContactId IN : contactIds', 
             accessLevel
         );
     }

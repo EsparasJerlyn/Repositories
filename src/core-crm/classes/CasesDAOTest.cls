@@ -121,18 +121,22 @@ public with sharing class CasesDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
 
             ImplementationSelector.DAO.setMock(new CasesDAOMock());
+            Id contactId = new MockIdGenerator(Contact.SObjectType).getMockId();
+
             List<Case> caseList = new List<Case>();
             caseList.add(
                 new Case(
                     RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
                     Status = CasesDAO.CASE_STATUS_OPEN,
-                    Origin = 'Email'
+                    Origin = 'Email',
+                    ContactId = contactId
                 )
             );
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
 
             List<Case> caseListByStatusAndRecordType = CasesDAO.newInstance()
                 .getCasesByStatusAndRecordType(
+                    new Set<Id>{contactId},
                     new Set<String>{CasesDAO.CASE_STATUS_OPEN},
                     CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
                     AccessLevel.SYSTEM_MODE
