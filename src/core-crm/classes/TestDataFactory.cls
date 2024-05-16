@@ -66,6 +66,7 @@
  *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
+ *    | gabriel.p.ventayen        | April 29, 2024        | DEPP-8614           | added method createTestEngagementListConfiguration                      |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
@@ -4069,5 +4070,21 @@ public class TestDataFactory {
         }
 
         return assessmentRecords;
+    }
+
+    /** @description Method for creating test Engagement List Configuration records
+     * @return listNewEngagementListConfiguration - list of Engagement List Configuration created
+     */
+    public static List<Engagement_List_Configuration__c> createTestEngagementListConfiguration() {
+        List<Engagement_List_Configuration__c> listNewEngagementListConfiguration = new List<Engagement_List_Configuration__c>();
+        for (Integer i = 0; i < 2; i++) {
+            listNewEngagementListConfiguration.add(
+                new Engagement_List_Configuration__c(
+                    Name = 'Test ELC 0' + i + ''
+                )
+            );
+        }
+        insert listNewEngagementListConfiguration;
+        return listNewEngagementListConfiguration;
     }
 }
