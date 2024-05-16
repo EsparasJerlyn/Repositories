@@ -39,6 +39,8 @@
             'Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c, ' +
             'Engagement_List_Configuration__r.Start_Date__c, ' +
             'Engagement_List_Configuration__r.End_Date__c, ' +
+            'Engagement_List_Configuration__r.Name, ' +
+            'Engagement_List_Configuration__r.Id, ' +
             'Status__c, ' +
             'End_Date__c, ' +
             'Start_Date__c ' +

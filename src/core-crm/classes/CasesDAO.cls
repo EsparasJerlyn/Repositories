@@ -12,6 +12,7 @@
  *    | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
  *    | gabriel.p.ventayen             | April 26, 2024        | DEPP-8544              | change case rectype map to inbound enquiry  |
  *    | gabriel.p.ventayen             | April 29, 2024        | DEPP-8614              | added some variables for Student Success    |
+ *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added new method getCasesByStatusAndRecType |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
@@ -37,6 +38,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     public static final String PRIORITY_HIGH = 'High';
     public static final String PRIORITY_MEDIUM = 'Medium';
     public static final String PRIORITY_LOW = 'Low';
+    public static final String CASE_STATUS_OPEN = 'Open';
 
     public static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{
         'High' => 3,
@@ -142,5 +144,19 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
              'WHERE Lead__c IN :recordIds ' +
                 'OR ContactId IN :recordIds ';
         return Database.getQueryLocator(query);
+    }
+
+    public List<Case> getCasesByStatusAndRecordType(
+        Set<String> status,
+        Id recordTypeId,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, ContactId, Status ' +
+              'FROM Case ' +
+             'WHERE Status IN : status ' +
+               'AND RecordTypeId =: recordTypeId', 
+            accessLevel
+        );
     }
 }

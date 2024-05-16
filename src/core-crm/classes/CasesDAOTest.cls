@@ -115,4 +115,32 @@ public with sharing class CasesDAOTest {
         }
     }
 
+    @isTest
+    static void getCasesByStatusAndRecordTypeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+
+            ImplementationSelector.DAO.setMock(new CasesDAOMock());
+            List<Case> caseList = new List<Case>();
+            caseList.add(
+                new Case(
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Status = CasesDAO.CASE_STATUS_OPEN,
+                    Origin = 'Email'
+                )
+            );
+            CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Case> caseListByStatusAndRecordType = CasesDAO.newInstance()
+                .getCasesByStatusAndRecordType(
+                    new Set<String>{CasesDAO.CASE_STATUS_OPEN},
+                    CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    AccessLevel.SYSTEM_MODE
+                );
+
+            System.assert(!caseListByStatusAndRecordType.isEmpty(), 'caseListByStatusAndRecordType should not be empty.');
+        }
+        Test.stopTest();
+    }
+
 }

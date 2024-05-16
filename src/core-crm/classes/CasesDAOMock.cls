@@ -11,6 +11,7 @@
       | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
       | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
       | roy.nino.s.regala              | Novmeber 03, 2023     | DEPP-7145              | Added Lead_Score_Reset__c as expected field |
+      | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added new method getCasesByStatusAndRecType |
  */
 @isTest
 public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICasesDAO {
@@ -155,5 +156,21 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         Set<Id> recordIds
     ){
         return null;
+    }
+
+    public List<Case> getCasesByStatusAndRecordType(
+        Set<String> status,
+        Id recordTypeId,
+        AccessLevel accessLevel
+    ) {
+        List<Case> caseList = new List<Case>();
+
+        for (Case record : caseMap.values()) {
+            if (status.contains(record.Status) && recordTypeId == record.RecordTypeId) {
+                caseList.add(record);
+            }
+        }
+
+        return caseList;
     }
 }
