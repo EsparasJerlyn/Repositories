@@ -15,6 +15,9 @@
       | nicole.genon                   | May 6, 2024           | DEPP-8606              | stageToCancelledHasCompletedStagePledgeTest              |
       |                                |                       |                        | stageToCancelledPledgeTest                               |
       | kenneth.f.alsay                | May 6, 2024           | DEPP-8520              | Added stageToCancelledCauseTest                          |
+      | jerlyn.esparas                 | May 7, 2024           | DEPP-8564              | Added stageToCancelledChildDonationTest                  |
+      |                                                                                 | stageToCancelledHasCompletedStageEndowmentTest           |
+                                                                                          stageToCancelledEndowmentTest                            |
  */
 @isTest
 public class DonationStageUpdateFlowTest {
@@ -63,7 +66,7 @@ public class DonationStageUpdateFlowTest {
             List<Donation__c> donationList = TestDataFactory.createDonationRecordsWithRecordType(1,DonationsDAO.ENDOWMENT_RECTYPE_ID);
             for(Donation__c donation : donationList){
                 donation.Payment_Type__c = 'Payment Plan';
-                donation.Stage__c = 'Completed';
+                donation.Stage__c = 'Accepted';
                 donation.Total_Amount__c = 1000;
                 donation.To_Designation__c = designationList[0].Id;
                 donation.Opportunity__c = individualOpportunityRecords[0].Id;
@@ -156,13 +159,13 @@ public class DonationStageUpdateFlowTest {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
-
+            
             //Update Donation Records to meet stage update conditions
             for(Donation__c donation : donationsToUpdate){
                 donation.Stage__c = 'Completed - Part Paid';
             }           
             DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
-
+            
             //Check if Stage has been updated
             List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
             for(Donation__c donation : donationsToCheck){
@@ -207,13 +210,13 @@ public class DonationStageUpdateFlowTest {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
-
+            
             //Update Donation Records to meet stage update conditions
             for(Donation__c donation : donationsToUpdate){
                 donation.Stage__c = 'Completed - Part Paid';
             }           
             DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
-
+            
             //Check if Stage has been updated
             List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
             for(Donation__c donation : donationsToCheck){
@@ -384,4 +387,93 @@ public class DonationStageUpdateFlowTest {
             Test.stopTest();
         }
     }
-} 
+
+    @isTest
+    private static void stageToCancelledEndowmentTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
+
+            //Get Child Donation Records
+            List<Donation__c> childDonations = DonationsDAO.newInstance().getDonationsBySetDonationParentIds(new Set<Id>{donationsToUpdate[0].Id}, AccessLevel.USER_MODE);
+
+            for(Donation__c childDon : childDonations){
+                childDon.Stage__c = 'Accepted';
+            } 
+            DonationsDAO.newInstance().updateRecords(childDonations, false, AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c donation : donationsToUpdate){
+                donation.Cancellation_Comment__c = 'Test Cancelled Endowment';
+                donation.Cancellation_Reason__c = 'Donor Requested Cancellation';
+                donation.Stage__c = 'Cancelled';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertEquals('Cancelled', donation.Stage__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    private static void stageToCancelledHasCompletedStageEndowmentTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c donation : donationsToUpdate){
+                donation.Stage__c = 'Cancelled';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertNotEquals('Cancelled', donation.Stage__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    private static void stageToCancelledChildDonationTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            //Get Created Donation Records
+            List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
+
+            //Get Child Donation Records
+            List<Donation__c> childDonations = DonationsDAO.newInstance().getDonationsBySetDonationParentIds(new Set<Id>{donationsToUpdate[0].Id}, AccessLevel.USER_MODE);
+
+            for(Donation__c childDon : childDonations){
+                childDon.Stage__c = 'Accepted';
+                childDon.Cancellation_Comment__c = 'Test';
+                childDon.Cancellation_Reason__c = 'Variation';
+            } 
+            DonationsDAO.newInstance().updateRecords(childDonations, false, AccessLevel.USER_MODE);
+
+            //Update Donation Records to meet stage update conditions
+            for(Donation__c childDonationRecord : donationsToUpdate){
+                childDonationRecord.Cancellation_Comment__c = 'Test Cancelled Endowment Child';
+                childDonationRecord.Cancellation_Reason__c = 'Donor Requested Cancellation';
+                childDonationRecord.Stage__c = 'Cancelled';
+            }           
+            DonationsDAO.newInstance().updateRecords(donationsToUpdate, false, AccessLevel.USER_MODE);
+
+            //Check if Stage has been updated
+            List<Donation__c> donationsToCheck = DonationsDAO.newInstance().getDonationsBySetRecordIds((new Map<Id,SObject>(donationsToUpdate)).keySet(), AccessLevel.USER_MODE);
+            for(Donation__c donation : donationsToCheck){
+            	System.assertEquals('Cancelled', donation.Stage__c, 'Donation record not updated');
+            }
+            Test.stopTest();
+        }
+    }
+}
