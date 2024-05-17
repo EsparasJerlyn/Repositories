@@ -116,7 +116,7 @@ public with sharing class CasesDAOTest {
     }
 
     @isTest
-    static void getCasesByStatusAndRecordTypeTest() {
+    static void getCasesByContactIdStatusAndRecordTypeTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
 
@@ -135,7 +135,7 @@ public with sharing class CasesDAOTest {
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
 
             List<Case> caseListByStatusAndRecordType = CasesDAO.newInstance()
-                .getCasesByStatusAndRecordType(
+                .getCasesByContactIdStatusAndRecordType(
                     new Set<Id>{contactId},
                     new Set<String>{CasesDAO.CASE_STATUS_OPEN},
                     CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,

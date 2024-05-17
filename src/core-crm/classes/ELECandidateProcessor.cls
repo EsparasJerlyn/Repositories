@@ -52,7 +52,7 @@ public with sharing class ELECandidateProcessor {
         };
 
         Map<Id, Case> openCaseMap = new Map<Id, Case>();        
-        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByStatusAndRecordType(contactIds, new Set<String>{CasesDAO.CASE_STATUS_OPEN}, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByContactIdStatusAndRecordType(contactIds, new Set<String>{CasesDAO.CASE_STATUS_OPEN}, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
         for(Case caseRecord : openOutreachCases){
             openCaseMap.put(caseRecord.ContactId, caseRecord);
         }

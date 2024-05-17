@@ -146,7 +146,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.getQueryLocator(query);
     }
 
-    public List<Case> getCasesByStatusAndRecordType(
+    public List<Case> getCasesByContactIdStatusAndRecordType(
         Set<Id> contactIds,
         Set<String> status,
         Id recordTypeId,

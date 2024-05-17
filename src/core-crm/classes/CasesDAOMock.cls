@@ -158,7 +158,7 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         return null;
     }
 
-    public List<Case> getCasesByStatusAndRecordType(
+    public List<Case> getCasesByContactIdStatusAndRecordType(
         Set<Id> contactIds,
         Set<String> status,
         Id recordTypeId,
