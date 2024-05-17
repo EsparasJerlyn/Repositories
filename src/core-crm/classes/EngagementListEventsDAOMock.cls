@@ -36,30 +36,10 @@ public inherited sharing class EngagementListEventsDAOMock extends DmlBaseMock i
                 relatedRecordIdMap.get('courseConnectionAssessmentIds').contains(record.Course_Connection_Assessment__c) &&
                 relatedRecordIdMap.get('programEnrollmentBreachIds').contains(record.Program_Enrollment_Breach__c) &&
                 relatedRecordIdMap.get('leaveOfAbsenceIds').contains(record.Leave_of_Absence__c)
-            )){
+            ){
                 engagementEventList.add(record);
             }
         }
         return engagementEventList;
     }
-
-    public List<Engagement_List_Criteria__c> findActiveEntryCriteria(
-        Date executionDate,
-        AccessLevel accessLevel
-    ) {
-        List<Engagement_List_Criteria__c> engagementListCriteriaList = new List<Engagement_List_Criteria__c>();
-
-        for (Engagement_List_Criteria__c record : engagementListCriteriaMap.values()) {
-            if (record.Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c == 'Active' && 
-                record.Engagement_List_Configuration__r.Start_Date__c <= executionDate &&
-                record.Engagement_List_Configuration__r.End_Date__c >= executionDate &&
-                record.Status__c == 'Active' &&
-                record.Start_Date__c <= executionDate && 
-                record.End_Date__c >= executionDate) {
-                engagementListCriteriaList.add(record);
-            }
-        }
-        return engagementListCriteriaList;
-    }
-
 }
