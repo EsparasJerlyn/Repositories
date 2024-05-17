@@ -7,6 +7,15 @@
         <name>CustomField</name>
     </types>
     -->
+
+    <!-- Comment this out when 2nd PR is deployed, this is to change the data type 
+        from picklist to multiplicklist inorder to avoid the error of 
+        "Cannot change type due to exising data"
+     -->
+    <types>
+        <members>Engagement_List_Criteria__c.Category_Type__c</members>
+        <name>CustomField</name>
+    </types>
     <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
