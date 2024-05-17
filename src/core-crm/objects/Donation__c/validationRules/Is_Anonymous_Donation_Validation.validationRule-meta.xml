@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Anonymous_Donation_Validation</fullName>
+    <active>true</active>
+    <description>Ensures that the user can only uncheck Anonymous when Parent Opportunity is not marked Anonymous</description>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Gift_In_Kind&apos;,
+RecordType.DeveloperName = &apos;Cause&apos;,
+RecordType.DeveloperName = &apos;Endowment&apos;,
+RecordType.DeveloperName = &apos;Pledge&apos;),
+Opportunity__r.Is_Anonymous_Opportunity__c =TRUE,
+ISCHANGED(Is_Anonymous_Donation__c) ,
+PRIORVALUE(Is_Anonymous_Donation__c) = TRUE
+)</errorConditionFormula>
+    <errorDisplayField>Is_Anonymous_Donation__c</errorDisplayField>
+    <errorMessage>You cannot uncheck Is Anonymous where Opportunity is marked as anonymous</errorMessage>
+</ValidationRule>
