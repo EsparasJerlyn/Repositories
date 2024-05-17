@@ -13,7 +13,6 @@ public with sharing class ELECandidateProcessor {
     public List<ELECandidateProcessResult> process(Map<Id, List<Engagement_List_Event__c>> eventCandidateMap, Engagement_List_Criteria__c criteria){
                   
         List<ELECandidateProcessResult> result = new List<ELECandidateProcessResult>();        
-        EngagementListEventsDAO elEventsDAO = new EngagementListEventsDAO();
         
         Set<Id> programEnrollmentIds = new Set<Id>();
         Set<Id> completedCadenceIds = new Set<Id>();
@@ -26,7 +25,7 @@ public with sharing class ELECandidateProcessor {
         String configName = criteria.Engagement_List_Configuration__r.Name;
         Id criteriaId = criteria.Id;
 
-        Map<EngagementListEventKey, ELEventCandidate> eventCandidateKeyMap = new Map<EngagementListEventKey, ELEventCandidate>();
+        Map<EngagementListEventKey, ELECandidate> eventCandidateKeyMap = new Map<EngagementListEventKey, ELECandidate>();
         Set<Id> contactIds = eventCandidateMap.keySet();
         for(Id contactId : contactIds){
             for(Engagement_List_Event__c eventCandidate : eventCandidateMap.get(contactId)){
@@ -37,7 +36,7 @@ public with sharing class ELECandidateProcessor {
                 programEnrollmentBreachIds = setIds(eventCandidate.Program_Enrollment_Breach__c, programEnrollmentBreachIds);
                 leaveOfAbsenceIds = setIds(eventCandidate.Leave_of_Absence__c, leaveOfAbsenceIds);
                 EngagementListEventKey eventCandidateKey = generateKey(eventCandidate, contactId, eventCandidate.Engagement_List_Criteria__c); 
-                eventCandidateKeyMap.put(eventCandidateKey, new ELEventCandidate(eventCandidate, contactId));
+                eventCandidateKeyMap.put(eventCandidateKey, new ELECandidate(eventCandidate, contactId));
             }
         }
 
@@ -54,25 +53,34 @@ public with sharing class ELECandidateProcessor {
         Map<Id, Case> openCaseMap = getCaseMap(contactIds);   
         Map<Engagement_List_Event__c, Case> outreachCaseMap = new Map<Engagement_List_Event__c, Case>();
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
-        for(Engagement_List_Event__c existingEvent : elEventsDAO.getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
+        for(Engagement_List_Event__c existingEvent : EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
             EngagementListEventKey eventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
-            if(!eventCandidateKeyMap.containsKey(eventKey)){
-                Id eventCandidateContactId = eventCandidateKeyMap.get(eventKey).getContactId();
-                Engagement_List_Event__c event = eventCandidateKeyMap.get(eventKey).getEvent();
-                event.Engagement_List_Criteria__c = criteriaId;
-                if(openCaseMap.containsKey(eventCandidateContactId)){
-                    event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
-                    newEvents.add(event);
-                    result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
-                }else{
-                    outreachCaseMap.put(event, createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)));
-                    result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
-                }
-            }else{
+            if(eventCandidateKeyMap.containsKey(eventKey)){
                 result.add(new ELECandidateProcessResult(eventCandidateKeyMap.get(eventKey).getEvent(), ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED));
+                eventCandidateKeyMap.remove(eventKey);
             }
         }
 
+        for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){
+            Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
+            Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
+            event.Engagement_List_Criteria__c = criteriaId;
+            if(openCaseMap.containsKey(eventCandidateContactId)){
+                event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
+                newEvents.add(event);
+                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
+            }else{
+                outreachCaseMap.put(event, createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)));
+                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
+            }
+        }
+
+        saveRecords(outreachCaseMap, newEvents);
+
+        return result;
+    }
+
+    private void saveRecords(Map<Engagement_List_Event__c, Case> outreachCaseMap, List<Engagement_List_Event__c> newEvents){
         if(!outreachCaseMap.values().isEmpty()){
             CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), false, AccessLevel.SYSTEM_MODE);   
         }
@@ -85,10 +93,8 @@ public with sharing class ELECandidateProcessor {
         }
 
         if(!newEvents.isEmpty()){
-            elEventsDAO.insertRecords(newEvents, false, AccessLevel.SYSTEM_MODE);   
+            EngagementListEventsDAO.newInstance().insertRecords(newEvents, false, AccessLevel.SYSTEM_MODE);   
         }
-
-        return result;
     }
 
     private Map<Id, Case> getCaseMap(Set<Id> contactIds){
@@ -138,12 +144,12 @@ public with sharing class ELECandidateProcessor {
         return new EngagementListEventKey(event, contactId, criteriaId);
     }
 
-    public class ELEventCandidate {
+    public class ELECandidate {
 
         private Engagement_List_Event__c event;
         private Id contactId;
 
-        public ELEventCandidate(Engagement_List_Event__c event, Id contactId){
+        public ELECandidate(Engagement_List_Event__c event, Id contactId){
             this.event = event;
             this.contactId = contactId;
         }
