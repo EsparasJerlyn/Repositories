@@ -11,6 +11,13 @@
             <operator>equals</operator>
             <value>Case.Outreach</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case.Initial_Communication_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Sent</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
