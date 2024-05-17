@@ -152,7 +152,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
 
             String whereClauseString = ProgramEnrollmentBreachesDAO.newInstance().getQueryByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
-            String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c, Contact__c FROM Program_Enrollment_Breach__c WHERE '
+            String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c, Contact__c, Breach_Date__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
                 + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 

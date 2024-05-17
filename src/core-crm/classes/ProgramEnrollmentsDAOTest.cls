@@ -216,7 +216,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
             String expectedWhereClause = 
                 + 'SELECT '  
                 + ' Id, hed__Contact__c, Name,  ' 
-                + ' Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, ' 
+                + ' Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, Academic_Status_Date__c, ' 
                 + ' hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' 
                 + ' FROM hed__Program_Enrollment__c WHERE ' 
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '

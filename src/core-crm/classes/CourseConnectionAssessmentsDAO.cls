@@ -71,7 +71,7 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Id, Contact__c, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Assessment_Priority__c FROM Course_Connection_Assessment__c ' + getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+        return 'SELECT Id, Contact__c, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Due_Date__c, Assessment_Name__r.Assessment_Priority__c FROM Course_Connection_Assessment__c ' + getWhereClauseByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
     //Checks to ensure fields have values
