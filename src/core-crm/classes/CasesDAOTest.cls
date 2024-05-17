@@ -134,11 +134,15 @@ public with sharing class CasesDAOTest {
             );
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
 
+            Map<String, Object> params = new Map<String, Object> {
+                'contactIds' => new Set<Id>{contactId},
+                'statusSet' => new Set<String>{CasesDAO.CASE_STATUS_OPEN},
+                'recordTypeId' => CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID
+            };
+
             List<Case> caseListByStatusAndRecordType = CasesDAO.newInstance()
                 .getCasesByContactIdStatusAndRecordType(
-                    new Set<Id>{contactId},
-                    new Set<String>{CasesDAO.CASE_STATUS_OPEN},
-                    CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    params,
                     AccessLevel.SYSTEM_MODE
                 );
 

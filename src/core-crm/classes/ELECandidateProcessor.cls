@@ -51,12 +51,7 @@ public with sharing class ELECandidateProcessor {
             'leaveOfAbsenceIds' => leaveOfAbsenceIds
         };
 
-        Map<Id, Case> openCaseMap = new Map<Id, Case>();        
-        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByContactIdStatusAndRecordType(contactIds, new Set<String>{CasesDAO.CASE_STATUS_OPEN}, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
-        for(Case caseRecord : openOutreachCases){
-            openCaseMap.put(caseRecord.ContactId, caseRecord);
-        }
-        
+        Map<Id, Case> openCaseMap = getCaseMap(contactIds);   
         Map<Engagement_List_Event__c, Case> outreachCaseMap = new Map<Engagement_List_Event__c, Case>();
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         for(Engagement_List_Event__c existingEvent : elEventsDAO.getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
@@ -98,6 +93,23 @@ public with sharing class ELECandidateProcessor {
         }
 
         return result;
+    }
+
+    private Map<Id, Case> getCaseMap(Set<Id> contactIds){
+        
+        Map<String, Object> params = new Map<String, Object> {
+            'contactIds' => contactIds,
+            'statusSet' => new Set<String>{CasesDAO.CASE_STATUS_OPEN},
+            'recordTypeId' => CasesDAO.OUTREACH_RECTYPE_ID
+        };
+
+        Map<Id, Case> openCaseMap = new Map<Id, Case>();        
+        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByContactIdStatusAndRecordType(params, AccessLevel.SYSTEM_MODE);
+        for(Case caseRecord : openOutreachCases){
+            openCaseMap.put(caseRecord.ContactId, caseRecord);
+        }
+
+        return openCaseMap;
     }
 
     public Case createCase(Engagement_List_Configuration__c engagementListConfig){
