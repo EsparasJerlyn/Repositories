@@ -136,7 +136,7 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Id, Breach_Name__c, Breach_Status__c, Program_Enrollment__r.hed__Contact__c FROM Program_Enrollment_Breach__c ' + getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
+        return 'SELECT Id, Breach_Name__c, Breach_Status__c, Program_Enrollment__r.hed__Contact__c, Breach_Date__c FROM Program_Enrollment_Breach__c ' + getWhereClauseByCriteria(programEnrollmentBreachCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
     public List<Program_Enrollment_Breach__c> findByCriteria(

@@ -11,6 +11,8 @@
  *    |                                |                       |                        |                                                |
  */
 public inherited sharing class GroupsDAO extends DmlBase implements IGroupsDAO {
+
+    public static final String STUDENT_RETENTION_QUEUE = 'Student Success - Student Retention';
     
     public static IGroupsDAO newInstance() {
         return (IGroupsDAO) ImplementationSelector.DAO.newInstance(

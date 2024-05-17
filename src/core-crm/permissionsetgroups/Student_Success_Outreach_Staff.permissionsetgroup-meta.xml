@@ -2,6 +2,7 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>Student Success Outreach Staff</label>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

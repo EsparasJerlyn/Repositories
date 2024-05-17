@@ -31,6 +31,7 @@
  *    | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Add Birthdate in getPersonContactsByEmailOrName           |
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | Added getPersonContactsByNameUsingSOSL method             |
  *    | eccarius.munoz                 | April 29, 2024        | DEPP-8041              | Added getQueryLocatorByCriteria and findByCriteria        |
+ *    | eugene.andrew.abuan            | May 14, 2024          | DEPP-8485              | Added getContactByStudentId                               |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -548,6 +549,23 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             );
         }
         return new List<Contact>();
+    }  
+
+    public List<Contact> getContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    ){
+        if(studentIdList.isEmpty()){
+            return new List<Contact>();
+        }
+
+        return Database.query(
+            'SELECT Id, QUT_Student_ID__c FROM Contact ' +
+            'Where RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
+            'AND QUT_Student__c = true ' +
+            'AND QUT_Student_Id__c in :studentIdList', 
+            accessLevel
+        );
     }  
 
     /**
