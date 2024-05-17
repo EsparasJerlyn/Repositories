@@ -20,7 +20,6 @@
     * @param studentIds - List of Student Id based on the given csv
     * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
     */
-    @AuraEnabled
     public static List<ValidationResult> validate(List<String> studentIds) {
         Set<String> uniqueStudentIds = new Set<String>(studentIds);
 
@@ -54,6 +53,7 @@
     */
     public class ValidationResult {
         private ValidationResultCode resultCode;
+        private String id;
         private String studentId;
         private String fullName;
         private String email;
@@ -65,6 +65,7 @@
             this.fullName = contact.Name;
             this.email = contact.Email;
             this.mobilePhone = contact.MobilePhone;
+            this.id = contact.Id;
         }
 
         public ValidationResult(ValidationResultCode resultCode, String studentId) {
@@ -95,6 +96,11 @@
         @AuraEnabled
         public String getMobilePhone() {
             return mobilePhone;
+        }
+        
+        @AuraEnabled
+        public String getId() {
+            return id;
         }
     }
 
