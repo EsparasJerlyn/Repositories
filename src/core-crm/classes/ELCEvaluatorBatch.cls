@@ -30,12 +30,12 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
         String contactQuery;
 
         if (!eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
-            // contactQuery = new CourseConnectionAssessmentsDAO().getContactQueryByCriteria(
-            //     eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
-            //     eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
-            //     elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
-            //     elcParser.getELCContactParser().getContactCriteria()
-            // );
+            contactQuery = new CourseConnectionAssessmentsDAO().getContactQueryByCriteria(
+                eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
+                eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
+                elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
+                elcParser.getELCContactParser().getContactCriteria()
+            );
         } else if (!eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) {
             contactQuery = new CourseConnectionsDAO().getContactQueryByCriteria(
                 eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
