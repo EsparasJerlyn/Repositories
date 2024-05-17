@@ -32,7 +32,7 @@ public with sharing class ELCProgramEnrollmentBreachEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Breach__c = breachList[0].Id;
 
     
