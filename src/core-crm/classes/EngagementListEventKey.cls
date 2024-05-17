@@ -38,20 +38,24 @@ public with sharing class EngagementListEventKey {
         programEnrollmentStatus = event.Program_Enrollment_Status__c;
     }
 
-    public Boolean isDuplicate(EngagementListEventKey eventKey) {
-        return             
-            contactId == eventKey.contactId &&
-            criteriaId == eventKey.criteriaId &&
-            programEnrollmentId == eventKey.programEnrollmentId &&
-            completedCadenceId == eventKey.completedCadenceId &&
-            courseConnectionId == eventKey.courseConnectionId &&
-            courseConnectionAssessmentId == eventKey.courseConnectionAssessmentId &&
-            programEnrollmentBreachId == eventKey.programEnrollmentBreachId &&
-            leaveOfAbsenceId == eventKey.leaveOfAbsenceId &&
-            academicStatus == eventKey.academicStatus &&
-            courseEnrollmentStatus == eventKey.courseEnrollmentStatus &&
-            keyDate == eventKey.keyDate &&
-            programEnrollmentStatus == eventKey.programEnrollmentStatus;
+    public Boolean equals(Object obj) {
+        if (obj instanceof EngagementListEventKey) {
+            EngagementListEventKey key = (EngagementListEventKey)obj;
+            return             
+                this.contactId == key.contactId &&
+                this.criteriaId == key.criteriaId &&
+                this.programEnrollmentId == key.programEnrollmentId &&
+                this.completedCadenceId == key.completedCadenceId &&
+                this.courseConnectionId == key.courseConnectionId &&
+                this.courseConnectionAssessmentId == key.courseConnectionAssessmentId &&
+                this.programEnrollmentBreachId == key.programEnrollmentBreachId &&
+                this.leaveOfAbsenceId == key.leaveOfAbsenceId &&
+                this.academicStatus == key.academicStatus &&
+                this.courseEnrollmentStatus == key.courseEnrollmentStatus &&
+                this.keyDate == key.keyDate &&
+                this.programEnrollmentStatus == key.programEnrollmentStatus;
+        }
+        return false;
     }
 
 }

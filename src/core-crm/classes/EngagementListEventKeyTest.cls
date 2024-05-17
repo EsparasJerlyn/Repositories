@@ -44,6 +44,8 @@ public with sharing class EngagementListEventKeyTest {
             eventCandidate.Key_Date__c = keyDate;
             eventCandidate.Program_Enrollment_Status__c = 'Active';
             EngagementListEventKey eventCandidateKey = new EngagementListEventKey(eventCandidate, contactId, criteriaId);
+            Map<EngagementListEventKey, Engagement_List_Event__c> candidateMap = new Map<EngagementListEventKey, Engagement_List_Event__c>();
+            candidateMap.put(eventCandidateKey, eventCandidate);
             
             Engagement_List_Event__c existingEvent = new Engagement_List_Event__c();
             existingEvent.Program_Enrollment__c = programEnrollmentId;
@@ -58,7 +60,7 @@ public with sharing class EngagementListEventKeyTest {
             existingEvent.Program_Enrollment_Status__c = 'Active';
             EngagementListEventKey existingEventKey = new EngagementListEventKey(existingEvent, contactId, criteriaId);
 
-            System.assert(eventCandidateKey.isDuplicate(existingEventKey), 'Event Candidate Key must be equal to Existing Event Key.');
+            System.assert(candidateMap.containsKey(existingEventKey), 'Event Candidate Key must be equal to Existing Event Key.');
         }    
 
         Test.stopTest();
@@ -80,6 +82,8 @@ public with sharing class EngagementListEventKeyTest {
             eventCandidate.Key_Date__c = keyDate;
             eventCandidate.Program_Enrollment_Status__c = 'Active';
             EngagementListEventKey eventCandidateKey = new EngagementListEventKey(eventCandidate, contactId, criteriaId);
+            Map<EngagementListEventKey, Engagement_List_Event__c> candidateMap = new Map<EngagementListEventKey, Engagement_List_Event__c>();
+            candidateMap.put(eventCandidateKey, eventCandidate);
             
             Engagement_List_Event__c existingEvent = new Engagement_List_Event__c();
             existingEvent.Program_Enrollment__c = new MockIdGenerator(hed__Program_Enrollment__c.SObjectType).getMockId();
@@ -88,7 +92,7 @@ public with sharing class EngagementListEventKeyTest {
             existingEvent.Program_Enrollment_Status__c = 'Test';
             EngagementListEventKey existingEventKey = new EngagementListEventKey(existingEvent, contactId, criteriaId);
 
-            System.assert(!eventCandidateKey.isDuplicate(existingEventKey), 'Event Candidate Key must not be equal to Existing Event Key.');
+            System.assert(!candidateMap.containsKey(existingEventKey), 'Event Candidate Key must not be equal to Existing Event Key.');
         }    
          
         Test.stopTest();
