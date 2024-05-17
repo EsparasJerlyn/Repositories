@@ -55,26 +55,22 @@ public with sharing class ELECandidateProcessor {
         Map<Engagement_List_Event__c, Case> outreachCaseMap = new Map<Engagement_List_Event__c, Case>();
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         for(Engagement_List_Event__c existingEvent : elEventsDAO.getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
-            EngagementListEventKey existingEventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
-            for(EngagementListEventKey eventCandidateKey : eventCandidateKeyMap.KeySet()){
-                if(!eventCandidateKey.isDuplicate(existingEventKey)){
-                    Id eventCandidateContactId = eventCandidateKeyMap.get(eventCandidateKey).getContactId();
-                    Engagement_List_Event__c event = eventCandidateKeyMap.get(eventCandidateKey).getEvent();
-                    event.Engagement_List_Criteria__c = criteriaId;
-                    if(openCaseMap.containsKey(eventCandidateContactId)){
-                        event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
-                        newEvents.add(event);
-                        result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
-                    }else{
-                        outreachCaseMap.put(event, createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)));
-                        result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
-                    }
+            EngagementListEventKey eventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
+            if(!eventCandidateKeyMap.containsKey(eventKey)){
+                Id eventCandidateContactId = eventCandidateKeyMap.get(eventKey).getContactId();
+                Engagement_List_Event__c event = eventCandidateKeyMap.get(eventKey).getEvent();
+                event.Engagement_List_Criteria__c = criteriaId;
+                if(openCaseMap.containsKey(eventCandidateContactId)){
+                    event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
+                    newEvents.add(event);
+                    result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
                 }else{
-                    result.add(new ELECandidateProcessResult(eventCandidateKeyMap.get(eventCandidateKey).getEvent(), ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED));
+                    outreachCaseMap.put(event, createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)));
+                    result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
                 }
-                eventCandidateKeyMap.remove(eventCandidateKey);
+            }else{
+                result.add(new ELECandidateProcessResult(eventCandidateKeyMap.get(eventKey).getEvent(), ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED));
             }
-            
         }
 
         if(!outreachCaseMap.values().isEmpty()){
