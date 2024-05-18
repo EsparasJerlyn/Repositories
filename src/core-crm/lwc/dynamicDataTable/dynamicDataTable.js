@@ -57,6 +57,7 @@ export default class DynamicDataTable extends NavigationMixin(
   @api channelName = "/event/Dynamic_Datatable_Event__e";
   @api visibilityByParent = "";
   @api visibilityByUser = "";
+  @api numberOfRows;
   /* TARGET CONFIG END */
 
   /* DATATABLE VARIABLES START */
@@ -78,14 +79,21 @@ export default class DynamicDataTable extends NavigationMixin(
   userAccessInfo = [];
   visibilityCheckResultByUser = false;
   visibilityCheckResultByParent = false;
+  showViewLess = false;
+  enableViewLessButton = false;
   /*USER EXPERIENCE VARIABLES END */
 
   /* GETTERS START */
   get enableInfiniteLoading() {
     return this.recordCount > 10 &&
       this.recordCount != this.finalSObjectDataList.length
+      && this.enableViewLessButton
       ? true
       : false;
+  }
+
+  get enableViewAllButton(){
+    return (this.recordCount > 10 || this.recordCount > this.numberOfRows) && !this.enableViewLessButton;
   }
 
   get reactiveRecordId() {
@@ -111,7 +119,7 @@ export default class DynamicDataTable extends NavigationMixin(
   }
 
   get heightLimit() {
-    return this.recordCount > 10
+    return this.recordCount > 10 && this.enableViewLessButton
       ? "table-height-limit slds-border_top"
       : "slds-border_top";
   }
@@ -250,7 +258,7 @@ export default class DynamicDataTable extends NavigationMixin(
       ? "AND " + this.relatedListFilters
       : "";
     paramsMap["rowOffSet"] = this.rowOffSet;
-    paramsMap["rowLimit"] = this.rowLimit;
+    paramsMap["rowLimit"] = this.numberOfRows < 10 && !this.enableViewLessButton ? this.numberOfRows : 10;
     paramsMap["sortOrder"] = this.sortOrder;
     paramsMap["sortField"] = this.sortField;
     paramsMap["visibilityByUser"] = this.visibilityByUser;
@@ -342,13 +350,14 @@ export default class DynamicDataTable extends NavigationMixin(
     event.preventDefault();
     const { target } = event;
     target.isLoading = true;
-    this.rowOffSet = this.rowOffSet + this.rowLimit;
+    this.rowOffSet = this.rowOffSet + 10;
     this.loadData(this.setParameters()).then(() => {
       target.isLoading = false;
     });
   }
 
   handleRefreshData() {
+    this.finalSObjectDataList = [];
     this.rowOffSet = 0;
     this.loadData(this.setParameters());
   }
@@ -633,5 +642,14 @@ export default class DynamicDataTable extends NavigationMixin(
     });
   }
 
+  handleViewAll(){
+    this.enableViewLessButton = true;
+    this.handleRefreshData();
+  }
+
+  handleViewLess() {
+    this.enableViewLessButton = false;
+    this.handleRefreshData();
+  }
   /* ACTION HANDLERS END */
 }
