@@ -1,36 +1,139 @@
 import { LightningElement,track,wire } from 'lwc';
-import validate from'@salesforce/apex/StudentIdValidator.validate';
+import listOfStudents from'@salesforce/apex/OutreachCaseImportCtrl.listOfStudents';
+import listOfCasesbyStudentIds from'@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds';
 
-const exclusionsColumns = [
+const EXCLUSIONS_COLUMNS = [
   { label: 'Student Id', fieldName: 'studentId' },
   { label: 'Error', fieldName: 'error'},
 ];
 
+
 export default class OutReachCaseImportModal extends LightningElement {
+  tableColumns = [
+    {
+      label: 'Case',
+      fieldName: 'caseUrl',
+      editable: false,
+      sortable: false,
+      type: 'url',
+      typeAttributes: { 
+        label: { 
+          fieldName: 'caseNumber' 
+        }, 
+        target: '_blank' 
+      }
+    },
+    {
+      label: 'QUT Student ID',
+      fieldName: 'studentId',
+      editable: false,
+      sortable: false,
+      type: 'text',
+    },
+    {
+      label: 'Full Name',
+      fieldName: 'contactUrl',
+      editable: false,
+      sortable: false,
+      type: 'url',
+      typeAttributes: { 
+        label: { 
+          fieldName: 'fullName' 
+        }, 
+        target: '_blank' 
+      }
+    },
+    {
+      label: 'QUT Learner Email',
+      fieldName: 'email',
+      editable: false,
+      sortable: false,
+      type: 'text',
+    },
+    {
+      label: 'Mobile',
+      fieldName: 'mobilePhone',
+      editable: false,
+      sortable: false,
+      type: 'text',
+    },
+    {
+      label: 'Student ID',
+      fieldName: 'studentId',
+      editable: false,
+      sortable: false,
+      type: 'text',
+    },
+    ,
+    {
+      label: 'Error',
+      fieldName: 'error',
+      editable: false,
+      sortable: false,
+      type: 'text',
+    },
+    { 
+      type: 'button-icon',
+      typeAttributes:
+      {
+          iconName: 'utility:delete',
+          name: 'delete'
+      }
+    }
+  ];
+  exclusionsColumns = EXCLUSIONS_COLUMNS;
   
   @track modalOpen = true;
   @track isCreateButtonDisabled = true;
   @track data = [];
   @track exclusionData = [];
   @track exclData = [];
-
+  @track dataCopy = [];
   @track errors = [];
+  @track studentsFound = 0;
+  @track tempData = [];
+  @track tempDataCopy = [];
+
   showTabset = false;
-  @track rowCount;
-  @track studentsFound;
-  // @track exclRowCount = 0;
   showModal = false;
   fileName;
-  exclusionsColumns = exclusionsColumns;
-  @track tempData = [];
-  studentIds = [];
   loaded = false;
+  showCreateOutreach = true;
+  showCaseCol = false;
+  isCreateOutreach = false;
+  exitModal = 'Cancel';
+  draftValues = [];
 
-  closeModal() {
-    const closeModalEvent = new CustomEvent('closemodal', {
-      detail: false
+  studentTable = [];
+  exclusionsTable = [];
+
+
+  connectedCallback(){
+    let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
+    let exclusionsColumns = ['Student ID', 'Error'];
+    let toAddAction = false;
+    const columns = this.tableColumns;
+    const newStudentColumns = [];
+    const newExclusionsColumns = [];
+    stundentColumns.forEach((name) => {
+      columns.forEach((obj) => {
+        if (obj.label === name) {
+          newStudentColumns.push(obj);
+        }
+      })
     });
-    this.dispatchEvent(closeModalEvent);
+    newStudentColumns.push(columns[columns.length-1]);
+    exclusionsColumns.forEach((name) => {
+      columns.forEach((obj) => {
+          if (obj.label === name) {
+            newExclusionsColumns.push(obj);
+          }
+      })
+    });
+
+    this.studentTable = newStudentColumns;
+    this.exclusionsTable = newExclusionsColumns;
+
   }
 
   get modalClass() {
@@ -40,13 +143,21 @@ export default class OutReachCaseImportModal extends LightningElement {
   get backdropClass() {
     return this.modalOpen ? 'slds-backdrop slds-backdrop_open' : 'slds-backdrop slds-backdrop_close';
   }
+  
+  get createButtonDisbaled(){
+    return this.studentsFound == 0 ? true : false ;
+  }
 
-  handleFileChange(event) {
-    if (event.target.files.length > 0) {
-        this.isCreateButtonDisabled = false; 
-    } else {
-        this.isCreateButtonDisabled = true;
-    }
+  get column2Name(){
+    return this.isCreateOutreach ? 'Case Created' : 'Rows';
+  }
+
+  get column3Name(){
+    return this.isCreateOutreach ? 'Existing Cases' : 'Students Found';
+  }
+
+  get exclRowCount() {
+    return this.exclusionData.length <= 0 ? 0 : this.exclusionData.length;
   }
 
   handleFileUpload(event) {
@@ -72,7 +183,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   async read(file) {
     try {
       const result = await this.load(file);
-      console.log(result);
       
       // execute the logic for parsing the uploaded csv file
       this.parse(result);
@@ -104,33 +214,16 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.data = [];
     this.exclusionData = [];
     this.exclData = [];
+    this.showCaseCol = false;
     // parse the csv file and treat each line as one item of an array
     const lines = csv.split(/\r\n|\n/);
     
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
-  
-    // Check if the header does not contain 'StudentID'
-    if (!headers.includes('StudentID')) {
-      this.errors.push("The file should contain a column with the header 'StudentID'.");
-      this.showTabset = false;
-      console.log(this.error);
-    }
+    const rowCount = lines.length - 2;
 
-    this.rowCount = lines.length - 2;
+    this.validateCsvFile(headers, rowCount);
 
-    if (this.rowCount === 0) {
-      this.errors.push('The file you have uploaded does not contain any data.');
-      this.showTabset = false;
-      console.log(this.error);
-    }
-
-    if (this.rowCount > 3000) {
-      this.errors.push('The CSV file contains too many rows. Please limit this to 3000 rows maximum.');
-      console.log(this.error);
-      this.showTabset = false;
-    }
-    
     // iterate through csv headers and transform them to column format supported by the datatable
     this.columns = headers.map((header) => {
       return { label: header, fieldName: header };
@@ -154,59 +247,186 @@ export default class OutReachCaseImportModal extends LightningElement {
 
     });
 
+    const studentIds = [];
     data.forEach( (data, i) => {
-      this.studentIds[i] = data.StudentID.toString();
+      studentIds[i] = data.StudentID.toString();
     });
+    this.validateStudents(studentIds);
+  }
 
-    validate({ studentIds: this.studentIds })
+  validateCsvFile(headers, rows){
+    // Check if the header does not contain 'StudentID'
+    if (!headers.includes('StudentID')) {
+      this.errors.push("The file should contain a column with the header 'StudentID'.");
+      this.showTabset = false;
+      console.log(this.error);
+    }
+
+    if (rows === 0) {
+      this.errors.push('The file you have uploaded does not contain any data.');
+      this.showTabset = false;
+      console.log(this.error);
+    }
+
+    if (rows > 3000) {
+      this.errors.push('The CSV file contains too many rows. Please limit this to 3000 rows maximum.');
+      console.log(this.error);
+      this.showTabset = false;
+    }
+  }
+
+  validateStudents(studentIds){
+    listOfStudents({ studentIds: studentIds })
 		.then(result => {
-      this.tempData = result; // for search
       let allStudentsData = result;
       const exclData = this.exclData;
       const data = this.data;
       for (let i = 0; i < allStudentsData.length; i++) {
-        const obj = {};
         if (result[i].resultCode == 'VALID') {
           data.push(allStudentsData[i]);
         } 
         if (result[i].resultCode == 'MULTIPLE_MATCH') {
-          obj[this.exclusionsColumns[0].fieldName] = result[i].studentId;
-          obj[this.exclusionsColumns[1].fieldName] = 'Multiple students found with the same Student ID in DEP';
-          exclData.push(obj);
+          exclData.push(this.updateExclusiveData(result[i].studentId, 'Multiple students found with the same Student ID in DEP'));
         } 
         if (result[i].resultCode == 'INVALID') {
-          obj[this.exclusionsColumns[0].fieldName] = result[i].studentId;
-          obj[this.exclusionsColumns[1].fieldName] = 'Student ID was not found';
-          exclData.push(obj);
+          exclData.push(this.updateExclusiveData(result[i].studentId, 'Student ID was not found'));
         } 
       }
-      
-      this.rowCount = this.data.length;
-      const duplicates = this.studentIds.filter((item, index) => this.studentIds.indexOf(item) !== index);
-      console.log('duplicates: ', duplicates);
+      const duplicates = [];
+      studentIds.forEach((item, index) => {
+        if (studentIds.indexOf(item) != index && duplicates.indexOf(item) < 0) {
+          duplicates.push(item);
+        }
+      });
+
       duplicates.forEach(i => {
-        let obj = {};
-        obj[this.exclusionsColumns[0].fieldName] = i;
-        obj[this.exclusionsColumns[1].fieldName] = 'Duplicate student ID found in list, duplicates will be ignored';
-        exclData.push(obj);
+        exclData.push(this.updateExclusiveData(i, 'Duplicate student ID found in list, duplicates will be ignored'));
       });
 
       if (exclData.length > 0) {
-        this.exclData = exclData.sort((a, b) => a.studentId - b.studentId);;
+        this.exclData = exclData.sort((a, b) => a.studentId - b.studentId);
+        this.exclusionData = this.exclData;
       }
+
       if (data.length > 0) {
+        this.isCreateButtonDisabled = false;
         this.data = data.sort((a, b) => a.studentId - b.studentId);
+        this.studentsFound = this.data.length;
       }
-      this.studentsFound = this.data.length;
-      this.exclusionData = this.exclData;
-      this.loaded = true;
+      
+      this.dataCopy = this.data.map((data, index) => {
+        const obj = {
+          rowId : `row-${index}`,
+          studentId : data.studentId,
+          fullName : data.fullName,
+          email : data.email,
+          mobilePhone : data.mobilePhone,
+          contactId : data.id
+        }
+        if (data.id) {
+          obj.contactUrl = `/lightning/r/Contact/${data.id}/view`;
+        }
+        return obj;
+      });
+
+      this.data = this.dataCopy;
+      this.tempData = this.data; // for search
+      this.loaded = true; 
 		})
 		.catch(error => {
 			console.log('error ::: ', error);
 		});
-
   }
 
+  //deletes row selected
+  handleActionRow(event){
+    const detail = event.detail;
+    if (detail.action.name === 'delete') {
+      const data = JSON.parse(JSON.stringify(this.data));
+      const newdata = [];
+
+      for (let field in data) {
+        if (String(data[field].rowId) !== String(detail.row.rowId)) {
+          newdata.push(data[field]);
+        }
+      }
+
+      newdata.forEach((obj, key) => {
+          obj.rowId =  `row-${key}`;
+      });
+      const exclData = this.exclData;
+      exclData.push(this.updateExclusiveData(detail.row.studentId, 'Manually Removed'));
+      this.exclusionData = exclData.sort((a, b) => a.studentId - b.studentId);
+      this.data = newdata;
+      this.studentsFound--;
+    }
+  }
+
+  handleCreateOutreach() {
+    this.loaded = false;
+    this.isCreateOutreach = true;
+    let stundentColumns = ['Case', 'QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
+    const columns = this.tableColumns;
+    const newStudentColumns = [];
+    this.exitModal = 'Close';
+    this.showCreateOutreach = false;
+    this.showCaseCol = true;
+    
+    stundentColumns.forEach((name) => {
+      columns.forEach((obj) => {
+        if (obj.label === name) {
+          newStudentColumns.push(obj);
+        }
+      })
+    });
+    this.studentTable = newStudentColumns;
+
+    this.createOutreach(this.data)
+    this.loaded = true;
+  }
+
+  updateExclusiveData(studentId, error){
+    const obj = {};
+    obj[this.exclusionsColumns[0].fieldName] = studentId;
+    obj[this.exclusionsColumns[1].fieldName] = error;
+
+    return obj;
+  }
+
+  createOutreach(outreachData) {
+    const data = JSON.parse(JSON.stringify(outreachData));
+    const studentIds = [];
+    data.forEach( (data, i) => {
+      studentIds[i] = data.contactId.toString();
+    });
+
+    listOfCasesbyStudentIds({ contactIds: studentIds })
+		.then(result => {
+      const caseData = JSON.parse(JSON.stringify(result));
+      const studentData = JSON.parse(JSON.stringify(data));
+      const merged = studentData.map(t1 => {
+        const matchData = caseData.find((t2) => t2.ContactId === t1.contactId);
+        return !!matchData ? {
+          ...t1, 
+          caseId : matchData.Id, 
+          caseNumber : matchData.CaseNumber, 
+          caseUrl : `/lightning/r/Case/${matchData.Id}/view`} : null
+      }).filter(Boolean);
+      this.data = merged;
+      this.tempData = this.data;
+      this.loaded = true; 
+		})
+		.catch(error => {
+			console.log('error ::: ', error);
+		});
+  }
+
+  closeModal() {
+    const closeModalEvent = new CustomEvent('closemodal', {
+      detail: false
+    });
+    this.dispatchEvent(closeModalEvent);
+  }
 
   importList(){
     this.showModal = true;
@@ -214,22 +434,6 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   handleClose(){
     this.showModal = !this.showModal;
-  }
-
-  handleDeleteAction(event){
-    let selectedStudentId = event.target.dataset.id;
-    const obj = {};
-    obj[this.exclusionsColumns[0].fieldName] = selectedStudentId;
-    obj[this.exclusionsColumns[1].fieldName] = 'Manually removed';
-    this.exclData.push(obj);
-    this.exclusionData = this.exclData;
-    this.exclusionData.sort((a, b) => a.studentId - b.studentId);
-    this.data.splice(this.data.findIndex(row => row.StudentID == selectedStudentId), 1);
-    this.studentsFound--;
-  }
-
-  get exclRowCount() {
-    return this.exclusionData.length === 0 ? 0 : this.exclusionData.length;
   }
 
   handleSearch(event) {
