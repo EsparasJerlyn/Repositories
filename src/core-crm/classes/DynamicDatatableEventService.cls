@@ -40,7 +40,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Document'
         },
         Donation__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity__c',
+            'ParentFields' => 'Opportunity__c,From_Designation__c',
             'ObjectLabel' => 'Donation'
         },
         Finance_Summary__c.SObjectType => new Map<String, String>{

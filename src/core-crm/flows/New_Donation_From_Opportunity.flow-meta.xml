@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Cause_Donation_Detail_Page_Navigation</name>
         <label>Cause Donation Detail Page Navigation</label>
-        <locationX>1106</locationX>
-        <locationY>1322</locationY>
+        <locationX>1810</locationX>
+        <locationY>1622</locationY>
         <actionName>c:detailPageNavigation</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -21,8 +21,8 @@
     <actionCalls>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>50</locationX>
-        <locationY>1322</locationY>
+        <locationX>314</locationX>
+        <locationY>1622</locationY>
         <actionName>c:detailPageNavigation</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -39,8 +39,8 @@
     <actionCalls>
         <name>Endowment_Donation_Detail_Page_Navigation</name>
         <label>Endowment Donation Detail Page Navigation</label>
-        <locationX>1898</locationX>
-        <locationY>1322</locationY>
+        <locationX>3042</locationX>
+        <locationY>1622</locationY>
         <actionName>c:detailPageNavigation</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -58,8 +58,8 @@
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>314</locationX>
-        <locationY>1322</locationY>
+        <locationX>4714</locationX>
+        <locationY>1622</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -97,8 +97,8 @@
     <actionCalls>
         <name>Pledge_Donation_Detail_Page_Navigation</name>
         <label>Pledge Donation Detail Page Navigation</label>
-        <locationX>2690</locationX>
-        <locationY>1322</locationY>
+        <locationX>4274</locationX>
+        <locationY>1622</locationY>
         <actionName>c:detailPageNavigation</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -115,8 +115,8 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>314</locationX>
-        <locationY>1430</locationY>
+        <locationX>4714</locationX>
+        <locationY>1730</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -130,7 +130,7 @@
     <assignments>
         <name>Assign_Donation_Cause_Custom_Error_Value</name>
         <label>Assign Donation Cause Custom Error Value</label>
-        <locationX>842</locationX>
+        <locationX>1282</locationX>
         <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>DonationCausePaymentTypeIsEmpty</assignToReference>
@@ -147,7 +147,7 @@
     <assignments>
         <name>Assign_Donation_Endowment_Custom_Error_Value</name>
         <label>Assign Donation Endowment Custom Error Value</label>
-        <locationX>1634</locationX>
+        <locationX>2514</locationX>
         <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>DonationCausePaymentTypeIsEmpty</assignToReference>
@@ -164,7 +164,7 @@
     <assignments>
         <name>Assign_Donation_Pledge_Custom_Error_Value</name>
         <label>Assign Donation Pledge Custom Error Value</label>
-        <locationX>2426</locationX>
+        <locationX>3746</locationX>
         <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>DonationCausePaymentTypeIsEmpty</assignToReference>
@@ -179,9 +179,137 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_True</name>
+        <label>Assign Is Anonymous Donation to True</label>
+        <locationX>314</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>True</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_True_Cause</name>
+        <label>Assign Is Anonymous Donation to True</label>
+        <locationX>1810</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>True</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Cause_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_True_Endowment</name>
+        <label>Assign Is Anonymous Donation to True</label>
+        <locationX>3042</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>True</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Endowment_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_True_Pledge</name>
+        <label>Assign Is Anonymous Donation to True</label>
+        <locationX>4274</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>True</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Pledge_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_User_Input</name>
+        <label>Assign Is Anonymous Donation to User Input</label>
+        <locationX>50</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Anonymous_Donation_GIK</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_User_Input_Cause</name>
+        <label>Assign Is Anonymous Donation to User Input</label>
+        <locationX>1546</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Anonymous_Donation_Cause</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Cause_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_User_Input_Endowment</name>
+        <label>Assign Is Anonymous Donation to User Input</label>
+        <locationX>2778</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Anonymous_Donation_Endowment</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Endowment_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Is_Anonymous_Donation_to_User_Input_Pledge</name>
+        <label>Assign Is Anonymous Donation to User Input</label>
+        <locationX>4010</locationX>
+        <locationY>1322</locationY>
+        <assignmentItems>
+            <assignToReference>IsAnonymousDonationSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Anonymous_Donation_Pledge</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Pledge_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>2822</locationX>
+        <locationX>4208</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -197,7 +325,7 @@
     <assignments>
         <name>Assign_Record_Type_Selected</name>
         <label>Assign Record Type Selected</label>
-        <locationX>1634</locationX>
+        <locationX>2646</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>AssignRecordTypeSelected</assignToReference>
@@ -213,7 +341,7 @@
     <assignments>
         <name>Assign_User_Input_as_Temporary_Values</name>
         <label>Assign User Input as Temporary Values</label>
-        <locationX>842</locationX>
+        <locationX>1282</locationX>
         <locationY>1214</locationY>
         <assignmentItems>
             <assignToReference>DonationObject.Donation_Comment__c</assignToReference>
@@ -243,7 +371,7 @@
     <assignments>
         <name>Assign_User_Input_as_Temporary_Values_Endowment</name>
         <label>Assign User Input as Temporary Values</label>
-        <locationX>1634</locationX>
+        <locationX>2514</locationX>
         <locationY>1214</locationY>
         <assignmentItems>
             <assignToReference>DonationObject.Donation_Comment__c</assignToReference>
@@ -273,7 +401,7 @@
     <assignments>
         <name>Assign_User_Input_as_Temporary_Values_Pledge</name>
         <label>Assign User Input as Temporary Values</label>
-        <locationX>2426</locationX>
+        <locationX>3746</locationX>
         <locationY>1214</locationY>
         <assignmentItems>
             <assignToReference>DonationObject.Donation_Comment__c</assignToReference>
@@ -310,7 +438,7 @@
     <assignments>
         <name>Donation_Object_Assignment</name>
         <label>Donation Object Assignment</label>
-        <locationX>1634</locationX>
+        <locationX>2646</locationX>
         <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>DonationObject.RecordTypeId</assignToReference>
@@ -326,10 +454,10 @@
     <decisions>
         <name>Check_Donation_Cause_Payment_Type</name>
         <label>Check Donation Cause Payment Type</label>
-        <locationX>974</locationX>
+        <locationX>1546</locationX>
         <locationY>1106</locationY>
         <defaultConnector>
-            <targetReference>Create_Cause_Donation_Records</targetReference>
+            <targetReference>Check_Is_Anonymous_Donation_Cause</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -351,10 +479,10 @@
     <decisions>
         <name>Check_Donation_Endowment_Payment_Type</name>
         <label>Check Donation Endowment Payment Type</label>
-        <locationX>1766</locationX>
+        <locationX>2778</locationX>
         <locationY>1106</locationY>
         <defaultConnector>
-            <targetReference>Create_Endowment_Donation_Records</targetReference>
+            <targetReference>Check_Is_Anonymous_Donation_Endowment</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -376,10 +504,10 @@
     <decisions>
         <name>Check_Donation_Pledge_Payment_Type</name>
         <label>Check Donation Pledge Payment Type</label>
-        <locationX>2558</locationX>
+        <locationX>4010</locationX>
         <locationY>1106</locationY>
         <defaultConnector>
-            <targetReference>Create_Pledge_Donation_Records</targetReference>
+            <targetReference>Check_Is_Anonymous_Donation_Pledge</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -399,9 +527,169 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Is_Anonymous_Donation</name>
+        <label>Check Is Anonymous Donation</label>
+        <locationX>314</locationX>
+        <locationY>1214</locationY>
+        <defaultConnector>
+            <targetReference>Create_Donation_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>False</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_User_Input</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_True</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Is_Anonymous_Donation_Cause</name>
+        <label>Check Is Anonymous Donation Cause</label>
+        <locationX>1810</locationX>
+        <locationY>1214</locationY>
+        <defaultConnector>
+            <targetReference>Create_Cause_Donation_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>False_Cause</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_User_Input_Cause</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+        <rules>
+            <name>True_Cause</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_True_Cause</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Is_Anonymous_Donation_Endowment</name>
+        <label>Check Is Anonymous Donation Endowment</label>
+        <locationX>3042</locationX>
+        <locationY>1214</locationY>
+        <defaultConnector>
+            <targetReference>Create_Endowment_Donation_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>False_Endowment</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_User_Input_Endowment</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+        <rules>
+            <name>True_Endowment</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_True_Endowment</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Is_Anonymous_Donation_Pledge</name>
+        <label>Check Is Anonymous Donation Endowment</label>
+        <locationX>4274</locationX>
+        <locationY>1214</locationY>
+        <defaultConnector>
+            <targetReference>Create_Pledge_Donation_Records</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>False_Pledge</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_User_Input_Pledge</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+        <rules>
+            <name>True_Pledge</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Is_Anonymous_Donation_to_True_Pledge</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>2822</locationX>
+        <locationX>4208</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Error_Screen</targetReference>
@@ -447,7 +735,7 @@
     <decisions>
         <name>What_RecordType_is_Selected_for_Donation_Screen</name>
         <label>What RecordType is Selected for Donation Screen</label>
-        <locationX>1634</locationX>
+        <locationX>2646</locationX>
         <locationY>890</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -602,8 +890,8 @@
     <recordCreates>
         <name>Create_Cause_Donation_Records</name>
         <label>Create Cause Donation Records</label>
-        <locationX>1106</locationX>
-        <locationY>1214</locationY>
+        <locationX>1810</locationX>
+        <locationY>1514</locationY>
         <connector>
             <targetReference>Cause_Donation_Detail_Page_Navigation</targetReference>
         </connector>
@@ -632,7 +920,7 @@
         <inputAssignments>
             <field>Is_Anonymous_Donation__c</field>
             <value>
-                <elementReference>Is_Anonymous_Donation_Cause</elementReference>
+                <elementReference>IsAnonymousDonationSelected</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -677,12 +965,13 @@
     <recordCreates>
         <name>Create_Donation_Records</name>
         <label>Create Donation Records</label>
-        <locationX>50</locationX>
-        <locationY>1214</locationY>
+        <locationX>314</locationX>
+        <locationY>1514</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -712,7 +1001,7 @@
         <inputAssignments>
             <field>Is_Anonymous_Donation__c</field>
             <value>
-                <elementReference>Is_Anonymous_Donation_GIK</elementReference>
+                <elementReference>IsAnonymousDonationSelected</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -739,8 +1028,8 @@
     <recordCreates>
         <name>Create_Endowment_Donation_Records</name>
         <label>Create Endowment Donation Records</label>
-        <locationX>1898</locationX>
-        <locationY>1214</locationY>
+        <locationX>3042</locationX>
+        <locationY>1514</locationY>
         <connector>
             <targetReference>Endowment_Donation_Detail_Page_Navigation</targetReference>
         </connector>
@@ -769,7 +1058,7 @@
         <inputAssignments>
             <field>Is_Anonymous_Donation__c</field>
             <value>
-                <elementReference>Is_Anonymous_Donation_Endowment</elementReference>
+                <elementReference>IsAnonymousDonationSelected</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -814,13 +1103,12 @@
     <recordCreates>
         <name>Create_Pledge_Donation_Records</name>
         <label>Create Pledge Donation Records</label>
-        <locationX>2690</locationX>
-        <locationY>1214</locationY>
+        <locationX>4274</locationX>
+        <locationY>1514</locationY>
         <connector>
             <targetReference>Pledge_Donation_Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -850,7 +1138,7 @@
         <inputAssignments>
             <field>Is_Anonymous_Donation__c</field>
             <value>
-                <elementReference>Is_Anonymous_Donation_Pledge</elementReference>
+                <elementReference>IsAnonymousDonationSelected</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -889,10 +1177,10 @@
     <recordCreates>
         <name>Create_Related_Donation_Asset_Records</name>
         <label>Create Related Donation Asset Records</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>1106</locationY>
         <connector>
-            <targetReference>Create_Donation_Records</targetReference>
+            <targetReference>Check_Is_Anonymous_Donation</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -916,7 +1204,7 @@
     <recordLookups>
         <name>Get_Donation_Record_Type</name>
         <label>Get Donation Record Type</label>
-        <locationX>1634</locationX>
+        <locationX>2646</locationX>
         <locationY>674</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -948,7 +1236,7 @@
     <recordLookups>
         <name>Get_Parent_Opportunity_Record</name>
         <label>Get Parent Opportunity Record</label>
-        <locationX>1634</locationX>
+        <locationX>2646</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -973,7 +1261,7 @@
     <screens>
         <name>Collect_Cause_Donation_Details</name>
         <label>Collect Cause Donation Details</label>
-        <locationX>974</locationX>
+        <locationX>1546</locationX>
         <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1100,6 +1388,16 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1119,7 +1417,7 @@
     <screens>
         <name>Collect_Donation_Details</name>
         <label>Collect Donation Details</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1154,6 +1452,16 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1201,7 +1509,7 @@
     <screens>
         <name>Collect_Endowment_Donation_Details</name>
         <label>Collect Endowment Donation Details</label>
-        <locationX>1766</locationX>
+        <locationX>2778</locationX>
         <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1328,6 +1636,16 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1347,7 +1665,7 @@
     <screens>
         <name>Collect_Pledge_Donation_Details</name>
         <label>Collect Pledge Donation Details</label>
-        <locationX>2558</locationX>
+        <locationX>4010</locationX>
         <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1398,6 +1716,16 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_Parent_Opportunity_Record.Is_Anonymous_Opportunity__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <fields>
                     <name>Donation_Comment_Pledge</name>
@@ -1462,8 +1790,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>314</locationX>
-        <locationY>1538</locationY>
+        <locationX>4714</locationX>
+        <locationY>1838</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1478,7 +1806,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>4010</locationX>
+        <locationX>5770</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1494,7 +1822,7 @@
     <screens>
         <name>Record_Type_Selection</name>
         <label>Record Type Selection</label>
-        <locationX>1634</locationX>
+        <locationX>2646</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1520,7 +1848,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>2696</locationX>
+        <locationX>4082</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
@@ -1575,6 +1903,13 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>IsAnonymousDonationSelected</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
