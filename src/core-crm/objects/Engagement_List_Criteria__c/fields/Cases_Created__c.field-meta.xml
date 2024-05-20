@@ -4,7 +4,7 @@
     <description>The total number of cases that have been created for that criteria</description>
     <externalId>false</externalId>
     <label>Cases Created</label>
-    <precision>4</precision>
+    <precision>6</precision>
     <required>false</required>
     <scale>0</scale>
     <securityClassification>Official</securityClassification>

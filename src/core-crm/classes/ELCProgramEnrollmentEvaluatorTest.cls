@@ -50,7 +50,7 @@ private class ELCProgramEnrollmentEvaluatorTest{
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
     
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);

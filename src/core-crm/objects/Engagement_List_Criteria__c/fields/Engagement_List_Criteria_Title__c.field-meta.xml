@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Engagement List Criteria Title</label>
     <length>160</length>
-    <required>false</required>
+    <required>true</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
