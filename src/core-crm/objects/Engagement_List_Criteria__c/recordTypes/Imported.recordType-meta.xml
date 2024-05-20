@@ -65,7 +65,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
+    <!-- <picklistValues>
         <picklist>Category_Type__c</picklist>
         <values>
             <fullName>Associate Degree</fullName>
@@ -139,7 +139,7 @@
             <fullName>Undergraduate Certificate</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
+    </picklistValues> -->
     <picklistValues>
         <picklist>Citizenship_Status__c</picklist>
         <values>
