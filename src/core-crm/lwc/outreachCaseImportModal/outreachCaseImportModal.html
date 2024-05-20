@@ -19,16 +19,16 @@
             <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
               <label class="slds-form-element__label" for="horizontal-input-id-01">Engagement List Criteria Title</label>
               <div class="slds-form-element__control">
-                <input type="text" id="horizontal-input-id-01" placeholder="Placeholder text…" class="slds-input" />
+                <lightning-input onchange={handleTitle} placeholder="Placeholder text…"></lightning-input>
               </div>
             </div>
 
             <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
               <label class="slds-form-element__label" for="horizontal-input-id-02">Description</label>
               <div class="slds-form-element__control">
-                <textarea id="horizontal-input-id-02" placeholder="Placeholder text…" class="slds-textarea"></textarea>
+                <lightning-input placeholder="Placeholder text…" onchange={handleDescription}></lightning-input>
                 <div class="slds-grid slds-gutters">
-                  <div class="">
+                  <div class="slds-p-left_small">
                     <lightning-input
                       type="file"
                       accept=".csv"

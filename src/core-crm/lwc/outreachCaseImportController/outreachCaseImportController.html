@@ -27,7 +27,7 @@
       </lightning-datatable>
 
       <template if:true={showModal}>
-        <c-outreach-case-import-modal onclosemodal={handleCloseModal}></c-outreach-case-import-modal>
+        <c-outreach-case-import-modal onclosemodal={handleCloseModal} record-id={recordId}></c-outreach-case-import-modal>
       </template>
     </div>
     <footer class="slds-card__footer">

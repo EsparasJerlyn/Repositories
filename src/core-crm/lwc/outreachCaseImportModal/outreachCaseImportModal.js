@@ -1,12 +1,6 @@
-import { LightningElement,track,wire } from 'lwc';
+import { LightningElement,track,api,wire } from 'lwc';
 import listOfStudents from'@salesforce/apex/OutreachCaseImportCtrl.listOfStudents';
 import listOfCasesbyStudentIds from'@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds';
-
-const EXCLUSIONS_COLUMNS = [
-  { label: 'Student Id', fieldName: 'studentId' },
-  { label: 'Error', fieldName: 'error'},
-];
-
 
 export default class OutReachCaseImportModal extends LightningElement {
   tableColumns = [
@@ -81,8 +75,9 @@ export default class OutReachCaseImportModal extends LightningElement {
       }
     }
   ];
-  exclusionsColumns = EXCLUSIONS_COLUMNS;
   
+  @api recordId;
+
   @track modalOpen = true;
   @track isCreateButtonDisabled = true;
   @track data = [];
@@ -103,9 +98,10 @@ export default class OutReachCaseImportModal extends LightningElement {
   isCreateOutreach = false;
   exitModal = 'Cancel';
   draftValues = [];
-
   studentTable = [];
   exclusionsTable = [];
+  @track title;
+  @track description;
 
 
   connectedCallback(){
@@ -385,10 +381,24 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.loaded = true;
   }
 
+  handleTitle(event) {
+    this.showCaseCol = this.showCaseCol;
+    this.showTabset = this.showTabset;
+    this.title = event.detail.value;
+  }
+
+  handleDescription(event) {
+    this.showCaseCol = this.showCaseCol;
+    this.showTabset = this.showTabset;
+    this.description = event.detail.value;
+  }
+
   updateExclusiveData(studentId, error){
-    const obj = {};
-    obj[this.exclusionsColumns[0].fieldName] = studentId;
-    obj[this.exclusionsColumns[1].fieldName] = error;
+    let excludedData = this.exclusionData;
+    const obj = {
+      studentId : studentId,
+      error : error
+    };
 
     return obj;
   }
@@ -400,7 +410,12 @@ export default class OutReachCaseImportModal extends LightningElement {
       studentIds[i] = data.contactId.toString();
     });
 
-    listOfCasesbyStudentIds({ contactIds: studentIds })
+    listOfCasesbyStudentIds({ 
+      contactIds : studentIds,
+      criteriaTitle : this.title,
+      criteriaDescription : this.description,
+      configurationId : this.recordId
+     })
 		.then(result => {
       const caseData = JSON.parse(JSON.stringify(result));
       const studentData = JSON.parse(JSON.stringify(data));
