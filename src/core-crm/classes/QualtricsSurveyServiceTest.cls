@@ -40,10 +40,10 @@ private class QualtricsSurveyServiceTest {
             List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c FROM Case WHERE Id = :cases[0].Id];
             
             QualtricsSurveyService.enqueueQualtricsSurveyToProcess(caseList);
-            List<Qualtrics_Survey__c> qs = [SELECT Id, Case__c FROM Qualtrics_Survey__c WHERE Case__c =: cases[0].Id];
+            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id, Case__c FROM Qualtrics_Survey__c WHERE Case__c =: cases[0].Id];
             Test.stopTest();
 
-            System.assertEquals(1, qs.size(), ' No Qualtrics Survey record created.');
+            System.assertEquals(1, qualtricsSurveyList.size(), ' No Qualtrics Survey record created.');
         } 
     }
 }
