@@ -49,6 +49,10 @@ public with sharing class ELCParser {
         eLCLeaveOfAbsenceParser = new ELCLeaveOfAbsenceParser(engagementListCriteria, executionDate);
     }
 
+    public Engagement_List_Criteria__c getEngagementListCriteria(){
+        return engagementListCriteria;
+    }
+
     public ELCContactParser getELCContactParser(){
         return eLCContactParser;
     }

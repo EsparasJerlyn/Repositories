@@ -32,10 +32,19 @@ private class ApplicationServiceHelperTest {
     private static void testApplicationBatchInsertNoMatchContact() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
+            List<hed__Application__c> appList = TestDataFactory.createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'Existing');
+            Integer count = 0;
+            Set<String> systemKeyIds = new Set<String>();
+            for(hed__Application__c app: appList){
+                app.StudyLink_ApplicantID__c = '1' + count;
+                app.QTAC_ApplicantID__c = '2' + count;
+                systemKeyIds.add(app.StudyLink_ApplicantID__c);
+                systemKeyIds.add(app.QTAC_ApplicantID__c );
+            }
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
-                    TestDataFactory.createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'Existing'),
-                    false,
+                    appList,
+                    true,
                     AccessLevel.SYSTEM_MODE
                 );
             Test.stopTest();
@@ -52,6 +61,15 @@ private class ApplicationServiceHelperTest {
                 [select id from hed__Application__c where Batch_Process__c = 'Processed'].size(),
                 srList.size(),
                 'Contact created is not match'
+            );
+
+            System.assertEquals(
+                40, 
+                ContactAlternateIdsDAO.newInstance().getContactAlternateIdsBySystemKeyIdSet(
+                    systemKeyIds,
+                    AccessLevel.SYSTEM_MODE
+                ).size(), 
+                'No contact alternate ids created'
             );
         }
     }

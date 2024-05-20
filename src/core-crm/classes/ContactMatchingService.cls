@@ -190,16 +190,16 @@ public without sharing class ContactMatchingService {
      * @return String The unique concatenated key for the record.
      */
     public static String generateUniqueKey(MatchingAttributes record, List<String> fieldApiNames) {
-        String uniqueKey = '';
+        StringBuilder uniqueKeyBuilder = new StringBuilder();
 
         // Concatenate non-null field values using the specified field API names
         for (String fieldName : fieldApiNames) {
             if (String.isNotBlank(record.get(fieldName))) {
-                uniqueKey += String.valueOf(record.get(fieldName));
+                uniqueKeyBuilder.append(String.valueOf(record.get(fieldName)));
             }
         }
 
-        return uniqueKey.toLowerCase();
+        return uniqueKeyBuilder.build().toLowerCase();
     }
 
     /**
@@ -480,6 +480,39 @@ public without sharing class ContactMatchingService {
          */
         public void set(String fieldName, String value) {
             fieldValues.put(fieldName, value);
+        }
+    }
+
+    /**
+     * Custom StringBuilder class for efficient string concatenation.
+     */
+    private class StringBuilder {
+        // Internal buffer to store concatenated strings
+        private String buffer;
+
+        /**
+         * Constructs a new StringBuilder with an empty buffer.
+         */
+        private StringBuilder() {
+            buffer = '';
+        }
+
+        /**
+         * Appends the specified string to the end of the buffer.
+         *
+         * @param str The string to append.
+         */
+        private void append(String str) {
+            buffer += str;
+        }
+
+        /**
+         * Builds and returns the concatenated string from the buffer.
+         *
+         * @return The concatenated string.
+         */
+        private String build() {
+            return buffer;
         }
     }
 }
