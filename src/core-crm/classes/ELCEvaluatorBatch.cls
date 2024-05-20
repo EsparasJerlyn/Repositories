@@ -76,23 +76,32 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     }
 
     public void execute(Database.BatchableContext bc, List<Contact> contacts){
-        Logger.info('CONTACTS: ' + contacts);
-        Logger.saveLog();
-        execute(contacts);
+        try {
+            execute(contacts);
+        } catch (Exception e) {
+            Logger.error('Exception caught in method execute in ELCEvaluatorBatch').setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
     }
 
     public void execute(List<Contact> contacts) {
         ELCEvaluator eLCEvaluator = new ELCEvaluator(elcParser);
         Map<Id, ELECandidateIngredient> eLECandidateIngredientByContact = eLCEvaluator.evaluate(contacts);
-        
-        List<Engagement_List_Event__c> engagementListEvents = new List<Engagement_List_Event__c>();
-        ELECandidateGenerator eLECandidateGenerator = new ELECandidateGenerator();
-        for (ELECandidateIngredient eLECandidateIngredient : eLECandidateIngredientByContact.values()) {
-          //engagementListEvents.add(eLECandidateGenerator.generate(eLECandidateIngredient));
+
+        Map<Id,List<Engagement_List_Event__c>> engagementListMapEvents = new Map<Id,List<Engagement_List_Event__c>>();
+
+        for (ELECandidateIngredient eLECandidateIngredient : eLECandidateIngredientByContact.values()) { 
+            ELECandidateGenerator eLECandidateGenerator = new ELECandidateGenerator();
+            List<Engagement_List_Event__c> engagementList = eLECandidateGenerator.generate(eLECandidateIngredient);
+            Id contactId = eLECandidateIngredient.getContact().Id;
+            engagementListMapEvents.put(contactId,engagementList);
         }
 
-        ELECandidateProcessor eLECandidateProcessor = new ELECandidateProcessor();
-        //eLECandidateProcessor.process(engagementListEvents);
+        //List<ELECandidateProcessResult> processorResults = ELECandidateProcessor.process(engagementListMapEvents, eLCParser.getEngagementListCriteria());
+        
     }
 
     public void finish(Database.BatchableContext bc) {
