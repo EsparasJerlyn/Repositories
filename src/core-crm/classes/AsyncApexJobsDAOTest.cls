@@ -47,6 +47,7 @@ private class AsyncApexJobsDAOTest {
         }
         Test.stopTest();
     }
+
     @isTest
     static void findAsyncApexJobByIdTest() {
         Test.startTest();
