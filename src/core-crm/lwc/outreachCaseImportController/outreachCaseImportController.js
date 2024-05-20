@@ -1,4 +1,6 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import ENGAGEMENT_LIST_CONFIGURATION_FIELD from "@salesforce/schema/Engagement_List_Configuration__c.Engagement_List_Configuration_Status__c";
 
 
 const columns = [
@@ -9,13 +11,22 @@ const columns = [
   { label: 'Created Date', fieldName: 'closeAt', type: 'date' },
 ];
 
-export default class OutreachCaseImportController extends LightningElement {
+const fields = [ENGAGEMENT_LIST_CONFIGURATION_FIELD];
 
+export default class OutreachCaseImportController extends LightningElement {
+  @api recordId;
   @track showModal = false;
 
   data = [];
   columns = columns;
   rowOffset = 0;
+
+  @wire(getRecord, { recordId: "$recordId", fields })
+  engagementListConfiguration;
+
+  get getStatus() {
+    return getFieldValue(this.engagementListConfiguration.data, ENGAGEMENT_LIST_CONFIGURATION_FIELD) === 'Deactivated' ? true : false;
+  }
 
   connectedCallback() {
     for (let i = 0; i < 5; i++) {
