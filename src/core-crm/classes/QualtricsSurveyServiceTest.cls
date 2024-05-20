@@ -22,20 +22,18 @@ private class QualtricsSurveyServiceTest {
         System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
             Test.startTest();
 
-            List<Case> cases = new List<Case>();
-            Case caseRec = new Case();
-            caseRec.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
-            caseRec.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
-            cases.add(caseRec);
-            CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.USER_MODE);
-
             Engagement_List_Configuration__c elcRec = new Engagement_List_Configuration__c();
             elcRec.Qualtrics_Instrument_Id__c = 'test';
             elcRec.Instrument__c = 'test';
             insert elcRec;
 
-            cases[0].Engagement_List_Configuration__c = elcRec.Id;
-            CasesDAO.newInstance().updateRecords(cases, true, AccessLevel.USER_MODE);
+            List<Case> cases = new List<Case>();
+            Case caseRec = new Case();
+            caseRec.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+            caseRec.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+            caseRec.Engagement_List_Configuration__c = elcRec.Id;
+            cases.add(caseRec);
+            CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.USER_MODE);
 
             List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c FROM Case WHERE Id = :cases[0].Id];
             
