@@ -400,16 +400,18 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
 
         return Database.query(
-            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
-            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
-            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
+            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, MiddleName, Salutation, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Birth_Country__c, Citizenship_Type__c, ' +
+            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, Home_Language__c, ' +
             'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
-            'SMS_Opt_In_DateTime__c, QUT_Student_ID__c, QUT_Employee_ID__c, '+ 
+            'SMS_Opt_In_DateTime__c, QUT_Student_ID__c, QUT_Employee_ID__c, MailingAddress, OtherAddress, '+ 
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, Lead_Source_Category__c, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c, ' +
+            'ATSI_Code__c, Citizenship_Country__c, Is_Agent_Assisted__c, Agency_Name__c, Agency_Email__c, Is_International_Applicant__c, Applicant_Onshore__c, ' + 
+            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',

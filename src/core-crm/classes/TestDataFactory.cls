@@ -3960,7 +3960,7 @@ public class TestDataFactory {
                 new Contact(
                     FirstName = 'TestfirstName' + i,
                     LastName = i + 'Testlastname',
-                    BirthDate = Date.valueOf('2000-06-28'),
+                    BirthDate = System.Today().addYears(-17).addDays(i),
                     Email = i + EMAIL,
                     QUT_Learner_Email__c = 'learner' + i + email,
                     QUT_Staff_Email__c = 'staff' + i + email,
@@ -3988,13 +3988,13 @@ public class TestDataFactory {
                 new hed__Application__c(
                     FirstName__c = 'TestfirstName' + i,
                     LastName__c = i + 'Testlastname',
-                    BirthDate__c = Date.valueOf('2000-06-28'),
+                    BirthDate__c = System.Today().addYears(-17).addDays(i),
                     Email__c = 'work' + i + email,
                     Application_Status__c = applicationStatus,
                     RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
                     Indigenous_Status__c = 'Aboriginal',
                     Citizenship_Country__c = 'Australia',
-                    Mobile__c = '0400000000',
+                    Mobile__c = '0400000000' + i,
                     Citizenship_Status__c = 'Domestic'
                 )
             );
