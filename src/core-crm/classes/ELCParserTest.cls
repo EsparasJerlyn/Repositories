@@ -33,7 +33,7 @@ public with sharing class ELCParserTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Completed_Cadence__c = completedCadenceName;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = breach.Id;
@@ -51,7 +51,7 @@ public with sharing class ELCParserTest {
             //Checking on the criterions 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
             System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');
+            //System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');
             System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getCompletedCadence(), completedCadenceName, 'Incorrect Completed Cadence');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().getCourseGrade(), '100', 'Incorrect Course Grade');
             System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');

@@ -88,10 +88,10 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
+            <!-- <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Category_Type__c</field>
-            </layoutItems>
+            </layoutItems> -->
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Breach__c</field>

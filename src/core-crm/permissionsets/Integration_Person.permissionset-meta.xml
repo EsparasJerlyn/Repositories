@@ -897,7 +897,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.Qualtrics_Survey_In_Progress_URL__c</field>
+        <field>Case.Qualtrics_Survey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2577,6 +2577,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Course_Connection_Assessment__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Course_Connection_Assessment__c.Course_Connection__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2915,11 +2920,11 @@
         <field>Engagement_List_Criteria__c.Cases_Created__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!-- <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Criteria__c.Category_Type__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions> -->
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Criteria__c.Citizenship_Status__c</field>
@@ -2943,11 +2948,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Criteria__c.End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Engagement_List_Criteria_Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
