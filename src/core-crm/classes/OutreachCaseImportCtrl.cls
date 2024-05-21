@@ -27,49 +27,63 @@ public with sharing class OutreachCaseImportCtrl {
     * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
     */
     @AuraEnabled
-    public static List<ELECandidateProcessResult> listOfCasesbyStudentIds(List<Id> contactIds, String criteria, String configurationId){
-        List<String> criteriaFromUi = criteria.split(',');
+    public static List<Case> listOfCasesbyStudentIds(List<Id> contactIds, String criteria, String configurationId){
+        
+        Set<Id> newId = new Set<Id>();
         List<String> studentIds = new List<String>();
         for (Id ids : contactIds){
             String id;
             id = (String)ids;
             studentIds.add(id);
         }
+        // system.debug('Ids ::: ' + newId);
+        // List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(newId, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+        // return caseList;
+        return null;
 
-        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(studentIds, AccessLevel.SYSTEM_MODE);
-        Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-        engagementListCriteria.Engagement_List_Configuration__c = configurationId;
-        engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaFromUi[0];
-        engagementListCriteria.Description__c = criteriaFromUi[1];
-        engagementListCriteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED;
 
-        
-        List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
-        criteriaList.add(engagementListCriteria);
-        EngagementListCriteriasDAO.newInstance().createRecords(criteriaList, false, AccessLevel.SYSTEM_MODE);
+        // start actual code
+        // List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(contactIds, AccessLevel.SYSTEM_MODE);
+        // Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+        // engagementListCriteria.Engagement_List_Configuration__c = recordId;
+        // engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaTitle;
+        // engagementListCriteria.Description__c = criteriaDesc;
+        // engagementListCriteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED;
+        // List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
+        // criteriaList.add(engagementListCriteria);
+        // EngagementListCriteriasDAO.newInstance().createRecords(criteriaList, false, AccessLevel.SYSTEM_MODE);
  
-        ELCParser parser = new ELCParser(engagementListCriteria);
-        List<ELECandidateIngredient> ingredientList = new List<ELECandidateIngredient>();
-        Map<List<ELECandidateIngredient>, Contact> eventsByContactMap = new Map<List<ELECandidateIngredient>, Contact>();
-        for(Contact con : contacts){
-            ELECandidateIngredient ingredient = new ELECandidateIngredient();
-            ingredient.setELCParser(parser);
-            ingredient.setContact(con);
-            ingredientList.add(ingredient);
-            ingByContactMap.put(ing, con);
-        }
+        // ELCParser parser = new ELCParser(engagementListCriteria);
+        // List<ELECandidateIngredient> ingredientList = new List<ELECandidateIngredient>();
+        // Map<List<ELECandidateIngredient>, Contact> eventsByContactMap = new Map<List<ELECandidateIngredient>, Contact>();
+        // for(Contact con : contactIds){
+        //     ELECandidateIngredient ingredient = new ELECandidateIngredient();
+        //     ingredient.setELCParser(parser);
+        //     ingredient.setContact(con);
+        //     ingredientList.add(ingredient);
+        //     ingByContactMap.put(ing, con);
+        // }
     
-        Map<Id, List<Engagement_List_Event__c>> eventsByContactMap = new Map<Id, List<Engagement_List_Event__c>>();
-        for(ELECandidateIngredient ingredient : ingredientList){
-            ELECandidateGenerator generator = new ELECandidateGenerator();
-            List<Engagement_List_Event__c> events = generator.generate(ingredient);
-            eventsByContactMap.put(ingredient.getContact(), events);
-        }
+        // Map<Id, List<Engagement_List_Event__c>> eventsByContactMap = new Map<Id, List<Engagement_List_Event__c>>();
+        // for(ELECandidateIngredient ingredient : ingredientList){
+        //     ELECandidateGenerator generator = new ELECandidateGenerator();
+        //     List<Engagement_List_Event__c> events = generator.generate(ingredient);
+        //     eventsByContactMap.put(ingredient.getContact(), events);
+        // }
     
-        ELECandidateProcessor processor = new ELECandidateProcessor();
-        List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
+        // ELECandidateProcessor processor = new ELECandidateProcessor();
+        // List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
     
-        return null; 
+        // System.debug(processResult);
+        // return processResult;
+
+        // for (ELECandidateIngredient eLECandidateIngredient : eLECandidateIngredientByContact.values()) { 
+        //     ELECandidateGenerator eLECandidateGenerator = new ELECandidateGenerator();
+        //     List<Engagement_List_Event__c> engagementList = eLECandidateGenerator.generate(eLECandidateIngredient);
+        //     Id contactId = eLECandidateIngredient.getContact().Id;
+        //     engagementListMapEvents.put(contactId,engagementList);
+        // }
+ 
     }
 
 }
