@@ -35,13 +35,15 @@ private class QualtricsSurveyServiceTest {
             cases.add(caseRec);
             CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.USER_MODE);
 
-            List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c FROM Case WHERE Id = :cases[0].Id];
+            List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
             
             QualtricsSurveyService.enqueueQualtricsSurveyToProcess(caseList);
-            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id, Case__c FROM Qualtrics_Survey__c WHERE Case__c =: cases[0].Id];
+            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id, Case__c FROM Qualtrics_Survey__c];
+            List<Case> caseListUpdated = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
             Test.stopTest();
 
             System.assertEquals(1, qualtricsSurveyList.size(), ' No Qualtrics Survey record created.');
+            System.assertEquals(caseListUpdated[0].Qualtrics_Survey__c, qualtricsSurveyList[0].Id, ' No Qualtrics Survey record created.');
         } 
     }
 }
