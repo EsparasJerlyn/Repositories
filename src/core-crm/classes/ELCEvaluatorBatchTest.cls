@@ -40,7 +40,6 @@ public with sharing class ELCEvaluatorBatchTest {
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, true, AccessLevel.SYSTEM_MODE);    
 
             List<Completed_Cadence__c> completedCadenceList = TestDataFactory.createCompletedCadence('Successful',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
-        
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.SYSTEM_MODE);
 
             // //Create Program Enrollment records
@@ -119,20 +118,23 @@ public with sharing class ELCEvaluatorBatchTest {
         configs.add(config);
         EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
         
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {   
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {   
             List<Engagement_List_Criteria__c> engagementListCriteriaList = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
-            // engagementListCriteria.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             engagementListCriteria.Completed_Cadence__c = 'Domestic Accepted and Admitted';
+            engagementListCriteria.Key_Date__c = 'Completed Cadence Date';
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 1;
+            //add record Type
+            /* engagementListCriteria.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             engagementListCriteria.Course_Grade__c = '100';
-            //engagementListCriteria.Breach__c = 'Breach Test 01';
+            engagementListCriteria.Breach__c = 'Breach Test 01';
             engagementListCriteria.Failed_To_Submit_Assessment__c = null;
             engagementListCriteria.Assessment_Priority__c = null;
             engagementListCriteria.Is_On_Leave_of_Absence__c = null;
             engagementListCriteria.Key_Date__c = null;
             engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = null;
-            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = null;
+            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = null; */
             engagementListCriteria.Engagement_List_Configuration__c = configs[0].Id;
             engagementListCriteria.Engagement_List_Criteria_Title__c = 'Engagement List Test 1';
             engagementListCriteria.Status__c = 'Active';
@@ -140,6 +142,7 @@ public with sharing class ELCEvaluatorBatchTest {
             
             EngagementListCriteriasDAO.newInstance().insertRecords(engagementListCriteriaList, true, AccessLevel.SYSTEM_MODE);
             
+
             Test.startTest();
             List<ELCEvaluationJob> evalJobList =  new List<ELCEvaluationJob>();
             ELCEvaluationJob eLCEvaluationJob =  new eLCEvaluationJob(engagementListCriteriaList[0], Date.today());
@@ -148,8 +151,7 @@ public with sharing class ELCEvaluatorBatchTest {
             ELCEvaluatorBatch batchable = new ELCEvaluatorBatch(evalJobList);
             Database.executeBatch(batchable);    
             Test.stopTest();
-            List<Case> caseList = [Select Id, Recordtype.Name FROm Case];
-            system.debug('caseList: ' + caseList);
+            List<Case> caseList = [Select Id, Recordtype.Name FROM Case];
 
             System.assert(caseList.size() > 0, 'No record');
         }
