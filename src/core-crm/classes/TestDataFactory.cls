@@ -226,11 +226,13 @@ public class TestDataFactory {
                     FirstName = 'TestFirstName' + i,
                     LastName = i + 'TestLastName',
                     Email = i + 'testmail@mail.test',
+                    Birthdate = System.Today().addYears(-17).addDays(i),
                     QUT_Learner_Email__c = 'learner' + i + 'testmail@mail.test',
                     QUT_Staff_Email__c = 'staff' + i + 'testmail@mail.test',
                     Work_Email__c = 'work' + i + 'testmail@mail.test',
                     hed__Preferred_Email__c = 'Alternate Email',
                     hed__AlternateEmail__c = i + 'testmail@mail.test',
+                    Mobilephone = '1234567890' + i,
                     RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
                 )
             );
@@ -4068,8 +4070,119 @@ public class TestDataFactory {
                 )
             );
         }
-
         return assessmentRecords;
+    }
+
+    /** @description Method for creating test Contact Alternate Id record
+     * @return Contact Alternate Id record
+     */
+    public static Contact_Alternate_ID__c createTestConAltIdRecordByContactAndType(Id contactId, String idType, String contactAltId) {
+        return new Contact_Alternate_ID__c(
+            Contact__c = contactId,
+            Contact_Alternate_Id__c = contactAltId,
+            Alternate_Id_Status__c = 'Active',
+            Alternate_Id_Type__c = idType
+        );
+    }
+
+    /** 
+     * @description Method for creating contact required for Application record
+     * @param Integer startAtCount - number of record to start 
+     * @param Integer endBeforeCount - number of record to end
+     * @return List<Contact> - list of contact record to insert
+     */    
+    public static List<Contact> createTestApplicationContactRecords(
+        Integer startAtCount,
+        Integer endBeforeCount
+    ) {
+        String email = 'testmail@mail.test';
+        List<Contact> newContacts = new List<Contact>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newContacts.add(
+                new Contact(
+                    FirstName = 'TestfirstName' + i,
+                    LastName = i + 'Testlastname',
+                    BirthDate = System.Today().addYears(-17).addDays(i),
+                    Email = i + EMAIL,
+                    QUT_Learner_Email__c = 'learner' + i + email,
+                    QUT_Staff_Email__c = 'staff' + i + email,
+                    Work_Email__c = 'work' + i + email,
+                    hed__Preferred_Email__c = 'Alternate Email',
+                    hed__AlternateEmail__c = i + email,
+                    RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
+                )
+            );
+        }
+        return newContacts;
+    }
+
+    /** 
+     * @description Method for creating studylink application record
+     * @param Integer startAtCount - number of record to start 
+     * @param Integer endBeforeCount - number of record to end
+     * @param String applicationStatus - status of the studylink application
+     * @return List<hed__application__c> - list of application record to insert
+     */      
+    public static List<hed__Application__c> createTestApplicationStudyLinkRecords(Integer startAtCount, Integer endBeforeCount, String applicationStatus) {
+        List<hed__Application__c> newApplications = new List<hed__Application__c>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            String email = 'testmail@mail.test';
+            newApplications.add(
+                new hed__Application__c(
+                    FirstName__c = 'TestfirstName' + i,
+                    LastName__c = i + 'Testlastname',
+                    BirthDate__c = System.Today().addYears(-17).addDays(i),
+                    Email__c = 'work' + i + email,
+                    Application_Status__c = applicationStatus,
+                    RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                    Indigenous_Status__c = 'Aboriginal',
+                    Citizenship_Country__c = 'Australia',
+                    Mobile__c = '0400000000' + i,
+                    Citizenship_Status__c = 'Domestic'
+                )
+            );
+        }
+        return newApplications;
+    }
+
+    /** 
+     * @description Method for creating lead required for Application record
+     * @param Integer startAtCount - number of record to start 
+     * @param Integer endBeforeCount - number of record to end
+     * @return List<Lead> - list of lead record to insert
+     */     
+    public static List<Lead> createTestLeadRecordForApplication(Integer startAtCount, Integer endBeforeCount) {
+        List<Lead> newLeads = new List<Lead>();
+        String email = 'testmail@mail.test';
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newLeads.add(
+                new Lead(
+                    FirstName = 'TestfirstName',
+                    LastName = 'Testlastname' + i,
+                    Email = i + email,
+                    Work_Email__c = 'work' + i + email,
+                    Company = 'Learner' + i
+                )
+            );
+        }
+        return newLeads;
+    }
+
+    /** @description Method for creating test student sanction records
+     * @return Student_Sanction__c record
+     */
+    public static List<Student_Sanction__c> createStudentSanctionRecords(Integer count) {
+        List<Student_Sanction__c> studentSanctionList = new List<Student_Sanction__c>();
+
+        for(Integer i = 0; i< count; i++){
+            studentSanctionList.add( 
+                new Student_Sanction__c(
+                    Sanction_Code__c = 'DUP',
+                    QUT_Student_ID__c = String.valueOf(i)
+                )
+            );
+        }
+        return studentSanctionList;
     }
 
     /** @description Method for creating test Engagement List Configuration records
@@ -4086,6 +4199,24 @@ public class TestDataFactory {
         }
         insert listNewEngagementListConfiguration;
         return listNewEngagementListConfiguration;
+    }
+
+    /** @description Method for creating test contact matching staging records
+     * @return Contact_Matching_Staging__c record
+     */
+    public static List<Contact_Matching_Staging__c> createContactMatchingStagings(Integer count) {
+        
+        List<Contact_Matching_Staging__c> contactMatchingStagingList = new List<Contact_Matching_Staging__c>();
+
+        for(Integer i = 0; i< count; i++){
+            contactMatchingStagingList.add( 
+                new Contact_Matching_Staging__c(
+                    LastName__c = 'Test'+i
+                )
+            );
+        }
+
+        return contactMatchingStagingList;
     }
 
     public static Case createTestOutreachCaseRecord(

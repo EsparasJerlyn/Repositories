@@ -233,7 +233,8 @@ public with sharing class ApplicationTriggerHelper {
         }
         
         if(!contactIds.isEmpty()){
-            if(System.isQueueable()){
+            Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();          
+            if(isAsync){
                 ContactPersonaFlagsService.updateContactApplicantFlag(contactIds);               
             }else{                
                 ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag'); 
