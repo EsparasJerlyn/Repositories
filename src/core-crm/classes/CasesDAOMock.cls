@@ -5,13 +5,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
-      |--------------------------------|-----------------------|------------------------|---------------------------------------------|
-      | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                |
-      | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
-      | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
-      | roy.nino.s.regala              | Novmeber 03, 2023     | DEPP-7145              | Added Lead_Score_Reset__c as expected field |
-      | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added new method getCasesByStatusAndRecType |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                    |
+      | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone        |
+      | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                    |
+      | roy.nino.s.regala              | Novmeber 03, 2023     | DEPP-7145              | Added Lead_Score_Reset__c as expected field     |
+      | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added getOpenOutreachCasesByConfigAndContactIds |
  */
 @isTest
 public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICasesDAO {
@@ -158,18 +158,20 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         return null;
     }
 
-    public List<Case> getCasesByContactIdStatusAndRecordType(
-        Map<String, Object> params,
+    public List<Case> getOpenOutreachCasesByConfigAndContactIds(
+        Set<Id> contactIds,
+        Id configId,
         AccessLevel accessLevel
     ) {
-        Set<Id> contactIds = (Set<Id>) params.get('contactIds');
-        Set<String> statusSet = (Set<String>) params.get('statusSet');
-        Id recordTypeId = (Id) params.get('recordTypeId');
 
         List<Case> caseList = new List<Case>();
-
         for (Case record : caseMap.values()) {
-            if (contactIds.contains(record.ContactId) && statusSet.contains(record.Status) && recordTypeId == record.RecordTypeId) {
+            if (
+                contactIds.contains(record.ContactId) && 
+                !record.IsClosed && 
+                configId == record.Engagement_List_Configuration__c &&
+                record.RecordTypeId == CasesDAO.OUTREACH_RECTYPE_ID
+            ) {
                 caseList.add(record);
             }
         }

@@ -16,7 +16,7 @@ public with sharing class CasesDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Student_Success_Outreach_Manager' });
     }
 
     @isTest
@@ -116,39 +116,36 @@ public with sharing class CasesDAOTest {
     }
 
     @isTest
-    static void getCasesByContactIdStatusAndRecordTypeTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+    static void getOpenOutreachCasesByConfigAndContactIdsTest() {
+        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
 
-            ImplementationSelector.DAO.setMock(new CasesDAOMock());
-            Id contactId = new MockIdGenerator(Contact.SObjectType).getMockId();
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
 
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            configs.add(new Engagement_List_Configuration__c(Name = 'Test Outreach Config'));
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+
+            Id ownerId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
+            Case outreachCase = TestDataFactory.createTestOutreachCaseRecord(configs[0], ownerId, contactList[0].Id);
             List<Case> caseList = new List<Case>();
-            caseList.add(
-                new Case(
-                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
-                    Status = CasesDAO.CASE_STATUS_OPEN,
-                    Origin = 'Email',
-                    ContactId = contactId
-                )
-            );
+            caseList.add(outreachCase);
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
 
-            Map<String, Object> params = new Map<String, Object> {
-                'contactIds' => new Set<Id>{contactId},
-                'statusSet' => new Set<String>{CasesDAO.CASE_STATUS_OPEN},
-                'recordTypeId' => CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID
-            };
-
-            List<Case> caseListByStatusAndRecordType = CasesDAO.newInstance()
-                .getCasesByContactIdStatusAndRecordType(
-                    params,
+            Test.startTest();
+            List<Case> outreachCases = CasesDAO.newInstance()
+                .getOpenOutreachCasesByConfigAndContactIds(
+                    new Set<Id>{contactList[0].Id},
+                    configs[0].Id,
                     AccessLevel.SYSTEM_MODE
                 );
+            Test.stopTest();
 
-            System.assert(!caseListByStatusAndRecordType.isEmpty(), 'caseListByStatusAndRecordType should not be empty.');
+            System.assert(!outreachCases.isEmpty(), 'Incorrect Subject of Case.');
+            System.assertEquals(contactList[0].Id, outreachCases[0].ContactId , 'Incorrect Subject of Case.');
         }
-        Test.stopTest();
     }
 
 }

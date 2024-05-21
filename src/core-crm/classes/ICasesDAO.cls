@@ -9,7 +9,7 @@
       | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                            |
       | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                            |
       | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone                |
-      | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added new method getCasesByContactIdStatusAndRecordType |
+      | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added method getOpenOutreachCasesByConfigAndContactIds  |
  */
 public interface ICasesDAO extends DmlInterface{
     List<Case> getCasesByContactIds(
@@ -44,8 +44,9 @@ public interface ICasesDAO extends DmlInterface{
         Set<Id> recordIds
     );
 
-    List<Case> getCasesByContactIdStatusAndRecordType(
-        Map<String, Object> params,
+    List<Case> getOpenOutreachCasesByConfigAndContactIds(
+        Set<Id> contactIds,
+        Id configId,
         AccessLevel accessLevel
     );
 }

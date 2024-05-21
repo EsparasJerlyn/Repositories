@@ -38,7 +38,6 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     public static final String PRIORITY_HIGH = 'High';
     public static final String PRIORITY_MEDIUM = 'Medium';
     public static final String PRIORITY_LOW = 'Low';
-    public static final String CASE_STATUS_OPEN = 'Open';
 
     public static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{
         'High' => 3,
@@ -146,17 +145,18 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.getQueryLocator(query);
     }
 
-    public List<Case> getCasesByContactIdStatusAndRecordType(
-        Map<String, Object> params,
+    public List<Case> getOpenOutreachCasesByConfigAndContactIds(
+        Set<Id> contactIds,
+        Id configId,
         AccessLevel accessLevel
     ) {
-        return Database.queryWithBinds(
-            'SELECT Id, ContactId, Status ' +
+        return Database.query(
+            'SELECT Id, ContactId ' +
               'FROM Case ' +
-             'WHERE Status IN : statusSet ' +
-               'AND RecordTypeId =: recordTypeId ' +
+             'WHERE IsClosed != true ' +
+               'AND RecordTypeId =: OUTREACH_RECTYPE_ID ' +
+               'AND Engagement_List_Configuration__c =: configId ' +
                'AND ContactId IN : contactIds', 
-            params,
             accessLevel
         );
     }
