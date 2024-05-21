@@ -104,7 +104,7 @@ public with sharing class EngagementListEventsDAOTest {
                     AccessLevel.SYSTEM_MODE
                 );
                 
-            System.assert(eventList.size() > 0, 'contactList should not be empty.');
+            System.assertEquals(1, eventList.size(), 'eventList should not be empty.');
 
         }
 

@@ -144,7 +144,7 @@ public with sharing class CasesDAOTest {
             Test.stopTest();
 
             System.assert(!outreachCases.isEmpty(), 'Incorrect Subject of Case.');
-            System.assertEquals(contactList[0].Id, outreachCases[0].ContactId , 'Incorrect Subject of Case.');
+            System.assertEquals(contactList[0].Id, outreachCases[0].ContactId , 'No Case retrieved for Contact ' + contactList[0].Id);
         }
     }
 
