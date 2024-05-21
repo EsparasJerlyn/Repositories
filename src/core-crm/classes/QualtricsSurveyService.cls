@@ -24,4 +24,9 @@ public with sharing class QualtricsSurveyService {
         }
         QualtricsSurveysDAO.newInstance().insertRecords(qualtricList, false, AccessLevel.SYSTEM_MODE);
     }
+
+    public static void updateQualtricsSurveyInfo(List<Qualtrics_Survey__c> newItems){
+
+        //requestForQualtricsSurveyInfo(newItems)
+    }
 }
