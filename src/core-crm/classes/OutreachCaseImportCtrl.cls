@@ -27,7 +27,8 @@ public with sharing class OutreachCaseImportCtrl {
     * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
     */
     @AuraEnabled
-    public static List<ELECandidateProcessResult> listOfCasesbyStudentIds(List<Id> contactIds, String criteriaTitle, String criteriaDescription, String configurationId){
+    public static List<ELECandidateProcessResult> listOfCasesbyStudentIds(List<Id> contactIds, String criteria, String configurationId){
+        List<String> criteriaFromUi = criteria.split(',');
         List<String> studentIds = new List<String>();
         for (Id ids : contactIds){
             String id;
@@ -38,8 +39,8 @@ public with sharing class OutreachCaseImportCtrl {
         List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(studentIds, AccessLevel.SYSTEM_MODE);
         Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
         engagementListCriteria.Engagement_List_Configuration__c = configurationId;
-        engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaTitle;
-        engagementListCriteria.Description__c = criteriaDescription;
+        engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaFromUi[0];
+        engagementListCriteria.Description__c = criteriaFromUi[1];
         engagementListCriteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED;
 
         
@@ -68,7 +69,7 @@ public with sharing class OutreachCaseImportCtrl {
         ELECandidateProcessor processor = new ELECandidateProcessor();
         List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
     
-        return processResult; 
+        return null; 
     }
 
 }

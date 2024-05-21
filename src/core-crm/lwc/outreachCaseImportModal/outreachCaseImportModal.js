@@ -409,11 +409,10 @@ export default class OutReachCaseImportModal extends LightningElement {
     data.forEach( (data, i) => {
       studentIds[i] = data.contactId.toString();
     });
-
+    const criteria = this.title + ',' + this.description;
     listOfCasesbyStudentIds({ 
       contactIds : studentIds,
-      criteriaTitle : this.title,
-      criteriaDescription : this.description,
+      criteria : criteria,
       configurationId : this.recordId
      })
 		.then(result => {
