@@ -76,18 +76,20 @@ public with sharing class EngagementListEventsDAOTest {
             List<Engagement_List_Criteria__c> criterias = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
             criteria.Engagement_List_Configuration__c = config.Id;
+            criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
+            criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criterias.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criterias, true, AccessLevel.SYSTEM_MODE);
 
             List<Engagement_List_Event__c> events = new List<Engagement_List_Event__c>();
             Engagement_List_Event__c event = new Engagement_List_Event__c();
-            event.Engagement_List_Criteria__c = criteria.Id;
+            event.Engagement_List_Criteria__c = criterias[0].Id;
             event.Leave_of_Absence__c = leaveOfAbsenceListCreated[0].Id;
             events.add(event);
             EngagementListEventsDAO.newInstance().insertRecords(events, true, AccessLevel.SYSTEM_MODE);
 
             Map<String, Set<Id>> relatedRecordIdMap = new Map<String, Set<Id>>{
-                'engagementListCriteriaId' => new Set<Id>{criteria.Id},
+                'engagementListCriteriaId' => new Set<Id>{criterias[0].Id},
                 'programEnrollmentIds' => new Set<Id>(),
                 'completedCadenceIds' => new Set<Id>(),
                 'courseConnectionIds' => new Set<Id>(),
