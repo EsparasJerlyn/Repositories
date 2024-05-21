@@ -49,12 +49,12 @@ public with sharing class ELCCourseEnrollmentEvaluator {
         Map<Id, List<hed__Course_Enrollment__c>> courseConnectionByContactMap = new Map<Id, List<hed__Course_Enrollment__c>>();
 
         for(hed__Course_Enrollment__c courseConnection : courseConnections){
-            if(courseConnectionByContactMap.containsKey(courseConnection.hed__Program_Enrollment__r.hed__Contact__c)){
-                courseConnectionByContactMap.get(courseConnection.hed__Program_Enrollment__r.hed__Contact__c).add(courseConnection);
+            if(courseConnectionByContactMap.containsKey(courseConnection.hed__Contact__c)){
+                courseConnectionByContactMap.get(courseConnection.hed__Contact__c).add(courseConnection);
             }else{
                 List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
                 courseConnectionList.add(courseConnection);
-                courseConnectionByContactMap.put(courseConnection.hed__Program_Enrollment__r.hed__Contact__c, courseConnectionList);
+                courseConnectionByContactMap.put(courseConnection.hed__Contact__c, courseConnectionList);
             }
         }
         
