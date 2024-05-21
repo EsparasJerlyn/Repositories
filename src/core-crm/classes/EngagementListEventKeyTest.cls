@@ -18,7 +18,7 @@ public with sharing class EngagementListEventKeyTest {
     }
 
     @isTest
-    static void isDuplicateTest() {
+    static void equalsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
@@ -43,9 +43,8 @@ public with sharing class EngagementListEventKeyTest {
             eventCandidate.Course_Enrollment_Status__c = 'Enrolled';
             eventCandidate.Key_Date__c = keyDate;
             eventCandidate.Program_Enrollment_Status__c = 'Active';
+            eventCandidate.Has_Domestic_Phone__c = true;
             EngagementListEventKey eventCandidateKey = new EngagementListEventKey(eventCandidate, contactId, criteriaId);
-            Map<EngagementListEventKey, Engagement_List_Event__c> candidateMap = new Map<EngagementListEventKey, Engagement_List_Event__c>();
-            candidateMap.put(eventCandidateKey, eventCandidate);
             
             Engagement_List_Event__c existingEvent = new Engagement_List_Event__c();
             existingEvent.Program_Enrollment__c = programEnrollmentId;
@@ -58,16 +57,17 @@ public with sharing class EngagementListEventKeyTest {
             existingEvent.Course_Enrollment_Status__c = 'Enrolled';
             existingEvent.Key_Date__c = keyDate;
             existingEvent.Program_Enrollment_Status__c = 'Active';
+            existingEvent.Has_Domestic_Phone__c = true;
             EngagementListEventKey existingEventKey = new EngagementListEventKey(existingEvent, contactId, criteriaId);
 
-            System.assert(candidateMap.containsKey(existingEventKey), 'Event Candidate Key must be equal to Existing Event Key.');
+            System.assert(eventCandidateKey.equals(existingEventKey), 'Event Candidate Key must be equal to Existing Event Key.');
         }    
 
         Test.stopTest();
     }
 
     @isTest
-    static void isNotDuplicateTest() {
+    static void notEqualsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
@@ -82,17 +82,16 @@ public with sharing class EngagementListEventKeyTest {
             eventCandidate.Key_Date__c = keyDate;
             eventCandidate.Program_Enrollment_Status__c = 'Active';
             EngagementListEventKey eventCandidateKey = new EngagementListEventKey(eventCandidate, contactId, criteriaId);
-            Map<EngagementListEventKey, Engagement_List_Event__c> candidateMap = new Map<EngagementListEventKey, Engagement_List_Event__c>();
-            candidateMap.put(eventCandidateKey, eventCandidate);
             
             Engagement_List_Event__c existingEvent = new Engagement_List_Event__c();
             existingEvent.Program_Enrollment__c = new MockIdGenerator(hed__Program_Enrollment__c.SObjectType).getMockId();
             existingEvent.Course_Enrollment_Status__c = 'Enrolled';
             existingEvent.Key_Date__c = keyDate;
             existingEvent.Program_Enrollment_Status__c = 'Test';
+            existingEvent.Has_Domestic_Phone__c = true;
             EngagementListEventKey existingEventKey = new EngagementListEventKey(existingEvent, contactId, criteriaId);
 
-            System.assert(!candidateMap.containsKey(existingEventKey), 'Event Candidate Key must not be equal to Existing Event Key.');
+            System.assert(!eventCandidateKey.equals(existingEventKey), 'Event Candidate Key must not be equal to Existing Event Key.');
         }    
          
         Test.stopTest();

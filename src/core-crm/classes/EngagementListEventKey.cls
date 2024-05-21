@@ -22,6 +22,7 @@ public with sharing class EngagementListEventKey {
     private String courseEnrollmentStatus;   
     private String programEnrollmentStatus;
     private Datetime keyDate;
+    private Boolean hasDomesticPhone;
     
     public EngagementListEventKey(Engagement_List_Event__c event, Id contactId, Id criteriaId) {
         this.contactId = contactId;
@@ -36,6 +37,7 @@ public with sharing class EngagementListEventKey {
         courseEnrollmentStatus = event.Course_Enrollment_Status__c;
         keyDate = event.Key_Date__c;
         programEnrollmentStatus = event.Program_Enrollment_Status__c;
+        hasDomesticPhone = event.Has_Domestic_Phone__c;
     }
 
     public Boolean equals(Object obj) {
@@ -53,7 +55,8 @@ public with sharing class EngagementListEventKey {
                 this.academicStatus == key.academicStatus &&
                 this.courseEnrollmentStatus == key.courseEnrollmentStatus &&
                 this.keyDate == key.keyDate &&
-                this.programEnrollmentStatus == key.programEnrollmentStatus;
+                this.programEnrollmentStatus == key.programEnrollmentStatus &&
+                this.hasDomesticPhone == key.hasDomesticPhone;
         }
         return false;
     }
