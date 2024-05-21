@@ -13,27 +13,27 @@
 public with sharing class QualtricsSurveyService {
 
     public static void enqueueQualtricsSurveyToProcess(List<Case> caseList) {
-        Map<Id,Qualtrics_Survey__c> qualtricMap = new Map<Id,Qualtrics_Survey__c>();
+        Map<Id,Qualtrics_Survey__c> qualtricsSurveyMap = new Map<Id,Qualtrics_Survey__c>();
 
         for(Case caseRec : caseList){
             if(!String.isBlank(caseRec.Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c) && caseRec.Qualtrics_Survey__c == null){
                 Qualtrics_Survey__c qualtricsSurvey = new Qualtrics_Survey__c();
-                qualtricMap.put(caseRec.Id,qualtricsSurvey);
+                qualtricsSurveyMap.put(caseRec.Id,qualtricsSurvey);
             }
         }
-        QualtricsSurveysDAO.newInstance().insertRecords(qualtricMap.values(), false, AccessLevel.SYSTEM_MODE);
+        QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyMap.values(), false, AccessLevel.SYSTEM_MODE);
         
-        If(!qualtricMap.values().isEmpty()){
-            updateCaseQualtricsSurvey(qualtricMap);
+        If(!qualtricsSurveyMap.values().isEmpty()){
+            updateCaseQualtricsSurvey(qualtricsSurveyMap);
         }
     }
 
-    private static void updateCaseQualtricsSurvey(Map<Id,Qualtrics_Survey__c> qualtricMap){
+    private static void updateCaseQualtricsSurvey(Map<Id,Qualtrics_Survey__c> qualtricsSurveyMap){
         List<Case> caseToUpdate = new List<Case>();
-        List<Case> caseList = CasesDAO.newInstance().getCasesByIds(qualtricMap.keySet(), accessLevel.SYSTEM_MODE);
+        List<Case> caseList = CasesDAO.newInstance().getCasesByIds(qualtricsSurveyMap.keySet(), accessLevel.SYSTEM_MODE);
         For(Case cases : caseList){
-            if(qualtricMap.containsKey(cases.Id)){
-                cases.Qualtrics_Survey__c = qualtricMap.get(cases.Id).Id;
+            if(qualtricsSurveyMap.containsKey(cases.Id)){
+                cases.Qualtrics_Survey__c = qualtricsSurveyMap.get(cases.Id).Id;
                 caseToUpdate.add(cases);
             }
         }
