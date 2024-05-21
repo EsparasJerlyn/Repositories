@@ -134,7 +134,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 OtherState,
                 OtherCity,
                 OtherStreet,
-                OtherCountry
+                OtherCountry,
+                Phone
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates

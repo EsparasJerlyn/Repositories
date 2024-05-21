@@ -161,5 +161,4 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
         }
     }
-
 }

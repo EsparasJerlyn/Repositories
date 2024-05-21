@@ -70,6 +70,4 @@ public with sharing class ELCLeaveOfAbsenceEvaluatorTest {
         }
     }
 
-
-
 }

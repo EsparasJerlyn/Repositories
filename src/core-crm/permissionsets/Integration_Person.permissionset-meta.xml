@@ -2623,6 +2623,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact_Matching_Staging__c.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact_Matching_Staging__c.Mobile_No_Locale__c</field>
         <readable>true</readable>
     </fieldPermissions>

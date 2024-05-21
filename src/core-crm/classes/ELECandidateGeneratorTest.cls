@@ -34,7 +34,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = null;
             engagementListCriteria.Academic_Status__c = null;
-            // engagementListCriteria.Category_Type__c = null;
+            engagementListCriteria.Category_Type__c = null;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = null;
             engagementListCriteria.Breach__c = null;
@@ -102,7 +102,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = null;
-            // engagementListCriteria.Category_Type__c = null;
+            engagementListCriteria.Category_Type__c = null;
             engagementListCriteria.Completed_Cadence__c = completedCadenceName;
             engagementListCriteria.Course_Grade__c = null;
             engagementListCriteria.Breach__c = null;
@@ -174,7 +174,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = null;
             engagementListCriteria.Breach__c = null;
@@ -256,7 +256,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = null;
@@ -350,7 +350,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = null;
@@ -450,7 +450,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = null;
@@ -563,7 +563,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = breachList[0].Id;

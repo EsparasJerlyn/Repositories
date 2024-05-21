@@ -1572,7 +1572,7 @@
             <fieldText>Engagement Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new engagement, it must meet the following naming convention: RPE: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RPE: Textile Waste Management Research - 2023.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
