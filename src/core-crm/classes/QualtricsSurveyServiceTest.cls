@@ -38,7 +38,7 @@ private class QualtricsSurveyServiceTest {
             List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
             
             QualtricsSurveyService.enqueueQualtricsSurveyToProcess(caseList);
-            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id, Case__c FROM Qualtrics_Survey__c];
+            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id FROM Qualtrics_Survey__c];
             List<Case> caseListUpdated = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
             Test.stopTest();
 
