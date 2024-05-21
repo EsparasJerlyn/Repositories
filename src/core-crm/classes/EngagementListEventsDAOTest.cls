@@ -14,7 +14,7 @@ public with sharing class EngagementListEventsDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB', 'QUT_Student_Success_Outreach_Manager'});
     }
 
     @isTest
@@ -41,12 +41,12 @@ public with sharing class EngagementListEventsDAOTest {
     @isTest
     static void getEngagementListEventsByRelatedRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
 
             List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
             programPlanListCreated[0].Category_Type__c = 'Graduate Certificate';
@@ -68,17 +68,23 @@ public with sharing class EngagementListEventsDAOTest {
             leaveOfAbsenceListCreated[0].Student__c = contactList[0].Id;
             LeaveOfAbsencesDAO.newInstance().insertRecords(leaveOfAbsenceListCreated,true,AccessLevel.SYSTEM_MODE);
 
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
-            insert config;
+            configs.add(config);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
+            List<Engagement_List_Criteria__c> criterias = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
             criteria.Engagement_List_Configuration__c = config.Id;
-            insert criteria;
+            criterias.add(criteria);
+            EngagementListCriteriasDAO.newInstance().insertRecords(criterias, true, AccessLevel.SYSTEM_MODE);
 
+            List<Engagement_List_Event__c> events = new List<Engagement_List_Event__c>();
             Engagement_List_Event__c event = new Engagement_List_Event__c();
             event.Engagement_List_Criteria__c = criteria.Id;
             event.Leave_of_Absence__c = leaveOfAbsenceListCreated[0].Id;
-            insert event;
+            events.add(event);
+            EngagementListEventsDAO.newInstance().insertRecords(events, true, AccessLevel.SYSTEM_MODE);
 
             Map<String, Set<Id>> relatedRecordIdMap = new Map<String, Set<Id>>{
                 'engagementListCriteriaId' => new Set<Id>{criteria.Id},
