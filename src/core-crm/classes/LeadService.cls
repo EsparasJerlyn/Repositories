@@ -22,6 +22,9 @@
  *    | eccarius.munoz                 | March 5, 2024         | DEPP-7699              | Added method for lead source and lead source|
  *    |                                |                       |                        | category values when user profile is FSE.   |
  *    ! arsenio.jr.dayrit              | April 15, 2024        | DEPP-8495              | Update updateCanNurture method              |
+ *    | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Added new method to separate async and sync |
+ *    |                                |                       |                        | call when current transaction is running on |
+ *    |                                |                       |                        | async callout or not                        |
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -77,12 +80,20 @@ public with sharing class LeadService {
         }
     }
 
+    @future
+    public static void createMarketingSegmentationAsync(Set<Id> leadIds) {
+        createMarketingSegmentationForLeads(leadIds);
+    }
+    
+    public static void createMarketingSegmentationSync(Set<Id> leadIds) {
+        createMarketingSegmentationForLeads(leadIds);
+    }
+
     /**
      * @description create a Marketing Segmentation on the newly created Lead
      *
      * @param Set<Id> leadIds
      */
-    @future
     public static void createMarketingSegmentationForLeads(Set<Id> leadIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
         Map<Id,ServiceAppointment> serviceAppointmentMap = new Map<Id,ServiceAppointment>();
