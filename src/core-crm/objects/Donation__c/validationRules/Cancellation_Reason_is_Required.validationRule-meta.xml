@@ -9,6 +9,7 @@
   RecordType.DeveloperName = &apos;Pledge&apos;,
   RecordType.DeveloperName = &apos;Endowment_Instalment&apos;,
   RecordType.DeveloperName = &apos;Pledge_Instalment&apos;,
+  RecordType.DeveloperName = &apos;Endowment_Funds_Transfer&apos;,
   RecordType.DeveloperName = &apos;Pledge_Distribution_Split&apos;
  ),
  OR(
