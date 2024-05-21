@@ -52,7 +52,7 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
             engagementListCriteria.Assessment_Priority__c = 'High';
@@ -119,7 +119,7 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
@@ -164,5 +164,4 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
         }
     }
-
 }

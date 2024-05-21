@@ -41,6 +41,13 @@ public interface IContactsDAO extends DmlInterface {
         ContactsDAO.QueryParamWrapper queryParam,
         String accessLevel
     );  
+
+    List<Contact> getContactsByMatchingAttributes(
+        Map<String,Set<String>> fieldSetMap,
+        Set<Date> birthDateSet,
+        AccessLevel accessLevel
+    );
+
     List<Contact> getPersonContactsByCalculatedCadences(
         Set<String> calculatedCadences
     );

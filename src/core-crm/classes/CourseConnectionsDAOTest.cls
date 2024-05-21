@@ -328,7 +328,9 @@ public with sharing class CourseConnectionsDAOTest {
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
 
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
@@ -394,7 +396,9 @@ public with sharing class CourseConnectionsDAOTest {
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
 
 
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();

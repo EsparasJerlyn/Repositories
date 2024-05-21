@@ -73,8 +73,8 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
             soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
-        } 
+            String categoryString = DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()));
+            soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN (' + categoryString + ') ';        } 
         
         return soql;
     }

@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | gabriel.p.ventayen             | April 30, 2024        | DEPP-8041              | Created file                                   |
+ *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type                      |
  *    |                                |                       |                        |                                                |
  */
 public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILeaveOfAbsencesDAO {
@@ -75,7 +76,8 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
             soql += 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (' + statusSetString + ') ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
+            String categoryString = DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()));
+            soql += 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN (' + categoryString + ') ';
         } 
         
         return soql;
