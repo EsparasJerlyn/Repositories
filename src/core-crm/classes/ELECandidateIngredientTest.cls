@@ -27,7 +27,7 @@ public with sharing class ELECandidateIngredientTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             engagementListCriteria.Academic_Status__c = 'Showcause';
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Completed_Cadence__c = 'Domestic Accepted and Admitted';
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = breach.Id;

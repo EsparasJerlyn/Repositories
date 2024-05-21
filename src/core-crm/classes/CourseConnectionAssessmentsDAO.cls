@@ -8,8 +8,10 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
- *    | julie.jane.alegre              | May 06, 2024          | DEPP-8049              | Add access level                                                 |
+ *    | julie.jane.alegre              | May 06, 2024          | DEPP-8049              | Add access level                               |
+ *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type                      |
  *    |                                |                       |                        |                                                |
+
  */
 public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase implements ICourseConnectionAssessmentsDAO {
     
@@ -124,7 +126,8 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
-            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
+            String categoryString = DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()));
+            soql += 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN (' + categoryString + ') ';
         }
         if(programEnrollmentCriteria.getEnrollmentStatus() != null){
             String statusSetString = DynamicQueryService.formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus());
