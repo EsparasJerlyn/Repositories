@@ -50,7 +50,7 @@ public with sharing class ELECandidateProcessor {
             'leaveOfAbsenceIds' => leaveOfAbsenceIds
         };
 
-        Map<Id, Case> openCaseMap = getCaseMap(contactIds);   
+        Map<Id, Case> openCaseMap = getCaseMap(contactIds, configId);   
         Map<Engagement_List_Event__c, Case> outreachCaseMap = new Map<Engagement_List_Event__c, Case>();
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         for(Engagement_List_Event__c existingEvent : EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
@@ -61,18 +61,22 @@ public with sharing class ELECandidateProcessor {
             }
         }
 
-        for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){
+        for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){   
+                
             Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
             Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
             event.Engagement_List_Criteria__c = criteriaId;
+
+            ELECandidateProcessResult processResult;
             if(openCaseMap.containsKey(eventCandidateContactId)){
                 event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
                 newEvents.add(event);
-                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
+                processResult = new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED);
             }else{
                 outreachCaseMap.put(event, createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName)));
-                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
+                processResult = new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED);
             }
+            result.add(processResult);
         }
 
         saveRecords(outreachCaseMap, newEvents);
@@ -82,7 +86,7 @@ public with sharing class ELECandidateProcessor {
 
     private void saveRecords(Map<Engagement_List_Event__c, Case> outreachCaseMap, List<Engagement_List_Event__c> newEvents){
         if(!outreachCaseMap.values().isEmpty()){
-            CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), false, AccessLevel.SYSTEM_MODE);   
+            CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), true, AccessLevel.SYSTEM_MODE);   
         }
 
         for(Engagement_List_Event__c event : outreachCaseMap.keySet()){
@@ -93,20 +97,13 @@ public with sharing class ELECandidateProcessor {
         }
 
         if(!newEvents.isEmpty()){
-            EngagementListEventsDAO.newInstance().insertRecords(newEvents, false, AccessLevel.SYSTEM_MODE);   
+            EngagementListEventsDAO.newInstance().insertRecords(newEvents, true, AccessLevel.SYSTEM_MODE);   
         }
     }
 
-    private Map<Id, Case> getCaseMap(Set<Id> contactIds){
-        
-        Map<String, Object> params = new Map<String, Object> {
-            'contactIds' => contactIds,
-            'statusSet' => new Set<String>{CasesDAO.CASE_STATUS_OPEN},
-            'recordTypeId' => CasesDAO.OUTREACH_RECTYPE_ID
-        };
-
-        Map<Id, Case> openCaseMap = new Map<Id, Case>();        
-        List<Case> openOutreachCases = CasesDAO.newInstance().getCasesByContactIdStatusAndRecordType(params, AccessLevel.SYSTEM_MODE);
+    private Map<Id, Case> getCaseMap(Set<Id> contactIds, Id configId){
+        Map<Id, Case> openCaseMap = new Map<Id, Case>();  
+        List<Case> openOutreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(contactIds, configId, AccessLevel.SYSTEM_MODE);
         for(Case caseRecord : openOutreachCases){
             openCaseMap.put(caseRecord.ContactId, caseRecord);
         }
@@ -115,16 +112,12 @@ public with sharing class ELECandidateProcessor {
     }
 
     public Case createCase(Engagement_List_Configuration__c engagementListConfig){
-
-        String groupName = 'Student Success - Student Retention';
-        Id studentRetentionQueue = GroupsDAO.newInstance().getQueueByName(groupName);
-
         Case newCase = new Case(); 
         newCase.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
         newCase.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
         newCase.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
         newCase.Subject = engagementListConfig.Name;
-        newCase.OwnerId = studentRetentionQueue;
+        newCase.OwnerId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
         newCase.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
         newCase.Engagement_List_Configuration__c = engagementListConfig.Id;
         newCase.Status = CasesDAO.STATUS_CREATED;
