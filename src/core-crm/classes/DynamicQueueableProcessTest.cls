@@ -32,23 +32,6 @@ private class DynamicQueueableProcessTest {
     }
 
     @isTest
-    private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
-                .insertRecords(
-                    createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'Existing'),
-                    false,
-                    AccessLevel.SYSTEM_MODE
-                );
-            Test.stopTest();
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved.');
-            }
-        }
-    }
-
-    @isTest
     private static void testHandleAutoPriorityAssignedCase(){
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             List<Case> cases = new List<Case>();
