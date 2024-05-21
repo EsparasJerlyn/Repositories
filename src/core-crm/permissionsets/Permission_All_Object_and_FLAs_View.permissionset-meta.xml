@@ -4261,11 +4261,11 @@
         <field>Engagement_List_Criteria__c.Cases_Created__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!-- <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Engagement_List_Criteria__c.Category_Type__c</field>
         <readable>true</readable>
-    </fieldPermissions> -->
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Engagement_List_Criteria__c.Citizenship_Status__c</field>
