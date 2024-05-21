@@ -29,12 +29,12 @@ public with sharing class ELECandidateProcessor {
         Set<Id> contactIds = eventCandidateMap.keySet();
         for(Id contactId : contactIds){
             for(Engagement_List_Event__c eventCandidate : eventCandidateMap.get(contactId)){
-                programEnrollmentIds = setIds(eventCandidate.Program_Enrollment__c, programEnrollmentIds);
-                completedCadenceIds = setIds(eventCandidate.Completed_Cadence__c, completedCadenceIds);
-                courseConnectionIds = setIds(eventCandidate.Course_Connection__c, courseConnectionIds);
-                courseConnectionAssessmentIds = setIds(eventCandidate.Course_Connection_Assessment__c, courseConnectionAssessmentIds);
-                programEnrollmentBreachIds = setIds(eventCandidate.Program_Enrollment_Breach__c, programEnrollmentBreachIds);
-                leaveOfAbsenceIds = setIds(eventCandidate.Leave_of_Absence__c, leaveOfAbsenceIds);
+                programEnrollmentIds = addRecordToIdSet(eventCandidate.Program_Enrollment__c, programEnrollmentIds);
+                completedCadenceIds = addRecordToIdSet(eventCandidate.Completed_Cadence__c, completedCadenceIds);
+                courseConnectionIds = addRecordToIdSet(eventCandidate.Course_Connection__c, courseConnectionIds);
+                courseConnectionAssessmentIds = addRecordToIdSet(eventCandidate.Course_Connection_Assessment__c, courseConnectionAssessmentIds);
+                programEnrollmentBreachIds = addRecordToIdSet(eventCandidate.Program_Enrollment_Breach__c, programEnrollmentBreachIds);
+                leaveOfAbsenceIds = addRecordToIdSet(eventCandidate.Leave_of_Absence__c, leaveOfAbsenceIds);
                 EngagementListEventKey eventCandidateKey = generateKey(eventCandidate, contactId, eventCandidate.Engagement_List_Criteria__c); 
                 eventCandidateKeyMap.put(eventCandidateKey, new ELECandidate(eventCandidate, contactId));
             }
@@ -126,7 +126,7 @@ public with sharing class ELECandidateProcessor {
         return newCase;
     }
 
-    private Set<Id> setIds(Id recordId, Set<Id> idSet){
+    private Set<Id> addRecordToIdSet(Id recordId, Set<Id> idSet){
         if(recordId != null){
             idSet.add(recordId);
         }
