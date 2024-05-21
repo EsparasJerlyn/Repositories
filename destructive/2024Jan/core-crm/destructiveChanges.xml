@@ -83,6 +83,9 @@
         <!-- (Start) DEPP-8797 -->
         <members>Case.Qualtrics_Survey_In_Progress_URL__c</members>
         <!-- (End) DEPP-8797 -->
+        <!-- (Start) DEPP-8764 -->
+        <members>Qualtrics_Survey__c.Case__c</members>
+        <!--(End) DEPP-8764 -->
         <name>CustomField</name>
     </types>
     <types>
