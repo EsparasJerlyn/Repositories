@@ -13,6 +13,9 @@
    
     public static final String RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA = 'Entry_Criteria';
     public static final Id RECORD_TYPE_ID_ENTRY_CRITERIA = Schema.SObjectType.Engagement_List_Criteria__c.getRecordTypeInfosByDeveloperName().get(RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA).getRecordTypeId();
+
+    public static final String RECORD_TYPE_DEVELOPER_NAME_IMPORTED = 'Imported';
+    public static final Id RECORD_TYPE_ID_IMPORTED = Schema.SObjectType.Engagement_List_Criteria__c.getRecordTypeInfosByDeveloperName().get(RECORD_TYPE_DEVELOPER_NAME_IMPORTED).getRecordTypeId();
     
     public static final String KEY_DATE_COMPLETED_CADENCE_DATE = 'Completed Cadence Date';
     public static final String KEY_DATE_LEAVE_OF_ABSENCE_END_DATE = 'Leave Of Absence End Date';
