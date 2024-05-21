@@ -177,7 +177,7 @@ public with sharing class ELECandidateProcessorTest {
         
         List<Engagement_List_Event__c> existingEvents = new List<Engagement_List_Event__c>();
         Engagement_List_Event__c existingEvent = new Engagement_List_Event__c();
-        existingEvent.Engagement_List_Criteria__c = criteria.Id;
+        existingEvent.Engagement_List_Criteria__c = criterias[0].Id;
         existingEvent.Program_Enrollment__c = programEnrollmentListCreated[0].Id;
         existingEvent.Course_Connection__c = courseConnectionListCreated[0].Id;
         existingEvent.Academic_Status__c = 'Showcause';
@@ -190,7 +190,7 @@ public with sharing class ELECandidateProcessorTest {
 
         Test.startTest();
         Engagement_List_Event__c eventCandidate = new Engagement_List_Event__c();
-        eventCandidate.Engagement_List_Criteria__c = criteria.Id;
+        eventCandidate.Engagement_List_Criteria__c = criterias[0].Id;
         eventCandidate.Program_Enrollment__c = programEnrollmentListCreated[0].Id;
         eventCandidate.Course_Connection__c = courseConnectionListCreated[0].Id;
         eventCandidate.Academic_Status__c = 'Showcause';
@@ -204,7 +204,7 @@ public with sharing class ELECandidateProcessorTest {
         eventCandidateMap.put(contactList[0].Id, events);
 
         ELECandidateProcessor processor = new ELECandidateProcessor();
-        List<ELECandidateProcessResult> process = processor.process(eventCandidateMap, criteria);
+        List<ELECandidateProcessResult> process = processor.process(eventCandidateMap, criterias[0]);
         Test.stopTest();
         System.assertEquals(ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED, process[0].getResult(), 'Event should not be created.');  
     }
