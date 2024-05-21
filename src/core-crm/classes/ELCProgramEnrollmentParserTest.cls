@@ -42,16 +42,14 @@ public with sharing class ELCProgramEnrollmentParserTest {
             Test.startTest();
             Date executionDate = Date.today();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
 
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            //System.assertEquals(parser.getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');       
-            //System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
-            //System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');  
-            //To be Removed once Category Type has been changed to Multipicklist  
-            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), null, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getCategoryType(), new List<String>{'Graduate Certificate'}, 'Incorrect Category Type');       
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
  
         }
     }

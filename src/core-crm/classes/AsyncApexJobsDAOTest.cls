@@ -13,7 +13,7 @@
 private class AsyncApexJobsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
     }
 
     @isTest
