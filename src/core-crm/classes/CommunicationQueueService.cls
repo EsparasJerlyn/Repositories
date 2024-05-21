@@ -44,7 +44,7 @@ public inherited sharing class CommunicationQueueService {
                 createCommunicationQueue.Template_Id__c = caseRecords[0].Engagement_List_Configuration__r.Email_Template__c;
                 createCommunicationQueue.Sender__c = orgWideEmailAddressSuccessId;
                 createCommunicationQueue.Status__c = 'Scheduled';
-                createCommunicationQueue.Communication_Endpoint__c = 'Contact QUT Learner Email';
+                createCommunicationQueue.Communication_Endpoint__c = caseRecords[0].Contact.QUT_Learner_Email__c;
                 createCommunicationQueueList.Add(createCommunicationQueue);
 
                 List<Database.SaveResult> insertedRecords = new List<Database.SaveResult>();
