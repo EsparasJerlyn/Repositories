@@ -23,6 +23,7 @@ public inherited sharing class ContactMatchingStagingService {
         'MiddleName__c' => 'MiddleName',
         'Mobile_No_Locale__c' => 'Mobile_No_Locale__c',
         'MobilePhone__c' => 'MobilePhone',
+        'Phone__c' => 'Phone',
         'Preferred_Given_Name__c' => 'Preferred_Given_Name__c',
         'QUT_Employee_ID__c' => 'QUT_Employee_ID__c',
         'QUT_Identity_ID__c' => 'QUT_Identity_ID__c',
