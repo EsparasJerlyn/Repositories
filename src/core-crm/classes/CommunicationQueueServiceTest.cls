@@ -52,15 +52,15 @@ private class CommunicationQueueServiceTest {
             Test.stopTest();
 
             System.assert(retCommunicationQueue.Id != null, 'Communication Queue Not Inserted.');
-            System.assert(retCommunicationQueue.Type__c == 'Email', 'Communication Queue Type not matched.');
+            System.assert(retCommunicationQueue.Type__c ==  CommunicationQueuesDAO.TYPE_EMAIL, 'Communication Queue Type not matched.');
             System.assert(retCommunicationQueue.Due_Date__c == System.today(), 'Communication Queue Due Date not matched.');
             System.assert(retCommunicationQueue.Business_Process__c == 'Outreach Initial Email', 'Communication Queue Business Process not matched.');
             System.assert(retCommunicationQueue.WhoId__c == newContacts[0].Id, 'Communication Queue Contact not matched.');
             System.assert(retCommunicationQueue.WhatId__c == caseList[0].Id, 'Communication Queue Case not matched.');
             System.assert(retCommunicationQueue.Template_Id__c == engagementListConfig.Email_Template__c, 'Communication Queue Email Template not matched.');
             System.assert(retCommunicationQueue.Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id, 'Communication Queue Sender not matched.');
-            System.assert(retCommunicationQueue.Status__c == 'Scheduled', 'Communication Queue Status not matched.');
-            System.assert(retCommunicationQueue.Communication_Endpoint__c == newContacts[0].QUT_Learner_Email__c, 'Communication Queue End Point not matched.');
+            System.assert(retCommunicationQueue.Status__c ==  CommunicationQueuesDAO.STATUS_SCHEDULED, 'Communication Queue Status not matched.');
+            System.assert(retCommunicationQueue.Communication_Endpoint__c == CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL, 'Communication Queue End Point not matched.');
             System.assert([SELECT Initial_Communication_Status__c FROM Case WHERE Id = :caseList[0].Id].Initial_Communication_Status__c == 'Pending', 'Communication Queue Initial_Communication_Status__c not matched.');
             
         }  

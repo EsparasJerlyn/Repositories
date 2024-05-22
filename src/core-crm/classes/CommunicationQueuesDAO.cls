@@ -20,6 +20,9 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
     public static final String STATUS_FAILED = System.Label.PL_CommsQueue_Failed;
     public static final String STATUS_RETRY = System.Label.PL_CommsQueue_Retry;
     public static final String BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS = 'Domestic No Answer SMS';
+    public static final String BUSINESS_PROCESS_OUTREACH = 'Outreach Initial Email';
+    public static final String TYPE_EMAIL = 'Email';
+    public static final String END_POINT_CONTACT_LEARNER_EMAIL = 'Contact.QUT_Learner_Email__c';
     public static final Set<String> EMAIL_STATUS_FOR_SENDING = new Set<String>{
         STATUS_SCHEDULED,
         STATUS_RETRY

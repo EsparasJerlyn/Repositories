@@ -23,7 +23,7 @@ public inherited sharing class CommunicationQueueService {
         Id orgWideEmailAddressSuccessId = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id;
         List<Case> caseRecords = [SELECT Id, ContactId, Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c  FROM Case WHERE Qualtrics_Survey__c = :qsId WITH USER_MODE LIMIT 1]; 
         Set<Id> createdCommunicationsQueueIdSet = new Set<Id>();
-
+        Communication_Queue__c createdCommunicationQueue = new Communication_Queue__c();
         if (
             caseRecords.Size() > 0 
             && ( 
@@ -36,20 +36,19 @@ public inherited sharing class CommunicationQueueService {
                 //create communication queue record
                 List<Communication_Queue__c> createCommunicationQueueList = new List<Communication_Queue__c>();
                 Communication_Queue__c createCommunicationQueue = new Communication_Queue__c();
-                createCommunicationQueue.Type__c = 'Email';
+                createCommunicationQueue.Type__c = CommunicationQueuesDAO.TYPE_EMAIL;
                 createCommunicationQueue.Due_Date__c = System.today();
-                createCommunicationQueue.Business_Process__c = 'Outreach Initial Email';
+                createCommunicationQueue.Business_Process__c = CommunicationQueuesDAO.BUSINESS_PROCESS_OUTREACH;
                 createCommunicationQueue.WhoId__c = caseRecords[0].ContactId;
                 createCommunicationQueue.WhatId__c = caseRecords[0].Id;
                 createCommunicationQueue.Template_Id__c = caseRecords[0].Engagement_List_Configuration__r.Email_Template__c;
                 createCommunicationQueue.Sender__c = orgWideEmailAddressSuccessId;
-                createCommunicationQueue.Status__c = 'Scheduled';
-                createCommunicationQueue.Communication_Endpoint__c = caseRecords[0].Contact.QUT_Learner_Email__c;
+                createCommunicationQueue.Status__c = CommunicationQueuesDAO.STATUS_SCHEDULED;
+                createCommunicationQueue.Communication_Endpoint__c = CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL;
                 createCommunicationQueueList.Add(createCommunicationQueue);
 
                 List<Database.SaveResult> insertedRecords = new List<Database.SaveResult>();
                 insertedRecords = CommunicationQueuesDAO.newInstance().insertRecords(createCommunicationQueueList, true, accessLevel);
-                
                 
                 for (Database.SaveResult sr : insertedRecords) {
                     if (sr.isSuccess()){
@@ -57,6 +56,10 @@ public inherited sharing class CommunicationQueueService {
                     }
                 }
             
+                if (createdCommunicationsQueueIdSet.size() > 0) {
+                    createdCommunicationQueue = [SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c FROM Communication_Queue__c WHERE Id IN :createdCommunicationsQueueIdSet WITH USER_MODE LIMIT 1];
+                }
+
                 //update case's Initial_Communication_Status__C to pending
                 List<Case> updateCaseList = new List<Case>();
                 Case updateCase = new Case();
@@ -70,8 +73,8 @@ public inherited sharing class CommunicationQueueService {
                 if (Logger.getBufferSize() > 0) { Logger.saveLog(); }
             }
         }
-
-        return [SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c FROM Communication_Queue__c WHERE Id IN :createdCommunicationsQueueIdSet WITH USER_MODE LIMIT 1];
+        
+        return createdCommunicationQueue;
     }
 
 }
