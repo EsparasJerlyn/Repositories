@@ -12,16 +12,22 @@
  */
 public class QualtricsSurveyCalloutQueuable implements Queueable{
     private List<Qualtrics_Survey__c> qualtricsSurveyList = new List<Qualtrics_Survey__c>();
+    private String methodName;
         
-        
-    public QualtricsSurveyCalloutQueuable(List<Qualtrics_Survey__c> qualtricsSurvey) {
-        this.qualtricsSurveyList = qualtricsSurvey;    
+    public QualtricsSurveyCalloutQueuable(List<Qualtrics_Survey__c> qualtricsSurvey, String methodName) {
+        this.qualtricsSurveyList = qualtricsSurvey; 
+        this.methodName = methodName;
     }
         
     public void execute(QueueableContext context) {
             
         if(!qualtricsSurveyList.isEmpty()){
-            QualtricsSurveyService.requestForQualtricsSurveyInfo(qualtricsSurveyList);
+            if(methodName == 'QualtricsSurveyService'){
+                QualtricsSurveyService.requestForQualtricsSurveyInfo(qualtricsSurveyList);
+            }
+            /* else if(
+
+            ) */
         }
     }
 }

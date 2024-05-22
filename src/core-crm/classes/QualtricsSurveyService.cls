@@ -39,7 +39,7 @@ public with sharing class QualtricsSurveyService {
         }
         CasesDAO.newInstance().updateRecords(caseToUpdate, false, AccessLevel.SYSTEM_MODE);
 
-        QualtricsSurveyCalloutQueuable queueableCalls = new QualtricsSurveyCalloutQueuable(qualtricsSurveyMap.values());
+        QualtricsSurveyCalloutQueuable queueableCalls = new QualtricsSurveyCalloutQueuable(qualtricsSurveyMap.values(),'QualtricsSurveyService');
         System.enqueueJob(queueableCalls);
     }
 
