@@ -16,7 +16,7 @@ public with sharing class QualtricsSurveyService {
         Map<Id,Qualtrics_Survey__c> qualtricsSurveyMap = new Map<Id,Qualtrics_Survey__c>();
 
         for(Case caseRec : caseList){
-            if(!String.isBlank(caseRec.Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c) && caseRec.Qualtrics_Survey__c == null){
+            if(caseRec.Qualtrics_Survey__c == null){
                 Qualtrics_Survey__c qualtricsSurvey = new Qualtrics_Survey__c();
                 qualtricsSurveyMap.put(caseRec.Id,qualtricsSurvey);
             }
@@ -38,9 +38,12 @@ public with sharing class QualtricsSurveyService {
             }
         }
         CasesDAO.newInstance().updateRecords(caseToUpdate, false, AccessLevel.SYSTEM_MODE);
+
+        QualtricsSurveyCalloutQueuable queueableCalls = new QualtricsSurveyCalloutQueuable(qualtricsSurveyMap.values());
+        System.enqueueJob(queueableCalls);
     }
 
-    public static void updateQualtricsSurveyInfo(List<Qualtrics_Survey__c> newItems){
+    public static void updateQualtricsSurveyInfo(List<Qualtrics_Survey__c> qualtricsSurvey){
 
         //requestForQualtricsSurveyInfo(newItems)
     }
