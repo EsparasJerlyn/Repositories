@@ -146,10 +146,10 @@
                 <behavior>Required</behavior>
                 <field>TotalPriceTaxAmount</field>
             </layoutItems>  
-            <layoutItems>
+            <!-- <layoutItems>
                 <behavior>Required</behavior>
                 <field>UnitItemAdjustmentAmount</field>
-            </layoutItems>
+            </layoutItems> -->
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>UnitAdjustedPriceWithItemAdj</field>
