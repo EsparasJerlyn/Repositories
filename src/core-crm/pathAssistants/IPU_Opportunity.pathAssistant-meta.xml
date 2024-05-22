@@ -5,23 +5,23 @@
     <fieldName>StageName</fieldName>
     <masterLabel>IPU Opportunity</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;This ‘Assessment’ stage enables you to assess an opportunity in terms of internal experience, expertise, capacity and risk before it progresses to the proposal or tender stage. &lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use Assessment outcome and Supporting Comments fields to capture the assessment result. &lt;/em&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;This ‘Assessment’ stage enables you to assess an opportunity in terms of internal experience, expertise, capacity and risk before it progresses to the proposal or tender stage. &lt;/p&gt;&lt;p&gt;Use Assessment outcome and Supporting Comments fields to capture the assessment result. &lt;/p&gt;</info>
         <picklistValueName>Assessment</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;The &amp;#39;Contract&amp;#39; stage signifies that the client has accepted the proposal and is ready to formalise agreement with a Contract with QUT.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use the Contracts Lifecycle Management System (CLMS) to create and manage the contract process.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;The &amp;#39;Contract&amp;#39; stage signifies that the client has accepted the proposal and is ready to formalise agreement with a Contract with QUT.&lt;/p&gt;&lt;p&gt;Use the Contracts Lifecycle Management System (CLMS) to create and manage the contract process.&lt;/p&gt;</info>
         <picklistValueName>Contract</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;This ‘Development’ stage shows that the opportunity is ready for Proposal development. Proceed with proposal initial drafting, distribute your Proposal for internal review, feedback, and/or to the client for review.. Use the ‘Proposal Status&amp;#39; and &amp;#39;Summary’ field to capture the status and key information around the proposal.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Once the proposal is submitted, check ‘Proposal Submitted’, which will move the opportunity to Submitted stage to track the outcome.&lt;/em&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;This ‘Development’ stage shows that the opportunity is ready for Proposal development. Proceed with proposal initial drafting, distribute your Proposal for internal review, feedback, and/or to the client for review.. Use the ‘Proposal Status&amp;#39; and &amp;#39;Summary’ field to capture the status and key information around the proposal.&lt;/p&gt;&lt;p&gt;Once the proposal is submitted, check ‘Proposal Submitted’, which will move the opportunity to Submitted stage to track the outcome.&lt;/p&gt;</info>
         <picklistValueName>Development</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;This ‘Identify’ stage enables you to record and explore opportunity related to international development and training initiatives.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use ‘Description’ field to describe the potential opportunity.&lt;/em&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;This ‘Identify’ stage enables you to record and explore opportunity related to international development and training initiatives.&lt;/p&gt;&lt;p&gt;Use ‘Description’ field to describe the potential opportunity.&lt;/p&gt;</info>
         <picklistValueName>Identify</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;This ‘Submitted’ stage confirms that a Proposal or tender is submitted awaiting response.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use the Proposal Outcome and comments field to record the outcome of the Proposal Stage.&lt;/em&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;This ‘Submitted’ stage confirms that a Proposal or tender is submitted awaiting response.&lt;/p&gt;&lt;p&gt;Use the Proposal Outcome and comments field to record the outcome of the Proposal Stage.&lt;/p&gt;</info>
         <picklistValueName>Submitted</picklistValueName>
     </pathAssistantSteps>
     <recordTypeName>International_Projects_Unit</recordTypeName>
