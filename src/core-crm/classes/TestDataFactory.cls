@@ -4115,7 +4115,6 @@ public class TestDataFactory {
         }
         return newContacts;
     }
-
     /** 
      * @description Method for creating studylink application record
      * @param Integer startAtCount - number of record to start 
@@ -4143,8 +4142,7 @@ public class TestDataFactory {
             );
         }
         return newApplications;
-    }
-
+    }  
     /** 
      * @description Method for creating lead required for Application record
      * @param Integer startAtCount - number of record to start 
@@ -4167,7 +4165,6 @@ public class TestDataFactory {
         }
         return newLeads;
     }
-
     /** @description Method for creating test student sanction records
      * @return Student_Sanction__c record
      */
@@ -4205,7 +4202,6 @@ public class TestDataFactory {
      * @return Contact_Matching_Staging__c record
      */
     public static List<Contact_Matching_Staging__c> createContactMatchingStagings(Integer count) {
-        
         List<Contact_Matching_Staging__c> contactMatchingStagingList = new List<Contact_Matching_Staging__c>();
 
         for(Integer i = 0; i< count; i++){
@@ -4217,5 +4213,25 @@ public class TestDataFactory {
         }
 
         return contactMatchingStagingList;
+    }
+
+    public static Case createTestOutreachCaseRecord(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        Id contactId
+    ) {
+
+        Case caseRecord = new Case();
+        caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+        caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+        caseRecord.Subject = elConfig.Name;
+        caseRecord.ContactId = contactId;
+        caseRecord.OwnerId = ownerId;
+        caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+        caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+        caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+        caseRecord.Status = CasesDAO.STATUS_CREATED;
+        caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+        return caseRecord;
     }
 }
