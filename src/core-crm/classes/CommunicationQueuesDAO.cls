@@ -25,8 +25,6 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
     public static final String TYPE_SMS = 'SMS';
     public static final String BUSINESS_PROCESS_DOMESTIC_EMAIL = 'Domestic Automated Cadence Email';
     public static final String BUSINESS_PROCESS_INTERNATIONAL_EMAIL = 'International Automated Cadence Email';
-    public static final String BUSINESS_PROCESS_OUTREACH = 'Outreach Initial Email';
-    public static final String TYPE_EMAIL = 'Email';
     public static final String END_POINT_CONTACT_LEARNER_EMAIL = 'Contact.QUT_Learner_Email__c';
     public static final Set<String> EMAIL_STATUS_FOR_SENDING = new Set<String>{
         STATUS_SCHEDULED,
