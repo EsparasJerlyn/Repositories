@@ -20,6 +20,8 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     public static final String ORIGIN_ENGAGEMENT_LIST = 'Engagement List';
     public static final String STATUS_CREATED = 'Created';
     public static final String DESCRIPTION_ENGAGEMENT_LIST = 'This case has been automatically generated as part of an Engagement List Configuration.';
+    public static final String INITIAL_COMMUNICATION_STATUS_SENT = 'Sent';
+    public static final String INITIAL_COMMUNICATION_STATUS_PENDING = 'Pending';
 
     public static final Id INBOUND_ENQUIRY_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
         .get('Inbound_Enquiry')

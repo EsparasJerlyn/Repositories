@@ -320,6 +320,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numberOfRecords; i++) {
             newLeads.add(
                 new Lead(
+                    FirstName = 'TestFirstNameLead' + i,
                     LastName = 'TestLastNameLead' + i,
                     Email = i + EMAIL,
                     Work_Email__c = 'work' + i + EMAIL,
