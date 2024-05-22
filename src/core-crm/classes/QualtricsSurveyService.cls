@@ -43,8 +43,7 @@ public with sharing class QualtricsSurveyService {
         System.enqueueJob(queueableCalls);
     }
 
-    public static void updateQualtricsSurveyInfo(List<Qualtrics_Survey__c> qualtricsSurvey){
+    public static void requestForQualtricsSurveyInfo(List<Qualtrics_Survey__c> qualtricsSurvey){
 
-        //requestForQualtricsSurveyInfo(newItems)
     }
 }

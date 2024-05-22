@@ -1,6 +1,6 @@
 /**
- * @description QualtricsSurveyCalloutQueuable testclass.
- * @see ../class/QualtricsSurveyCalloutQueuable
+ * @description OutreachCasePostCreationQueuable testclass.
+ * @see ../class/OutreachCasePostCreationQueuable
  *
  * @author Accenture
  *
@@ -11,7 +11,7 @@
  *    | arsenio.jr.dayrit              | May 22, 2024          | DEPP-8821              | Created file                                          |
  */
 @isTest
-public class QualtricsSurveyCalloutQueuableTest {
+public class OutreachCasePostCreationQueuableTest {
 
     @testSetup
     static void testSetup() {
@@ -36,17 +36,14 @@ public class QualtricsSurveyCalloutQueuableTest {
             CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.USER_MODE);
 
             List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
-            System.enqueueJob(new OutreachCasePostCreationQueuable(caseList));
-            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id, In_Progress_Survey_URL__c, Distribution_List__c FROM Qualtrics_Survey__c];
 
             // Enqueue the queueable class
             Test.startTest();
-            System.enqueueJob(new QualtricsSurveyCalloutQueuable(qualtricsSurveyList));
+            System.enqueueJob(new OutreachCasePostCreationQueuable(caseList));
             Test.stopTest();
-            List<Qualtrics_Survey__c> updatedQualtricsSurveyList = [SELECT Id, In_Progress_Survey_URL__c, Distribution_List__c FROM Qualtrics_Survey__c];
 
-            System.assert(!String.isBlank(updatedQualtricsSurveyList[0].In_Progress_Survey_URL__c), ' In Progress Survey URL is did not update');
-            System.assert(!String.isBlank(updatedQualtricsSurveyList[0].Distribution_List__c), ' In Distribution List is did not update');
+            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id FROM Qualtrics_Survey__c];
+            System.assertEquals(1, qualtricsSurveyList.size(), ' No Qualtrics Survey record created.');
             
         }
     }
