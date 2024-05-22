@@ -1,3 +1,14 @@
 Id,DeveloperName,SobjectType,Name
 0128q0000004JlWAAU,Business_Organization,Account,Business Organization
 0128q0000004JlaAAE,University_Department,Account,University Department
+0128q0000004JlUAAU,Academic_Program,Account,Academic Program
+0128q0000004JlVAAU,Administrative,Account,Administrative
+012Om0000000ifxIAA,QTAC,hed__Application__c,QTAC
+012Om0000000ifyIAA,SAMS_CIAnywhere,hed__Application__c,SAMS CIAnywhere
+012Om0000000ifzIAA,SAMS_Legacy,hed__Application__c,SAMS Legacy
+012Om0000000ig0IAA,StudyLink,hed__Application__c,StudyLink
+0128q0000004KooAAE,Activity,hed__Course__c,Activity
+0128q0000004KoqAAE,Diagnostic_Tool,hed__Course__c,Diagnostic Tool
+0128q0000004KouAAE,Module,hed__Course__c,Module
+0128q0000004KoxAAE,Short_Course,hed__Course__c,Short Course
+0128q0000004JlpAAE,Faculty,hed__Course_Enrollment__c,Faculty

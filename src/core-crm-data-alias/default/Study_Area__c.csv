@@ -1,0 +1,201 @@
+_,Id,Name,Study_Area_Code__c,Study_Area_End_Date__c,Study_Area_Long_Name__c,Study_Area_No__c,Study_Area_Stage__c,Study_Area_Start_Date__c,Study_Area_Type__c,Study_Area_Version__c
+[Study_Area__c],a2wOm000001yJYvIAM,Computational and Simulation Science,MSBXMNR-COMPSSC,12/31/15,Computational and Simulation Science Minor,,Discontinued,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJYwIAM,Discrete Mathematics,MS01MNR-DISCRET,12/31/14,Discrete Mathematics Minor,,Discontinued,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJYxIAM,Discrete Mathematics,MSBXMNR-DISCRET,12/31/16,Discrete Mathematics Minor,,Discontinued,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJYyIAM,Statistics,MSBXMNR-STATS,,Statistics Minor,,Active,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJYzIAM,Mathematics,MSBXMNR-MATHS,,Mathematics Minor,,Active,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZ0IAM,Advanced Journalism,KJ32MNR-ADVJOUR,12/31/20,Advanced Journalism Minor,,Discontinued,7/1/13,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZ1IAM,Work Integrated Learning,DE40MNR-WKLRNG,,Work Integrated Learning Minor,,Planned,7/1/13,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZ2IAM,Finance,BSBXMJR-FINANCE,12/31/21,Finance Major,,Phasing Out,1/1/14,Undergraduate Major,2
+[Study_Area__c],a2wOm000001yJZ3IAM,Professional Accounting,BS79MJR-PRFACCG,12/31/20,Professional Accounting Major,,Phasing Out,1/1/14,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZ4IAM,Finance,BS0XMNR-FINANCE,12/31/21,Finance Minor,,Phasing Out,1/1/14,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZ5IAM,Philanthropy and Nonprofit Studies,BSPXMJR-PHILNPS,12/31/20,Philanthropy and Nonprofit Studies Major,,Discontinued,7/1/13,Postgraduate Major,3
+[Study_Area__c],a2wOm000001yJZ6IAM,Philanthropy and Nonprofit Studies,BS18MJR-PHILNPS,6/30/15,Philanthropy and Nonprofit Studies Major,,Discontinued,7/1/13,Postgraduate Major,3
+[Study_Area__c],a2wOm000001yJZ7IAM,Applied Finance,BS18MJR-AFINMGT,12/31/14,Applied Finance Major,,Discontinued,1/1/14,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZ8IAM,Applied Finance,BS79MJR-APPLFIN,12/31/20,Applied Finance Major,,Discontinued,1/1/14,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZ9IAM,Finance,BSBXSMJ-FINANCE,1/2/14,Finance Second Major,,Discontinued,1/1/14,Undergraduate Second Major,2
+[Study_Area__c],a2wOm000001yJZAIA2,Acute Care,NSPXMJR-ACUTE,12/31/17,Acute Care Major,,Discontinued,1/1/14,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZBIA2,Cancer Nursing,NSPXMJR-CANCER,12/31/17,Cancer Nursing Major,,Discontinued,1/1/14,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZCIA2,Information Systems,INBXMNR-INFOSYS,12/31/18,Information Systems Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZDIA2,Development and Valuation,UD10MJR-DEVVAL,12/31/15,Development and Valuation Major,,Discontinued,1/1/14,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yJZEIA2,Computational and Simulation Science,MS01SMJ-COMPSIM,6/30/19,Computational and Simulation Science Second Major,,Discontinued,1/1/14,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yJZFIA2,Earth Sciences,ST10MJR-EARTHSC,12/31/15,Earth Sciences Major,,Discontinued,1/1/14,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yJZGIA2,Human Health and Disease,ST01MNR-HUMHLH,12/31/17,Human Health and Disease Minor,,Discontinued,1/1/14,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZHIA2,Networks and Security,IN01MNR-NETSECU,12/31/22,Networks and Security Minor,,Phasing Out,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZIIA2,Corporate IT Systems,ITBXSMJ-CORPSYS,12/31/14,Corporate IT Systems Second Major,,Discontinued,1/1/14,Undergraduate Second Major,2
+[Study_Area__c],a2wOm000001yJZJIA2,Human Biomolecular Sciences,ST01SMJ-HUMBIO,12/31/17,Human Biomolecular Sciences Second Major,,Discontinued,1/1/14,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yJZKIA2,Civil and Environmental,EN40EXT-CIVENVX,6/30/15,Civil and Environmental Extension,,Discontinued,1/1/14,UG Study Area Extension,2
+[Study_Area__c],a2wOm000001yJZLIA2,Civil and Construction Engineering,EN40MJR-CVCOENG,6/30/15,Civil and Construction Engineering Major,,Discontinued,1/1/14,Undergraduate Major,3
+[Study_Area__c],a2wOm000001yJZMIA2,General Studies,EU70MJR-GENSTUD,6/30/15,General Studies Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZNIA2,Civil Engineering,EN40MJR-CVILENG,6/30/15,Civil Engineering Major,,Discontinued,1/1/14,Undergraduate Major,3
+[Study_Area__c],a2wOm000001yJZOIA2,Process Engineering,EN40MJR-PROCENG,6/30/15,Process Engineering Major,,Discontinued,1/1/14,Undergraduate Major,2
+[Study_Area__c],a2wOm000001yJZPIA2,Civil and Construction Engineering Applications,EN40MNR-APPCVCO,6/30/18,Civil and Construction Engineering Applications Minor,,Discontinued,1/1/14,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZQIA2,Civil and Environmental Engineering Applications,EN40MNR-APPCVEN,12/31/16,Civil and Environmental Engineering Applications Minor,,Discontinued,1/1/14,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZRIA2,Inclusive Education,EU60MJR-INCLUED,12/31/20,Inclusive Education Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZSIA2,TESOL,EU60MJR-TESOL,12/31/20,TESOL Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZTIA2,Games Design,ITBXSMJ-GAMEDES,12/31/14,Games Design Second Major,,Discontinued,7/1/14,Undergraduate Second Major,2
+[Study_Area__c],a2wOm000001yJZUIA2,Mechatronics,EN01MJR-MECHATN,12/31/15,Mechatronics Major,,Discontinued,1/1/15,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yJZVIA2,Collaborative Digital Design,DEBXMNR-CDIGDES,12/31/15,Collaborative Digital Design Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZWIA2,Medical Engineering,EN01MJR-MEDIENG,6/30/16,Medical Engineering Major,,Discontinued,1/1/15,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yJZXIA2,Complex Program Leadership,GS50MNR-CPGLDSP,6/30/18,Complex Program Leadership Concentration,,Discontinued,7/1/14,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yJZYIA2,Cell and Molecular Biotechnology,LS40MNR-CELLMOL,12/31/21,Cell and Molecular Biotechnology Minor,,Phasing Out,1/1/15,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZZIA2,Medical Physics,PH71MJR-MEDPHY,12/31/16,Medical Physics Major,,Discontinued,1/1/15,Postgraduate Major,3
+[Study_Area__c],a2wOm000001yJZaIAM,Intermediate Science,ED59MNR-INTSCI,6/30/20,Intermediate Science Minor,,Discontinued,1/1/15,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZbIAM,Marketing,BS11MJR-MRKTING,,Marketing Major,,Active,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZcIAM,Philanthropy and Nonprofit Studies,BS11MJR-PHILNPS,12/31/21,Philanthropy and Nonprofit Studies Major,,Phasing Out,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZdIAM,Professional Accounting,BS11MJR-PRFACCG,,Professional Accounting Major,,Active,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZeIAM,Strategic Advertising,BS11MJR-STRTADV,6/30/23,Strategic Advertising Major,,Phasing Out,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZfIAM,Human Resource Management,BS39MJR-HRMGMNT,12/31/20,Human Resource Management Major,,Discontinued,1/1/15,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZgIAM,Human Resource Management,BS39MJR-HRMGTCG,12/31/20,Human Resource Management Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZhIAM,International Business,BS39MJR-INTLBUS,12/31/20,International Business Major,,Discontinued,1/1/15,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZiIAM,Integrated Marketing Communication,BS39MJR-INTMKCM,12/31/20,Integrated Marketing Communication Major,,Discontinued,1/1/15,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZjIAM,Marketing,BS39MJR-MRKTING,12/31/20,Marketing Major,,Discontinued,1/1/15,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZkIAM,Professional Accounting,BS39MJR-PRFACCG,,Professional Accounting Major,,Active,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZlIAM,Public Relations,BS39MJR-PUBRELS,12/31/20,Public Relations Major,,Discontinued,1/1/15,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJZmIAM,Strategic Advertising,BS39MJR-STRTADV,12/31/20,Strategic Advertising Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZnIAM,Discrete Mathematics,MS01MNR-DISCRET,12/31/16,Discrete Mathematics Minor,,Discontinued,1/1/15,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJZoIAM,Dynamics,EN40MNR-DYNAMIC,12/31/15,Dynamics Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZpIAM,Materials and Design,EN40MNR-MATLDES,12/31/15,Materials and Design Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZqIAM,Medical Engineering,EN40MNR-MEDICAL,12/31/23,Medical Engineering Minor,,Phasing Out,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZrIAM,Robotics,EN40MNR-ROBOTIC,12/31/15,Robotics Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZsIAM,Thermofluids,EN40MNR-THERMOS,12/31/15,Thermofluids Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZtIAM,Accounting,BS17MJR-ACCOUNT,12/31/15,Accounting Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZuIAM,Genetics and Genomics,ST01MNR-GENGEN,12/31/14,Genetics and Genomics Extension Minor,,Discontinued,1/1/14,UG Study Area Extension,1
+[Study_Area__c],a2wOm000001yJZvIAM,Spatial Sc,STBXMNR-SPATIAL,12/31/20,Spatial Science Minor,,Phasing Out,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZwIAM,Management,BS39MJR-MGMTEXT,12/31/14,Management Major,,Discontinued,1/1/14,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZxIAM,Social Technology,IN01MNR-SOCTECH,6/30/17,Social Technology Minor,,Discontinued,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJZyIAM,Career Development,EU60MJR-CRDVLPT,12/31/17,Career Development Major,,Discontinued,1/1/15,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yJZzIAM,Programming,IN01MNR-PROGRAM,,Programming Minor,,Active,1/1/15,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJa0IAE,Biological Sciences,ST01MJR-BIOLOGY,12/31/14,Biological Sciences Major,,Discontinued,1/1/14,Undergraduate Major,2
+[Study_Area__c],a2wOm000001yJa1IAE,Data-Centric Computing,IN01MNR-CENTRIC,6/30/20,Data-Centric Computing Extension Minor,,Discontinued,1/1/15,UG Study Area Extension,1
+[Study_Area__c],a2wOm000001yJa2IAE,Environmental Science,ST01MJR-ENVIRSC,6/30/15,Environmental Science Major,,Discontinued,1/1/14,Undergraduate Major,2
+[Study_Area__c],a2wOm000001yJa3IAE,Property Experience,UDBXMNR-PROPEXP,12/31/18,Property Experience Minor,,Discontinued,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJa4IAE,Wildlife Biology,ST01MNR-WILDBIO,12/31/17,Wildlife Biology Minor,,Discontinued,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJa5IAE,Integrated Marketing Communication,BS39MJR-IMCEXT,12/31/14,Integrated Marketing Communication Major,,Discontinued,1/1/14,Postgraduate Major,2
+[Study_Area__c],a2wOm000001yJa6IAE,Electrical Engineering,EN40MJR-ELECENG,6/30/15,Electrical Engineering Major,,Discontinued,1/1/14,Undergraduate Major,3
+[Study_Area__c],a2wOm000001yJa7IAE,Mechatronics,EN40MJR-MECHATN,6/30/15,Mechatronics Major,,Discontinued,1/1/14,Undergraduate Major,3
+[Study_Area__c],a2wOm000001yJa8IAE,Physiology Extension for Human Biomolecular Sciences,ST01EXT-PHYSIO,,Physiology Extension for Human Biomolecular Sciences Second Major,,Active,1/1/14,UG Study Area Extension,1
+[Study_Area__c],a2wOm000001yJa9IAE,Microbiology Extension for Human Biomolecular Sciences,ST01EXT-MICRBIO,,Microbiology Extension for Human Biomolecular Sciences Second Major,,Active,1/1/14,UG Study Area Extension,1
+[Study_Area__c],a2wOm000001yJaAIAU,Online Environments,ITBXMNR-ONLINEE,6/30/14,Online Environments Minor,,Discontinued,1/1/14,Undergraduate Minor,2
+[Study_Area__c],a2wOm000001yJaBIAU,Power & Energy Systems,EN40SMJ-POWRENG,12/31/15,Power and Energy Systems Second Major,,Discontinued,1/1/14,Undergraduate Second Major,2
+[Study_Area__c],a2wOm000001yJaCIAU,Construction Contract Management,UDBXMNR-CONCONT,6/30/14,Construction Contract Management Minor,,Discontinued,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJaDIAU,Construction Economics,UDBXMNR-CONECON,12/31/23,Construction Economics Minor,,Phasing Out,1/1/14,Undergraduate Minor,1
+[Study_Area__c],a2wOm000001yJaEIAU,Executive Information Practice,ITPXMJR-EXINFPR,12/31/14,Executive Information Practice Major,,Discontinued,1/1/14,Postgraduate Major,3
+[Study_Area__c],a2wOm000001yJaFIAU,Civil and Environmental Engineering,EN40MJR-CVENENG,6/30/15,Civil and Environmental Engineering Major,,Discontinued,1/1/14,Undergraduate Major,3
+[Study_Area__c],a2wOm000001yJaGIAU,Structural Engineering,ENBXSMJ-STRUCTL,12/31/15,Structural Engineering Second Major,,Discontinued,1/1/14,Undergraduate Second Major,2
+[Study_Area__c],a2wOm000001yJgpIAE,Indigenous Studies Sub-major,KIS,1/1/10,Indigenous Studies Sub-major,,Discontinued,1/1/04,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgqIAE,Screen Studies Minor,KSM,1/1/10,Screen Studies Minor,,Discontinued,1/1/04,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgrIAE,Services Management Concentration,SMC,1/1/10,Services Management Concentration,,Discontinued,1/1/00,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgsIAE,European Studies Minor,ESM,1/1/10,European Studies Minor,,Discontinued,1/1/99,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgtIAE,Law for Non-Lawyers Major,LNL,12/31/05,Law for Non-Lawyers Major,,Discontinued,1/1/00,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJguIAE,Guidance and Counselling Major B,GUC,1/1/10,Guidance and Counselling Major B,,Discontinued,1/1/05,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgvIAE,Public Relations Minor,PRN,1/1/10,Public Relations Minor,,Discontinued,1/1/00,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgwIAE,Civil and Environmental Major,ENO,1/1/10,Civil and Environmental Major,,Discontinued,1/1/06,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgxIAE,Spatial Science Studies Major B,USS,1/1/10,Spatial Science Studies Major B,,Discontinued,7/1/06,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgyIAE,Senior Years Major,SPL,1/1/10,Senior Years Major,,Discontinued,1/1/06,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJgzIAE,Creative Writing Major,CRW,1/1/10,Creative Writing Major,,Discontinued,1/1/97,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh0IAE,Communication Management Major,CMM,1/1/10,Communication Management Major,,Discontinued,1/1/88,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh1IAE,Nutrition and Dietetics Major,NUD,1/1/10,Nutrition and Dietetics Major,,Discontinued,1/1/97,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh2IAE,Communication Design Minor,KIM,1/1/10,Communication Design Minor,,Discontinued,1/1/04,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh3IAE,Arts in Early Childhood Major,AEC,12/31/02,Arts in Early Childhood Major,,Discontinued,1/1/90,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh4IAE,Theatre Management Major,THM,1/1/10,Theatre Management Major,,Discontinued,1/1/86,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh5IAE,"Health, Safety and Environment Major",HSV,1/1/10,"Health, Safety and Environment Major",,Discontinued,1/1/04,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh6IAE,Educational Counselling Major,EDC,1/1/10,Educational Counselling Major,,Discontinued,1/1/93,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh7IAE,Forensics Minor,FOM,1/1/10,Forensics Minor,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh8IAE,Entrepreneurship Minor,ENN,1/1/10,Entrepreneurship Minor,,Discontinued,1/1/00,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJh9IAE,Education in High Schools Major,SQ-EDHS,1/1/10,Education in High Schools Major,,Discontinued,1/1/08,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhAIAU,Visual Arts Practice Minor,KYV,1/1/10,Visual Arts Practice Minor,,Discontinued,1/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhBIAU,Chemistry Co-major,CHC,1/1/10,Chemistry Co-major,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJhCIAU,Games Design Major,WGD,1/1/10,Games Design Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhDIAU,Economics Minor,EEM,1/1/10,Economics Minor,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhEIAU,Geology Major,GEL,1/1/10,Geology Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJhFIAU,Data Security Major,DAS,1/1/10,Data Security Major,,Discontinued,1/1/88,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhGIAU,Ecology Co-major,ECC,1/1/10,Ecology Co-major,,Discontinued,1/1/84,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhHIAU,Literature and Cultural Studies Major,LST,12/31/05,Literature and Cultural Studies Major,,Discontinued,7/1/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhIIAU,Sales Specialisation,SALES,1/1/10,Sales Specialisation,,Discontinued,1/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhJIAU,Embedded Systems Major,EMB,1/1/10,Embedded Systems Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJhKIAU,Music Education Major,MUE,12/31/05,Music Education Major,,Discontinued,1/1/90,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhLIAU,Electronic Business Concentration,EBC,1/1/10,Electronic Business Concentration,,Discontinued,10/29/02,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhMIAU,Marketing Science Major,MKS,1/1/10,Marketing Science Major,,Discontinued,1/1/94,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhNIAU,Philanthropy and Non Profit Studies Major,PSQ,1/1/10,Philanthropy and Non Profit Studies Major,,Discontinued,1/1/07,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhOIAU,Management Double Major,MAD,1/1/10,Management Double Major,,Discontinued,1/1/96,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhPIAU,Physics Major,PHY,1/1/10,Physics Major,,Discontinued,1/1/87,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhQIAU,Screen Studies Major,SCR,12/31/05,Screen Studies Major,,Discontinued,7/1/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhRIAU,Media Studies Major,MES,1/1/10,Media Studies Major,,Discontinued,1/1/94,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhSIAU,Interior Design Studies Major B,BGM,1/1/10,Interior Design Studies Major B,,Discontinued,7/1/06,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhTIAU,Applied Ethics Minor,AEM,6/30/01,Applied Ethics Minor,,Discontinued,1/1/93,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhUIAU,Chemistry / Geology Major,CHG,12/31/08,Chemistry / Geology Major,,Discontinued,1/1/86,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhVIAU,Advertising Specialisation,AVS,1/1/10,Advertising Specialisation,,Discontinued,1/1/96,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhWIAU,History/French Major,HFR,12/31/05,History/French Major,,Discontinued,1/1/76,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhXIAU,Visual Arts Major,VIS,1/1/10,Visual Arts Major,,Discontinued,7/1/89,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhYIAU,Residential Construction Minor,URM,1/1/10,Residential Construction Minor,,Discontinued,7/1/06,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhZIAU,Library and Information Science Major,ZLB,1/1/10,Library and Information Science Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhaIAE,Dynamics of System Studies Minor,DSS,1/1/10,Dynamics of System Studies Minor,,Discontinued,7/1/05,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhbIAE,Accountancy Co-major,ANC,1/1/10,Accountancy Co-major,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJhcIAE,Databases Major,DTB,1/1/10,Databases Major,,Discontinued,1/1/06,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhdIAE,International Policing Major,IPL,1/1/10,International Policing Major,,Discontinued,7/1/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJheIAE,Architectural Design & Technology Maj B,BYM,1/1/10,Architectural Design and Technology Major B,,Discontinued,7/1/06,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhfIAE,Applied Economics Minor,AMM,1/1/10,Applied Economics Minor,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhgIAE,Development Management Specialisation,DVG,1/1/10,Development Management Specialisation,,Discontinued,1/1/02,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhhIAE,Banking and Finance Specialisation,BFS,1/1/10,Banking and Finance Specialisation,,Discontinued,1/1/86,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhiIAE,Lighting Minor,BGL,1/1/10,Lighting Minor,,Discontinued,7/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhjIAE,Creative Writing Minor,KYW,1/1/10,Creative Writing Minor,,Discontinued,1/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhkIAE,Community Practice Major,CPR,1/1/10,Community Practice Major,,Discontinued,1/1/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhlIAE,Creative & Professional Writing Sub-maj,KCW,1/1/10,Creative and Professional Writing Sub-major,,Discontinued,1/1/03,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhmIAE,Biodiversity Co-major,BDC,1/1/10,Biodiversity Co-major,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJhnIAE,Business English Minor,BEN,1/1/10,Business English Minor,,Discontinued,1/1/00,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhoIAE,Maintenance Engineering Minor,MNG,1/1/10,Maintenance Engineering Minor,,Discontinued,1/1/04,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhpIAE,Mathematics A Major,MAA,12/31/05,Mathematics A Major,,Discontinued,7/1/89,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhqIAE,Exercise and Sports Nutrition Major,ESN,1/1/10,Exercise and Sports Nutrition Major,,Discontinued,8/18/00,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhrIAE,Banking and Finance Double Major,BFD,1/1/10,Banking and Finance Double Major,,Discontinued,1/1/96,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhsIAE,Media and Communication Major,KMC,1/1/10,Media and Communication Major,,Discontinued,1/1/03,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhtIAE,Information-Learning Connections Major,MLC,1/1/10,Information-Learning Connections Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhuIAE,Human Resource Management Extended Major,HRX,1/1/10,Human Resource Management Extended Major,,Discontinued,1/1/95,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhvIAE,Breast Ultrasound Major,BUD,1/1/10,Breast Ultrasound Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJhwIAE,Politics and History Major,PAH,1/1/10,Politics and History Major,,Discontinued,5/19/03,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhxIAE,Library Studies Major,LIB,1/1/10,Library Studies Major,,Discontinued,1/1/05,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhyIAE,Career Development Major,GCD,1/1/10,Career Development Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJhzIAE,Property Economics Investment Minor,UIM,1/1/10,Property Economics Investment Minor,,Discontinued,7/1/06,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi0IAE,Fashion Minor,KYF,1/1/10,Fashion Minor,,Discontinued,1/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi1IAE,Project Management Minor,PMN,1/1/10,Project Management Minor,,Discontinued,1/1/00,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi2IAE,Entrepreneurship Major,ETG,1/1/10,Entrepreneurship Major,,Discontinued,8/1/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi3IAE,Electronic Commerce Major,ELG,1/1/10,Electronic Commerce Major,,Discontinued,8/1/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi4IAE,Fashion Design Major,FAS,1/1/10,Fashion Design Major,,Discontinued,1/1/05,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi5IAE,Animation and Computational Arts Major,ANA,1/1/10,Animation and Computational Arts Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJi6IAE,Road Engineering Major,RDE,12/31/02,Road Engineering Major,,Discontinued,1/1/99,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi7IAE,Computing Major,CMP,1/1/10,Computing Major,,Discontinued,1/1/97,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi8IAE,Science/Maths/Computing Major,SCC,1/1/10,Science/Maths/Computing Major,,Discontinued,1/4/01,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJi9IAE,Communication Double Major,CMD,1/1/10,Communication Double Major,,Discontinued,1/1/96,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiAIAU,Management Extension,MAX,1/1/10,Management Extension,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiBIAU,Spatial Science Co-major,SPS,1/1/10,Spatial Science Co-major,,Discontinued,1/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiCIAU,Spatial Science Studies Minor,USM,1/1/10,Spatial Science Studies Minor,,Discontinued,7/1/06,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiDIAU,German Co-major,GRC,1/1/10,German Co-major,,Discontinued,1/1/84,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiEIAU,International Law Major,INL,1/1/10,International Law Major,,Discontinued,12/1/96,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiFIAU,Professional Accounting Major,PAP,1/1/10,Professional Accounting Major,,Discontinued,1/1/07,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiGIAU,Software Architecture Major,SOA,1/1/10,Software Architecture Major,,Discontinued,1/1/09,Study Area A Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJiHIAU,Integrated Marketing Communication Co-major,BZI,1/1/10,Integrated Marketing Communication Co-major,,Discontinued,1/1/08,Study Area B Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiIIAU,Geoscience Co-major,GSC,1/1/10,Geoscience Co-major,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yJiJIAU,Gerontology Major,GNG,1/1/10,Gerontology Major,,Discontinued,7/1/91,Study Area A Unit Sets (Historical Only),1
+[Study_Area__c],a2wOm000001yJiKIAU,Aviation Co-major,AVC,1/1/10,Aviation Co-major,,Discontinued,1/1/09,Study Area B Unit Sets (Historical Only),2
+[Study_Area__c],a2wOm000001yKEjIAM,Microbiology,SC01SMJ-MICBIOL,6/30/15,Microbiology Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKEkIAM,Music,SC01SMJ-MUSIC,6/30/15,Music Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKElIAM,Nutrition,SC01SMJ-NUTRITN,12/31/12,Nutrition Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKEmIAM,International Business,BS79MJR-INTLBUS,12/31/20,International Business Major,,Discontinued,7/1/09,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yKEnIAM,Systems,EN50MJR-SYSTEMS,6/30/12,Systems Major,,Discontinued,7/1/09,Postgraduate Major,1
+[Study_Area__c],a2wOm000001yKEoIAM,Accounting,GSPMMNR-ACCOUNT,12/31/14,Accounting Minor,,Discontinued,7/1/09,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yKEpIAM,Corporate Governance,GSPMMNR-CORPGOV,12/31/14,Corporate Governance Minor,,Discontinued,7/1/09,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yKEqIAM,Entrepreneurship,GSPMMNR-ENTREP,12/31/14,Entrepreneurship Minor,,Discontinued,7/1/09,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yKErIAM,Finance,GSPMMNR-FINANCE,12/31/14,Finance Minor,,Discontinued,7/1/09,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yKEsIAM,Human Resource Management,GSPMMNR-HRMGMT,12/31/14,Human Resource Management Minor,,Discontinued,7/1/09,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yKEtIAM,Health Services Management,GSPMMNR-HSMGMT,12/31/14,Health Services Management Minor,,Discontinued,7/1/09,Postgraduate Minor,1
+[Study_Area__c],a2wOm000001yKEuIAM,Aerospace Avionics,EN40MJR-AEROAVI,12/31/11,Aerospace Avionics Major,,Discontinued,7/1/09,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yKEvIAM,Construction Engineering Studies,ENBXSMJ-CONSENG,6/30/15,Construction Engineering Studies Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKEwIAM,Biodiversity,SC01SMJ-BIODIVE,6/30/15,Biodiversity Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKExIAM,Biotechnology,SC01SMJ-BIOTECH,6/30/15,Biotechnology Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKEyIAM,Television,IF27MJR-TELEVIS,12/31/11,Television Major,,Discontinued,7/1/09,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yKEzIAM,Dance (Honours),KK53MJR-DANCE,12/31/17,Dance (Honours) Major,,Discontinued,7/1/09,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yKF0IAM,Fashion Design (Honours),KK53MJR-FASHION,12/31/10,Fashion Design (Honours) Major,,Discontinued,7/1/09,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yKF1IAM,Film and Television (Honours),KK53MJR-FILMTEL,12/31/10,Film and Television (Honours) Major,,Discontinued,7/1/09,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yKF2IAM,Environmental Engineering Studies,SC01SMJ-ENVLENG,6/30/15,Environmental Engineering Studies Second Major,,Discontinued,7/1/09,Undergraduate Second Major,1
+[Study_Area__c],a2wOm000001yKF3IAM,Finance,BSDDMJR-FINANCE,12/31/13,Finance Major,,Discontinued,7/1/09,Undergraduate Major,1
+[Study_Area__c],a2wOm000001yKF4IAM,Management,BSDDMJR-MGMT,12/31/16,Management Major,,Phasing Out,7/1/09,Undergraduate Major,1

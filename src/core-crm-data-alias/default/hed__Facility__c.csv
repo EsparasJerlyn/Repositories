@@ -1,10 +1,56 @@
-Id,Name
-a0F9h00000023rREAQ,Web Conference
-a0F9h00000023ufEAA,QUT Sydney
-a0F9h00000023t3EAA,QUT Melbourne
-a0F9h00000023oDEAQ,QUT Kelvin Grove
-a0F9h00000025oPEAQ,QUT Gardens Point
-a0F9h00000023wHEAQ,QUT Canberra
-a0F9h00000023ppEAA,Externals
-a0F9j000000rcyPEAQ,QUT Cairns
-a0F9p000000WXiPEAW,QUT NSW Classroom
+_,Id,Name,Display_Name__c
+[hed__Facility__c],a0F8q000000JDODEA4,QUT Kelvin Grove,QUT - QUT Kelvin Grove
+[hed__Facility__c],a0F8q000000JE5fEAG,QUT Sydney,QUT - QUT Sydney
+[hed__Facility__c],a0F8q000000JE5gEAG,QUT Melbourne,QUT - QUT Melbourne
+[hed__Facility__c],a0F8q000000JE5iEAG,QUT Gardens Point,QUT - QUT Gardens Point
+[hed__Facility__c],a0F8q000000JE5jEAG,QUT Canberra,QUT - QUT Canberra
+[hed__Facility__c],a0F8q000000JE5zEAG,Externals,QUT - Externals
+[hed__Facility__c],a0F8q000000JE60EAG,Web Conference,QUT - Web Conference
+[hed__Facility__c],a0F8q000000JE61EAG,Online,QUT - Online
+[hed__Facility__c],a0F8q000000Q9hmEAC,QUT Cairns,QUT - QUT Cairns
+[hed__Facility__c],a0FOm0000003wAjMAI,QUT NSW Classroom,QUT - QUT NSW Classroom
+[hed__Facility__c],a0FOm000000WAAjMAO,Brisbane,Brisbane
+[hed__Facility__c],a0FOm000000WAAkMAO,Brisbane,Brisbane
+[hed__Facility__c],a0FOm000000WAAlMAO,Brisbane,Brisbane
+[hed__Facility__c],a0FOm000000WAAmMAO,Caboolture,Caboolture
+[hed__Facility__c],a0FOm000000WAAnMAO,Carseldine,Carseldine
+[hed__Facility__c],a0FOm000000WAAoMAO,GC,GC
+[hed__Facility__c],a0FOm000000WAApMAO,GU,GU
+[hed__Facility__c],a0FOm000000WAAqMAO,Hong Kong,Hong Kong
+[hed__Facility__c],a0FOm000000WAArMAO,Hong Kong,Hong Kong
+[hed__Facility__c],a0FOm000000WAAsMAO,Hong Kong,Hong Kong
+[hed__Facility__c],a0FOm000000WAAtMAO,IFM,IFM
+[hed__Facility__c],a0FOm000000WAAuMAO,India,India
+[hed__Facility__c],a0FOm000000WAAvMAO,Indonesia,Indonesia
+[hed__Facility__c],a0FOm000000WAAwMAO,Indonesia,Indonesia
+[hed__Facility__c],a0FOm000000WAAxMAO,Indonesia,Indonesia
+[hed__Facility__c],a0FOm000000WAAyMAO,INT,INT
+[hed__Facility__c],a0FOm000000WAAzMAO,KP,KP
+[hed__Facility__c],a0FOm000000WAB0MAO,LAS,LAS
+[hed__Facility__c],a0FOm000000WAB1MAO,M1,M1
+[hed__Facility__c],a0FOm000000WAB2MAO,M4,M4
+[hed__Facility__c],a0FOm000000WAB3MAO,Malaysia,Malaysia
+[hed__Facility__c],a0FOm000000WAB4MAO,Malaysia,Malaysia
+[hed__Facility__c],a0FOm000000WAB5MAO,Malaysia,Malaysia
+[hed__Facility__c],a0FOm000000WAB6MAO,MG,MG
+[hed__Facility__c],a0FOm000000WAB7MAO,OUM,OUM
+[hed__Facility__c],a0FOm000000WAB8MAO,Papua New Guinea,Papua New Guinea
+[hed__Facility__c],a0FOm000000WAB9MAO,Papua New Guinea,Papua New Guinea
+[hed__Facility__c],a0FOm000000WABAMA4,Papua New Guinea,Papua New Guinea
+[hed__Facility__c],a0FOm000000WABBMA4,Papua New Guinea,Papua New Guinea
+[hed__Facility__c],a0FOm000000WABCMA4,SC,SC
+[hed__Facility__c],a0FOm000000WABDMA4,SG,SG
+[hed__Facility__c],a0FOm000000WABEMA4,Shanghai,Shanghai
+[hed__Facility__c],a0FOm000000WABFMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABGMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABHMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABIMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABJMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABKMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABLMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABMMA4,Singapore,Singapore
+[hed__Facility__c],a0FOm000000WABNMA4,Townsville,Townsville
+[hed__Facility__c],a0FOm000000WABOMA4,TUS,TUS
+[hed__Facility__c],a0FOm000000WABPMA4,U,U
+[hed__Facility__c],a0FOm000000WABQMA4,UQ,UQ
+[hed__Facility__c],a0FOm000000WABRMA4,Defence Materiel Org Canberra,Defence Materiel Org Canberra
