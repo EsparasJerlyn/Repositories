@@ -28,7 +28,6 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     public Database.QueryLocator start(Database.BatchableContext bc) {
         // Starting fom the leave of each branch in the cirterion hierarchy, so that it inherit as much parent's criteria as possible.
         String contactQuery;
-        System.debug('elcParser: ' + elcParser);
         if (!eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
             contactQuery = new CourseConnectionAssessmentsDAO().getContactQueryByCriteria(
                 eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
@@ -65,7 +64,6 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
                 elcParser.getELCContactParser().getContactCriteria()
             );
         }
-        System.debug('contactQuery: ' + contactQuery);
 
         // check if for subquery
         if (contactQuery != null) {
@@ -91,7 +89,6 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     public void execute(List<Contact> contacts) {
         ELCEvaluator eLCEvaluator = new ELCEvaluator(elcParser);
         Map<Id, ELECandidateIngredient> eLECandidateIngredientByContact = eLCEvaluator.evaluate(contacts);
-        System.debug('eLECandidateIngredientByContact: ' + eLECandidateIngredientByContact);
 
         Map<Id,List<Engagement_List_Event__c>> engagementListMapEvents = new Map<Id,List<Engagement_List_Event__c>>();
 
@@ -102,11 +99,9 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
             engagementListMapEvents.put(contactId,engagementList);
         }
 
-        System.debug('engagementListMapEvents: ' + engagementListMapEvents);
         ELECandidateProcessor processor = new ELECandidateProcessor();
 
         List<ELECandidateProcessResult> processResult =  processor.process(engagementListMapEvents, eLCParser.getEngagementListCriteria());
-        System.debug('processResult:' + processResult);
     }
 
     public void finish(Database.BatchableContext bc) {
