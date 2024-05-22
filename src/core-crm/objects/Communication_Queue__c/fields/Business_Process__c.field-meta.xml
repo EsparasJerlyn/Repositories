@@ -38,6 +38,11 @@
                 <default>false</default>
                 <label>Domestic No Answer SMS</label>
             </value>
+            <value>
+                <fullName>Outreach Initial Email</fullName>
+                <default>false</default>
+                <label>Outreach Initial Email</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
