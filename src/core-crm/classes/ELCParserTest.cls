@@ -33,7 +33,7 @@ public with sharing class ELCParserTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Completed_Cadence__c = completedCadenceName;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = breach.Id;

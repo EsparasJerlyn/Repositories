@@ -4115,7 +4115,6 @@ public class TestDataFactory {
         }
         return newContacts;
     }
-
     /** 
      * @description Method for creating studylink application record
      * @param Integer startAtCount - number of record to start 
@@ -4143,8 +4142,7 @@ public class TestDataFactory {
             );
         }
         return newApplications;
-    }
-
+    }  
     /** 
      * @description Method for creating lead required for Application record
      * @param Integer startAtCount - number of record to start 
@@ -4167,7 +4165,6 @@ public class TestDataFactory {
         }
         return newLeads;
     }
-
     /** @description Method for creating test student sanction records
      * @return Student_Sanction__c record
      */
@@ -4205,7 +4202,6 @@ public class TestDataFactory {
      * @return Contact_Matching_Staging__c record
      */
     public static List<Contact_Matching_Staging__c> createContactMatchingStagings(Integer count) {
-        
         List<Contact_Matching_Staging__c> contactMatchingStagingList = new List<Contact_Matching_Staging__c>();
 
         for(Integer i = 0; i< count; i++){
