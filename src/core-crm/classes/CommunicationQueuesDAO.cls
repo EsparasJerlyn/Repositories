@@ -22,6 +22,11 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
     public static final String BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS = 'Domestic No Answer SMS';
     public static final String BUSINESS_PROCESS_OUTREACH = 'Outreach Initial Email';
     public static final String TYPE_EMAIL = 'Email';
+    public static final String TYPE_SMS = 'SMS';
+    public static final String BUSINESS_PROCESS_DOMESTIC_EMAIL = 'Domestic Automated Cadence Email';
+    public static final String BUSINESS_PROCESS_INTERNATIONAL_EMAIL = 'International Automated Cadence Email';
+    public static final String BUSINESS_PROCESS_OUTREACH = 'Outreach Initial Email';
+    public static final String TYPE_EMAIL = 'Email';
     public static final String END_POINT_CONTACT_LEARNER_EMAIL = 'Contact.QUT_Learner_Email__c';
     public static final Set<String> EMAIL_STATUS_FOR_SENDING = new Set<String>{
         STATUS_SCHEDULED,
@@ -42,7 +47,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
   
     public Database.QueryLocator queryLocatorScheduledCommunicationQueue() {        
         String query =
-            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c, Mobile__c, Message__c, Due_Date__c, Type__c  ' + 
+            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c, Mobile__c, Message__c, Due_Date__c, Type__c, Communication_Endpoint__c, WhatId__c ' + 
             'FROM Communication_Queue__c ' + 
             'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING ' +
             'AND Business_Process__c != :BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS ' +
@@ -84,4 +89,4 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
              'WHERE Status__c IN: status AND LastModifiedDate = TODAY AND Type__c = \'Email\' ', accessLevel
         );
     }
-}   
+}
