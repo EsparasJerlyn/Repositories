@@ -200,10 +200,6 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 		// For Study 
 		getProductDetails({ productId: productId })
 		.then((result) => {
-			if(result.productOnPage.IsActive == false){
-				this.showErrorMessageSetToTrue();
-				return;
-			}
 			this.isProgramFlex = !result.isNotFlexProgram;
 			this.productDetails = result.productOnPage;
 			this.priceBookEntryList = result.pricebookWrapperList;
@@ -266,6 +262,7 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 		})
 		.catch((error) => {
 			console.log(error);
+			this.showErrorMessageSetToTrue();
 		})
 		.finally(() => {
 			this.loading = false;

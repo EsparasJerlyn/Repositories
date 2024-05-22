@@ -37,7 +37,8 @@
 			| keno.domienri.dico		| October 12, 2022  	| DEPP-4283            | added condition for Prescribed Program child |
 			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
 			| eugene.andrew.abuan       | February 14, 2023     | DEPP-5180            | Added method for TEECEE Checking             |
-			| julie.jane.alegre         | September 28, 2023    | DEPP-4762            | Added Position & Company Name fields         |   
+			| julie.jane.alegre         | September 28, 2023    | DEPP-4762            | Added Position & Company Name fields         |
+			| sebastianne.k.trias       | May 22, 2024          | DEPP-8410            | Moved query of ProductsOnPage to ProductsDAO |   
 
 */
 public without sharing class ProductDetailsCtrl {
@@ -86,46 +87,13 @@ public without sharing class ProductDetailsCtrl {
 			} 
 
 		// Product
-		Product2 productOnPage = [
-			SELECT
-				Id,
-				Name,
-				Description,
-				StockKeepingUnit,
-				Course__c,
-				Course__r.ProductRequestID__c,
-				Course__r.Minimum_Participants__c,
-				Course__r.Maximum_Participants__c,
-				Program_Plan__c,
-				Program_Plan__r.Program_Delivery_Structure__c,
-				Program_Plan__r.Minimum_Participants__c,
-				Program_Plan__r.Maximum_Participants__c,
-				Duration__c,
-				Delivery__c,
-				Minimum_Participants_Group__c,
-				Maximum_Participants_Group__c,
-				Payment_Options__c,
-				Register_Interest_Available__c,
-				Overview__c,
-				Evolve_with_QUTeX__c,
-				Who_Should_Participate__c,
-				Core_Concepts__c,
-				More_Details__c,
-				Do_not_Show_Start_Date__c,
-				Product_Category__c, 
-				IsActive,
-				(
-					SELECT Id, Pricebook2.Name, UnitPrice, Early_Bird_No_of_Days__c
-					FROM PricebookEntries
-					WHERE IsActive = TRUE
-					AND (Pricebook2.IsStandard = true 
-					OR Pricebook2Id IN: priceBookIdsOPE)
-					ORDER BY CreatedDate, Pricebook2.IsStandard DESC
-				),
-				Program_Plan__r.Product_Request__c
-			FROM Product2
-			WHERE Id = :productId
-		];
+		List<Product2> productsOnPageList = ProductsDAO.newInstance().getProductsOnPage(new Set<Id>{productId}, priceBookIdsOPE, AccessLevel.SYSTEM_MODE);
+		if(productsOnPageList.isEmpty()){ 
+			throw new AuraHandledException('No Product');
+		}
+		Product2 productOnPage = productsOnPageList[0];
+
+		
 
 		//Modules under the program
 		if (
