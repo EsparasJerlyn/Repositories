@@ -45,8 +45,8 @@ public class QualtricsSurveyCalloutQueuableTest {
             Test.stopTest();
             List<Qualtrics_Survey__c> updatedQualtricsSurveyList = [SELECT Id, In_Progress_Survey_URL__c, Distribution_List__c FROM Qualtrics_Survey__c];
 
-            System.assert(!String.isBlank(updatedQualtricsSurveyList[0].In_Progress_Survey_URL__c), ' In Progress Survey URL is did not update');
-            System.assert(!String.isBlank(updatedQualtricsSurveyList[0].Distribution_List__c), ' In Distribution List is did not update');
+            System.assert(!String.isBlank(updatedQualtricsSurveyList[0].In_Progress_Survey_URL__c), ' In Progress Survey URL did not update');
+            System.assert(!String.isBlank(updatedQualtricsSurveyList[0].Distribution_List__c), ' In Distribution List did not update');
             
         }
     }
