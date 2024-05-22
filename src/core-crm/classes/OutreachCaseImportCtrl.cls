@@ -28,23 +28,17 @@ public with sharing class OutreachCaseImportCtrl {
     * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
     */
     @AuraEnabled
-    public static List<ELECandidateProcessResult> listOfCasesbyStudentIds(List<Id> contactIds, String criteria, String configurationId){
+    public static String listOfCasesbyStudentIds(List<String> contactIds, String criteria, String configurationId){
         Date executionDate = Date.today();
         List<String> criteriaFromUi = criteria.split(',');
-        List<String> studentIds = new List<String>();
-        for (Id ids : contactIds){
-            String id;
-            id = (String)ids;
-            studentIds.add(id);
-        }
 
-        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(studentIds, AccessLevel.SYSTEM_MODE);
+        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(contactIds, AccessLevel.SYSTEM_MODE);
         Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
         engagementListCriteria.Engagement_List_Configuration__c = configurationId;
         engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaFromUi[0];
         engagementListCriteria.Description__c = criteriaFromUi[1];
         engagementListCriteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED;
-
+        // engagementListCriteria.Status = 'Active';
         
         List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
         criteriaList.add(engagementListCriteria);
@@ -70,7 +64,11 @@ public with sharing class OutreachCaseImportCtrl {
     
         ELECandidateProcessor processor = new ELECandidateProcessor();
         List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
-        return processResult; 
+        System.debug('processResult :: ' + processResult);
+        logger.info('processResult ::: ' + JSON.serialize(processResult));
+
+        logger.saveLog();
+        return JSON.serialize(processResult); 
     }
 
 }
