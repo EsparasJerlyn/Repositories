@@ -26,7 +26,7 @@
             <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
               <label class="slds-form-element__label" for="horizontal-input-id-02">Description</label>
               <div class="slds-form-element__control">
-                <lightning-input placeholder="Placeholder text…" onchange={handleDescription}></lightning-input>
+                <lightning-textarea placeholder="Placeholder text…" onchange={handleDescription}></lightning-textarea>
                 <div class="slds-grid slds-gutters">
                   <div class="slds-p-left_small">
                     <lightning-input
@@ -41,20 +41,20 @@
             </div>
 
             <div if:true={showTabset}>
-              <template if:false={loaded}>
+              <div if:true={isLoading}>
                 <lightning-spinner alternative-text="Loading"></lightning-spinner>
-              </template>
-              <template if:true={loaded}>
+              </div>
+              <div if:false={isLoading}>
                 <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
                   <lightning-layout>
                     <lightning-layout-item flexibility="auto" padding="around-small">
                         <div class="custom-box">Summary</div>
                     </lightning-layout-item>
                     <lightning-layout-item flexibility="auto" padding="around-small">
-                        <div class="custom-box">{column2Name}: {studentsFound} </div>
+                        <div class="custom-box">{column2Name}: {recordCount} </div>
                     </lightning-layout-item>
                     <lightning-layout-item flexibility="auto" padding="around-small">
-                        <div class="custom-box">{column3Name}: {studentsFound} </div>
+                        <div class="custom-box">{column3Name}: {studentFound} </div>
                     </lightning-layout-item>
                     <lightning-layout-item flexibility="auto" padding="around-small">
                         <div class="custom-box">Exclusions: {exclRowCount} </div>
@@ -64,7 +64,7 @@
                 <lightning-tabset if:true={loaded}>
                   <lightning-tab label="Students Found" title="Students Found">
                     <div class="slds-grid slds-grid_vertical slds-clearfix">
-                      <div class="slds-col slds-float_right">
+                      <div class="slds-col slds-size_1-of-3 slds-col_bump-left">
                         <lightning-input 
                           class="slds-p-bottom_large"
                           name="Search"
@@ -73,39 +73,37 @@
                           onchange={handleSearch}
                         ></lightning-input>
                       </div>
-                      <lightning-card>
-                          <c-custom-datatable-columned
-                            key-field="id"
-                            onload={addBlankRow}
-                            data={data}
-                            columns={studentTable}
-                            onrowaction={handleActionRow}
-                            draft-values={draftValues}
-                            hide-checkbox-column
-                            show-row-number-column
-                            suppress-bottom-bar
-                          ></c-custom-datatable-columned>
-                      </lightning-card>
+                    </div>
+                    <div class="scroll-table">
+                      <c-custom-datatable-columned
+                        key-field="id"
+                        onload={addBlankRow}
+                        data={data}
+                        columns={studentTable}
+                        onrowaction={handleActionRow}
+                        draft-values={draftValues}
+                        hide-checkbox-column
+                        show-row-number-column
+                        suppress-bottom-bar
+                      ></c-custom-datatable-columned>
                     </div>
                   </lightning-tab>
-                  <lightning-tab label="Exclusions" title="Exclusions">
-                    <div class="slds-grid slds-grid_vertical slds-clearfix">
-                      <lightning-card>
-                          <c-custom-datatable-columned
-                            key-field="id"
-                            onload={addBlankRow}
-                            data={exclusionData}
-                            columns={exclusionsTable}
-                            draft-values={draftValues}
-                            hide-checkbox-column
-                            show-row-number-column
-                            suppress-bottom-bar
-                          ></c-custom-datatable-columned>
-                      </lightning-card>
+                  <lightning-tab label="Exclusions" title="Exclusions" onactive={handleExclusionsTab}>
+                    <div class="scroll-table">
+                      <c-custom-datatable-columned
+                        key-field="id"
+                        onload={addBlankRow}
+                        data={exclusionData}
+                        columns={exclusionsTable}
+                        draft-values={draftValues}
+                        hide-checkbox-column
+                        show-row-number-column
+                        suppress-bottom-bar
+                      ></c-custom-datatable-columned>
                     </div>
                   </lightning-tab>
                 </lightning-tabset>
-              </template>
+              </div>
             </div>
             
             <template if:true={errors.length}>

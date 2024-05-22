@@ -88,11 +88,12 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track studentsFound = 0;
   @track tempData = [];
   @track tempDataCopy = [];
+  @track dataForCreateOutreach = [];
 
   showTabset = false;
   showModal = false;
   fileName;
-  loaded = false;
+  @track loaded = false;
   showCreateOutreach = true;
   showCaseCol = false;
   isCreateOutreach = false;
@@ -102,6 +103,10 @@ export default class OutReachCaseImportModal extends LightningElement {
   exclusionsTable = [];
   @track title;
   @track description;
+
+  existingCasesCount;
+  caseCreatedCount;
+  caseTableView = false;
 
 
   connectedCallback(){
@@ -140,20 +145,32 @@ export default class OutReachCaseImportModal extends LightningElement {
     return this.modalOpen ? 'slds-backdrop slds-backdrop_open' : 'slds-backdrop slds-backdrop_close';
   }
   
-  get createButtonDisbaled(){
+  get createButtonDisbaled() {
     return this.studentsFound == 0 ? true : false ;
   }
 
-  get column2Name(){
+  get column2Name() {
     return this.isCreateOutreach ? 'Case Created' : 'Rows';
   }
 
-  get column3Name(){
+  get column3Name() {
     return this.isCreateOutreach ? 'Existing Cases' : 'Students Found';
+  }
+
+  get recordCount() { // Also used for Case Created Count
+    return this.caseTableView ? this.caseCreatedCount : this.studentsFound;
+  }
+
+  get studentFound() { // Also used for Existing Cases Count
+    return this.caseTableView ? this.existingCasesCount : this.studentsFound;
   }
 
   get exclRowCount() {
     return this.exclusionData.length <= 0 ? 0 : this.exclusionData.length;
+  }
+
+  get isLoading() {
+    return !this.loaded;
   }
 
   handleFileUpload(event) {
@@ -316,7 +333,7 @@ export default class OutReachCaseImportModal extends LightningElement {
           studentId : data.studentId,
           fullName : data.fullName,
           email : data.email,
-          mobilePhone : data.mobilePhone,
+          mobilePhone : data.mobilePhone ? data.mobilePhone : '',
           contactId : data.id
         }
         if (data.id) {
@@ -327,6 +344,7 @@ export default class OutReachCaseImportModal extends LightningElement {
 
       this.data = this.dataCopy;
       this.tempData = this.data; // for search
+      this.dataForCreateOutreach = this.data; // For Create Outreach Case
       this.loaded = true; 
 		})
 		.catch(error => {
@@ -350,12 +368,19 @@ export default class OutReachCaseImportModal extends LightningElement {
       newdata.forEach((obj, key) => {
           obj.rowId =  `row-${key}`;
       });
-      const exclData = this.exclData;
+      const exclData = this.exclusionData;
       exclData.push(this.updateExclusiveData(detail.row.studentId, 'Manually Removed'));
       this.exclusionData = exclData.sort((a, b) => a.studentId - b.studentId);
       this.data = newdata;
+      this.dataForCreateOutreach = newdata; // For Create Outreach Case
+      this.tempData = newdata; // For Search
       this.studentsFound--;
     }
+  }
+
+  handleExclusionsTab(){
+    const data = JSON.parse(JSON.stringify(this.exclusionData));
+    this.exclusionData = data.sort((a, b) => a.studentId - b.studentId);
   }
 
   handleCreateOutreach() {
@@ -377,8 +402,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     });
     this.studentTable = newStudentColumns;
 
-    this.createOutreach(this.data)
-    this.loaded = true;
+    this.createOutreach(this.dataForCreateOutreach);
   }
 
   handleTitle(event) {
@@ -394,7 +418,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   updateExclusiveData(studentId, error){
-    let excludedData = this.exclusionData;
     const obj = {
       studentId : studentId,
       error : error
@@ -407,27 +430,42 @@ export default class OutReachCaseImportModal extends LightningElement {
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
     data.forEach( (data, i) => {
-      studentIds[i] = data.contactId.toString();
+      studentIds[i] = data.studentId.toString();
     });
     const criteria = this.title + ',' + this.description;
     listOfCasesbyStudentIds({ 
-      contactIds : studentIds,
+      QutStudentIds : studentIds,
       criteria : criteria,
       configurationId : this.recordId
      })
 		.then(result => {
-      const caseData = JSON.parse(JSON.stringify(result));
+      const caseData = result;
       const studentData = JSON.parse(JSON.stringify(data));
       const merged = studentData.map(t1 => {
-        const matchData = caseData.find((t2) => t2.ContactId === t1.contactId);
+        const matchData = caseData.find((t2) => t2.case.ContactId === t1.contactId);
         return !!matchData ? {
           ...t1, 
-          caseId : matchData.Id, 
-          caseNumber : matchData.CaseNumber, 
-          caseUrl : `/lightning/r/Case/${matchData.Id}/view`} : null
+          caseId : matchData.case.Id, 
+          caseNumber : matchData.case.CaseNumber, 
+          result : matchData.processResultCode,
+          caseUrl : `/lightning/r/Case/${matchData.case.Id}/view`} : null          
       }).filter(Boolean);
+      const caseCreated = [];
+      const existingCase = [];
       this.data = merged;
-      this.tempData = this.data;
+      this.tempData = merged; // For Search
+
+      for (let field in merged) {
+        if (String(merged[field].result) === String('CASE_CREATED')) {
+          caseCreated.push(merged[field]);
+        } else if (String(merged[field].result) === String('EVENT_CREATED')) {
+          existingCase.push(merged[field]);
+        }
+      }
+      this.caseTableView = true;
+
+      this.existingCasesCount = existingCase.length;
+      this.caseCreatedCount = caseCreated.length;
       this.loaded = true; 
 		})
 		.catch(error => {
@@ -457,7 +495,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     let new_search_result = [];
       
     for (let i = 0; i < allRecords.length; i++) {
-      if ((allRecords[i].fullName) && searchString != '' && (allRecords[i].studentId.toUpperCase().includes(searchString) || allRecords[i].fullName.toUpperCase().includes(searchString) || allRecords[i].email.toUpperCase().includes(searchString) || allRecords[i].mobilePhone.toUpperCase().includes(searchString))) {
+      if ((allRecords[i].fullName) && searchString != '' && ( allRecords[i].studentId.toUpperCase().includes(searchString) || allRecords[i].fullName.toUpperCase().includes(searchString) || allRecords[i].email.toUpperCase().includes(searchString) || allRecords[i].mobilePhone.includes(searchString) || (allRecords[i].caseNumber && allRecords[i].caseNumber.includes(searchString)) )) {
         new_search_result.push(allRecords[i]);
       }
     }

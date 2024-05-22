@@ -1,0 +1,5 @@
+.scroll-table {
+   height: 300px;
+   overflow-y: scroll;
+   overflow: hidden;
+}
