@@ -7,6 +7,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
  *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
+ *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type           |
  */
 @isTest
 public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock implements IProgramEnrollmentsDAO{
@@ -106,7 +107,8 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
             soql += 'AND Enrollment_Status__c IN(' + formatStringSetForWhereClause(programEnrollmentCriteria.getEnrollmentStatus()) + ') ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
-            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
+            String categoryString = DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()));
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  IN (' + categoryString + ') ';        
         }
         
         return soql;

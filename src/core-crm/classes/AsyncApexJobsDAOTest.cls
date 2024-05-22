@@ -1,33 +1,42 @@
 /**
- * @description Test Class for AsyncApexJobsDAO
- *
+ * @description test class for AsyncApexJob
  * @author Accenture
  *
-  * @history
+ * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
- *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
- *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Created file                                   |
- *    |                                |                       |                        |                                                |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | roy.nino.s.regala              | April 30, 2023        | DEPP-7984              | Created file                 |
+      | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added test methods           |
  */
 @isTest
-public with sharing class AsyncApexJobsDAOTest {
+private class AsyncApexJobsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
     }
-    
+
+    @isTest
+    static void newInstanceTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            System.assert(AsyncApexJobsDAO.newInstance() != null, 'AsyncApexJobsDAO instance is null');
+        }
+        Test.stopTest();
+    }
+
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             System.assert(
                 new AsyncApexJobsDAO().getSObjectType() == AsyncApexJob.SObjectType,
-                'SObject is not Async Apex Job'
+                'SObject is not AsyncApexJob'
             );
         }
         Test.stopTest();
     }
+
     @isTest
     static void findAsyncApexJobByIdEmptTest() {
         Test.startTest();
@@ -38,6 +47,7 @@ public with sharing class AsyncApexJobsDAOTest {
         }
         Test.stopTest();
     }
+
     @isTest
     static void findAsyncApexJobByIdTest() {
         Test.startTest();
@@ -54,4 +64,36 @@ public with sharing class AsyncApexJobsDAOTest {
         }
         Test.stopTest();
     }
+
+	@isTest
+	static void getRunningJobsByNameAndIdExemptionTest(){
+		Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            System.assert(
+                AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(
+					new Set<String>{'TestBatch'},
+					new Set<Id>(),
+					AccessLevel.SYSTEM_MODE
+				).isEmpty(),
+				'return should be empty'
+            );
+        }
+        Test.stopTest();
+	}
+
+	@isTest
+	static void getRunningJobsByNameAndIdExemptionTestEmpty(){
+		Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            System.assert(
+                AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(
+					new Set<String>(),
+					new Set<Id>(),
+					AccessLevel.SYSTEM_MODE
+				).isEmpty(),
+				'return should be empty'
+            );
+        }
+        Test.stopTest();
+	}
 }

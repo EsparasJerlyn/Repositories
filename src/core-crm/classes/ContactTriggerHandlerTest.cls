@@ -523,4 +523,90 @@ public with sharing class ContactTriggerHandlerTest {
             }
         }
     }
+
+    @isTest
+    private static void processSystemKeyChangeOnContactTriggerInsert() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Contact> contactRecords = TestDataFactory.createTestContactRecords(100);
+            Integer count = 0;
+            Set<String> systemKeyIds = new Set<String>();
+            for (Contact con : contactRecords) {
+                con.QUT_Employee_ID__c = '01' + count++;
+                con.QUT_Student_ID__c = 'O2' + count++;
+                systemKeyIds.add(con.QUT_Employee_ID__c);
+                systemKeyIds.add(con.QUT_Student_ID__c);
+            }
+            ContactsDAO.newInstance().insertRecords(contactRecords, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            System.assertEquals(
+                200,
+                ContactAlternateIdsDAO.newInstance()
+                    .getContactAlternateIdsBySystemKeyIdSet(systemKeyIds, AccessLevel.USER_MODE)
+                    .size(),
+                'There should be 200 alternate ids created'
+            );
+        }
+    }
+
+    @isTest
+    private static void processSystemKeyChangeOnContactTriggerUpdate() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Contact> contactRecords = TestDataFactory.createTestContactRecords(100);
+            Integer count = 0;
+            Set<String> systemKeyIdsOnInsert = new Set<String>();
+            Set<String> systemKeyIdsOnUpdate = new Set<String>();
+            Set<String> allSystemKeyIds = new Set<String>();
+
+            for (Contact con : contactRecords) {
+                con.QUT_Employee_ID__c = '01' + count++;
+                con.QUT_Student_ID__c = 'O2' + count++;
+                systemKeyIdsOnInsert.add(con.QUT_Employee_ID__c);
+                systemKeyIdsOnInsert.add(con.QUT_Student_ID__c);
+            }
+
+            ContactsDAO.newInstance().insertRecords(contactRecords, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            System.assertEquals(
+                200,
+                ContactAlternateIdsDAO.newInstance()
+                    .getContactAlternateIdsBySystemKeyIdSet(
+                        systemKeyIdsOnInsert,
+                        AccessLevel.USER_MODE
+                    )
+                    .size(),
+                'There should be 200 active alternate ids created'
+            );
+
+            for (Contact con : contactRecords) {
+                con.QUT_Employee_ID__c = '03' + count++;
+                con.QUT_Student_ID__c = 'O4' + count++;
+                systemKeyIdsOnUpdate.add(con.QUT_Employee_ID__c);
+                systemKeyIdsOnUpdate.add(con.QUT_Student_ID__c);
+            }
+
+            ContactsDAO.newInstance().updateRecords(contactRecords, true, AccessLevel.USER_MODE);
+            allSystemKeyIds.addAll(systemKeyIdsOnInsert);
+            allSystemKeyIds.addAll(systemKeyIdsOnUpdate);
+
+            List<Contact_Alternate_ID__c> conAltIds = ContactAlternateIdsDAO.newInstance()
+                .getContactAlternateIdsBySystemKeyIdSet(allSystemKeyIds, AccessLevel.USER_MODE);
+
+            System.assertEquals(
+                200,
+                conAltIds.size(),
+                'There should be 200 alternate active alternate ids created'
+            );
+
+            for (Contact_Alternate_ID__c conAltId : conAltIds) {
+                System.assert(
+                    systemKeyIdsOnUpdate.contains(conAltId.Contact_Alternate_Id__c),
+                    'Contact alternate id should exist in the set of contact alternate ids on update'
+                );
+            }
+        }
+    }
 } 

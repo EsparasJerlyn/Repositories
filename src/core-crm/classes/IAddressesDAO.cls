@@ -9,4 +9,8 @@
       | alexander.cadalin              | sep 22, 2023          | DEPP-6652              | Created file
  */
 public interface IAddressesDAO extends DmlInterface {
+    List<hed__Address__c> getAddressesByContactIdsSet(
+        Set<Id> contactIdsSet,
+        AccessLevel accessLevel
+    );
 }

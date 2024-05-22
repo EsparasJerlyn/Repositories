@@ -119,4 +119,5 @@ public with sharing class LeadLeadScoreHelperTest {
     private static List<Integer> getScoreAllocList(){
         return new List<Integer>{ 10, 0 };
     }
+    
 }

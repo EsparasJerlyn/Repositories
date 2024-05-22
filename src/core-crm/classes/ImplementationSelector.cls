@@ -44,9 +44,10 @@
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
  *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
+ *    | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Added object mapping for Assessment__c                        |
  *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
- *    | eugene.andrew.abuan            | May 08, 2023          | DEPP-8487              | Added object mapping for Assessment__c                        |
-
+ *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
+ *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
  */
 public class ImplementationSelector { 
 
@@ -77,6 +78,9 @@ public class ImplementationSelector {
             CommerceEntitlementBuyerGroup.SObjectType => CommerceEntitlementBuyerGroupsDAO.class,
             Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
+            Contact_Alternate_ID__c.SObjectType => ContactAlternateIdsDAO.class,
+            Contact_Matching_Configuration__c.SObjectType => ContactMatchingConfigurationsDAO.class,
+            Contact_Matching_Staging__c.SObjectType => ContactMatchingStagingsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,
             ContentVersion.SObjectType => ContentVersionsDAO.class,
@@ -87,7 +91,9 @@ public class ImplementationSelector {
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Engagement_List_Configuration__c.SobjectType => EngagementListConfigurationsDAO.class,
             Engagement_List_Criteria__c.SobjectType => EngagementListCriteriasDAO.class,
+            Engagement_List_Event__c.SobjectType => EngagementListEventsDAO.class,
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
@@ -110,6 +116,7 @@ public class ImplementationSelector {
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             LeadStatus.SObjectType => LeadStatusesDAO.class,
             Leave_of_Absence__c.SObjectType => LeaveOfAbsencesDAO.class,
+            LogEntry__c.SObjectType => LogEntriesDAO.class,
             Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
             Marketing_Segmentation__c.SObjectType => MarketingSegmentationsDAO.class,
@@ -138,6 +145,7 @@ public class ImplementationSelector {
             Risk__c.SObjectType => RisksDAO.class,
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,
             SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
+            Student_Sanction__c.SObjectType => StudentSanctionsDAO.class,
             Task.SObjectType => TasksDAO.class,
             User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
