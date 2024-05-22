@@ -71,24 +71,6 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         );
     }
 
-    public List<Case> getCasesByRecordTypeIds(
-        Set<Id> contactIds,
-        Id RecordTypeId,
-        AccessLevel accessLevel
-    ) {
-        if(contactIds.isEmpty()){
-            return new List<Case>();
-        }
-
-        return Database.query(
-            'SELECT  Id, CaseNumber, ContactId ' +
-            'FROM Case ' +
-            'WHERE ContactId IN :contactIds AND ' +
-            'RecordTypeId =: RecordTypeId',
-            accessLevel
-        );
-    }
-
     public List<Case> getCasesByLeadIds(
         Set<Id> leadIds,
         AccessLevel accessLevel
@@ -97,6 +79,24 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
             'SELECT  Id, Category__c, CreatedDate, Lead__c, Subject ' +
             'FROM Case ' +
             'WHERE Lead__c IN :leadIds ',
+            accessLevel
+        );
+    }
+
+    public List<Case> getCasesByRecordTypeIds(
+        Set<Id> caseId,
+        Id RecordTypeId,
+        AccessLevel accessLevel
+    ) {
+        if(caseId.isEmpty()){
+            return new List<Case>();
+        }
+
+        return Database.query(
+            'SELECT  Id, CaseNumber, ContactId ' +
+            'FROM Case ' +
+            'WHERE Id IN :caseId AND ' +
+            'RecordTypeId =: RecordTypeId',
             accessLevel
         );
     }
