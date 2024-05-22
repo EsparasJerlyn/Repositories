@@ -42,4 +42,18 @@ public inherited sharing class EngagementListEventsDAOMock extends DmlBaseMock i
         }
         return engagementEventList;
     }
+
+    public List<Engagement_List_Event__c> getEngagmentListEventByCaseId(
+        Id caseId,
+        AccessLevel accessLevel
+    ){
+        List<Engagement_List_Event__c> engagementEventList = new List<Engagement_List_Event__c>();
+
+        for (Engagement_List_Event__c record : engagementListEventMap.values()) {
+            if(record.Case__c == caseId){
+                engagementEventList.add(record);
+            }
+        }
+        return engagementEventList;
+    }
 }
