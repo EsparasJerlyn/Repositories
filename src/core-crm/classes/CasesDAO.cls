@@ -93,7 +93,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         }
 
         return Database.query(
-            'SELECT  Id, CaseNumber, ContactId ' +
+            'SELECT  Id, CaseNumber, ContactId, Contact.Name, Status, Owner.Name, CreatedDate ' +
             'FROM Case ' +
             'WHERE Id IN :caseId AND ' +
             'RecordTypeId =: RecordTypeId',

@@ -9,11 +9,27 @@
       | kim.howard.capanas             | May 16, 2024          | DEPP-7526              | Created file                 |
  */
 public with sharing class OutreachCaseImportCtrl {
+
+    /**
+    * @description Method to validate the Contact through the Student Id
+    * @param caseId - List of Student Id based on the given csv
+    * @return List<StudentIdValidator.ValidationResult> - List of Student Id with the corresponding Validation Result
+    */
+    @AuraEnabled
+    public static List<Case> listOfCases(List<Id> caseId){
+        Set<Id> caseIds = new Set<Id>();
+        for (Id ids : caseId){
+            caseIds.add(ids);
+        }
+        
+        List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(caseIds, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+        return caseList;
+    }
     
     /**
     * @description Method to validate the Contact through the Student Id
     * @param studentIds - List of Student Id based on the given csv
-    * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
+    * @return List<StudentIdValidator.ValidationResult> - List of Student Id with the corresponding Validation Result
     */
     @AuraEnabled
     public static List<StudentIdValidator.ValidationResult> listOfStudents(List<String> studentIds){
@@ -26,7 +42,7 @@ public with sharing class OutreachCaseImportCtrl {
     * @param contactIds - List of Student Id based on the given csv
     * @param criteria - String value of Engagement List Criteria Title and Description
     * @param configurationId - Engagement List Congifuration recordId
-    * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
+    * @return List<OutreachCases> - List of Student Id with the corresponding Validation Result
     */
     @AuraEnabled
     public static List<OutreachCases> listOfCasesbyStudentIds(List<String> QutStudentIds, String criteria, String configurationId){

@@ -474,8 +474,17 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   closeModal() {
+    const data = this.data.map(
+      (item) => {
+        return {
+          caseId : item.caseId,
+          close : false
+        };
+      }
+    )
+    console.log('Data on Child : ', data);
     const closeModalEvent = new CustomEvent('closemodal', {
-      detail: false
+      detail: JSON.parse(JSON.stringify(data))
     });
     this.dispatchEvent(closeModalEvent);
   }
