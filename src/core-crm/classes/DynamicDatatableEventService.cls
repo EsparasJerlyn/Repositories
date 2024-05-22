@@ -125,8 +125,6 @@ public with sharing class DynamicDatatableEventService {
                             Parent_Id__c = (String) newRecord.get(parentField)
                         )
                     );
-
-                    break;
                 }
             }
             //should only contain 1 event because of break
