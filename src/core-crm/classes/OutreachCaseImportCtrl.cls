@@ -18,21 +18,22 @@ public with sharing class OutreachCaseImportCtrl {
     @AuraEnabled
     public static List<StudentIdValidator.ValidationResult> listOfStudents(List<String> studentIds){
         List<StudentIdValidator.ValidationResult> studentIdValidator = StudentIdValidator.validate(studentIds);
-        System.debug(studentIdValidator);
         return studentIdValidator;
     }
 
     /**
     * @description Method to validate the Contact through the Student Id
-    * @param studentIds - List of Student Id based on the given csv
+    * @param contactIds - List of Student Id based on the given csv
+    * @param criteria - String value of Engagement List Criteria Title and Description
+    * @param configurationId - Engagement List Congifuration recordId
     * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
     */
     @AuraEnabled
-    public static String listOfCasesbyStudentIds(List<String> contactIds, String criteria, String configurationId){
+    public static List<OutreachCases> listOfCasesbyStudentIds(List<String> QutStudentIds, String criteria, String configurationId){
         Date executionDate = Date.today();
         List<String> criteriaFromUi = criteria.split(',');
 
-        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(contactIds, AccessLevel.SYSTEM_MODE);
+        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(QutStudentIds, AccessLevel.SYSTEM_MODE);
         Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
         engagementListCriteria.Engagement_List_Configuration__c = configurationId;
         engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaFromUi[0];
@@ -64,11 +65,44 @@ public with sharing class OutreachCaseImportCtrl {
     
         ELECandidateProcessor processor = new ELECandidateProcessor();
         List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
-        System.debug('processResult :: ' + processResult);
-        logger.info('processResult ::: ' + JSON.serialize(processResult));
 
-        logger.saveLog();
-        return JSON.serialize(processResult); 
+        Map<Id, String> mapper = new Map<Id, String>();
+        for (ELECandidateProcessResult result : processResult){
+            if (!mapper.containsKey(result.getCase().Id)) {
+                mapper.put(result.getCase().Id, result.getResult().name());
+            }
+        }
+        List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(mapper.keySet(), CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+        List<OutreachCases> outreachCaseList = new List<OutreachCases>();
+        for (Case caseRecord : caseList){
+            if (mapper.containsKey(caseRecord.Id)){
+                outreachCaseList.add(new OutreachCases(caseRecord, mapper.get(caseRecord.Id)));
+            }
+        }
+        return outreachCaseList; 
+    }
+
+    /**
+    * @description Class that wraps the OutreachCases
+    */
+    public class OutreachCases {
+        private String processResultCode;
+        private Case caseList;
+
+        public OutreachCases(Case caseList, String processResultCode){
+            this.caseList = caseList;
+            this.processResultCode = processResultCode;
+        }
+
+        @auraEnabled
+        public Case getCase(){
+            return caseList;
+        }
+
+        @auraEnabled
+        public String getProcessResultCode(){
+            return processResultCode;
+        }
     }
 
 }

@@ -13,7 +13,7 @@
  */
 
 
- public with sharing class StudentIdValidator {
+public with sharing class StudentIdValidator {
 
     /**
     * @description Method to validate the Contact through the Student Id
