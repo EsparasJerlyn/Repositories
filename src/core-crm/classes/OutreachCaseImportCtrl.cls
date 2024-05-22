@@ -18,6 +18,7 @@ public with sharing class OutreachCaseImportCtrl {
     @AuraEnabled
     public static List<StudentIdValidator.ValidationResult> listOfStudents(List<String> studentIds){
         List<StudentIdValidator.ValidationResult> studentIdValidator = StudentIdValidator.validate(studentIds);
+        System.debug(studentIdValidator);
         return studentIdValidator;
     }
 
@@ -47,7 +48,7 @@ public with sharing class OutreachCaseImportCtrl {
         
         List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
         criteriaList.add(engagementListCriteria);
-        // EngagementListCriteriasDAO.newInstance().createRecords(criteriaList, false, AccessLevel.SYSTEM_MODE);
+        EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, false, AccessLevel.SYSTEM_MODE);
  
         ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
         List<ELECandidateIngredient> ingredientList = new List<ELECandidateIngredient>();
@@ -69,7 +70,6 @@ public with sharing class OutreachCaseImportCtrl {
     
         ELECandidateProcessor processor = new ELECandidateProcessor();
         List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
-    
         return processResult; 
     }
 
