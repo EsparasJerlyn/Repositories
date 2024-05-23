@@ -11,7 +11,7 @@
  *    | arsenio.jr.dayrit              | May 20,2024           | DEPP-8821	            | Created File                  |
  */
 public with sharing class QualtricsSurveyService {
-
+    public static Boolean doQueueableJob = true;
     public static void enqueueQualtricsSurveyToProcess(List<Case> caseList) {
         Map<Id,Qualtrics_Survey__c> qualtricsSurveyMap = new Map<Id,Qualtrics_Survey__c>();
 
@@ -38,9 +38,10 @@ public with sharing class QualtricsSurveyService {
             }
         }
         CasesDAO.newInstance().updateRecords(caseToUpdate, false, AccessLevel.SYSTEM_MODE);
-
-        QualtricsSurveyCalloutQueuable queueableCalls = new QualtricsSurveyCalloutQueuable(qualtricsSurveyMap.values(),'QualtricsSurveyService');
-        System.enqueueJob(queueableCalls);
+        if(doQueueableJob){
+            QualtricsSurveyCalloutQueuable queueableCalls = new QualtricsSurveyCalloutQueuable(qualtricsSurveyMap.values(),'QualtricsSurveyService');
+            System.enqueueJob(queueableCalls);
+        }
     }
 
     public static void requestForQualtricsSurveyInfo(List<Qualtrics_Survey__c> qualtricsSurvey){

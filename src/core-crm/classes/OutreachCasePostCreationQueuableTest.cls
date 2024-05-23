@@ -21,11 +21,12 @@ public class OutreachCasePostCreationQueuableTest {
     @isTest
     private static void testExecute() {
         System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
-
+            List<Engagement_List_Configuration__c> elcList = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c elcRec = new Engagement_List_Configuration__c();
             elcRec.Qualtrics_Instrument_Id__c = 'test';
             elcRec.Instrument__c = 'test';
-            insert elcRec;
+            elcList.add(elcRec);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(elcList, true, AccessLevel.USER_MODE);
 
             List<Case> cases = new List<Case>();
             Case caseRec = new Case();
@@ -35,15 +36,14 @@ public class OutreachCasePostCreationQueuableTest {
             cases.add(caseRec);
             CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.USER_MODE);
 
-            List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
-
+            List<Case> caseList = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id},AccessLevel.SYSTEM_MODE);
+            QualtricsSurveyService.doQueueableJob = false;
             // Enqueue the queueable class
             Test.startTest();
             System.enqueueJob(new OutreachCasePostCreationQueuable(caseList));
             Test.stopTest();
-
-            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id FROM Qualtrics_Survey__c];
-            System.assertEquals(1, qualtricsSurveyList.size(), ' No Qualtrics Survey record created.');
+            List<Case> caseListUpdated = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id},AccessLevel.SYSTEM_MODE);
+            System.assert(!String.isBlank(caseListUpdated[0].Qualtrics_Survey__c), ' No Qualtrics Survey record created.');
             
         }
     }

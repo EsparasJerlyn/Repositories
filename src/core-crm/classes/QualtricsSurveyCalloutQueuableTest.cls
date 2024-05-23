@@ -21,11 +21,12 @@ public class QualtricsSurveyCalloutQueuableTest {
     @isTest
     private static void testExecute() {
         System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
-
+            List<Engagement_List_Configuration__c> elcList = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c elcRec = new Engagement_List_Configuration__c();
             elcRec.Qualtrics_Instrument_Id__c = 'test';
             elcRec.Instrument__c = 'test';
-            insert elcRec;
+            elcList.add(elcRec);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(elcList, true, AccessLevel.USER_MODE);
 
             List<Case> cases = new List<Case>();
             Case caseRec = new Case();
@@ -35,9 +36,15 @@ public class QualtricsSurveyCalloutQueuableTest {
             cases.add(caseRec);
             CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.USER_MODE);
 
-            List<Case> caseList = [SELECT Id, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c FROM Case WHERE Id = :cases[0].Id];
-            System.enqueueJob(new OutreachCasePostCreationQueuable(caseList));
-            List<Qualtrics_Survey__c> qualtricsSurveyList = [SELECT Id, In_Progress_Survey_URL__c, Distribution_List__c FROM Qualtrics_Survey__c];
+            CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id},AccessLevel.SYSTEM_MODE);
+
+            List<Qualtrics_Survey__c> qualtricsSurveyList = new List<Qualtrics_Survey__c>();
+            Qualtrics_Survey__c qs = new Qualtrics_Survey__c();
+            qualtricsSurveyList.add(qs);
+            QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyList, true, AccessLevel.USER_MODE);
+
+            cases[0].Qualtrics_Survey__c = qualtricsSurveyList[0].Id;
+            CasesDAO.newInstance().updateRecords(cases, true, AccessLevel.USER_MODE);
 
             // Enqueue the queueable class
             Test.startTest();

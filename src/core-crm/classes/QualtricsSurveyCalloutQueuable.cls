@@ -20,11 +20,11 @@ public class QualtricsSurveyCalloutQueuable implements Queueable{
     }
         
     public void execute(QueueableContext context) {
-            
-        if(!qualtricsSurveyList.isEmpty()){
-            if(methodName == 'QualtricsSurveyService'){
-                QualtricsSurveyService.requestForQualtricsSurveyInfo(qualtricsSurveyList);
-            }
+        if(qualtricsSurveyList.isEmpty()){
+            return;
+        }
+        if(methodName == 'QualtricsSurveyService'){
+            QualtricsSurveyService.requestForQualtricsSurveyInfo(qualtricsSurveyList);
         }
     }
 }
