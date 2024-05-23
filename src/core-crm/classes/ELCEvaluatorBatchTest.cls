@@ -76,7 +76,7 @@ public with sharing class ELCEvaluatorBatchTest {
             Test.stopTest();
 
             List<Case> outreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(new Set<Id>{contactList[0].Id}, configs[0].Id, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(outreachCases[0].Id, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(new Set<Id>{outreachCases[0].Id}, AccessLevel.SYSTEM_MODE);
 
             System.assertEquals(1, outreachCases.size(), 'No outreach case created.');
             System.assertEquals(outreachCases[0].Id, eventList[0].Case__c, 'No events created under outreach case record.');
@@ -155,7 +155,7 @@ public with sharing class ELCEvaluatorBatchTest {
             Test.stopTest();
 
             List<Case> outreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(new Set<Id>{contactList[0].Id}, configs[0].Id, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(outreachCases[0].Id, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(new Set<Id>{outreachCases[0].Id}, AccessLevel.SYSTEM_MODE);
 
             System.assertEquals(1, outreachCases.size(), 'No outreach case created.');
             System.assertEquals(outreachCases[0].Id, eventList[0].Case__c, 'No events created under outreach case record.');
@@ -245,7 +245,7 @@ public with sharing class ELCEvaluatorBatchTest {
             Test.stopTest();
             
             List<Case> outreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(new Set<Id>{contactList[0].Id}, configs[0].Id, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(outreachCases[0].Id, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(new Set<Id>{outreachCases[0].Id}, AccessLevel.SYSTEM_MODE);
 
             System.assertEquals(1, outreachCases.size(), 'No outreach case created.');
             System.assertEquals(outreachCases[0].Id, eventList[0].Case__c, 'No events created under outreach case record.');
@@ -337,7 +337,7 @@ public with sharing class ELCEvaluatorBatchTest {
             Test.stopTest();
 
             List<Case> outreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(new Set<Id>{contactList[0].Id}, configs[0].Id, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(outreachCases[0].Id, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(new Set<Id>{outreachCases[0].Id}, AccessLevel.SYSTEM_MODE);
 
             System.assertEquals(1, outreachCases.size(), 'No outreach case created.');
             System.assertEquals(outreachCases[0].Id, eventList[0].Case__c, 'No events created under outreach case record.');
@@ -427,7 +427,7 @@ public with sharing class ELCEvaluatorBatchTest {
             Test.stopTest();
 
             List<Case> outreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(new Set<Id>{contactList[0].Id}, configs[0].Id, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(outreachCases[0].Id, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(new Set<Id>{outreachCases[0].Id}, AccessLevel.SYSTEM_MODE);
 
             System.assertEquals(1, outreachCases.size(), 'No outreach case created.');
             System.assertEquals(outreachCases[0].Id, eventList[0].Case__c, 'No events created under outreach case record.');
