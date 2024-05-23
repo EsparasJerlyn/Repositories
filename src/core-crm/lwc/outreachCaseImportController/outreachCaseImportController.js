@@ -98,17 +98,6 @@ export default class OutreachCaseImportController extends LightningElement {
       })
     });
     this.caseTable = newCaseColumns;
-    
-    // for (let i = 0; i < 5; i++) {
-    //   this.data.push({
-    //       id: i,
-    //       name: 'Case ' + i,
-    //       contact: 'Contact ' + i,
-    //       status: ['New', 'In Progress', 'Closed'][Math.floor(Math.random() * 3)], 
-    //       amount: Math.floor(Math.random() * 10000),
-    //       closeAt: new Date().toISOString()
-    //   });
-    // }
   }
 
   handleButtonOpenModal() {

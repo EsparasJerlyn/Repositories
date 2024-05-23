@@ -41,9 +41,16 @@
             </div>
 
             <div if:true={showTabset}>
-              <div if:true={isLoading}>
-                <lightning-spinner alternative-text="Loading"></lightning-spinner>
-              </div>
+              <template if:true={isLoading}>
+                <div class="spinnerHolder">
+                  <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                  </div>
+                  <!-- <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner> -->
+                </div>
+              </template>
               <div if:false={isLoading}>
                 <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
                   <lightning-layout>

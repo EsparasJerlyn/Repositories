@@ -3,3 +3,10 @@
    overflow-y: scroll;
    overflow: hidden;
 }
+
+.spinnerHolder {
+   /* position: relative; */
+   display: inline-block;
+   width: 30px;
+   height: 30px;
+}
