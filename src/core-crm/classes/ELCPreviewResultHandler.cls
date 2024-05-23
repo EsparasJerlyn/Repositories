@@ -192,7 +192,7 @@ public inherited sharing class ELCPreviewResultHandler {
         // Fetch the org-wide email address for sending the email
         OrgWideEmailAddress owea = OrgWideEmailAddressesDAO.newInstance()
             .getOrgWideEmailAddressByDisplayName(
-                new Set<String>{ OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_NO_REPLY },
+                new Set<String>{ OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_STUDENT_SUCCESS },
                 AccessLevel.USER_MODE
             )[0];
         // Add the current user's first name to the email parameters
