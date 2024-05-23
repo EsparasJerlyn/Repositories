@@ -41,7 +41,7 @@ public class QualtricsSurveyCalloutQueuableTest {
 
             // Enqueue the queueable class
             Test.startTest();
-            System.enqueueJob(new QualtricsSurveyCalloutQueuable(qualtricsSurveyList));
+            System.enqueueJob(new QualtricsSurveyCalloutQueuable(qualtricsSurveyList,'QualtricsSurveyService'));
             Test.stopTest();
             List<Qualtrics_Survey__c> updatedQualtricsSurveyList = [SELECT Id, In_Progress_Survey_URL__c, Distribution_List__c FROM Qualtrics_Survey__c];
 
