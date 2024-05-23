@@ -204,16 +204,16 @@ public with sharing class ELECandidateProcessorTest {
     }
 
     private static void setDAOMock(){
-        ImplementationSelector.DAO.setMock(new EngagementListConfigurationsDAOMock());
-        ImplementationSelector.DAO.setMock(new EngagementListCriteriasDAOMock());
-        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-        ImplementationSelector.DAO.setMock(new ProgramPlansDAOMock());
-        ImplementationSelector.DAO.setMock(new ProgramEnrollmentsDAOMock());
-        ImplementationSelector.DAO.setMock(new ProgramOfferingsDAOMock());
-        ImplementationSelector.DAO.setMock(new CourseConnectionsDAOMock());
-        ImplementationSelector.DAO.setMock(new EngagementListEventsDAOMock());
-        ImplementationSelector.DAO.setMock(new CasesDAOMock());
-        ImplementationSelector.DAO.setMock(new GroupsDAOMock());
+        ImplementationSelector.DAO.setMock(new EngagementListConfigurationsDAO());
+        ImplementationSelector.DAO.setMock(new EngagementListCriteriasDAO());
+        ImplementationSelector.DAO.setMock(new ContactsDAO());
+        ImplementationSelector.DAO.setMock(new ProgramPlansDAO());
+        ImplementationSelector.DAO.setMock(new ProgramEnrollmentsDAO());
+        ImplementationSelector.DAO.setMock(new ProgramOfferingsDAO());
+        ImplementationSelector.DAO.setMock(new CourseConnectionsDAO());
+        ImplementationSelector.DAO.setMock(new EngagementListEventsDAO());
+        ImplementationSelector.DAO.setMock(new CasesDAO());
+        ImplementationSelector.DAO.setMock(new GroupsDAO());
     }
 
 }
