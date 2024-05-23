@@ -25,9 +25,6 @@ public class QualtricsSurveyCalloutQueuable implements Queueable{
             if(methodName == 'QualtricsSurveyService'){
                 QualtricsSurveyService.requestForQualtricsSurveyInfo(qualtricsSurveyList);
             }
-            /* else if(
-
-            ) */
         }
     }
 }
