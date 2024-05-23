@@ -89,13 +89,12 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
             soql += 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' ';
         }
 
-        if(
-            courseConnectionAssessmentsCriteria.dueDateFrom != null  
-            && courseConnectionAssessmentsCriteria.dueDateTo != null
-        ){
-            soql = soql 
-            + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
-            + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' ';
+        if(courseConnectionAssessmentsCriteria.getDueDateFrom() != null){
+            soql += 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ';
+        }
+
+        if(courseConnectionAssessmentsCriteria.getDueDateTo() != null){
+            soql += 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' ';
         }
 
         return soql;

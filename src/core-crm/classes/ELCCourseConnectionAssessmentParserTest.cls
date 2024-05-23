@@ -53,20 +53,30 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
     static void parseprocessKeyDateOffsetsTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Date executionDate = Date.today();
-            Date execDateLower = executionDate.addDays(-10);
-            Date execDateUpper = executionDate.addDays(10);
+            Date execDateLower = executionDate.addDays(-1);
+            Date execDateUpper = executionDate.addDays(-10);
 
             Test.startTest();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Key_Date__c = 'Assessment Due Date';
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 1;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
 
             ELCCourseConnectionAssessmentParser parser = new ELCCourseConnectionAssessmentParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(execDateLower, parser.getCourseConnectionAssessmentCriteria().getDueDateFrom(), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(execDateUpper, parser.getCourseConnectionAssessmentCriteria().getDueDateTo(), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(
+                DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'),
+                DynamicQueryService.convertDatetoDateString(parser.getCourseConnectionAssessmentCriteria().getDueDateFrom()), 
+                'Incorrect Key Date Offset Lower'
+            );
+
+            System.assertEquals(
+                DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'),
+                DynamicQueryService.convertDatetoDateString(parser.getCourseConnectionAssessmentCriteria().getDueDateTo()), 
+                'Incorrect Key Date Offset Upper'
+            );
+
         }
     }
 }
