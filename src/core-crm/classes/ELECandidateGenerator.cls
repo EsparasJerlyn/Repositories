@@ -77,7 +77,7 @@ public with sharing class ELECandidateGenerator {
                     newEvent.Program_Enrollment_Status__c = programEnrollment.Enrollment_Status__c;
                 }
 
-                if (elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatusDateFrom() != null &&
+                if (elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatusDateFrom() != null ||
                     elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatusDateTo() != null) {
                     newEvent.Key_Date__c = programEnrollment.Academic_Status_Date__c;
                 }
@@ -144,15 +144,16 @@ public with sharing class ELECandidateGenerator {
         List<Engagement_List_Event__c> events = new List<Engagement_List_Event__c>();
         for (Engagement_List_Event__c event : engagemenListEvents) {
             for (Course_Connection_Assessment__c courseConnectionAssessment : courseConnectionAssessments) {               
-                
+                System.debug('CHECK1 : ' + event);
                 Engagement_List_Event__c newEvent = event.clone();
 
                 if (!elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
                     newEvent.Course_Connection_Assessment__c   = courseConnectionAssessment.Id;                  
                 }
 
-                if (elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getDueDateFrom() != null &&
+                if (elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getDueDateFrom() != null ||
                     elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getDueDateTo() != null) {
+                        System.debug('CHECK2 : ' + courseConnectionAssessment.Assessment_Name__r.Due_Date__c);
                     newEvent.Key_Date__c = courseConnectionAssessment.Assessment_Name__r.Due_Date__c;
                 }
 
@@ -191,7 +192,7 @@ public with sharing class ELECandidateGenerator {
                     newEvent.Leave_of_Absence__c = leaveOfAbsence.Id;
                 }
                 
-                if (elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateFrom() != null &&
+                if (elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateFrom() != null ||
                     elcParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateTo() != null) {
                     newEvent.Key_Date__c = leaveOfAbsence.End_Date__c;
                 }
@@ -231,7 +232,7 @@ public with sharing class ELECandidateGenerator {
                     newEvent.Program_Enrollment_Breach__c  = programEnrollmentBreach.Id;    
                 }
 
-                if (elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreachDateFrom() != null &&
+                if (elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreachDateFrom() != null ||
                     elcParser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreachDateTo() != null) {
                     newEvent.Key_Date__c = programEnrollmentBreach.Breach_Date__c;
                 }
@@ -270,7 +271,7 @@ public with sharing class ELECandidateGenerator {
                     newEvent.Completed_Cadence__c  = completedCadence.Id;
                 }
                 
-                if (elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getCompletedCadanceDateFrom() != null &&
+                if (elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getCompletedCadanceDateFrom() != null ||
                     elcParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getCompletedCadanceDateTo() != null) {
                     newEvent.Key_Date__c = completedCadence.LastModifiedDate;
                 }
