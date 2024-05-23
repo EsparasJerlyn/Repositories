@@ -36,7 +36,6 @@
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
         
-        /*temporarily commented out*/
         // if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.getExecutionDate() != null){
         //     Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(-programEnrollmentBreachCriteria.keyDateOffset);
         //     Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.getExecutionDate().addDays(programEnrollmentBreachCriteria.keyDateOffset);
@@ -95,6 +94,14 @@
         }
         if(programEnrollmentBreachCriteria.getBreach() != null){
             soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' ' ;
+        }
+        if(programEnrollmentBreachCriteria.getBreachDateFrom() != null  ){
+            soql = soql 
+            + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' ;
+        }
+        if(programEnrollmentBreachCriteria.getBreachDateTo() != null){
+            soql = soql 
+            + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' ';
         }
 
         return soql;

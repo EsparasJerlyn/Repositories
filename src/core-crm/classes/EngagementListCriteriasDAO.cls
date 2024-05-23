@@ -33,7 +33,7 @@
     }
 
     public static List<Engagement_List_Criteria__c> findActiveEntryCriteria(
-        String recordType,
+        Id recordTypeId,
         Date executionDate, 
         AccessLevel accessLevel
     ) {
@@ -60,7 +60,7 @@
             'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
             'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
             'AND Start_Date__c <= :executionDate ' +
-            'AND RecordType.DeveloperName =: recordType '+ 
+            'AND RecordType.Id =: recordTypeId '+ 
             'AND End_Date__c >= :executionDate',
             accessLevel
         );

@@ -48,15 +48,16 @@ public with sharing class ELCCourseConnectionAssessmentParser {
     }
 
     private CourseConnectionAssessmentsDAO.Criteria processKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
-        if (
-            this.executionDate != null
-            && engagementListCriteria.Key_Date__c == 'Assessment Due Date'
-            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
-            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
-        ) {
-            courseConnectionAssessmentCriteria.setDueDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            courseConnectionAssessmentCriteria.setDueDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+        Boolean isKeyDateValid = this.executionDate != null && engagementListCriteria.Key_Date__c == 'Assessment Due Date';
+        if (isKeyDateValid && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null) {
+            courseConnectionAssessmentCriteria.setDueDateFrom(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
         }
+
+        if (isKeyDateValid && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
+        ) {
+            courseConnectionAssessmentCriteria.setDueDateTo(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+        }
+
         return courseConnectionAssessmentCriteria;
     }
 

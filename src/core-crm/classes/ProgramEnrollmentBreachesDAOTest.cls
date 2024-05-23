@@ -10,6 +10,7 @@
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
  *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type                      |
  */
+
 @isTest
 public with sharing class ProgramEnrollmentBreachesDAOTest {
 
@@ -59,8 +60,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             String expectedWhereClause = 'WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
-                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
-                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
+                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -117,8 +118,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             String expectedWhereClause = 'SELECT Contact__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
-                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
-                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
+                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -161,8 +162,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             String expectedWhereClause = 'SELECT Id, Breach_Name__c, Breach_Status__c, Contact__c, Breach_Date__c FROM Program_Enrollment_Breach__c WHERE '
                 + 'Breach_Status__c IN(\'Active Breach\', \'Wait For Student Action\') '
                 + 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' '
-                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
-                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
+                + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
+                + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
@@ -211,8 +212,8 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
             programEnrollmentBreachCriteria.setBreach(breachCreated.Id);
-            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(-10));
-            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-0));
+            programEnrollmentBreachCriteria.setBreachDateFrom(Date.today().addDays(10));
+            programEnrollmentBreachCriteria.setBreachDateTo(Date.today().addDays(-10));
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
