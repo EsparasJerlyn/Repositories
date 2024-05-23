@@ -60,7 +60,7 @@
             'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
             'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
             'AND Start_Date__c <= :executionDate ' +
-            'AND RecordType.Id =: recordTypeId '+ 
+            'AND RecordTypeId =: recordTypeId '+ 
             'AND End_Date__c >= :executionDate',
             accessLevel
         );

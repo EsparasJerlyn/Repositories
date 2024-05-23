@@ -35,7 +35,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
                 record.Status__c == 'Active' &&
                 record.Start_Date__c <= executionDate && 
                 record.End_Date__c >= executionDate &&
-                record.RecordType.Id == recordTypeId) {
+                record.RecordTypeId == recordTypeId) {
                 engagementListCriteriaList.add(record);
             }
         }

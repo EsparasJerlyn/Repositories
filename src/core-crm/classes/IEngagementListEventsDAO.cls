@@ -16,7 +16,7 @@ public interface IEngagementListEventsDAO extends DmlInterface{
     );
     
     List<Engagement_List_Event__c> getEngagmentListEventByCaseId(
-        Id caseId,
+        Set<Id> caseIds,
         AccessLevel accessLevel
     );
 }
