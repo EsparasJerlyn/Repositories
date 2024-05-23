@@ -66,5 +66,32 @@ public with sharing class EngagementListCriteriasDAOTest {
         }
         Test.stopTest();
     }
+    
+    @isTest
+    static void getSingleEntryCriteriaByIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
+                .getSingleEntryCriteriaById(
+                    'xxx',
+                    AccessLevel.USER_MODE
+                );
+            System.assert(elCrit == null, 'The criteria should be empty.');
+        }
+        Test.stopTest();
+    }
 
+    @isTest
+    static void getSingleEntryCriteriaByIdEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
+                .getSingleEntryCriteriaById(
+                    null,
+                    AccessLevel.USER_MODE
+                );
+            System.assert(elCrit == null, 'The criteria should be empty.');
+        }
+        Test.stopTest();
+    }
 } 
