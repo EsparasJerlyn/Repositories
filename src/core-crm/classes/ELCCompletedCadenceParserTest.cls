@@ -56,14 +56,22 @@ public with sharing class ELCCompletedCadenceParserTest {
             Test.startTest();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Key_Date__c = 'Completed Cadence Date';
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
-            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 10;
+            engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = -10;
 
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(execDateLower, parser.getCompletedCadenceCriteria().getCompletedCadanceDateFrom(), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(execDateUpper, parser.getCompletedCadenceCriteria().getCompletedCadanceDateTo(), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(
+                execDateLower, 
+                parser.getCompletedCadenceCriteria().getCompletedCadanceDateFrom(), 
+                'Incorrect Key Date Offset Lower'
+            );
+            System.assertEquals(
+                execDateUpper, 
+                parser.getCompletedCadenceCriteria().getCompletedCadanceDateTo(), 
+                'Incorrect Key Date Offset Upper'
+            );
         }
     }
 }
