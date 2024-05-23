@@ -4,29 +4,32 @@
   
     <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class={modalClass}>
       <div class="slds-modal__container">
-        <button onclick={closeModal} class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
-          <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
-          </svg>
-          <span class="slds-assistive-text">Cancel and close</span>
-        </button>
         <div class="slds-modal__header">
-          <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Import List</h1>
+          <lightning-button-icon
+            icon-name="utility:close"
+            alternative-text="Close this window"
+            size="large"
+            variant="bare-inverse"
+            onclick={closeModal}
+            class="slds-modal__close">
+          </lightning-button-icon>
+          <h1 class="slds-modal__title slds-hyphenate">Import List</h1>
         </div>
         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
           <div class="slds-form">
 
             <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
-              <label class="slds-form-element__label" for="horizontal-input-id-01">Engagement List Criteria Title</label>
+              <label class="slds-form-element__label" for="horizontal-input-id-01" aria-required>Engagement List Criteria Title</label>
               <div class="slds-form-element__control">
-                <lightning-input onchange={handleTitle} placeholder="Placeholder text…"></lightning-input>
+                <lightning-input onchange={handleTitle} placeholder="Engagement List Criteria Title" required></lightning-input>
+                <lightning-messages></lightning-messages>
               </div>
             </div>
 
             <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
               <label class="slds-form-element__label" for="horizontal-input-id-02">Description</label>
               <div class="slds-form-element__control">
-                <lightning-textarea placeholder="Placeholder text…" onchange={handleDescription}></lightning-textarea>
+                <lightning-textarea placeholder="Description" onchange={handleDescription}></lightning-textarea>
                 <div class="slds-grid slds-gutters">
                   <div class="slds-p-left_small">
                     <lightning-input
@@ -48,7 +51,6 @@
                     <div class="slds-spinner__dot-a"></div>
                     <div class="slds-spinner__dot-b"></div>
                   </div>
-                  <!-- <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner> -->
                 </div>
               </template>
               <div if:false={isLoading}>
@@ -58,7 +60,7 @@
                         <div class="custom-box">Summary</div>
                     </lightning-layout-item>
                     <lightning-layout-item flexibility="auto" padding="around-small">
-                        <div class="custom-box">{column2Name}: {recordCount} </div>
+                        <div class="custom-box">{column2Name}: {rowCount} </div>
                     </lightning-layout-item>
                     <lightning-layout-item flexibility="auto" padding="around-small">
                         <div class="custom-box">{column3Name}: {studentFound} </div>

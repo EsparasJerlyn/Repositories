@@ -23,16 +23,17 @@
       </header>
     </div>
     <div class="slds-card__body slds-card__body_inner">
-      <c-custom-datatable-columned
-        key-field="id"
-        onload={addBlankRow}
-        data={data}
-        columns={caseTable}
-        draft-values={draftValues}
-        show-row-number-column
-        suppress-bottom-bar
-      ></c-custom-datatable-columned>
-
+      <div if:true={isShowTable} class="scroll-table">
+        <c-custom-datatable-columned
+          key-field="id"
+          onload={addBlankRow}
+          data={data}
+          columns={caseTable}
+          draft-values={draftValues}
+          show-row-number-column
+          suppress-bottom-bar
+        ></c-custom-datatable-columned>
+      </div>
       <template if:true={showModal}>
         <c-outreach-case-import-modal onclosemodal={handleCloseModal} record-id={recordId}></c-outreach-case-import-modal>
       </template>

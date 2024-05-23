@@ -1,7 +1,7 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import ENGAGEMENT_LIST_CONFIGURATION_FIELD from "@salesforce/schema/Engagement_List_Configuration__c.Engagement_List_Configuration_Status__c";
-import listOfCases from'@salesforce/apex/OutreachCaseImportCtrl.listOfCases';
+import listOfCases from "@salesforce/apex/OutreachCaseImportCtrl.listOfCases";
 
 
 const columns = [
@@ -67,12 +67,17 @@ export default class OutreachCaseImportController extends LightningElement {
       fieldName: 'createdDate',
       editable: false,
       sortable: false,
-      type: 'text',
+      type: "date-local",
+      typeAttributes:{
+        month: "2-digit",
+        day: "2-digit"
+      }
     }
   ];
 
   @api recordId;
   @track showModal = false;
+  @track showTable = false;
 
   data = [];
   columns = columns;
@@ -82,38 +87,9 @@ export default class OutreachCaseImportController extends LightningElement {
   @wire(getRecord, { recordId: "$recordId", fields })
   engagementListConfiguration;
 
-  get getStatus() {
-    return getFieldValue(this.engagementListConfiguration.data, ENGAGEMENT_LIST_CONFIGURATION_FIELD) === 'Deactivated' ? true : false;
-  }
-
-  connectedCallback() {
-    let caseColumns = ['Case Name', 'Contact', 'Status', 'Case Owner', 'Created Date'];
-    const columns = this.tableColumns;
-    const newCaseColumns = [];
-    caseColumns.forEach((name) => {
-      columns.forEach((obj) => {
-        if (obj.label === name) {
-          newCaseColumns.push(obj);
-        }
-      })
-    });
-    this.caseTable = newCaseColumns;
-  }
-
-  handleButtonOpenModal() {
-    this.showModal = true;
-  }
-
-  handleCloseModal(event) {
-    this.showModal = event.detail.close;
-    const data = JSON.parse(JSON.stringify(event.detail));
-    const caseIds = [];
-    data.forEach( (data, i) => {
-      caseIds[i] = data.caseId;
-    });
-    console.log('caseIds :: ', caseIds);
+  getListofCase(){
     listOfCases({
-      caseId: caseIds
+        recordId: this.recordId
     }).then(result => {
       const caseData = result.map(item => {
         return {
@@ -128,6 +104,47 @@ export default class OutreachCaseImportController extends LightningElement {
         }
       })
       this.data = caseData;
+      this.showTable = this.data.length == 0 ? false : true;
+    }).catch((error) =>{
+      console.log('ERROR ::: ', error);
+
     })
+	}
+
+  get getStatus() {
+    return getFieldValue(this.engagementListConfiguration.data, ENGAGEMENT_LIST_CONFIGURATION_FIELD) === 'Deactivated' ? true : false;
+  }
+
+  get isShowTable() {
+    return this.showTable;
+  }
+
+  connectedCallback() {
+    let caseColumns = ['Case Name', 'Contact', 'Status', 'Case Owner', 'Created Date'];
+    const columns = this.tableColumns;
+    const newCaseColumns = [];
+    caseColumns.forEach((name) => {
+      columns.forEach((obj) => {
+        if (obj.label === name) {
+          newCaseColumns.push(obj);
+        }
+      })
+    });
+    this.caseTable = newCaseColumns;
+    this.getListofCase();
+    this.showTable = this.data.length == 0 ? false : true;
+  }
+
+  handleButtonOpenModal() {
+    this.showModal = true;
+  }
+
+  handleCloseModal(event) {
+    this.showModal = event.detail.close;
+    setTimeout((e) => {
+      this.getListofCase();
+    },500,this);
+    this.showTable = this.data.length == 0 ? false : true;
+    
   }
 }

@@ -1,6 +1,6 @@
 import { LightningElement,track,api,wire } from 'lwc';
-import listOfStudents from'@salesforce/apex/OutreachCaseImportCtrl.listOfStudents';
-import listOfCasesbyStudentIds from'@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds';
+import listOfStudents from "@salesforce/apex/OutreachCaseImportCtrl.listOfStudents";
+import listOfCasesbyStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds";
 
 export default class OutReachCaseImportModal extends LightningElement {
   tableColumns = [
@@ -68,6 +68,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     },
     { 
       type: 'button-icon',
+      initialWidth: 150,
       typeAttributes:
       {
           iconName: 'utility:delete',
@@ -157,8 +158,8 @@ export default class OutReachCaseImportModal extends LightningElement {
     return this.isCreateOutreach ? 'Existing Cases' : 'Students Found';
   }
 
-  get recordCount() { // Also used for Case Created Count
-    return this.caseTableView ? this.caseCreatedCount : this.studentsFound;
+  get rowCount() { // Also used for Case Created Count
+    return this.caseTableView ? this.caseCreatedCount : this.studentsFound + this.exclusionData.length;
   }
 
   get studentFound() { // Also used for Existing Cases Count
@@ -384,25 +385,35 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleCreateOutreach() {
-    this.loaded = false;
-    this.isCreateOutreach = true;
-    let stundentColumns = ['Case', 'QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
-    const columns = this.tableColumns;
-    const newStudentColumns = [];
-    this.exitModal = 'Close';
-    this.showCreateOutreach = false;
-    this.showCaseCol = true;
-    
-    stundentColumns.forEach((name) => {
-      columns.forEach((obj) => {
-        if (obj.label === name) {
-          newStudentColumns.push(obj);
-        }
-      })
-    });
-    this.studentTable = newStudentColumns;
+    this.title = this.title ? this.title : '';
+    const allValid = [
+      ...this.template.querySelectorAll('lightning-input'),
+    ].reduce((validSoFar, inputCmp) => {
+        inputCmp.reportValidity();
+        return validSoFar && inputCmp.checkValidity();
+    }, true);
 
-    this.createOutreach(this.dataForCreateOutreach);
+    if (allValid) {
+      this.loaded = false;
+      this.isCreateOutreach = true;
+      let stundentColumns = ['Case', 'QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
+      const columns = this.tableColumns;
+      const newStudentColumns = [];
+      this.exitModal = 'Close';
+      this.showCreateOutreach = false;
+      this.showCaseCol = true;
+      
+      stundentColumns.forEach((name) => {
+        columns.forEach((obj) => {
+          if (obj.label === name) {
+            newStudentColumns.push(obj);
+          }
+        })
+      });
+      this.studentTable = newStudentColumns;
+
+      this.createOutreach(this.dataForCreateOutreach);
+    }
   }
 
   handleTitle(event) {
@@ -432,6 +443,8 @@ export default class OutReachCaseImportModal extends LightningElement {
     data.forEach( (data, i) => {
       studentIds[i] = data.studentId.toString();
     });
+    this.title = this.title ? this.title : '';
+    this.description = this.description ? this.description : '';
     const criteria = this.title + ',' + this.description;
     listOfCasesbyStudentIds({ 
       QutStudentIds : studentIds,
