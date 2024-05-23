@@ -16,7 +16,7 @@ public with sharing class QualtricsSurveyTriggerHandler implements Disableable, 
    * @param newItems - List of Qualtric_Survey__c.Trigger.new
    */
   public void afterInsert(Map<Id, SObject> newItems) {
-    QualtricsSurveyService.updateQualtricsSurveyInfo((List<Qualtrics_Survey__c>) newItems.values());
+    //QualtricsSurveyService.updateQualtricsSurveyInfo((List<Qualtrics_Survey__c>) newItems.values());
   }
 
     /**
