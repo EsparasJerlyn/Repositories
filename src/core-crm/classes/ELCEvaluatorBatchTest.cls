@@ -438,6 +438,4 @@ public with sharing class ELCEvaluatorBatchTest {
            
         }
     }
-
-
 }

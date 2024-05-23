@@ -69,6 +69,7 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
 
         // check if for subquery
         if (contactQuery != null) {
+            System.debug('contactQuery is null : ' + contactQuery);
             ContactsDAO contactsDAO = new ContactsDAO();
             return contactsDAO.getQueryLocatorBySubquery(contactQuery);
         }
@@ -80,7 +81,11 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
         try {
             execute(contacts);
         } catch (Exception e) {
-            Logger.error('Exception caught in method execute in ELCEvaluatorBatch').setExceptionDetails(e);
+            Logger.error(
+                'Exception caught in method finish in class ELCPreviewBatch. Job ID: ' + bc.getJobId() + '. Execution Date: ' + String.valueOf(Date.today())
+                , eLCParser.getEngagementListCriteria().Id
+            )
+            .setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
@@ -110,20 +115,13 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     }
 
     public void finish(Database.BatchableContext bc) {
-      // log error with job id and ExtendedStatus if NumberOfErrors != 0 
-      AsyncApexJob job = AsyncApexJobsDAO.newInstance().findAsyncApexJobById(bc.getJobId(), AccessLevel.SYSTEM_MODE);
+        // log error with job id and ExtendedStatus if NumberOfErrors != 0 
+        AsyncApexJob job = AsyncApexJobsDAO.newInstance().findAsyncApexJobById(bc.getJobId(), AccessLevel.SYSTEM_MODE);
  
         if (job.NumberOfErrors != 0) {
-            String logMessage =
-                'ELCEvaluatorBatch job failed. Job ID: ' +
-                job.Id +
-                ', Execution Date: ' +
-                String.valueOf(Date.today()) +
-                ', Extended Status: ' +
-                job.ExtendedStatus;
+            String logMessage = 'ELCEvaluatorBatch job failed. Job ID: ' + job.Id + ', Execution Date: ' + String.valueOf(Date.today()) + ', Extended Status: ' + job.ExtendedStatus;
             Logger.error(logMessage, eLCParser.getEngagementListCriteria().Id);
         }
-
         if (eLCEvaluationJobs.size() > 1) {
             eLCEvaluationJobs.remove(0);
             // Process the next Engagement_Lis_Criteria__c
