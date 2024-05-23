@@ -174,7 +174,7 @@
         <fields>NetAdjustmentAmount</fields>
         <fields>GrossAdjustmentAmount</fields>
         <fields>TotalPriceTaxAmount</fields>
-        <fields>UnitItemAdjustmentAmount</fields> 
+        <fields>UnitItemAdjustmentAmount</fields>
         <fields>UnitAdjustedPriceWithItemAdj</fields>
     </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>
