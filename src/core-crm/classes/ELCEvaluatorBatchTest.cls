@@ -185,7 +185,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Key_Date__c = 'Leave Of Absence End Date';
             criteria.Is_On_Leave_of_Absence__c = 'Yes';
             criteria.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
-            criteria.Key_Date_Offset_Lower_Boundary__c = 1;
+            criteria.Key_Date_Offset_Upper_Boundary__c = 10;
             criteria.Start_Date__c = Date.today().addDays(-1);
             criteria.End_Date__c = Date.today().addDays(1);
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
@@ -193,13 +193,13 @@ public with sharing class ELCEvaluatorBatchTest {
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
             List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
-
+            
             //Create contact 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
-
+            
             //Create Program Enrollment records
             List<hed__Program_Plan__c> programPlanList = new List<hed__Program_Plan__c>();
             hed__Program_Plan__c programPlan = new hed__Program_Plan__c();
@@ -207,7 +207,7 @@ public with sharing class ELCEvaluatorBatchTest {
             programPlan.Category_Type__c = 'Graduate Certificate';
             programPlanList.add(programPlan);
             ProgramPlansDAO.newInstance().insertRecords(programPlanList,true,AccessLevel.SYSTEM_MODE);
-
+            
             List<hed__Program_Enrollment__c>  programEnrollmentList = new List<hed__Program_Enrollment__c>();
             hed__Program_Enrollment__c progEn = new hed__Program_Enrollment__c();
             progEn.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
@@ -221,8 +221,8 @@ public with sharing class ELCEvaluatorBatchTest {
 
             //Create Leave of Absence records
             List<Leave_of_Absence__c> leaveOfAbsenceList = TestDataFactory.createLeaveOfAbsenceRecord(1);
-            leaveOfAbsenceList[0].Start_Date__c = Date.today().addDays(-10); 
-            leaveOfAbsenceList[0].End_Date__c = Date.today().addDays(-1); 
+            leaveOfAbsenceList[0].Start_Date__c = Date.today(); 
+            leaveOfAbsenceList[0].End_Date__c = Date.today(); 
             leaveOfAbsenceList[0].hed_Program_Enrollment__c = programEnrollmentList[0].Id;
             leaveOfAbsenceList[0].Leave_No__c = 001;
             leaveOfAbsenceList[0].Student__c = contactList[0].Id;
@@ -243,7 +243,7 @@ public with sharing class ELCEvaluatorBatchTest {
             Database.executeBatch(batchable);    
 
             Test.stopTest();
-
+            
             List<Case> outreachCases = CasesDAO.newInstance().getOpenOutreachCasesByConfigAndContactIds(new Set<Id>{contactList[0].Id}, configs[0].Id, AccessLevel.SYSTEM_MODE);
             List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(outreachCases[0].Id, AccessLevel.SYSTEM_MODE);
 
