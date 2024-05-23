@@ -36,7 +36,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Status__c = 'Active';
             criteria.Completed_Cadence__c = 'Domestic Accepted and Admitted';
             criteria.Key_Date__c = 'Completed Cadence Date';
-            criteria.Key_Date_Offset_Lower_Boundary__c = 1;
+            criteria.Key_Date_Offset_Upper_Boundary__c = 1;
             criteria.Start_Date__c = Date.today().addDays(-1);
             criteria.End_Date__c = Date.today().addDays(1);
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
@@ -50,7 +50,6 @@ public with sharing class ELCEvaluatorBatchTest {
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
-
             //Create Completed Cadence records
             List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
@@ -64,10 +63,8 @@ public with sharing class ELCEvaluatorBatchTest {
                 );
             }
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, true, AccessLevel.SYSTEM_MODE);    
-
             List<Completed_Cadence__c> completedCadenceList = TestDataFactory.createCompletedCadence('Successful',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.SYSTEM_MODE);
-
             Test.startTest();
 
             List<ELCEvaluationJob> evalJobList =  new List<ELCEvaluationJob>();
@@ -138,7 +135,7 @@ public with sharing class ELCEvaluatorBatchTest {
             progEn.Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             progEn.hed__Contact__c = contactList[0].Id;
             progEn.hed__Program_Plan__c = programPlanList[0].Id;
-            progEn.Academic_Status_Date__c = Date.today();
+            progEn.Academic_Status_Date__c = Date.today().addDays(-1);
             programEnrollmentList.add(progEn);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
 
@@ -224,8 +221,8 @@ public with sharing class ELCEvaluatorBatchTest {
 
             //Create Leave of Absence records
             List<Leave_of_Absence__c> leaveOfAbsenceList = TestDataFactory.createLeaveOfAbsenceRecord(1);
-            leaveOfAbsenceList[0].Start_Date__c = Date.today().addDays(-1); 
-            leaveOfAbsenceList[0].End_Date__c = Date.today().addDays(1); 
+            leaveOfAbsenceList[0].Start_Date__c = Date.today().addDays(-10); 
+            leaveOfAbsenceList[0].End_Date__c = Date.today().addDays(-1); 
             leaveOfAbsenceList[0].hed_Program_Enrollment__c = programEnrollmentList[0].Id;
             leaveOfAbsenceList[0].Leave_No__c = 001;
             leaveOfAbsenceList[0].Student__c = contactList[0].Id;
@@ -321,7 +318,7 @@ public with sharing class ELCEvaluatorBatchTest {
             programEnrollmentBreachList[0].Breach_Name__c = breachList[0].Id;
             programEnrollmentBreachList[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             programEnrollmentBreachList[0].Breach_Status__c = ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS;
-            programEnrollmentBreachList[0].Breach_Date__c = Date.today();
+            programEnrollmentBreachList[0].Breach_Date__c = Date.today().addDays(-1);
             ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachList,true,AccessLevel.SYSTEM_MODE);
             
             Test.startTest();
@@ -400,7 +397,7 @@ public with sharing class ELCEvaluatorBatchTest {
             progEn.Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             progEn.hed__Contact__c = contactList[0].Id;
             progEn.hed__Program_Plan__c = programPlanList[0].Id;
-            progEn.Academic_Status_Date__c = Date.today();
+            progEn.Academic_Status_Date__c = Date.today().addDays(-1);
             programEnrollmentList.add(progEn);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
             
