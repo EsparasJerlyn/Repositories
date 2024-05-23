@@ -48,14 +48,11 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         if(leaveOfAbsenceCriteria.getIsOnLeave() != null){
             soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' ' ;
         }
-
-        if(
-            leaveOfAbsenceCriteria.endDateFrom != null  
-            && leaveOfAbsenceCriteria.endDateTo != null
-        ){
-            soql = soql 
-            + 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' 
-            + 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' ';
+        if(leaveOfAbsenceCriteria.getEndDateFrom() != null){
+            soql += 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' ;
+        }
+        if(leaveOfAbsenceCriteria.getEndDateTo() != null){
+            soql += 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' ' ;
         }
 
         return soql;
