@@ -14,6 +14,8 @@
 @isTest
 private class CommunicationQueueServiceTest {
 
+    private static final String TEST_TEMPLATE = 'Test Email Template';
+
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
@@ -32,8 +34,13 @@ private class CommunicationQueueServiceTest {
             newContacts[0].QUT_Learner_Email__c = 'TestEmail@unique.com';
             ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
 
+            List<EmailTemplate> emailTemplateList = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+                TEST_TEMPLATE => 'Test Email Subject1'
+            });
+            insert emailTemplateList;
+
             Engagement_List_Configuration__c engagementListConfig = new Engagement_List_Configuration__c();
-            engagementListConfig.Email_Template__c = 'Test Template';
+            engagementListConfig.Email_Template__c = emailTemplateList[0].Name;
             engagementListConfig.Communication_Channel__c = 'Email';
             insert engagementListConfig;
 
@@ -59,7 +66,7 @@ private class CommunicationQueueServiceTest {
             System.assert(retCommunicationQueueList[0].Business_Process__c == 'Outreach Initial Email', 'Communication Queue Business Process not matched.');
             System.assert(retCommunicationQueueList[0].WhoId__c == newContacts[0].Id, 'Communication Queue Contact not matched.');
             System.assert(retCommunicationQueueList[0].WhatId__c == caseList[0].Id, 'Communication Queue Case not matched.');
-            System.assert(retCommunicationQueueList[0].Template_Id__c == engagementListConfig.Email_Template__c, 'Communication Queue Email Template not matched.');
+            System.assert(retCommunicationQueueList[0].Template_Id__c == emailTemplateList[0].Id, 'Communication Queue Email Template not matched.');
             System.assert(retCommunicationQueueList[0].Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id, 'Communication Queue Sender not matched.');
             System.assert(retCommunicationQueueList[0].Status__c ==  CommunicationQueuesDAO.STATUS_SCHEDULED, 'Communication Queue Status not matched.');
             System.assert(retCommunicationQueueList[0].Communication_Endpoint__c == CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL, 'Communication Queue End Point not matched.');
@@ -81,8 +88,13 @@ private class CommunicationQueueServiceTest {
             newContacts[0].QUT_Learner_Email__c = 'TestEmail@unique.com';
             ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
 
+            List<EmailTemplate> emailTemplateList = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+                TEST_TEMPLATE => 'Test Email Subject1'
+            });
+            insert emailTemplateList;
+
             Engagement_List_Configuration__c engagementListConfig = new Engagement_List_Configuration__c();
-            engagementListConfig.Email_Template__c = 'Test Template';
+            engagementListConfig.Email_Template__c = emailTemplateList[0].Name;
             engagementListConfig.Communication_Channel__c = 'Email';
             insert engagementListConfig;
 
@@ -108,7 +120,7 @@ private class CommunicationQueueServiceTest {
             System.assert(retCommunicationQueueList[0].Business_Process__c == 'Outreach Initial Email', 'Communication Queue Business Process not matched.');
             System.assert(retCommunicationQueueList[0].WhoId__c == newContacts[0].Id, 'Communication Queue Contact not matched.');
             System.assert(retCommunicationQueueList[0].WhatId__c == caseList[0].Id, 'Communication Queue Case not matched.');
-            System.assert(retCommunicationQueueList[0].Template_Id__c == engagementListConfig.Email_Template__c, 'Communication Queue Email Template not matched.');
+            System.assert(retCommunicationQueueList[0].Template_Id__c == emailTemplateList[0].Id, 'Communication Queue Email Template not matched.');
             System.assert(retCommunicationQueueList[0].Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id, 'Communication Queue Sender not matched.');
             System.assert(retCommunicationQueueList[0].Status__c ==  CommunicationQueuesDAO.STATUS_SCHEDULED, 'Communication Queue Status not matched.');
             System.assert(retCommunicationQueueList[0].Communication_Endpoint__c == CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL, 'Communication Queue End Point not matched.');

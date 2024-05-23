@@ -26,7 +26,20 @@ public inherited sharing class CommunicationQueueService {
         List<Communication_Queue__c> createCommunicationQueueList = new List<Communication_Queue__c>();
         List<Communication_Queue__c> createdCommunicationQueues = new List<Communication_Queue__c>();
         List<Case> updateCaseList = new List<Case>();
+        Set<String> setEmailTemplates = new Set<String>();
+        List<EmailTemplate> listEmailTemplates = new List<EmailTemplate>();
+        Map<String, String> mapEmailTemplates = new Map<String, String>();
+
         if (caseRecords.Size() > 0) {
+            //prepare Email template Map
+            for (Case ca : caseRecords) { 
+                setEmailTemplates.add(ca.Engagement_List_Configuration__r.Email_Template__c);
+            }
+            listEmailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet( setEmailTemplates, accessLevel);
+            for (EmailTemplate eT : listEmailTemplates) {
+                mapEmailTemplates.put(eT.Name, eT.Id);
+            }
+            //prepare insert communication queue records to be inserted
             for (Case ca : caseRecords) {
                 if (
                     (
@@ -41,7 +54,7 @@ public inherited sharing class CommunicationQueueService {
                     createCommunicationQueue.Business_Process__c = CommunicationQueuesDAO.BUSINESS_PROCESS_OUTREACH;
                     createCommunicationQueue.WhoId__c = ca.ContactId;
                     createCommunicationQueue.WhatId__c = ca.Id;
-                    createCommunicationQueue.Template_Id__c = ca.Engagement_List_Configuration__r.Email_Template__c;
+                    createCommunicationQueue.Template_Id__c = mapEmailTemplates.get(ca.Engagement_List_Configuration__r.Email_Template__c);
                     createCommunicationQueue.Sender__c = orgWideEmailAddressSuccessId;
                     createCommunicationQueue.Status__c = CommunicationQueuesDAO.STATUS_SCHEDULED;
                     createCommunicationQueue.Communication_Endpoint__c = CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL;
@@ -93,7 +106,20 @@ public inherited sharing class CommunicationQueueService {
         List<Communication_Queue__c> createdCommunicationQueues = new List<Communication_Queue__c>();
         List<Case> caseRecords = [SELECT Id, ContactId, Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c  FROM Case WHERE Id IN :caseIds WITH USER_MODE];
         List<Case> updateCaseList = new List<Case>();
+        Set<String> setEmailTemplates = new Set<String>();
+        List<EmailTemplate> listEmailTemplates = new List<EmailTemplate>();
+        Map<String, String> mapEmailTemplates = new Map<String, String>();
+
         if (caseRecords.Size() > 0) {
+            //prepare Email template Map
+            for (Case ca : caseRecords) { 
+                setEmailTemplates.add(ca.Engagement_List_Configuration__r.Email_Template__c);
+            }
+            listEmailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet( setEmailTemplates, accessLevel);
+            for (EmailTemplate eT : listEmailTemplates) {
+                mapEmailTemplates.put(eT.Name, eT.Id);
+            }
+            //prepare insert communication queue records to be inserted
             for (Case ca : caseRecords) {
                 if (
                     (
@@ -108,7 +134,7 @@ public inherited sharing class CommunicationQueueService {
                     createCommunicationQueue.Business_Process__c = CommunicationQueuesDAO.BUSINESS_PROCESS_OUTREACH;
                     createCommunicationQueue.WhoId__c = ca.ContactId;
                     createCommunicationQueue.WhatId__c = ca.Id;
-                    createCommunicationQueue.Template_Id__c = ca.Engagement_List_Configuration__r.Email_Template__c;
+                    createCommunicationQueue.Template_Id__c = mapEmailTemplates.get(ca.Engagement_List_Configuration__r.Email_Template__c);
                     createCommunicationQueue.Sender__c = orgWideEmailAddressSuccessId;
                     createCommunicationQueue.Status__c = CommunicationQueuesDAO.STATUS_SCHEDULED;
                     createCommunicationQueue.Communication_Endpoint__c = CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL;
