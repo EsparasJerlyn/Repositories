@@ -62,13 +62,13 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
         if(programEnrollmentBreachCriteria.getBreach() != null){
             soql += 'AND Breach_Name__c = \'' + programEnrollmentBreachCriteria.getBreach() + '\' ' ;
         }
-        if(
-            programEnrollmentBreachCriteria.breachDateFrom != null  
-            && programEnrollmentBreachCriteria.breachDateTo != null
-        ){
+        if(programEnrollmentBreachCriteria.getBreachDateFrom() != null  ){
             soql = soql 
-            + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
-            + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' ';
+            + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' ;
+        }
+        if(programEnrollmentBreachCriteria.getBreachDateTo() != null){
+            soql = soql 
+            + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' ';
         }
 
         return soql;
