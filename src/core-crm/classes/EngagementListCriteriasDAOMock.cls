@@ -22,7 +22,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
     }
 
     public List<Engagement_List_Criteria__c> findActiveEntryCriteria(
-        String recordType,
+        Id recordTypeId,
         Date executionDate,
         AccessLevel accessLevel
     ) {
@@ -35,7 +35,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
                 record.Status__c == 'Active' &&
                 record.Start_Date__c <= executionDate && 
                 record.End_Date__c >= executionDate &&
-                record.RecordType.DeveloperName == recordType) {
+                record.RecordType.Id == recordTypeId) {
                 engagementListCriteriaList.add(record);
             }
         }

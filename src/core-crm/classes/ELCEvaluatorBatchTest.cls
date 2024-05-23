@@ -43,7 +43,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
             //Create contact 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
@@ -112,7 +112,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
             //Create contact 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
@@ -192,7 +192,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
             
             //Create contact 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
@@ -286,7 +286,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
             //Create contact 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
@@ -374,7 +374,7 @@ public with sharing class ELCEvaluatorBatchTest {
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
             //Create contact 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
