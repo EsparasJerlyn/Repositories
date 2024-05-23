@@ -45,6 +45,12 @@ public interface ICasesDAO extends DmlInterface{
         Id RecordTypeId,
         AccessLevel accessLevel
     );
+
+    List<Case> getCasesByEngagementListConfigurationIds(
+        String configurationId,
+        Id RecordTypeId,
+        AccessLevel accessLevel
+    );
     
     Database.QueryLocator queryLocatorGetCasesByContactOrLeadIds(
         Set<Id> recordIds

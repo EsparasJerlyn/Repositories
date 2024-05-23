@@ -101,6 +101,24 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         );
     }
 
+    public List<Case> getCasesByEngagementListConfigurationIds(
+        String configurationId,
+        Id RecordTypeId,
+        AccessLevel accessLevel
+    ) {
+        if(String.isBlank(configurationId)){
+            return new List<Case>();
+        }
+
+        return Database.query(
+            'SELECT  Id, CaseNumber, ContactId, Contact.Name, Status, Owner.Name, CreatedDate, Engagement_List_Configuration__c ' +
+            'FROM Case ' +
+            'WHERE Engagement_List_Configuration__c =: configurationId AND ' +
+            'RecordTypeId =: RecordTypeId',
+            accessLevel
+        );
+    }
+
     public List<Case> getCaseBySuppliedEmail(
         String suppliedEmail,
         AccessLevel accessLevel

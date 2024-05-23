@@ -12,17 +12,12 @@ public with sharing class OutreachCaseImportCtrl {
 
     /**
     * @description Method to validate the Contact through the Student Id
-    * @param caseId - List of Student Id based on the given csv
-    * @return List<StudentIdValidator.ValidationResult> - List of Student Id with the corresponding Validation Result
+    * @param recordId - recordId of Engagement List Configuration
+    * @return List<Case> - List of Cases related to Engagement List Configurations
     */
     @AuraEnabled
-    public static List<Case> listOfCases(List<Id> caseId){
-        Set<Id> caseIds = new Set<Id>();
-        for (Id ids : caseId){
-            caseIds.add(ids);
-        }
-        
-        List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(caseIds, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+    public static List<Case> listOfCases(String recordId){
+        List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.USER_MODE);
         return caseList;
     }
     
@@ -42,26 +37,30 @@ public with sharing class OutreachCaseImportCtrl {
     * @param contactIds - List of Student Id based on the given csv
     * @param criteria - String value of Engagement List Criteria Title and Description
     * @param configurationId - Engagement List Congifuration recordId
-    * @return List<OutreachCases> - List of Student Id with the corresponding Validation Result
+    * @return List<OutreachCases> - List of Outreach Cases Created on import
     */
     @AuraEnabled
-    public static List<OutreachCases> listOfCasesbyStudentIds(List<String> QutStudentIds, String criteria, String configurationId){
+    public static List<OutreachCases> listOfCasesbyStudentIds(List<String> QutStudentIds, String criteria, Id configurationId){
         Date executionDate = Date.today();
         List<String> criteriaFromUi = criteria.split(',');
-
-        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(QutStudentIds, AccessLevel.SYSTEM_MODE);
+        List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(QutStudentIds, AccessLevel.USER_MODE);
         Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
         engagementListCriteria.Engagement_List_Configuration__c = configurationId;
         engagementListCriteria.Engagement_List_Criteria_Title__c = criteriaFromUi[0];
-        engagementListCriteria.Description__c = criteriaFromUi[1];
+        if (criteriaFromUi.size() == 1) {
+            engagementListCriteria.Description__c = '';
+        }
         engagementListCriteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED;
-        // engagementListCriteria.Status = 'Active';
+        // engagementListCriteria.Status__c = 'Active';
         
         List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
         criteriaList.add(engagementListCriteria);
-        EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, false, AccessLevel.SYSTEM_MODE);
- 
-        ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
+        EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, false, AccessLevel.USER_MODE);
+        Set<Id> configId = new Set<Id>();
+        configId.add(configurationId);
+        List<Engagement_List_Criteria__c> engagementCriteriaList = EngagementListCriteriasDAO.newInstance().findImportCriteria(new Set<Id>{criteriaList[0].Id},EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED,AccessLevel.USER_MODE);
+
+        ELCParser parser = new ELCParser(engagementCriteriaList[0], executionDate);
         List<ELECandidateIngredient> ingredientList = new List<ELECandidateIngredient>();
         Map<List<ELECandidateIngredient>, Contact> ingredientByContactMap = new Map<List<ELECandidateIngredient>, Contact>();
         for(Contact con : contacts){
@@ -71,16 +70,14 @@ public with sharing class OutreachCaseImportCtrl {
             ingredientList.add(ingredient);
             ingredientByContactMap.put(ingredientList, con);
         }
-    
         Map<Id, List<Engagement_List_Event__c>> eventsByContactMap = new Map<Id, List<Engagement_List_Event__c>>();
         for(ELECandidateIngredient ingredient : ingredientList){
             ELECandidateGenerator generator = new ELECandidateGenerator();
             List<Engagement_List_Event__c> events = generator.generate(ingredient);
             eventsByContactMap.put(ingredient.getContact().Id, events);
         }
-    
         ELECandidateProcessor processor = new ELECandidateProcessor();
-        List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementListCriteria);
+        List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementCriteriaList[0]);
 
         Map<Id, String> mapper = new Map<Id, String>();
         for (ELECandidateProcessResult result : processResult){
@@ -88,11 +85,16 @@ public with sharing class OutreachCaseImportCtrl {
                 mapper.put(result.getCase().Id, result.getResult().name());
             }
         }
-        List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(mapper.keySet(), CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.SYSTEM_MODE);
+
+        List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(mapper.keySet(), CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.USER_MODE);
+        List<Case> updatedCaseList = new List<Case>();
+
         List<OutreachCases> outreachCaseList = new List<OutreachCases>();
         for (Case caseRecord : caseList){
             if (mapper.containsKey(caseRecord.Id)){
                 outreachCaseList.add(new OutreachCases(caseRecord, mapper.get(caseRecord.Id)));
+                caseRecord.Engagement_List_Configuration__c = configurationId;
+                updatedCaseList.add(caseRecord);
             }
         }
         return outreachCaseList; 
