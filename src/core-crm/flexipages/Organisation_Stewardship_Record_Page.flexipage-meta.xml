@@ -1031,10 +1031,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-509893b4-4ec9-4edb-bf0b-7ffbb31d7a3d</value>
                 </componentInstanceProperties>
@@ -1106,10 +1102,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-c4daac94-b7bf-4ff2-b1db-396f690193f0</value>
