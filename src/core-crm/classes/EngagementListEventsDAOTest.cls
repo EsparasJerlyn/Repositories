@@ -142,7 +142,7 @@ public with sharing class EngagementListEventsDAOTest {
             
             List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance()
                 .getEngagmentListEventByCaseId(
-                    caseList[0].Id, 
+                    new Set<Id>{caseList[0].Id}, 
                     AccessLevel.SYSTEM_MODE
                 );
                 
