@@ -18,5 +18,21 @@
     public static IQualtricsSurveysDAO newInstance() {
         return (IQualtricsSurveysDAO) ImplementationSelector.DAO.newInstance(Qualtrics_Survey__c.SObjectType);
     }
+
+    public static List<Qualtrics_Survey__c> getQualitricsSurveysBySetIds(Set<Id> qualtricSurveyId, AccessLevel accessLevel) {
+
+        if(qualtricSurveyId.isEmpty()){
+            return new List<Qualtrics_Survey__c>();
+        }
+
+        return Database.query(
+            'SELECT Id, ' +
+            'In_Progress_Survey_URL__c, ' +
+            'Distribution_List__c ' +
+            'FROM Qualtrics_Survey__c ' +
+            'WHERE Id IN: qualtricSurveyId' ,
+            accessLevel
+        );
+    }
     
 }

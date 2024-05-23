@@ -50,7 +50,7 @@ public class QualtricsSurveyCalloutQueuableTest {
             Test.startTest();
             System.enqueueJob(new QualtricsSurveyCalloutQueuable(qualtricsSurveyList,'QualtricsSurveyService'));
             Test.stopTest();
-            List<Qualtrics_Survey__c> updatedQualtricsSurveyList = [SELECT Id, In_Progress_Survey_URL__c, Distribution_List__c FROM Qualtrics_Survey__c];
+            List<Qualtrics_Survey__c> updatedQualtricsSurveyList = QualtricsSurveysDAO.newInstance().getQualitricsSurveysBySetIds(new Set<Id>{cases[0].Qualtrics_Survey__c},AccessLevel.SYSTEM_MODE);
 
             System.assert(!String.isBlank(updatedQualtricsSurveyList[0].In_Progress_Survey_URL__c), ' In Progress Survey URL did not update');
             System.assert(!String.isBlank(updatedQualtricsSurveyList[0].Distribution_List__c), ' In Distribution List did not update');
