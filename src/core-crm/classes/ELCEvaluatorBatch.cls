@@ -28,7 +28,6 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     public Database.QueryLocator start(Database.BatchableContext bc) {
         // Starting fom the leave of each branch in the cirterion hierarchy, so that it inherit as much parent's criteria as possible.
         String contactQuery;
-        System.debug('elcParser: ' + elcParser);
         if (!eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
             contactQuery = new CourseConnectionAssessmentsDAO().getContactQueryByCriteria(
                 eLCParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria(),
@@ -65,7 +64,6 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
                 elcParser.getELCContactParser().getContactCriteria()
             );
         }
-        System.debug('contactQuery: ' + contactQuery);
 
         // check if for subquery
         if (contactQuery != null) {
@@ -80,7 +78,11 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
         try {
             execute(contacts);
         } catch (Exception e) {
-            Logger.error('Exception caught in method execute in ELCEvaluatorBatch').setExceptionDetails(e);
+            Logger.error(
+                'Exception caught in method finish in class ELCPreviewBatch. Job ID: ' + bc.getJobId() + '. Execution Date: ' + String.valueOf(Date.today())
+                , eLCParser.getEngagementListCriteria().Id
+            )
+            .setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
@@ -91,8 +93,6 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
     public void execute(List<Contact> contacts) {
         ELCEvaluator eLCEvaluator = new ELCEvaluator(elcParser);
         Map<Id, ELECandidateIngredient> eLECandidateIngredientByContact = eLCEvaluator.evaluate(contacts);
-        System.debug('eLECandidateIngredientByContact: ' + eLECandidateIngredientByContact);
-
         Map<Id,List<Engagement_List_Event__c>> engagementListMapEvents = new Map<Id,List<Engagement_List_Event__c>>();
 
         for (ELECandidateIngredient eLECandidateIngredient : eLECandidateIngredientByContact.values()) { 
@@ -102,28 +102,18 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
             engagementListMapEvents.put(contactId,engagementList);
         }
 
-        System.debug('engagementListMapEvents: ' + engagementListMapEvents);
         ELECandidateProcessor processor = new ELECandidateProcessor();
-
-        List<ELECandidateProcessResult> processResult =  processor.process(engagementListMapEvents, eLCParser.getEngagementListCriteria());
-        System.debug('processResult:' + processResult);
+        processor.process(engagementListMapEvents, eLCParser.getEngagementListCriteria());
     }
 
     public void finish(Database.BatchableContext bc) {
-      // log error with job id and ExtendedStatus if NumberOfErrors != 0 
-      AsyncApexJob job = AsyncApexJobsDAO.newInstance().findAsyncApexJobById(bc.getJobId(), AccessLevel.SYSTEM_MODE);
+        // log error with job id and ExtendedStatus if NumberOfErrors != 0 
+        AsyncApexJob job = AsyncApexJobsDAO.newInstance().findAsyncApexJobById(bc.getJobId(), AccessLevel.SYSTEM_MODE);
  
         if (job.NumberOfErrors != 0) {
-            String logMessage =
-                'ELCEvaluatorBatch job failed. Job ID: ' +
-                job.Id +
-                ', Execution Date: ' +
-                String.valueOf(Date.today()) +
-                ', Extended Status: ' +
-                job.ExtendedStatus;
+            String logMessage = 'ELCEvaluatorBatch job failed. Job ID: ' + job.Id + ', Execution Date: ' + String.valueOf(Date.today()) + ', Extended Status: ' + job.ExtendedStatus;
             Logger.error(logMessage, eLCParser.getEngagementListCriteria().Id);
         }
-
         if (eLCEvaluationJobs.size() > 1) {
             eLCEvaluationJobs.remove(0);
             // Process the next Engagement_Lis_Criteria__c

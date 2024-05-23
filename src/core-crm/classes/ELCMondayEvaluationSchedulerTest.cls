@@ -55,6 +55,7 @@ public with sharing class ELCMondayEvaluationSchedulerTest {
         insert breach; 
 
         Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+        engagementListCriteria.Engagement_List_Criteria_Title__c = 'Test Title';
         engagementListCriteria.Engagement_List_Configuration__c = engagementListConfig.Id;
         engagementListCriteria.Status__c = 'Active';
         engagementListCriteria.Start_Date__c = Date.today().addDays(-3);
