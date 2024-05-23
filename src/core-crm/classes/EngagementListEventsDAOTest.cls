@@ -110,4 +110,47 @@ public with sharing class EngagementListEventsDAOTest {
 
         Test.stopTest();
     }
+
+    @isTest
+    static void getEngagmentListEventByCaseIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+            
+            List<Case> caseList = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test', 1);
+            caseList[0].Case_Type__c = 'Domestic Future Student Enquiry';
+            CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
+            configs.add(config);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+
+            List<Engagement_List_Criteria__c> criterias = new List<Engagement_List_Criteria__c>();
+            Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
+            criteria.Engagement_List_Configuration__c = config.Id;
+            criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
+            criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
+            criterias.add(criteria);
+            EngagementListCriteriasDAO.newInstance().insertRecords(criterias, true, AccessLevel.SYSTEM_MODE);
+
+            List<Engagement_List_Event__c> events = new List<Engagement_List_Event__c>();
+            Engagement_List_Event__c event = new Engagement_List_Event__c();
+            event.Case__c = caseList[0].Id;
+            event.Engagement_List_Criteria__c = criterias[0].Id;
+            events.add(event);
+            EngagementListEventsDAO.newInstance().insertRecords(events, true, AccessLevel.SYSTEM_MODE);
+            
+            List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance()
+                .getEngagmentListEventByCaseId(
+                    caseList[0].Id, 
+                    AccessLevel.SYSTEM_MODE
+                );
+                
+            System.assertEquals(1, eventList.size(), 'eventList should not be empty.');
+
+        }
+
+        Test.stopTest();
+    }
+    
 }
