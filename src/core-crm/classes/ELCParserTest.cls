@@ -51,7 +51,7 @@ public with sharing class ELCParserTest {
             //Checking on the criterions 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
             System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');
-            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getCategoryType(), 'Graduate Certificate', 'Incorrect Category Type');
+            System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getCategoryType(),  new List<String>{'Graduate Certificate'}, 'Incorrect Category Type');
             System.assertEquals(parser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().getCompletedCadence(), completedCadenceName, 'Incorrect Completed Cadence');
             System.assertEquals(parser.getELCCourseConnectionParser().getCourseConnectionCriteria().getCourseGrade(), '100', 'Incorrect Course Grade');
             System.assertEquals(parser.getELCProgramEnrollmentBreachParser().getProgramEnrollmentBreachCriteria().getBreach(), breach.Id, 'Incorrect Breach Id assigned');
