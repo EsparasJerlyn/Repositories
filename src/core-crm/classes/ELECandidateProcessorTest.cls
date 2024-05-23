@@ -40,7 +40,7 @@ public with sharing class ELECandidateProcessorTest {
         criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
         criteriaList.add(criteria);
         EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
         List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
         contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -139,7 +139,7 @@ public with sharing class ELECandidateProcessorTest {
         criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
         criteriaList.add(criteria);
         EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
         List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
         contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -204,16 +204,16 @@ public with sharing class ELECandidateProcessorTest {
     }
 
     private static void setDAOMock(){
-        ImplementationSelector.DAO.setMock(new EngagementListConfigurationsDAO());
-        ImplementationSelector.DAO.setMock(new EngagementListCriteriasDAO());
-        ImplementationSelector.DAO.setMock(new ContactsDAO());
-        ImplementationSelector.DAO.setMock(new ProgramPlansDAO());
-        ImplementationSelector.DAO.setMock(new ProgramEnrollmentsDAO());
-        ImplementationSelector.DAO.setMock(new ProgramOfferingsDAO());
-        ImplementationSelector.DAO.setMock(new CourseConnectionsDAO());
-        ImplementationSelector.DAO.setMock(new EngagementListEventsDAO());
-        ImplementationSelector.DAO.setMock(new CasesDAO());
-        ImplementationSelector.DAO.setMock(new GroupsDAO());
+        ImplementationSelector.DAO.setMock(new EngagementListConfigurationsDAOMock());
+        ImplementationSelector.DAO.setMock(new EngagementListCriteriasDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new ProgramPlansDAOMock());
+        ImplementationSelector.DAO.setMock(new ProgramEnrollmentsDAOMock());
+        ImplementationSelector.DAO.setMock(new ProgramOfferingsDAOMock());
+        ImplementationSelector.DAO.setMock(new CourseConnectionsDAOMock());
+        ImplementationSelector.DAO.setMock(new EngagementListEventsDAOMock());
+        ImplementationSelector.DAO.setMock(new CasesDAOMock());
+        ImplementationSelector.DAO.setMock(new GroupsDAOMock());
     }
 
 }
