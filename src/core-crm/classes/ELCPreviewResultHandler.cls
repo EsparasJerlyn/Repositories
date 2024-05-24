@@ -70,7 +70,10 @@ public inherited sharing class ELCPreviewResultHandler {
     private void handleSuccess() {
         generateCSV();
         OutreachCampaignService.updatePreviewStatus(
-            criteria,
+            new Engagement_List_Criteria__c(
+                Id = criteria.Id,
+                Preview_Result_Attachment_Id__c = criteria.Preview_Result_Attachment_Id__c
+            ),
             EngagementListCriteriasDAO.COMPLETED_PREVIEW_STATUS
         );
         // Construct the base URL for your Salesforce instance
@@ -92,26 +95,22 @@ public inherited sharing class ELCPreviewResultHandler {
      * @param job The asynchronous Apex job that failed.
      */
     public void handleFailure(AsyncApexJob job, Set<String> errorMessageSet) {
-        
+        // update preview status to failed
         OutreachCampaignService.updatePreviewStatus(
-            criteria,
+            new Engagement_List_Criteria__c(Id = criteria.Id),
             EngagementListCriteriasDAO.FAILED_PREVIEW_STATUS
         );
-        String fullError = '';
-        Boolean first = true;
+
+        // delete temp attachments if it exists
+        OutreachCampaignService.deleteTempAttachments(criteria);
 
         if (job.ExtendedStatus != null) {
-            String logMessage =
-                'ELCPreviewBatch job failed. Job ID: ' +
-                job.Id +
-                ', Execution Date: ' +
-                String.valueOf(executionDate) +
-                ', Extended Status: ' +
-                job.ExtendedStatus;
-            Logger.error(logMessage, criteria.Id);
-
+            logErrors(job);
             errorMessageSet.add(job.ExtendedStatus);
         }
+
+        String fullError = '';
+        Boolean first = true;
 
         for (String errorMessage : errorMessageSet) {
             if (first) {
@@ -121,6 +120,7 @@ public inherited sharing class ELCPreviewResultHandler {
             }
             fullError += errorMessage;
         }
+
         // Send notification email
         sendEmailNotification(
             'Preview Generated Error Email',
@@ -211,7 +211,7 @@ public inherited sharing class ELCPreviewResultHandler {
         email.setSaveAsActivity(true); // Save as activity
         email.setWhatId(criteria.Id);
         // Send the email
-        if(!Test.isRunningTest()){
+        if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email }, false);
         }
     }
@@ -226,11 +226,32 @@ public inherited sharing class ELCPreviewResultHandler {
         // Log an error message using the Logger class.
         // The message includes the job ID and execution date.
         Logger.error(
-            'ELCPreviewBatch job failed. Job ID: ' + jobId + 
-            '. Execution Date: ' + String.valueOf(executionDate),
+                'ELCPreviewBatch job failed. Job ID: ' +
+                    jobId +
+                    '. Execution Date: ' +
+                    String.valueOf(executionDate),
+                criteria.Id // Provide the criteria ID related to the error (assuming criteria is a class member)
+            )
+            // Set the exception details in the log to capture stack trace and other exception details.
+            .setExceptionDetails(e);
+    }
+
+    /**
+     * Logs errors that occur during the execution of a batch job.
+     *
+     * @param job The batch job that encountered the error.
+     */
+    private void logErrors(AsyncApexJob job) {
+        // Log an error message using the Logger class.
+        // The message includes the job ID and execution date and extended status
+        Logger.error(
+            'ELCPreviewBatch job failed. Job ID: ' +
+                job.Id +
+                ', Execution Date: ' +
+                String.valueOf(executionDate) +
+                ', Extended Status: ' +
+                job.ExtendedStatus,
             criteria.Id // Provide the criteria ID related to the error (assuming criteria is a class member)
-        )
-        // Set the exception details in the log to capture stack trace and other exception details.
-        .setExceptionDetails(e);
+        );
     }
 }

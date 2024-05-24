@@ -22,6 +22,18 @@ public with sharing class ELCPreviewBatch implements Database.Batchable<sObject>
     }
 
     /**
+     * @description Constructor to initialize ELCPreviewBatch with criteria, execution date and error messages, 
+     * this is to simulate sending of email with the errors
+     * @param criteria The Engagement List Criteria record.
+     * @param executionDate The date of execution for evaluation.
+     * @param errorMessagesSet The error messages
+     */
+    public ELCPreviewBatch(Engagement_List_Criteria__c criteria, Date executionDate, Set<String> errorMessagesSet) {
+        eLCParser = new ELCParser(criteria, executionDate);
+        this.errorMessagesSet = errorMessagesSet;
+    }
+
+    /**
      * @description Initializes the batch job by setting the preview job ID and creating the query locator for contacts.
      * @param bc The batch context provided by the Database.BatchableContext.
      * @return A Database.QueryLocator object to iterate over the contacts to be processed.
