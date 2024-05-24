@@ -12,6 +12,7 @@
       | mark.j.mahilum                 | Oct 17, 2023          | DEPP-6926              | Added method getCommsQueueRecordsByStatusAndLastModifiedToday |
       |                                |                       |                        | to get the record updated today                               |
       | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue                            |
+      | gabriel.p.ventayen             | May 23, 2024          | DEPP-8833              | Added getComminicationQueueRecordsByIdSets                    |
  */
 public with sharing class CommunicationQueuesDAO extends DmlBase implements ICommunicationQueuesDAO{
 
@@ -20,6 +21,12 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
     public static final String STATUS_FAILED = System.Label.PL_CommsQueue_Failed;
     public static final String STATUS_RETRY = System.Label.PL_CommsQueue_Retry;
     public static final String BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS = 'Domestic No Answer SMS';
+    public static final String BUSINESS_PROCESS_OUTREACH = 'Outreach Initial Email';
+    public static final String TYPE_EMAIL = 'Email';
+    public static final String TYPE_SMS = 'SMS';
+    public static final String BUSINESS_PROCESS_DOMESTIC_EMAIL = 'Domestic Automated Cadence Email';
+    public static final String BUSINESS_PROCESS_INTERNATIONAL_EMAIL = 'International Automated Cadence Email';
+    public static final String END_POINT_CONTACT_LEARNER_EMAIL = 'Contact.QUT_Learner_Email__c';
     public static final Set<String> EMAIL_STATUS_FOR_SENDING = new Set<String>{
         STATUS_SCHEDULED,
         STATUS_RETRY
@@ -39,7 +46,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
   
     public Database.QueryLocator queryLocatorScheduledCommunicationQueue() {        
         String query =
-            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c, Mobile__c, Message__c, Due_Date__c, Type__c  ' + 
+            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c, Mobile__c, Message__c, Due_Date__c, Type__c, Communication_Endpoint__c, WhatId__c ' + 
             'FROM Communication_Queue__c ' + 
             'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING ' +
             'AND Business_Process__c != :BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS ' +
@@ -81,4 +88,12 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
              'WHERE Status__c IN: status AND LastModifiedDate = TODAY AND Type__c = \'Email\' ', accessLevel
         );
     }
-}   
+
+    public List<Communication_Queue__c> getComminicationQueueRecordsByIdSets(Set<Id> createdCommunicationsQueueIdSet, AccessLevel accessLevel) {
+        return Database.query(
+            'SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c ' + 
+            'FROM Communication_Queue__c ' + 
+            'WHERE Id IN: createdCommunicationsQueueIdSet', accessLevel
+        );
+    }
+}

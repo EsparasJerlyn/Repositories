@@ -23,6 +23,7 @@ public inherited sharing class ContactMatchingStagingService {
         'MiddleName__c' => 'MiddleName',
         'Mobile_No_Locale__c' => 'Mobile_No_Locale__c',
         'MobilePhone__c' => 'MobilePhone',
+        'Phone__c' => 'Phone',
         'Preferred_Given_Name__c' => 'Preferred_Given_Name__c',
         'QUT_Employee_ID__c' => 'QUT_Employee_ID__c',
         'QUT_Identity_ID__c' => 'QUT_Identity_ID__c',
@@ -78,6 +79,7 @@ public inherited sharing class ContactMatchingStagingService {
 
         // Set the Contact's ID field if a contactId is provided
         con.put('Id', contactId);
+        con.put('RecordTypeId', ContactsDAO.PERSON_RECORDTYPE_ID);
 
         // Iterate through each field in the FIELDS_TO_CONTACT_MAP
         for (String conMatchingStagingField : FIELDS_TO_CONTACT_MAP.keySet()) {

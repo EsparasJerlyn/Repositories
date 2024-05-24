@@ -29,7 +29,7 @@ public with sharing class ELCProgramEnrollmentParser {
 
     private void parse() {
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-       // programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
+        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
         if(programEnrollmentCriteria != null && !programEnrollmentCriteria.isEmpty()){
             programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
@@ -57,12 +57,12 @@ public with sharing class ELCProgramEnrollmentParser {
         return programEnrollmentCriteria;
     }
 
-    // private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-    //     if (String.isNotBlank(engagementListCriteria.Category_Type__c)) {
-    //         programEnrollmentCriteria.setCategoryType(engagementListCriteria.Category_Type__c);
-    //     }
-    //     return programEnrollmentCriteria;
-    // }
+    private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
+        if (String.isNotBlank(engagementListCriteria.Category_Type__c)) {
+            programEnrollmentCriteria.setCategoryType(new List<String>(engagementListCriteria.Category_Type__c.split(';')));
+        }
+        return programEnrollmentCriteria;
+    }
 
     //hidden criteria
     private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {

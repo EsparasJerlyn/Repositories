@@ -12,6 +12,8 @@
  *    | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
  *    | gabriel.p.ventayen             | April 26, 2024        | DEPP-8544              | change case rectype map to inbound enquiry  |
  *    | gabriel.p.ventayen             | April 29, 2024        | DEPP-8614              | added some variables for Student Success    |
+ *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added new method getCasesByStatusAndRecType |
+ *    | gabriel.p.ventayen             | May 23, 2024          | DEPP-8833              | added getCasesByQualtricsSurveyIds          |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
@@ -19,6 +21,8 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     public static final String ORIGIN_ENGAGEMENT_LIST = 'Engagement List';
     public static final String STATUS_CREATED = 'Created';
     public static final String DESCRIPTION_ENGAGEMENT_LIST = 'This case has been automatically generated as part of an Engagement List Configuration.';
+    public static final String INITIAL_COMMUNICATION_STATUS_SENT = 'Sent';
+    public static final String INITIAL_COMMUNICATION_STATUS_PENDING = 'Pending';
 
     public static final Id INBOUND_ENQUIRY_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
         .get('Inbound_Enquiry')
@@ -126,7 +130,8 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.query(
             'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
                 'Contact.Lead_Source_Category__c, Lead__r.Lead_Source_Category__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, ' +
-                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c ' +
+                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c, ' +
+                'Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c ' +           
             'FROM Case ' +
             'WHERE Id IN :caseIds ',
             accessLevel
@@ -142,5 +147,33 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
              'WHERE Lead__c IN :recordIds ' +
                 'OR ContactId IN :recordIds ';
         return Database.getQueryLocator(query);
+    }
+
+    public List<Case> getOpenOutreachCasesByConfigAndContactIds(
+        Set<Id> contactIds,
+        Id configId,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, ContactId ' +
+              'FROM Case ' +
+             'WHERE IsClosed != true ' +
+               'AND RecordTypeId =: OUTREACH_RECTYPE_ID ' +
+               'AND Engagement_List_Configuration__c =: configId ' +
+               'AND ContactId IN : contactIds', 
+            accessLevel
+        );
+    }
+
+    public List<Case> getCasesByQualtricsSurveyIds(
+        Set<Id> qualtricsSurveyIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, ContactId, Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c ' +
+              'FROM Case ' +
+             'WHERE Qualtrics_Survey__c IN :qualtricsSurveyIds ', 
+            accessLevel
+        );
     }
 }

@@ -61,5 +61,4 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
         
         return courseConnectionAssesmentByContactMap;
     }
-
 }
