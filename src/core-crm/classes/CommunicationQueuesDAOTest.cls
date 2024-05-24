@@ -107,10 +107,8 @@ public with sharing class CommunicationQueuesDAOTest {
 
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 2);
             newContacts[0].AccountId = acc.Id;
-            //newContacts[0].Registered_Email__c ='work0testmail@mail.test';
             newContacts[0].QUT_Learner_Email__c = 'TestEmail@unique.com';
             newContacts[1].AccountId = acc.Id;
-            //newContacts[1].Registered_Email__c ='work0testmail@mail2.test';
             newContacts[1].QUT_Learner_Email__c = 'TestEmail@unique2.com';
             ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
             
@@ -126,7 +124,7 @@ public with sharing class CommunicationQueuesDAOTest {
                 emailTemplateList[0].Id
             );
             insert expectedCommunicationQueueList;
-            
+
             Set<Id> expectedCommunicationQueueIds = (new Map<Id,Communication_Queue__c>(expectedCommunicationQueueList)).keySet();
             Set<Id> actualCommunicationQueueIds = new Set<Id>();
 
