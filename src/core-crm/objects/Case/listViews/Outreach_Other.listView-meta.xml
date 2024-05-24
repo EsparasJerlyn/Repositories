@@ -33,7 +33,7 @@
     <filters>
         <field>Engagement_List_Configuration__c</field>
         <operation>notEqual</operation>
-        <value>UAP - Commencing Students</value>
+        <value>Commencing Students</value>
     </filters>
     <filters>
         <field>Engagement_List_Configuration__c</field>
