@@ -14,6 +14,8 @@
  */
 @isTest
 public with sharing class CommunicationQueuesDAOTest {
+    private static final String TEST_TEMPLATE = 'Test Email Template';
+
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_System_Administrator' });
@@ -97,16 +99,54 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @isTest
     static void getComminicationQueueRecordsByIdSetsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+
+            Account acc = TestDataFactory.createTestAccount(false);
+            acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
+            insert acc;
+
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 2);
+            newContacts[0].AccountId = acc.Id;
+            //newContacts[0].Registered_Email__c ='work0testmail@mail.test';
+            newContacts[0].QUT_Learner_Email__c = 'TestEmail@unique.com';
+            newContacts[1].AccountId = acc.Id;
+            //newContacts[1].Registered_Email__c ='work0testmail@mail2.test';
+            newContacts[1].QUT_Learner_Email__c = 'TestEmail@unique2.com';
+            ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
+            
+            List<EmailTemplate> emailTemplateList = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
+                TEST_TEMPLATE => 'Test Email Subject1'
+            });
+            insert emailTemplateList;
+
+            Set<Id> contactIds = (new Map<Id,Contact>(newContacts)).keySet();
+            List<Communication_Queue__c> expectedCommunicationQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
+                contactIds, 
+                CommunicationQueuesDAO.STATUS_SCHEDULED, 
+                emailTemplateList[0].Id
+            );
+            insert expectedCommunicationQueueList;
+            
+            Set<Id> expectedCommunicationQueueIds = (new Map<Id,Communication_Queue__c>(expectedCommunicationQueueList)).keySet();
+            Set<Id> actualCommunicationQueueIds = new Set<Id>();
+
             Test.startTest();
-            System.assert(
-                CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByIdSets(
-                    new Set<Id>(),
-                    AccessLevel.SYSTEM_MODE
-                ) != null,
+                List<Communication_Queue__c> actualCommunicationQueueList = CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByIdSets(
+                    expectedCommunicationQueueIds,
+                    AccessLevel.USER_MODE
+                );
+                actualCommunicationQueueIds = (new Map<Id,Communication_Queue__c>(actualCommunicationQueueList)).keySet();
+            Test.stopTest();
+
+            System.assert( 
+                actualCommunicationQueueList.size() > 0,
                 'commsQueueList should not be empty.'
             );
-            Test.stopTest();
+            System.assertEquals(
+                expectedCommunicationQueueIds, 
+                actualCommunicationQueueIds,
+                'Expected and Actual Communication Queues not matched.'
+            );
         }
     }
 }
