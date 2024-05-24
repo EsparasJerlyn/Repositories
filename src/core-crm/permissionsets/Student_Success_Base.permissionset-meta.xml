@@ -5792,6 +5792,10 @@
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Assessment__c</tab>
         <visibility>Visible</visibility>
