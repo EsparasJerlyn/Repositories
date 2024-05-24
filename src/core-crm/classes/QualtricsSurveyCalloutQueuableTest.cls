@@ -44,7 +44,7 @@ public class QualtricsSurveyCalloutQueuableTest {
             QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyList, true, AccessLevel.SYSTEM_MODE);
 
             cases[0].Qualtrics_Survey__c = qualtricsSurveyList[0].Id;
-            CasesDAO.newInstance().updateRecords(cases, true, AccessLevel.USER_MODE);
+            CasesDAO.newInstance().updateRecords(cases, true, AccessLevel.SYSTEM_MODE);
 
             // Enqueue the queueable class
             Test.startTest();
