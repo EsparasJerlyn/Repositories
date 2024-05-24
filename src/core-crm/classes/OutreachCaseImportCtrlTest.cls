@@ -66,21 +66,20 @@ private class OutreachCaseImportCtrlTest {
     @IsTest
     static void testListOfStudents() {
         System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
-        List<String> studentIds = new List<String>{ '12345678', '87654321','12354688' };
+            List<String> studentIds = new List<String>{ '12345678', '87654321','12354688' };
 
-        Test.startTest();
-        List<StudentIdValidator.ValidationResult> results = OutreachCaseImportCtrl.listOfStudents(studentIds);
-        Test.stopTest();
+            Test.startTest();
+            List<StudentIdValidator.ValidationResult> results = OutreachCaseImportCtrl.listOfStudents(studentIds);
+            Test.stopTest();
 
-        System.assertEquals(studentIds.size(), results.size(), 'Expected a validation result for each student ID');
-        for (StudentIdValidator.ValidationResult result : results) {
-            if(result.getResultCode() == 'INVALID'){
-                System.assert(result.getId() == null, 'Student does not exist.');
+            System.assertEquals(studentIds.size(), results.size(), 'Expected a validation result for each student ID');
+            for (StudentIdValidator.ValidationResult result : results) {
+                if(result.getResultCode() == 'INVALID'){
+                    System.assert(result.getId() == null, 'Student does not exist.');
+                }
             }
-            
-        }
         
-    } 
+        } 
     }
 
 
