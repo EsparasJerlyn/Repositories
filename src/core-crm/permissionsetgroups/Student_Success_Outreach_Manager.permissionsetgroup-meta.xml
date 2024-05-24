@@ -6,5 +6,6 @@
     <permissionSets>Manage_Reports_and_Dashboards</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
     <permissionSets>Student_Success_Super_User</permissionSets>
+    <permissionSets>Student_Success_Outreach_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
