@@ -275,4 +275,27 @@ private class ELCPreviewResultHandlerTest {
             'Status should be failed'
         );
     }
+
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Class is mocked, user will never create/update records.
+    // With this, user access cannot be tested
+    static void logErrorsTest() {
+        ImplementationSelector.DAO.setMock(new EngagementListCriteriasDAOMock());
+        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c();
+        EngagementListCriteriasDAO.newInstance()
+            .insertRecords(
+                new List<Engagement_List_Criteria__c>{ elc },
+                true,
+                AccessLevel.USER_MODE
+            );
+        ELCPreviewResultHandler resultHandler = new ELCPreviewResultHandler(elc, System.Today());
+        try{
+            throw new DMLException('Test DML Exception'); 
+        }catch(Exception e){
+            resultHandler.logErrors(null, e);
+        }
+
+        System.assert(Logger.getBufferSize() > 0,'there should be a log');
+    }
 }

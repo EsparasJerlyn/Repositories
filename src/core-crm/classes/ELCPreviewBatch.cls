@@ -27,8 +27,11 @@ public with sharing class ELCPreviewBatch implements Database.Batchable<sObject>
      * @return A Database.QueryLocator object to iterate over the contacts to be processed.
      */
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        Engagement_List_Criteria__c criteria = eLCParser.getEngagementListCriteria();
-        criteria.Preview_Job_Id__c = bc.getJobId();
+        Engagement_List_Criteria__c criteria  = new Engagement_List_Criteria__c(
+            Id = eLCParser.getEngagementListCriteria().Id,
+            Preview_Job_Id__c = bc.getJobId()
+        );
+
         EngagementListCriteriasDAO.newInstance()
             .updateRecords(
                 new List<Engagement_List_Criteria__c>{ criteria },
@@ -52,30 +55,22 @@ public with sharing class ELCPreviewBatch implements Database.Batchable<sObject>
      * @param contacts The list of contacts to be processed in the current batch.
      */
     public void execute(Database.BatchableContext bc, List<Contact> contacts) {
+
+        ELCPreviewResultHandler resultHandler = new ELCPreviewResultHandler(
+            eLCParser.getEngagementListCriteria(),
+            eLCParser.getExecutionDate()
+        );
         try {
             ELCEvaluator eLCEvaluator = new ELCEvaluator(eLCParser);
             Map<Id, ELECandidateIngredient> eLECandidateIngredientByContact = eLCEvaluator.evaluate(
                 contacts
             );
-            ELCPreviewResultHandler resultHandler = new ELCPreviewResultHandler(
-                eLCParser.getEngagementListCriteria(),
-                eLCParser.getExecutionDate()
-            );
             resultHandler.handle(eLECandidateIngredientByContact.values());
         } catch (Exception e) {
-            Logger.error(
-                    'ELCPreviewBatch job failed. Job ID:' +
-                        bc.getJobId() +
-                        '. Execution Date: ' +
-                        String.valueOf(eLCParser.getExecutionDate()),
-                    eLCParser.getEngagementListCriteria().Id
-                )
-                .setExceptionDetails(e);
+            resultHandler.logErrors(bc.getJobId(),e);
             errorMessagesSet.add(e.getMessage());
         } finally {
-            if (Logger.getBufferSize() > 0) {
-                Logger.saveLog();
-            }
+            if (Logger.getBufferSize() > 0) { Logger.saveLog(); }
         }
     }
 
@@ -84,25 +79,16 @@ public with sharing class ELCPreviewBatch implements Database.Batchable<sObject>
      * @param bc The batch context provided by the Database.BatchableContext.
      */
     public void finish(Database.BatchableContext bc) {
+        ELCPreviewResultHandler resultHandler = new ELCPreviewResultHandler(
+            eLCParser.getEngagementListCriteria(),
+            eLCParser.getExecutionDate()
+        );
         try {
-            ELCPreviewResultHandler resultHandler = new ELCPreviewResultHandler(
-                eLCParser.getEngagementListCriteria(),
-                eLCParser.getExecutionDate()
-            );
             resultHandler.handle(bc.getJobId(), errorMessagesSet);
         } catch (Exception e) {
-            Logger.error(
-                    'Exception caught in method finish in class ELCPreviewBatch. Job ID: ' +
-                        bc.getJobId() +
-                        '. Execution Date: ' +
-                        String.valueOf(eLCParser.getExecutionDate()),
-                    eLCParser.getEngagementListCriteria().Id
-                )
-                .setExceptionDetails(e);
+            resultHandler.logErrors(bc.getJobId(),e);
         } finally {
-            if (Logger.getBufferSize() > 0) {
-                Logger.saveLog();
-            }
+            if (Logger.getBufferSize() > 0) { Logger.saveLog(); }
         }
     }
 }

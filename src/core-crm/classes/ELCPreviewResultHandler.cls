@@ -55,7 +55,7 @@ public inherited sharing class ELCPreviewResultHandler {
      */
     public void handle(Id jobId, Set<String> errorMessageSet) {
         AsyncApexJob job = AsyncApexJobsDAO.newInstance()
-            .findAsyncApexJobById(jobId, AccessLevel.USER_MODE);
+            .findAsyncApexJobById(jobId, AccessLevel.SYSTEM_MODE);
 
         if (errorMessageSet.isEmpty() && job.NumberOfErrors == 0) {
             handleSuccess();
@@ -92,6 +92,7 @@ public inherited sharing class ELCPreviewResultHandler {
      * @param job The asynchronous Apex job that failed.
      */
     public void handleFailure(AsyncApexJob job, Set<String> errorMessageSet) {
+        
         OutreachCampaignService.updatePreviewStatus(
             criteria,
             EngagementListCriteriasDAO.FAILED_PREVIEW_STATUS
@@ -193,7 +194,7 @@ public inherited sharing class ELCPreviewResultHandler {
         OrgWideEmailAddress owea = OrgWideEmailAddressesDAO.newInstance()
             .getOrgWideEmailAddressByDisplayName(
                 new Set<String>{ OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_STUDENT_SUCCESS },
-                AccessLevel.USER_MODE
+                AccessLevel.SYSTEM_MODE
             )[0];
         // Add the current user's first name to the email parameters
         emailParams.put('{firstName}', currentUser.FirstName);
@@ -210,6 +211,26 @@ public inherited sharing class ELCPreviewResultHandler {
         email.setSaveAsActivity(true); // Save as activity
         email.setWhatId(criteria.Id);
         // Send the email
-        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email }, false);
+        if(!Test.isRunningTest()){
+            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email }, false);
+        }
+    }
+
+    /**
+     * Logs errors that occur during the execution of a batch job.
+     *
+     * @param jobId The ID of the batch job that encountered the error.
+     * @param e The exception that was thrown during the batch job execution.
+     */
+    public void logErrors(Id jobId, Exception e) {
+        // Log an error message using the Logger class.
+        // The message includes the job ID and execution date.
+        Logger.error(
+            'ELCPreviewBatch job failed. Job ID: ' + jobId + 
+            '. Execution Date: ' + String.valueOf(executionDate),
+            criteria.Id // Provide the criteria ID related to the error (assuming criteria is a class member)
+        )
+        // Set the exception details in the log to capture stack trace and other exception details.
+        .setExceptionDetails(e);
     }
 }

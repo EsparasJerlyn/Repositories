@@ -235,8 +235,8 @@ private class OutreachCampaignServiceTest {
     }
 
     @isTest
-    static void testBatchExecutionContactWithCompletedCadenceTest() {                 
-        //Contact with Completed Cadence
+    static void testBatchExecutionContactWithCompletedCadenceTest() {        
+        
         System.runAs(TestDataFactory.getESBIntegrationUser()) {  
 
 
