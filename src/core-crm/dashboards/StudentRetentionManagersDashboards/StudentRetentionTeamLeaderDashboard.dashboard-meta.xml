@@ -168,7 +168,7 @@
                 <header>Cases by Regional/Remote (This Week)</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>10</maxValuesDisplayed>
-                <report>StudentRetentionManagersReports/Cases_by_RegionalRemote_This_Week</report>
+                <report>StudentRetentionManagersReports/Cases_by_Regional_Remote_This_Week</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
