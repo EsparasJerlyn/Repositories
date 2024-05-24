@@ -9,7 +9,7 @@
       | vincent.ferrer                 | May 1, 2024           | DEPP-8492              | Created file
  */
 public interface IEngagementListCriteriasDAO extends DmlInterface {
-    List<Engagement_List_Criteria__c> findActiveEntryCriteria(
+    List<Engagement_List_Criteria__c> findActiveEngagementListCriteriasByRecordtype(
         String recordType,
         Date executionDate, 
         AccessLevel accessLevel

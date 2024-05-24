@@ -21,7 +21,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
         this.engagementListCriteriaMap = (Map<Id, Engagement_List_Criteria__c>) super.records;
     }
 
-    public List<Engagement_List_Criteria__c> findActiveEntryCriteria(
+    public List<Engagement_List_Criteria__c> findActiveEngagementListCriteriasByRecordtype(
         Id recordTypeId,
         Date executionDate,
         AccessLevel accessLevel

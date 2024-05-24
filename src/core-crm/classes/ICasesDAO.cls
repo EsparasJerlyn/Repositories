@@ -49,4 +49,9 @@ public interface ICasesDAO extends DmlInterface{
         Id configId,
         AccessLevel accessLevel
     );
+
+    List<Case> getCasesByQualtricsSurveyIds(
+        Set<Id> qualtricsSurveyIds,
+        AccessLevel accessLevel
+    );
 }

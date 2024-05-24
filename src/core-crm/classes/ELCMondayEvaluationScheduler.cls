@@ -13,9 +13,7 @@
 public with sharing class ELCMondayEvaluationScheduler implements Schedulable {
     public static void execute(SchedulableContext sc) {
         List<ELCEvaluationJob> eLCEvaluationJobs = new List<ELCEvaluationJob>();
-
         Date monday = Date.today();
-        eLCEvaluationJobs.addAll(eLCEvaluationJobService.prepareELCEvaluationJobs(monday));
 
         Date friday = monday.addDays(-3);
         eLCEvaluationJobs.addAll(eLCEvaluationJobService.prepareELCEvaluationJobs(friday));
@@ -25,6 +23,8 @@ public with sharing class ELCMondayEvaluationScheduler implements Schedulable {
 
         Date sunday = monday.addDays(-1);
         eLCEvaluationJobs.addAll(eLCEvaluationJobService.prepareELCEvaluationJobs(sunday));
+
+        eLCEvaluationJobs.addAll(eLCEvaluationJobService.prepareELCEvaluationJobs(monday));
         
         Database.executeBatch(new ELCEvaluatorBatch(eLCEvaluationJobs));
     }
