@@ -146,7 +146,8 @@ public with sharing class EngagementListEventsDAOTest {
                     AccessLevel.SYSTEM_MODE
                 );
                 
-            System.assertEquals(1, eventList.size(), 'eventList should not be empty.');
+            System.assert(eventList.size() > 0, 'eventList should not be empty.');
+            System.assertEquals(caseList[0].Id, eventList[0].Case__c, 'eventList Case Ids does not match.');
 
         }
 
