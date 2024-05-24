@@ -186,7 +186,7 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         List<Case> caseList = new List<Case>();
 
         for (Case record : caseMap.values()) {
-            if (leadIds.contains(record.Qualtrics_Survey__c)) {
+            if (qualtricsSurveyIds.contains(record.Qualtrics_Survey__c)) {
                 caseList.add(record);
             }
         }
