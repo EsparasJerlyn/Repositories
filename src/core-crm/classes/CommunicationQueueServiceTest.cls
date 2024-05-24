@@ -67,7 +67,7 @@ private class CommunicationQueueServiceTest {
             System.assert(retCommunicationQueueList[0].WhoId__c == newContacts[0].Id, 'Communication Queue Contact not matched.');
             System.assert(retCommunicationQueueList[0].WhatId__c == caseList[0].Id, 'Communication Queue Case not matched.');
             System.assert(retCommunicationQueueList[0].Template_Id__c == emailTemplateList[0].Id, 'Communication Queue Email Template not matched.');
-            System.assert(retCommunicationQueueList[0].Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id, 'Communication Queue Sender not matched.');
+            System.assert(retCommunicationQueueList[0].Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='Student Success']?.Id, 'Communication Queue Sender not matched.');
             System.assert(retCommunicationQueueList[0].Status__c ==  CommunicationQueuesDAO.STATUS_SCHEDULED, 'Communication Queue Status not matched.');
             System.assert(retCommunicationQueueList[0].Communication_Endpoint__c == CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL, 'Communication Queue End Point not matched.');
             System.assert([SELECT Initial_Communication_Status__c FROM Case WHERE Id = :caseList[0].Id].Initial_Communication_Status__c == 'Pending', 'Communication Queue Initial_Communication_Status__c not matched.');
@@ -121,7 +121,7 @@ private class CommunicationQueueServiceTest {
             System.assert(retCommunicationQueueList[0].WhoId__c == newContacts[0].Id, 'Communication Queue Contact not matched.');
             System.assert(retCommunicationQueueList[0].WhatId__c == caseList[0].Id, 'Communication Queue Case not matched.');
             System.assert(retCommunicationQueueList[0].Template_Id__c == emailTemplateList[0].Id, 'Communication Queue Email Template not matched.');
-            System.assert(retCommunicationQueueList[0].Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id, 'Communication Queue Sender not matched.');
+            System.assert(retCommunicationQueueList[0].Sender__c == [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='Student Success']?.Id, 'Communication Queue Sender not matched.');
             System.assert(retCommunicationQueueList[0].Status__c ==  CommunicationQueuesDAO.STATUS_SCHEDULED, 'Communication Queue Status not matched.');
             System.assert(retCommunicationQueueList[0].Communication_Endpoint__c == CommunicationQueuesDAO.END_POINT_CONTACT_LEARNER_EMAIL, 'Communication Queue End Point not matched.');
             System.assert([SELECT Initial_Communication_Status__c FROM Case WHERE Id = :caseList[0].Id].Initial_Communication_Status__c == 'Pending', 'Communication Queue Initial_Communication_Status__c not matched.');

@@ -12,6 +12,7 @@
       | mark.j.mahilum                 | Oct 17, 2023          | DEPP-6926              | Added method getCommsQueueRecordsByStatusAndLastModifiedToday |
       |                                |                       |                        | to get the record updated today                               |
       | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue                            |
+      | gabriel.p.ventayen             | May 23, 2024          | DEPP-8833              | Added getComminicationQueueRecordsByIdSets                    |
  */
 public with sharing class CommunicationQueuesDAO extends DmlBase implements ICommunicationQueuesDAO{
 
@@ -85,6 +86,14 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
             'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c ' + 
               'FROM Communication_Queue__c ' + 
              'WHERE Status__c IN: status AND LastModifiedDate = TODAY AND Type__c = \'Email\' ', accessLevel
+        );
+    }
+
+    public List<Communication_Queue__c> getComminicationQueueRecordsByIdSets(Set<Id> createdCommunicationsQueueIdSet, AccessLevel accessLevel) {
+        return Database.query(
+            'SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c ' + 
+            'FROM Communication_Queue__c ' + 
+            'WHERE Id IN: createdCommunicationsQueueIdSet', accessLevel
         );
     }
 }

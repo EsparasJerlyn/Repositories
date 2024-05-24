@@ -6,10 +6,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                     |
-      |--------------------------------|-----------------------|------------------------|------------------------------------|
-      | eccarius.munoz                 | August 30, 2023       | DEPP-6138              | Created file                       |
- *    | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                          |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------------|
+      | eccarius.munoz                 | August 30, 2023       | DEPP-6138              | Created file                                            |
+      | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue                      |
+      | gabriel.p.ventayen             | May 23, 2024          | DEPP-8833              | Added getComminicationQueueRecordsByIdSets              |
  */
 @isTest
 public with sharing class CommunicationQueuesDAOTest {
@@ -92,5 +93,20 @@ public with sharing class CommunicationQueuesDAOTest {
             System.assert(commsQueueList.isEmpty(), 'commsQueueList should not be empty.');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void getComminicationQueueRecordsByIdSetsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByIdSets(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                ) != null,
+                'commsQueueList should not be empty.'
+            );
+            Test.stopTest();
+        }
     }
 }

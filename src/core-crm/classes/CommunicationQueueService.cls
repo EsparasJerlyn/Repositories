@@ -20,8 +20,7 @@ public inherited sharing class CommunicationQueueService {
         AccessLevel accessLevel
     ) {
         Set<Id> qualtricsSurveyIds = (new Map<Id,Qualtrics_Survey__c>(qualtricsSurveyList)).keySet();
-        Id orgWideEmailAddressSuccessId = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id;
-        List<Case> caseRecords = [SELECT Id, ContactId, Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c  FROM Case WHERE Qualtrics_Survey__c IN :qualtricsSurveyIds WITH USER_MODE]; 
+        List<Case> caseRecords = CasesDAO.newInstance().getCasesByQualtricsSurveyIds(qualtricsSurveyIds, accessLevel); 
         Set<Id> createdCommunicationsQueueIdSet = new Set<Id>();
         List<Communication_Queue__c> createCommunicationQueueList = new List<Communication_Queue__c>();
         List<Communication_Queue__c> createdCommunicationQueues = new List<Communication_Queue__c>();
@@ -29,6 +28,7 @@ public inherited sharing class CommunicationQueueService {
         Set<String> setEmailTemplates = new Set<String>();
         List<EmailTemplate> listEmailTemplates = new List<EmailTemplate>();
         Map<String, String> mapEmailTemplates = new Map<String, String>();
+        Id orgWideEmailAddressSuccessId = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='Student Success']?.Id;
 
         if (caseRecords.Size() > 0) {
             //prepare Email template Map
@@ -77,7 +77,7 @@ public inherited sharing class CommunicationQueueService {
                 }
 
                 if (createdCommunicationsQueueIdSet.size() > 0) {
-                    createdCommunicationQueues = [SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c FROM Communication_Queue__c WHERE Id IN :createdCommunicationsQueueIdSet WITH USER_MODE];
+                    createdCommunicationQueues = CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByIdSets(createdCommunicationsQueueIdSet, accessLevel);
                 }
                 //update case records.
                 CasesDAO.newInstance().updateRecords(updateCaseList, true, accessLevel);
@@ -100,15 +100,15 @@ public inherited sharing class CommunicationQueueService {
         AccessLevel accessLevel
     ) {
         Set<Id> caseIds = (new Map<Id,Case>(caseList)).keySet();
-        Id orgWideEmailAddressSuccessId = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='success@qut.edu.au']?.Id;
         Set<Id> createdCommunicationsQueueIdSet = new Set<Id>();
         List<Communication_Queue__c> createCommunicationQueueList = new List<Communication_Queue__c>();
         List<Communication_Queue__c> createdCommunicationQueues = new List<Communication_Queue__c>();
-        List<Case> caseRecords = [SELECT Id, ContactId, Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c  FROM Case WHERE Id IN :caseIds WITH USER_MODE];
+        List<Case> caseRecords = CasesDAO.newInstance().getCasesByIds(caseIds, accessLevel);
         List<Case> updateCaseList = new List<Case>();
         Set<String> setEmailTemplates = new Set<String>();
         List<EmailTemplate> listEmailTemplates = new List<EmailTemplate>();
         Map<String, String> mapEmailTemplates = new Map<String, String>();
+        Id orgWideEmailAddressSuccessId = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName='Student Success']?.Id;
 
         if (caseRecords.Size() > 0) {
             //prepare Email template Map
@@ -157,7 +157,7 @@ public inherited sharing class CommunicationQueueService {
                 }
 
                 if (createdCommunicationsQueueIdSet.size() > 0) {
-                    createdCommunicationQueues = [SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c FROM Communication_Queue__c WHERE Id IN :createdCommunicationsQueueIdSet WITH USER_MODE];
+                    createdCommunicationQueues = CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByIdSets(createdCommunicationsQueueIdSet, accessLevel);
                 }
                 //update case records.
                 CasesDAO.newInstance().updateRecords(updateCaseList, true, accessLevel);
