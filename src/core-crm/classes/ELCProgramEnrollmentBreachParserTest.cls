@@ -74,7 +74,7 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
             System.assertEquals(
                 DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'),
                 DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateTo()), 
-                'Incorrect Key Date Offset Lower'
+                'Incorrect Key Date Offset Upper'
             );
 
         }
