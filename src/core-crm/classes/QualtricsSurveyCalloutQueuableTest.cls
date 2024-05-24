@@ -41,7 +41,7 @@ public class QualtricsSurveyCalloutQueuableTest {
             List<Qualtrics_Survey__c> qualtricsSurveyList = new List<Qualtrics_Survey__c>();
             Qualtrics_Survey__c qs = new Qualtrics_Survey__c();
             qualtricsSurveyList.add(qs);
-            QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyList, true, AccessLevel.USER_MODE);
+            QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyList, true, AccessLevel.SYSTEM_MODE);
 
             cases[0].Qualtrics_Survey__c = qualtricsSurveyList[0].Id;
             CasesDAO.newInstance().updateRecords(cases, true, AccessLevel.USER_MODE);
