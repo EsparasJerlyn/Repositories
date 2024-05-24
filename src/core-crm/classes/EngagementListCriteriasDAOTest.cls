@@ -42,7 +42,7 @@ public with sharing class EngagementListCriteriasDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Criteria__c> engagementListCriteriaList = EngagementListCriteriasDAO.newInstance()
-                .findActiveEntryCriteria(
+                .findActiveEngagementListCriteriasByRecordtype(
                     EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA,
                     system.today(),
                     AccessLevel.USER_MODE
@@ -57,7 +57,7 @@ public with sharing class EngagementListCriteriasDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Criteria__c> engagementListCriteriaList = EngagementListCriteriasDAO.newInstance()
-                .findActiveEntryCriteria(
+                .findActiveEngagementListCriteriasByRecordtype(
                     null,
                     null,
                     AccessLevel.USER_MODE

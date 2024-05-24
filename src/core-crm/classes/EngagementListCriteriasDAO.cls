@@ -28,7 +28,7 @@
         return (IEngagementListCriteriasDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Criteria__c.SObjectType);
     }
 
-    public static List<Engagement_List_Criteria__c> findActiveEntryCriteria(
+    public static List<Engagement_List_Criteria__c> findActiveEngagementListCriteriasByRecordtype(
         Id recordTypeId,
         Date executionDate, 
         AccessLevel accessLevel
