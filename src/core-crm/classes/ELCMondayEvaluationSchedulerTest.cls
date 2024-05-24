@@ -79,12 +79,18 @@ public with sharing class ELCMondayEvaluationSchedulerTest {
     @isTest
     static void schedulerTest(){
 		System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.StartTest();
-            ELCMondayEvaluationScheduler testScheduler = new ELCMondayEvaluationScheduler();
-            String sch = '0 0 7 ? * MON';
-            system.schedule('Test status Check', sch, testScheduler );
+            String cronExpression = Label.ELC_Evaluation_Monday_Cron_Expression;
+            
+            Test.startTest();
+            
+            String jobId = System.Schedule('Test ELC Evaluation Monday Scheduler', cronExpression, new ELCMondayEvaluationScheduler());
+            
             Test.stopTest();
-            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'ELCMondayEvaluationScheduler'].isEmpty() , 'ELCMondayEvaluationScheduler Job was not executed.');
+            
+            List<CronTrigger> cts = [SELECT Id, TimesTriggered, NextFireTime,CronExpression FROM CronTrigger WHERE ID =: jobId ];
+            
+            System.assertEquals(cronExpression, cts[0].CronExpression,'Cron Expression Time is different');
+            System.assertEquals(0, cts[0].TimesTriggered,'Times Triggered is not equal to zero');
 		}
 	}
 }
