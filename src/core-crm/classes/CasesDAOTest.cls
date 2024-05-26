@@ -10,7 +10,8 @@
       | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                     |
       | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmailTest                 |
       | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhoneTest     |
- */
+      | gabriel.p.ventayen             | May 23, 2024          | DEPP-8833              | added getCasesByQualtricsSurveyIds               |
+*/
 @isTest
 public with sharing class CasesDAOTest {
 
@@ -108,6 +109,21 @@ public with sharing class CasesDAOTest {
             System.assert(
                 CasesDAO.newInstance().queryLocatorGetCasesByContactOrLeadIds(
                     new Set<Id>()
+                ) != null,
+                'caseList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getCasesByQualtricsSurveyIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                CasesDAO.newInstance().getCasesByQualtricsSurveyIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
                 ) != null,
                 'caseList should not be empty.'
             );
