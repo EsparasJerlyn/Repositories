@@ -4235,4 +4235,34 @@ public class TestDataFactory {
         caseRecord.Priority = CasesDAO.PRIORITY_LOW;
         return caseRecord;
     }
+
+    /** @description Method for creating serialized records with nonwritable fields
+     * @return String serialized object
+     */
+    public static String setNonWritableFields(NonWriteableFieldsParam param) {
+        return '{"attributes":{"type":"' +
+        param.objectApiName +
+        '","url":"/services/data/v56.0/sobjects/' +
+        param.objectApiName +
+        '/' +
+        param.recordId +
+        '"},' +
+        '"Id":"' +
+        param.recordId +
+        '","Name":"' +
+        param.name +
+        '","CreatedDate":"' +
+        String.valueOf(param.createdDate) +
+        '","LastModifiedDate":"' +
+        String.valueOf(param.lastModifiedDate) +
+        '"}';
+    }
+
+    public class NonWriteableFieldsParam{
+        public String objectApiName { get; set; }
+        public String recordId { get; set; }
+        public String name { get; set; }
+        public Date createdDate { get; set; }
+        public Date lastModifiedDate { get; set; }
+    }
 }
