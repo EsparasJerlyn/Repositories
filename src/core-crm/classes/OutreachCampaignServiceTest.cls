@@ -9,10 +9,9 @@
  */
 @isTest
 private class OutreachCampaignServiceTest {
-
     @TestSetup
-    static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB' });
+    static void setupMethod() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
     }
 
     @isTest
@@ -235,11 +234,8 @@ private class OutreachCampaignServiceTest {
     }
 
     @isTest
-    static void testBatchExecutionContactWithCompletedCadenceTest() {        
-        
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
-
-
+    static void testBatchExecutionContactWithCompletedCadenceTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';
@@ -247,7 +243,8 @@ private class OutreachCampaignServiceTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             configs.add(config);
-            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+            EngagementListConfigurationsDAO.newInstance()
+                .insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
             List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
@@ -261,18 +258,26 @@ private class OutreachCampaignServiceTest {
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
-            EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            EngagementListCriteriasDAO.newInstance()
+                .insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
+                .findActiveEngagementListCriteriasByRecordtype(
+                    EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA,
+                    Date.today(),
+                    AccessLevel.SYSTEM_MODE
+                );
 
-            //Create contact 
+            //Create contact
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
             //Create Completed Cadence records
-            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(
+                1
+            );
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+            for (Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList) {
                 nurtureList.add(
                     new Nurture_Track_Configuration__c(
                         Id = nurtureTrackConfig.Id,
@@ -281,19 +286,29 @@ private class OutreachCampaignServiceTest {
                     )
                 );
             }
-            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, true, AccessLevel.SYSTEM_MODE);    
-            List<Completed_Cadence__c> completedCadenceList = TestDataFactory.createCompletedCadence('Successful',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
-            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.SYSTEM_MODE); 
-            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(new ELCParser(criterias[0], Date.today())); 
-            System.assert(queryString.startsWith('SELECT Contact__c FROM Completed_Cadence__c'),'string must start with SELECT Contact__c FROM Completed_Cadence__c');
+            NurtureTrackConfigurationsDAO.newInstance()
+                .insertRecords(nurtureList, true, AccessLevel.SYSTEM_MODE);
+            List<Completed_Cadence__c> completedCadenceList = TestDataFactory.createCompletedCadence(
+                'Successful',
+                nurtureList[0].Id,
+                new Set<Id>{ contactList[0].Id }
+            );
+            CompletedCadencesDAO.newInstance()
+                .insertRecords(completedCadenceList, true, AccessLevel.SYSTEM_MODE);
+            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(
+                new ELCParser(criterias[0], Date.today())
+            );
+            System.assert(
+                queryString.startsWith('SELECT Contact__c FROM Completed_Cadence__c'),
+                'string must start with SELECT Contact__c FROM Completed_Cadence__c'
+            );
         }
     }
 
     @isTest
-    static void testBatchExecutionContactWithProgramEnrollmentTest() {                 
+    static void testBatchExecutionContactWithProgramEnrollmentTest() {
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
-            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';
@@ -301,7 +316,8 @@ private class OutreachCampaignServiceTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             configs.add(config);
-            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+            EngagementListConfigurationsDAO.newInstance()
+                .insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
             List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
@@ -316,14 +332,20 @@ private class OutreachCampaignServiceTest {
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
-            EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            EngagementListCriteriasDAO.newInstance()
+                .insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
+                .findActiveEngagementListCriteriasByRecordtype(
+                    EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA,
+                    Date.today(),
+                    AccessLevel.SYSTEM_MODE
+                );
 
-            //Create contact 
+            //Create contact
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
 
             //Create Program Enrollment records
             List<hed__Program_Plan__c> programPlanList = new List<hed__Program_Plan__c>();
@@ -331,9 +353,10 @@ private class OutreachCampaignServiceTest {
             programPlan.Name = 'Test Program Plan';
             programPlan.Category_Type__c = 'Graduate Certificate';
             programPlanList.add(programPlan);
-            ProgramPlansDAO.newInstance().insertRecords(programPlanList,true,AccessLevel.SYSTEM_MODE);
+            ProgramPlansDAO.newInstance()
+                .insertRecords(programPlanList, true, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Program_Enrollment__c>  programEnrollmentList = new List<hed__Program_Enrollment__c>();
+            List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
             hed__Program_Enrollment__c progEn = new hed__Program_Enrollment__c();
             progEn.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             progEn.Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
@@ -342,19 +365,23 @@ private class OutreachCampaignServiceTest {
             progEn.hed__Program_Plan__c = programPlanList[0].Id;
             progEn.Academic_Status_Date__c = Date.today().addDays(-1);
             programEnrollmentList.add(progEn);
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
+            ProgramEnrollmentsDAO.newInstance()
+                .insertRecords(programEnrollmentList, true, AccessLevel.SYSTEM_MODE);
 
-            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(new ELCParser(criterias[0], Date.today())); 
-            System.assert(queryString.startsWith('SELECT hed__Contact__c FROM hed__Program_Enrollment__c'),'String must start with SELECT hed__Contact__c FROM hed__Program_Enrollment__c');
-           
+            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(
+                new ELCParser(criterias[0], Date.today())
+            );
+            System.assert(
+                queryString.startsWith('SELECT hed__Contact__c FROM hed__Program_Enrollment__c'),
+                'String must start with SELECT hed__Contact__c FROM hed__Program_Enrollment__c'
+            );
         }
     }
 
     @isTest
-    static void testBatchExecutionContactWithLeaveOfAbsenceTest() {                 
+    static void testBatchExecutionContactWithLeaveOfAbsenceTest() {
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
-            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';
@@ -362,7 +389,8 @@ private class OutreachCampaignServiceTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             configs.add(config);
-            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+            EngagementListConfigurationsDAO.newInstance()
+                .insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
             List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
@@ -377,24 +405,31 @@ private class OutreachCampaignServiceTest {
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
-            EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
-            
-            //Create contact 
+            EngagementListCriteriasDAO.newInstance()
+                .insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
+                .findActiveEngagementListCriteriasByRecordtype(
+                    EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA,
+                    Date.today(),
+                    AccessLevel.SYSTEM_MODE
+                );
+
+            //Create contact
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
-            
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+
             //Create Program Enrollment records
             List<hed__Program_Plan__c> programPlanList = new List<hed__Program_Plan__c>();
             hed__Program_Plan__c programPlan = new hed__Program_Plan__c();
             programPlan.Name = 'Test Program Plan';
             programPlan.Category_Type__c = 'Graduate Certificate';
             programPlanList.add(programPlan);
-            ProgramPlansDAO.newInstance().insertRecords(programPlanList,true,AccessLevel.SYSTEM_MODE);
-            
-            List<hed__Program_Enrollment__c>  programEnrollmentList = new List<hed__Program_Enrollment__c>();
+            ProgramPlansDAO.newInstance()
+                .insertRecords(programPlanList, true, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
             hed__Program_Enrollment__c progEn = new hed__Program_Enrollment__c();
             progEn.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             progEn.Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
@@ -403,29 +438,36 @@ private class OutreachCampaignServiceTest {
             progEn.hed__Program_Plan__c = programPlanList[0].Id;
             progEn.Academic_Status_Date__c = Date.today();
             programEnrollmentList.add(progEn);
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
+            ProgramEnrollmentsDAO.newInstance()
+                .insertRecords(programEnrollmentList, true, AccessLevel.SYSTEM_MODE);
 
             //Create Leave of Absence records
-            List<Leave_of_Absence__c> leaveOfAbsenceList = TestDataFactory.createLeaveOfAbsenceRecord(1);
-            leaveOfAbsenceList[0].Start_Date__c = Date.today(); 
-            leaveOfAbsenceList[0].End_Date__c = Date.today(); 
+            List<Leave_of_Absence__c> leaveOfAbsenceList = TestDataFactory.createLeaveOfAbsenceRecord(
+                1
+            );
+            leaveOfAbsenceList[0].Start_Date__c = Date.today();
+            leaveOfAbsenceList[0].End_Date__c = Date.today();
             leaveOfAbsenceList[0].hed_Program_Enrollment__c = programEnrollmentList[0].Id;
-            leaveOfAbsenceList[0].Leave_No__c = 001;
+            leaveOfAbsenceList[0].Leave_No__c = 1;
             leaveOfAbsenceList[0].Student__c = contactList[0].Id;
 
-            LeaveOfAbsencesDAO.newInstance().insertRecords(leaveOfAbsenceList,true,AccessLevel.SYSTEM_MODE);
+            LeaveOfAbsencesDAO.newInstance()
+                .insertRecords(leaveOfAbsenceList, true, AccessLevel.SYSTEM_MODE);
 
-            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(new ELCParser(criterias[0], Date.today())); 
-            System.assert(queryString.startsWith('SELECT Student__c FROM Leave_Of_Absence__c'),'String must start with SELECT hed__Contact__c FROM hed__Program_Enrollment__c');
-    
+            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(
+                new ELCParser(criterias[0], Date.today())
+            );
+            System.assert(
+                queryString.startsWith('SELECT Student__c FROM Leave_Of_Absence__c'),
+                'String must start with SELECT hed__Contact__c FROM hed__Program_Enrollment__c'
+            );
         }
     }
 
     @isTest
-    static void testBatchExecutionContactWithProgEnrollBreachTest() {                 
+    static void testBatchExecutionContactWithProgEnrollBreachTest() {
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
-            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';
@@ -433,12 +475,13 @@ private class OutreachCampaignServiceTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             configs.add(config);
-            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+            EngagementListConfigurationsDAO.newInstance()
+                .insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
             //Create Leave of Absence records
             List<Breach__c> breachList = TestDataFactory.createTestBreachRecords(1);
             breachList[0].Name = 'Breach Test 01';
-            BreachesDAO.newInstance().insertRecords(breachList,true,AccessLevel.USER_MODE);
+            BreachesDAO.newInstance().insertRecords(breachList, true, AccessLevel.USER_MODE);
 
             List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
@@ -452,14 +495,20 @@ private class OutreachCampaignServiceTest {
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
-            EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            EngagementListCriteriasDAO.newInstance()
+                .insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
+                .findActiveEngagementListCriteriasByRecordtype(
+                    EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA,
+                    Date.today(),
+                    AccessLevel.SYSTEM_MODE
+                );
 
-            //Create contact 
+            //Create contact
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
 
             //Create Program Enrollment records
             List<hed__Program_Plan__c> programPlanList = new List<hed__Program_Plan__c>();
@@ -467,9 +516,10 @@ private class OutreachCampaignServiceTest {
             programPlan.Name = 'Test Program Plan';
             programPlan.Category_Type__c = 'Graduate Certificate';
             programPlanList.add(programPlan);
-            ProgramPlansDAO.newInstance().insertRecords(programPlanList,true,AccessLevel.SYSTEM_MODE);
+            ProgramPlansDAO.newInstance()
+                .insertRecords(programPlanList, true, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Program_Enrollment__c>  programEnrollmentList = new List<hed__Program_Enrollment__c>();
+            List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
             hed__Program_Enrollment__c progEn = new hed__Program_Enrollment__c();
             progEn.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             progEn.Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
@@ -478,27 +528,35 @@ private class OutreachCampaignServiceTest {
             progEn.hed__Program_Plan__c = programPlanList[0].Id;
             progEn.Academic_Status_Date__c = Date.today();
             programEnrollmentList.add(progEn);
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
-            
-            List<Program_Enrollment_Breach__c> programEnrollmentBreachList = TestDataFactory.createTestProgramEnrollmentBreachRecords(1);
+            ProgramEnrollmentsDAO.newInstance()
+                .insertRecords(programEnrollmentList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Program_Enrollment_Breach__c> programEnrollmentBreachList = TestDataFactory.createTestProgramEnrollmentBreachRecords(
+                1
+            );
             programEnrollmentBreachList[0].Contact__c = contactList[0].Id;
             programEnrollmentBreachList[0].Breach_Name__c = breachList[0].Id;
             programEnrollmentBreachList[0].Program_Enrollment__c = programEnrollmentList[0].Id;
-            programEnrollmentBreachList[0].Breach_Status__c = ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS;
+            programEnrollmentBreachList[0]
+                .Breach_Status__c = ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS;
             programEnrollmentBreachList[0].Breach_Date__c = Date.today().addDays(-1);
-            ProgramEnrollmentBreachesDAO.newInstance().insertRecords(programEnrollmentBreachList,true,AccessLevel.SYSTEM_MODE);
-            
-            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(new ELCParser(criterias[0], Date.today())); 
-            System.assert(queryString.startsWith('SELECT Contact__c FROM Program_Enrollment_Breach__c'),'String must start with SELECT Contact__c FROM Program_Enrollment_Breach__c');
-           
+            ProgramEnrollmentBreachesDAO.newInstance()
+                .insertRecords(programEnrollmentBreachList, true, AccessLevel.SYSTEM_MODE);
+
+            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(
+                new ELCParser(criterias[0], Date.today())
+            );
+            System.assert(
+                queryString.startsWith('SELECT Contact__c FROM Program_Enrollment_Breach__c'),
+                'String must start with SELECT Contact__c FROM Program_Enrollment_Breach__c'
+            );
         }
     }
 
     @isTest
-    static void testBatchExecutionContactWithCourseConnectionTest() {                 
+    static void testBatchExecutionContactWithCourseConnectionTest() {
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
-            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';
@@ -506,7 +564,8 @@ private class OutreachCampaignServiceTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             configs.add(config);
-            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+            EngagementListConfigurationsDAO.newInstance()
+                .insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
             List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
             Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
@@ -521,14 +580,20 @@ private class OutreachCampaignServiceTest {
             criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA;
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
-            EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
+            EngagementListCriteriasDAO.newInstance()
+                .insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
+            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
+                .findActiveEngagementListCriteriasByRecordtype(
+                    EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA,
+                    Date.today(),
+                    AccessLevel.SYSTEM_MODE
+                );
 
-            //Create contact 
+            //Create contact
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
 
             //Create Program Enrollment records
             List<hed__Program_Plan__c> programPlanList = new List<hed__Program_Plan__c>();
@@ -536,9 +601,10 @@ private class OutreachCampaignServiceTest {
             programPlan.Name = 'Test Program Plan';
             programPlan.Category_Type__c = 'Graduate Certificate';
             programPlanList.add(programPlan);
-            ProgramPlansDAO.newInstance().insertRecords(programPlanList,true,AccessLevel.SYSTEM_MODE);
+            ProgramPlansDAO.newInstance()
+                .insertRecords(programPlanList, true, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Program_Enrollment__c>  programEnrollmentList = new List<hed__Program_Enrollment__c>();
+            List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
             hed__Program_Enrollment__c progEn = new hed__Program_Enrollment__c();
             progEn.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             progEn.Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
@@ -547,21 +613,36 @@ private class OutreachCampaignServiceTest {
             progEn.hed__Program_Plan__c = programPlanList[0].Id;
             progEn.Academic_Status_Date__c = Date.today().addDays(-1);
             programEnrollmentList.add(progEn);
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
-            
-            List<Program_Offering__c> programOfferingList = TestDataFactory.createTestProgramOfferingRecords(1, programPlanList);
-            ProgramOfferingsDAO.newInstance().insertRecords(programOfferingList,true,AccessLevel.SYSTEM_MODE);
-            
+            ProgramEnrollmentsDAO.newInstance()
+                .insertRecords(programEnrollmentList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Program_Offering__c> programOfferingList = TestDataFactory.createTestProgramOfferingRecords(
+                1,
+                programPlanList
+            );
+            ProgramOfferingsDAO.newInstance()
+                .insertRecords(programOfferingList, true, AccessLevel.SYSTEM_MODE);
+
             //Create a Course Enrollment records
-            List<hed__Course_Enrollment__c> courseConnectionList = TestDataFactory.createTestCourseConnectionRecordProgram(1, contactList[0].Id, programOfferingList);
+            List<hed__Course_Enrollment__c> courseConnectionList = TestDataFactory.createTestCourseConnectionRecordProgram(
+                1,
+                contactList[0].Id,
+                programOfferingList
+            );
             courseConnectionList[0].hed__Program_Enrollment__c = programEnrollmentList[0].Id;
-            courseConnectionList[0].Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED;
+            courseConnectionList[0]
+                .Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED;
             courseConnectionList[0].hed__Display_Grade__c = '100';
-            CourseConnectionsDAO.newInstance().insertRecords(courseConnectionList,true,AccessLevel.SYSTEM_MODE);
-            
-            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(new ELCParser(criterias[0], Date.today())); 
-            System.assert(queryString.startsWith('SELECT hed__Contact__c FROM hed__Course_Enrollment__c'),'String must start with SELECT hed__Contact__c FROM hed__Course_Enrollment__c');
-           
+            CourseConnectionsDAO.newInstance()
+                .insertRecords(courseConnectionList, true, AccessLevel.SYSTEM_MODE);
+
+            String queryString = OutreachCampaignService.getQueryLocatorBySubQueryString(
+                new ELCParser(criterias[0], Date.today())
+            );
+            System.assert(
+                queryString.startsWith('SELECT hed__Contact__c FROM hed__Course_Enrollment__c'),
+                'String must start with SELECT hed__Contact__c FROM hed__Course_Enrollment__c'
+            );
         }
     }
 }
