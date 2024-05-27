@@ -19,16 +19,6 @@
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
