@@ -177,6 +177,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   handleFileUpload(event) {
     this.loaded = false;
     const files = event.detail.files;
+    this.errors = [];
     
     if (files.length > 0) {
       const file = files[0];
@@ -318,8 +319,8 @@ export default class OutReachCaseImportModal extends LightningElement {
       });
 
       if (exclData.length > 0) {
-        this.exclData = exclData.sort((a, b) => a.studentId - b.studentId);
-        this.exclusionData = this.exclData;
+        this.exclData = exclData;
+        this.exclusionData = this.exclData.sort((a, b) => a.studentId - b.studentId);
       }
 
       if (data.length > 0) {
