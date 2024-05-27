@@ -74,7 +74,7 @@
             'Engagement_List_Configuration__r.Name, ' +
             'Engagement_List_Configuration__r.Id, ' + 
             'Engagement_List_Configuration__c, ' + 
-            'Status__c, Start_Date__c, End_Date__c, RecordTypeId, ' +
+            'Status__c, Start_Date__c, End_Date__c, RecordTypeId, Engagement_List_Criteria_Title__c, ' +
             'Assessment_Priority__c, Failed_To_Submit_Assessment__c, ' +
             'Citizenship_Status__c, Academic_Status__c, Category_Type__c, Cases_Created__c, ' +
             'Completed_Cadence__c, Course_Grade__c, Breach__c, Is_On_Leave_of_Absence__c, ' +

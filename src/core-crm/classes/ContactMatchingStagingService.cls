@@ -79,6 +79,7 @@ public inherited sharing class ContactMatchingStagingService {
 
         // Set the Contact's ID field if a contactId is provided
         con.put('Id', contactId);
+        con.put('RecordTypeId', ContactsDAO.PERSON_RECORDTYPE_ID);
 
         // Iterate through each field in the FIELDS_TO_CONTACT_MAP
         for (String conMatchingStagingField : FIELDS_TO_CONTACT_MAP.keySet()) {
