@@ -13,6 +13,7 @@
  *    | gabriel.p.ventayen             | April 26, 2024        | DEPP-8544              | change case rectype map to inbound enquiry  |
  *    | gabriel.p.ventayen             | April 29, 2024        | DEPP-8614              | added some variables for Student Success    |
  *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | added new method getCasesByStatusAndRecType |
+ *    | gabriel.p.ventayen             | May 23, 2024          | DEPP-8833              | added getCasesByQualtricsSurveyIds          |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
@@ -129,7 +130,8 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.query(
             'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
                 'Contact.Lead_Source_Category__c, Lead__r.Lead_Source_Category__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, ' +
-                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c ' +
+                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c, ' +
+                'Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c ' +           
             'FROM Case ' +
             'WHERE Id IN :caseIds ',
             accessLevel
@@ -159,6 +161,18 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
                'AND RecordTypeId =: OUTREACH_RECTYPE_ID ' +
                'AND Engagement_List_Configuration__c =: configId ' +
                'AND ContactId IN : contactIds', 
+            accessLevel
+        );
+    }
+
+    public List<Case> getCasesByQualtricsSurveyIds(
+        Set<Id> qualtricsSurveyIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, ContactId, Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Qualtrics_Survey__c ' +
+              'FROM Case ' +
+             'WHERE Qualtrics_Survey__c IN :qualtricsSurveyIds ', 
             accessLevel
         );
     }

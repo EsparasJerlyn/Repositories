@@ -142,6 +142,7 @@ public class ImplementationSelector {
             Program_Enrollment_Breach__c.SObjectType => ProgramEnrollmentBreachesDAO.class,            
             Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,           
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
+            Qualtrics_Survey__c.SObjectType => QualtricsSurveysDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,

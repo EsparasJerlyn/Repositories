@@ -328,6 +328,11 @@
         <field>ServiceResource.LocationId</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.QUT_Persona__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Future Student Config</label>
     <license>Salesforce</license>

@@ -131,7 +131,9 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         String soql = '';
-        soql = whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) + whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) + whereClauseCheckerForContactCriteria(contactCriteria);        
+        soql = whereClauseCheckerForCourseConnectionCriteria(courseConnectionCriteria) 
+            + whereClauseCheckerForProgramEnrollmentCriteria(programEnrollmentCriteria) 
+            + whereClauseCheckerForContactCriteria(contactCriteria);        
         if(soql != '') {
             soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
         }
@@ -143,7 +145,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT hed__Program_Enrollment__r.hed__Contact__c FROM hed__Course_Enrollment__c ' + getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+        return 'SELECT hed__Contact__c FROM hed__Course_Enrollment__c ' + getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
     public String getQueryByCriteria(
@@ -152,9 +154,9 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         return 'SELECT ' + 
-        'Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
+        'Id, hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
         'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
-        'hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
+        'hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
         'FROM hed__Course_Enrollment__c ' +
         getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
     }
@@ -205,17 +207,17 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         String soql = '';
 
         if(contactCriteria.getCitizenshipStatus() != null){
-            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
+            soql += 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
         }
         if(contactCriteria.getIsQUTStudent() != null){
-            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
+            soql += 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
+            soql += 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
         }
         if(contactCriteria.getContactIdSet() != null){
             String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
-            soql += 'AND hed__Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
+            soql += 'AND hed__Contact__r.Id IN (' + contactIdString + ') ';
         }
 
         return soql;

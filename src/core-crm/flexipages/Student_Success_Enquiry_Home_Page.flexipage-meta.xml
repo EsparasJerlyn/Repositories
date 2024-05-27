@@ -14,26 +14,10 @@
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
                 <identifier>desktopDashboards_embeddedDashboard</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Student_Retention_Dashboard}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
@@ -77,36 +61,10 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Callbacks_List_View}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -140,36 +98,10 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard3</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Outreach_Commencing_Students_List_View}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -203,36 +135,10 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard4</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Outreach_UAP_At_Risk_List_View}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -266,36 +172,10 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard5</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Outreach_UAP_Probation_List_View}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -329,36 +209,10 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard6</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Outreach_UAP_Held_Show_Cause_List_View}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -392,36 +246,10 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard7</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!$Permission.CustomPermission.Student_Success_Enquiry_Home_Page_Outreach_Other_List_View}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Staff</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Development Team</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Modify All Data</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.QUT_Persona__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator - Read Only</rightValue>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

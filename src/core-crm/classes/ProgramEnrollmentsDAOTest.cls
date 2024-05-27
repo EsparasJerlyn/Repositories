@@ -130,8 +130,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
-                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
+                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '                
@@ -184,8 +184,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
-                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
+                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
@@ -230,8 +230,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
-                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
+                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
@@ -261,7 +261,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
             programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
-            programEnrollmentListCreated[0].Academic_Status_Date__c = Date.today();
+            programEnrollmentListCreated[0].Academic_Status_Date__c = Date.today().addDays(-10);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
@@ -271,8 +271,8 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
 
 
-            programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-10));
-            programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(10));
+            programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-1));
+            programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(-10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);

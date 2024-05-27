@@ -26,5 +26,9 @@ public interface ICommunicationQueuesDAO extends DmlInterface{
         Set<String> status, 
         AccessLevel accessLevel
     );
+    List<Communication_Queue__c> getComminicationQueueRecordsByIdSets(
+        Set<Id> createdCommunicationsQueueIdSet, 
+        AccessLevel accessLevel
+    );
          
 }
