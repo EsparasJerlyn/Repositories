@@ -426,7 +426,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
           this.addNewRecordAction();
         })
         .catch((error) => {
-          if (logger) {
+          if (logger && error.body.message != 'More than 1 Character is needed to search') {
             logger.error(
               "Exception caught in method search in LWC flowLookup: ",
               JSON.stringify(error)

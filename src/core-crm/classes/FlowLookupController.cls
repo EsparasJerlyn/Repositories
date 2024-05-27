@@ -62,6 +62,10 @@ public inherited sharing class FlowLookupController {
                 searchTerm
             );
 
+            if(queryStringSOSL == null) {
+                throw new AuraHandledException('More than 1 Character is needed to search');
+            }
+
             List<List<Contact>> soslResult = search.query(queryStringSOSL); 
             
             List<String> contactIds = new List<String>();
