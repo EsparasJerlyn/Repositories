@@ -1,0 +1,11 @@
+AccountSource,Id,IsBuyer,IsCustomerPortal,IsPartner,Name,Organization_Unit_Level__c,Owner.Name,OwnerId,RecordType.$$DeveloperName$SobjectType,RecordTypeId
+'',001AD00000U2kWwYAJ,true,false,true,QUTeX Products,'',ESB Integration User,0058q000000HwJFAA0,Business_Organization;Account,0128q0000004JlWAAU
+',001AD00000U2kWxYAJ,true,false,true,QUT GSB & QUTeX,'',ESB Integration User,0058q000000HwJFAA0,Business_Organization;Account,0128q0000004JlWAAU
+,001AD00000U2kWyYAJ,true,false,true,United BC Corp,'',ESB Integration User,0058q000000HwJFAA0,Business_Organization;Account,0128q0000004JlWAAU
+,001AD00000U2kWzYAJ,true,false,true,Central Perc Co.,'',ESB Integration User,0058q000000HwJFAA0,Business_Organization;Account,0128q0000004JlWAAU
+Outbound Enquiry,001AD00000U2kX0YAJ,true,false,true,Test Corporation,'',ESB Integration User,0058q000000HwJFAA0,Business_Organization;Account,0128q0000004JlWAAU
+Outbound Enquiry,001AD00000U2kX3YAJ,true,false,true,OPE Catalogue,'',ESB Integration User,0058q000000HwJFAA0,Business_Organization;Account,0128q0000004JlWAAU
+,001AD00000U2kX1YAJ,false,false,false,Participating School 2,3,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+,001AD00000U2kX2YAJ,false,false,false,Participating School 1,3,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+,001AD00000U2kX4YAJ,false,false,false,Owning Faculty 1,2,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+,001AD00000U2kX5YAJ,false,false,false,Owning Faculty 2,2,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE

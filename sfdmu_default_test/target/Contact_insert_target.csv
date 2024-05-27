@@ -1,0 +1,6 @@
+AccountId,Birthdate,Company_Name__c,ContactMobile_Validation__c,Description,Email,Errors,FirstName,hed__Chosen_Full_Name__c,hed__Primary_Organization__c,LastName,Migration_Key__c,MobilePhone,QUT_Employee_ID__c,QUT_Identity_ID__c,QUT_Staff_Email__c,QUT_Student_ID__c,Salutation,Work_Email__c
+001AD00000U2kX0YAJ,,,,,ana.dumangaswhite@qut.edu.au,Email must be unique across the organization.,Wushi,,,Li,,,,,ana.dumangaswhite.staff@qut.edu.au,,,
+,,,,,stanpring@gmail.com,Email must be unique across the organization.,Stanley,,,Pringle,,,,,stanpring.staff@gmail.com,,,
+,,ACN,,,missleadslim@email.com,Email must be unique across the organization.,Park,,001AD00000U2kWzYAJ,Leads,,,,,missleadslim.staff@email.com,,,
+,,,,,domac7@emails.com,Email must be unique across the organization.,Dan,,,DOM AC7,,,,,domac7.staff@emails.com,,,
+,,acn,,,domac8@email.com,Email must be unique across the organization.,Bert,,001AD00000U2kWzYAJ,DOM AC8,,,,,domac8.staff@email.com,,,

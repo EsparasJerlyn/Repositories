@@ -1,0 +1,12 @@
+Business_Process__c,Cadence_Step_Name__c,Id,IsActive__c,Message_Content__c
+Domestic Automated Cadence SMS,SMS_Domestic First Offer to Acceptance (Automated)_1,MHZJJSY4WKDFJ4LYLX,TRUE,"Congratulations on your QUT offer!  If you haven't responded, we'll call and help.  We look forward to speaking with you soon."
+Domestic Automated Cadence SMS,SMS_Domestic Accepted not yet Enrolled (Automated)_1,YGN6NLF9GZ3GQADBSL,TRUE,Thanks for accepting your QUT offer!  You'll need to enrol to get your student login and to get started at QUT.  Need help?  Call HiQ on 07 3138 2000.
+Domestic Automated Cadence SMS,SMS_Domestic First Offer to Acceptance_1,YEOJBZVICWTSR4WCOD,TRUE,"QUT called to congratulate you and see if you had questions about your QUT offer. No need to call us, we'll call you one more time."
+Domestic Automated Cadence SMS,SMS_Domestic First Offer to Acceptance_2,LYSVSTWQQYYY6Z3VXY,TRUE,QUT's Final Call Attempt. Sorry we missed you.  Remember to Respond to your Offer. Need help? Call HiQ on 07 3138 2000.
+Domestic Automated Cadence SMS,SMS_Domestic Accepted and Admitted_1,WAO2NQ0TZDMDT5PYNO,TRUE,"We're calling to welcome you to QUT. No need to call us, we'll call one more time."
+Domestic Automated Cadence SMS,SMS_Domestic Accepted and Admitted_2,VCUOPW3E58KKKWRISV,TRUE,QUT calling again. Please refer to your 'Welcome to QUT' email for vital steps and information to get you started. Need help? Call HiQ on 07 3138 2000.
+Domestic Automated Cadence SMS,SMS_Domestic Deferred Offer to Acceptance_1,AQNI8YXQO3G9LUGW4U,TRUE,"QUT called to see if you had questions about responding to your QUT offer. No need to call us, we’ll call you one more time."
+Domestic Automated Cadence SMS,SMS_Domestic Deferred Offer to Acceptance_2,RSXAEKWHAASLL52SXI,TRUE,"QUT calling again, no need to call us. Refer to your offer email to correctly respond to your offer."
+Domestic Automated Cadence SMS,SMS_Domestic Accepted not yet Enrolled_1,UTWFSAH9AT559NKXYQ,TRUE,"We’re calling to assist you in finalising your acceptance to study at QUT. No need to call us, we’ll call one more time."
+Domestic Automated Cadence SMS,SMS_Domestic Accepted not yet Enrolled_2,RUQQV9NCCJYWORC10T,TRUE,"QUT calling again. To finalise your acceptance, click 'Enrol at QUT' and follow the instructions on the QUT welcome page. Need help? Call HiQ on 07 3138 2000."
+Domestic No Answer SMS,SMS_Domestic No Answer,9RTSD4CZORM88YNRKA,TRUE,"Hi. QUT calling for your booked appointment, we're sorry we missed you. We'll call again, but if we can't reach you, you can call us on 07 3138 2000."

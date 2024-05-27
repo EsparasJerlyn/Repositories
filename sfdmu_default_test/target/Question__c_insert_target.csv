@@ -1,0 +1,4 @@
+Errors,Id,Label__c,Type__c
+,a1sAD000000rXInYAM,Where do you live?,Text
+,a1sAD000000rXIoYAM,What is your specialization?,Text
+,a1sAD000000rXIpYAM,What is your favorite Subject,Text

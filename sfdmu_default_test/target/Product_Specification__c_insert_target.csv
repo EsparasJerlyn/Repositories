@@ -1,0 +1,2 @@
+Client_Review_Required__c,Errors,Existing_Product__c,External_Id__c,Financial_Viability__c,IsExternal_Requestor__c,RecordTypeId,Requestor_Internal_External__c,Requestor_Name__c,Requires_Director_Endorsement__c,Stage__c,Status__c
+None,“Market Need” is required to update the Stage.,Yes,ABC890,Yes,false,0128q0000004KomAAE,Internal,003AD00000SFQlzYAH,Not Required,Design,Design

@@ -1,0 +1,5 @@
+Catalog.Name,CatalogId,Description,Id,IsNavigational,Name,ParentCategory.Name,ParentCategoryId,SortOrder
+CCE Catalog,0ZSAD0000000FFB4A2,will house all the CCE product catalogue chosen for a Tailored Executive Education,0ZGAD0000000GZR4A2,true,Tailored Executive Education,,,1
+CCE Catalog,0ZSAD0000000FFB4A2,will house all the CCE product catalogue chosen for a Corporate Bundle products,0ZGAD0000000GZS4A2,true,Corporate Bundle,,,2
+CCE Catalog,0ZSAD0000000FFB4A2,will house all the CCE product catalogue chosen for a QUTeX Learning Solutions,0ZGAD0000000GZT4A2,true,QUTeX Learning Solutions,,,3
+Study Catalog,0ZSAD0000000FFC4A2,will house all the Study product catalogue chosen for a Product,0ZGAD0000000GZU4A2,true,Products,,,3

@@ -1,0 +1,844 @@
+Child Id,Child Lookup Id Field,Child Lookup Reference Field,Child SObject,Date update,Missing expected parent ExternalID value,Parent ExternalId Field,Parent SObject
+a0z9200000038FZAAY,Product_Specification__c,Product_Specification__r.External_Id__c,Product_Request__c,2024-05-27  16:21:27.451,ABC890,External_Id__c,Product_Specification__c
+a0JBn000000MwerMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,Modern Chinese Language Course,Name,hed__Program_Plan__c
+a0JBn000000MwgTMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,EzyQuip Strategic Leaders' Program,Name,hed__Program_Plan__c
+a0JBn000000MwmvMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,QLD Health Next Generation Program 2023,Name,hed__Program_Plan__c
+a0JBn000000Mwq9MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,Sime Darby Strategic Leaders Program 2023,Name,hed__Program_Plan__c
+a0JBn000000MwwbMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,Sime Darby Enterprise Executive Program 2023/24,Name,hed__Program_Plan__c
+a0JBn000000MwwcMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MwyDMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.262,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MwzpMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx1RMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx1SMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx33MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx4fMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx6HMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx7tMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx9VMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB7MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB8MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB9MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxCjMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxCkMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxClMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxELMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.263,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxFxMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxHZMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxHaMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxJBMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxKnMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxKoMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxMPMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxMQMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxO1MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxO2MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPdMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPeMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPfMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPgMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxSrMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxUTMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxUUMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxW5MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxW6MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxXhMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxXiMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxZJMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxavMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.264,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxcXMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxe9MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxflMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxhOMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxj0MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxkbMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxmDMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxnpMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxnqMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxpRMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxr3MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxsfMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxsgMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxuHMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvtMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvtMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Enterprise Leadership Program Test7575 2d0374c,Name,hed__Program_Plan__c
+a0JBn000000MxvuMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvvMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvwMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxxVMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxxWMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxz7MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My0jMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My0jMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Enterprise Leadership Program Test7575 146c403,Name,hed__Program_Plan__c
+a0JBn000000My2LMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My2LMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Enterprise Leadership Program Test7576 d7bd806,Name,hed__Program_Plan__c
+a0JBn000000My3xMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My3xMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Enterprise Leadership Program Test7575 829f8c4,Name,hed__Program_Plan__c
+a0JBn000000My5ZMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5aMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5aMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.265,Enterprise Leadership Program Test7575 cecd675,Name,hed__Program_Plan__c
+a0JBn000000My5bMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5bMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7576 756011f,Name,hed__Program_Plan__c
+a0JBn000000My7BMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My7BMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Test Auto Parent Course T5555 - 5018349,Name,hed__Program_Plan__c
+a0JBn000000My8nMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My8nMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7575 10f6925,Name,hed__Program_Plan__c
+a0JBn000000My8oMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My8oMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Test Auto Parent Course T5555 - 4744055,Name,hed__Program_Plan__c
+a0JBn000000MyAPMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyAQMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyC1MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyDdMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyGrMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Test Auto Parent Course T5555 - 3360112,Name,hed__Program_Plan__c
+a0JBn000000MyGsMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Automation Testing Plan_977,Name,hed__Program_Plan__c
+a0JBn000000MyITMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7575 a297903,Name,hed__Program_Plan__c
+a0JBn000000MyLhMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7576 488c095,Name,hed__Program_Plan__c
+a0JBn000000MyQXMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7576 cb1f556,Name,hed__Program_Plan__c
+a0JBn000000MyS9MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7575 7b6e860,Name,hed__Program_Plan__c
+a0JBn000000MyTlMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Test Auto Parent Course T5555 - 9826716,Name,hed__Program_Plan__c
+a0JBn000000MyVNMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7576 501feac,Name,hed__Program_Plan__c
+a0JBn000000MyVOMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Test Auto Parent Course T5555 - 3462582,Name,hed__Program_Plan__c
+a0JBn000000MyWzMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Automation Testing Plan_551,Name,hed__Program_Plan__c
+a0JBn000000MyiHMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7575 967b81c,Name,hed__Program_Plan__c
+a0JBn000000MyiIMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Enterprise Leadership Program Test7576 8fca513,Name,hed__Program_Plan__c
+a0JBn000000MyjuMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.266,Test Auto Parent Course T5555 - 3921264,Name,hed__Program_Plan__c
+a0JBn000000MyokMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7575 2817154,Name,hed__Program_Plan__c
+a0JBn000000MyqLMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7576 36e4a5f,Name,hed__Program_Plan__c
+a0JBn000000MzCwMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7576 0317153,Name,hed__Program_Plan__c
+a0JBn000000MzEXMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7575 66e9e72,Name,hed__Program_Plan__c
+a0JBn000000MzG9MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 2309697,Name,hed__Program_Plan__c
+a0JBn000000MzHlMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Automation Testing Plan_474,Name,hed__Program_Plan__c
+a0JBn000000MzKzMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7576 3e784dd,Name,hed__Program_Plan__c
+a0JBn000000MzMbMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 8965884,Name,hed__Program_Plan__c
+a0JBn000000MzODMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Automation Testing Plan_425,Name,hed__Program_Plan__c
+a0JBn000000MzPpMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7575 462df88,Name,hed__Program_Plan__c
+a0JBn000000MzT3MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Enterprise Leadership Program Test7576 4ab1744,Name,hed__Program_Plan__c
+a0JBn000000MzUfMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 3748772,Name,hed__Program_Plan__c
+a0JBn000000MzXtMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 7302120,Name,hed__Program_Plan__c
+a0JBn000000MzZVMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Automation Testing Course_019,Name,hed__Program_Plan__c
+a0JBn000000Mzb7MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 8651900,Name,hed__Program_Plan__c
+a0JBn000000Mzb8MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 5426574,Name,hed__Program_Plan__c
+a0JBn000000MzckMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Automation Testing Plan_409,Name,hed__Program_Plan__c
+a0JBn000000MzeLMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.267,Test Auto Parent Course T5555 - 1598782,Name,hed__Program_Plan__c
+a0JBn000000MzjBMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7575 f63c0d1,Name,hed__Program_Plan__c
+a0JBn000000MzknMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7576 70f73a5,Name,hed__Program_Plan__c
+a0JBn000000MzmPMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Automation Testing Plan_710,Name,hed__Program_Plan__c
+a0JBn000000MzpeMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Test Auto Parent Course T5555 - 0811970,Name,hed__Program_Plan__c
+a0JBn000000MzuTMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7575 50db0b3,Name,hed__Program_Plan__c
+a0JBn000000Mzw5MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7576 1effb61,Name,hed__Program_Plan__c
+a0JBn000000MzxhMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7575 16dcd45,Name,hed__Program_Plan__c
+a0JBn000000MzxiMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7576 daedb04,Name,hed__Program_Plan__c
+a0JBn000000MzzKMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Test Auto Parent Course T5555 - 2406840,Name,hed__Program_Plan__c
+a0JBn000000N00vMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Automation Testing Plan_356,Name,hed__Program_Plan__c
+a0JBn000000N02XMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7576 c9f4af7,Name,hed__Program_Plan__c
+a0JBn000000N07NMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7575 ecbca5b,Name,hed__Program_Plan__c
+a0JBn000000N0AcMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Test Auto Parent Course T5555 - 1568561,Name,hed__Program_Plan__c
+a0JBn000000N0DqMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7575 154b12e,Name,hed__Program_Plan__c
+a0JBn000000N0FRMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7576 f750268,Name,hed__Program_Plan__c
+a0JBn000000N0H3MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Automation Testing Plan_797,Name,hed__Program_Plan__c
+a0JBn000000N0LtMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Test Auto Parent Course T5555 - 5229672,Name,hed__Program_Plan__c
+a0JBn000000N0NWMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Test Auto Parent Course T5555 - 1053219,Name,hed__Program_Plan__c
+a0JBn000000N0P7MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7575 ab44c04,Name,hed__Program_Plan__c
+a0JBn000000N0QjMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.268,Enterprise Leadership Program Test7576 4e0e013,Name,hed__Program_Plan__c
+a0JBn000000N0SLMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Test Auto Parent Course T5555 - 4295557,Name,hed__Program_Plan__c
+a0JBn000000N0VZMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Enterprise Leadership Program Test7575 43faf1e,Name,hed__Program_Plan__c
+a0JBn000000N0XBMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Enterprise Leadership Program Test7576 4fa4ee3,Name,hed__Program_Plan__c
+a0JBn000000N0fFMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Automation Testing Plan_936,Name,hed__Program_Plan__c
+a0JBn000000N0grMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Test Auto Parent Course T5555 - 1636656,Name,hed__Program_Plan__c
+a0JBn000000N0k5MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Enterprise Leadership Program Test7575 7c38fb3,Name,hed__Program_Plan__c
+a0JBn000000N0lhMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Test Auto Parent Course T5555 - 8624173,Name,hed__Program_Plan__c
+a0JBn000000N0ovMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Enterprise Leadership Program Test7575 03bda8e,Name,hed__Program_Plan__c
+a0JBn000000N0owMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Test Auto Parent Course T5555 - 2333934,Name,hed__Program_Plan__c
+a0JBn000000N0qXMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Enterprise Leadership Program Test7575 67aafda,Name,hed__Program_Plan__c
+a0JBn000000N0tlMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:35.269,Test Auto Parent Course T5555 - 8040150,Name,hed__Program_Plan__c
+a1r8q0000000clcAAA,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Modern Chinese Language Course,Name,hed__Program_Plan__c
+a1r8q0000000f02AAA,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,EzyQuip Strategic Leaders' Program,Name,hed__Program_Plan__c
+a1rBn00000XVwKhIAL,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,QLD Health Next Generation Program 2023,Name,hed__Program_Plan__c
+a1rBn00000XZybxIAD,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Sime Darby Strategic Leaders Program 2023,Name,hed__Program_Plan__c
+a1rBn00000XoZxsIAF,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Sime Darby Enterprise Executive Program 2023/24,Name,hed__Program_Plan__c
+a1rBn00000aK8kfIAC,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7575 2d0374c,Name,hed__Program_Plan__c
+a1rBn00000aNEaUIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7575 146c403,Name,hed__Program_Plan__c
+a1rBn00000aNJgLIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7576 d7bd806,Name,hed__Program_Plan__c
+a1rBn00000aVbq0IAC,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7575 829f8c4,Name,hed__Program_Plan__c
+a1rBn00000aVkCbIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7575 cecd675,Name,hed__Program_Plan__c
+a1rBn00000aWYhtIAG,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7576 756011f,Name,hed__Program_Plan__c
+a1rBn00000ahDzlIAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Test Auto Parent Course T5555 - 5018349,Name,hed__Program_Plan__c
+a1rBn00000ahFa9IAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7575 10f6925,Name,hed__Program_Plan__c
+a1rBn00000apeZlIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Test Auto Parent Course T5555 - 4744055,Name,hed__Program_Plan__c
+a1rBn00000bGPmjIAG,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Test Auto Parent Course T5555 - 3360112,Name,hed__Program_Plan__c
+a1rBn00000bGRWnIAO,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Automation Testing Plan_977,Name,hed__Program_Plan__c
+a1rBn00000bJM7ZIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.694,Enterprise Leadership Program Test7575 a297903,Name,hed__Program_Plan__c
+a1rBn00000bJMYzIAO,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7576 488c095,Name,hed__Program_Plan__c
+a1rBn00000bcPlGIAU,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7576 cb1f556,Name,hed__Program_Plan__c
+a1rBn00000bdExOIAU,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7575 7b6e860,Name,hed__Program_Plan__c
+a1rBn00000bpdgPIAQ,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Test Auto Parent Course T5555 - 9826716,Name,hed__Program_Plan__c
+a1rBn00000bqHYvIAM,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7576 501feac,Name,hed__Program_Plan__c
+a1rBn00000c1kUUIAY,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Test Auto Parent Course T5555 - 3462582,Name,hed__Program_Plan__c
+a1rBn00000c1mKyIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Automation Testing Plan_551,Name,hed__Program_Plan__c
+a1rBn00000dS0NbIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7575 967b81c,Name,hed__Program_Plan__c
+a1rBn00000dTXuXIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7576 8fca513,Name,hed__Program_Plan__c
+a1rBn00000dVqVxIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Test Auto Parent Course T5555 - 3921264,Name,hed__Program_Plan__c
+a1rBn00000deHa4IAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7575 2817154,Name,hed__Program_Plan__c
+a1rOm000000ZrMPIA0,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7576 36e4a5f,Name,hed__Program_Plan__c
+a1rOm000005flEbIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7576 0317153,Name,hed__Program_Plan__c
+a1rOm000005foXRIAY,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Enterprise Leadership Program Test7575 66e9e72,Name,hed__Program_Plan__c
+a1rOm000005frGnIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Test Auto Parent Course T5555 - 2309697,Name,hed__Program_Plan__c
+a1rOm000005frS5IAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:38.695,Automation Testing Plan_474,Name,hed__Program_Plan__c
+a098q0000007pPTAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPUAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPVAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPWAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPXAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPYAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPZAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPaAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPbAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPcAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPdAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPeAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPfAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPgAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPhAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPiAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPjAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPkAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPlAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPmAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPnAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPoAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPpAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:40.848,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a1C920000004gDyEAI,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:43.834,QRS-000001,Name,Questionnaire_Response_Summary__c
+a1C920000004gNFEAY,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:43.834,QRS-000001,Name,Questionnaire_Response_Summary__c
+a1C920000004gWvEAI,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:43.834,QRS-000002,Name,Questionnaire_Response_Summary__c
+a1k8r00000EU35FAAT,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000o4JlEAI,Name,Lead
+a1k8r00000EU36rAAD,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000ds8bEAA,Name,Lead
+a1k8r00000EU3BhAAL,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000g5PtEAI,Name,Lead
+a1k8r00000EVdt3AAD,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000hkvdEAA,Name,Lead
+a1k8r00000DobcnAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000jvzpEAA,Name,Lead
+a1k8r00000DwkXNAAZ,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000khA1EAI,Name,Lead
+a1k8r00000DwkkaAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kgnREAQ,Name,Lead
+a1k8r00000DwlezAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000keH0EAI,Name,Lead
+a1k8r00000DwlhuAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kfudEAA,Name,Lead
+a1k8r00000Dwm3BAAR,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kfL7EAI,Name,Lead
+a1k8r00000Dwm6PAAR,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kfbFEAQ,Name,Lead
+a1k8r00000Dwm9dAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kefCEAQ,Name,Lead
+a1k8r00000DwmETAAZ,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kevLEAQ,Name,Lead
+a1k8r00000DxBmLAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kf3OEAQ,Name,Lead
+a1k8r00000DxBpZAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kgSUEAY,Name,Lead
+a1k8r00000DxBsnAAF,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kh1xEAA,Name,Lead
+a1k8r00000DxC5hAAF,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000khDFEAY,Name,Lead
+a1k8r00000DxC7JAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kdw2EAA,Name,Lead
+a1k8r00000DxYuDAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:46.286,00Q8r000000kknqEAA,Name,Lead
+a1l8r0000001rALAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:46.592,00Q8r000000kgSUEAY,Name,Lead
+a1l8r0000001rBxAAI,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:46.592,00Q8r000000kh1xEAA,Name,Lead
+a1l8r0000001rDZAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:46.592,00Q8r000000khA1EAI,Name,Lead
+a1l8r0000001rFBAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:46.592,00Q8r000000khDFEAY,Name,Lead
+a1l8r0000001rGnAAI,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:46.592,00Q8r000000kdw2EAA,Name,Lead
+a1m8r0000002x2PAAQ,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000o4JlEAI,Name,Lead
+a1m8r0000002x41AAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000ds8bEAA,Name,Lead
+a1m8r0000002x5dAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000g5PtEAI,Name,Lead
+a1m8r0000002xOzAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000hkvdEAA,Name,Lead
+a1m8r0000002r6fAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000keH0EAI,Name,Lead
+a1m8r0000002r8HAAQ,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kfL7EAI,Name,Lead
+a1m8r0000002r9tAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kfbFEAQ,Name,Lead
+a1m8r0000002rBVAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kefCEAQ,Name,Lead
+a1m8r0000002rEjAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kevLEAQ,Name,Lead
+a1m8r0000002rJZAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kgFaEAI,Name,Lead
+a1m8r0000002rMnAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kgSUEAY,Name,Lead
+a1m8r0000002rOPAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kh1xEAA,Name,Lead
+a1m8r0000002rQ1AAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000khA1EAI,Name,Lead
+a1m8r0000002rRdAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000khDFEAY,Name,Lead
+a1m8r0000002rTFAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kdw2EAA,Name,Lead
+a1m8r0000002rUrAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kfbGEAQ,Name,Lead
+a1m8r0000002rcvAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:47.095,00Q8r000000kknqEAA,Name,Lead
+a03Bn00000Igsb7IAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.349,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000ImiSdIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.349,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsXRGIA3,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.349,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsYbrIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.349,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isd0PIAR,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.349,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsgKtIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.349,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsnEHIAZ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsoOrIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isoa9IAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isp3BIAR,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IzGdNIAV,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IzR8zIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4HwzIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4I9tIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4IWTIA3,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4goyIAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLdIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLeIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLfIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLgIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JA7tJIAT,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JA8J7IAL,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAAchIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAB7JIAX,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAVLWIA5,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAYVJIA5,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGJwbIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.350,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGKPeIAP,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.351,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGNgrIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.351,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGO9tIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:49.351,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a0z9200000038FZAAY,Product_Specification__c,Product_Specification__r.External_Id__c,Product_Request__c,2024-05-27  16:21:53.417,ABC890,External_Id__c,Product_Specification__c
+a0JBn000000MwerMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Modern Chinese Language Course,Name,hed__Program_Plan__c
+a0JBn000000MwgTMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,EzyQuip Strategic Leaders' Program,Name,hed__Program_Plan__c
+a0JBn000000MwmvMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,QLD Health Next Generation Program 2023,Name,hed__Program_Plan__c
+a0JBn000000Mwq9MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Sime Darby Strategic Leaders Program 2023,Name,hed__Program_Plan__c
+a0JBn000000MwwbMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Sime Darby Enterprise Executive Program 2023/24,Name,hed__Program_Plan__c
+a0JBn000000MwwcMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MwyDMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MwzpMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx1RMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx1SMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx33MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx4fMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx6HMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.256,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx7tMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx9VMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB7MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB8MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB9MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxCjMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxCkMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxClMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxELMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxFxMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxHZMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxHaMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxJBMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxKnMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxKoMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxMPMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxMQMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxO1MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxO2MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPdMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPeMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPfMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPgMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxSrMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxUTMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxUUMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxW5MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxW6MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxXhMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxXiMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.257,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxZJMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxavMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxcXMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxe9MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxflMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxhOMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxj0MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxkbMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxmDMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxnpMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxnqMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxpRMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxr3MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxsfMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxsgMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxuHMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvtMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvtMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7575 2d0374c,Name,hed__Program_Plan__c
+a0JBn000000MxvuMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvvMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvwMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxxVMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxxWMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxz7MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My0jMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My0jMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7575 146c403,Name,hed__Program_Plan__c
+a0JBn000000My2LMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My2LMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7576 d7bd806,Name,hed__Program_Plan__c
+a0JBn000000My3xMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My3xMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7575 829f8c4,Name,hed__Program_Plan__c
+a0JBn000000My5ZMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5aMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5aMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7575 cecd675,Name,hed__Program_Plan__c
+a0JBn000000My5bMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5bMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7576 756011f,Name,hed__Program_Plan__c
+a0JBn000000My7BMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My7BMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Test Auto Parent Course T5555 - 5018349,Name,hed__Program_Plan__c
+a0JBn000000My8nMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My8nMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Enterprise Leadership Program Test7575 10f6925,Name,hed__Program_Plan__c
+a0JBn000000My8oMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My8oMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.258,Test Auto Parent Course T5555 - 4744055,Name,hed__Program_Plan__c
+a0JBn000000MyAPMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyAQMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyC1MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyDdMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyGrMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Test Auto Parent Course T5555 - 3360112,Name,hed__Program_Plan__c
+a0JBn000000MyGsMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Automation Testing Plan_977,Name,hed__Program_Plan__c
+a0JBn000000MyITMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7575 a297903,Name,hed__Program_Plan__c
+a0JBn000000MyLhMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 488c095,Name,hed__Program_Plan__c
+a0JBn000000MyQXMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 cb1f556,Name,hed__Program_Plan__c
+a0JBn000000MyS9MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7575 7b6e860,Name,hed__Program_Plan__c
+a0JBn000000MyTlMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Test Auto Parent Course T5555 - 9826716,Name,hed__Program_Plan__c
+a0JBn000000MyVNMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 501feac,Name,hed__Program_Plan__c
+a0JBn000000MyVOMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Test Auto Parent Course T5555 - 3462582,Name,hed__Program_Plan__c
+a0JBn000000MyWzMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Automation Testing Plan_551,Name,hed__Program_Plan__c
+a0JBn000000MyiHMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7575 967b81c,Name,hed__Program_Plan__c
+a0JBn000000MyiIMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 8fca513,Name,hed__Program_Plan__c
+a0JBn000000MyjuMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Test Auto Parent Course T5555 - 3921264,Name,hed__Program_Plan__c
+a0JBn000000MyokMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7575 2817154,Name,hed__Program_Plan__c
+a0JBn000000MyqLMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 36e4a5f,Name,hed__Program_Plan__c
+a0JBn000000MzCwMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 0317153,Name,hed__Program_Plan__c
+a0JBn000000MzEXMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7575 66e9e72,Name,hed__Program_Plan__c
+a0JBn000000MzG9MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Test Auto Parent Course T5555 - 2309697,Name,hed__Program_Plan__c
+a0JBn000000MzHlMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Automation Testing Plan_474,Name,hed__Program_Plan__c
+a0JBn000000MzKzMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.259,Enterprise Leadership Program Test7576 3e784dd,Name,hed__Program_Plan__c
+a0JBn000000MzMbMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 8965884,Name,hed__Program_Plan__c
+a0JBn000000MzODMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Automation Testing Plan_425,Name,hed__Program_Plan__c
+a0JBn000000MzPpMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7575 462df88,Name,hed__Program_Plan__c
+a0JBn000000MzT3MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7576 4ab1744,Name,hed__Program_Plan__c
+a0JBn000000MzUfMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 3748772,Name,hed__Program_Plan__c
+a0JBn000000MzXtMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 7302120,Name,hed__Program_Plan__c
+a0JBn000000MzZVMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Automation Testing Course_019,Name,hed__Program_Plan__c
+a0JBn000000Mzb7MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 8651900,Name,hed__Program_Plan__c
+a0JBn000000Mzb8MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 5426574,Name,hed__Program_Plan__c
+a0JBn000000MzckMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Automation Testing Plan_409,Name,hed__Program_Plan__c
+a0JBn000000MzeLMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 1598782,Name,hed__Program_Plan__c
+a0JBn000000MzjBMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7575 f63c0d1,Name,hed__Program_Plan__c
+a0JBn000000MzknMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7576 70f73a5,Name,hed__Program_Plan__c
+a0JBn000000MzmPMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Automation Testing Plan_710,Name,hed__Program_Plan__c
+a0JBn000000MzpeMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 0811970,Name,hed__Program_Plan__c
+a0JBn000000MzuTMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7575 50db0b3,Name,hed__Program_Plan__c
+a0JBn000000Mzw5MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7576 1effb61,Name,hed__Program_Plan__c
+a0JBn000000MzxhMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7575 16dcd45,Name,hed__Program_Plan__c
+a0JBn000000MzxiMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7576 daedb04,Name,hed__Program_Plan__c
+a0JBn000000MzzKMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 2406840,Name,hed__Program_Plan__c
+a0JBn000000N00vMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Automation Testing Plan_356,Name,hed__Program_Plan__c
+a0JBn000000N02XMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7576 c9f4af7,Name,hed__Program_Plan__c
+a0JBn000000N07NMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7575 ecbca5b,Name,hed__Program_Plan__c
+a0JBn000000N0AcMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Test Auto Parent Course T5555 - 1568561,Name,hed__Program_Plan__c
+a0JBn000000N0DqMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.260,Enterprise Leadership Program Test7575 154b12e,Name,hed__Program_Plan__c
+a0JBn000000N0FRMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7576 f750268,Name,hed__Program_Plan__c
+a0JBn000000N0H3MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Automation Testing Plan_797,Name,hed__Program_Plan__c
+a0JBn000000N0LtMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 5229672,Name,hed__Program_Plan__c
+a0JBn000000N0NWMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 1053219,Name,hed__Program_Plan__c
+a0JBn000000N0P7MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7575 ab44c04,Name,hed__Program_Plan__c
+a0JBn000000N0QjMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7576 4e0e013,Name,hed__Program_Plan__c
+a0JBn000000N0SLMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 4295557,Name,hed__Program_Plan__c
+a0JBn000000N0VZMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7575 43faf1e,Name,hed__Program_Plan__c
+a0JBn000000N0XBMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7576 4fa4ee3,Name,hed__Program_Plan__c
+a0JBn000000N0fFMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Automation Testing Plan_936,Name,hed__Program_Plan__c
+a0JBn000000N0grMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 1636656,Name,hed__Program_Plan__c
+a0JBn000000N0k5MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7575 7c38fb3,Name,hed__Program_Plan__c
+a0JBn000000N0lhMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 8624173,Name,hed__Program_Plan__c
+a0JBn000000N0ovMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7575 03bda8e,Name,hed__Program_Plan__c
+a0JBn000000N0owMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 2333934,Name,hed__Program_Plan__c
+a0JBn000000N0qXMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Enterprise Leadership Program Test7575 67aafda,Name,hed__Program_Plan__c
+a0JBn000000N0tlMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:54.261,Test Auto Parent Course T5555 - 8040150,Name,hed__Program_Plan__c
+a1r8q0000000clcAAA,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Modern Chinese Language Course,Name,hed__Program_Plan__c
+a1r8q0000000f02AAA,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,EzyQuip Strategic Leaders' Program,Name,hed__Program_Plan__c
+a1rBn00000XVwKhIAL,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,QLD Health Next Generation Program 2023,Name,hed__Program_Plan__c
+a1rBn00000XZybxIAD,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Sime Darby Strategic Leaders Program 2023,Name,hed__Program_Plan__c
+a1rBn00000XoZxsIAF,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Sime Darby Enterprise Executive Program 2023/24,Name,hed__Program_Plan__c
+a1rBn00000aK8kfIAC,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 2d0374c,Name,hed__Program_Plan__c
+a1rBn00000aNEaUIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 146c403,Name,hed__Program_Plan__c
+a1rBn00000aNJgLIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 d7bd806,Name,hed__Program_Plan__c
+a1rBn00000aVbq0IAC,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 829f8c4,Name,hed__Program_Plan__c
+a1rBn00000aVkCbIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 cecd675,Name,hed__Program_Plan__c
+a1rBn00000aWYhtIAG,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 756011f,Name,hed__Program_Plan__c
+a1rBn00000ahDzlIAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 5018349,Name,hed__Program_Plan__c
+a1rBn00000ahFa9IAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 10f6925,Name,hed__Program_Plan__c
+a1rBn00000apeZlIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 4744055,Name,hed__Program_Plan__c
+a1rBn00000bGPmjIAG,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 3360112,Name,hed__Program_Plan__c
+a1rBn00000bGRWnIAO,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Automation Testing Plan_977,Name,hed__Program_Plan__c
+a1rBn00000bJM7ZIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 a297903,Name,hed__Program_Plan__c
+a1rBn00000bJMYzIAO,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 488c095,Name,hed__Program_Plan__c
+a1rBn00000bcPlGIAU,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 cb1f556,Name,hed__Program_Plan__c
+a1rBn00000bdExOIAU,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 7b6e860,Name,hed__Program_Plan__c
+a1rBn00000bpdgPIAQ,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 9826716,Name,hed__Program_Plan__c
+a1rBn00000bqHYvIAM,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 501feac,Name,hed__Program_Plan__c
+a1rBn00000c1kUUIAY,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 3462582,Name,hed__Program_Plan__c
+a1rBn00000c1mKyIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Automation Testing Plan_551,Name,hed__Program_Plan__c
+a1rBn00000dS0NbIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 967b81c,Name,hed__Program_Plan__c
+a1rBn00000dTXuXIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 8fca513,Name,hed__Program_Plan__c
+a1rBn00000dVqVxIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 3921264,Name,hed__Program_Plan__c
+a1rBn00000deHa4IAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 2817154,Name,hed__Program_Plan__c
+a1rOm000000ZrMPIA0,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 36e4a5f,Name,hed__Program_Plan__c
+a1rOm000005flEbIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7576 0317153,Name,hed__Program_Plan__c
+a1rOm000005foXRIAY,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Enterprise Leadership Program Test7575 66e9e72,Name,hed__Program_Plan__c
+a1rOm000005frGnIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Test Auto Parent Course T5555 - 2309697,Name,hed__Program_Plan__c
+a1rOm000005frS5IAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:54.264,Automation Testing Plan_474,Name,hed__Program_Plan__c
+a098q0000007pPTAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPUAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPVAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPWAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPXAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPYAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPZAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPaAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPbAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPcAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPdAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPeAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.617,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPfAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPgAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPhAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPiAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPjAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPkAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPlAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPmAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPnAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPoAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPpAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:54.618,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a1C920000004gDyEAI,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:54.638,QRS-000001,Name,Questionnaire_Response_Summary__c
+a1C920000004gNFEAY,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:54.638,QRS-000001,Name,Questionnaire_Response_Summary__c
+a1C920000004gWvEAI,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:54.638,QRS-000002,Name,Questionnaire_Response_Summary__c
+a1k8r00000EU35FAAT,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000o4JlEAI,Name,Lead
+a1k8r00000EU36rAAD,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000ds8bEAA,Name,Lead
+a1k8r00000EU3BhAAL,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000g5PtEAI,Name,Lead
+a1k8r00000EVdt3AAD,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000hkvdEAA,Name,Lead
+a1k8r00000DobcnAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000jvzpEAA,Name,Lead
+a1k8r00000DwkXNAAZ,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000khA1EAI,Name,Lead
+a1k8r00000DwkkaAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kgnREAQ,Name,Lead
+a1k8r00000DwlezAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000keH0EAI,Name,Lead
+a1k8r00000DwlhuAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kfudEAA,Name,Lead
+a1k8r00000Dwm3BAAR,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kfL7EAI,Name,Lead
+a1k8r00000Dwm6PAAR,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kfbFEAQ,Name,Lead
+a1k8r00000Dwm9dAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kefCEAQ,Name,Lead
+a1k8r00000DwmETAAZ,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kevLEAQ,Name,Lead
+a1k8r00000DxBmLAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kf3OEAQ,Name,Lead
+a1k8r00000DxBpZAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kgSUEAY,Name,Lead
+a1k8r00000DxBsnAAF,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kh1xEAA,Name,Lead
+a1k8r00000DxC5hAAF,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000khDFEAY,Name,Lead
+a1k8r00000DxC7JAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kdw2EAA,Name,Lead
+a1k8r00000DxYuDAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:54.641,00Q8r000000kknqEAA,Name,Lead
+a1l8r0000001rALAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:54.643,00Q8r000000kgSUEAY,Name,Lead
+a1l8r0000001rBxAAI,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:54.643,00Q8r000000kh1xEAA,Name,Lead
+a1l8r0000001rDZAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:54.643,00Q8r000000khA1EAI,Name,Lead
+a1l8r0000001rFBAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:54.643,00Q8r000000khDFEAY,Name,Lead
+a1l8r0000001rGnAAI,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:54.643,00Q8r000000kdw2EAA,Name,Lead
+a1m8r0000002x2PAAQ,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000o4JlEAI,Name,Lead
+a1m8r0000002x41AAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000ds8bEAA,Name,Lead
+a1m8r0000002x5dAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000g5PtEAI,Name,Lead
+a1m8r0000002xOzAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000hkvdEAA,Name,Lead
+a1m8r0000002r6fAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000keH0EAI,Name,Lead
+a1m8r0000002r8HAAQ,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kfL7EAI,Name,Lead
+a1m8r0000002r9tAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kfbFEAQ,Name,Lead
+a1m8r0000002rBVAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kefCEAQ,Name,Lead
+a1m8r0000002rEjAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kevLEAQ,Name,Lead
+a1m8r0000002rJZAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kgFaEAI,Name,Lead
+a1m8r0000002rMnAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kgSUEAY,Name,Lead
+a1m8r0000002rOPAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kh1xEAA,Name,Lead
+a1m8r0000002rQ1AAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000khA1EAI,Name,Lead
+a1m8r0000002rRdAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000khDFEAY,Name,Lead
+a1m8r0000002rTFAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kdw2EAA,Name,Lead
+a1m8r0000002rUrAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kfbGEAQ,Name,Lead
+a1m8r0000002rcvAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:54.646,00Q8r000000kknqEAA,Name,Lead
+a03Bn00000Igsb7IAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000ImiSdIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsXRGIA3,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsYbrIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isd0PIAR,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsgKtIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsnEHIAZ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsoOrIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isoa9IAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isp3BIAR,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IzGdNIAV,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IzR8zIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4HwzIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4I9tIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4IWTIA3,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4goyIAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLdIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLeIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLfIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLgIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JA7tJIAT,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JA8J7IAL,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAAchIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAB7JIAX,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAVLWIA5,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAYVJIA5,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGJwbIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGKPeIAP,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGNgrIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGO9tIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:54.664,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a0z9200000038FZAAY,Product_Specification__c,Product_Specification__r.External_Id__c,Product_Request__c,2024-05-27  16:21:58.219,ABC890,External_Id__c,Product_Specification__c
+a0JBn000000MwerMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.096,Modern Chinese Language Course,Name,hed__Program_Plan__c
+a0JBn000000MwgTMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,EzyQuip Strategic Leaders' Program,Name,hed__Program_Plan__c
+a0JBn000000MwmvMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,QLD Health Next Generation Program 2023,Name,hed__Program_Plan__c
+a0JBn000000Mwq9MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Sime Darby Strategic Leaders Program 2023,Name,hed__Program_Plan__c
+a0JBn000000MwwbMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Sime Darby Enterprise Executive Program 2023/24,Name,hed__Program_Plan__c
+a0JBn000000MwwcMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MwyDMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MwzpMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx1RMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx1SMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx33MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx4fMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx6HMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx7tMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mx9VMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB7MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB8MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxB9MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.097,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxCjMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxCkMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxClMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxELMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxFxMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxHZMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxHaMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxJBMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxKnMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxKoMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxMPMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxMQMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxO1MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxO2MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPdMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPeMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPfMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxPgMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxSrMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxUTMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxUUMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxW5MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxW6MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxXhMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxXiMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.098,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxZJMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxavMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxcXMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxe9MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxflMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxhOMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxj0MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxkbMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxmDMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxnpMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxnqMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxpRMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxr3MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxsfMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxsgMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxuHMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvtMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvtMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Enterprise Leadership Program Test7575 2d0374c,Name,hed__Program_Plan__c
+a0JBn000000MxvuMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvvMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxvwMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxxVMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MxxWMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000Mxz7MAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My0jMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My0jMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Enterprise Leadership Program Test7575 146c403,Name,hed__Program_Plan__c
+a0JBn000000My2LMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.099,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My2LMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7576 d7bd806,Name,hed__Program_Plan__c
+a0JBn000000My3xMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My3xMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7575 829f8c4,Name,hed__Program_Plan__c
+a0JBn000000My5ZMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5aMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5aMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7575 cecd675,Name,hed__Program_Plan__c
+a0JBn000000My5bMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My5bMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7576 756011f,Name,hed__Program_Plan__c
+a0JBn000000My7BMAS,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My7BMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Test Auto Parent Course T5555 - 5018349,Name,hed__Program_Plan__c
+a0JBn000000My8nMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My8nMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7575 10f6925,Name,hed__Program_Plan__c
+a0JBn000000My8oMAC,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000My8oMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Test Auto Parent Course T5555 - 4744055,Name,hed__Program_Plan__c
+a0JBn000000MyAPMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyAQMA0,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyC1MAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyDdMAK,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a0JBn000000MyGrMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Test Auto Parent Course T5555 - 3360112,Name,hed__Program_Plan__c
+a0JBn000000MyGsMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Automation Testing Plan_977,Name,hed__Program_Plan__c
+a0JBn000000MyITMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7575 a297903,Name,hed__Program_Plan__c
+a0JBn000000MyLhMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7576 488c095,Name,hed__Program_Plan__c
+a0JBn000000MyQXMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7576 cb1f556,Name,hed__Program_Plan__c
+a0JBn000000MyS9MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7575 7b6e860,Name,hed__Program_Plan__c
+a0JBn000000MyTlMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Test Auto Parent Course T5555 - 9826716,Name,hed__Program_Plan__c
+a0JBn000000MyVNMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Enterprise Leadership Program Test7576 501feac,Name,hed__Program_Plan__c
+a0JBn000000MyVOMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Test Auto Parent Course T5555 - 3462582,Name,hed__Program_Plan__c
+a0JBn000000MyWzMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.100,Automation Testing Plan_551,Name,hed__Program_Plan__c
+a0JBn000000MyiHMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7575 967b81c,Name,hed__Program_Plan__c
+a0JBn000000MyiIMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7576 8fca513,Name,hed__Program_Plan__c
+a0JBn000000MyjuMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Test Auto Parent Course T5555 - 3921264,Name,hed__Program_Plan__c
+a0JBn000000MyokMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7575 2817154,Name,hed__Program_Plan__c
+a0JBn000000MyqLMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7576 36e4a5f,Name,hed__Program_Plan__c
+a0JBn000000MzCwMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7576 0317153,Name,hed__Program_Plan__c
+a0JBn000000MzEXMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7575 66e9e72,Name,hed__Program_Plan__c
+a0JBn000000MzG9MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Test Auto Parent Course T5555 - 2309697,Name,hed__Program_Plan__c
+a0JBn000000MzHlMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Automation Testing Plan_474,Name,hed__Program_Plan__c
+a0JBn000000MzKzMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7576 3e784dd,Name,hed__Program_Plan__c
+a0JBn000000MzMbMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Test Auto Parent Course T5555 - 8965884,Name,hed__Program_Plan__c
+a0JBn000000MzODMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Automation Testing Plan_425,Name,hed__Program_Plan__c
+a0JBn000000MzPpMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7575 462df88,Name,hed__Program_Plan__c
+a0JBn000000MzT3MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Enterprise Leadership Program Test7576 4ab1744,Name,hed__Program_Plan__c
+a0JBn000000MzUfMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Test Auto Parent Course T5555 - 3748772,Name,hed__Program_Plan__c
+a0JBn000000MzXtMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Test Auto Parent Course T5555 - 7302120,Name,hed__Program_Plan__c
+a0JBn000000MzZVMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.101,Automation Testing Course_019,Name,hed__Program_Plan__c
+a0JBn000000Mzb7MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Test Auto Parent Course T5555 - 8651900,Name,hed__Program_Plan__c
+a0JBn000000Mzb8MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Test Auto Parent Course T5555 - 5426574,Name,hed__Program_Plan__c
+a0JBn000000MzckMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Automation Testing Plan_409,Name,hed__Program_Plan__c
+a0JBn000000MzeLMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Test Auto Parent Course T5555 - 1598782,Name,hed__Program_Plan__c
+a0JBn000000MzjBMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7575 f63c0d1,Name,hed__Program_Plan__c
+a0JBn000000MzknMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7576 70f73a5,Name,hed__Program_Plan__c
+a0JBn000000MzmPMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Automation Testing Plan_710,Name,hed__Program_Plan__c
+a0JBn000000MzpeMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Test Auto Parent Course T5555 - 0811970,Name,hed__Program_Plan__c
+a0JBn000000MzuTMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7575 50db0b3,Name,hed__Program_Plan__c
+a0JBn000000Mzw5MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7576 1effb61,Name,hed__Program_Plan__c
+a0JBn000000MzxhMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7575 16dcd45,Name,hed__Program_Plan__c
+a0JBn000000MzxiMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7576 daedb04,Name,hed__Program_Plan__c
+a0JBn000000MzzKMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Test Auto Parent Course T5555 - 2406840,Name,hed__Program_Plan__c
+a0JBn000000N00vMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Automation Testing Plan_356,Name,hed__Program_Plan__c
+a0JBn000000N02XMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7576 c9f4af7,Name,hed__Program_Plan__c
+a0JBn000000N07NMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Enterprise Leadership Program Test7575 ecbca5b,Name,hed__Program_Plan__c
+a0JBn000000N0AcMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.102,Test Auto Parent Course T5555 - 1568561,Name,hed__Program_Plan__c
+a0JBn000000N0DqMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7575 154b12e,Name,hed__Program_Plan__c
+a0JBn000000N0FRMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7576 f750268,Name,hed__Program_Plan__c
+a0JBn000000N0H3MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Automation Testing Plan_797,Name,hed__Program_Plan__c
+a0JBn000000N0LtMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 5229672,Name,hed__Program_Plan__c
+a0JBn000000N0NWMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 1053219,Name,hed__Program_Plan__c
+a0JBn000000N0P7MAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7575 ab44c04,Name,hed__Program_Plan__c
+a0JBn000000N0QjMAK,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7576 4e0e013,Name,hed__Program_Plan__c
+a0JBn000000N0SLMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 4295557,Name,hed__Program_Plan__c
+a0JBn000000N0VZMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7575 43faf1e,Name,hed__Program_Plan__c
+a0JBn000000N0XBMA0,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7576 4fa4ee3,Name,hed__Program_Plan__c
+a0JBn000000N0fFMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Automation Testing Plan_936,Name,hed__Program_Plan__c
+a0JBn000000N0grMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 1636656,Name,hed__Program_Plan__c
+a0JBn000000N0k5MAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7575 7c38fb3,Name,hed__Program_Plan__c
+a0JBn000000N0lhMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 8624173,Name,hed__Program_Plan__c
+a0JBn000000N0ovMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7575 03bda8e,Name,hed__Program_Plan__c
+a0JBn000000N0owMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 2333934,Name,hed__Program_Plan__c
+a0JBn000000N0qXMAS,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Enterprise Leadership Program Test7575 67aafda,Name,hed__Program_Plan__c
+a0JBn000000N0tlMAC,hed__Program_Plan__c,hed__Program_Plan__r.Name,hed__Program_Enrollment__c,2024-05-27  16:21:59.103,Test Auto Parent Course T5555 - 8040150,Name,hed__Program_Plan__c
+a1r8q0000000clcAAA,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Modern Chinese Language Course,Name,hed__Program_Plan__c
+a1r8q0000000f02AAA,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,EzyQuip Strategic Leaders' Program,Name,hed__Program_Plan__c
+a1rBn00000XVwKhIAL,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,QLD Health Next Generation Program 2023,Name,hed__Program_Plan__c
+a1rBn00000XZybxIAD,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Sime Darby Strategic Leaders Program 2023,Name,hed__Program_Plan__c
+a1rBn00000XoZxsIAF,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Sime Darby Enterprise Executive Program 2023/24,Name,hed__Program_Plan__c
+a1rBn00000aK8kfIAC,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 2d0374c,Name,hed__Program_Plan__c
+a1rBn00000aNEaUIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 146c403,Name,hed__Program_Plan__c
+a1rBn00000aNJgLIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 d7bd806,Name,hed__Program_Plan__c
+a1rBn00000aVbq0IAC,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 829f8c4,Name,hed__Program_Plan__c
+a1rBn00000aVkCbIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 cecd675,Name,hed__Program_Plan__c
+a1rBn00000aWYhtIAG,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 756011f,Name,hed__Program_Plan__c
+a1rBn00000ahDzlIAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 5018349,Name,hed__Program_Plan__c
+a1rBn00000ahFa9IAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 10f6925,Name,hed__Program_Plan__c
+a1rBn00000apeZlIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 4744055,Name,hed__Program_Plan__c
+a1rBn00000bGPmjIAG,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 3360112,Name,hed__Program_Plan__c
+a1rBn00000bGRWnIAO,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Automation Testing Plan_977,Name,hed__Program_Plan__c
+a1rBn00000bJM7ZIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 a297903,Name,hed__Program_Plan__c
+a1rBn00000bJMYzIAO,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 488c095,Name,hed__Program_Plan__c
+a1rBn00000bcPlGIAU,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 cb1f556,Name,hed__Program_Plan__c
+a1rBn00000bdExOIAU,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 7b6e860,Name,hed__Program_Plan__c
+a1rBn00000bpdgPIAQ,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 9826716,Name,hed__Program_Plan__c
+a1rBn00000bqHYvIAM,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 501feac,Name,hed__Program_Plan__c
+a1rBn00000c1kUUIAY,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 3462582,Name,hed__Program_Plan__c
+a1rBn00000c1mKyIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Automation Testing Plan_551,Name,hed__Program_Plan__c
+a1rBn00000dS0NbIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 967b81c,Name,hed__Program_Plan__c
+a1rBn00000dTXuXIAW,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 8fca513,Name,hed__Program_Plan__c
+a1rBn00000dVqVxIAK,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 3921264,Name,hed__Program_Plan__c
+a1rBn00000deHa4IAE,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 2817154,Name,hed__Program_Plan__c
+a1rOm000000ZrMPIA0,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 36e4a5f,Name,hed__Program_Plan__c
+a1rOm000005flEbIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7576 0317153,Name,hed__Program_Plan__c
+a1rOm000005foXRIAY,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Enterprise Leadership Program Test7575 66e9e72,Name,hed__Program_Plan__c
+a1rOm000005frGnIAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Test Auto Parent Course T5555 - 2309697,Name,hed__Program_Plan__c
+a1rOm000005frS5IAI,hed_Program_Plan__c,hed_Program_Plan__r.Name,Program_Offering__c,2024-05-27  16:21:59.116,Automation Testing Plan_474,Name,hed__Program_Plan__c
+a098q0000007pPTAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPUAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPVAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPWAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPXAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPYAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPZAAY,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPaAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPbAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPcAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.519,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPdAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPeAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPfAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPgAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPhAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPiAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPjAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPkAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPlAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPmAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPnAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPoAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a098q0000007pPpAAI,hed__Contact__c,hed__Contact__r.$$Name$QUT_Staff_Email__c,hed__Course_Enrollment__c,2024-05-27  16:21:59.520,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a1C920000004gDyEAI,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:59.540,QRS-000001,Name,Questionnaire_Response_Summary__c
+a1C920000004gNFEAY,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:59.540,QRS-000001,Name,Questionnaire_Response_Summary__c
+a1C920000004gWvEAI,Questionnaire_Response_Summary__c,Questionnaire_Response_Summary__r.Name,Answer__c,2024-05-27  16:21:59.540,QRS-000002,Name,Questionnaire_Response_Summary__c
+a1k8r00000EU35FAAT,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000o4JlEAI,Name,Lead
+a1k8r00000EU36rAAD,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000ds8bEAA,Name,Lead
+a1k8r00000EU3BhAAL,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000g5PtEAI,Name,Lead
+a1k8r00000EVdt3AAD,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000hkvdEAA,Name,Lead
+a1k8r00000DobcnAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000jvzpEAA,Name,Lead
+a1k8r00000DwkXNAAZ,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000khA1EAI,Name,Lead
+a1k8r00000DwkkaAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kgnREAQ,Name,Lead
+a1k8r00000DwlezAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000keH0EAI,Name,Lead
+a1k8r00000DwlhuAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kfudEAA,Name,Lead
+a1k8r00000Dwm3BAAR,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kfL7EAI,Name,Lead
+a1k8r00000Dwm6PAAR,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kfbFEAQ,Name,Lead
+a1k8r00000Dwm9dAAB,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kefCEAQ,Name,Lead
+a1k8r00000DwmETAAZ,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kevLEAQ,Name,Lead
+a1k8r00000DxBmLAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kf3OEAQ,Name,Lead
+a1k8r00000DxBpZAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kgSUEAY,Name,Lead
+a1k8r00000DxBsnAAF,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kh1xEAA,Name,Lead
+a1k8r00000DxC5hAAF,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000khDFEAY,Name,Lead
+a1k8r00000DxC7JAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kdw2EAA,Name,Lead
+a1k8r00000DxYuDAAV,Lead__c,Lead__r.Name,Marketing_Course_Application__c,2024-05-27  16:21:59.544,00Q8r000000kknqEAA,Name,Lead
+a1l8r0000001rALAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:59.546,00Q8r000000kgSUEAY,Name,Lead
+a1l8r0000001rBxAAI,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:59.546,00Q8r000000kh1xEAA,Name,Lead
+a1l8r0000001rDZAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:59.546,00Q8r000000khA1EAI,Name,Lead
+a1l8r0000001rFBAAY,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:59.546,00Q8r000000khDFEAY,Name,Lead
+a1l8r0000001rGnAAI,Lead__c,Lead__r.Name,Marketing_Interaction__c,2024-05-27  16:21:59.546,00Q8r000000kdw2EAA,Name,Lead
+a1m8r0000002x2PAAQ,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000o4JlEAI,Name,Lead
+a1m8r0000002x41AAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000ds8bEAA,Name,Lead
+a1m8r0000002x5dAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000g5PtEAI,Name,Lead
+a1m8r0000002xOzAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000hkvdEAA,Name,Lead
+a1m8r0000002r6fAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000keH0EAI,Name,Lead
+a1m8r0000002r8HAAQ,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kfL7EAI,Name,Lead
+a1m8r0000002r9tAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kfbFEAQ,Name,Lead
+a1m8r0000002rBVAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kefCEAQ,Name,Lead
+a1m8r0000002rEjAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kevLEAQ,Name,Lead
+a1m8r0000002rJZAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kgFaEAI,Name,Lead
+a1m8r0000002rMnAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kgSUEAY,Name,Lead
+a1m8r0000002rOPAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kh1xEAA,Name,Lead
+a1m8r0000002rQ1AAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000khA1EAI,Name,Lead
+a1m8r0000002rRdAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000khDFEAY,Name,Lead
+a1m8r0000002rTFAAY,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kdw2EAA,Name,Lead
+a1m8r0000002rUrAAI,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kfbGEAQ,Name,Lead
+a1m8r0000002rcvAAA,Lead__c,Lead__r.Name,Marketing_Segmentation__c,2024-05-27  16:21:59.548,00Q8r000000kknqEAA,Name,Lead
+a03Bn00000Igsb7IAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000ImiSdIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsXRGIA3,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsYbrIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isd0PIAR,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsgKtIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsnEHIAZ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IsoOrIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isoa9IAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000Isp3BIAR,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IzGdNIAV,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000IzR8zIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4HwzIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4I9tIAF,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4IWTIA3,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4goyIAB,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLdIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLeIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLfIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000J4uLgIAJ,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.561,Stanley Pringle;stanpring.staff@gmail.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JA7tJIAT,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JA8J7IAL,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAAchIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAB7JIAX,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAVLWIA5,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JAYVJIA5,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGJwbIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGKPeIAP,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGNgrIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact
+a03Bn00000JGO9tIAH,hed__Applicant__c,hed__Applicant__r.$$Name$QUT_Staff_Email__c,hed__Application__c,2024-05-27  16:21:59.562,Park Leads;missplease.staff@email.com,Name;QUT_Staff_Email__c,Contact

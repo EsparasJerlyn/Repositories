@@ -1,0 +1,12 @@
+AccountSource,Id,IsBuyer,IsCustomerPortal,IsPartner,Name,Organization_Unit_Level__c,Owner.Name,OwnerId,RecordType.$$DeveloperName$SobjectType,RecordTypeId
+'',0019r000002WIS5AAO,FALSE,FALSE,FALSE,QUTeX Products,'',CICD Integration User,0058q000000Hs5bAAC,Business_Organization;Account,0128q0000004JlWAAU
+',00192000002jYqnAAE,FALSE,FALSE,FALSE,QUT GSB & QUTeX,'',CICD Integration User,0058q000000Hs5bAAC,Business_Organization;Account,0128q0000004JlWAAU
+,0019n000001yOenAAE,TRUE,FALSE,FALSE,United BC Corp,'',CICD Integration User,0058q000000Hs5bAAC,Business_Organization;Account,0128q0000004JlWAAU
+,0019n000001yOeoAAE,TRUE,FALSE,FALSE,Central Perc Co.,'',CICD Integration User,0058q000000Hs5bAAC,Business_Organization;Account,0128q0000004JlWAAU
+Outbound Enquiry,0019n000001yOepAAE,TRUE,FALSE,FALSE,Test Corporation,'',CICD Integration User,0058q000000Hs5bAAC,Business_Organization;Account,0128q0000004JlWAAU
+,0019r000002lVbzAAE,false,false,false,Participating School 2,3,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+,0019r000002lVc0AAE,false,false,false,Participating School 1,3,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+Outbound Enquiry,0019r000002uJDKAA2,true,false,true,OPE Catalogue,'',Anthony Ducat-Ernst,0058q000000HwJvAAK,Business_Organization;Account,0128q0000004JlWAAU
+,0019h000001wVUIAA2,false,false,false,Owning Faculty 1,2,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+,0019h000001wVSgAAM,false,false,false,Owning Faculty 2,2,CICD Integration User,0058q000000Hs5bAAC,University_Department;Account,0128q0000004JlaAAE
+,001Bn00000Gi0zBIAR,false,false,false,Academic,2,CICD Integration User,0058q000000Hs5bAAC,Academic_Program;Account,0128q0000004JlUAAU

@@ -1,0 +1,257 @@
+Country_Name__c,Id,IsActive__c,Tier_Category__c,Tier_Subcategory__c
+Afghanistan,KOFX4OFA3UZDRWOOBZ,TRUE,Untiered,Restricted
+Åland Islands,OTDMP7AGVCC8E8O84A,TRUE,Untiered,Unrestricted
+Albania,ACPF5YK4HLMEXTIUW6,TRUE,Untiered,Unrestricted
+Algeria,FRM0RITC815N1UBN2A,TRUE,Untiered,Restricted
+American Samoa,7IIWPKQ1MYCL8BHFBH,TRUE,Untiered,Unrestricted
+Andorra,WAWZBQKYKOEEPHZPAK,TRUE,Untiered,Unrestricted
+Angola,81LQ6K4HOCEBSEHJ8E,TRUE,Untiered,Restricted
+Anguilla,TWCNSLEG1Q5BFZD1SA,TRUE,Untiered,Unrestricted
+Antarctica,EY6CVSCLQ0KK1Z0QOI,TRUE,Untiered,Unrestricted
+Antigua and Barbuda,K710QR4K1RSWKHXJKH,TRUE,Untiered,Unrestricted
+Argentina,OYJEDJQGX75WRM4AWI,TRUE,Untiered,Unrestricted
+Armenia,4HPPKS4EWTOJPIPIMY,TRUE,Untiered,Unrestricted
+Aruba,AJNFWGCODTJFNSEYSN,TRUE,Untiered,Unrestricted
+Australia,39FBLJJ0YFH1VJXSLL,TRUE,Tier 1,Unrestricted
+Austria,FBFG8UOGUDPEO3CQ5V,TRUE,Untiered,Unrestricted
+Azerbaijan,MJSEHKXRQ0FF8RHDWG,TRUE,Untiered,Unrestricted
+Bahamas (the),AIGXZZ7MUIFUH4BKMI,TRUE,Untiered,Unrestricted
+Bahrain,5YKKO1RSXQK8DRCPCS,TRUE,Untiered,Unrestricted
+Bangladesh,CJFQ3IMWKZKKNLAOXG,TRUE,Tier 3,Restricted
+Barbados,4IHACJEDSRYMVCUMFV,TRUE,Untiered,Unrestricted
+Belarus,6TEYBCYQITH1YXKPYJ,TRUE,Untiered,Unrestricted
+Belgium,0MDSX91EXTCHLYFA69,TRUE,Developed Nations,Unrestricted
+Belize,LFVSBLQPEXFHVGXGRP,TRUE,Untiered,Unrestricted
+Benin,LPQZ0U5QDZUJ1LNZAP,TRUE,Untiered,Restricted
+Bermuda,6YASSZICWSWU9H95HS,TRUE,Untiered,Unrestricted
+Bhutan,5ZKNYVVB9GG1ZS4C02,TRUE,Tier 2,Restricted
+Bolivia (Plurinational State of),H63E6H5NASFYMKGMS3,TRUE,Untiered,Unrestricted
+"Bonaire, Sint Eustatius and Saba",9Z1OE40914W1KJTAKR,TRUE,Untiered,Unrestricted
+Bosnia and Herzegovina,F40Q9E6PYNMA5VGAFL,TRUE,Untiered,Unrestricted
+Botswana,PIFK0LM55BZXDFBM1N,TRUE,Untiered,Restricted
+Bouvet Island,XF89KWOUZXPFJDGLYV,TRUE,Untiered,Unrestricted
+Brazil,JRPPX4I64WKWMC2Z6K,TRUE,Tier 3,Unrestricted
+British Indian Ocean Territory (the),HSVHHLBHR3TUZBDVA8,TRUE,Untiered,Unrestricted
+Brunei Darussalam,AM4RNC70Z928IB2TXG,TRUE,Developed Nations,Unrestricted
+Bulgaria,BMZYEHFR5W3KMFWKFL,TRUE,Untiered,Unrestricted
+Burkina Faso,UINFMOJINWZBJW6XKS,TRUE,Untiered,Restricted
+Burundi,IFCF1UZ6QHLFUPCTZZ,TRUE,Untiered,Restricted
+Cabo Verde,A75GUEB8ZZN6WJWWT0,TRUE,Untiered,Restricted
+Cambodia,PBEIKMNDVCEM55PVS6,TRUE,Tier 3,Unrestricted
+Cameroon,F9QMM1NVAWZXU6ZDFS,TRUE,Untiered,Restricted
+Canada,60FKNTZZTYKVTHZW0J,TRUE,Developed Nations,Unrestricted
+Cayman Islands (the),DBANA7HQIDLOKWKVZ1,TRUE,Untiered,Unrestricted
+Central African Republic (the),LFINYTW7ATWCYET0LA,TRUE,Untiered,Restricted
+Chad,IZR5IF83M7Z2EIZY88,TRUE,Untiered,Restricted
+Channel Islands,7JLYKBQ5HYECLWBUDR,TRUE,Untiered,Unrestricted
+Chile,CFXQLN039WXZAO6QFP,TRUE,Untiered,Unrestricted
+China,QJBOQTEVN6AKUJMGDX,TRUE,Tier 1,Unrestricted
+Christmas Island,YX6GJA3IVAR9EMV76L,TRUE,Untiered,Unrestricted
+Cocos (Keeling) Islands (the),D9QFEUMHSDCBWJ7Y3P,TRUE,Untiered,Unrestricted
+Colombia,KZFPT2NRKWWPZ2AMSG,TRUE,Tier 3,Unrestricted
+Comoros (the),XQOXLD9LZLR7HQ6E3B,TRUE,Untiered,Restricted
+Congo (the Democratic Republic of the),XCVPYUOINQW9P9LLUV,TRUE,Untiered,Restricted
+Congo (the),UGGKT5PJAE8FC52E0A,TRUE,Untiered,Restricted
+Cook Islands (the),D3NJ8LODQSAVHWGDMG,TRUE,Untiered,Unrestricted
+Costa Rica,RCWP2LKN7SSK8RV3MK,TRUE,Untiered,Unrestricted
+Côte d'Ivoire,BWDZS69TC3ZJM4ZT7X,TRUE,Untiered,Restricted
+Croatia,PNXFYWETJ184ZYGJUM,TRUE,Untiered,Unrestricted
+Cuba,FFRMFNNHK3RAWE8WOK,TRUE,Untiered,Unrestricted
+Curaçao,IM6OHCICZKBE7JTRIH,TRUE,Untiered,Unrestricted
+Cyprus,BI3CYZ0AT9CNTYIJZZ,TRUE,Untiered,Unrestricted
+Czechia,JAVVFEHPGMCE2USBPP,TRUE,Untiered,Unrestricted
+Denmark,F6I9TN8RZX9NR0Z9HQ,TRUE,Tier 3,Unrestricted
+Djibouti,IXOFAT9SE2KSKRGBSI,TRUE,Untiered,Restricted
+Dominica,6JNP0RBYPPWYT6NGQ8,TRUE,Untiered,Unrestricted
+Dominican Republic (the),JONHRJWISV2RV0UZCN,TRUE,Untiered,Unrestricted
+Ecuador,IBUM4EEYP1ZDUZWCIL,TRUE,Untiered,Unrestricted
+Egypt,CTKMDLJQM3FFWJ3AUR,TRUE,Untiered,Restricted
+El Salvador,7HCXEVCXJWZL955GHV,TRUE,Untiered,Unrestricted
+Equatorial Guinea,FAYP69IUDBYDDFSKDP,TRUE,Untiered,Restricted
+Eritrea,ORGANAIWCVQ68NAQL7,TRUE,Untiered,Restricted
+Estonia,5EQOHAO1A8T7HVN3WL,TRUE,Untiered,Unrestricted
+Eswatini,9NOQPLRZYIUIGUSSWV,TRUE,Untiered,Restricted
+Ethiopia,TFJQKR4M0FDCBKS97Z,TRUE,Untiered,Restricted
+Falkland Islands (the) [Malvinas],LRT5MZTJV6TI6LMYYG,TRUE,Untiered,Unrestricted
+Faroe Islands (the),XZWPEJBGHZ6MEZ4G1Z,TRUE,Untiered,Unrestricted
+Fiji,P46A3TNA0MBIPJLSTJ,TRUE,Untiered,Unrestricted
+Finland,GVBY4GUT2WQUN78DCY,TRUE,Developed Nations,Unrestricted
+France,7Z0LB7OYCM04VTJ7QZ,TRUE,Developed Nations,Unrestricted
+French Guiana,JZGMTEZ1MYGOCRTKIL,TRUE,Untiered,Unrestricted
+French Polynesia,Z7HI8CCHIWHDZVWAED,TRUE,Untiered,Unrestricted
+French Southern Territories (the),KHC9A1CL2QGZQ1FP42,TRUE,Untiered,Unrestricted
+Gabon,9NRPBGNGXC4JEWUWNU,TRUE,Untiered,Restricted
+Gambia (the),7QSJPHKZ4SZ4TUXSHT,TRUE,Untiered,Restricted
+Georgia,DENHO4RBRUY86GQQ5T,TRUE,Untiered,Unrestricted
+Germany,IGLYDZQPQ4678VBLAP,TRUE,Tier 2,Unrestricted
+Ghana,QLMQDIKUWKEUD918AI,TRUE,Untiered,Restricted
+Gibraltar,GMMZASVI2HA0ZAUNGO,TRUE,Untiered,Unrestricted
+Greece,LZ9OJXL6QNF527AUDY,TRUE,Untiered,Unrestricted
+Greenland,K3DVETHVHHYSZAVAK3,TRUE,Untiered,Unrestricted
+Grenada,IPJQZIDUERYT2RBECY,TRUE,Untiered,Unrestricted
+Guadeloupe,XYJXEU8JBUACX0ZSFZ,TRUE,Untiered,Unrestricted
+Guam,TOUUSODWO2IBD1RT05,TRUE,Untiered,Unrestricted
+Guatemala,UFVTM7I5JPIZH8LJJG,TRUE,Untiered,Unrestricted
+Guernsey,FVPE2JMDFJ2AXWXOHP,TRUE,Untiered,Unrestricted
+Guinea,YYQTOX4US0LMFU2JUX,TRUE,Untiered,Restricted
+Guinea-Bissau,VP2AFS2OPKILLYMAJJ,TRUE,Untiered,Restricted
+Guyana,WPKSSWDO7ICIJNN2RJ,TRUE,Untiered,Unrestricted
+Haiti,CE04JX0CS0HRO3SRPR,TRUE,Untiered,Unrestricted
+Heard Island and McDonald Islands,MA4ZCN78JNDPLHFOPH,TRUE,Untiered,Unrestricted
+Holy See (the),BGZXKIYI7H7T8AANNC,TRUE,Untiered,Unrestricted
+Honduras,2LHXQENRAYVSKA6QJW,TRUE,Untiered,Unrestricted
+Hong Kong,2D0XROL3UJYCHIO7D4,TRUE,Tier 1,Unrestricted
+Hungary,NQFQYHHSJB2LEIECIG,TRUE,Untiered,Unrestricted
+Iceland,VBUBILAOOLL0LN8ZYH,TRUE,Developed Nations,Unrestricted
+India,6FLXUTVDZKOOUZ7T4P,TRUE,Tier 1,Restricted
+Indonesia,FFERWW3LVBVY7IA6HW,TRUE,Tier 2,Unrestricted
+Iran (Islamic Republic of),JK0EQIP7TWWV8QCUOX,TRUE,Untiered,Restricted
+Iraq,GHOK05XB0MKVHVAM88,TRUE,Untiered,Restricted
+Ireland,BWIMGWOOUOD0R4S1CO,TRUE,Developed Nations,Unrestricted
+Isle of Man,BVOFD8AHY1OXIQBPZO,TRUE,Untiered,Unrestricted
+Israel,YEINPV47T4MJMQJOAD,TRUE,Untiered,Unrestricted
+Italy,LVR65XVHWMLZPXFPJB,TRUE,Developed Nations,Unrestricted
+Jamaica,6PCUNUYMNODX632SKO,TRUE,Untiered,Unrestricted
+Japan,LKP6WSFMLWBBQBFEKL,TRUE,Tier 3,Unrestricted
+Jersey,PLBHVZMMEA6C4JJWBR,TRUE,Untiered,Unrestricted
+Jordan,XWQSITVGWI0Q5DRSR1,TRUE,Untiered,Unrestricted
+Kazakhstan,KFF2A9SMRRQRCPK8VS,TRUE,Untiered,Unrestricted
+Kenya,AMKHSVXI3SZCU241SU,TRUE,Tier 3,Restricted
+Kiribati,YP3ENUJCCHNVJIOPPX,TRUE,Untiered,Unrestricted
+Korea (the Democratic People's Republic of),RRP90WA5MX3CQGKMAJ,TRUE,Untiered,Restricted
+Korea (the Republic of),G44VXKCE9UMMCAVV6W,TRUE,Tier 2,Unrestricted
+Kosovo,TQ5GJTH8NCQMGYAQEE,TRUE,Untiered,Unrestricted
+Kuwait,5O3QJQFVHD3ZAXNJJE,TRUE,Untiered,Unrestricted
+Kyrgyzstan,5GAPJMU2JNR9ITZZ5M,TRUE,Untiered,Unrestricted
+Lao People's Democratic Republic (the),FMIQ3ILKLGEYKTDQS3,TRUE,Untiered,Unrestricted
+Latvia,ZBC6BZKCAY1XUWLHCO,TRUE,Untiered,Unrestricted
+Lebanon,EFI1OYM7G76LLC6BHB,TRUE,Untiered,Restricted
+Lesotho,RRNZXB4DEDLWFNJ6SM,TRUE,Untiered,Restricted
+Liberia,9R8NJDSN6OQQDSA4RW,TRUE,Untiered,Restricted
+Libya,P8V6SLWGL7KFNVDITL,TRUE,Untiered,Restricted
+Liechtenstein,JQ7TXXPKARL9RDJ4QZ,TRUE,Developed Nations,Unrestricted
+Lithuania,A2DJPLBYDXNFGFBMBL,TRUE,Untiered,Unrestricted
+Luxembourg,IXQ8IZBNGZGNLZYDQO,TRUE,Developed Nations,Unrestricted
+Macao,XYUONVOFXODHYWYSEO,TRUE,Untiered,Unrestricted
+Madagascar,JLMQD12QVKX77VOSGI,TRUE,Untiered,Restricted
+Malawi,FNBJ8ZY4F61WQYFYTD,TRUE,Untiered,Restricted
+Malaysia,JJXGBDM99RRF556LMO,TRUE,Tier 1,Unrestricted
+Maldives,QS3OHIGHIZIA0DNV1W,TRUE,Untiered,Unrestricted
+Mali,BHLXQLTUVHBJQM1ESK,TRUE,Untiered,Restricted
+Malta,9Q6ZJIYTG3L5E4VK9V,TRUE,Untiered,Unrestricted
+Marshall Islands (the),AVWDOHRT0Y0GVYYVAL,TRUE,Untiered,Unrestricted
+Martinique,88CITM5JRBEO0DTXNZ,TRUE,Untiered,Unrestricted
+Mauritania,IF3WNWLDJDEXMGWASU,TRUE,Untiered,Restricted
+Mauritius,B8Q5FNSY9LGYJF4WF4,TRUE,Untiered,Unrestricted
+Mayotte,OH9ZEKHL4JL2N2XCGJ,TRUE,Untiered,Unrestricted
+Mexico,CWQSNLIMN42VMVBVCE,TRUE,Untiered,Unrestricted
+Micronesia (Federated States of),RC8DBBSYHSQPIUYNFH,TRUE,Untiered,Unrestricted
+Moldova (the Republic of),EEHU1NWWWGSSP7KTMA,TRUE,Untiered,Unrestricted
+Monaco,YNXEFKXQN27LHBTPDN,TRUE,Developed Nations,Unrestricted
+Mongolia,XHGDJO6MT2ZBBBJD2P,TRUE,Tier 3,Restricted
+Montenegro,8GHA8Q6NOH4BYJNTTS,TRUE,Developed Nations,Unrestricted
+Montserrat,5DCVEFJ2Z0AVWCBQ5W,TRUE,Untiered,Unrestricted
+Morocco,XL6DTVZ9U35NMZXOEI,TRUE,Untiered,Unrestricted
+Mozambique,RYXWB4PFQSQTXLLHJD,TRUE,Untiered,Restricted
+Myanmar,1ACGGOY6CC4YSLPAA6,TRUE,Untiered,Restricted
+Namibia,WA5XGW8WIGIUYRLRQ7,TRUE,Untiered,Restricted
+Nauru,NOVPIUVVZKRWDUFEMD,TRUE,Untiered,Unrestricted
+Nepal,XPMY7UZXXHUPYJUZNI,TRUE,Tier 3,Restricted
+Netherlands (the),G4JWS6297DIBJUGQPJ,TRUE,Developed Nations,Unrestricted
+New Caledonia,Y2HBQV4BXDZBZ10I6U,TRUE,Untiered,Unrestricted
+New Zealand,QPQS8DVTKASNAFA4Y5,TRUE,Tier 1,Unrestricted
+Nicaragua,PFTMKAHVGA5NXRDVCQ,TRUE,Untiered,Unrestricted
+Niger (the),73OQ80BPPJUJWY0G5E,TRUE,Untiered,Restricted
+Nigeria,7ZFWX64JCFHO1GFUC2,TRUE,Untiered,Restricted
+Niue,NQDRVGHITRXHMFKW44,TRUE,Untiered,Unrestricted
+Norfolk Island,ZWPUJRX23HHBVKVVO8,TRUE,Untiered,Unrestricted
+North Macedonia,7RB3WEOQUAFUAMFAVF,TRUE,Untiered,Unrestricted
+Northern Mariana Islands (the),FHAASTAHUW8UKMZUIG,TRUE,Untiered,Unrestricted
+Norway,3ZIYBHRO6CXEWOEZLK,TRUE,Tier 1,Unrestricted
+Oman,1JMANU0QFYPKGZFD81,TRUE,Developed Nations,Unrestricted
+Other Former Ussr And Baltic States,3SDSK9AYY8EW7HCXP2,TRUE,Untiered,Unrestricted
+Other Former Yugoslavia,GCIFYZ2LV84CQCM3LT,TRUE,Untiered,Unrestricted
+Pakistan,XXHFNKT4XFRVXBKXM2,TRUE,Tier 3,Restricted
+Palau,ABG3LKXBBSXF68ZWHV,TRUE,Untiered,Unrestricted
+"Palestine, State of",Z5B6K3HNVVPDUDFZZB,TRUE,Untiered,Unrestricted
+Panama,V0AMLUU93BISVANPPV,TRUE,Untiered,Unrestricted
+Papua New Guinea,SVH7TFU6KENNYDCDAA,TRUE,Tier 3,Unrestricted
+Paraguay,YUQBUZESQIYEUUFWI8,TRUE,Untiered,Unrestricted
+Peru,KHYXYRXSRLZUEUH4H6,TRUE,Untiered,Unrestricted
+Philippines (the),EUEUFZBTNXG5CDIHSF,TRUE,Tier 2,Unrestricted
+Pitcairn,A0IUONCRHTMJDUXU1K,TRUE,Untiered,Unrestricted
+Poland,GREQ6GJZWOFWWL87OI,TRUE,Untiered,Unrestricted
+Portugal,9RNDAR8T1QOQRJ6NT7,TRUE,Untiered,Unrestricted
+Puerto Rico,JU6SUIRFRCNGAVOUHL,TRUE,Untiered,Unrestricted
+Qatar,OONIVLJVXZ5NQPETYM,TRUE,Untiered,Unrestricted
+Réunion,IVU1XNLALLUG30XYOT,TRUE,Untiered,Unrestricted
+Romania,VNGUIYDETA6Q27VBLM,TRUE,Untiered,Unrestricted
+Russian Federation (the),6S2DJ5ZCTQLWYCZABM,TRUE,Untiered,Restricted
+Rwanda,YBILBJQYTM4LCNTQYS,TRUE,Untiered,Restricted
+Saint Barthélemy,GQ1LM6IXMFVDE7CHYF,TRUE,Untiered,Unrestricted
+"Saint Helena, Ascension and Tristan da Cunha",EHY2IA78ROPDVTAQZP,TRUE,Untiered,Unrestricted
+Saint Kitts and Nevis,NOSXI3LENFT1DTOQX6,TRUE,Untiered,Unrestricted
+Saint Lucia,RM4PWKMUQ2FQR0T8UP,TRUE,Untiered,Unrestricted
+Saint Martin (French part),G7UEHTMVSJWLOONBNM,TRUE,Untiered,Unrestricted
+Saint Pierre and Miquelon,BFW7JYZ4CK0LTWWWNR,TRUE,Untiered,Unrestricted
+Saint Vincent and the Grenadines,SFL8X5NE55Q0NBFFER,TRUE,Untiered,Unrestricted
+Samoa,PYTDVYT8TX5IMWDXND,TRUE,Untiered,Unrestricted
+San Marino,TVTC5TBGLO5ILM0TAC,TRUE,Untiered,Unrestricted
+Sao Tome and Principe,Z3DEW609LP5TCCHVDK,TRUE,Untiered,Restricted
+Saudi Arabia,FGSEJ13KTNKBL38N90,TRUE,Tier 2,Unrestricted
+Scotland,O4NYFI2XK4GXU4ORG1,TRUE,Developed Nations,Unrestricted
+Senegal,A3CP2QBCIKC3WSOKF5,TRUE,Untiered,Restricted
+Serbia,7JC0AOZGDPQZSS14FR,TRUE,Untiered,Unrestricted
+Seychelles,4QR7SL7QSSQKZHZT2T,TRUE,Untiered,Restricted
+Sierra Leone,OKUPMX8BBTNLXCBRFU,TRUE,Untiered,Restricted
+Singapore,1LXTVVEXSKT78JUDWG,TRUE,Tier 2,Unrestricted
+Sint Maarten (Dutch part),23HXVRZM5TL73VPTEZ,TRUE,Untiered,Unrestricted
+Slovakia,BKU0HQNUKBMKTRS1D7,TRUE,Untiered,Unrestricted
+Slovenia,WYJ49U0PZRLJBXGG8V,TRUE,Untiered,Unrestricted
+Solomon Islands,12JSVLELXXBL9CYXFP,TRUE,Untiered,Unrestricted
+Somalia,ATTKEBMSYAUENHWSAE,TRUE,Untiered,Restricted
+South Africa,AYTWOWO3TYGBMHZ6NM,TRUE,Untiered,Restricted
+South Georgia and the South Sandwich Islands,OHCDGN9OHDNAOE0YAK,TRUE,Untiered,Unrestricted
+South Sudan,GKJHCCQPYXFKQOYAZB,TRUE,Untiered,Restricted
+Spain,WYLMUDBUYQOZFWDVBL,TRUE,Untiered,Unrestricted
+Sri Lanka,ZIWWALWGVRBIYXNW60,TRUE,Tier 2,Unrestricted
+Sudan (the),GRSNRGRBFPWCTOTGGS,TRUE,Untiered,Restricted
+Suriname,B1UMQDRNF05TS6WUNJ,TRUE,Untiered,Unrestricted
+Svalbard and Jan Mayen,2UDBFJBQF1007NFBRZ,TRUE,Untiered,Unrestricted
+Sweden,VIWZ5ADTKZRKUYEIA8,TRUE,Untiered,Unrestricted
+Switzerland,JZYYN9HOR0LGLZ0NEB,TRUE,Developed Nations,Unrestricted
+Syrian Arab Republic (the),PFHRARDIXRXFVI0GP1,TRUE,Untiered,Restricted
+Taiwan,TQEBVFB906S1AUGUXU,TRUE,Tier 1,Unrestricted
+Tajikistan,RPHMRKCEURAKV6FB3K,TRUE,Untiered,Unrestricted
+"Tanzania, the United Republic of",DXRNQURWD5T8QEFYEN,TRUE,Untiered,Restricted
+Thailand,TK89QXX9PZG87UBOE2,TRUE,Tier 1,Unrestricted
+Timor-Leste,DLZBL0ZK4EKTDPTQ1Y,TRUE,Untiered,Unrestricted
+Togo,H6XYRX3UVGSUIONUBZ,TRUE,Untiered,Restricted
+Tokelau,56RAVALH61BNCY3PCO,TRUE,Untiered,Unrestricted
+Tonga,BYSWULBXTPFJLUFMW4,TRUE,Untiered,Unrestricted
+Trinidad and Tobago,OP7T9ZMDFZKFKRZLC3,TRUE,Untiered,Unrestricted
+Tunisia,QHS2K6N8MB6HQFI1TX,TRUE,Untiered,Restricted
+Turkey,JBUJXVXFGPXZ94USTV,TRUE,Untiered,Unrestricted
+Turkmenistan,8ZRPG5FE346JP5W2ZV,TRUE,Untiered,Unrestricted
+Turks and Caicos Islands (the),UTSJTWVPWOWSXXO6IY,TRUE,Untiered,Unrestricted
+Tuvalu,JHEZ0X9UIBPXTWZWHG,TRUE,Untiered,Unrestricted
+Uganda,WTPO5OUIGPHUD3MS2P,TRUE,Untiered,Restricted
+Ukraine,WWDJII4QVGWFRJA88X,TRUE,Untiered,Restricted
+United Arab Emirates (the),ZGN1VW1RNRN8GJ7FWI,TRUE,Developed Nations,Unrestricted
+United Kingdom of Great Britain and Northern Ireland (the),FUUXCQNEANPHE9L6DO,TRUE,Developed Nations,Unrestricted
+United States Minor Outlying Islands (the),RWKKLRA6LKVCQNDO6L,TRUE,Untiered,Unrestricted
+United States of America (the),SP77AFJFZYCHV9GMLU,TRUE,Developed Nations,Unrestricted
+Uruguay,6NXKZKS1FACJVDG9XM,TRUE,Untiered,Unrestricted
+Uzbekistan,ZSIGIFCVW0IO07DZIG,TRUE,Untiered,Unrestricted
+Vanuatu,MJUGUICSF8IAIJH3SL,TRUE,Untiered,Unrestricted
+Vatican City,BKUZJX1HIUHTKNZ4WG,TRUE,Untiered,Unrestricted
+Venezuela (Bolivarian Republic of),0X2LHUVEL9VFEMTIIP,TRUE,Untiered,Unrestricted
+Vietnam,DL3TJ02FKX526KSQTY,TRUE,Tier 1,Unrestricted
+Virgin Islands (British),RI0DAEWDLRKSQG58KA,TRUE,Untiered,Unrestricted
+Virgin Islands (U.S.),TOWKNSVTSLW4UOTNM7,TRUE,Untiered,Unrestricted
+Wales,MG5YOO1GYASSMXXLZF,TRUE,Developed Nations,Unrestricted
+Wallis and Futuna,23DTKVQHG602PEKHLJ,TRUE,Untiered,Unrestricted
+Western Sahara*,VK1SNOPSL7VUUECJXI,TRUE,Untiered,Unrestricted
+Yemen,B434FGULQVCDIVQOFA,TRUE,Untiered,Restricted
+Zambia,EKWGVOS8A8CQIWE0M3,TRUE,Untiered,Restricted
+Zimbabwe,QP9ZGAMFNNSDEN4SI9,TRUE,Untiered,Restricted

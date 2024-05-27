@@ -1,0 +1,27 @@
+Company,Email,FirstName,Id,LastName,Lead_Type__c,LeadSource,Name,Status
+ACN,missleadslim@email.com,Miss,00QAD00000DaJ4g2AF,Leads,CCE Corporate Partner,Outbound Enquiry,Miss Leads,New
+Acn,happy@email.com,Miss,00QAD00000DaJ4h2AF,Happy,CCE Corporate Partner,Outbound Enquiry,Miss Happy,New
+acn,intlac5s5@email.com,Miss S5,00QAD00000DaJ4i2AF,Intl AC6 S5,CCE Corporate Partner,Outbound Enquiry,Miss S5 Intl AC6 S5,New
+ACN,domac1@email.com,Miss,00QAD00000DaJ4j2AF,DOM AC1,CCE Corporate Partner,Outbound Enquiry,Miss DOM AC1,New
+acn,domac4@email.com,Miss Y11,00QAD00000DaJ4k2AF,DOM AC4,CCE Corporate Partner,Outbound Enquiry,Miss Y11 DOM AC4,New
+acn,domac5@email.com,Miss All,00QAD00000DaJ4l2AF,DOM AC5,CCE Corporate Partner,Outbound Enquiry,Miss All DOM AC5,New
+acn,domac6@email.com,Miss Y10,00QAD00000DaJ4m2AF,DOM AC6,CCE Corporate Partner,Outbound Enquiry,Miss Y10 DOM AC6,New
+acn,intlac3@email.com,Miss,00QAD00000DaJ4n2AF,Intl AC3,CCE Corporate Partner,Outbound Enquiry,Miss Intl AC3,New
+acn,domac2@email.com,Miss,00QAD00000DaJ4o2AF,DOM AC2,CCE Corporate Partner,Outbound Enquiry,Miss DOM AC2,New
+acn,domac3@email.com,Miss,00QAD00000DaJ4p2AF,DOM AC3,CCE Corporate Partner,Outbound Enquiry,Miss DOM AC3,New
+acn,intlac7@email.com,Miss,00QAD00000DaJ4q2AF,Intl AC7,CCE Corporate Partner,Outbound Enquiry,Miss Intl AC7,New
+acn,intlac4@email.com,Miss,00QAD00000DaJ4r2AF,Intl AC4,CCE Corporate Partner,Outbound Enquiry,Miss Intl AC4,New
+acn,domac8@email.com,Miss P,00QAD00000DaJ4s2AF,DOM AC8,CCE Corporate Partner,Outbound Enquiry,Miss P DOM AC8,New
+acn,intlac5@email.com,Miss S1,00QAD00000DaJ4t2AF,Intl AC5 S1,CCE Corporate Partner,Outbound Enquiry,Miss S1 Intl AC5 S1,New
+acn,intlac2@email.com,Miss,00QAD00000DaJ4u2AF,Intl AC2,CCE Corporate Partner,Outbound Enquiry,Miss Intl AC2,New
+acn,intilac5s2@email.com,Miss S2,00QAD00000DaJ4v2AF,Intl AC5 S2,CCE Corporate Partner,Outbound Enquiry,Miss S2 Intl AC5 S2,New
+acn,intlac3s3@email.com,Miss S3,00QAD00000DaJ4w2AF,Intl AC5 S3,CCE Corporate Partner,Outbound Enquiry,Miss S3 Intl AC5 S3,New
+acn,intlac5s4@email.com,Miss S4,00QAD00000DaJ4x2AF,Intl AC6 S4,CCE Corporate Partner,Outbound Enquiry,Miss S4 Intl AC6 S4,New
+acn,domac82@email.com,Miss P,00QAD00000DaJ4y2AF,DOM AC82,CCE Corporate Partner,Outbound Enquiry,Miss P DOM AC82,New
+MJ Inc,marcjacobs@email.com,Marc,00QAD00000DaJ4z2AF,Jacobs,CCE Corporate Partner,Outbound Enquiry,Marc Jacobs,New
+Surreal Real Estate,christianceo@email.com,Christian,00QAD00000DaJ502AF,Albert,CCE Corporate Partner,Outbound Enquiry,Christian Albert,New
+Accenture,keithaudrey@gmail.com,Keith,00QAD00000DaJ512AF,Ancheta Test,CCE Corporate Partner,Outbound Enquiry,Keith Ancheta Test,New
+acn,katrina.enrera@yahoo.com,Katrina,00QAD00000DaJ522AF,Enrera,CCE Corporate Partner,Outbound Enquiry,Katrina Enrera,New
+acn,gon@test.com,Gon,00QAD00000DaJ532AF,Freeces,CCE Corporate Partner,Outbound Enquiry,Gon Freeces,New
+Liberty,,Lead,00QAD00000DdM4Q2AV,Dev,,,Lead Dev,New
+Aeros,,QUT,00QAD00000DdN0T2AV,lead,,,QUT lead,New

@@ -1,0 +1,15 @@
+Action_Required__c,Administrative_Support__c,Checkout_Cart_Items_Count__c,Content_Challenged_Thinking__c,Delivery_Type__c,Develop_Topic_Insights__c,Effective_Learning_Activities__c,End_Date__c,Errors,Evaluation_Summary__c,Evaluation_Type__c,External_Id__c,External_Key__c,Facilitator_Knowledge__c,Facilities_Catering__c,Facility__c,hed_Capacity__c,hed_Program_Plan__c,Id,IsActive__c,LMS_Quality__c,Migration_Id__c,Migration_Key__c,Minimum_Participants__c,Name,Overall_Experience__c,Peer_Engagement__c,Real_World_Learning_Opportunities__c,Registration_End_Date__c,Registration_Start_Date__c,Start_Date__c,Total_Number_of_Registered_Learners__c,Virtual_Platform_Quality__c,Visible_on_Website__c
+,,0,,Brisbane Classroom,,,2024-08-18,,,,,,,,,50,a0KAD0000093jyh2AA,a1rAD00000c3truYAA,true,,,,30,null-20240618-1,,,,2024-04-22,2024-04-17,2024-06-18,1,,false
+,,0,,Brisbane Classroom,,,2024-08-20,,,,,,,,,50,a0KAD0000093jyk2AA,a1rAD00000c3trvYAA,true,,,,30,null-20240620-1,,,,2024-04-24,2024-04-19,2024-06-20,1,,false
+,,,,Online Classroom,,,2024-11-20,,,,,,,,,50,a0KAD0000093jyl2AA,a1rAD00000c3trwYAA,true,,,,15,null-20240620-1,,,,2024-06-20,2024-05-20,2024-06-20,,,false
+,,0,,Brisbane Classroom,,,2024-08-20,,,,,,,,,50,a0KAD0000093jym2AA,a1rAD00000c3trxYAA,true,,,,30,null-20240620-1,,,,2024-04-24,2024-04-19,2024-06-20,1,,false
+,,,,Online Classroom,,,2024-11-20,,,,,,,,,50,a0KAD0000093jyn2AA,a1rAD00000c3tryYAA,true,,,,15,null-20240620-1,,,,2024-06-20,2024-05-20,2024-06-20,,,false
+,,0,,Brisbane Classroom,,,2024-08-20,,,,,,,,,50,a0KAD0000093jyo2AA,a1rAD00000c3trzYAA,true,,,,30,null-20240620-1,,,,2024-04-24,2024-04-19,2024-06-20,1,,false
+,,0,,Brisbane Classroom,,,2024-08-21,,,,,,,,,50,a0KAD0000093jyq2AA,a1rAD00000c3ts0YAA,true,,,,30,null-20240621-1,,,,2024-04-25,2024-04-20,2024-06-21,1,,false
+,,,,Online Classroom,,,2024-11-21,,,,,,,,,50,a0KAD0000093jyr2AA,a1rAD00000c3ts1YAA,true,,,,15,null-20240621-1,,,,2024-06-21,2024-05-21,2024-06-21,,,false
+,,0,,Brisbane Classroom,,,2024-08-21,,,,,,,,,50,a0KAD0000093jys2AA,a1rAD00000c3ts2YAA,true,,,,30,null-20240621-1,,,,2024-04-25,2024-04-20,2024-06-21,1,,false
+,,0,,Brisbane Classroom,,,2024-08-24,,,,,,,,,50,a0KAD0000093jyv2AA,a1rAD00000c3ts3YAA,true,,,,30,null-20240624-1,,,,2024-10-24,2024-04-23,2024-06-24,1,,false
+,,,,Online Classroom,,,2024-11-24,,,,,,,,,50,a0KAD0000093jyw2AA,a1rAD00000c3ts4YAA,true,,,,15,null-20240624-1,,,,2024-06-24,2024-05-24,2024-06-24,,,false
+,,0,,Brisbane Classroom,,,2024-08-24,,,,,,,,,50,a0KAD0000093jyx2AA,a1rAD00000c3ts5YAA,true,,,,30,null-20240624-1,,,,2024-10-24,2024-04-23,2024-06-24,1,,false
+,,,,Online Classroom,,,2024-02-06,Required fields are missing: [hed_Program_Plan__c],,,,,,,,5,,,true,,,,1,null-2024025-1,,,,2024-02-06,2024-02-05,2024-02-05,,,false
+,,,,Online Classroom,,,2024-02-06,Required fields are missing: [hed_Program_Plan__c],,,,,,,,2,,,true,,,,1,null-2024024-1,,,,2024-02-06,2024-02-04,2024-02-04,,,false

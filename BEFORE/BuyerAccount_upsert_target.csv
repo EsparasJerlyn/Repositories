@@ -1,0 +1,7 @@
+Buyer.Name,BuyerId,BuyerStatus,CommerceType,Id,IsActive,Name
+QUTeX Products,001AD00000U2kWwYAJ,Active,Buyer,0bjAD0000001jazYAA,true,QUTeX Products
+QUT GSB & QUTeX,001AD00000U2kWxYAJ,Active,Buyer,0bjAD0000001jb0YAA,true,QUT GSB & QUTeX
+United BC Corp,001AD00000U2kWyYAJ,Active,Buyer,0bjAD0000001jb1YAA,true,United BC Corp
+Central Perc Co.,001AD00000U2kWzYAJ,Active,Buyer,0bjAD0000001jb2YAA,true,Central Perc Co.
+Test Corporation,001AD00000U2kX0YAJ,Active,Buyer,0bjAD0000001jb3YAA,true,Test Corporation
+OPE Catalogue,001AD00000U2kX3YAJ,Active,Buyer,0bjAD0000001jb4YAA,true,OPE Catalogue

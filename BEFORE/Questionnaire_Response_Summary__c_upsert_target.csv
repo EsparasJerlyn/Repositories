@@ -1,0 +1,5 @@
+Application_Status__c,Contact__c,Contact__r.$$Name$QUT_Staff_Email__c,Course_Offering__c,Course_Offering__r.Name,Id,Name,Questionnaire__c,Questionnaire__r.Name,Registration_Status__c
+Pending,,,a0BAD000002inOr2AI,CourseOffering-Activity-000,a1tAD000004FdOZYA0,QRS-002265,a1uAD0000025UqkYAE,QN-000084,Confirmed
+Pending,,,a0BAD000002inOr2AI,CourseOffering-Activity-000,a1tAD000004FdOaYAK,QRS-002266,a1uAD0000025UqlYAE,QN-000085,Confirmed
+Pending,,,,,a1tAD000004FdzeYAC,QRS-002263,a1uAD0000025UynYAE,QN-000082,Confirmed
+Pending,,,,,a1tAD000004FdzfYAC,QRS-002264,a1uAD0000025UyoYAE,QN-000083,Confirmed

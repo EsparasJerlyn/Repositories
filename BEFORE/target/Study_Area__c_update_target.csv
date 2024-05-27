@@ -1,0 +1,16 @@
+Errors,Id,Name,Study_Area_Code__c,Study_Area_End_Date__c,Study_Area_Long_Name__c,Study_Area_No__c,Study_Area_Stage__c,Study_Area_Start_Date__c,Study_Area_Type__c,Study_Area_Version__c
+,a2wAD000000UJq9YAG,Applied Finance,BS79MJR-APPLFIN,2020-12-31,Applied Finance Major,,Discontinued,2014-01-01,Postgraduate Major,2
+,a2wAD000000UJq1YAG,Computational and Simulation Science,MS01SMJ-COMPSIM,2019-06-30,Computational and Simulation Science Second Major,,Discontinued,2014-01-01,Undergraduate Second Major,1
+,a2wAD000000UJq8YAG,Philanthropy and Nonprofit Studies,BS11MJR-PHILNPS,2021-12-31,Philanthropy and Nonprofit Studies Major,,Phasing Out,2015-01-01,Postgraduate Major,1
+,a2wAD000000UJqDYAW,Marketing,BS39MJR-MRKTING,2020-12-31,Marketing Major,,Discontinued,2015-01-01,Postgraduate Major,2
+,a2wAD000000UJqEYAW,Professional Accounting,BS39MJR-PRFACCG,,Professional Accounting Major,,Active,2015-01-01,Postgraduate Major,1
+,a2wAD000000UJqFYAW,Strategic Advertising,BS39MJR-STRTADV,2020-12-31,Strategic Advertising Major,,Discontinued,2015-01-01,Postgraduate Major,1
+,a2wAD000000UJq3YAG,Discrete Mathematics,MS01MNR-DISCRET,2016-12-31,Discrete Mathematics Minor,,Discontinued,2015-01-01,Undergraduate Minor,2
+,a2wAD000000UJqCYAW,Medical Engineering,EN40MNR-MEDICAL,2023-12-31,Medical Engineering Minor,,Phasing Out,2015-01-01,Undergraduate Minor,1
+,a2wAD000000UJqJYAW,Integrated Marketing Communication,BS39MJR-IMCEXT,2014-12-31,Integrated Marketing Communication Major,,Discontinued,2014-01-01,Postgraduate Major,2
+,a2wAD000000UJqBYAW,Mechatronics,EN40MJR-MECHATN,2015-06-30,Mechatronics Major,,Discontinued,2014-01-01,Undergraduate Major,3
+,a2wAD000000UJqIYAW,International Business,BS79MJR-INTLBUS,2020-12-31,International Business Major,,Discontinued,2009-07-01,Postgraduate Major,1
+,a2wAD000000UJqKYAW,Accounting,GSPMMNR-ACCOUNT,2014-12-31,Accounting Minor,,Discontinued,2009-07-01,Postgraduate Minor,1
+,a2wAD000000UJqHYAW,Human Resource Management,GSPMMNR-HRMGMT,2014-12-31,Human Resource Management Minor,,Discontinued,2009-07-01,Postgraduate Minor,1
+,a2wAD000000UJqMYAW,Finance,BSDDMJR-FINANCE,2013-12-31,Finance Major,,Discontinued,2009-07-01,Undergraduate Major,1
+,a2wAD000000UJqLYAW,Management,BSDDMJR-MGMT,2016-12-31,Management Major,,Phasing Out,2009-07-01,Undergraduate Major,1

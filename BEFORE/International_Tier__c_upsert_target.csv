@@ -1,0 +1,257 @@
+Country_Name__c,Id,IsActive__c,Tier_Category__c,Tier_Subcategory__c
+Afghanistan,a20AD000000J9UDYA0,true,Untiered,Restricted
+Åland Islands,a20AD000000J9UEYA0,true,Untiered,Unrestricted
+Albania,a20AD000000J9UFYA0,true,Untiered,Unrestricted
+Algeria,a20AD000000J9UGYA0,true,Untiered,Restricted
+American Samoa,a20AD000000J9UHYA0,true,Untiered,Unrestricted
+Andorra,a20AD000000J9UIYA0,true,Untiered,Unrestricted
+Angola,a20AD000000J9UJYA0,true,Untiered,Restricted
+Anguilla,a20AD000000J9UKYA0,true,Untiered,Unrestricted
+Antarctica,a20AD000000J9ULYA0,true,Untiered,Unrestricted
+Antigua and Barbuda,a20AD000000J9UMYA0,true,Untiered,Unrestricted
+Argentina,a20AD000000J9UNYA0,true,Untiered,Unrestricted
+Armenia,a20AD000000J9UOYA0,true,Untiered,Unrestricted
+Aruba,a20AD000000J9UPYA0,true,Untiered,Unrestricted
+Australia,a20AD000000J9UQYA0,true,Tier 1,Unrestricted
+Austria,a20AD000000J9URYA0,true,Untiered,Unrestricted
+Azerbaijan,a20AD000000J9USYA0,true,Untiered,Unrestricted
+Bahamas (the),a20AD000000J9UTYA0,true,Untiered,Unrestricted
+Bahrain,a20AD000000J9UUYA0,true,Untiered,Unrestricted
+Bangladesh,a20AD000000J9UVYA0,true,Tier 3,Restricted
+Barbados,a20AD000000J9UWYA0,true,Untiered,Unrestricted
+Belarus,a20AD000000J9UXYA0,true,Untiered,Unrestricted
+Belgium,a20AD000000J9UYYA0,true,Developed Nations,Unrestricted
+Belize,a20AD000000J9UZYA0,true,Untiered,Unrestricted
+Benin,a20AD000000J9UaYAK,true,Untiered,Restricted
+Bermuda,a20AD000000J9UbYAK,true,Untiered,Unrestricted
+Bhutan,a20AD000000J9UcYAK,true,Tier 2,Restricted
+Bolivia (Plurinational State of),a20AD000000J9UdYAK,true,Untiered,Unrestricted
+"Bonaire, Sint Eustatius and Saba",a20AD000000J9UeYAK,true,Untiered,Unrestricted
+Bosnia and Herzegovina,a20AD000000J9UfYAK,true,Untiered,Unrestricted
+Botswana,a20AD000000J9UgYAK,true,Untiered,Restricted
+Bouvet Island,a20AD000000J9UhYAK,true,Untiered,Unrestricted
+Brazil,a20AD000000J9UiYAK,true,Tier 3,Unrestricted
+British Indian Ocean Territory (the),a20AD000000J9UjYAK,true,Untiered,Unrestricted
+Brunei Darussalam,a20AD000000J9UkYAK,true,Developed Nations,Unrestricted
+Bulgaria,a20AD000000J9UlYAK,true,Untiered,Unrestricted
+Burkina Faso,a20AD000000J9UmYAK,true,Untiered,Restricted
+Burundi,a20AD000000J9UnYAK,true,Untiered,Restricted
+Cabo Verde,a20AD000000J9UoYAK,true,Untiered,Restricted
+Cambodia,a20AD000000J9UpYAK,true,Tier 3,Unrestricted
+Cameroon,a20AD000000J9UqYAK,true,Untiered,Restricted
+Canada,a20AD000000J9UrYAK,true,Developed Nations,Unrestricted
+Cayman Islands (the),a20AD000000J9UsYAK,true,Untiered,Unrestricted
+Central African Republic (the),a20AD000000J9UtYAK,true,Untiered,Restricted
+Chad,a20AD000000J9UuYAK,true,Untiered,Restricted
+Channel Islands,a20AD000000J9UvYAK,true,Untiered,Unrestricted
+Chile,a20AD000000J9UwYAK,true,Untiered,Unrestricted
+China,a20AD000000J9UxYAK,true,Tier 1,Unrestricted
+Christmas Island,a20AD000000J9UyYAK,true,Untiered,Unrestricted
+Cocos (Keeling) Islands (the),a20AD000000J9UzYAK,true,Untiered,Unrestricted
+Colombia,a20AD000000J9V0YAK,true,Tier 3,Unrestricted
+Comoros (the),a20AD000000J9V1YAK,true,Untiered,Restricted
+Congo (the Democratic Republic of the),a20AD000000J9V2YAK,true,Untiered,Restricted
+Congo (the),a20AD000000J9V3YAK,true,Untiered,Restricted
+Cook Islands (the),a20AD000000J9V4YAK,true,Untiered,Unrestricted
+Costa Rica,a20AD000000J9V5YAK,true,Untiered,Unrestricted
+Côte d'Ivoire,a20AD000000J9V6YAK,true,Untiered,Restricted
+Croatia,a20AD000000J9V7YAK,true,Untiered,Unrestricted
+Cuba,a20AD000000J9V8YAK,true,Untiered,Unrestricted
+Curaçao,a20AD000000J9V9YAK,true,Untiered,Unrestricted
+Cyprus,a20AD000000J9VAYA0,true,Untiered,Unrestricted
+Czechia,a20AD000000J9VBYA0,true,Untiered,Unrestricted
+Denmark,a20AD000000J9VCYA0,true,Tier 3,Unrestricted
+Djibouti,a20AD000000J9VDYA0,true,Untiered,Restricted
+Dominica,a20AD000000J9VEYA0,true,Untiered,Unrestricted
+Dominican Republic (the),a20AD000000J9VFYA0,true,Untiered,Unrestricted
+Ecuador,a20AD000000J9VGYA0,true,Untiered,Unrestricted
+Egypt,a20AD000000J9VHYA0,true,Untiered,Restricted
+El Salvador,a20AD000000J9VIYA0,true,Untiered,Unrestricted
+Equatorial Guinea,a20AD000000J9VJYA0,true,Untiered,Restricted
+Eritrea,a20AD000000J9VKYA0,true,Untiered,Restricted
+Estonia,a20AD000000J9VLYA0,true,Untiered,Unrestricted
+Eswatini,a20AD000000J9VMYA0,true,Untiered,Restricted
+Ethiopia,a20AD000000J9VNYA0,true,Untiered,Restricted
+Falkland Islands (the) [Malvinas],a20AD000000J9VOYA0,true,Untiered,Unrestricted
+Faroe Islands (the),a20AD000000J9VPYA0,true,Untiered,Unrestricted
+Fiji,a20AD000000J9VQYA0,true,Untiered,Unrestricted
+Finland,a20AD000000J9VRYA0,true,Developed Nations,Unrestricted
+France,a20AD000000J9VSYA0,true,Developed Nations,Unrestricted
+French Guiana,a20AD000000J9VTYA0,true,Untiered,Unrestricted
+French Polynesia,a20AD000000J9VUYA0,true,Untiered,Unrestricted
+French Southern Territories (the),a20AD000000J9VVYA0,true,Untiered,Unrestricted
+Gabon,a20AD000000J9VWYA0,true,Untiered,Restricted
+Gambia (the),a20AD000000J9VXYA0,true,Untiered,Restricted
+Georgia,a20AD000000J9VYYA0,true,Untiered,Unrestricted
+Germany,a20AD000000J9VZYA0,true,Tier 2,Unrestricted
+Ghana,a20AD000000J9VaYAK,true,Untiered,Restricted
+Gibraltar,a20AD000000J9VbYAK,true,Untiered,Unrestricted
+Greece,a20AD000000J9VcYAK,true,Untiered,Unrestricted
+Greenland,a20AD000000J9VdYAK,true,Untiered,Unrestricted
+Grenada,a20AD000000J9VeYAK,true,Untiered,Unrestricted
+Guadeloupe,a20AD000000J9VfYAK,true,Untiered,Unrestricted
+Guam,a20AD000000J9VgYAK,true,Untiered,Unrestricted
+Guatemala,a20AD000000J9VhYAK,true,Untiered,Unrestricted
+Guernsey,a20AD000000J9ViYAK,true,Untiered,Unrestricted
+Guinea,a20AD000000J9VjYAK,true,Untiered,Restricted
+Guinea-Bissau,a20AD000000J9VkYAK,true,Untiered,Restricted
+Guyana,a20AD000000J9VlYAK,true,Untiered,Unrestricted
+Haiti,a20AD000000J9VmYAK,true,Untiered,Unrestricted
+Heard Island and McDonald Islands,a20AD000000J9VnYAK,true,Untiered,Unrestricted
+Holy See (the),a20AD000000J9VoYAK,true,Untiered,Unrestricted
+Honduras,a20AD000000J9VpYAK,true,Untiered,Unrestricted
+Hong Kong,a20AD000000J9VqYAK,true,Tier 1,Unrestricted
+Hungary,a20AD000000J9VrYAK,true,Untiered,Unrestricted
+Iceland,a20AD000000J9VsYAK,true,Developed Nations,Unrestricted
+India,a20AD000000J9VtYAK,true,Tier 1,Restricted
+Indonesia,a20AD000000J9VuYAK,true,Tier 2,Unrestricted
+Iran (Islamic Republic of),a20AD000000J9VvYAK,true,Untiered,Restricted
+Iraq,a20AD000000J9VwYAK,true,Untiered,Restricted
+Ireland,a20AD000000J9VxYAK,true,Developed Nations,Unrestricted
+Isle of Man,a20AD000000J9VyYAK,true,Untiered,Unrestricted
+Israel,a20AD000000J9VzYAK,true,Untiered,Unrestricted
+Italy,a20AD000000J9W0YAK,true,Developed Nations,Unrestricted
+Jamaica,a20AD000000J9W1YAK,true,Untiered,Unrestricted
+Japan,a20AD000000J9W2YAK,true,Tier 3,Unrestricted
+Jersey,a20AD000000J9W3YAK,true,Untiered,Unrestricted
+Jordan,a20AD000000J9W4YAK,true,Untiered,Unrestricted
+Kazakhstan,a20AD000000J9W5YAK,true,Untiered,Unrestricted
+Kenya,a20AD000000J9W6YAK,true,Tier 3,Restricted
+Kiribati,a20AD000000J9W7YAK,true,Untiered,Unrestricted
+Korea (the Democratic People's Republic of),a20AD000000J9W8YAK,true,Untiered,Restricted
+Korea (the Republic of),a20AD000000J9W9YAK,true,Tier 2,Unrestricted
+Kosovo,a20AD000000J9WAYA0,true,Untiered,Unrestricted
+Kuwait,a20AD000000J9WBYA0,true,Untiered,Unrestricted
+Kyrgyzstan,a20AD000000J9WCYA0,true,Untiered,Unrestricted
+Lao People's Democratic Republic (the),a20AD000000J9WDYA0,true,Untiered,Unrestricted
+Latvia,a20AD000000J9WEYA0,true,Untiered,Unrestricted
+Lebanon,a20AD000000J9WFYA0,true,Untiered,Restricted
+Lesotho,a20AD000000J9WGYA0,true,Untiered,Restricted
+Liberia,a20AD000000J9WHYA0,true,Untiered,Restricted
+Libya,a20AD000000J9WIYA0,true,Untiered,Restricted
+Liechtenstein,a20AD000000J9WJYA0,true,Developed Nations,Unrestricted
+Lithuania,a20AD000000J9WKYA0,true,Untiered,Unrestricted
+Luxembourg,a20AD000000J9WLYA0,true,Developed Nations,Unrestricted
+Macao,a20AD000000J9WMYA0,true,Untiered,Unrestricted
+Madagascar,a20AD000000J9WNYA0,true,Untiered,Restricted
+Malawi,a20AD000000J9WOYA0,true,Untiered,Restricted
+Malaysia,a20AD000000J9WPYA0,true,Tier 1,Unrestricted
+Maldives,a20AD000000J9WQYA0,true,Untiered,Unrestricted
+Mali,a20AD000000J9WRYA0,true,Untiered,Restricted
+Malta,a20AD000000J9WSYA0,true,Untiered,Unrestricted
+Marshall Islands (the),a20AD000000J9WTYA0,true,Untiered,Unrestricted
+Martinique,a20AD000000J9WUYA0,true,Untiered,Unrestricted
+Mauritania,a20AD000000J9WVYA0,true,Untiered,Restricted
+Mauritius,a20AD000000J9WWYA0,true,Untiered,Unrestricted
+Mayotte,a20AD000000J9WXYA0,true,Untiered,Unrestricted
+Mexico,a20AD000000J9WYYA0,true,Untiered,Unrestricted
+Micronesia (Federated States of),a20AD000000J9WZYA0,true,Untiered,Unrestricted
+Moldova (the Republic of),a20AD000000J9WaYAK,true,Untiered,Unrestricted
+Monaco,a20AD000000J9WbYAK,true,Developed Nations,Unrestricted
+Mongolia,a20AD000000J9WcYAK,true,Tier 3,Restricted
+Montenegro,a20AD000000J9WdYAK,true,Developed Nations,Unrestricted
+Montserrat,a20AD000000J9WeYAK,true,Untiered,Unrestricted
+Morocco,a20AD000000J9WfYAK,true,Untiered,Unrestricted
+Mozambique,a20AD000000J9WgYAK,true,Untiered,Restricted
+Myanmar,a20AD000000J9WhYAK,true,Untiered,Restricted
+Namibia,a20AD000000J9WiYAK,true,Untiered,Restricted
+Nauru,a20AD000000J9WjYAK,true,Untiered,Unrestricted
+Nepal,a20AD000000J9WkYAK,true,Tier 3,Restricted
+Netherlands (the),a20AD000000J9WlYAK,true,Developed Nations,Unrestricted
+New Caledonia,a20AD000000J9WmYAK,true,Untiered,Unrestricted
+New Zealand,a20AD000000J9WnYAK,true,Tier 1,Unrestricted
+Nicaragua,a20AD000000J9WoYAK,true,Untiered,Unrestricted
+Niger (the),a20AD000000J9WpYAK,true,Untiered,Restricted
+Nigeria,a20AD000000J9WqYAK,true,Untiered,Restricted
+Niue,a20AD000000J9WrYAK,true,Untiered,Unrestricted
+Norfolk Island,a20AD000000J9WsYAK,true,Untiered,Unrestricted
+North Macedonia,a20AD000000J9WtYAK,true,Untiered,Unrestricted
+Northern Mariana Islands (the),a20AD000000J9WuYAK,true,Untiered,Unrestricted
+Norway,a20AD000000J9WvYAK,true,Tier 1,Unrestricted
+Oman,a20AD000000J9WwYAK,true,Developed Nations,Unrestricted
+Other Former Ussr And Baltic States,a20AD000000J9WxYAK,true,Untiered,Unrestricted
+Other Former Yugoslavia,a20AD000000J9WyYAK,true,Untiered,Unrestricted
+Pakistan,a20AD000000J9WzYAK,true,Tier 3,Restricted
+Palau,a20AD000000J9X0YAK,true,Untiered,Unrestricted
+"Palestine, State of",a20AD000000J9X1YAK,true,Untiered,Unrestricted
+Panama,a20AD000000J9X2YAK,true,Untiered,Unrestricted
+Papua New Guinea,a20AD000000J9X3YAK,true,Tier 3,Unrestricted
+Paraguay,a20AD000000J9X4YAK,true,Untiered,Unrestricted
+Peru,a20AD000000J9X5YAK,true,Untiered,Unrestricted
+Philippines (the),a20AD000000J9X6YAK,true,Tier 2,Unrestricted
+Pitcairn,a20AD000000J9X7YAK,true,Untiered,Unrestricted
+Poland,a20AD000000J9X8YAK,true,Untiered,Unrestricted
+Portugal,a20AD000000J9X9YAK,true,Untiered,Unrestricted
+Puerto Rico,a20AD000000J9XAYA0,true,Untiered,Unrestricted
+Qatar,a20AD000000J9XBYA0,true,Untiered,Unrestricted
+Réunion,a20AD000000J9XCYA0,true,Untiered,Unrestricted
+Romania,a20AD000000J9XDYA0,true,Untiered,Unrestricted
+Russian Federation (the),a20AD000000J9XEYA0,true,Untiered,Restricted
+Rwanda,a20AD000000J9XFYA0,true,Untiered,Restricted
+Saint Barthélemy,a20AD000000J9XGYA0,true,Untiered,Unrestricted
+"Saint Helena, Ascension and Tristan da Cunha",a20AD000000J9XHYA0,true,Untiered,Unrestricted
+Saint Kitts and Nevis,a20AD000000J9XIYA0,true,Untiered,Unrestricted
+Saint Lucia,a20AD000000J9XJYA0,true,Untiered,Unrestricted
+Saint Martin (French part),a20AD000000J9XKYA0,true,Untiered,Unrestricted
+Saint Pierre and Miquelon,a20AD000000J9XLYA0,true,Untiered,Unrestricted
+Saint Vincent and the Grenadines,a20AD000000J9XMYA0,true,Untiered,Unrestricted
+Samoa,a20AD000000J9XNYA0,true,Untiered,Unrestricted
+San Marino,a20AD000000J9XOYA0,true,Untiered,Unrestricted
+Sao Tome and Principe,a20AD000000J9XPYA0,true,Untiered,Restricted
+Saudi Arabia,a20AD000000J9XQYA0,true,Tier 2,Unrestricted
+Scotland,a20AD000000J9XRYA0,true,Developed Nations,Unrestricted
+Senegal,a20AD000000J9XSYA0,true,Untiered,Restricted
+Serbia,a20AD000000J9XTYA0,true,Untiered,Unrestricted
+Seychelles,a20AD000000J9XUYA0,true,Untiered,Restricted
+Sierra Leone,a20AD000000J9XVYA0,true,Untiered,Restricted
+Singapore,a20AD000000J9XWYA0,true,Tier 2,Unrestricted
+Sint Maarten (Dutch part),a20AD000000J9XXYA0,true,Untiered,Unrestricted
+Slovakia,a20AD000000J9XYYA0,true,Untiered,Unrestricted
+Slovenia,a20AD000000J9XZYA0,true,Untiered,Unrestricted
+Solomon Islands,a20AD000000J9XaYAK,true,Untiered,Unrestricted
+Somalia,a20AD000000J9XbYAK,true,Untiered,Restricted
+South Africa,a20AD000000J9XcYAK,true,Untiered,Restricted
+South Georgia and the South Sandwich Islands,a20AD000000J9XdYAK,true,Untiered,Unrestricted
+South Sudan,a20AD000000J9XeYAK,true,Untiered,Restricted
+Spain,a20AD000000J9XfYAK,true,Untiered,Unrestricted
+Sri Lanka,a20AD000000J9XgYAK,true,Tier 2,Unrestricted
+Sudan (the),a20AD000000J9XhYAK,true,Untiered,Restricted
+Suriname,a20AD000000J9XiYAK,true,Untiered,Unrestricted
+Svalbard and Jan Mayen,a20AD000000J9XjYAK,true,Untiered,Unrestricted
+Sweden,a20AD000000J9XkYAK,true,Untiered,Unrestricted
+Switzerland,a20AD000000J9XlYAK,true,Developed Nations,Unrestricted
+Syrian Arab Republic (the),a20AD000000J9XmYAK,true,Untiered,Restricted
+Taiwan,a20AD000000J9XnYAK,true,Tier 1,Unrestricted
+Tajikistan,a20AD000000J9XoYAK,true,Untiered,Unrestricted
+"Tanzania, the United Republic of",a20AD000000J9XpYAK,true,Untiered,Restricted
+Thailand,a20AD000000J9XqYAK,true,Tier 1,Unrestricted
+Timor-Leste,a20AD000000J9XrYAK,true,Untiered,Unrestricted
+Togo,a20AD000000J9XsYAK,true,Untiered,Restricted
+Tokelau,a20AD000000J9XtYAK,true,Untiered,Unrestricted
+Tonga,a20AD000000J9XuYAK,true,Untiered,Unrestricted
+Trinidad and Tobago,a20AD000000J9XvYAK,true,Untiered,Unrestricted
+Tunisia,a20AD000000J9XwYAK,true,Untiered,Restricted
+Turkey,a20AD000000J9XxYAK,true,Untiered,Unrestricted
+Turkmenistan,a20AD000000J9XyYAK,true,Untiered,Unrestricted
+Turks and Caicos Islands (the),a20AD000000J9XzYAK,true,Untiered,Unrestricted
+Tuvalu,a20AD000000J9Y0YAK,true,Untiered,Unrestricted
+Uganda,a20AD000000J9Y1YAK,true,Untiered,Restricted
+Ukraine,a20AD000000J9Y2YAK,true,Untiered,Restricted
+United Arab Emirates (the),a20AD000000J9Y3YAK,true,Developed Nations,Unrestricted
+United Kingdom of Great Britain and Northern Ireland (the),a20AD000000J9Y4YAK,true,Developed Nations,Unrestricted
+United States Minor Outlying Islands (the),a20AD000000J9Y5YAK,true,Untiered,Unrestricted
+United States of America (the),a20AD000000J9Y6YAK,true,Developed Nations,Unrestricted
+Uruguay,a20AD000000J9Y7YAK,true,Untiered,Unrestricted
+Uzbekistan,a20AD000000J9Y8YAK,true,Untiered,Unrestricted
+Vanuatu,a20AD000000J9Y9YAK,true,Untiered,Unrestricted
+Vatican City,a20AD000000J9YAYA0,true,Untiered,Unrestricted
+Venezuela (Bolivarian Republic of),a20AD000000J9YBYA0,true,Untiered,Unrestricted
+Vietnam,a20AD000000J9YCYA0,true,Tier 1,Unrestricted
+Virgin Islands (British),a20AD000000J9YDYA0,true,Untiered,Unrestricted
+Virgin Islands (U.S.),a20AD000000J9YEYA0,true,Untiered,Unrestricted
+Wales,a20AD000000J9YFYA0,true,Developed Nations,Unrestricted
+Wallis and Futuna,a20AD000000J9YGYA0,true,Untiered,Unrestricted
+Western Sahara*,a20AD000000J9YHYA0,true,Untiered,Unrestricted
+Yemen,a20AD000000J9YIYA0,true,Untiered,Restricted
+Zambia,a20AD000000J9YJYA0,true,Untiered,Restricted
+Zimbabwe,a20AD000000J9YKYA0,true,Untiered,Restricted
