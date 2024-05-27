@@ -35,14 +35,12 @@ public with sharing class ELCLeaveOfAbsenceParser {
     }   
 
     private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (
-            this.executionDate != null
-            && engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'
-            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
-            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
-        ) {
-            leaveOfAbsenceCriteria.setEndDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            leaveOfAbsenceCriteria.setEndDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+        Boolean isKeyDateValid = this.executionDate != null && engagementListCriteria.Key_Date__c == 'Leave of Absence End Date';
+        if ( isKeydateValid && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null) {
+            leaveOfAbsenceCriteria.setEndDateFrom(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+        }
+        if ( isKeydateValid && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null) {
+            leaveOfAbsenceCriteria.setEndDateTo(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return leaveOfAbsenceCriteria;
     }
