@@ -18,9 +18,7 @@ private class ELCPreviewResultHandlerTest {
         ImplementationSelector.DAO.setMock(new ContactsDAOMock());
         ImplementationSelector.DAO.setMock(new AttachmentsDAOMock());
 
-        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
-            Engagement_List_Criteria_Title__c = 'Test'
-        );
+        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c();
 
         Contact con = new Contact(
             QUT_Student_ID__c = '1234',
@@ -49,6 +47,8 @@ private class ELCPreviewResultHandlerTest {
             TestDataFactory.setNonWritableFields(param),
             Engagement_List_Criteria__c.class
         );
+
+        elc.Engagement_List_Criteria_Title__c = 'Test';
 
         ELECandidateIngredient ingredient = new ELECandidateIngredient();
         ingredient.setContact(con);
@@ -122,9 +122,7 @@ private class ELCPreviewResultHandlerTest {
         EmailTemplatesDAO.newInstance()
             .insertRecords(emailTemplates, true, AccessLevel.SYSTEM_MODE);
 
-        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
-            Engagement_List_Criteria_Title__c = 'Test'
-        );
+        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c();
 
         Contact con = new Contact(
             QUT_Student_ID__c = '1234',
@@ -153,6 +151,8 @@ private class ELCPreviewResultHandlerTest {
             TestDataFactory.setNonWritableFields(param),
             Engagement_List_Criteria__c.class
         );
+
+        elc.Engagement_List_Criteria_Title__c = 'Test';
 
         ELECandidateIngredient ingredient = new ELECandidateIngredient();
         ingredient.setContact(con);
@@ -221,9 +221,7 @@ private class ELCPreviewResultHandlerTest {
         ContactsDAO.newInstance()
             .insertRecords(new List<Contact>{ con }, true, AccessLevel.USER_MODE);
 
-        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
-            Engagement_List_Criteria_Title__c = 'Test'
-        );
+        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c();
 
         EngagementListCriteriasDAO.newInstance()
             .insertRecords(
@@ -243,6 +241,8 @@ private class ELCPreviewResultHandlerTest {
             TestDataFactory.setNonWritableFields(param),
             Engagement_List_Criteria__c.class
         );
+
+        elc.Engagement_List_Criteria_Title__c = 'Test';
 
         ELECandidateIngredient ingredient = new ELECandidateIngredient();
         ingredient.setContact(con);
