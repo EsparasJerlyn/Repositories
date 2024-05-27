@@ -33,17 +33,21 @@ public inherited sharing class ELCPreviewResultHandler {
         String csvContent = '';
         for (ELECandidateIngredient candidateIngredient : candidateIngredients) {
             Contact student = candidateIngredient.getContact();
+            // Prepare the format string with placeholders
+            String formatString = '"{0}","{1}","{2}","{3}"\n';
+            // Create a list of arguments to replace the placeholders
+            List<Object> arguments = new List<Object>{
+                student.QUT_Student_Id__c != null ? student.QUT_Student_Id__c : '',
+                student.Name != null ? student.Name : '',
+                student.Email != null ? student.Email : '',
+                student.MobilePhone != null ? student.MobilePhone : ''
+            };
 
-            csvContent +=
-                '"' +
-                (student.QUT_Student_Id__c != null ? student.QUT_Student_Id__c : '') +
-                '","' +
-                (student.Name != null ? student.Name : '') +
-                '","' +
-                (student.Email != null ? student.Email : '') +
-                '","' +
-                (student.MobilePhone != null ? student.MobilePhone : '') +
-                '"\n';
+            // Use the format method to create the CSV row
+            String formattedRow = String.format(formatString, arguments);
+
+            // Append the formatted row to the CSV content
+            csvContent += formattedRow;
         }
 
         createAttachment(criteria.Name + '_Temp_Preview_Result.csv', csvContent);
