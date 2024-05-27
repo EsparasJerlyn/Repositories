@@ -30,21 +30,6 @@
     <columns>
         <field>LAST_UPDATE</field>
     </columns>
-    <columns>
-        <field>Case.Identified_Issues__c</field>
-    </columns>
-    <columns>
-        <field>Case.Support_Discussed__c</field>
-    </columns>
-    <columns>
-        <field>Case.Support_Referrals__c</field>
-    </columns>
-    <columns>
-        <field>Case.Closure_Code__c</field>
-    </columns>
-    <columns>
-        <field>Case.Closure_Details__c</field>
-    </columns>
     <filter>
         <criteriaItems>
             <column>RECORDTYPE</column>
