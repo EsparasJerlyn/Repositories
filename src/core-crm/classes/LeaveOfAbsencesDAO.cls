@@ -48,14 +48,11 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         if(leaveOfAbsenceCriteria.getIsOnLeave() != null){
             soql += 'AND Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' ' ;
         }
-
-        if(
-            leaveOfAbsenceCriteria.endDateFrom != null  
-            && leaveOfAbsenceCriteria.endDateTo != null
-        ){
-            soql = soql 
-            + 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' 
-            + 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' ';
+        if(leaveOfAbsenceCriteria.getEndDateFrom() != null){
+            soql += 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' ;
+        }
+        if(leaveOfAbsenceCriteria.getEndDateTo() != null){
+            soql += 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' ' ;
         }
 
         return soql;
@@ -88,17 +85,17 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         String soql = '';
 
         if(contactCriteria.getCitizenshipStatus() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ';
+            soql += 'AND Student__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ';
         }
         if(contactCriteria.getIsQUTStudent() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
+            soql += 'AND Student__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
         }
         if(contactCriteria.getRecordType() != null){
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
+            soql += 'AND Student__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
         }
         if(contactCriteria.getContactIdSet() != null){
             String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
-            soql += 'AND hed_Program_Enrollment__r.hed__Contact__r.Id IN (' + contactIdString + ') ';
+            soql += 'AND Student__r.Id IN (' + contactIdString + ') ';
         }
 
         return soql;
@@ -109,7 +106,7 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT hed_Program_Enrollment__r.hed__Contact__c FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
+        return 'SELECT Student__c FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
     public String getQueryByCriteria(
@@ -118,9 +115,9 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         ContactsDAO.Criteria contactCriteria
     ){
         return 'SELECT ' + 
-        ' Id, hed_Program_Enrollment__r.hed__Contact__c, Name, Is_On_Leave__c, End_Date__c, ' +
+        ' Id, Student__c, Name, Is_On_Leave__c, End_Date__c, ' +
         ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' +
-        ' hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
+        ' Student__r.hed__Citizenship_Status__c, Student__r.QUT_Student__c, Student__r.RecordType.DeveloperName ' +
         ' FROM Leave_Of_Absence__c ' +
         getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
     }

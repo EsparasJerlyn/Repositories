@@ -120,13 +120,11 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             String categoryString = DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()));
             soql += 'AND hed__Program_Plan__r.Category_Type__c  IN (' + categoryString + ') ';
         }
-        if(
-            programEnrollmentCriteria.academicStatusDateFrom != null  
-            && programEnrollmentCriteria.academicStatusDateTo != null
-        ){
-            soql = soql 
-            + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-            + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' ';
+        if(programEnrollmentCriteria.getAcademicStatusDateFrom() != null){
+            soql += 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' ;
+        }
+        if(programEnrollmentCriteria.getAcademicStatusDateTo() != null){
+            soql += 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' ' ;
         }
         
         return soql;

@@ -50,20 +50,28 @@ public with sharing class ELCCompletedCadenceParserTest {
     static void parseprocessKeyDateOffsetsTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Date executionDate = Date.today();
-            Date execDateLower = executionDate.addDays(-10);
-            Date execDateUpper = executionDate.addDays(10);
+            Date execDateLower = executionDate.addDays(-1);
+            Date execDateUpper = executionDate.addDays(-10);
 
             Test.startTest();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Key_Date__c = 'Completed Cadence Date';
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 1;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
 
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(execDateLower, parser.getCompletedCadenceCriteria().getCompletedCadanceDateFrom(), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(execDateUpper, parser.getCompletedCadenceCriteria().getCompletedCadanceDateTo(), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(
+                execDateLower, 
+                parser.getCompletedCadenceCriteria().getCompletedCadanceDateFrom(), 
+                'Incorrect Key Date Offset Lower'
+            );
+            System.assertEquals(
+                execDateUpper, 
+                parser.getCompletedCadenceCriteria().getCompletedCadanceDateTo(), 
+                'Incorrect Key Date Offset Upper'
+            );
         }
     }
 }

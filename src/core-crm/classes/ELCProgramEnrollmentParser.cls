@@ -45,15 +45,15 @@ public with sharing class ELCProgramEnrollmentParser {
     }
 
     private ProgramEnrollmentsDAO.Criteria processProgramEnrollmentKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (
-            this.executionDate != null
-            && engagementListCriteria.Key_Date__c == 'Academic Status Date'
-            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
-            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
-        ) {
-            programEnrollmentCriteria.setAcademicStatusDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            programEnrollmentCriteria.setAcademicStatusDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+        Boolean isKeyDateValid = this.executionDate != null && engagementListCriteria.Key_Date__c == 'Academic Status Date';
+        if (isKeyDateValid && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null) {
+            programEnrollmentCriteria.setAcademicStatusDateFrom(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));            
         }
+        
+        if (isKeyDateValid && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null) {
+            programEnrollmentCriteria.setAcademicStatusDateTo(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));          
+        }
+
         return programEnrollmentCriteria;
     }
 
