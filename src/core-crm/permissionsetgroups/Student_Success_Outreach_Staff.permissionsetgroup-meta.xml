@@ -4,5 +4,6 @@
     <label>Student Success Outreach Staff</label>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
+    <permissionSets>Student_Success_Outreach_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
