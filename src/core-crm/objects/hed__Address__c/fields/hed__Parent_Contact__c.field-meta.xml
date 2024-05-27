@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Parent_Lead__c</fullName>
+    <fullName>hed__Parent_Contact__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Lead associate with this Address.</description>
-    <label>Parent Lead</label>
-    <referenceTo>Lead</referenceTo>
+    <deprecated>false</deprecated>
+    <description>The primary Contact for this Address.</description>
+    <inlineHelpText>The primary Contact for this Address.</inlineHelpText>
+    <label>Parent Contact</label>
+    <referenceTo>Contact</referenceTo>
     <relationshipLabel>Addresses</relationshipLabel>
     <relationshipName>Addresses</relationshipName>
     <required>false</required>
