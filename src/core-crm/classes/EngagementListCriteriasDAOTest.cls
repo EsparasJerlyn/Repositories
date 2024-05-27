@@ -72,10 +72,22 @@ public with sharing class EngagementListCriteriasDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
+            config.Name = 'ELConfig Test';
+            config.Engagement_List_Configuration_Status__c = 'Active';
+            config.Start_Date__c = Date.today().addDays(-1);
+            config.End_Date__c = Date.today().addDays(1);
+            configs.add(config);
+            EngagementListConfigurationsDAO.newInstance()
+                .insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+
             Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
                 Engagement_List_Criteria_Title__c = 'Test',
-                Citizenship_Status__c = 'International'
+                Citizenship_Status__c = 'International',
+                Engagement_List_Configuration__c = configs[0].Id
             );
+            
             EngagementListConfigurationsDAO.newInstance().insertRecords(new List<Engagement_List_Criteria__c>{elc},true,AccessLevel.USER_MODE);
             Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
                 .getSingleEntryCriteriaById(
