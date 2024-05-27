@@ -94,7 +94,7 @@ public with sharing class EngagementListCriteriasDAOTest {
                     elc.Id,
                     AccessLevel.USER_MODE
                 );
-            System.assert(elCrit != null, 'The criteria should be empty.');
+            System.assert(elCrit != null, 'The criteria should not be empty.');
         }
         Test.stopTest();
     }
