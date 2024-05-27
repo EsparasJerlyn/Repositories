@@ -88,15 +88,17 @@ public with sharing class ELCEvaluationSchedulerTest {
             String cronExpression = Label.ELC_Evaluation_Cron_Expression;
             
             Test.startTest();
-            
-            String jobId = System.Schedule('Test ELC Evaluation Scheduler', cronExpression, new ELCEvaluationScheduler());
-            
+                ELCEvaluationScheduler scheduler = new ELCEvaluationScheduler();
+                System.schedule('Test ELC Evaluation Scheduler', cronExpression, scheduler);
             Test.stopTest();
             
-            List<CronTrigger> cts = [SELECT Id, TimesTriggered, NextFireTime,CronExpression FROM CronTrigger WHERE ID =: jobId ];
+            List<AsyncApexJob> jobsScheduled = [SELECT Id, ApexClassID, ApexClass.Name, Status, JobType FROM AsyncApexJob WHERE JobType = 'ScheduledApex'];
+            System.assertEquals(1, jobsScheduled.size(), 'expecting one scheduled job');
+            System.assertEquals('ELCEvaluationScheduler', jobsScheduled[0].ApexClass.Name, 'expecting specific scheduled job');
             
-            System.assertEquals(cronExpression, cts[0].CronExpression,'Cron Expression Time is different');
-            System.assertEquals(0, cts[0].TimesTriggered,'Times Triggered is not equal to zero');
+            List<AsyncApexJob> jobsApexBatch = [SELECT Id, ApexClassID, ApexClass.Name, Status, JobType FROM AsyncApexJob WHERE JobType = 'BatchApex'];
+            System.assertEquals(1, jobsApexBatch.size(), 'expecting one apex batch job');
+            System.assertEquals('ELCEvaluatorBatch', jobsApexBatch[0].ApexClass.Name, 'expecting specific batch job');
         }
 	}
 }
