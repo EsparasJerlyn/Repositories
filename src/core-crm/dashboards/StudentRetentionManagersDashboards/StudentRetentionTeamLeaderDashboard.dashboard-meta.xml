@@ -58,6 +58,7 @@
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
+                <title>Last 3 Months</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>2</rowIndex>
@@ -80,6 +81,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
+                <footer>Last 4 Months</footer>
                 <groupingColumn>CREATED_DATEONLY</groupingColumn>
                 <groupingColumn>PRIORITY</groupingColumn>
                 <groupingSortProperties>
@@ -260,7 +262,7 @@
                 </groupingSortProperties>
                 <header>Cases by Status &amp; Priority (This Week)</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>10</maxValuesDisplayed>
+                <maxValuesDisplayed>30</maxValuesDisplayed>
                 <report>StudentRetentionManagersReports/Cases_by_Status_Priority_This_Week</report>
                 <showPercentage>false</showPercentage>
                 <showValues>false</showValues>
@@ -375,6 +377,7 @@
                 </groupingSortProperties>
                 <header>Cases by Assignee &amp; Status (This Week)</header>
                 <legendPosition>Right</legendPosition>
+                <maxValuesDisplayed>50</maxValuesDisplayed>
                 <report>StudentRetentionManagersReports/Cases_by_Assignee_Status_This_Week</report>
                 <showPercentage>false</showPercentage>
                 <showValues>false</showValues>
