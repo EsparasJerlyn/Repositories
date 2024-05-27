@@ -71,14 +71,18 @@ public with sharing class EngagementListCriteriasDAOTest {
     static void getSingleEntryCriteriaByIdTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            MockIdGenerator mockIdGen = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType);
-            Id elcId = mockIdGen.getMockId();
+
+            Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
+                Engagement_List_Criteria_Title__c = 'Test',
+                Citizenship_Status__c = 'International'
+            );
+            EngagementListConfigurationsDAO.newInstance().insertRecords(new List<Engagement_List_Criteria__c>{elc},true,AccessLevel.USER_MODE);
             Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
                 .getSingleEntryCriteriaById(
-                    elcId,
+                    elc.Id,
                     AccessLevel.USER_MODE
                 );
-            System.assert(elCrit == null, 'The criteria should be empty.');
+            System.assert(elCrit != null, 'The criteria should be empty.');
         }
         Test.stopTest();
     }
