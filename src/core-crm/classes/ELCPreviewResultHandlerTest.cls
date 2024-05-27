@@ -18,7 +18,10 @@ private class ELCPreviewResultHandlerTest {
         ImplementationSelector.DAO.setMock(new ContactsDAOMock());
         ImplementationSelector.DAO.setMock(new AttachmentsDAOMock());
 
-        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c();
+        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
+            Engagement_List_Criteria_Title__c = 'Test'
+        );
+        
         Contact con = new Contact(
             QUT_Student_ID__c = '1234',
             Email = 'test@email.com',
@@ -35,16 +38,15 @@ private class ELCPreviewResultHandlerTest {
                 AccessLevel.USER_MODE
             );
 
-        //Stringify and serialize to add a non-writable Name
-        String elcString =
-            '{"attributes":{"type":"Engagement_List_Criteria__c","url":"/services/data/v56.0/sobjects/Engagement_List_Criteria__c/' +
-            elc.Id +
-            '"},' +
-            '"Id":"' +
-            elc.Id +
-            '","Name":"test"}';
+        TestDataFactory.NonWriteableFieldsParam param = new TestDataFactory.NonWriteableFieldsParam();
+        param.objectApiName = 'Engagement_List_Criteria__c';
+        param.recordId = elc.Id;
+        param.name = 'Test';
+        param.createdDate = System.Today();
+        param.lastModifiedDate = System.Today();
+
         elc = (Engagement_List_Criteria__c) JSON.deserialize(
-            elcString,
+            TestDataFactory.setNonWritableFields(param),
             Engagement_List_Criteria__c.class
         );
 
@@ -120,7 +122,10 @@ private class ELCPreviewResultHandlerTest {
         EmailTemplatesDAO.newInstance()
             .insertRecords(emailTemplates, true, AccessLevel.SYSTEM_MODE);
 
-        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c();
+        Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
+            Engagement_List_Criteria_Title__c = 'Test'
+        );
+
         Contact con = new Contact(
             QUT_Student_ID__c = '1234',
             Email = 'test@email.com',
@@ -137,17 +142,15 @@ private class ELCPreviewResultHandlerTest {
                 AccessLevel.USER_MODE
             );
 
-        //Stringify and serialize to add a non-writable Name
-        String elcString =
-            '{"attributes":{"type":"Engagement_List_Criteria__c","url":"/services/data/v56.0/sobjects/Engagement_List_Criteria__c/' +
-            elc.Id +
-            '"},' +
-            '"Id":"' +
-            elc.Id +
-            '","Name":"test","Engagement_List_Criteria_Title__c":"test"}';
+        TestDataFactory.NonWriteableFieldsParam param = new TestDataFactory.NonWriteableFieldsParam();
+        param.objectApiName = 'Engagement_List_Criteria__c';
+        param.recordId = elc.Id;
+        param.name = 'Test';
+        param.createdDate = System.Today();
+        param.lastModifiedDate = System.Today();
 
         elc = (Engagement_List_Criteria__c) JSON.deserialize(
-            elcString,
+            TestDataFactory.setNonWritableFields(param),
             Engagement_List_Criteria__c.class
         );
 
