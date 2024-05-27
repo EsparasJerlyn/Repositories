@@ -6,11 +6,6 @@
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>
-        <accessLevel>Manage</accessLevel>
-        <sharedTo>System_Administrator</sharedTo>
-        <sharedToType>Role</sharedToType>
-    </folderShares>
-    <folderShares>
         <accessLevel>View</accessLevel>
         <sharedTo>Development_Team</sharedTo>
         <sharedToType>Group</sharedToType>
