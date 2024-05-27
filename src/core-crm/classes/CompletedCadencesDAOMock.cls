@@ -94,7 +94,7 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
             + 'AND Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
         
         if(completedCadenceCriteria.getCompletedCadanceDateFrom() != null && completedCadenceCriteria.getCompletedCadanceDateTo() != null ){
-            soql = soql + ' AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo());
+            soql = soql + ' AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo());
         }
         
         return soql;

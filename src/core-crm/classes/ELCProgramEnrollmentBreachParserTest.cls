@@ -53,20 +53,31 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
     static void parseprocessKeyDateOffsetsTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Date executionDate = Date.today();
-            Date execDateLower = executionDate.addDays(-10);
-            Date execDateUpper = executionDate.addDays(10);
+            Date execDateLower = executionDate.addDays(-1);
+            Date execDateUpper = executionDate.addDays(-10);
 
             Test.startTest();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Key_Date__c = 'Breach Start Date';
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 1;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
 
             ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
-            System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateFrom()), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
-            System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateTo()), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
+            System.assertEquals(
+                DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'),
+                DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateFrom()), 
+                'Incorrect Key Date Offset Lower'
+            );
+
+            System.assertEquals(
+                DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'),
+                DynamicQueryService.convertDatetoDateString(parser.getProgramEnrollmentBreachCriteria().getBreachDateTo()), 
+                'Incorrect Key Date Offset Upper'
+            );
+
         }
     }
+
 }

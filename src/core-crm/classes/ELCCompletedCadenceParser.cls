@@ -39,14 +39,12 @@ public with sharing class ELCCompletedCadenceParser {
     }
 
     private CompletedCadencesDAO.Criteria processCompletedCadenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
-        if (
-            this.executionDate != null
-            && engagementListCriteria.Key_Date__c == 'Completed Cadence Date'
-            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
-            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
-        ) {
-            completedCadenceCriteria.setCompletedCadanceDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            completedCadenceCriteria.setCompletedCadanceDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+        Boolean isKeyDateValid = this.executionDate != null && engagementListCriteria.Key_Date__c == EngagementListCriteriasDAO.KEY_DATE_COMPLETED_CADENCE_DATE;
+        if ( isKeyDateValid && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null) {
+            completedCadenceCriteria.setCompletedCadanceDateFrom(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
+        }
+        if ( isKeyDateValid && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null) {
+            completedCadenceCriteria.setCompletedCadanceDateTo(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
         }
         return completedCadenceCriteria;
     }
