@@ -23,7 +23,8 @@ public with sharing class ELCPreviewBatch implements Database.Batchable<sObject>
 
     /**
      * @description Constructor to initialize ELCPreviewBatch with criteria, execution date and error messages, 
-     * this is to simulate sending of email with the errors
+     * Overload Contstructor to simulate error scenarios. 
+     * This helps manual testing for Preview Email with error messages.
      * @param criteria The Engagement List Criteria record.
      * @param executionDate The date of execution for evaluation.
      * @param errorMessagesSet The error messages
