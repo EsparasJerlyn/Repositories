@@ -914,4 +914,18 @@
         <shortDescription>Applicant Flag Batch Cron Expression</shortDescription>
         <value>0 0 0 ? * *</value>
     </labels>
+    <labels>
+        <fullName>ELC_Evaluation_Monday_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ELC Evaluation Monday Cron Expression</shortDescription>
+        <value>0 0 7 ? * MON</value>
+    </labels>
+    <labels>
+        <fullName>ELC_Evaluation_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ELC Evaluation Cron Expression</shortDescription>
+        <value>0 0 7 ? * TUE-THU</value>
+    </labels>
 </CustomLabels>

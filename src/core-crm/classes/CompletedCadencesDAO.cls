@@ -140,15 +140,12 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         if(completedCadenceCriteria.getStatus() != null){
             soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.getStatus() + '\' ' ;
         }
-        if(
-            completedCadenceCriteria.getCompletedCadanceDateFrom() != null  
-            && completedCadenceCriteria.getCompletedCadanceDateTo() != null
-        ){
-            soql = soql 
-            + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
-            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' ';
-        }  
-    
+        if(completedCadenceCriteria.getCompletedCadanceDateFrom() != null){
+            soql += 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' '; 
+        }
+        if(completedCadenceCriteria.getCompletedCadanceDateTo() != null){
+            soql += 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '; 
+        }
         return soql; 
     }
 

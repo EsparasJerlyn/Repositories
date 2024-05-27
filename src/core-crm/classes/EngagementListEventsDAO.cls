@@ -47,4 +47,21 @@ public inherited sharing class EngagementListEventsDAO extends DmlBase implement
         }
         return soql;
     }
+
+    public List<Engagement_List_Event__c> getEngagmentListEventByCaseId(
+        Set<Id> caseIds,
+        AccessLevel accessLevel
+    ){
+        if(caseIds.isEmpty()) {
+            return new List<Engagement_List_Event__c>();
+        }
+
+        return Database.query(
+            'SELECT Id, Case__c, Completed_Cadence__c, Course_Connection__c, Course_Connection_Assessment__c, Program_Enrollment_Breach__c, Program_Enrollment__c, ' +
+                'Leave_of_Absence__c, Academic_Status__c, Course_Enrollment_Status__c, Key_Date__c, Program_Enrollment_Status__c ' + 
+            'FROM Engagement_List_Event__c ' +
+            'WHERE Case__c IN :caseIds',
+            accessLevel
+        );
+    }
 }
