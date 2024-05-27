@@ -122,7 +122,7 @@ public with sharing class ELECandidateProcessor {
             }
             
             if(!outreachCaseMap.values().isEmpty()){
-                Integer numberOfCaseCreated = Integer.valueOf(criteria.Cases_Created__c);
+                Integer numberOfCaseCreated = criteria.Cases_Created__c != null ? Integer.valueOf(criteria.Cases_Created__c) : 0;
                 criteria.Cases_Created__c = numberOfCaseCreated + outreachCaseMap.values().size();
                 List<Engagement_List_Criteria__c> eventCriterias = new List<Engagement_List_Criteria__c>();
                 eventCriterias.add(criteria);

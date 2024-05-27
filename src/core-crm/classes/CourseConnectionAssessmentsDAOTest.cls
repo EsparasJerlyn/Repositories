@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
  *    | eccarius.munoz                 | May 3, 2024           | DEPP-7528              | Added test methods for query in outreac case   |
+ *    | julie.jane.alegre              | May 17, 2024          | DEPP-8049              | Update contact field mapping                   |
  *    |                                |                       |                        |                                                |
  */
 @isTest
@@ -65,17 +66,17 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             String expectedWhereClause = 'WHERE '
                 + 'Submission_Date__c != null ' 
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
-                + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
-                + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
+                + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
+                + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                + 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                + 'AND Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
 
@@ -109,19 +110,19 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getContactQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
-            String expectedWhereClause = 'SELECT Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
+            String expectedWhereClause = 'SELECT Contact__c FROM Course_Connection_Assessment__c WHERE '
                 + 'Submission_Date__c != null '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
-                + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
-                + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
+                + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
+                + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
+                + 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\'';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Query');
         }
         
@@ -159,20 +160,20 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
 
             String whereClauseString = CourseConnectionAssessmentsDAO.newInstance().getQueryByCriteria(courseConnectionAssessmentsCriteria, courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
-            String expectedWhereClause = 'SELECT Id, Course_Connection__r.hed__Contact__c, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Due_Date__c, Assessment_Name__r.Assessment_Priority__c, Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c FROM Course_Connection_Assessment__c WHERE '
+            String expectedWhereClause = 'SELECT Id, Contact__c, Assessment_Grade__c, Submission_Date__c, Assessment_Name__r.Due_Date__c, Assessment_Name__r.Assessment_Priority__c FROM Course_Connection_Assessment__c WHERE '
                 + 'Submission_Date__c = null '
                 + 'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.getAssessmentPriority() + '\' '
-                + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
-                + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
+                + 'AND Assessment_Name__r.Due_Date__c <= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateFrom()) + ' ' 
+                + 'AND Assessment_Name__r.Due_Date__c >= ' + DynamicQueryService.convertDatetoDateString(courseConnectionAssessmentsCriteria.getDueDateTo()) + ' '
                 + 'AND Course_Connection__r.Enrollment_Status__c IN (\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND Course_Connection__r.hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Course_Connection__r.hed__Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' 
-                + 'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.Id IN (' + DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                + 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' 
+                + 'AND Contact__r.Id IN (' + DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Query');
         }
 
@@ -212,12 +213,13 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             
             List<Assessment__c> assessmentList = TestDataFactory.createTestAssessmentRecords(1);
             assessmentList[0].Assessment_Priority__c = 'Low';
-            assessmentList[0].Due_Date__c = Date.today();
+            assessmentList[0].Due_Date__c = Date.today().addDays(-10);
             AssessmentsDAO.newInstance().insertRecords(assessmentList, true, AccessLevel.SYSTEM_MODE);
             
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Submission_Date__c = Date.today();
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentList[0].Id;
+            courseConnectionAssessmentListCreated[0].Contact__c = contactList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
@@ -233,8 +235,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
 
             CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentsCriteria = new CourseConnectionAssessmentsDAO.Criteria();
             courseConnectionAssessmentsCriteria.setIsSubmissionDateNull(false);
-            courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-10));
-            courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(10));
+            courseConnectionAssessmentsCriteria.setDueDateFrom(Date.today().addDays(-1));
+            courseConnectionAssessmentsCriteria.setDueDateTo(Date.today().addDays(-10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
@@ -294,6 +296,7 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Submission_Date__c = null;
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentCreated.Id;
+            courseConnectionAssessmentListCreated[0].Contact__c = contactList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
