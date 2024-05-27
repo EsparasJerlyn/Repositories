@@ -71,9 +71,11 @@ public with sharing class EngagementListCriteriasDAOTest {
     static void getSingleEntryCriteriaByIdTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            MockIdGenerator mockIdGen = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType);
+            Id elcId = mockIdGen.getMockId();
             Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
                 .getSingleEntryCriteriaById(
-                    'xxx',
+                    elcId,
                     AccessLevel.USER_MODE
                 );
             System.assert(elCrit == null, 'The criteria should be empty.');
