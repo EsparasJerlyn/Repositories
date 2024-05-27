@@ -66,7 +66,7 @@
         );
     }
     
-    public static Engagement_List_Criteria__c getSingleEntryCriteriaById(Id recordId, AccessLevel accessLevel) {
+    public static Engagement_List_Criteria__c getEntryCriteriaById(Id recordId, AccessLevel accessLevel) {
         if(recordId == null) { return null; }
 
         return Database.query(

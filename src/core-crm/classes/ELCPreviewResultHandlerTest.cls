@@ -21,7 +21,7 @@ private class ELCPreviewResultHandlerTest {
         Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
             Engagement_List_Criteria_Title__c = 'Test'
         );
-        
+
         Contact con = new Contact(
             QUT_Student_ID__c = '1234',
             Email = 'test@email.com',
@@ -184,7 +184,7 @@ private class ELCPreviewResultHandlerTest {
         system.assertEquals(
             'Completed',
             EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
+                .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
                 .Preview_Status__c,
             'Status should be completed'
         );
@@ -274,7 +274,7 @@ private class ELCPreviewResultHandlerTest {
         system.assertEquals(
             'Failed',
             EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
+                .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
                 .Preview_Status__c,
             'Status should be failed'
         );

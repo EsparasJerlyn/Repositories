@@ -42,7 +42,7 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
         return engagementListCriteriaList;
     }
 
-    public Engagement_List_Criteria__c getSingleEntryCriteriaById(Id recordId, AccessLevel accessLevel) {
+    public Engagement_List_Criteria__c getEntryCriteriaById(Id recordId, AccessLevel accessLevel) {
         for(Engagement_List_Criteria__c record : engagementListCriteriaMap.values()) {
             if(record.Id == recordId) { return record; }
         }

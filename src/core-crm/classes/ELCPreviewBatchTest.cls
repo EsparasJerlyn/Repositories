@@ -70,7 +70,7 @@ private class ELCPreviewBatchTest {
 
             System.assert(
                 EngagementListCriteriasDAO.newInstance()
-                    .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
+                    .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
                     .Preview_Result_Attachment_Id__c != null,
                 'An attachment should be created '
             );

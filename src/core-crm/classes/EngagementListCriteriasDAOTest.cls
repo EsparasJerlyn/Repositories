@@ -68,7 +68,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     }
     
     @isTest
-    static void getSingleEntryCriteriaByIdTest() {
+    static void getEntryCriteriaByIdTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
@@ -87,10 +87,10 @@ public with sharing class EngagementListCriteriasDAOTest {
                 Citizenship_Status__c = 'International',
                 Engagement_List_Configuration__c = configs[0].Id
             );
-            
+
             EngagementListConfigurationsDAO.newInstance().insertRecords(new List<Engagement_List_Criteria__c>{elc},true,AccessLevel.USER_MODE);
             Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(
+                .getEntryCriteriaById(
                     elc.Id,
                     AccessLevel.USER_MODE
                 );
@@ -100,11 +100,11 @@ public with sharing class EngagementListCriteriasDAOTest {
     }
 
     @isTest
-    static void getSingleEntryCriteriaByIdEmptyTest() {
+    static void getEntryCriteriaByIdEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(
+                .getEntryCriteriaById(
                     null,
                     AccessLevel.USER_MODE
                 );

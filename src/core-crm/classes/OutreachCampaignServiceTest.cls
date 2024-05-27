@@ -181,14 +181,14 @@ private class OutreachCampaignServiceTest {
         Test.startTest();
         OutreachCampaignService.executePreviewBatch(
             EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE),
+                .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE),
             System.today()
         );
         Test.stopTest();
 
         System.assert(
             EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
+                .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE)
                 .Preview_Job_Id__c != null,
             'Preview Job Id should not be null'
         );
@@ -214,13 +214,13 @@ private class OutreachCampaignServiceTest {
         Test.startTest();
         OutreachCampaignService.executePreviewBatch(
             EngagementListCriteriasDAO.newInstance()
-                .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE),
+                .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE),
             System.today()
         );
         Test.stopTest();
 
         Engagement_List_Criteria__c updatedELC = EngagementListCriteriasDAO.newInstance()
-            .getSingleEntryCriteriaById(elc.Id, AccessLevel.USER_MODE);
+            .getEntryCriteriaById(elc.Id, AccessLevel.USER_MODE);
 
         OutreachCampaignService.abortJob(updatedELC);
 
