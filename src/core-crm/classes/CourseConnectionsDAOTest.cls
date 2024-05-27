@@ -169,10 +169,10 @@ public with sharing class CourseConnectionsDAOTest {
                 + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
-                + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                + 'AND hed__Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                + 'AND hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             System.assertEquals(expectedWhereClause, whereClauseString, 'Incorrect Where Clause');
         }
         Test.stopTest();
@@ -230,12 +230,12 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                    + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                    + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                    + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                    + 'AND hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             
-            String expectedClauseString = 'SELECT hed__Program_Enrollment__r.hed__Contact__c FROM hed__Course_Enrollment__c ' +  expectedWhereClause;
+            String expectedClauseString = 'SELECT hed__Contact__c FROM hed__Course_Enrollment__c ' +  expectedWhereClause;
             System.assertEquals(expectedClauseString, whereClauseString, 'Contact query by criteria should not be null.');
         }
         Test.stopTest();
@@ -272,15 +272,15 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
-                    + 'AND hed__Program_Enrollment__r.hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
+                    + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
+                    + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
+                    + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
+                    + 'AND hed__Contact__r.Id IN ('+ DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet()) + ')';
             
             String expectedClauseString = 'SELECT ' + 
-                                        'Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
+                                        'Id, hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
                                         'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
-                                        'hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
+                                        'hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
                                         'FROM hed__Course_Enrollment__c ' + expectedWhereClause;
                                                                     
             System.assertEquals(expectedClauseString, whereClauseString, 'Query by criteria should not be null.');
@@ -320,6 +320,7 @@ public with sharing class CourseConnectionsDAOTest {
             courseConnectionListCreated[0].hed__Program_Enrollment__c = programEnrollmentListCreated[0].Id;
             courseConnectionListCreated[0].Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED;
             courseConnectionListCreated[0].hed__Display_Grade__c = '100';
+            courseConnectionListCreated[0].hed__Contact__c = contactList[0].Id;
         
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
 
@@ -387,6 +388,7 @@ public with sharing class CourseConnectionsDAOTest {
             courseConnectionListCreated[0].hed__Program_Enrollment__c = programEnrollmentListCreated[0].Id;
             courseConnectionListCreated[0].Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_CANCELLED;
             courseConnectionListCreated[0].hed__Display_Grade__c = '100';
+            courseConnectionListCreated[0].hed__Contact__c = contactList[0].Id;
         
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
 
