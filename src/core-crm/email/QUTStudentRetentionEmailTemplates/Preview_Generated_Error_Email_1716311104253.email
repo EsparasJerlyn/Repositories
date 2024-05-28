@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body aria-readonly="false" style="height: auto; min-height: auto;">Dear {firstName},<br />
+<br />
+We regret to inform you that an error has occurred during the generation of your preview. Kindly contact or forward this email to the DEP support team for resolution (troubleshooting information provided below for the support team to investigate).<br />
+<br />
+Regards,<br />
+DEP<br />
+<br />
+{errors}</body>
+</html>

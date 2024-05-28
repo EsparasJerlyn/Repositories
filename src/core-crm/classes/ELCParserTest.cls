@@ -48,6 +48,10 @@ public with sharing class ELCParserTest {
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
             Test.stopTest();
 
+            //Checking on the executionDate and elc
+            System.assertEquals(parser.getEngagementListCriteria(), engagementListCriteria, 'Incorrect engagementListCriteria');
+            System.assertEquals(parser.getExecutionDate(), executionDate, 'Incorrect executionDate');
+
             //Checking on the criterions 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
             System.assertEquals(parser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().getAcademicStatus(), academicStatus, 'Incorrect Academic Status');

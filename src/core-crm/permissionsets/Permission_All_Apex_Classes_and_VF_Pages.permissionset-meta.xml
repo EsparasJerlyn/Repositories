@@ -1565,6 +1565,22 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ELCPreviewBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ELCPreviewBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ELCPreviewResultHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ELCPreviewResultHandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ESBIntegrateOnCourseConnectionUpsert</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3926,6 +3942,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>OrgWideEmailAddressesDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OutreachCampaignService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OutreachCampaignServiceTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Engagement List Criteria preview generated successfully template</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Preview Generated Success Email</name>
+    <relatedEntityType>Engagement_List_Criteria__c</relatedEntityType>
+    <style>none</style>
+    <subject>Your Preview is Ready</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
