@@ -1,2 +1,0 @@
-BuyerId,BuyerStatus,CommerceType,Errors,IsActive,Name
-001AD00000U2kX0YAJ,Pending,Buyer,duplicate value found: BuyerId duplicates value on record with id: 0bjAD0000001jb3YAA,true,Accenture

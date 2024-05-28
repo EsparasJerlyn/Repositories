@@ -1,7 +1,0 @@
-Application_Status__c,Contact__c,Course_Offering__c,Errors,Questionnaire__c,Registration_Status__c
-Pending,003AD00000SFQlzYAH,a0BAD000002nZzZ2AU,"We can't save this record because the “Send Questionnaire Response Email Flow” process failed. Give your Salesforce admin these details. An Apex error occurred: System.EmailException: SendEmail failed. First exception on row 0; first error: INVALID_EMAIL_ADDRESS, Email address is invalid: null: [toAddresses, null]
- Error ID: 1683869963-1348789 (-667188557)ESS, Email address is invalid: null: [toAddresses, null]
- Error ID: 1683869963-1348789 (-667188557)",a1uAD0000029RXhYAM,Confirmed
-Pending,003AD00000SFQlzYAH,a0BAD000002nZzZ2AU,"We can't save this record because the “Send Questionnaire Response Email Flow” process failed. Give your Salesforce admin these details. An Apex error occurred: System.EmailException: SendEmail failed. First exception on row 0; first error: INVALID_EMAIL_ADDRESS, Email address is invalid: null: [toAddresses, null]
- Error ID: 1683869963-1348789 (-667188557)ESS, Email address is invalid: null: [toAddresses, null]
- Error ID: 1683869963-1348789 (-667188557)",a1uAD0000029RXiYAM,Confirmed
