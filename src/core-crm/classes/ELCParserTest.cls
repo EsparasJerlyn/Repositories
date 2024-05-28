@@ -41,12 +41,16 @@ public with sharing class ELCParserTest {
             engagementListCriteria.Assessment_Priority__c = 'High';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = keyDateLeaveOfAbsence;
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 1;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
 
             Test.startTest();
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
             Test.stopTest();
+
+            //Checking on the executionDate and elc
+            System.assertEquals(parser.getEngagementListCriteria(), engagementListCriteria, 'Incorrect engagementListCriteria');
+            System.assertEquals(parser.getExecutionDate(), executionDate, 'Incorrect executionDate');
 
             //Checking on the criterions 
             System.assertEquals(parser.getELCContactParser().getContactCriteria().getCitizenshipStatus(), citizenshipStatus, 'Incorrect Citizenship Status.');
@@ -61,8 +65,8 @@ public with sharing class ELCParserTest {
             System.assertEquals(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getIsOnLeave(), true, 'Is On Leave should not be false');
             
             //Checking on the key date criterions
-            Date execDateLower = executionDate.addDays(-10);
-            Date execDateUpper = executionDate.addDays(10);
+            Date execDateLower = executionDate.addDays(-1);
+            Date execDateUpper = executionDate.addDays(-10);
             System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateFrom()), DateTime.newInstance(execDateLower.year(), execDateLower.month(), execDateLower.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Lower');
             System.assertEquals(DynamicQueryService.convertDatetoDateString(parser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().getEndDateTo()), DateTime.newInstance(execDateUpper.year(), execDateUpper.month(), execDateUpper.day()).format('YYYY-MM-dd'), 'Incorrect Key Date Offset Upper');
 

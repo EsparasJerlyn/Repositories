@@ -17,6 +17,7 @@
  *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getPersonContactsByEmailOrName      |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSL    |
+ *    | julie.jane.alegre              | May 13, 2024        | DEPP-8490              | Update method getQueryLocatorBySubQueryTest|
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -420,20 +421,20 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
               'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
               'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' +
-              'AND Id = IN (' + contactCriteria.getContactIdSet() + ') ';
+              'AND Id IN (' + contactCriteria.getContactIdSet() + ') ';
     }
 
     public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
         String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
               'FROM Contact ' + getWhereClauseByCriteria(criteria);
         return Database.getQueryLocator(query);
     }
 
-    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   
+    public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   //update to string
         String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
-              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+             'FROM Contact WHERE Id IN (' + subQueryString + ')';
         return Database.getQueryLocator(query);
     }
 

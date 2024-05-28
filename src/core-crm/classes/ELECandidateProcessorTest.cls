@@ -23,6 +23,8 @@ public with sharing class ELECandidateProcessorTest {
         config.Engagement_List_Configuration_Status__c = 'Active';
         config.Start_Date__c = Date.today().addDays(-1);
         config.End_Date__c = Date.today().addDays(1);
+        config.Qualtrics_Instrument_Id__c = 'test';
+        config.Instrument__c = 'test';
         configs.add(config);
         EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
@@ -40,7 +42,7 @@ public with sharing class ELECandidateProcessorTest {
         criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
         criteriaList.add(criteria);
         EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(Date.today(), AccessLevel.SYSTEM_MODE);
+        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEngagementListCriteriasByRecordtype(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
         List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
         contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -122,6 +124,8 @@ public with sharing class ELECandidateProcessorTest {
         config.Engagement_List_Configuration_Status__c = 'Active';
         config.Start_Date__c = Date.today().addDays(-1);
         config.End_Date__c = Date.today().addDays(1);
+        config.Qualtrics_Instrument_Id__c = 'test';
+        config.Instrument__c = 'test';
         configs.add(config);
         EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
@@ -139,7 +143,7 @@ public with sharing class ELECandidateProcessorTest {
         criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
         criteriaList.add(criteria);
         EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEntryCriteria(Date.today(), AccessLevel.SYSTEM_MODE);
+        List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance().findActiveEngagementListCriteriasByRecordtype(EngagementListCriteriasDAO.RECORD_TYPE_ID_ENTRY_CRITERIA, Date.today(), AccessLevel.SYSTEM_MODE);
 
         List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
         contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
