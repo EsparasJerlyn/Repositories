@@ -1,4 +1,4 @@
-name: "IT2P4ST Deploy (Merge of PR)"
+name: "IT2P5ST Deploy (Merge of PR)"
 
 resources:
   repositories:
@@ -13,7 +13,7 @@ resources:
 variables:
   - group: SALESFORCE_CICD #ALWAYS LEAVE THIS IN
   - group: SALESFORCE_KEYSTORE #ALWAYS LEAVE THIS IN
-  - group: IT2P4ST # SANDBOX CREDS TO DEPLOY TO
+  - group: IT2P5ST # SANDBOX CREDS TO DEPLOY TO
 
 # Deploy to branch on commit
 trigger:
@@ -62,10 +62,12 @@ stages:
       - job : PiplineJob
         timeoutInMinutes: 600
         
-        ##### Microsoft Hosted Agents with Docker Image ############
+         ##### Microsoft Hosted Agents with ACR IMAGE ############
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:1.9
+        container: 
+          image: "$(ACR_CONTAINER_IMAGE)"
+          endpoint: QUT-PRD-ARG-DEP-ACR
 
         steps:
           - checkout: SELF

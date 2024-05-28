@@ -1,4 +1,4 @@
-name: "IT2P3CI Deploy (Triggered on creation of PR)"
+name: "IT2P5CI Deploy (Triggered on creation of PR)"
 
 resources:
   repositories:
@@ -13,7 +13,7 @@ resources:
 variables:
   - group: SALESFORCE_CICD #ALWAYS LEAVE THIS IN
   - group: SALESFORCE_KEYSTORE #ALWAYS LEAVE THIS IN
-  - group: IT2P3CI # SANDBOX CREDS TO DEPLOY TO
+  - group: IT2P5CI # SANDBOX CREDS TO DEPLOY TO
 
 # Build pull requests so we can test them
 pr:
@@ -63,10 +63,12 @@ stages:
       - job : PiplineJob
         timeoutInMinutes: 600
         
-        ##### Microsoft Hosted Agents with Docker Image ############
+         ##### Microsoft Hosted Agents with ACR IMAGE ############
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:1.9
+        container: 
+          image: "$(ACR_CONTAINER_IMAGE)"
+          endpoint: QUT-PRD-ARG-DEP-ACR
 
         steps:
           - checkout: SELF
@@ -93,4 +95,7 @@ stages:
           - template: yml/templates/sfdx-deploy-test-users.yml@SFDX-PIPELINES
             parameters:
               INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers: "${{ parameters.INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers }}" 
+          - template: yml/templates/sfdx-delete-records.yml@SFDX-PIPELINES
+            parameters:
+              NO_OF_DAYS_TO_KEEP: "0" # CI=0, ST=7, SIT=14
           - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES
