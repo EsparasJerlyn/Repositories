@@ -1,9 +1,9 @@
 {
-  "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
+  "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "componentName" : "siteforce:dynamicLayout",
   "dataProviders" : [ ],
-  "id" : "f09b3d4b-1281-4b51-9e8b-7e83d3523105",
-  "label" : "News Detail",
+  "id" : "db4b0960-1b6b-41e3-b2cf-77d64d011448",
+  "label" : "Products",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : {
@@ -11,9 +11,9 @@
         "backgroundOverlay" : "rgba(0,0,0,0.5)",
         "contentAreaWidth" : 100,
         "sectionConfig" : {
-          "UUID" : "61151890-b2be-4235-8d25-09b98fe8413d",
+          "UUID" : "acff904a-e5e8-40be-8010-bffc95dd1b5a",
           "columns" : [ {
-            "UUID" : "cd91e4f7-582a-4b1b-bebf-0073a09d8767",
+            "UUID" : "bec77add-3a2e-4c09-8305-ac085b6034aa",
             "columnKey" : "1",
             "columnName" : "Column 1",
             "columnWidth" : "12",
@@ -23,9 +23,9 @@
         "sectionHeight" : 300
       },
       "componentName" : "forceCommunity:section",
-      "id" : "61151890-b2be-4235-8d25-09b98fe8413d",
+      "id" : "acff904a-e5e8-40be-8010-bffc95dd1b5a",
       "regions" : [ {
-        "id" : "cd91e4f7-582a-4b1b-bebf-0073a09d8767",
+        "id" : "bec77add-3a2e-4c09-8305-ac085b6034aa",
         "regionLabel" : "Column 1",
         "regionName" : "1",
         "renditionMap" : { },
@@ -35,7 +35,7 @@
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "44f412e1-fd42-4c90-8446-65753dfd0f60",
+    "id" : "65dd42c8-706c-45de-8e18-b659fe6b7de7",
     "regionName" : "content",
     "type" : "region"
   }, {
@@ -43,18 +43,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "{!Content.contentTypeLabel}.{!Content.title}"
+        "title" : "Products"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "3853d9d9-c72c-4b09-ac1b-fd85a5f5ce90",
+      "id" : "ae2f3ad5-5b2c-474c-943f-1109eaeb1e05",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "e6f7801d-cd53-4828-9aef-7e0701655f9e",
+    "id" : "fbde1bc2-21c3-4e9d-8120-78c27a042313",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "managed-content-news"
+  "viewType" : "custom-products"
 }
