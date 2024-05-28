@@ -25,7 +25,7 @@ public inherited sharing class AttachmentsDAO extends DmlBase implements IAttach
             return new List<Attachment>();
         }
         return Database.query(
-            'SELECT Id, ' +
+            'SELECT Id, Body, ' +
             'Name ' +
             'FROM Attachment ' +
             'WHERE Name =: name',

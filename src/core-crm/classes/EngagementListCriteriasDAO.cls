@@ -19,6 +19,10 @@
     public static final String KEY_DATE_BREACH_START_DATE = 'Breach Start Date';
     public static final String KEY_DATE_ACADEMIC_STATUS_DATE = 'Academic Status Date';
     public static final String KEY_DATE_ASSESSMENT_DUE_DATE = 'Assessment Due Date';
+    public static final String COMPLETED_PREVIEW_STATUS = 'Completed';
+    public static final String IN_PROGRESS_PREVIEW_STATUS = 'In Progress';
+    public static final String NOT_GENERATED_PREVIEW_STATUS = 'Not Generated';
+    public static final String FAILED_PREVIEW_STATUS = 'Failed';
 
     public Schema.SObjectType getSObjectType() {
         return Engagement_List_Criteria__c.SObjectType;
@@ -62,4 +66,35 @@
         );
     }
     
+    public static Engagement_List_Criteria__c getEntryCriteriaById(Id recordId, AccessLevel accessLevel) {
+        if(recordId == null) { return null; }
+
+        return Database.query(
+            'SELECT Id, ' +
+            'Name, ' +
+            'Preview_Status__c, ' +
+            'Status__c, ' +
+            'Start_Date__c, ' +
+            'End_Date__c, ' +
+            'RecordTypeId, ' +
+            'Assessment_Priority__c, ' +
+            'Failed_To_Submit_Assessment__c,' +
+            'Preview_Job_Id__c, ' +
+            'Citizenship_Status__c, ' +
+            'Academic_Status__c, ' +
+            'Category_Type__c, ' +
+            'Completed_Cadence__c, ' +
+            'Course_Grade__c, ' +
+            'Breach__c, ' +
+            'Is_On_Leave_of_Absence__c, ' +
+            'Key_Date__c, ' +
+            'Key_Date_Offset_Lower_Boundary__c, ' +
+            'Key_Date_Offset_Upper_Boundary__c, ' +
+            'Engagement_List_Criteria_Title__c, ' +
+            'Preview_Result_Attachment_Id__c ' +
+            'FROM Engagement_List_Criteria__c ' +
+            'WHERE Id = :recordId LIMIT 1', 
+            accessLevel
+        );
+    }
 }
