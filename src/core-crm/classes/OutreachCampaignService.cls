@@ -87,14 +87,23 @@ public with sharing class OutreachCampaignService {
         }
     }
 
+    /**
+     * Generates a contact query string based on the provided criteria from the ELCParser.
+     *
+     *
+     * @param eLCParser an instance of ELCParser containing various criteria parsers
+     * @return a contact query string based on the first non-empty criteria found,
+     *         or null if no criteria are found
+     */
     public static String getQueryLocatorBySubQueryString(ELCParser eLCParser){
         String contactQuery;
+
         if (
             !eLCParser.getELCCourseConnectionAssessmentParser()
                 .getCourseConnectionAssessmentCriteria()
                 .isEmpty()
         ) {
-            contactQuery = new CourseConnectionAssessmentsDAO()
+            return new CourseConnectionAssessmentsDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCCourseConnectionAssessmentParser()
                         .getCourseConnectionAssessmentCriteria(),
@@ -102,46 +111,46 @@ public with sharing class OutreachCampaignService {
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } else if (
+        } if (
             !eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()
         ) {
-            contactQuery = new CourseConnectionsDAO()
+            return new CourseConnectionsDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } else if (!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
-            contactQuery = new LeaveOfAbsencesDAO()
+        } if (!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
+            return new LeaveOfAbsencesDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria(),
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } else if (
+        } if (
             !eLCParser.getELCProgramEnrollmentBreachParser()
                 .getProgramEnrollmentBreachCriteria()
                 .isEmpty()
         ) {
-            contactQuery = new ProgramEnrollmentBreachesDAO()
+            return new ProgramEnrollmentBreachesDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCProgramEnrollmentBreachParser()
                         .getProgramEnrollmentBreachCriteria(),
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } else if (
+        } if (
             !eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()
         ) {
-            contactQuery = new ProgramEnrollmentsDAO()
+            return new ProgramEnrollmentsDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } else if (
+        } if (
             !eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()
         ) {
-            contactQuery = new CompletedCadencesDAO()
+            return new CompletedCadencesDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
