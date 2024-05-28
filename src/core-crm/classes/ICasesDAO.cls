@@ -47,7 +47,7 @@ public interface ICasesDAO extends DmlInterface{
     );
 
     List<Case> getCasesByEngagementListConfigurationIds(
-        String configurationId,
+        String caseId,
         Id RecordTypeId,
         AccessLevel accessLevel
     );
