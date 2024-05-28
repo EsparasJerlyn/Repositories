@@ -29,7 +29,7 @@ public with sharing class ELCProgramEnrollmentParser {
 
     private void parse() {
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-       // programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
+        programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
         if(programEnrollmentCriteria != null && !programEnrollmentCriteria.isEmpty()){
             programEnrollmentCriteria = applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
@@ -45,24 +45,24 @@ public with sharing class ELCProgramEnrollmentParser {
     }
 
     private ProgramEnrollmentsDAO.Criteria processProgramEnrollmentKeyDateOffsets(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-        if (
-            this.executionDate != null
-            && engagementListCriteria.Key_Date__c == 'Academic Status Date'
-            && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null
-            && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null
-        ) {
-            programEnrollmentCriteria.setAcademicStatusDateFrom(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));
-            programEnrollmentCriteria.setAcademicStatusDateTo(this.executionDate.addDays(Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));
+        Boolean isKeyDateValid = this.executionDate != null && engagementListCriteria.Key_Date__c == 'Academic Status Date';
+        if (isKeyDateValid && engagementListCriteria.Key_Date_Offset_Lower_Boundary__c != null) {
+            programEnrollmentCriteria.setAcademicStatusDateFrom(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Lower_Boundary__c)));            
         }
+        
+        if (isKeyDateValid && engagementListCriteria.Key_Date_Offset_Upper_Boundary__c != null) {
+            programEnrollmentCriteria.setAcademicStatusDateTo(this.executionDate.addDays(-Integer.ValueOf(engagementListCriteria.Key_Date_Offset_Upper_Boundary__c)));          
+        }
+
         return programEnrollmentCriteria;
     }
 
-    // private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
-    //     if (String.isNotBlank(engagementListCriteria.Category_Type__c)) {
-    //         programEnrollmentCriteria.setCategoryType(engagementListCriteria.Category_Type__c);
-    //     }
-    //     return programEnrollmentCriteria;
-    // }
+    private ProgramEnrollmentsDAO.Criteria processCategoryType(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
+        if (String.isNotBlank(engagementListCriteria.Category_Type__c)) {
+            programEnrollmentCriteria.setCategoryType(new List<String>(engagementListCriteria.Category_Type__c.split(';')));
+        }
+        return programEnrollmentCriteria;
+    }
 
     //hidden criteria
     private ProgramEnrollmentsDAO.Criteria applyProgramEnrollmentHiddenCriteria(ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {

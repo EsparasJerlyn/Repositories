@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
       | eugene.andrew.abuan            | May 06, 2024          | DEPP-8487              | Created file                                                |
+      | julie.jane.alegre              | May 17, 2024          | DEPP-8049              | Update contact field mapping                                |
 */
 public with sharing class ELCCourseConnectionAssessmentEvaluator {
     private ELCParser elcParser;
@@ -50,16 +51,15 @@ public with sharing class ELCCourseConnectionAssessmentEvaluator {
         Map<Id, List<Course_Connection_Assessment__c>> courseConnectionAssesmentByContactMap = new Map<Id, List<Course_Connection_Assessment__c>>();
 
         for(Course_Connection_Assessment__c courseConnectionAssessment : courseConnectionAssessments){
-            if(courseConnectionAssesmentByContactMap.containsKey(courseConnectionAssessment.Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c)){
-                courseConnectionAssesmentByContactMap.get(courseConnectionAssessment.Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c).add(courseConnectionAssessment);
+            if(courseConnectionAssesmentByContactMap.containsKey(courseConnectionAssessment.Contact__c)){
+                courseConnectionAssesmentByContactMap.get(courseConnectionAssessment.Contact__c).add(courseConnectionAssessment);
             }else{
                 List<Course_Connection_Assessment__c> courseConnectionAssessmentList = new List<Course_Connection_Assessment__c>();
                 courseConnectionAssessmentList.add(courseConnectionAssessment);
-                courseConnectionAssesmentByContactMap.put(courseConnectionAssessment.Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c, courseConnectionAssessmentList);
+                courseConnectionAssesmentByContactMap.put(courseConnectionAssessment.Contact__c, courseConnectionAssessmentList);
             }
         }
         
         return courseConnectionAssesmentByContactMap;
     }
-
 }

@@ -7,6 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
       | eugene.andrew.abuan            | May 07, 2024          | DEPP-8487              | Created file                                                |
+      | julie.jane.alegre              | May 17, 2024          | DEPP-8049              | Update contact field mapping                                |
+
 */
 @isTest
 public with sharing class ELCCourseConnAssessmentEvaluatorTest {
@@ -50,7 +52,7 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Failed_To_Submit_Assessment__c = 'Yes';
             engagementListCriteria.Assessment_Priority__c = 'High';
@@ -89,6 +91,7 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentRecord[0].Id;
+            courseConnectionAssessmentListCreated[0].Contact__c = contactList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);
@@ -116,7 +119,7 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
@@ -161,5 +164,4 @@ public with sharing class ELCCourseConnAssessmentEvaluatorTest {
 
         }
     }
-
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Persona Communication Automation User</label>
+    <permissionSets>Communication_Automation</permissionSets>
+    <permissionSets>Future_Student_Domestic_Email_Access</permissionSets>
+    <permissionSets>Future_Student_International_Email_Access</permissionSets>
+    <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
+    <permissionSets>Messaging_User_with_Licence</permissionSets>
+    <permissionSets>Student_Success_Email_Access</permissionSets>
+    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

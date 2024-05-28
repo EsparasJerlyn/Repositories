@@ -50,7 +50,7 @@ public with sharing class ELCCourseEnrollmentEvaluatorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            //engagementListCriteria.Category_Type__c = 'Graduate Certificate';
+            engagementListCriteria.Category_Type__c = 'Graduate Certificate';
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Is_On_Leave_of_Absence__c = 'Yes';
             engagementListCriteria.Key_Date__c = 'Leave of Absence End Date';
@@ -80,6 +80,7 @@ public with sharing class ELCCourseEnrollmentEvaluatorTest {
             courseConnectionListCreated[0].hed__Program_Enrollment__c = programEnrollmentListCreated[0].Id;
             courseConnectionListCreated[0].Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_ENROLLED;
             courseConnectionListCreated[0].hed__Display_Grade__c = '100';
+            courseConnectionListCreated[0].hed__Contact__c = contactList[0].Id;
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
             
             ELCParser parser = new ELCParser(engagementListCriteria, executionDate);

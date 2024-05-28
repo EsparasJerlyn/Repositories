@@ -55,7 +55,4 @@ public with sharing class ELCCompletedCadenceEvaluatorTest {
 
         }
     }
-
-
-
 }

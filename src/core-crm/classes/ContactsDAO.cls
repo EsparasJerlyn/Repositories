@@ -134,7 +134,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 OtherState,
                 OtherCity,
                 OtherStreet,
-                OtherCountry
+                OtherCountry,
+                Phone
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -599,10 +600,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return Database.getQueryLocator(query);
     }
 
-    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   
+    public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   
         String query =
             'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
-              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+              'FROM Contact WHERE Id IN (' + subQueryString + ')';
         return Database.getQueryLocator(query);
     }
 

@@ -28,7 +28,11 @@
         return (IEngagementListCriteriasDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Criteria__c.SObjectType);
     }
 
-    public static List<Engagement_List_Criteria__c> findActiveEntryCriteria(Date executionDate, AccessLevel accessLevel) {
+    public static List<Engagement_List_Criteria__c> findActiveEngagementListCriteriasByRecordtype(
+        Id recordTypeId,
+        Date executionDate, 
+        AccessLevel accessLevel
+    ) {
 
         if(executionDate == null){
             return new List<Engagement_List_Criteria__c>();
@@ -39,16 +43,20 @@
             'Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c, ' +
             'Engagement_List_Configuration__r.Start_Date__c, ' +
             'Engagement_List_Configuration__r.End_Date__c, ' +
-            'Status__c, ' +
-            'End_Date__c, ' +
-            'Start_Date__c ' +
+            'Engagement_List_Configuration__r.Name, ' +
+            'Engagement_List_Configuration__r.Id, ' + 
+            'Status__c, Start_Date__c, End_Date__c, RecordTypeId, ' +
+            'Assessment_Priority__c, Failed_To_Submit_Assessment__c, ' +
+            'Citizenship_Status__c, Academic_Status__c, Category_Type__c, Cases_Created__c, ' +
+            'Completed_Cadence__c, Course_Grade__c, Breach__c, Is_On_Leave_of_Absence__c, ' +
+            'Key_Date__c, Key_Date_Offset_Lower_Boundary__c, Key_Date_Offset_Upper_Boundary__c ' +
             'FROM Engagement_List_Criteria__c ' +
             'WHERE Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c = \'Active\' ' +
             'AND Status__c = \'Active\' ' +
             'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
             'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
             'AND Start_Date__c <= :executionDate ' +
-            'AND RecordType.DeveloperName =: RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA '+ 
+            'AND RecordTypeId =: recordTypeId '+ 
             'AND End_Date__c >= :executionDate',
             accessLevel
         );

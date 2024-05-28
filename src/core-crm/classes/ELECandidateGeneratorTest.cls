@@ -34,7 +34,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = null;
             engagementListCriteria.Academic_Status__c = null;
-            // engagementListCriteria.Category_Type__c = null;
+            engagementListCriteria.Category_Type__c = null;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = null;
             engagementListCriteria.Breach__c = null;
@@ -102,7 +102,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = null;
-            // engagementListCriteria.Category_Type__c = null;
+            engagementListCriteria.Category_Type__c = null;
             engagementListCriteria.Completed_Cadence__c = completedCadenceName;
             engagementListCriteria.Course_Grade__c = null;
             engagementListCriteria.Breach__c = null;
@@ -174,7 +174,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = null;
             engagementListCriteria.Breach__c = null;
@@ -256,7 +256,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = null;
@@ -338,19 +338,19 @@ public with sharing class ELECandidateGeneratorTest {
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
             
             List<Assessment__c> assessmentRecord = TestDataFactory.createTestAssessmentRecords(1);
-            assessmentRecord[0].Due_Date__c = Date.Today();
+            assessmentRecord[0].Due_Date__c = Date.Today().addDays(-10);
             AssessmentsDAO.newInstance().insertRecords(assessmentRecord,true,AccessLevel.SYSTEM_MODE);
             
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentRecord[0].Id;
+            courseConnectionAssessmentListCreated[0].Contact__c = contactList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
-            
             Test.startTest();
             
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = null;
@@ -358,7 +358,7 @@ public with sharing class ELECandidateGeneratorTest {
             engagementListCriteria.Assessment_Priority__c = 'High';
             engagementListCriteria.Is_On_Leave_of_Absence__c = null;
             engagementListCriteria.Key_Date__c = 'Assessment Due Date';
-            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
+            engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = 1;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
             engagementListCriteria.Id = engagementListCriteriaId;
             
@@ -368,7 +368,6 @@ public with sharing class ELECandidateGeneratorTest {
             //Contact Evaluator
             ELCEvaluator evaluator = new ELCEvaluator(elcParser);
             Map<Id, ELECandidateIngredient> evaluatorMap = evaluator.evaluate(contacts);
-            
             //generator
             List<Engagement_List_Event__c> engagementListEvents = new List<Engagement_List_Event__c>();
             for (ELECandidateIngredient eLECandidateIngredient : evaluatorMap.values()) { 
@@ -435,6 +434,7 @@ public with sharing class ELECandidateGeneratorTest {
             
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentRecord[0].Id;
+            courseConnectionAssessmentListCreated[0].Contact__c = contactList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
             
             List<Leave_of_Absence__c> leaveOfAbsenceListCreated = TestDataFactory.createLeaveOfAbsenceRecord(1);
@@ -450,7 +450,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = null;
@@ -536,6 +536,7 @@ public with sharing class ELECandidateGeneratorTest {
             
             List<Course_Connection_Assessment__c> courseConnectionAssessmentListCreated = TestDataFactory.createTestCourseConnectionAssessmentRecord(1, courseConnectionListCreated[0].Id);
             courseConnectionAssessmentListCreated[0].Assessment_Name__c = assessmentRecord[0].Id;
+            courseConnectionAssessmentListCreated[0].Contact__c = contactList[0].Id;
             CourseConnectionAssessmentsDAO.newInstance().insertRecords(courseConnectionAssessmentListCreated,true,AccessLevel.SYSTEM_MODE);
             
             List<Leave_of_Absence__c> leaveOfAbsenceListCreated = TestDataFactory.createLeaveOfAbsenceRecord(1);
@@ -563,7 +564,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
-            // engagementListCriteria.Category_Type__c = categoryType;
+            engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = '100';
             engagementListCriteria.Breach__c = breachList[0].Id;

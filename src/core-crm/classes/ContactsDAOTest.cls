@@ -17,6 +17,7 @@
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSLTest|
+ *    | julie.jane.alegre              | May 13, 2024        | DEPP-8490              | Update method getQueryLocatorBySubQueryTest|
  *    | eugene.andrew.abuan            | May 14, 2024        | DEPP-8485              | Added getContactsByStudentId              |
 
  */
@@ -570,21 +571,33 @@ private class ContactsDAOTest {
     static void getQueryLocatorBySubQueryTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
-
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
-            
-            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(contactCriteria);
-            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c FROM Contact WHERE QUT_Student__c = ' + true +
-             ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
 
+            String completedCadenceName = 'Domestic Accepted and Admitted';
+            //Create a sample  Completed Cadence as a subquery for Contact
+            CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+            completedCadenceCriteria.setCompletedCadence(completedCadenceName);
+            completedCadenceCriteria.setStatus(CompletedCadencesDAO.SUCCESSFUL_STATUS);
+        
+            String subQueryString = CompletedCadencesDAO.newInstance()
+                .getContactQueryByCriteria(
+                    completedCadenceCriteria,
+                    contactCriteria
+                );
+            //Expected query to build
+            String expectedquery = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+                 'FROM Contact WHERE Id IN (' + subQueryString + ')';
+
+            Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(subQueryString); //update to string
+            
             Test.stopTest();
 
-            System.assertEquals(expectedWhereClause, contactQueryLocator.getQuery(), 'Incorrect Where Clause');
+            System.assertEquals(expectedquery, contactQueryLocator.getQuery(), 'Incorrect Where Clause');
         }
     }
 

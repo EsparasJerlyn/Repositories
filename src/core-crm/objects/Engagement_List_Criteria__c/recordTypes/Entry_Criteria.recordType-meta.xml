@@ -65,7 +65,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <!-- <picklistValues>
+    <picklistValues>
         <picklist>Category_Type__c</picklist>
         <values>
             <fullName>Advanced Dip %28AQF Term%29%2FDiploma %28Pre-AQF Term%29 %28Hist Only%29</fullName>
@@ -143,7 +143,7 @@
             <fullName>Undergraduate Certificate</fullName>
             <default>false</default>
         </values>
-    </picklistValues> -->
+    </picklistValues>
     <picklistValues>
         <picklist>Citizenship_Status__c</picklist>
         <values>

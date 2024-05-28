@@ -8,6 +8,7 @@
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
  *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
  *    | roy.nino.s.regala              | November 03, 2023     |DEPP-7145               | Added new static string variable    |
+ *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type           |
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
@@ -116,15 +117,14 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             soql += 'AND Enrollment_Status__c IN(' + statusSetString + ') ';
         }
         if(programEnrollmentCriteria.getCategoryType() != null){
-            soql += 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' ';
+            String categoryString = DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()));
+            soql += 'AND hed__Program_Plan__r.Category_Type__c  IN (' + categoryString + ') ';
         }
-        if(
-            programEnrollmentCriteria.academicStatusDateFrom != null  
-            && programEnrollmentCriteria.academicStatusDateTo != null
-        ){
-            soql = soql 
-            + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-            + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' ';
+        if(programEnrollmentCriteria.getAcademicStatusDateFrom() != null){
+            soql += 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' ;
+        }
+        if(programEnrollmentCriteria.getAcademicStatusDateTo() != null){
+            soql += 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' ' ;
         }
         
         return soql;
@@ -185,7 +185,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         private String academicStatus;
         private String enrollmentStage;
         private Set<String> enrollmentStatus;
-        private String categoryType;
+        private List <String> categoryType;
         private Date academicStatusDateFrom;
         private Date academicStatusDateTo;
 
@@ -213,11 +213,11 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             this.enrollmentStatus = varEnrollmentStatus;
         }
 
-        public String getCategoryType(){
+        public List<String> getCategoryType(){
             return this.categoryType;
         }
 
-        public void setCategoryType(String varCategoryType){
+        public void setCategoryType(List<String> varCategoryType){
             this.categoryType = varCategoryType;
         }
 

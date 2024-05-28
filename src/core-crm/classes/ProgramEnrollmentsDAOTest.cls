@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
  *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Created File                               |
  *    | julie.jane.alegre              | May 03, 2024          | DEPP-5728              | Add test  method for Program Enrollment    |
+ *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type                  |
  */  
 
 @isTest
@@ -117,7 +118,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
             programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-10));
             programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(10));
 
@@ -126,9 +129,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
-                + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
-                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
+                + 'AND hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
+                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '                
@@ -169,7 +172,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
             programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-10));
             programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(10));
 
@@ -178,9 +183,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
-                + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
-                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
+                + 'AND hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
+                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
@@ -208,7 +213,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
             programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-10));
             programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(10));
 
@@ -222,9 +229,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
                 + 'Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
                 + 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
-                + 'AND hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.getCategoryType() + '\' '
-                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
-                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
+                + 'AND hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
+                + 'AND Academic_Status_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateFrom()) + ' ' 
+                + 'AND Academic_Status_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentCriteria.getAcademicStatusDateTo()) + ' '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                 + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
                 + 'AND hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' '
@@ -254,16 +261,18 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
             programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
-            programEnrollmentListCreated[0].Academic_Status_Date__c = Date.today();
+            programEnrollmentListCreated[0].Academic_Status_Date__c = Date.today().addDays(-10);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
-            programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-10));
-            programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(10));
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
+            programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-1));
+            programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(-10));
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);
@@ -308,7 +317,9 @@ public with sharing class ProgramEnrollmentsDAOTest {
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-            programEnrollmentCriteria.setCategoryType('Graduate Certificate');
+            programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
+
+
             programEnrollmentCriteria.setAcademicStatusDateFrom(Date.today().addDays(-10));
             programEnrollmentCriteria.setAcademicStatusDateTo(Date.today().addDays(10));
 
