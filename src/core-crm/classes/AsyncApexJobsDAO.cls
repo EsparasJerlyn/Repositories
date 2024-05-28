@@ -48,9 +48,10 @@ public inherited sharing class AsyncApexJobsDAO extends DmlBase implements IAsyn
         }
 
         List<AsyncApexJob> asyncApexJob = Database.query(
-            'SELECT Id, ' +
+            'SELECT Id, Status, ' +
             'ApexClass.Name, ' +
-            'NumberOfErrors ' +
+            'NumberOfErrors, ' +
+            'ExtendedStatus ' +
             'FROM AsyncApexJob ' +
             'WHERE Id =: previewJobId ' +
             'LIMIT 1 ',

@@ -106,7 +106,9 @@ public with sharing class ELECandidateProcessor {
 
         try{
             if(!outreachCaseMap.values().isEmpty()){
-                CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), true, AccessLevel.SYSTEM_MODE);   
+                CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), true, AccessLevel.SYSTEM_MODE);
+                List<Case> caseList = CasesDAO.newInstance().getCasesByIds(outreachCaseMap.keySet(), AccessLevel.SYSTEM_MODE);
+                checkOutreachCases(caseList); 
             }
     
             for(EngagementListEventKey eventKey : eventCandidateKeyMap.keySet()){
@@ -135,6 +137,27 @@ public with sharing class ELECandidateProcessor {
             if (Logger.getBufferSize() > 0) {
                 Logger.saveLog();
             }
+        }
+    }
+
+    private void checkOutreachCases(List<Case> caseList){
+        List<Case> caseWithQualtricsIntrument = new List<Case>();
+        List<Case> caseWithoutQualtricsIntrument = new List<Case>();
+        for(Case caseRec : caseList){
+            if(caseRec.Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c != null){
+                caseWithQualtricsIntrument.add(caseRec);
+            }
+            else{
+                caseWithoutQualtricsIntrument.add(caseRec);
+            }
+        }
+
+        if(!caseWithQualtricsIntrument.isEmpty()){
+            OutreachCasePostCreationQueuable queueableCalls = new OutreachCasePostCreationQueuable(caseWithQualtricsIntrument);
+            System.enqueueJob(queueableCalls);
+        }
+        if(!caseWithoutQualtricsIntrument.isEmpty()){
+            CommunicationQueueService.enqueueEmail(caseWithoutQualtricsIntrument, AccessLevel.USER_MODE);
         }
     }
 
