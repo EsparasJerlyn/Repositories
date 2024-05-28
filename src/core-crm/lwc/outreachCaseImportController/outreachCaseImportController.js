@@ -2,6 +2,7 @@ import { LightningElement, track, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import ENGAGEMENT_LIST_CONFIGURATION_FIELD from "@salesforce/schema/Engagement_List_Configuration__c.Engagement_List_Configuration_Status__c";
 import listOfCases from "@salesforce/apex/OutreachCaseImportCtrl.listOfCases";
+import { NavigationMixin } from 'lightning/navigation';
 
 
 const columns = [
@@ -14,7 +15,7 @@ const columns = [
 
 const fields = [ENGAGEMENT_LIST_CONFIGURATION_FIELD];
 
-export default class OutreachCaseImportController extends LightningElement {
+export default class OutreachCaseImportController extends NavigationMixin(LightningElement) {
   tableColumns = [
     {
       label: 'Case Name',
@@ -76,6 +77,7 @@ export default class OutreachCaseImportController extends LightningElement {
   ];
 
   @api recordId;
+  @api objectApiName;
   @track showModal = false;
   @track showTable = false;
 
@@ -146,5 +148,18 @@ export default class OutreachCaseImportController extends LightningElement {
     },500,this);
     this.showTable = this.data.length == 0 ? false : true;
     
+  }
+
+  async handleViewAll(methodName, methodArgs) {
+    this[NavigationMixin.Navigate]({
+        type: 'standard__component',
+        attributes: {
+            componentName: "c__outreachCaseRecord"
+        },
+        state: {
+            c__objectId: this.recordId,
+            c__objectName: this.objectApiName,
+        }
+    })
   }
 }

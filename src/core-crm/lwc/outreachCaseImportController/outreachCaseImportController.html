@@ -12,7 +12,7 @@
         </div>
         <div class="slds-media__body">
           <h2 class="slds-card__header-title">
-            <a href="#" class="slds-card__header-link slds-truncate" title="Cases">
+            <a class="slds-card__header-link slds-truncate" title="Cases" onclick={handleViewAll}>
               <span>Cases</span>
             </a>
           </h2>
@@ -39,7 +39,7 @@
       </template>
     </div>
     <footer class="slds-card__footer">
-      <a class="slds-card__footer-action" href="#">View All
+      <a class="slds-card__footer-action" onclick={handleViewAll}>View All
         <span class="slds-assistive-text">Cases</span>
       </a>
     </footer>
