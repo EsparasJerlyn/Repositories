@@ -36,7 +36,7 @@ private class ELCPreviewResultHandlerTest {
                 AccessLevel.USER_MODE
             );
 
-        TestDataFactory.NonWriteableFieldsParam param = new TestDataFactory.NonWriteableFieldsParam();
+        TestDataFactory.SObjectJSONStringParam param = new TestDataFactory.SObjectJSONStringParam();
         param.objectApiName = 'Engagement_List_Criteria__c';
         param.recordId = elc.Id;
         param.name = 'Test';
@@ -44,7 +44,7 @@ private class ELCPreviewResultHandlerTest {
         param.lastModifiedDate = System.Today();
 
         elc = (Engagement_List_Criteria__c) JSON.deserialize(
-            TestDataFactory.setNonWritableFields(param),
+            TestDataFactory.getSObjectJSONString(param),
             Engagement_List_Criteria__c.class
         );
 
@@ -79,17 +79,15 @@ private class ELCPreviewResultHandlerTest {
                 AccessLevel.USER_MODE
             );
 
-        //Stringify and serialize to add a non-writable Name
-        String elcString =
-            '{"attributes":{"type":"Engagement_List_Criteria__c","url":"/services/data/v56.0/sobjects/Engagement_List_Criteria__c/' +
-            elc.Id +
-            '"},' +
-            '"Id":"' +
-            elc.Id +
-            '","Name":"test"}';
+        TestDataFactory.SObjectJSONStringParam param = new TestDataFactory.SObjectJSONStringParam();
+        param.objectApiName = 'Engagement_List_Criteria__c';
+        param.recordId = elc.Id;
+        param.name = 'Test';
+        param.createdDate = System.Today();
+        param.lastModifiedDate = System.Today();
 
         elc = (Engagement_List_Criteria__c) JSON.deserialize(
-            elcString,
+            TestDataFactory.getSObjectJSONString(param),
             Engagement_List_Criteria__c.class
         );
 
@@ -140,7 +138,7 @@ private class ELCPreviewResultHandlerTest {
                 AccessLevel.USER_MODE
             );
 
-        TestDataFactory.NonWriteableFieldsParam param = new TestDataFactory.NonWriteableFieldsParam();
+        TestDataFactory.SObjectJSONStringParam param = new TestDataFactory.SObjectJSONStringParam();
         param.objectApiName = 'Engagement_List_Criteria__c';
         param.recordId = elc.Id;
         param.name = 'Test';
@@ -148,7 +146,7 @@ private class ELCPreviewResultHandlerTest {
         param.lastModifiedDate = System.Today();
 
         elc = (Engagement_List_Criteria__c) JSON.deserialize(
-            TestDataFactory.setNonWritableFields(param),
+            TestDataFactory.getSObjectJSONString(param),
             Engagement_List_Criteria__c.class
         );
 
@@ -230,7 +228,7 @@ private class ELCPreviewResultHandlerTest {
                 AccessLevel.USER_MODE
             );
 
-        TestDataFactory.NonWriteableFieldsParam param = new TestDataFactory.NonWriteableFieldsParam();
+        TestDataFactory.SObjectJSONStringParam param = new TestDataFactory.SObjectJSONStringParam();
         param.objectApiName = 'Engagement_List_Criteria__c';
         param.recordId = elc.Id;
         param.name = 'Test';
@@ -238,7 +236,7 @@ private class ELCPreviewResultHandlerTest {
         param.lastModifiedDate = System.Today();
 
         elc = (Engagement_List_Criteria__c) JSON.deserialize(
-            TestDataFactory.setNonWritableFields(param),
+            TestDataFactory.getSObjectJSONString(param),
             Engagement_List_Criteria__c.class
         );
 

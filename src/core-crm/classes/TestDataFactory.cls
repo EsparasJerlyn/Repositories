@@ -4239,7 +4239,7 @@ public class TestDataFactory {
     /** @description Method for creating serialized records with nonwritable fields
      * @return String serialized object
      */
-    public static String setNonWritableFields(NonWriteableFieldsParam param) {
+    public static String getSObjectJSONString(SObjectJSONStringParam param) {
         return '{"attributes":{"type":"' +
         param.objectApiName +
         '","url":"/services/data/v56.0/sobjects/' +
@@ -4258,7 +4258,7 @@ public class TestDataFactory {
         '"}';
     }
 
-    public class NonWriteableFieldsParam{
+    public class SObjectJSONStringParam{
         public String objectApiName { get; set; }
         public String recordId { get; set; }
         public String name { get; set; }
