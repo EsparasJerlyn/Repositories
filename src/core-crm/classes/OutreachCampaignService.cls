@@ -95,7 +95,7 @@ public with sharing class OutreachCampaignService {
      * @return a contact query string based on the first non-empty criteria found,
      *         or null if no criteria are found
      */
-    public static String getQueryLocatorBySubQueryString(ELCParser eLCParser){
+    public static String getQueryLocatorBySubQueryString(ELCParser eLCParser) {
         String contactQuery;
 
         if (
@@ -111,23 +111,24 @@ public with sharing class OutreachCampaignService {
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } if (
-            !eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()
-        ) {
+        }
+        if (!eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria().isEmpty()) {
             return new CourseConnectionsDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCCourseConnectionParser().getCourseConnectionCriteria(),
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } if (!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
+        }
+        if (!eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria().isEmpty()) {
             return new LeaveOfAbsencesDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCLeaveOfAbsenceParser().getLeaveOfAbsencesCriteria(),
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } if (
+        }
+        if (
             !eLCParser.getELCProgramEnrollmentBreachParser()
                 .getProgramEnrollmentBreachCriteria()
                 .isEmpty()
@@ -139,17 +140,15 @@ public with sharing class OutreachCampaignService {
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } if (
-            !eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()
-        ) {
+        }
+        if (!eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
             return new ProgramEnrollmentsDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria(),
                     eLCParser.getELCContactParser().getContactCriteria()
                 );
-        } if (
-            !eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()
-        ) {
+        }
+        if (!eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria().isEmpty()) {
             return new CompletedCadencesDAO()
                 .getContactQueryByCriteria(
                     eLCParser.getELCCompletedCadenceParser().getCompletedCadenceCriteria(),
