@@ -165,6 +165,7 @@
         <searchResultsAdditionalFields>Status</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ArrivalWindowStartTime</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ArrivalWindowEndTime</searchResultsAdditionalFields>
+        <excludedStandardButtons>New</excludedStandardButtons>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
 </CustomObject>
