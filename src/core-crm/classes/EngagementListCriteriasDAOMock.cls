@@ -49,14 +49,14 @@ public inherited sharing class EngagementListCriteriasDAOMock extends DmlBaseMoc
         return null;
     }
 
-    public static List<Engagement_List_Criteria__c> findImportCriteria(
+    public List<Engagement_List_Criteria__c> findImportCriteria(
         Set<Id> Ids,
         Id recordType,
         AccessLevel accessLevel
     ) {
         List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
         for(Engagement_List_Criteria__c record : engagementListCriteriaMap.values()) {
-            if(recordId.contains(record.Id)) { 
+            if(Ids.contains(record.Id) && record.RecordTypeId == recordType) { 
                 criteriaList.add(record);
             }
         }
