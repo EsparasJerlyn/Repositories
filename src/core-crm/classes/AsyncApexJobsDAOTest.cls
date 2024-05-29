@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 30, 2023        | DEPP-7984              | Created file                 |
       | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added test methods           |
+      | eugene.andrew.abuan            | May 22, 2024          | DEPP-8822              | Added test for Apex Name     |
  */
 @isTest
 private class AsyncApexJobsDAOTest {
@@ -96,4 +97,28 @@ private class AsyncApexJobsDAOTest {
         }
         Test.stopTest();
 	}
+    
+    @isTest
+    static void findAsyncApexJobByApexNameTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            QualtricsSurveyCalloutQueuable executeQueueable = new QualtricsSurveyCalloutQueuable(new List<Qualtrics_Survey__c>() , 'checkInProgressSurveyURL');
+            System.enqueueJob(executeQueueable);
+
+            AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance().findAsyncApexJobByApexName('QualtricsSurveyCalloutQueuable', AccessLevel.SYSTEM_MODE);
+            System.assertEquals('QualtricsSurveyCalloutQueuable', asyncApexJob.ApexClass.Name,'asyncApexJob does not match');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findAsyncApexJobByApexNameEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance().findAsyncApexJobByApexName('test', AccessLevel.SYSTEM_MODE);
+            System.assertEquals(null , asyncApexJob,'Async Job Should be null');
+        }
+        Test.stopTest();
+    }
 }
