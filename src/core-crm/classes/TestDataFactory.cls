@@ -75,7 +75,7 @@
 
 
  **/
-
+    
 @isTest
 public class TestDataFactory {
     private static final String STR_QUALIFY = 'Qualify';
@@ -2762,7 +2762,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2776,7 +2776,7 @@ public class TestDataFactory {
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'System_Administrator';
+                permSets = 'System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -4234,5 +4234,35 @@ public class TestDataFactory {
         caseRecord.Status = CasesDAO.STATUS_CREATED;
         caseRecord.Priority = CasesDAO.PRIORITY_LOW;
         return caseRecord;
+    }
+
+    /** @description Method for creating serialized records with nonwritable fields
+     * @return String serialized object
+     */
+    public static String getSObjectJSONString(SObjectJSONStringParam param) {
+        return '{"attributes":{"type":"' +
+        param.objectApiName +
+        '","url":"/services/data/v56.0/sobjects/' +
+        param.objectApiName +
+        '/' +
+        param.recordId +
+        '"},' +
+        '"Id":"' +
+        param.recordId +
+        '","Name":"' +
+        param.name +
+        '","CreatedDate":"' +
+        String.valueOf(param.createdDate) +
+        '","LastModifiedDate":"' +
+        String.valueOf(param.lastModifiedDate) +
+        '"}';
+    }
+
+    public class SObjectJSONStringParam{
+        public String objectApiName { get; set; }
+        public String recordId { get; set; }
+        public String name { get; set; }
+        public Date createdDate { get; set; }
+        public Date lastModifiedDate { get; set; }
     }
 }

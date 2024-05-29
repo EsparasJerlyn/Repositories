@@ -21,7 +21,7 @@ public with sharing class QualtricsSurveyService {
                 qualtricsSurveyMap.put(caseRec.Id,qualtricsSurvey);
             }
         }
-        QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyMap.values(), false, AccessLevel.SYSTEM_MODE);
+        QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyMap.values(), false, AccessLevel.USER_MODE);
         
         If(!qualtricsSurveyMap.values().isEmpty()){
             updateCaseQualtricsSurvey(qualtricsSurveyMap);
