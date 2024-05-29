@@ -1,5 +1,4 @@
 import { LightningElement, track, api, wire } from 'lwc';
-import listOfCases from "@salesforce/apex/OutreachCaseImportCtrl.listOfCases";
 import { CurrentPageReference } from 'lightning/navigation';
 
 
@@ -62,41 +61,18 @@ export default class OutreachCaseViewAll extends LightningElement {
           day: "2-digit"
         }
       }
-    ];
+   ];
   
     @api recordId;
     @api objectApiName;
 
     @track objectId;
     @track objectName;
-  
-    data = [];
-    rowOffset = 0;
-    caseTable = [];
-  
-    getListofCase(){
-      listOfCases({
-         recordId: this.objectId
-      }).then(result => {
-         const caseData = result.map(item => {
-            return {
-            caseNumber: item.CaseNumber,
-            caseUrl: `/lightning/r/Case/${item.Id}/view`,
-            contactName: item.Contact.Name,
-            contactUrl: `/lightning/r/Contact/${item.ContactId}/view`,
-            status: item.Status,
-            ownerName: item.Owner.Name,
-            ownerUrl: `/lightning/r/User/${item.OwnerId}/view`,
-            createdDate: item.CreatedDate
-            }
-         })
-        this.data = caseData;
-      }).catch((error) =>{
-        console.log('ERROR ::: ', error);
-  
-      })
-   }
-  
+
+   data = [];
+   rowOffset = 0;
+   caseTable = [];
+
    connectedCallback() {
       let caseColumns = ['Case Name', 'Contact', 'Status', 'Case Owner', 'Created Date'];
       const columns = this.tableColumns;
@@ -109,20 +85,23 @@ export default class OutreachCaseViewAll extends LightningElement {
          })
       });
       this.caseTable = newCaseColumns;
-      this.getListofCase();
    }
 
    @wire(CurrentPageReference)
    getStateParameters(currentPageReference) {
       
       if (currentPageReference && !this.objectId) {
-         const { c__objectId, c__objectName } = currentPageReference.state;
+         const { c__objectId, c__objectName, c__data } = currentPageReference.state;
          if (c__objectId) {
                this.objectId = c__objectId;
          }
 
          if (c__objectId) {
                this.objectName = c__objectName;
+         }
+
+         if (c__data) {
+            this.data = c__data;
          }
       }
    }

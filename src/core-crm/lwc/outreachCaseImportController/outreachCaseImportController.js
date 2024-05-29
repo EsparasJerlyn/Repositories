@@ -85,6 +85,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
   columns = columns;
   rowOffset = 0;
   caseTable = [];
+  dataForViewAll = [];
 
   @wire(getRecord, { recordId: "$recordId", fields })
   engagementListConfiguration;
@@ -105,7 +106,14 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
           createdDate: item.CreatedDate
         }
       })
-      this.data = caseData;
+
+      const recordsToDisplay = [];
+      for (let i = 0; i < 5; i++) {
+        recordsToDisplay.push(caseData[i]);
+      }
+
+      this.data = recordsToDisplay;
+      this.dataForViewAll = caseData;
       this.showTable = this.data.length == 0 ? false : true;
     }).catch((error) =>{
       console.log('ERROR ::: ', error);
@@ -159,6 +167,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
         state: {
             c__objectId: this.recordId,
             c__objectName: this.objectApiName,
+            c__data: this.dataForViewAll,
         }
     })
   }

@@ -19,7 +19,7 @@
           <div class="slds-form">
 
             <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
-              <label class="slds-form-element__label" for="horizontal-input-id-01" aria-required>Engagement List Criteria Title</label>
+              <label class="slds-form-element__label slds-p-top_medium" for="horizontal-input-id-01" aria-required>Engagement List Criteria Title</label>
               <div class="slds-form-element__control">
                 <lightning-input onchange={handleTitle} placeholder="Engagement List Criteria Title" required></lightning-input>
                 <lightning-messages></lightning-messages>
@@ -83,7 +83,7 @@
                         ></lightning-input>
                       </div>
                     </div>
-                    <div class="scroll-table">
+                    <div class="scroll-table" style="height:250px">
                       <c-custom-datatable-columned
                         key-field="id"
                         onload={addBlankRow}

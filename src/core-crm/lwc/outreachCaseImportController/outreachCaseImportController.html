@@ -23,7 +23,7 @@
       </header>
     </div>
     <div class="slds-card__body slds-card__body_inner">
-      <div if:true={isShowTable} class="scroll-table">
+      <div if:true={isShowTable}>
         <c-custom-datatable-columned
           key-field="id"
           onload={addBlankRow}
