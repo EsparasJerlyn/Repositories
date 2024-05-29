@@ -122,7 +122,7 @@ public inherited sharing class DonationsDAO extends DmlBase implements IDonation
     ) {
         if (!opportunityIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Stage__c, Opportunity__c, Payment_Type__c, To_Designation__c, Contact__c ' + 
+                'SELECT Id, Stage__c, Opportunity__c, Payment_Type__c, To_Designation__c, Contact__c, Is_Anonymous_Donation__c ' +
                 'FROM Donation__c WHERE Opportunity__c IN :opportunityIds',
                 accessLevel
             );
