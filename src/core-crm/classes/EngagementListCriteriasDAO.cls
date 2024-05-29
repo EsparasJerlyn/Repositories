@@ -27,6 +27,14 @@
     public static final String NOT_GENERATED_PREVIEW_STATUS = 'Not Generated';
     public static final String FAILED_PREVIEW_STATUS = 'Failed';
 
+    public static final Set<String> CRITERIA_FIELDS = new Set<String>{
+        'Academic_Status__c','Citizenship_Status__c','Course_Grade__c','Failed_To_Submit_Assessment__c',
+        'Assessment_Priority__c','Key_Date__c','Category_Type__c','Breach__c','Completed_Cadence__c',
+        'Has_Domestic_Phone__c','Failed_Assessment__c','Is_On_Leave_of_Absence__c',
+        'Equity_Scholarship_Bursary__c','Key_Date_Offset_Lower_Boundary__c','Key_Date_Offset_Upper_Boundary__c',
+        'Engagement_List_Configuration__c'
+    };
+
     public Schema.SObjectType getSObjectType() {
         return Engagement_List_Criteria__c.SObjectType;
     }
@@ -121,7 +129,8 @@
             'Engagement_List_Criteria_Title__c, ' +
             'Preview_Result_Attachment_Id__c ' +
             'FROM Engagement_List_Criteria__c ' +
-            'WHERE Id = :recordId LIMIT 1', 
+            'WHERE Id = :recordId LIMIT 1 ' +
+            'FOR UPDATE', //Fix racing condition during preview
             accessLevel
         );
     }
