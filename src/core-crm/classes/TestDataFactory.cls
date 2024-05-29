@@ -72,6 +72,7 @@
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
  *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
  *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
+ *    | eugene.andrew.abuan       | May 24, 2024          | DEPP-8822           | Added method for Qualtrics Survey record creation                       |
 
 
  **/
@@ -4264,5 +4265,19 @@ public class TestDataFactory {
         public String name { get; set; }
         public Date createdDate { get; set; }
         public Date lastModifiedDate { get; set; }
+    }
+
+    /** @description Method for creating Qualtrics Survey Record
+     * @param numberOfQSRecords - number of Qualtrics Survey Record to be created
+     * @return qualtricsRecords - list of Qualtrics Survey Record created
+     */
+    public static List<Qualtrics_Survey__c> createQualtricsSurveyRecord(integer numberOfQSRecords) {
+        List<Qualtrics_Survey__c> qualtricsRecords = new List<Qualtrics_Survey__c>();
+        for (Integer i = 0; i < numberOfQSRecords; i++) {
+            qualtricsRecords.add(
+                new Qualtrics_Survey__c()
+            );
+        }
+        return qualtricsRecords;
     }
 }

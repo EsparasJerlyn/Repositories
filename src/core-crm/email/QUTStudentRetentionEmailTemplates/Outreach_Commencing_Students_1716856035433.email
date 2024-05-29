@@ -1,0 +1,27 @@
+<html>
+ <head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+ </head>
+ <body>
+  <table border="0" cellpadding="0" cellspacing="0" width="646" align="center">
+   <tbody>
+    <tr>
+     <td><img alt="qut_img" src="{[devName:qut_img]}" title="qut_img" /></td>
+    </tr>
+    <tr>
+     <td style="padding: 20px 6px;"><p style="font-family: Arial,sans-serif; font-size: 25px; font-weight: bold; color: #124C7B;">Setting yourself up for success [TEST ONLY]</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">Hi {{{Recipient.FirstName}}}</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">Congratulations on starting your academic journey with us at QUT!</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">We're checking in to connect you with the right information and support to help you achieve all your study goals.</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">It's normal to feel nervous as you settle into your studies. AdvantageStart is designed to help you settle in and get on track for a great first semester by connecting you with services to assist you in the first few weeks before <a href="https://qutvirtual4.qut.edu.au/group/student/enrolment/key-dates-and-academic-calendar/census-dates">Census Date</a> (the specific date in each teaching period when you need to enroll in your units and have either paid your fees or submitted your requests for Commonwealth support).</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">This should only take a few minutes and when you complete AdvantageStart you'll receive a Study Advantage checklist straight to your QUT student email.</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">We will also reach out in the coming weeks to check in on your progress and connect you with information and support to help you get started at QUT.</p> <p style="margin: 30px 0 15px 0;"><a href="{{{Case.Qualtrics_Survey_In_Progress_URL__c}}}" style="background-color:#C5116F; padding:10px; color:#ffffff; font-family: Arial, Helvetica, sans-serif; font-weight: bold; text-decoration: none;"> Click here to complete AdvantageStart </a></p> <p style="font-family: Arial,sans-serif; font-size: 11px; margin-top: 5px; clear: left; color: #666;">Can't open the link? Please copy and paste the following URL your browser: {{{Case.Qualtrics_Survey_In_Progress_URL__c}}}</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">Our Student Success Team is available to <a href="mailto:success@qut.edu.au">answer your questions</a> about AdvantageStart or about any study support you may need. The team may also reach out to you by messaging, phone or email throughout the semester to check in and see how you're going.</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">We wish you all the best.</p> <p style="font-family: Arial,sans-serif; font-size: 14.5px;">Kind regards,<br />The Student Success Team</p></td>
+    </tr>
+    <tr>
+     <td style="background-color:#124C7B; padding: 20px 6px; text-align:center; line-height: 20px; font-family: Arial,sans-serif; color:white;">Phone: +61 7 3138 2000<br /> Web: <a href="https://qut.to/abouthiq" style="color:white;">qut.to/abouthiq</a><br /><br /> QUT | Queensland University of Technology (QUT)<br /> <span style="font-size:11px;">TEQSA <u>PRV12079</u> | CRICOS No. 00213J</span></td>
+    </tr>
+    <tr>
+     <td style="background-color:#0066B9; padding: 27px 0; text-align:center;"><a href="https://www.linkedin.com/school/queensland-university-of-technology/" style="text-decoration:none; cursor:pointer"> <img alt="linkedIn" height="18" src="{[devName:linkedIn]}" title="linkedIn" width="18" /> </a> &nbsp; <a href="https://www.facebook.com/QUTBrisbane" style="text-decoration:none; cursor:pointer"> <img alt="fb" height="18" src="{[devName:fb]}" title="fb" width="18" /> </a> &nbsp; <a href="https://www.instagram.com/qutrealworld/?hl=en" style="text-decoration:none; cursor:pointer"> <img alt="instagram" height="18" src="{[devName:instagram]}" title="instagram" width="18" /> </a> &nbsp; <a href="https://www.youtube.com/user/TheQUTube" style="text-decoration:none; cursor:pointer"> <img alt="youtube" height="18" src="{[devName:youtube]}" title="youtube" width="18" /> </a> &nbsp; <a href="https://www.tiktok.com/@qutrealworld" style="text-decoration:none; cursor:pointer"> <img alt="tiktok" height="18" src="{[devName:tiktok]}" title="tiktok" width="18" /> </a></td>
+    </tr>
+    <tr>
+     <td style="padding:0 6px; text-align:center;"><p style="line-height: 20px; font-style: italic; font-size: 13px; font-family:'Calibri', sans-serif; color:black; padding-top: 3px;">You are receiving this email as part of QUT's orientation communication to students starting study at QUT. <a href="https://bit.ly/2V1aH8l">View Student Privacy at QUT</a>.</p></td>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>
