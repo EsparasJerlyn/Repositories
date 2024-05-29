@@ -29,17 +29,17 @@ public with sharing class AttachmentsDAOTest {
         Test.stopTest();
     }
     @isTest
-    static void findAttachmentsByNameEmptyTest() {
+    static void findAttachmentsByNamesEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findAttachmentsByName(null, AccessLevel.USER_MODE);
+            .findAttachmentsByNames(new Set<String>(), AccessLevel.USER_MODE);
             System.assert(attachmentList.isEmpty(), 'Attachment list should be empty.');
         }
         Test.stopTest();
     }
     @isTest
-    static void findAttachmentsByNameTest() {
+    static void findAttachmentsByNamesTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
@@ -59,7 +59,7 @@ public with sharing class AttachmentsDAOTest {
             AttachmentsDAO.newInstance().insertRecords(attachList,true,AccessLevel.USER_MODE);
 
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
-            .findAttachmentsByName('Test', AccessLevel.USER_MODE);
+            .findAttachmentsByNames(new Set<String>{'Test'}, AccessLevel.USER_MODE);
             System.assertEquals(attachList.size(),attachmentList.size(), 'Attachment list should not be empty.');
         }
         Test.stopTest();
