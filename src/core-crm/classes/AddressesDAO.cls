@@ -6,7 +6,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | sep 22, 2023          | DEPP-6652              | Created file
+      | alexander.cadalin              | sep 22, 2023          | DEPP-6652              | Created file                 |
+      | eccarius.munoz                 | May 29, 2024          | DEPP-8955              | added getQueryLocatorByIds   |
  */
 public inherited sharing class AddressesDAO extends DmlBase implements IAddressesDAO {
 
