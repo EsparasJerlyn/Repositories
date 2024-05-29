@@ -164,4 +164,38 @@ public with sharing class CasesDAOTest {
         }
     }
 
+    @isTest
+    static void getCasesByRecordTypeIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Case> caseList = CasesDAO.newInstance()
+                .getCasesByRecordTypeIds(
+                    new Set<Id>(),
+                    CasesDAO.OUTREACH_RECTYPE_ID,
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(caseList.isEmpty(), 'caseList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCasesByEngagementListConfigurationIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            configs.add(new Engagement_List_Configuration__c(Name = 'Test Outreach Config'));
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+
+            List<Case> caseList = CasesDAO.newInstance()
+                .getCasesByEngagementListConfigurationIds(
+                    (String)configs[0].Id,
+                    CasesDAO.OUTREACH_RECTYPE_ID,
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(caseList.isEmpty(), 'caseList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
 }

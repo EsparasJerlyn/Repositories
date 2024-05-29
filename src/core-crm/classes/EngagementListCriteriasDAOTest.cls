@@ -112,4 +112,28 @@ public with sharing class EngagementListCriteriasDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void findImportCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Engagement_List_Criteria__c elc = new Engagement_List_Criteria__c(
+                Engagement_List_Criteria_Title__c = 'Test',
+                Citizenship_Status__c = 'International',
+                RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED
+            );
+
+            EngagementListConfigurationsDAO.newInstance().insertRecords(new List<Engagement_List_Criteria__c>{elc},true,AccessLevel.USER_MODE);
+            Set<Id> ids = new Set<Id>();
+            ids.add(elc.id);
+            List<Engagement_List_Criteria__c> elCrit = EngagementListCriteriasDAO.newInstance()
+                .findImportCriteria(
+                    ids,
+                    EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED,
+                    AccessLevel.USER_MODE
+                );
+            System.assert(elCrit.isEmpty(), 'The criteria should not be empty.');
+        }
+        Test.stopTest();
+    }
 } 
