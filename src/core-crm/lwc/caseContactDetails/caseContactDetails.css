@@ -1,19 +1,19 @@
 a.record-name:link {
-    text-decoration: underline dotted;
+    text-decoration: underline 1px dotted;
 }
 
 a.record-name:visited {
-    text-decoration: underline dotted;
+    text-decoration: underline 1px dotted;
     
 }
 
 a.record-name:hover {
-    text-decoration: underline dotted;
+    text-decoration: underline 1px dotted;
     
 }
 
 a.record-name:active {
-    text-decoration: underline dotted;
+    text-decoration: underline 1px dotted;
 
 }
 

@@ -124,8 +124,6 @@ public with sharing class ELECandidateProcessorTest {
         config.Engagement_List_Configuration_Status__c = 'Active';
         config.Start_Date__c = Date.today().addDays(-1);
         config.End_Date__c = Date.today().addDays(1);
-        config.Qualtrics_Instrument_Id__c = 'test';
-        config.Instrument__c = 'test';
         configs.add(config);
         EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 

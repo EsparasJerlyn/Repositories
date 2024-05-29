@@ -89,7 +89,7 @@ private class OutreachCampaignServiceTest {
 
         System.assert(
             !AttachmentsDAO.newInstance()
-                .findAttachmentsByName('test.csv', AccessLevel.USER_MODE)
+                .findAttachmentsByNames(new Set<String>{'test.csv'}, AccessLevel.USER_MODE)
                 .isEmpty(),
             'there should be an attachment'
         );
@@ -98,7 +98,7 @@ private class OutreachCampaignServiceTest {
 
         System.assert(
             AttachmentsDAO.newInstance()
-                .findAttachmentsByName('test.csv', AccessLevel.USER_MODE)
+                .findAttachmentsByNames(new Set<String>{'test.csv'}, AccessLevel.USER_MODE)
                 .isEmpty(),
             'attachment should be deleted'
         );
@@ -147,7 +147,7 @@ private class OutreachCampaignServiceTest {
 
         System.assert(
             !AttachmentsDAO.newInstance()
-                .findAttachmentsByName(elc.Name + '_Temp_Preview_Result.csv', AccessLevel.USER_MODE)
+                .findAttachmentsByNames(new Set<String>{elc.Name + '_Temp_Preview_Result.csv'}, AccessLevel.USER_MODE)
                 .isEmpty(),
             'there should be an attachment'
         );
@@ -156,7 +156,7 @@ private class OutreachCampaignServiceTest {
 
         System.assert(
             AttachmentsDAO.newInstance()
-                .findAttachmentsByName(elc.Name + '_Temp_Preview_Result.csv', AccessLevel.USER_MODE)
+                .findAttachmentsByNames(new Set<String>{elc.Name + '_Temp_Preview_Result.csv'}, AccessLevel.USER_MODE)
                 .isEmpty(),
             'attachment should be deleted'
         );

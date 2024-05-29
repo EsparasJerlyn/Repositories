@@ -139,8 +139,8 @@ public inherited sharing class ELCPreviewResultHandler {
         String finalCsvContent = 'Student ID,Full Name,Primary Email,Mobile\n'; // Header row
 
         List<Attachment> tempAttachments = AttachmentsDAO.newInstance()
-            .findAttachmentsByName(
-                criteria.Name + '_Temp_Preview_Result.csv',
+            .findAttachmentsByNames(
+                new Set<String>{criteria.Name + '_Temp_Preview_Result.csv'},
                 AccessLevel.USER_MODE
             );
 
