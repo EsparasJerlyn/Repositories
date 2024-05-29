@@ -36,28 +36,38 @@ public with sharing class AddressValidationBatch implements Database.Batchable<s
         try{ 
 
             Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
-            addressByContactMap = AddressValidation.validateAddress(addressList);
+            //addressByContactMap = AddressValidation.validateAddress(addressList);
             
-
-            //query abs
+            ABS_Categorisation__c absCategorisation = new ABS_Categorisation__c();
+            List<ABS_Categorisation__c> absCategorisationList = [SELECT Id, Low_SES_Lower_Boundary__c, Low_SES_Upper_Boundary__c FROM ABS_Categorisation__c Order by LastModifiedDate DESC];
+            for(ABS_Categorisation__c absCateg : absCategorisationList){
+                absCategorisation = absCateg;
+            }
 
             List<Contact> contactsToUpdate = new List<Contact>();
+            List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
             for(Id contactId : addressByContactMap.keySet()){
+
+                hed__Address__c address = addressByContactMap.get(contactId);
+                address.ABS_Categorisation__c = absCategorisation?.Id;
+                addressToUpdate.add(address);
+
                 Contact contact = new Contact();
                 contactsToUpdate.add(
                     new Contact(
                         Id = contact.Id,
-                        Low_Socio_Economic_Status__c = 'Yes' //method to get low socio using abs and value of map
+                        Low_Socio_Economic_Status__c = setLowSocioEconomicStatus(absCategorisation, address)
                     )
                 );
             }
 
             if(!contactsToUpdate.isEmpty()){
-                ContactsDAO.newInstance().updat
+                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
             }
 
-            //addressByContactMap.value. ABS = yung na soql sa taas
-            update hed__Address__c.values();
+            if(!addressToUpdate.isEmpty()){
+                AddressesDAO.newInstance().updateRecords(addressToUpdate, true, AccessLevel.SYSTEM_MODE);
+            }
 
         }catch(Exception e){
             Logger.error('Exception caught in execute method in Apex class AddressValidationBatch.').setExceptionDetails(e);
@@ -70,5 +80,16 @@ public with sharing class AddressValidationBatch implements Database.Batchable<s
 
     @SuppressWarnings('PMD.EmptyStatementBlock')
     public void finish(Database.BatchableContext bc) {}
+
+    private String setLowSocioEconomicStatus(ABS_Categorisation__c absCategorisation, hed__Address__c address){
+        String lowSocioEcoStatus = 'No';
+        if(
+            address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c && 
+            address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c
+        ){
+            lowSocioEcoStatus = 'Yes';
+        }
+        return lowSocioEcoStatus;
+    }
 
 }
