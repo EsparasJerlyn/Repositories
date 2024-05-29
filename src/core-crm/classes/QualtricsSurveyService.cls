@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
  *    | arsenio.jr.dayrit              | May 20,2024           | DEPP-8821	            | Created File                  |
+ *    | eugene.andrew.abuan            | May 22, 2024          | DEPP-8822              | Added process for after update|
  */
 public with sharing class QualtricsSurveyService {
     public static Boolean doQueueableJob = true;
@@ -47,4 +48,30 @@ public with sharing class QualtricsSurveyService {
     public static void requestForQualtricsSurveyInfo(List<Qualtrics_Survey__c> qualtricsSurvey){
 
     }
+
+    /**
+   * @description method that will call the queueable class when the In Progress Survey URL has been populated
+   * @param newList - List of new Qualtrics_Survey__c
+   * @param oldMap - Map of Qualtrics_Survey__c.Trigger.old
+   * return void
+   */
+    public static void checkInProgressSurveyURL(List<Qualtrics_Survey__c> newList , Map<Id , Qualtrics_Survey__c> oldMap ){
+        
+        List<Qualtrics_Survey__c> qualtricsSurveyList = new List<Qualtrics_Survey__c>();
+
+        for(Qualtrics_Survey__c qs : newList ){
+
+            Qualtrics_Survey__c oldQs = oldMap.get(qs.Id);
+            // Check if In_Progress_Survey_URL__c field is populated and was not previously populated
+            if(String.isNotBlank(qs.In_Progress_Survey_URL__c) && String.isBlank(oldQs.In_Progress_Survey_URL__c)){
+                qualtricsSurveyList.add(qs);
+            }
+        }
+
+        if(!qualtricsSurveyList.isEmpty()){
+            QualtricsSurveyCalloutQueuable executeQueueable = new QualtricsSurveyCalloutQueuable(qualtricsSurveyList , 'checkInProgressSurveyURL');
+            System.enqueueJob(executeQueueable);
+        }
+    }
+
 }
