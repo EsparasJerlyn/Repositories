@@ -8,6 +8,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Advancement Contact Relationship Manager</layout> 
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Designation__c-Endowment Designation Layout</layout> 
         <recordType>Designation__c.Endowment</recordType>
     </layoutAssignments>
