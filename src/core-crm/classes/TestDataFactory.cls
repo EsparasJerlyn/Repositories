@@ -72,10 +72,11 @@
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
  *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
  *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
+ *    | eugene.andrew.abuan       | May 24, 2024          | DEPP-8822           | Added method for Qualtrics Survey record creation                       |
 
 
  **/
-
+    
 @isTest
 public class TestDataFactory {
     private static final String STR_QUALIFY = 'Qualify';
@@ -2762,7 +2763,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2776,7 +2777,7 @@ public class TestDataFactory {
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'System_Administrator';
+                permSets = 'System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -4234,5 +4235,49 @@ public class TestDataFactory {
         caseRecord.Status = CasesDAO.STATUS_CREATED;
         caseRecord.Priority = CasesDAO.PRIORITY_LOW;
         return caseRecord;
+    }
+
+    /** @description Method for creating serialized records with nonwritable fields
+     * @return String serialized object
+     */
+    public static String getSObjectJSONString(SObjectJSONStringParam param) {
+        return '{"attributes":{"type":"' +
+        param.objectApiName +
+        '","url":"/services/data/v56.0/sobjects/' +
+        param.objectApiName +
+        '/' +
+        param.recordId +
+        '"},' +
+        '"Id":"' +
+        param.recordId +
+        '","Name":"' +
+        param.name +
+        '","CreatedDate":"' +
+        String.valueOf(param.createdDate) +
+        '","LastModifiedDate":"' +
+        String.valueOf(param.lastModifiedDate) +
+        '"}';
+    }
+
+    public class SObjectJSONStringParam{
+        public String objectApiName { get; set; }
+        public String recordId { get; set; }
+        public String name { get; set; }
+        public Date createdDate { get; set; }
+        public Date lastModifiedDate { get; set; }
+    }
+
+    /** @description Method for creating Qualtrics Survey Record
+     * @param numberOfQSRecords - number of Qualtrics Survey Record to be created
+     * @return qualtricsRecords - list of Qualtrics Survey Record created
+     */
+    public static List<Qualtrics_Survey__c> createQualtricsSurveyRecord(integer numberOfQSRecords) {
+        List<Qualtrics_Survey__c> qualtricsRecords = new List<Qualtrics_Survey__c>();
+        for (Integer i = 0; i < numberOfQSRecords; i++) {
+            qualtricsRecords.add(
+                new Qualtrics_Survey__c()
+            );
+        }
+        return qualtricsRecords;
     }
 }
