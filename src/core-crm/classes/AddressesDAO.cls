@@ -9,6 +9,12 @@
       | alexander.cadalin              | sep 22, 2023          | DEPP-6652              | Created file
  */
 public inherited sharing class AddressesDAO extends DmlBase implements IAddressesDAO {
+    
+    public static final String VALID_ADDRESS = 'Valid';
+    public static final String NOT_VALID_ADDRESS = 'Not Valid';
+    public static final String FIRST_ADMITTED_ADDRESS = 'First Admitted';
+    public static final String OTHER_ADDRESS = 'Other';
+    
     public Schema.SObjectType getSObjectType() {
         return hed__Address__c.SObjectType;
     }
