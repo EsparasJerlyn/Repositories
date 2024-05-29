@@ -421,19 +421,19 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
               'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
               'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' +
-              'AND Id = IN (' + contactCriteria.getContactIdSet() + ') ';
+              'AND Id IN (' + contactCriteria.getContactIdSet() + ') ';
     }
 
     public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
         String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
               'FROM Contact ' + getWhereClauseByCriteria(criteria);
         return Database.getQueryLocator(query);
     }
 
     public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   //update to string
         String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
              'FROM Contact WHERE Id IN (' + subQueryString + ')';
         return Database.getQueryLocator(query);
     }

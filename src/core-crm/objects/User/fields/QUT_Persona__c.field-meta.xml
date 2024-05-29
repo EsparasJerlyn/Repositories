@@ -287,6 +287,11 @@
                 <default>false</default>
                 <label>Student Success Student Volunteer</label>
             </value>
+            <value>
+                <fullName>Communication Automation User</fullName>
+                <default>false</default>
+                <label>Communication Automation User</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

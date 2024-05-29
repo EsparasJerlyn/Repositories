@@ -52,6 +52,9 @@ public with sharing class ELCParser {
     public Engagement_List_Criteria__c getEngagementListCriteria(){
         return engagementListCriteria;
     }
+    public Date getExecutionDate(){
+        return executionDate;
+    }
 
     public ELCContactParser getELCContactParser(){
         return eLCContactParser;

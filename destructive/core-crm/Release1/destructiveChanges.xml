@@ -415,6 +415,9 @@
         <!--Start DEPP-5788-->
         <members>Future_Student_Engagement_Agent</members>
         <!--End DEPP-5788-->
+        <!--Start DEPP-8810-->
+        <members>Messaging_User</members>
+        <!--End DEPP-8810-->
         <name>PermissionSet</name>
     </types>
 
