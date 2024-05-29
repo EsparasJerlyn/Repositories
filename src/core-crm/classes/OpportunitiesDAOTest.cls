@@ -167,7 +167,7 @@ private class OpportunitiesDAOTest {
             List<Opportunity> opportunityList = OpportunitiesDAO.newInstance()
                 .getOpportunityByRecordTypeIds(
                     new Set<Id>{recordTypeMock.getMockId()},
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(opportunityList.isEmpty(), 'OpportunityList should not be empty');
         }
