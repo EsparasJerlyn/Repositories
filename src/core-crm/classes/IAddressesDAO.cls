@@ -13,4 +13,10 @@ public interface IAddressesDAO extends DmlInterface {
         Set<Id> contactIdsSet,
         AccessLevel accessLevel
     );
+    
+    List<hed__Address__c> getAddressesByContactIdsAndAddressType(
+        Set<Id> contactIdsSet,
+        Set<String> addressTypes,
+        String accessLevel
+    );
 }

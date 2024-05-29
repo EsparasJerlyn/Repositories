@@ -12,7 +12,7 @@
 public with sharing class AddressesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_ESB' });
     }
 
     @isTest
@@ -42,7 +42,7 @@ public with sharing class AddressesDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsSet(new Set<Id>(), AccessLevel.USER_MODE);
-            System.assert(addressList.isEmpty(), 'actionlist is not empty');
+            System.assert(addressList.isEmpty(), 'addressList is not empty');
         }
         Test.stopTest();
     }
@@ -57,7 +57,23 @@ public with sharing class AddressesDAOTest {
                     new Set<Id>{ mockIdGen.getMockId() },
                     AccessLevel.USER_MODE
                 );
-            System.assert(addressList.isEmpty(), 'actionlist is not empty');
+            System.assert(addressList.isEmpty(), 'addressList is not empty');
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void getAddressesByContactIdsAndAddressType() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            List<hed__Address__c> addressList = AddressesDAO.newInstance()
+                .getAddressesByContactIdsAndAddressType(
+                    new Set<Id>{ mockIdGen.getMockId() },
+                    new Set<String>(),
+                    'USER_MODE'
+                );
+            System.assert(addressList.isEmpty(), 'addressList is not empty');
         }
         Test.stopTest();
     }
