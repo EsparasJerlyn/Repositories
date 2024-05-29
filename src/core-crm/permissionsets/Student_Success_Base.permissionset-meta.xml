@@ -4,6 +4,18 @@
         <application>Student_Success</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <classAccesses>
+        <apexClass>AddressInformationValidationCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactHeaderSectionCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactInformationValidationCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Give base access for Student Success team</description>
     <fieldPermissions>
         <editable>false</editable>
