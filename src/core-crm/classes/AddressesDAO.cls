@@ -9,6 +9,9 @@
       | alexander.cadalin              | sep 22, 2023          | DEPP-6652              | Created file
  */
 public inherited sharing class AddressesDAO extends DmlBase implements IAddressesDAO {
+
+    private static final String ADDRESS_TYPE_OTHER = 'Other';
+
     public Schema.SObjectType getSObjectType() {
         return hed__Address__c.SObjectType;
     }
@@ -32,4 +35,20 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
             accessLevel
         );
     }
+
+    @SuppressWarnings('PMD.UnusedLocalVariable')
+    public Database.QueryLocator getQueryLocatorByIds(Set<Id> addressIdSet){
+
+        String personRecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID; 
+
+        String query =
+            'SELECT Id, hed__Parent_Contact__c ' + 
+              'FROM hed__Address__c ' + 
+             'WHERE Id IN: addressIdSet ' + 
+               'AND hed__Parent_Contact__r.QUT_Student__c = true  ' + 
+               'AND hed__Parent_Contact__r.RecordTypeId =: personRecordTypeId';
+
+        return Database.getQueryLocator(query);
+    }
+
 }
