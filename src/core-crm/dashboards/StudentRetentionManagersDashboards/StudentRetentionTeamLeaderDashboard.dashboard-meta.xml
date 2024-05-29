@@ -51,14 +51,13 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Cases by Campaign</header>
+                <header>Cases by Campaign (This Month and Last 3 Months)</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>12</maxValuesDisplayed>
-                <report>StudentRetentionManagersReports/Cases_by_Campaign</report>
+                <report>StudentRetentionManagersReports/Cases_by_Campaign_Rolling_4_Months</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
-                <title>Last 3 Months</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>2</rowIndex>
@@ -81,7 +80,6 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <footer>Last 4 Months</footer>
                 <groupingColumn>CREATED_DATEONLY</groupingColumn>
                 <groupingColumn>PRIORITY</groupingColumn>
                 <groupingSortProperties>
@@ -94,10 +92,9 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Cases by Priority</header>
+                <header>Cases by Priority (This Month and Last 3 Months)</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>12</maxValuesDisplayed>
-                <report>StudentRetentionManagersReports/Cases_by_Priority</report>
+                <report>StudentRetentionManagersReports/Cases_by_Priority_Rolling_4_Months</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
