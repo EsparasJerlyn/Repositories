@@ -4,15 +4,6 @@ import ENGAGEMENT_LIST_CONFIGURATION_FIELD from "@salesforce/schema/Engagement_L
 import listOfCases from "@salesforce/apex/OutreachCaseImportCtrl.listOfCases";
 import { NavigationMixin } from 'lightning/navigation';
 
-
-const columns = [
-  { label: 'Case Name', fieldName: 'name' },
-  { label: 'Contact', fieldName: 'contact'},
-  { label: 'Status', fieldName: 'status'  },
-  { label: 'Case Owner', fieldName: 'amount'},
-  { label: 'Created Date', fieldName: 'closeAt', type: 'date' },
-];
-
 const fields = [ENGAGEMENT_LIST_CONFIGURATION_FIELD];
 
 export default class OutreachCaseImportController extends NavigationMixin(LightningElement) {
@@ -82,7 +73,6 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
   @track showTable = false;
 
   data = [];
-  columns = columns;
   rowOffset = 0;
   caseTable = [];
   dataForViewAll = [];
@@ -94,27 +84,32 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
     listOfCases({
         recordId: this.recordId
     }).then(result => {
-      const caseData = result.map(item => {
-        return {
-          caseNumber: item.CaseNumber,
-          caseUrl: `/lightning/r/Case/${item.Id}/view`,
-          contactName: item.Contact.Name,
-          contactUrl: `/lightning/r/Contact/${item.ContactId}/view`,
-          status: item.Status,
-          ownerName: item.Owner.Name,
-          ownerUrl: `/lightning/r/User/${item.OwnerId}/view`,
-          createdDate: item.CreatedDate
+      if (result.length > 0) {
+        const caseData = result.map(item => {
+          return {
+            caseNumber: item.CaseNumber,
+            caseUrl: `/lightning/r/Case/${item.Id}/view`,
+            contactName: item.Contact.Name,
+            contactUrl: `/lightning/r/Contact/${item.ContactId}/view`,
+            status: item.Status,
+            ownerName: item.Owner.Name,
+            ownerUrl: `/lightning/r/User/${item.OwnerId}/view`,
+            createdDate: item.CreatedDate
+          }
+        })
+  
+        const recordsToDisplay = [];
+        if (caseData.length > 0) {
+          for (let i = 0; i < 5; i++) {
+            recordsToDisplay.push(caseData[i]);
+          }
         }
-      })
-
-      const recordsToDisplay = [];
-      for (let i = 0; i < 5; i++) {
-        recordsToDisplay.push(caseData[i]);
+        
+        this.data = recordsToDisplay;
+        this.dataForViewAll = caseData;
+        this.showTable = recordsToDisplay.length > 5 ? false : true;
       }
 
-      this.data = recordsToDisplay;
-      this.dataForViewAll = caseData;
-      this.showTable = this.data.length == 0 ? false : true;
     }).catch((error) =>{
       console.log('ERROR ::: ', error);
 
@@ -142,7 +137,6 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
     });
     this.caseTable = newCaseColumns;
     this.getListofCase();
-    this.showTable = this.data.length == 0 ? false : true;
   }
 
   handleButtonOpenModal() {
@@ -154,8 +148,6 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
     setTimeout((e) => {
       this.getListofCase();
     },500,this);
-    this.showTable = this.data.length == 0 ? false : true;
-    
   }
 
   async handleViewAll(methodName, methodArgs) {
