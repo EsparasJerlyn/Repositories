@@ -35,5 +35,10 @@
         <sharedTo>System_Administrator_Read_Only</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>
+    <folderShares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>Student_Services_Admin</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
     <name>Domestic FS Team Leader Reports</name>
 </ReportFolder>
