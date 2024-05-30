@@ -80,8 +80,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Start_Date__c</fieldItem>
-                <identifier>RecordStart_Date_cField</identifier>
+                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
+                <identifier>RecordIs_Influenced_Revenue_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Anonymous_Opportunity__c</fieldItem>
+                <identifier>RecordIs_Anonymous_Opportunity_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -102,16 +112,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Giving_Faculty__c</fieldItem>
                 <identifier>RecordGiving_Faculty_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Description</fieldItem>
-                <identifier>RecordDescriptionField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ea33639c-9286-4eeb-8717-8b943d96af1d</name>
@@ -144,8 +144,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
-                <identifier>RecordIs_Influenced_Revenue_cField2</identifier>
+                <fieldItem>Record.Start_Date__c</fieldItem>
+                <identifier>RecordStart_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description</fieldItem>
+                <identifier>RecordDescriptionField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -222,8 +232,18 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Start_Date__c</fieldItem>
-                <identifier>RecordStart_Date_cField2</identifier>
+                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
+                <identifier>RecordIs_Influenced_Revenue_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Anonymous_Opportunity__c</fieldItem>
+                <identifier>RecordIs_Anonymous_Opportunity_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -244,16 +264,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Giving_Faculty__c</fieldItem>
                 <identifier>RecordGiving_Faculty_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Description</fieldItem>
-                <identifier>RecordDescriptionField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-28tbtcjk4xj</name>
@@ -286,8 +296,18 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
-                <identifier>RecordIs_Influenced_Revenue_cField</identifier>
+                <fieldItem>Record.Start_Date__c</fieldItem>
+                <identifier>RecordStart_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description</fieldItem>
+                <identifier>RecordDescriptionField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
