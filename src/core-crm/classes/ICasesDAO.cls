@@ -40,15 +40,8 @@ public interface ICasesDAO extends DmlInterface{
         AccessLevel accessLevel
     );
 
-    List<Case> getCasesByRecordTypeIds(
-        Set<Id> caseId,
-        Id RecordTypeId,
-        AccessLevel accessLevel
-    );
-
     List<Case> getCasesByEngagementListConfigurationIds(
-        String caseId,
-        Id RecordTypeId,
+        String configurationId,
         AccessLevel accessLevel
     );
     

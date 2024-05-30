@@ -17,7 +17,7 @@ public with sharing class OutreachCaseImportCtrl {
     */
     @AuraEnabled
     public static List<Case> listOfCases(String recordId){
-        List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.USER_MODE);
+        List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, AccessLevel.USER_MODE);
         return caseList;
     }
     
@@ -56,11 +56,10 @@ public with sharing class OutreachCaseImportCtrl {
         List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
         criteriaList.add(engagementListCriteria);
         EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, false, AccessLevel.USER_MODE);
-        Set<Id> configId = new Set<Id>();
-        configId.add(configurationId);
-        List<Engagement_List_Criteria__c> engagementCriteriaList = EngagementListCriteriasDAO.newInstance().findImportCriteria(new Set<Id>{criteriaList[0].Id},EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED,AccessLevel.USER_MODE);
+        Id = criteriaList[0].Id;
+        Engagement_List_Criteria__c engagementCriteriaList = EngagementListCriteriasDAO.newInstance().getEntryCriteriaById(criteriaList[0].Id,AccessLevel.USER_MODE);
 
-        ELCParser parser = new ELCParser(engagementCriteriaList[0], executionDate);
+        ELCParser parser = new ELCParser(engagementCriteriaList, executionDate);
         List<ELECandidateIngredient> ingredientList = new List<ELECandidateIngredient>();
         Map<List<ELECandidateIngredient>, Contact> ingredientByContactMap = new Map<List<ELECandidateIngredient>, Contact>();
         for(Contact con : contacts){
@@ -77,7 +76,7 @@ public with sharing class OutreachCaseImportCtrl {
             eventsByContactMap.put(ingredient.getContact().Id, events);
         }
         ELECandidateProcessor processor = new ELECandidateProcessor();
-        List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementCriteriaList[0]);
+        List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementCriteriaList);
 
         Map<Id, String> mapper = new Map<Id, String>();
         for (ELECandidateProcessResult result : processResult){
@@ -86,7 +85,7 @@ public with sharing class OutreachCaseImportCtrl {
             }
         }
 
-        List<Case> caseList = CasesDAO.newInstance().getCasesByRecordTypeIds(mapper.keySet(), CasesDAO.OUTREACH_RECTYPE_ID, AccessLevel.USER_MODE);
+        List<Case> caseList = CasesDAO.newInstance().getCasesByIds(mapper.keySet(), AccessLevel.USER_MODE);
         List<Case> updatedCaseList = new List<Case>();
 
         List<OutreachCases> outreachCaseList = new List<OutreachCases>();
