@@ -188,9 +188,6 @@ public with sharing class CasesDAOTest {
                     (String)configs[0].Id,
                     AccessLevel.SYSTEM_MODE
                 );
-
-            system.debug('configs[0].Id :::: ' + configs[0].Id);
-            system.debug('caseList[0].Engagement_List_Configuration__c :::: ' + caseListRecord[0].Engagement_List_Configuration__c);
             System.assertEquals(configs[0].Id, caseListRecord[0].Engagement_List_Configuration__c , 'Engagement_List_Configuration__c should be the same as configs[0].Id');
         }
         Test.stopTest();
