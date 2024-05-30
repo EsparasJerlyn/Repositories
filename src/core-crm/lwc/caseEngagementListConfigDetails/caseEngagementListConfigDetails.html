@@ -1,6 +1,6 @@
 <template>
-    <article class="slds-card">
-        <div class="slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small">
+    <article class={cardClass}>
+        <div class={cardHeaderClass}>
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__figure">
                     <lightning-icon 
@@ -12,7 +12,7 @@
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title">
-                        <a onlick={handleClickHeader} class="slds-card__header-link slds-truncate">
+                        <a onclick={handleClickHeader} class="slds-card__header-link slds-truncate">
                             <span>Engagement List Configuration Details</span>
                         </a>
                     </h2>
@@ -20,7 +20,7 @@
             </header>
         </div>
         <div class="slds-card__body slds-card__body_inner">
-            <lightning-record-form object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={fields} mode="view"></lightning-record-form>
+            <lightning-record-form lwc:if={hasConfig} object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={fields} mode="readonly"></lightning-record-form>
         </div>
     </article>
 </template>
