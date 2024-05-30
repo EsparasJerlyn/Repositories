@@ -168,16 +168,30 @@ public with sharing class CasesDAOTest {
     static void getCasesByEngagementListConfigurationIdsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             configs.add(new Engagement_List_Configuration__c(Name = 'Test Outreach Config'));
             EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
-            List<Case> caseList = CasesDAO.newInstance()
+            Id ownerId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
+            Case outreachCase = TestDataFactory.createTestOutreachCaseRecord(configs[0], ownerId, contactList[0].Id);
+            List<Case> caseList = new List<Case>();
+            caseList.add(outreachCase);
+            CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Case> caseListRecord = CasesDAO.newInstance()
                 .getCasesByEngagementListConfigurationIds(
                     (String)configs[0].Id,
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assertEquals(configs[0].Id, caseList[0].Engagement_List_Configuration__c , 'Engagement_List_Configuration__c should be the same as configs[0].Id');
+
+            system.debug('configs[0].Id :::: ' + configs[0].Id);
+            system.debug('caseList[0].Engagement_List_Configuration__c :::: ' + caseListRecord[0].Engagement_List_Configuration__c);
+            System.assertEquals(configs[0].Id, caseListRecord[0].Engagement_List_Configuration__c , 'Engagement_List_Configuration__c should be the same as configs[0].Id');
         }
         Test.stopTest();
     }

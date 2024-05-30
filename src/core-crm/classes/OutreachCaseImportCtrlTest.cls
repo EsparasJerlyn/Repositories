@@ -86,7 +86,7 @@ private class OutreachCaseImportCtrlTest {
     @IsTest
     static void testListOfCasesbyStudentIds() {
 
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             //Create Engagement List Configuration record
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -111,7 +111,7 @@ private class OutreachCaseImportCtrlTest {
                     AccessLevel.SYSTEM_MODE);
             
             //Create Contact records
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(10);
+            List<Contact> contactList = new List<Contact>();
             List<String> studentIds = new List<String>();
             for(Integer i = 1; i <= 5; i++){
                 Contact contact =  new Contact();
