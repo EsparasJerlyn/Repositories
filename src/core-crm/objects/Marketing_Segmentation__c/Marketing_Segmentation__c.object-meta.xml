@@ -167,7 +167,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Marketing Segmentations</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>New</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
