@@ -165,21 +165,6 @@ public with sharing class CasesDAOTest {
     }
 
     @isTest
-    static void getCasesByRecordTypeIdsTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<Case> caseList = CasesDAO.newInstance()
-                .getCasesByRecordTypeIds(
-                    new Set<Id>(),
-                    CasesDAO.OUTREACH_RECTYPE_ID,
-                    AccessLevel.SYSTEM_MODE
-                );
-            System.assert(caseList.isEmpty(), 'caseList should not be empty.');
-        }
-        Test.stopTest();
-    }
-
-    @isTest
     static void getCasesByEngagementListConfigurationIdsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -190,10 +175,9 @@ public with sharing class CasesDAOTest {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesByEngagementListConfigurationIds(
                     (String)configs[0].Id,
-                    CasesDAO.OUTREACH_RECTYPE_ID,
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(caseList.isEmpty(), 'caseList should not be empty.');
+            System.assertEquals(configs[0].Id, caseList[0].Engagement_List_Configuration__c , 'Engagement_List_Configuration__c should be the same as configs[0].Id');
         }
         Test.stopTest();
     }
