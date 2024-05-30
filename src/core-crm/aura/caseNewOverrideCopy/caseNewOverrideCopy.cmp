@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="objectName" type="String" default="Case"/>
+    <c:dynamicNewOverride objectName="{!v.objectName}" parentRecordId="{!v.recordId}"></c:dynamicNewOverride>
+</aura:component>

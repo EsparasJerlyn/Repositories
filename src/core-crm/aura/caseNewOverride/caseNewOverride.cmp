@@ -1,0 +1,4 @@
+<aura:component implements="force:appHostable,lightning:actionOverride,force:lightningQuickAction,flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="recordId" type="String" />
+    <c:dynamicNewOverride></c:dynamicNewOverride>
+</aura:component>

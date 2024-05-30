@@ -1,0 +1,36 @@
+.slds-modal__container {
+    max-width: 63rem;
+    padding: 0;
+    background-color: white;
+}
+
+.slds-modal__header {
+    text-align: left;
+    margin-inline: 10px;
+    padding-inline: 12px;
+    padding-top:24px;
+    padding-left:18px;
+    border-width: thin;
+}
+
+.slds-modal__content {
+    height: 100%;
+    padding-left: 28px;
+}
+
+.slds-modal__footer {
+    text-align: center;
+    background-color: white;
+    border-top: none;
+}
+
+.slds-button {
+    margin: 2px;
+}
+
+@media (min-width: 48em) {
+    .slds-modal__container {
+        margin: 0 auto;
+        width: 70%;
+    }
+}
