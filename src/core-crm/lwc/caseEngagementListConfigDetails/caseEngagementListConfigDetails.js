@@ -10,7 +10,13 @@ import ELCONF_PURPOSE from '@salesforce/schema/Engagement_List_Configuration__c.
 import ELCONF_MAXNUMBEROFCALLATTEMPTS from '@salesforce/schema/Engagement_List_Configuration__c.Max_Number_Of_Call_Attempts__c';
 import ELCONF_BRIEFINGNOTES from '@salesforce/schema/Engagement_List_Configuration__c.Briefing_Notes__c';
 
+const CARD_CLASS_HASCONFIG = "slds-card";
+const CARD_CLASS_NOCONFIG = "slds-card card-with-bg";
+const CARD_HEADER_CLASS_HASCONFIG = "slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small";
+const CARD_HEADER_CLASS_NOCONFIG = "slds-card__header slds-grid";
 export default class CaseEngagementListConfigDetails extends NavigationMixin(LightningElement) {
+    cardClass;
+    cardHeaderClass;
     elconfObjectApiName = ELCONF;
     elconfRecordId;
     error;
@@ -21,21 +27,20 @@ export default class CaseEngagementListConfigDetails extends NavigationMixin(Lig
         ELCONF_MAXNUMBEROFCALLATTEMPTS,
         ELCONF_BRIEFINGNOTES
     ];
+    hasConfig = false;
 
     @api recordId;
     
     @wire(getRecord, { recordId: '$recordId', fields: [ CASE_ELCONF ]})
     case({ data, error }) {
-        console.log(this.elconfObjectApiName);
         if(data) {
             this.elconfRecordId = data.fields.Engagement_List_Configuration__c.value;
-            console.log('Wire:getRecord - Obtained elconfRecordId');
-            console.log(this.elconfRecordId);
+            this.hasConfig = this.elconfRecordId ? true : false;
+            this.cardClass = this.hasConfig ? CARD_CLASS_HASCONFIG : CARD_CLASS_NOCONFIG
+            this.cardHeaderClass = this.hasConfig ? CARD_HEADER_CLASS_HASCONFIG : CARD_HEADER_CLASS_NOCONFIG;
         } else if(error) {
-            this.error;
+            this.error = error.body.message;
             this.elconfRecordId = undefined;
-            console.log('Wire:getRecord - Failed to get elconfRecordId with error');
-            console.log(this.error);
         }
     }
 

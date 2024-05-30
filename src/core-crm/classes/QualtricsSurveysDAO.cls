@@ -34,5 +34,21 @@
             accessLevel
         );
     }
+
+    public static List<Qualtrics_Survey__c> getQualitricsSurveysByOwnerId(Set<Id> ownerId, AccessLevel accessLevel) {
+
+        if(ownerId.isEmpty()){
+            return new List<Qualtrics_Survey__c>();
+        }
+
+        return Database.query(
+            'SELECT Id, ' +
+            'In_Progress_Survey_URL__c, ' +
+            'Distribution_List__c ' +
+            'FROM Qualtrics_Survey__c ' +
+            'WHERE OwnerId IN: ownerId' ,
+            accessLevel
+        );
+    }
     
 }
