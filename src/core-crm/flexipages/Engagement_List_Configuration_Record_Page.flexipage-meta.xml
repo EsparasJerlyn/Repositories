@@ -171,6 +171,12 @@
                 <identifier>lst_dynamicRelatedList2</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>outreachCaseImportController</componentName>
+                <identifier>c_outreachCaseImportController</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-faeafcb5-8a12-4dde-8c67-e46ad2316109</name>
         <type>Facet</type>
     </flexiPageRegions>
