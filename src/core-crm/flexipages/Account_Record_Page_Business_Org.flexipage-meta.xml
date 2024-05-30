@@ -18,11 +18,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>3</value>
+                    <value>0</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
@@ -503,104 +503,6 @@
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable3</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Advancement</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>defaultValues</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>dynamicDataTableInput</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>editActionType</name>
-                    <value>Default</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>editScreenFlowApiName</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>icon</name>
-                    <value>standard:opportunity</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newActionType</name>
-                    <value>Default</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newActionTypeLabel</name>
-                    <value>New</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newScreenFlowApiName</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>numberOfRows</name>
-                    <value>3</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentRecord</name>
-                    <value>Account</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordTypeName</name>
-                    <value>Organisation Giving</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedField</name>
-                    <value>AccountId</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;StageName&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner Full Name&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Created Date&quot;,&quot;fieldName&quot;:&quot;CreatedDate&quot;,&quot;type&quot;:&quot;date&quot;}]</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFilters</name>
-                    <value>RecordType.DeveloperName = &apos;Organisation_Giving&apos;</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Advancement Organisation Opportunities</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedRecord</name>
-                    <value>Opportunity</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showNewButton</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortField</name>
-                    <value>CreatedDate</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortOrder</name>
-                    <value>DESC</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>visibilityByParent</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>visibilityByUser</name>
-                </componentInstanceProperties>
-                <componentName>dynamicDataTable</componentName>
-                <identifier>c_dynamicDataTable9</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

@@ -309,7 +309,7 @@ export default class DynamicDataTable extends NavigationMixin(
                   (row) => row.RecordId == relatedFieldValue
                 ).HasReadAccess == false
               ) {
-                finalSobjectRow[".linkStyle"] = "datatable-unlink";
+                finalSobjectRow["linkStyle"] = "datatable-unlink";
               }
             } else {
               finalSobjectRow[rowIndex] = relatedFieldValue;
@@ -407,10 +407,11 @@ export default class DynamicDataTable extends NavigationMixin(
     columns.forEach((element) => {
       if (
         element.type == "url" &&
-        element.fieldName.includes(".IdUrl") &&
+        ((element.fieldName.includes(".IdUrl") &&
         !element.fieldName
           .substring(0, element.fieldName.indexOf(".IdUrl"))
-          .includes(".")
+          .includes(".")) ||
+          element.fieldName == "IdUrl")
       ) {
         element.cellAttributes = {
           alignment: "left",
@@ -418,8 +419,8 @@ export default class DynamicDataTable extends NavigationMixin(
             fieldName:
               element.fieldName.substring(
                 0,
-                element.fieldName.indexOf(".IdUrl")
-              ) + ".linkStyle"
+                element.fieldName.indexOf("IdUrl")
+              ) + "linkStyle"
           }
         };
       } else {
