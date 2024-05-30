@@ -49,16 +49,6 @@ public with sharing class OutreachCampaignService {
     }
 
     /**
-     * @description Aborts the running batch job associated with the given Engagement List Criteria.
-     * @param criteria The Engagement List Criteria record whose job needs to be aborted.
-     */
-    public static void abortJob(Engagement_List_Criteria__c criteria) {
-        if (criteria.Preview_Job_Id__c != null) {
-            System.AbortJob(criteria.Preview_Job_Id__c);
-        }
-    }
-
-    /**
      * @description Deletes the final result attachment associated with the given Engagement List Criteria.
      * @param criteria The Engagement List Criteria record whose attachment needs to be deleted.
      */
@@ -80,7 +70,7 @@ public with sharing class OutreachCampaignService {
     public static void deleteTempAttachments(Engagement_List_Criteria__c criteria) {
         String elcName = criteria.Name + '_Temp_Preview_Result.csv';
         List<Attachment> attachmentsToDelete = AttachmentsDAO.newInstance()
-            .findAttachmentsByName(elcName, AccessLevel.USER_MODE);
+            .findAttachmentsByNames(new Set<String>{ elcName }, AccessLevel.USER_MODE);
         if (!attachmentsToDelete.isEmpty()) {
             AttachmentsDAO.newInstance()
                 .deleteRecords(attachmentsToDelete, true, AccessLevel.USER_MODE);
@@ -157,5 +147,30 @@ public with sharing class OutreachCampaignService {
         }
 
         return contactQuery;
+    }
+
+    /**
+     * @description Aborts the running batch job associated with the given Engagement List Criteria.
+     * @param criteria The Engagement List Criteria record whose job needs to be aborted.
+     */
+    public static void abortJob(Engagement_List_Criteria__c criteria) {
+        if (criteria.Preview_Job_Id__c != null) {
+            WithoutSharingInnerClass withoutSharingClass = new WithoutSharingInnerClass();
+            withoutSharingClass.abortJobWithoutSharing(criteria.Preview_Job_Id__c);
+        }
+    }
+
+    /**
+     * Inner class without sharing.
+     */
+    private without sharing class WithoutSharingInnerClass {
+        /**
+         * @description Aborts the job without enforcing sharing rules.
+         * Only users with modify all permission can abort a job
+         * @param jobId The ID of the job to be aborted.
+         */
+        private void abortJobWithoutSharing(Id jobId) {
+            System.abortJob(jobId);
+        }
     }
 }

@@ -58,7 +58,7 @@ private class ELCPreviewResultHandlerTest {
 
         System.assert(
             !AttachmentsDAO.newInstance()
-                .findAttachmentsByName('test_Temp_Preview_Result.csv', AccessLevel.USER_MODE)
+                .findAttachmentsByNames(new Set<String>{'Test_Temp_Preview_Result.csv'}, AccessLevel.USER_MODE)
                 .isEmpty(),
             'An attachment should be created '
         );

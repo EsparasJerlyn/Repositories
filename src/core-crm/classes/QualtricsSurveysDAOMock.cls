@@ -35,4 +35,19 @@ public inherited sharing class QualtricsSurveysDAOMock extends DmlBaseMock imple
         return qualtricsSurveyList;
     }
 
+
+    public List<Qualtrics_Survey__c> getQualitricsSurveysByOwnerId(
+        Set<Id> ownerId,
+        AccessLevel accessLevel
+    ) {
+        List<Qualtrics_Survey__c> qualtricsSurveyList = new List<Qualtrics_Survey__c>();
+
+        for (Qualtrics_Survey__c record : qualtricsSurveyMap.values()) {
+            if (ownerId.contains(record.OwnerId)) {
+                qualtricsSurveyList.add(record);
+            }
+        }
+        return qualtricsSurveyList;
+    }
+
 } 

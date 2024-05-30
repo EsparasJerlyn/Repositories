@@ -10,5 +10,5 @@
  *    |                                |                       |                        |                                                |
  */
 public interface IAttachmentsDAO extends DmlInterface {
-    List<Attachment> findAttachmentsByName(String name, AccessLevel accessLevel); 
+    List<Attachment> findAttachmentsByNames(Set<String> names, AccessLevel accessLevel); 
 } 
