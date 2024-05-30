@@ -105,7 +105,7 @@ private class OutreachCaseImportCtrlTest {
             criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
+            Engagement_List_Criteria__c criterias = EngagementListCriteriasDAO.newInstance()
                 .getEntryCriteriaById(
                     criteriaList[0].Id,
                     AccessLevel.SYSTEM_MODE);
@@ -126,7 +126,7 @@ private class OutreachCaseImportCtrlTest {
 
             List<OutreachCaseImportCtrl.OutreachCases> outreachCaseList = new List<OutreachCaseImportCtrl.OutreachCases>();
 
-            outreachCaseList = OutreachCaseImportCtrl.listOfCasesbyStudentIds(studentIds, criterias[0].Engagement_List_Criteria_Title__c, configs[0].Id);
+            outreachCaseList = OutreachCaseImportCtrl.listOfCasesbyStudentIds(studentIds, criterias.Engagement_List_Criteria_Title__c, configs[0].Id);
             
             System.assertEquals(contactList.size(), outreachCaseList.size(), 'All contact records should have an outreach case record.');
             
