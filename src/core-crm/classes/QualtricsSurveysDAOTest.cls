@@ -66,4 +66,37 @@ public with sharing class QualtricsSurveysDAOTest {
         Test.stopTest();
     }
 
+
+
+    @isTest
+    static void getQualitricsSurveysByOwnerIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Qualtrics_Survey__c> qualtricsSurveyRecord = TestDataFactory.createQualtricsSurveyRecord(1);
+            QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyRecord, true, AccessLevel.SYSTEM_MODE);
+            
+            List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance()
+                .getQualitricsSurveysByOwnerId(
+                    new Set<Id>{TestDataFactory.getESBIntegrationUser().Id},
+                    AccessLevel.USER_MODE
+                );
+            System.assertEquals(qualtricsSurveyRecord[0].Id ,qualtricsSurveyList[0].Id , 'Qualtrics Survey should match.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQualitricsSurveysByOwnerIdEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance()
+                .getQualitricsSurveysByOwnerId(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(qualtricsSurveyList.isEmpty(), 'Qualtrics Survey list must be empty.');
+        }
+        Test.stopTest();
+    }
+
 } 

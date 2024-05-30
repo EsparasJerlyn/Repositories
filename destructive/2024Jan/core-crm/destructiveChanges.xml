@@ -82,9 +82,6 @@
         <members>Engagement_List_Criteria__c.Is_Active__c</members>
         <members>Engagement_List_Criteria__c.Key_Date_Offset__c</members>
         <!--(End) DEPP-7584 -->
-        <!-- (Start) DEPP-8797 -->
-        <members>Case.Qualtrics_Survey_In_Progress_URL__c</members>
-        <!-- (End) DEPP-8797 -->
         <!-- (Start) DEPP-8764 -->
         <members>Qualtrics_Survey__c.Case__c</members>
         <!--(End) DEPP-8764 -->
