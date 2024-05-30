@@ -65,10 +65,12 @@ stages:
       - job : PiplineJob
         timeoutInMinutes: 600
         
-        ##### Microsoft Hosted Agents with Docker Image ############
+        ##### Microsoft Hosted Agents with ACR IMAGE ############
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:latest
+        container: 
+          image: "$(ACR_CONTAINER_IMAGE)"
+          endpoint: QUT-PRD-ARG-DEP-ACR
 
         steps:
           - checkout: SELF
