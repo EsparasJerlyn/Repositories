@@ -14,38 +14,25 @@
       | alexander.cadalin         | Oct 13, 2023          | DEPP-6890    | Removed isRunning flag                                                |
       | alexander.cadalin         | Oct 16, 2023          | DEPP-6890    | Added isRunning flag, checked isRunning for getContactOnApplication   |
       | mark.j.mahilum            | Oct 19, 2023          | DEPP-6933    | Added logic to handle bulk API trasaction on executeMatchingRule      |
-      | mark.j.mahilum            | April 30, 2024        | DEPP-7987    | Revised application record contact matching logic                     |
 */
-public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, BeforeUpdate, AfterUpdate {
+public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, AfterUpdate {
     /**
      * @description beforeInsert trigger event
      * @param newItems - List of hed__Application__c.Trigger.new
      */
     public void beforeInsert(List<SObject> newItems) { 
         ApplicationTriggerHelper.updateCalculatedDateOnSamsApplicationRecords((List<hed__Application__c>) newItems);
-        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems, null);
-    }
+}
 
     /**
      * @description afterInsert trigger event
      * @param newItems - List of hed__Application__c.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems) {
+        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
         ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);   
-    }
-
-    /**
-     * @description performs beforeUpdate event for hed__Application__c object
-     * @param newItems - Map of hed__Application__c.Trigger.newMap
-     * @param oldItems - Map of hed__Application__c.Trigger.oldMap
-     */
-    public void beforeUpdate(
-        Map<Id, SObject> newItems,
-        Map<Id, Sobject> oldItems
-    ) {
-        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
     }
 
     /**
@@ -57,6 +44,7 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
+        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, oldItems);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, oldItems);
         ApplicationTriggerHelper.resetLeadScore((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);

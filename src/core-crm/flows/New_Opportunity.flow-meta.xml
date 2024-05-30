@@ -1,60 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
-        <name>Do_Contact_Matching</name>
-        <label>Do Contact Matching</label>
-        <locationX>2052</locationX>
-        <locationY>1706</locationY>
-        <actionName>ContactMatchingService</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Is_Contact_Match_Found</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>email</name>
-            <value>
-                <elementReference>WorkEmailInput.workEmail</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>firstName</name>
-            <value>
-                <elementReference>First_Name</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>lastName</name>
-            <value>
-                <elementReference>Last_Name</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mobileLocale</name>
-            <value>
-                <elementReference>Mobile_Locale_Picklist</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mobileNoLocale</name>
-            <value>
-                <elementReference>MobileValue</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>ContactMatchingService</nameSegment>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>3130</locationX>
-        <locationY>3782</locationY>
+        <locationX>842</locationX>
+        <locationY>674</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -92,8 +43,8 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>3130</locationX>
-        <locationY>3890</locationY>
+        <locationX>842</locationX>
+        <locationY>782</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -231,8 +182,8 @@
     <assignments>
         <name>AssignSelectedContactId</name>
         <label>AssignSelectedContactId</label>
-        <locationX>2734</locationX>
-        <locationY>2978</locationY>
+        <locationX>3262</locationX>
+        <locationY>2270</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
             <operator>Assign</operator>
@@ -458,31 +409,6 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Is_Contact_Match_Found</name>
-        <label>Is Contact Match Found</label>
-        <locationX>2052</locationX>
-        <locationY>1814</locationY>
-        <defaultConnector>
-            <targetReference>Collect_Opportunity_Details</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Contact_Match_Found</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Do_Contact_Matching.error</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Contact_Match_Error_Screen</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_Create_New_Account_Selected</name>
         <label>Is Create New Account Selected?</label>
         <locationX>2712</locationX>
@@ -510,8 +436,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>2338</locationX>
-        <locationY>2414</locationY>
+        <locationX>2866</locationX>
+        <locationY>1706</locationY>
         <defaultConnector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
         </defaultConnector>
@@ -560,8 +486,8 @@
     <decisions>
         <name>Is_Create_New_Contact_Selected</name>
         <label>Is Create New Contact Selected?</label>
-        <locationX>2338</locationX>
-        <locationY>2870</locationY>
+        <locationX>2866</locationX>
+        <locationY>2162</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedContactId</targetReference>
         </defaultConnector>
@@ -583,35 +509,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Is_Create_New_Contact_Selected1</name>
-        <label>Is Create New Contact Selected?</label>
-        <locationX>2338</locationX>
-        <locationY>1598</locationY>
-        <defaultConnector>
-            <targetReference>Collect_Opportunity_Details</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Is_Create_New_Contact1</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Create_New_Contact</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Do_Contact_Matching</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_Record_Type_Research_Partnership_Or_Commercialisation</name>
         <label>Is Record Type Research Partnership Or Commercialisation</label>
-        <locationX>2338</locationX>
-        <locationY>3326</locationY>
+        <locationX>2866</locationX>
+        <locationY>2618</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Research_Partnership</name>
@@ -857,8 +758,8 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>1942</locationX>
-        <locationY>2630</locationY>
+        <locationX>2470</locationX>
+        <locationY>1922</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
@@ -956,8 +857,8 @@
     <recordCreates>
         <name>Create_Commercialisation_Opportunity</name>
         <label>Create Commercialisation Opportunity</label>
-        <locationX>2338</locationX>
-        <locationY>3434</locationY>
+        <locationX>2866</locationX>
+        <locationY>2726</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -995,8 +896,8 @@
     <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>2338</locationX>
-        <locationY>3674</locationY>
+        <locationX>2866</locationX>
+        <locationY>2966</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
@@ -1136,8 +1037,8 @@
     <recordCreates>
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
-        <locationX>1942</locationX>
-        <locationY>3086</locationY>
+        <locationX>2470</locationX>
+        <locationY>2378</locationY>
         <assignRecordIdToReference>ContactId</assignRecordIdToReference>
         <connector>
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
@@ -1243,8 +1144,8 @@
     <recordCreates>
         <name>Create_Research_Partnership_Opportunity</name>
         <label>Create Research Partnership Opportunity</label>
-        <locationX>1810</locationX>
-        <locationY>3434</locationY>
+        <locationX>2338</locationX>
+        <locationY>2726</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1294,8 +1195,8 @@
     <recordLookups>
         <name>Get_Account_Record_Type</name>
         <label>Get Account Record Type</label>
-        <locationX>1942</locationX>
-        <locationY>2522</locationY>
+        <locationX>2470</locationX>
+        <locationY>1814</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record</targetReference>
@@ -1427,8 +1328,8 @@
         <description>Gets the Person recordtype for contact.</description>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>1942</locationX>
-        <locationY>2978</locationY>
+        <locationX>2470</locationX>
+        <locationY>2270</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_Contact_Record</targetReference>
@@ -1479,7 +1380,6 @@
             <dataType>Boolean</dataType>
             <fieldText>Create New Account</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1642,7 +1542,6 @@
             <dataType>String</dataType>
             <fieldText>Account Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 255 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1737,7 +1636,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Is_Create_New_Contact_Selected1</targetReference>
+            <targetReference>Collect_Opportunity_Details</targetReference>
         </connector>
         <fields>
             <name>PartnerText</name>
@@ -1806,7 +1705,6 @@
             </defaultValue>
             <fieldText>Create New Contact</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1906,8 +1804,7 @@
             <dataType>String</dataType>
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 40 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>LEN({!First_Name})&lt;=40</formulaExpression>
@@ -1928,7 +1825,6 @@
             <dataType>String</dataType>
             <fieldText>Last Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1975,7 +1871,6 @@
             <dataType>String</dataType>
             <fieldText>Mobile Locale</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -2065,8 +1960,8 @@
     <screens>
         <name>Collect_Opportunity_Details</name>
         <label>Collect Opportunity Details</label>
-        <locationX>2338</locationX>
-        <locationY>2306</locationY>
+        <locationX>2866</locationX>
+        <locationY>1598</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2087,7 +1982,6 @@
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new opportunity, it must meet the following naming convention: RCO: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RCO: Aqueous Zinc Ion Battery Production - 2023.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -2113,7 +2007,6 @@
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new opportunity, it must meet the following naming convention: RPO: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RPO: Textile Waste Recycling Management - 2023.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -2140,7 +2033,6 @@
             <fieldText>Type</fieldText>
             <fieldType>DropdownBox</fieldType>
             <helpText>&lt;p&gt;The type of Opportunity.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -2159,7 +2051,6 @@
             <fieldText>Amount</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;The expected revenue the Opportunity may generate.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <scale>0</scale>
             <validationRule>
@@ -2296,7 +2187,6 @@
             </defaultValue>
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -2307,7 +2197,6 @@
             <name>Opportunity_Description</name>
             <fieldText>Description</fieldText>
             <fieldType>LargeTextArea</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -2317,26 +2206,9 @@
             <fieldText>Country</fieldText>
             <fieldType>DropdownBox</fieldType>
             <helpText>&lt;p&gt;The Country/Jurisdiction the Opportunity falls under.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>Contact_Match_Error_Screen</name>
-        <label>Contact Match Error Screen</label>
-        <locationX>1920</locationX>
-        <locationY>1922</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>false</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>ContactMatchError</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, &amp;quot;system-ui&amp;quot;, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(186, 5, 23);&quot;&gt;Contact with these details already exists. Please search for the contact with provided details.﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
@@ -2377,8 +2249,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>3130</locationX>
-        <locationY>3998</locationY>
+        <locationX>842</locationX>
+        <locationY>890</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>false</allowPause>
@@ -2437,7 +2309,6 @@
             <fieldText>Select a record type</fieldText>
             <fieldType>RadioButtons</fieldType>
             <helpText>&lt;p&gt;&lt;strong style=&quot;background-color: var(--slds-g-color-neutral-base-100, var(--lwc-colorBackgroundInput,rgb(255, 255, 255))); color: var(--slds-g-color-neutral-base-30, var(--lwc-colorTextWeak,rgb(68, 68, 68))); font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, Roboto, Helvetica, Arial, sans-serif, &apos;Apple Color Emoji&apos;, &apos;Segoe UI Emoji&apos;, &apos;Segoe UI Symbol&apos;);&quot;&gt;Commercialisation&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Create Commercialisation opportunity to protect and commercialise the university&apos;s intellectual property, including the licensing agreements and university start-ups.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;International Projects Unit&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Create an opportunity to explore international development and training initiatives.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Research Partnership&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Create Research Partnership opportunity to support research and research training initiatives&lt;/span&gt;&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
@@ -2454,8 +2325,8 @@
     <subflows>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>2184</locationX>
-        <locationY>4322</locationY>
+        <locationX>1381</locationX>
+        <locationY>3290</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>

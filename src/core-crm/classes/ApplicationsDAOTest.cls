@@ -18,13 +18,13 @@ public with sharing class ApplicationsDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
     }
 
     @isTest
     static void getApplicationsBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsBySetIds(
                     new Set<Id>(),
@@ -38,7 +38,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             System.assert(
                 new ApplicationsDAO().getSObjectType() == hed__Application__c.SObjectType,
                 'SObject is not hed__Application__c'
@@ -50,7 +50,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadIds(
                     new Set<Id>(),
@@ -64,7 +64,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByContactIds(
                     new Set<Id>(),
@@ -78,7 +78,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getQtacApplicationsWithQtacApplicantIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getQtacApplicationsWithQtacApplicantId(
                     new List<String>(),
@@ -92,7 +92,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsActiveApplicantsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsActiveApplicants(
                     new Set<Id>(),
@@ -106,7 +106,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadOrContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadOrContactIds(
                     new Set<String>(),
@@ -121,7 +121,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getAppsWithLatestCalculatedIntakeDateByApplicantIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getAppsWithLatestCalculatedIntakeDateByApplicantIds(
                     new Set<Id>(),
@@ -135,7 +135,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadIdOrContactIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadIdOrContactId(
                     new Set<String>(),
@@ -147,7 +147,7 @@ public with sharing class ApplicationsDAOTest {
     }
     
     static void queryApplicationsByPastIntakeDateAndActiveApplicantsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             System.assert(
                 ApplicationsDAO.newInstance().queryApplicationsByPastIntakeDateAndActiveApplicants('SYSTEM_MODE') != null,
@@ -155,37 +155,5 @@ public with sharing class ApplicationsDAOTest {
             );
             Test.stopTest();
         }
-    }
-
-    @isTest
-    static void queryLocatorGetApplicationsByBatchProcessTest(){
-        Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            System.assert(
-                ApplicationsDAO.newInstance()
-                .queryLocatorGetApplicationsByBatchProcess(
-                    new Set<String>{'Insert','Update'}, 
-                    AccessLevel.USER_MODE
-                ) != null,
-                'Return should not be null'
-            );
-        }
-        Test.stopTest();
-    }
-    
-    @isTest
-    static void getApplicationsByBatchProcessTest(){
-        Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            System.assert(
-                ApplicationsDAO.newInstance()
-                .getApplicationsByBatchProcess(
-                    new Set<String>{'Insert','Update'}, 
-                    AccessLevel.USER_MODE
-                ).isEmpty(),
-                'Return should be empty'
-            );
-        }
-        Test.stopTest();
     }
 }

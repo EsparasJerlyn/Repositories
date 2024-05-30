@@ -1,60 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
-        <name>Do_Contact_Matching</name>
-        <label>Do Contact Matching</label>
-        <locationX>710</locationX>
-        <locationY>1514</locationY>
-        <actionName>ContactMatchingService</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Is_a_Contact_Match_found</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>email</name>
-            <value>
-                <elementReference>WorkEmailInput.workEmail</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>firstName</name>
-            <value>
-                <elementReference>First_Name</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>lastName</name>
-            <value>
-                <elementReference>Last_Name</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mobileLocale</name>
-            <value>
-                <elementReference>Mobile_Locale_Picklist</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mobileNoLocale</name>
-            <value>
-                <elementReference>MobileValue</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>ContactMatchingService</nameSegment>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>1018</locationX>
-        <locationY>4142</locationY>
+        <locationY>3434</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -85,23 +36,19 @@
                 <stringValue>Error in New Engagement Screen Flow</stringValue>
             </value>
         </inputParameters>
-        <nameSegment>FlowLogEntry</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>1018</locationX>
-        <locationY>4250</locationY>
+        <locationY>3542</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Error</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
-        <nameSegment>Logger</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
@@ -109,7 +56,7 @@
         <name>Assign_ContactId_Selected</name>
         <label>Assign ContactId Selected</label>
         <locationX>1282</locationX>
-        <locationY>2978</locationY>
+        <locationY>2270</locationY>
         <assignmentItems>
             <assignToReference>ContactObject.Id</assignToReference>
             <operator>Add</operator>
@@ -124,7 +71,7 @@
     <assignments>
         <name>Assign_Contextual_Role_Object_Values</name>
         <label>Assign Contextual Role Object Values</label>
-        <locationX>996</locationX>
+        <locationX>886</locationX>
         <locationY>1190</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
@@ -148,7 +95,7 @@
         <name>Assign_Engagement_Details_Commercialisation</name>
         <label>Assign Engagement Details Commercialisation</label>
         <locationX>798</locationX>
-        <locationY>3518</locationY>
+        <locationY>2810</locationY>
         <assignmentItems>
             <assignToReference>EngagementStage</assignToReference>
             <operator>Add</operator>
@@ -171,7 +118,7 @@
         <name>Assign_Engagement_Details_Research_Partnership</name>
         <label>Assign Engagement Details Research Partnership</label>
         <locationX>1062</locationX>
-        <locationY>3518</locationY>
+        <locationY>2810</locationY>
         <assignmentItems>
             <assignToReference>EngagementStage</assignToReference>
             <operator>Add</operator>
@@ -225,7 +172,7 @@
     <assignments>
         <name>AssignAccountNameCreate</name>
         <label>AssignAccountNameCreate</label>
-        <locationX>1128</locationX>
+        <locationX>1018</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
@@ -241,7 +188,7 @@
     <assignments>
         <name>AssignAccountNameExisting</name>
         <label>AssignAccountNameExisting</label>
-        <locationX>864</locationX>
+        <locationX>754</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
@@ -259,7 +206,7 @@
         <name>Assisgn_Account_Id_Selected</name>
         <label>Assisgn Account Id Selected</label>
         <locationX>1282</locationX>
-        <locationY>2522</locationY>
+        <locationY>1814</locationY>
         <assignmentItems>
             <assignToReference>AccountObject.Id</assignToReference>
             <operator>Add</operator>
@@ -321,7 +268,7 @@
         <name>Engagement_Details_Decision</name>
         <label>Engagement Details Decision</label>
         <locationX>930</locationX>
-        <locationY>3410</locationY>
+        <locationY>2702</locationY>
         <defaultConnector>
             <targetReference>Assign_Engagement_Details_Research_Partnership</targetReference>
         </defaultConnector>
@@ -343,35 +290,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Is_a_Contact_Match_found</name>
-        <label>Is a Contact Match found?</label>
-        <locationX>710</locationX>
-        <locationY>1622</locationY>
-        <defaultConnector>
-            <targetReference>Collect_Engagement_Details</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Contact_Match</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Do_Contact_Matching.error</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Contact_Match_Error_Screen</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_Account_Created_or_Select_from_Existing</name>
         <label>Is Account Created or Select from Existing</label>
         <locationX>886</locationX>
-        <locationY>2414</locationY>
+        <locationY>1706</locationY>
         <defaultConnector>
             <targetReference>Assisgn_Account_Id_Selected</targetReference>
         </defaultConnector>
@@ -396,7 +318,7 @@
         <name>Is_Create_Contact_Selected</name>
         <label>Is Create Contact Selected?</label>
         <locationX>886</locationX>
-        <locationY>2870</locationY>
+        <locationY>2162</locationY>
         <defaultConnector>
             <targetReference>Assign_ContactId_Selected</targetReference>
         </defaultConnector>
@@ -420,7 +342,7 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_Assignment</name>
         <label>Is Create New Account Selected Assignment</label>
-        <locationX>996</locationX>
+        <locationX>886</locationX>
         <locationY>890</locationY>
         <defaultConnector>
             <targetReference>AssignAccountNameCreate</targetReference>
@@ -443,36 +365,11 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Is_New_Contact</name>
-        <label>Is New Contact?</label>
-        <locationX>996</locationX>
-        <locationY>1406</locationY>
-        <defaultConnector>
-            <targetReference>Collect_Engagement_Details</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes_New_Contact</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Create_New_Contact</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Do_Contact_Matching</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>Skips the contextual Role creation if recordtype is commercialisation</description>
         <name>What_RecordType_is_Selected_for_Contextual_Role_Creation</name>
         <label>What RecordType is Selected for Contextual Role Creation</label>
         <locationX>930</locationX>
-        <locationY>3926</locationY>
+        <locationY>3218</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Commercialisation_RecordType_Selected_in_Contextual_Role</name>
@@ -510,7 +407,7 @@
         <name>What_RecordType_is_Selected_for_Creation_of_Account_and_Contact</name>
         <label>What RecordType is Selected for Creation of Account and Contact</label>
         <locationX>930</locationX>
-        <locationY>2306</locationY>
+        <locationY>1598</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Commercialisation_RecordType_Selected</name>
@@ -667,7 +564,7 @@
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
         <locationX>490</locationX>
-        <locationY>2630</locationY>
+        <locationY>1922</locationY>
         <assignRecordIdToReference>AccountObject.Id</assignRecordIdToReference>
         <connector>
             <targetReference>Is_Create_Contact_Selected</targetReference>
@@ -718,7 +615,7 @@
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
         <locationX>754</locationX>
-        <locationY>4034</locationY>
+        <locationY>3326</locationY>
         <connector>
             <targetReference>Detail_Page_Navigationn</targetReference>
         </connector>
@@ -768,7 +665,7 @@
         <name>Create_Engagement_Record</name>
         <label>Create Engagement Record</label>
         <locationX>930</locationX>
-        <locationY>3818</locationY>
+        <locationY>3110</locationY>
         <assignRecordIdToReference>EngagementId</assignRecordIdToReference>
         <connector>
             <targetReference>What_RecordType_is_Selected_for_Contextual_Role_Creation</targetReference>
@@ -813,7 +710,7 @@
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
         <locationX>490</locationX>
-        <locationY>3086</locationY>
+        <locationY>2378</locationY>
         <assignRecordIdToReference>ContactObject.Id</assignRecordIdToReference>
         <connector>
             <targetReference>Engagement_Details_Decision</targetReference>
@@ -847,7 +744,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Mobile_No_Locale__c</field>
+            <field>MobilePhone</field>
             <value>
                 <elementReference>MobileValue</elementReference>
             </value>
@@ -871,7 +768,7 @@
         <name>Get_Business_Organization_RecordType</name>
         <label>Get Business Organization RecordType</label>
         <locationX>490</locationX>
-        <locationY>2522</locationY>
+        <locationY>1814</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record</targetReference>
@@ -935,7 +832,7 @@
         <name>Get_Engagement_RecordType</name>
         <label>Get Engagement RecordType</label>
         <locationX>930</locationX>
-        <locationY>3710</locationY>
+        <locationY>3002</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Engagement_Record</targetReference>
@@ -968,7 +865,7 @@
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
         <locationX>490</locationX>
-        <locationY>2978</locationY>
+        <locationY>2270</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_Contact_Record</targetReference>
@@ -999,7 +896,7 @@
     <screens>
         <name>Collect_Account_Details</name>
         <label>Collect Account Details</label>
-        <locationX>996</locationX>
+        <locationX>886</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1020,7 +917,6 @@
             </defaultValue>
             <fieldText>Create New Account</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1107,7 +1003,6 @@
             <dataType>String</dataType>
             <fieldText>Account Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 255 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1144,7 +1039,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>AccountObject.Company_Category__c</objectFieldReference>
             <visibilityRule>
@@ -1160,7 +1054,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>AccountObject.Industry_Classification__c</objectFieldReference>
             <visibilityRule>
@@ -1176,7 +1069,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>AccountObject.Industry_Sub_Classification__c</objectFieldReference>
             <visibilityRule>
@@ -1196,13 +1088,13 @@
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>996</locationX>
+        <locationX>886</locationX>
         <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Is_New_Contact</targetReference>
+            <targetReference>Collect_Engagement_Details</targetReference>
         </connector>
         <fields>
             <name>PartnerText</name>
@@ -1265,7 +1157,6 @@
             </defaultValue>
             <fieldText>Create New Contact</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1346,7 +1237,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>ContextualRoleObject.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
@@ -1365,8 +1255,7 @@
             <dataType>String</dataType>
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 40 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>LEN({!First_Name})&lt;=40</formulaExpression>
@@ -1387,7 +1276,6 @@
             <dataType>String</dataType>
             <fieldText>Last Name</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1434,7 +1322,6 @@
             <dataType>String</dataType>
             <fieldText>Mobile Locale</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
@@ -1488,7 +1375,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>ContextualRoleObject.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
@@ -1504,7 +1390,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>ContextualRoleObject.Contextual_Role_Group__c</objectFieldReference>
             <visibilityRule>
@@ -1525,7 +1410,7 @@
         <name>Collect_Engagement_Details</name>
         <label>Collect Engagement Details</label>
         <locationX>930</locationX>
-        <locationY>2198</locationY>
+        <locationY>1490</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1546,7 +1431,6 @@
             <fieldText>Engagement Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new engagement, it must meet the following naming convention: RCE: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RCE: Textiles Commercialisation - 2023.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1572,7 +1456,6 @@
             <fieldText>Engagement Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new engagement, it must meet the following naming convention: RPE: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RPE: Textile Waste Management Research - 2023.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1594,7 +1477,6 @@
             <fieldText>Engagement Summary</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <helpText>&lt;p&gt;A summary/description of the Engagement being undertaken.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 500 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1608,26 +1490,9 @@
             <fieldText>Priority</fieldText>
             <fieldType>DropdownBox</fieldType>
             <helpText>&lt;p&gt;The business priority for the Engagement.&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>Contact_Match_Error_Screen</name>
-        <label>Contact Match Error Screen</label>
-        <locationX>578</locationX>
-        <locationY>1730</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>false</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>ContactMatchError</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(186, 5, 23); font-family: -apple-system, &amp;quot;system-ui&amp;quot;, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Contact with these details already exists. Please search for the contact with provided details.&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
@@ -1652,7 +1517,7 @@
         <name>Error</name>
         <label>Error</label>
         <locationX>1018</locationX>
-        <locationY>4358</locationY>
+        <locationY>3650</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1685,7 +1550,6 @@
             <fieldText>Select a Record Type</fieldText>
             <fieldType>RadioButtons</fieldType>
             <helpText>&lt;p&gt;&lt;strong&gt;Commercialisation&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Create Commercialisation Engagement to identify and assess research before its ready for commercialisation.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Research Partnership&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Create Research Partnership Engagement to identify new opportunities with industry partners to support research and research training initiatives.&lt;/li&gt;&lt;/ul&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
@@ -1703,7 +1567,7 @@
         <name>Detail_Page_Navigationn</name>
         <label>Detail Page Navigationn</label>
         <locationX>930</locationX>
-        <locationY>4682</locationY>
+        <locationY>3974</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>

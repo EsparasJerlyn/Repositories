@@ -101,8 +101,6 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Id,
                 FirstName,
                 LastName,
-                Matching_Firstname__c,
-                Matching_Lastname__c,
                 Birthdate,
                 Email,
                 QUT_Learner_Email__c,
@@ -118,19 +116,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Calculated_Cadence__c,
                 hed__Citizenship_Status__c,
                 HasOptedOutOfEmail,
-                Email_Opt_In_DateTime__c,
-                hed__Deceased__c,
-                QUT_Student_ID__c,
-                QUT_Employee_ID__c,
-                MailingState,
-                MailingCity,
-                MailingStreet,
-                MailingCountry,
-                OtherState,
-                OtherCity,
-                OtherStreet,
-                OtherCountry,
-                Phone
+                Email_Opt_In_DateTime__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -223,60 +209,6 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
-        );
-    }
-
-    public List<Contact> getContactsByMatchingAttributes(
-        Map<String,Set<String>> fieldSetMap,
-        Set<Date> birthDateSet,
-        AccessLevel accessLevel
-    ) {
-
-        boolean setsAreEmpty = fieldSetMap.isEmpty() && birthDateSet.isEmpty();
-        Set<String> firstNameSet = fieldSetMap.get('firstName');
-        Set<String> lastNameSet = fieldSetMap.get('lastName');
-        Set<String> emailSet = fieldSetMap.get('email');
-        Set<String> mobilePhoneSet = fieldSetMap.get('mobilePhone');
-
-        if(setsAreEmpty){
-            return new List<Contact>();
-        }
-
-        return Database.query(
-            'SELECT Id, FirstName, LastName, Birthdate, Matching_Firstname__c, Matching_Lastname__c, ' +
-            'Email, MobilePhone, QUT_Staff_Email__c, QUT_Learner_Email__c, Work_Email__c, ' +
-            'QUT_Student_ID__c, QUT_Employee_ID__c ' +
-            'FROM Contact ' +
-            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID '+
-            //Natural Key Matching
-            'AND ((Matching_Firstname__c IN :firstNameSet ' +
-            'AND Matching_Lastname__c IN :lastNameSet ' +
-            'AND Birthdate IN :birthDateSet) ' +
-            //Partial Key Matching OR First Name Stem
-            'OR (Matching_Lastname__c IN :lastNameSet ' +
-            'AND Birthdate IN :birthDateSet ' +
-            'AND (Email IN :emailSet ' +
-            'OR QUT_Staff_Email__c IN :emailSet ' +
-            'OR QUT_Learner_Email__c IN :emailSet ' +
-            'OR Work_Email__c IN :emailSet ' +
-            'OR MobilePhone IN :mobilePhoneSet)) ' +
-            //Maiden Name Matching
-            'OR (Matching_Firstname__c IN :firstNameSet ' +
-            'AND Birthdate IN :birthDateSet ' +
-            'AND (Email IN :emailSet ' +
-            'OR QUT_Staff_Email__c IN :emailSet ' +
-            'OR QUT_Learner_Email__c IN :emailSet ' +
-            'OR Work_Email__c IN :emailSet ' +
-            'OR MobilePhone IN :mobilePhoneSet)) ' +
-            //No DOB Matching
-            'OR (Matching_Firstname__c IN :firstNameSet ' +
-            'AND Matching_Lastname__c IN :lastNameSet ' +
-            'AND (Email IN :emailSet ' +
-            'OR QUT_Staff_Email__c IN :emailSet ' +
-            'OR QUT_Learner_Email__c IN :emailSet ' +
-            'OR Work_Email__c IN :emailSet ' +
-            'OR MobilePhone IN :mobilePhoneSet))) ',
-            accessLevel
         );
     }
 
@@ -402,18 +334,16 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
 
         return Database.query(
-            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, MiddleName, Salutation, ' +
-            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Name, Birth_Country__c, Citizenship_Type__c, ' +
-            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, Home_Language__c, ' +
+            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Name, ' +
+            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
             'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
-            'SMS_Opt_In_DateTime__c, QUT_Student_ID__c, QUT_Employee_ID__c, MailingAddress, OtherAddress, '+ 
+            'SMS_Opt_In_DateTime__c, '+ 
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, Lead_Source_Category__c, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c, ' +
-            'ATSI_Code__c, Citizenship_Country__c, Is_Agent_Assisted__c, Agency_Name__c, Agency_Email__c, Is_International_Applicant__c, Applicant_Onshore__c, ' + 
-            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',

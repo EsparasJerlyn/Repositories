@@ -24,8 +24,7 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_MDM_CONTACT = 'callout:ESB' + System.Label.ESBEndpointMDMStudent;
     private static final String ENDPOINT_MDM_STUDENTENROLMENT = 'callout:ESB' + System.Label.ESBEndpointMDMStudentEnrolment;
     private static final String ENDPOINT_ASSIGN_TARGET_CADENCE = System.Label.SalesCadenceAssignTargetEndpoint;
-    private static final String ENDPOINT_REMOVE_TARGET_CADENCE = System.Label.SalesCadenceRemoveTargetEndpoint;  
-    private static final String ENDPOINT_ESB_SAMS_REFRESH_STUDENT = 'callout:ESB' + System.Label.ESBSAMSRefreshStudent;
+    private static final String ENDPOINT_REMOVE_TARGET_CADENCE = System.Label.SalesCadenceRemoveTargetEndpoint;    
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
     private static final String PAYLOAD_PHONE = '{"payload":[{"fullPhone":"1234","country":"AU","phoneStatus":"connected|Network confirmed connection"}]}';
@@ -45,8 +44,7 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
         HttpResponse res = new HttpResponse();
         
         if(req.getEndpoint() == ENDPOINT_MDM_STUDENTENROLMENT ||
-            req.getEndpoint() == ENDPOINT_MDM_CONTACT ||
-            req.getEndpoint() == ENDPOINT_ESB_SAMS_REFRESH_STUDENT) {
+            req.getEndpoint() == ENDPOINT_MDM_CONTACT) {
             res = esbNotFoundMockResponse();
         } else if(req.getEndpoint().contains(ENDPOINT_ASSIGN_TARGET_CADENCE)){
             res = assignTargetCadenceMockResponse(req);

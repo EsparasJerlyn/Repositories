@@ -19,7 +19,6 @@
     <permissionSets>Permission_Manage_Sharing</permissionSets>
     <permissionSets>Permission_Manage_Users_Internal_and_External</permissionSets>
     <permissionSets>Permission_Modify_All_Data</permissionSets>
-    <permissionSets>Permission_Monitor_Bulk_Data_Load_Jobs</permissionSets>
     <permissionSets>Permission_Query_All_Files_with_ViewAllData</permissionSets>
     <permissionSets>Permission_Set_Audit_Fields_upon_Record_Creation</permissionSets>
     <permissionSets>Permission_View_All_Data</permissionSets>

@@ -16,20 +16,4 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
     public static IAddressesDAO newInstance() {
         return (IAddressesDAO) ImplementationSelector.DAO.newInstance(hed__Address__c.sObjectType);
     }
-
-    public List<hed__Address__c> getAddressesByContactIdsSet(
-        Set<Id> contactIdsSet,
-        AccessLevel accessLevel
-    ) {
-        if (contactIdsSet.isEmpty()) {
-            return new List<hed__Address__c>();
-        }
-
-        return Database.query(
-            'SELECT Id, hed__Parent_Contact__c, hed__Address_Type__c ' +
-                'FROM hed__Address__c ' +
-                'WHERE hed__Parent_Contact__c IN: contactIdsSet',
-            accessLevel
-        );
-    }
 }

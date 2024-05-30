@@ -352,7 +352,6 @@
         <customTabListAdditionalFields>Preferred_Given_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
-        <excludedStandardButtons>NewContact</excludedStandardButtons>
         <excludedStandardButtons>IntelligenceView</excludedStandardButtons>
         <excludedStandardButtons>Import</excludedStandardButtons>
         <excludedStandardButtons>MassAddToCadence</excludedStandardButtons>

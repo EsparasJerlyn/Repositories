@@ -1,60 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
-        <description>Checks if contact created already exists.</description>
-        <name>Do_Contact_Matching</name>
-        <label>Do Contact Matching</label>
-        <locationX>182</locationX>
-        <locationY>1190</locationY>
-        <actionName>ContactMatchingService</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Is_a_Contact_Match_found</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>email</name>
-            <value>
-                <elementReference>ContactToCreate.Work_Email__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>firstName</name>
-            <value>
-                <elementReference>First_Name</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>lastName</name>
-            <value>
-                <elementReference>Last_Name</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mobileLocale</name>
-            <value>
-                <elementReference>Mobile_Locale</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mobileNoLocale</name>
-            <value>
-                <elementReference>Mobile</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>ContactMatchingService</nameSegment>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1084</locationX>
-        <locationY>2822</locationY>
+        <locationX>1018</locationX>
+        <locationY>2114</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -89,27 +39,12 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
         <versionSegment>1</versionSegment>
     </actionCalls>
-    <actionCalls>
-        <name>Save_Log_Action_1</name>
-        <label>Save Log Action 1</label>
-        <locationX>1084</locationX>
-        <locationY>3038</locationY>
-        <actionName>Logger</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Error_Screen</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <nameSegment>Logger</nameSegment>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
         <name>Assign_Account_To_Contextual_Role</name>
         <label>Assign Account To Contextual Role</label>
-        <locationX>204</locationX>
-        <locationY>2006</locationY>
+        <locationX>138</locationX>
+        <locationY>1298</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -124,8 +59,8 @@
     <assignments>
         <name>Assign_Contact_To_Contextual_Role</name>
         <label>Assign Contact To Contextual Role</label>
-        <locationX>204</locationX>
-        <locationY>2522</locationY>
+        <locationX>138</locationX>
+        <locationY>1814</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
             <operator>Assign</operator>
@@ -140,8 +75,8 @@
     <assignments>
         <name>Assign_Contact_Values</name>
         <label>Assign Contact Values</label>
-        <locationX>204</locationX>
-        <locationY>2306</locationY>
+        <locationX>138</locationX>
+        <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.ContactMobile_Locale__c</assignToReference>
             <operator>Assign</operator>
@@ -177,7 +112,7 @@
     <assignments>
         <name>Pre_Assigned_Account_Values</name>
         <label>Pre Assigned Account Values</label>
-        <locationX>116</locationX>
+        <locationX>50</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>AccountToCreate.RecordTypeId</assignToReference>
@@ -193,7 +128,7 @@
     <assignments>
         <name>Pre_Assigned_Contact_Values</name>
         <label>Pre Assigned Contact Values</label>
-        <locationX>468</locationX>
+        <locationX>402</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.RecordTypeId</assignToReference>
@@ -209,7 +144,7 @@
     <assignments>
         <name>Pre_Assigned_Contextual_Role_Values</name>
         <label>Pre Assigned Contextual Role Values</label>
-        <locationX>468</locationX>
+        <locationX>402</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -267,7 +202,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>468</locationX>
+        <locationX>402</locationX>
         <locationY>458</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -302,35 +237,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Is_a_Contact_Match_found</name>
-        <label>Is a Contact Match found?</label>
-        <locationX>182</locationX>
-        <locationY>1298</locationY>
-        <defaultConnector>
-            <targetReference>Is_New_Account</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Contact_Match</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Do_Contact_Matching.error</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Contact_Match_Error_Screen</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_New_Account</name>
         <label>Is New Account?</label>
-        <locationX>468</locationX>
-        <locationY>1790</locationY>
+        <locationX>402</locationX>
+        <locationY>1082</locationY>
         <defaultConnector>
             <targetReference>Is_New_Contact</targetReference>
         </defaultConnector>
@@ -354,8 +264,8 @@
     <decisions>
         <name>Is_New_Contact</name>
         <label>Is New Contact?</label>
-        <locationX>468</locationX>
-        <locationY>2198</locationY>
+        <locationX>402</locationX>
+        <locationY>1490</locationY>
         <defaultConnector>
             <targetReference>Create_Contextual_Role</targetReference>
         </defaultConnector>
@@ -372,31 +282,6 @@
             </conditions>
             <connector>
                 <targetReference>Assign_Contact_Values</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Is_New_Contact1</name>
-        <label>Is New Contact?</label>
-        <locationX>468</locationX>
-        <locationY>1082</locationY>
-        <defaultConnector>
-            <targetReference>Is_New_Account</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Is_New_Contact1</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>IsCreateNewContact</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Do_Contact_Matching</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -467,8 +352,8 @@
     <recordCreates>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>204</locationX>
-        <locationY>1898</locationY>
+        <locationX>138</locationX>
+        <locationY>1190</locationY>
         <connector>
             <targetReference>Assign_Account_To_Contextual_Role</targetReference>
         </connector>
@@ -481,8 +366,8 @@
     <recordCreates>
         <name>Create_Contact_Record</name>
         <label>Create Contact Record</label>
-        <locationX>204</locationX>
-        <locationY>2414</locationY>
+        <locationX>138</locationX>
+        <locationY>1706</locationY>
         <connector>
             <targetReference>Assign_Contact_To_Contextual_Role</targetReference>
         </connector>
@@ -495,8 +380,8 @@
     <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>468</locationX>
-        <locationY>2714</locationY>
+        <locationX>402</locationX>
+        <locationY>2006</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -505,7 +390,7 @@
     <recordLookups>
         <name>Get_Business_Org_RecordType_Id</name>
         <label>Get Business Org RecordType Id</label>
-        <locationX>116</locationX>
+        <locationX>50</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -537,7 +422,7 @@
     <recordLookups>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>468</locationX>
+        <locationX>402</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -569,16 +454,16 @@
     <recordRollbacks>
         <name>Rollback_Records</name>
         <label>Rollback Records</label>
-        <locationX>1084</locationX>
-        <locationY>2930</locationY>
+        <locationX>1018</locationX>
+        <locationY>2222</locationY>
         <connector>
-            <targetReference>Save_Log_Action_1</targetReference>
+            <targetReference>Error_Screen</targetReference>
         </connector>
     </recordRollbacks>
     <screens>
         <name>Account_Screen</name>
         <label>Account Screen</label>
-        <locationX>116</locationX>
+        <locationX>50</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -780,31 +665,15 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Contact_Match_Error_Screen</name>
-        <label>Contact Match Error Screen</label>
-        <locationX>50</locationX>
-        <locationY>1406</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>false</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>ContactMatchError</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(186, 5, 23);&quot;&gt;Contact with these details already exists. Please search for the contact with provided details.&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Contact_Screen</name>
         <label>Contact Screen</label>
-        <locationX>468</locationX>
+        <locationX>402</locationX>
         <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Is_New_Contact1</targetReference>
+            <targetReference>Is_New_Account</targetReference>
         </connector>
         <fields>
             <name>ContactHeader</name>
@@ -1113,8 +982,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1084</locationX>
-        <locationY>3146</locationY>
+        <locationX>1018</locationX>
+        <locationY>2330</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1132,7 +1001,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>342</locationX>
+        <locationX>276</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Pre_Assigned_Contextual_Role_Values</targetReference>
@@ -1154,16 +1023,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
-    </variables>
-    <variables>
-        <name>ContactMatched</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>false</booleanValue>
-        </value>
     </variables>
     <variables>
         <name>ContactToCreate</name>

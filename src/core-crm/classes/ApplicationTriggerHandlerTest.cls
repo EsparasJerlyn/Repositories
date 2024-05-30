@@ -21,9 +21,9 @@ private class ApplicationTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -37,7 +37,7 @@ private class ApplicationTriggerHandlerTest {
     
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -54,7 +54,7 @@ private class ApplicationTriggerHandlerTest {
     
     @isTest
     private static void testApplicationBatchUpdateStatus() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             
             List<hed__Application__c> applicationsList = [SELECT Id FROM hed__Application__c LIMIT: recordsCount];
             

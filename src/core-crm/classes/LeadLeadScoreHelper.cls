@@ -10,7 +10,6 @@
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
   *    | eccarius.munoz                 | October 06, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for Lead                                       |
-  *    | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Updated logic to check for all async call      |
   */
 public with sharing class LeadLeadScoreHelper {
     private static Map<Id,Lead> domesticUnderGradMap = new Map<Id,Lead>();
@@ -38,10 +37,7 @@ public with sharing class LeadLeadScoreHelper {
         }
         
         if(!leadMap.isEmpty()) {
-
-            Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
-            
-            if(isAsync) {
+            if(System.isQueueable()) {
                 executeCalculation(leadMap);
             } else {
                 QueueableCall executeQueueable = new QueueableCall(leadMap);

@@ -36,7 +36,6 @@ private class AffiliationTriggerHandlerTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
-            acc.Name = 'Test Account Unique';
             insert acc;
             
             List<Contact> newContacts = createTestContactRecords(0, 1);     

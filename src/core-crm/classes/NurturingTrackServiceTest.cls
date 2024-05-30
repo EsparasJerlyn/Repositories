@@ -17,7 +17,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
     }
 
     @isTest
@@ -84,7 +84,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void populateCalculatedCadenceMultipleTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             String automatedCadence = 'International Application Submission - Direct Applicant (Automated)';
             String manualCadence = 'International Application Submission - Direct Applicant';
@@ -142,7 +142,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void populateCalculatedCadenceSingleTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             String automatedCadence = 'International Application Submission - Direct Applicant (Automated)';
             String manualCadence = null;

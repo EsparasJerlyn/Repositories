@@ -138,5 +138,4 @@ private class LeadTriggerHandlerTest {
             }
         }
     }
-    
 }

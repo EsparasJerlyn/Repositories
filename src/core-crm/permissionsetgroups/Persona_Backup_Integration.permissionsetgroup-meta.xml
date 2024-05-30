@@ -11,7 +11,6 @@
     <permissionSets>Permission_All_Tabs_Available_and_Visible</permissionSets>
     <permissionSets>Permission_Enable_Inactive_User_Assignment</permissionSets>
     <permissionSets>Permission_Modify_All_Data</permissionSets>
-    <permissionSets>Permission_Monitor_Bulk_Data_Load_Jobs</permissionSets>
     <permissionSets>Permission_Query_All_Files_with_ViewAllData</permissionSets>
     <permissionSets>Permission_View_All_Data</permissionSets>
     <permissionSets>Permission_View_All_Users</permissionSets>
