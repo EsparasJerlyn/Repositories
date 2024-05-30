@@ -169,6 +169,6 @@
     </nameField>
     <pluralLabel>Program Enrollment Breaches</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
