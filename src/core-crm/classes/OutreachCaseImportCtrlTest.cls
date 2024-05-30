@@ -106,9 +106,8 @@ private class OutreachCaseImportCtrlTest {
             criteriaList.add(criteria);
             EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
             List<Engagement_List_Criteria__c> criterias = EngagementListCriteriasDAO.newInstance()
-                .findImportCriteria(
-                    new Set<Id>{criteriaList[0].Id},
-                    EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED, 
+                .getEntryCriteriaById(
+                    criteriaList[0].Id,
                     AccessLevel.SYSTEM_MODE);
             
             //Create Contact records
