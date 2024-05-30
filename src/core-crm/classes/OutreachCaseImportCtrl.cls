@@ -56,7 +56,6 @@ public with sharing class OutreachCaseImportCtrl {
         List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
         criteriaList.add(engagementListCriteria);
         EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, false, AccessLevel.USER_MODE);
-        Id = criteriaList[0].Id;
         Engagement_List_Criteria__c engagementCriteriaList = EngagementListCriteriasDAO.newInstance().getEntryCriteriaById(criteriaList[0].Id,AccessLevel.USER_MODE);
 
         ELCParser parser = new ELCParser(engagementCriteriaList, executionDate);
