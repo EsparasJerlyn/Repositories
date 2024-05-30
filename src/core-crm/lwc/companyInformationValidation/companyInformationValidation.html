@@ -18,31 +18,15 @@
                 </div>
                 <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
                     onsubmit={handleSaveButton} onsuccess={handleSuccess}>
-                    <div class="slds-grid slds-p-top_x-small">
-                        <div class="slds-col slds-size_1-of-2 slds-p-vertical_x-small">
-                            <template if:false={disableEditButton}>
-                                <div class="slds-grid">
-                                    <div
-                                        class="slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal">
-                                        <lightning-output-field field-name="Phone">
-                                            <lightning-button-icon
-                                                class="slds-float_right"
-                                                icon-name="utility:edit"
-                                                variant="bare"
-                                                onclick={handleEditButton}>
-                                            </lightning-button-icon>
-                                        </lightning-output-field>
-                                    </div>
-                                </div>
-                            </template>
-                            <template if:true={disableEditButton}>
-                                <div class="slds-grid">
-                                    <div class="slds-col slds-size_1-of-1">
-                                        <lightning-input-field field-name="Phone">
-                                        </lightning-input-field>
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="slds-grid slds-gutters slds-m-bottom_small">
+                        <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
+                            <p class="slds-m-bottom_small gray-text">Phone</p>
+                            <p if:false={disableEditButton} class={abnValueClass}>
+                                <lightning-output-field field-name="Phone" variant="label-hidden">
+                                </lightning-output-field>
+                            </p>
+                            <lightning-input-field if:true={disableEditButton} variant="label-hidden"
+                                field-name="Phone"></lightning-input-field>
                         </div>
                     </div>
                     <div class="slds-grid slds-gutters slds-m-bottom_small">
