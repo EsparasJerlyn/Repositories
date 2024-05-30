@@ -6,7 +6,7 @@
         workspaceAPI.getEnclosingTabId().then(function(tabId) {
             workspaceAPI.setTabIcon({
                 tabId: tabId,
-                icon: "utility:case",
+                icon: "standard:case",
                 iconAlt: "Cases"
             });
 
