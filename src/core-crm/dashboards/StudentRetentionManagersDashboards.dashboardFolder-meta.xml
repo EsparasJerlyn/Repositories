@@ -7,11 +7,6 @@
     </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
-        <sharedTo>Student_Success_Outreach_Staff</sharedTo>
-        <sharedToType>Role</sharedToType>
-    </folderShares>
-    <folderShares>
-        <accessLevel>View</accessLevel>
         <sharedTo>Development_Team</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>
@@ -30,5 +25,5 @@
         <sharedTo>System_Administrator_Read_Only</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>
-    <name>Student Retention Dashboards</name>
+    <name>Student Retention - Managers Dashboards</name>
 </DashboardFolder>
