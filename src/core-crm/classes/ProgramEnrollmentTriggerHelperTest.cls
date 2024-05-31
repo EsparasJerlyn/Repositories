@@ -118,7 +118,7 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
             Test.stopTest();
             
             // Check if there are any existing running jobs for the ApplicationContactMatchingBatch
-            List<AsyncApexJob> jobs = [SELECT Id FROM AsyncApexJob WHERE Apexclass.Name ='ProgramEnrollmentAddressValidationBatch'];
+            List<AsyncApexJob> jobs = [SELECT Id FROM AsyncApexJob WHERE Apexclass.Name ='ContactAddressValidationBatch'];
             
             System.assert(!jobs.isEmpty(), 'batch job is empty');
 
