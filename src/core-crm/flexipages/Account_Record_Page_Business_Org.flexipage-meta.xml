@@ -481,7 +481,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showEditButton</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showNewButton</name>
