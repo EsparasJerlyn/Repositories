@@ -84,6 +84,22 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         );
     }
 
+    public List<Case> getCasesByEngagementListConfigurationIds(
+        String configurationId,
+        AccessLevel accessLevel
+    ) {
+        if(String.isBlank(configurationId)){
+            return new List<Case>();
+        }
+
+        return Database.query(
+            'SELECT  Id, CaseNumber, ContactId, Contact.Name, Status, Owner.Name, CreatedDate, Engagement_List_Configuration__c ' +
+            'FROM Case ' +
+            'WHERE Engagement_List_Configuration__c =: configurationId ',
+            accessLevel
+        );
+    }
+
     public List<Case> getCaseBySuppliedEmail(
         String suppliedEmail,
         AccessLevel accessLevel
@@ -122,7 +138,6 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         );
     }
 
-
     public List<Case> getCasesByIds(
         Set<Id> caseIds,
         AccessLevel accessLevel
@@ -131,7 +146,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
             'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
                 'Contact.Lead_Source_Category__c, Lead__r.Lead_Source_Category__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, ' +
                 'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c, ' +
-                'Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c ' +           
+                'Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c, CaseNumber, Contact.Name, Status, Owner.Name ' +           
             'FROM Case ' +
             'WHERE Id IN :caseIds ',
             accessLevel
