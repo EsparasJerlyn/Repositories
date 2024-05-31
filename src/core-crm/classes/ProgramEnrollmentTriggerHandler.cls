@@ -22,6 +22,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
     public void afterInsert(Map<Id, SObject> newItems) {
         getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
         ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), null);
+        ProgramEnrollmentTriggerHelper.processAddressValidation((List<hed__Program_Enrollment__c>) newItems.values(), null);
     }
 
    /**
@@ -34,6 +35,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, Sobject> oldItems
     ) {
         getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
+        ProgramEnrollmentTriggerHelper.processAddressValidation((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
 
     /**
