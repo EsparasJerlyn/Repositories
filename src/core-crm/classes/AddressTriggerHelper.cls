@@ -19,7 +19,7 @@ public with sharing class AddressTriggerHelper {
             if(
                 address.hed__Parent_Contact__c != null && 
                 address.hed__Address_Type__c != null && 
-                address.hed__Address_Type__c == AddressesDAO.ADDRESS_TYPE_OTHER
+                address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS
             ){
                 addressByContactMap.put(address.hed__Parent_Contact__c, address);
             }

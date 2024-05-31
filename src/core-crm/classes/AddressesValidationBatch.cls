@@ -23,12 +23,10 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
 
     public void execute(Database.BatchableContext bc, List<hed__Address__c> addressList){
         try{ 
-
-            Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
-            //addressByContactMap = AddressValidation.validateAddresses(addressList);
+            Map<Id, hed__Address__c> addressByContactMap = new AddressValidation(addressList).validateAddresses();
             
             ABS_Categorisation__c absCategorisation = new ABS_Categorisation__c();
-            List<ABS_Categorisation__c> absCategorisationList = [SELECT Id, Low_SES_Lower_Boundary__c, Low_SES_Upper_Boundary__c FROM ABS_Categorisation__c Order by LastModifiedDate DESC];
+            List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('USER_MODE');
             for(ABS_Categorisation__c absCateg : absCategorisationList){
                 absCategorisation = absCateg;
             }
