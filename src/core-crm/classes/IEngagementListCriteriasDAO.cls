@@ -15,7 +15,5 @@ public interface IEngagementListCriteriasDAO extends DmlInterface {
         AccessLevel accessLevel
     );
 
-    Engagement_List_Criteria__c getEntryCriteriaById(
-        Id recordId, 
-        AccessLevel accessLevel);
+    Engagement_List_Criteria__c getEntryCriteriaById(Id recordId, AccessLevel accessLevel);
 }
