@@ -13,6 +13,4 @@ public interface IAddressesDAO extends DmlInterface {
         Set<Id> contactIdsSet,
         AccessLevel accessLevel
     );
-
-    Database.QueryLocator getQueryLocatorByIds(Set<Id> addressIdSet);
 }

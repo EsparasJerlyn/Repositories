@@ -32,10 +32,4 @@ public inherited sharing class AddressesDAOMock extends DmlBaseMock implements I
 
         return addressList;
     }
-
-    public Database.QueryLocator getQueryLocatorByIds(
-        Set<Id> addressIdSet
-    ){
-        return null;
-    }
 }
