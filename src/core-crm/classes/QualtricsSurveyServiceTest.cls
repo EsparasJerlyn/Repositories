@@ -10,6 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
  *    | arsenio.jr.dayrit              | May 20,2024           | DEPP-8821	            | Created File                  |
  *    | eugene.andrew.abuan            | May 24, 2024          | DEPP-8822              | Added In_Progress_URL test    |
+ *    | eccarius.munoz                 | May 28,2024           | DEPP-8840	            | Added test method for callout |
  */
 @isTest
 private class QualtricsSurveyServiceTest {
@@ -108,5 +109,36 @@ private class QualtricsSurveyServiceTest {
         AsyncApexJob jobs = AsyncApexJobsDAO.newInstance().findAsyncApexJobByApexName('QualtricsSurveyCalloutQueuable' ,AccessLevel.SYSTEM_MODE);
 
         System.assertEquals(null, jobs , 'QualtricsSurveyCalloutQueuable job should not run');
+    }
+
+    @isTest
+    private static void requestForQualtricsSurveyInfoTest(){        
+        
+        Boolean hasError = false;
+        String errorMessage;
+
+        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()){
+
+            ImplementationSelector.DAO.setMock(new QualtricsSurveysDAOMock());
+
+            List<Qualtrics_Survey__c> qualtricSurveyList = new List<Qualtrics_Survey__c>();
+            qualtricSurveyList.add(new Qualtrics_Survey__c());
+            qualtricSurveyList.add(new Qualtrics_Survey__c());
+            QualtricsSurveysDAO.newInstance().insertRecords(qualtricSurveyList, true, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new ESBProcessSurveyDistributionMock());
+            try{
+
+                QualtricsSurveyService.requestForQualtricsSurveyInfo(qualtricSurveyList);
+                
+            }catch(Exception e){
+                hasError = true;
+                errorMessage = e.getMessage();
+            }
+            Test.stopTest();
+        }
+        
+        System.assert(!hasError, 'Error in call out : ' + errorMessage);
     }
 }
