@@ -82,6 +82,49 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
         }        
     }
 
+    @isTest
+    public static void programEnrollmentAddressValidationTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
+            
+            List<hed__Address__c> addresses = new List<hed__Address__c>();
+            
+            for (Integer i = 0; i < contactList.size(); i++) {
+                hed__Address__c add = new hed__Address__c();
+                add.hed__Parent_Contact__c = contactList[i].Id;
+                add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
+                add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.hed__MailingCountry__c = 'Australia';
+                add.hed__MailingState__c = 'QLD';
+                add.hed__MailingCity__c = 'DALLARNIL';
+                add.hed__MailingPostalCode__c = '12345';
+                add.hed__MailingStreet__c = '1234 Test St';
+                add.hed__MailingStreet2__c = '4321 Tester Street';
+                addresses.add(add);
+            }
+			AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnList = ProgramEnrollmentsDAO.newInstance()
+            .getAllProgramEnrollmentsByContactId(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
+            for(hed__Program_Enrollment__c prog: programEnList){ 
+                if(prog.hed__Account__c!=null){
+                    prog.Enrollment_Status__c = 'Admitted';
+                }                          
+            }
+            ProgramEnrollmentsDAO.newInstance().updateRecords(programEnList, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            // Check if there are any existing running jobs for the ApplicationContactMatchingBatch
+            List<AsyncApexJob> jobs = [SELECT Id FROM AsyncApexJob WHERE Apexclass.Name ='ProgramEnrollmentAddressValidationBatch'];
+            
+            System.assert(!jobs.isEmpty(), 'batch job is empty');
+
+        }        
+    }
+
     private static void setupLeadScoreConfig(String citizenship, String studyLevel){
         List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
         leadScoreParentConfigList.add(
