@@ -1,5 +1,5 @@
 /**
- * @description Class for generating Mock HTTP response for Address Validation
+ * @description Class for generating generic Mock HTTP response
  * 
  * @author Accenture
  *
@@ -9,13 +9,13 @@
       | mark.j.mahilum            | May 29, 2024          | DEPP-8954    | Created file                                        |
  */
 @isTest
-public class AddressValidationMock implements HttpCalloutMock{
+public class GenericHttpCalloutMock implements HttpCalloutMock{
     protected Integer code;
     protected String status;
     protected String body;
     protected Map<String, String> responseHeaders;
     
-    public AddressValidationMock (Integer code, String status, String body) {       
+    public GenericHttpCalloutMock (Integer code, String status, String body) {       
         this.code = code;
         this.status = status;
         this.body = body ;
