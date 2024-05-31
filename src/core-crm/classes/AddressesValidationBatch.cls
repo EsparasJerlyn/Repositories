@@ -9,34 +9,23 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.karl.munoz            | May 29, 2024          | DEPP-8955              | Created file                 |
  */
-public with sharing class AddressValidationBatch implements Database.Batchable<sObject> {
+public with sharing class AddressesValidationBatch implements Database.Batchable<sObject> {
     
-    private Set<Id> addressIdSet;
+    private List<hed__Address__c> addresses;
 
-    public void validateAddress(Set<Id> addressIdSet){
-        this.addressIdSet = addressIdSet;
-        Database.executeBatch(this);
+    public AddressesValidationBatch(List<hed__Address__c> addresses){
+        this.addresses = addresses;
+    }
+    
+    public List<hed__Address__c> start(Database.BatchableContext bc){
+        return addresses;
     }
 
-    /**
-    * @description Retrieves all address that belongs to Contact with QUT Student = true
-    * @param bc - BatchableContext
-    * @return query - filtered query of lead score details
-    */
-    public Database.QueryLocator start(Database.BatchableContext bc){
-        return AddressesDAO.newInstance().getQueryLocatorByIds(addressIdSet);
-    }
-
-    /**
-    * @description Method to execute the batch
-    * @param bc - BatchableContext
-    * @param addressList - List of hed__Address__c
-    */
     public void execute(Database.BatchableContext bc, List<hed__Address__c> addressList){
         try{ 
 
             Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
-            //addressByContactMap = AddressValidation.validateAddress(addressList);
+            //addressByContactMap = AddressValidation.validateAddresses(addressList);
             
             ABS_Categorisation__c absCategorisation = new ABS_Categorisation__c();
             List<ABS_Categorisation__c> absCategorisationList = [SELECT Id, Low_SES_Lower_Boundary__c, Low_SES_Upper_Boundary__c FROM ABS_Categorisation__c Order by LastModifiedDate DESC];
@@ -62,15 +51,15 @@ public with sharing class AddressValidationBatch implements Database.Batchable<s
             }
 
             if(!contactsToUpdate.isEmpty()){
-                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
+                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.USER_MODE);
             }
 
             if(!addressToUpdate.isEmpty()){
-                AddressesDAO.newInstance().updateRecords(addressToUpdate, true, AccessLevel.SYSTEM_MODE);
+                AddressesDAO.newInstance().updateRecords(addressToUpdate, true, AccessLevel.USER_MODE);
             }
 
         }catch(Exception e){
-            Logger.error('Exception caught in execute method in Apex class AddressValidationBatch.').setExceptionDetails(e);
+            Logger.error('Exception caught in execute method in Apex class AddressesValidationBatch.').setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
@@ -84,6 +73,7 @@ public with sharing class AddressValidationBatch implements Database.Batchable<s
     private String setLowSocioEconomicStatus(ABS_Categorisation__c absCategorisation, hed__Address__c address){
         String lowSocioEcoStatus = 'No';
         if(
+            address.Validated__c == 'Validated' && 
             address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c && 
             address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c
         ){

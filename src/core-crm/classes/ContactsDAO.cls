@@ -419,7 +419,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c,QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c, ' +
             'Low_Socio_Economic_Status__c, Regional_Remote__c, Account.Is_Priority_Program__c, Account.RecordTypeId, ' +
             'ATSI_Code__c, Citizenship_Country__c, Is_Agent_Assisted__c, Agency_Name__c, Agency_Email__c, Is_International_Applicant__c, Applicant_Onshore__c, ' + 
-            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c ' +
+            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c, QUT_Student__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',

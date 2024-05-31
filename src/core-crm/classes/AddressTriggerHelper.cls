@@ -13,7 +13,7 @@ public with sharing class AddressTriggerHelper {
     
     public static void processValidation(List<hed__Address__c> addressList){
 
-        Set<Id> addressIdSet = new Set<Id>();
+        Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
         for(hed__Address__c address : addressList){
 
             if(
@@ -21,13 +21,21 @@ public with sharing class AddressTriggerHelper {
                 address.hed__Address_Type__c != null && 
                 address.hed__Address_Type__c == AddressesDAO.ADDRESS_TYPE_OTHER
             ){
-                addressIdSet.add(address.Id);
+                addressByContactMap.put(address.hed__Parent_Contact__c, address);
             }
         }
 
-        if(!addressIdSet.isEmpty()){
-            AddressValidationBatch batch = new AddressValidationBatch();
-            batch.validateAddress(addressIdSet);
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(addressByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
+        List<hed__Address__c> addressListForValidation = new List<hed__Address__c>();
+        for(hed__Address__c address : addressByContactMap.values()){
+            if(contactMap.containsKey(address.hed__Parent_Contact__c) && contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
+                addressListForValidation.add(address);
+            }
+        }
+
+        if(!addressListForValidation.isEmpty()){
+            AddressesValidationBatch batch = new AddressesValidationBatch(addressListForValidation);
+            Database.executeBatch(batch);
         }
     }
 
