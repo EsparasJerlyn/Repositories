@@ -3693,7 +3693,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OppIsAnonymousUpdateChildDonationsTest</apexClass>
+        <apexClass>OpportunityUpdateChildDonationsIsAnoTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
