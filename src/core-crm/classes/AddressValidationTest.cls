@@ -21,7 +21,7 @@ private class AddressValidationTest {
     static void processValidAddressesTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":80,"remotenessClass":"Urban","isValid":true}';
-            Test.setMock(HTTPCalloutMock.class, new AddressValidationMock(200, 'Success', mockResponseBody));
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Success', mockResponseBody));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -75,7 +75,7 @@ private class AddressValidationTest {
     static void processNotValidAddressesTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":80,"remotenessClass":"Urban","isValid":false}';
-            Test.setMock(HTTPCalloutMock.class, new AddressValidationMock(200, 'Success', mockResponseBody));
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Success', mockResponseBody));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -126,7 +126,7 @@ private class AddressValidationTest {
     static void processThrowExceptionAddressesTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":80,"remotenessClass":"Urban","isValid":false}';
-            Test.setMock(HTTPCalloutMock.class, new AddressValidationMock(201, 'Fail', mockResponseBody));
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(201, 'Fail', mockResponseBody));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;

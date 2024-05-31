@@ -10,8 +10,7 @@
  */
 public interface IABSCategorisationsDAO extends DmlInterface {
     
-    List<ABS_Categorisation__c> getLatestActiveABSCategorisations(
-        Boolean isActive,
+    List<ABS_Categorisation__c> getLatestUpdatedActiveCategorisationRecord(
         String accessLevel
     );
 }

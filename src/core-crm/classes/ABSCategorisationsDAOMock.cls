@@ -21,15 +21,15 @@ public inherited sharing class ABSCategorisationsDAOMock extends DmlBaseMock imp
         this.absCategorisationMap = (Map<Id, ABS_Categorisation__c>) super.records;
     }
     
-    public List<ABS_Categorisation__c> getLatestActiveABSCategorisations(Boolean isActive, String accessLevel){
-        List<ABS_Categorisation__c> absCategorisationList = new List<ABS_Categorisation__c>();        
+    public List<ABS_Categorisation__c> getLatestUpdatedActiveCategorisationRecord(String accessLevel){
+        List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();              
         
         for(ABS_Categorisation__c abs: absCategorisationMap.values()){
-            if(abs.Is_Active__c ==  isActive){
-                absCategorisationList.add(abs);
+            if(abs.Is_Active__c){
+                absCategorisation.add(abs);
             } 
         }
         
-        return absCategorisationList;
+        return absCategorisation;
     }
 }
