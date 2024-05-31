@@ -23,6 +23,7 @@
  *    |                                |                       |                        | getAppsWithLatestCalculatedIntakeDateByApplicantIds                           |
  *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
  *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added queryApplicationsByPastIntakeDateAndActiveApplicants method             |
+ *    | mark.j.mahilum                 | April 30, 2024        | DEPP-7987              | Added new queryLocatorGetApplicationsByBatchProcess for application batchjob  |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -334,4 +335,22 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         return Database.getQueryLocator(query);
     }
 
+    public Database.QueryLocator queryLocatorGetApplicationsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+        String query =
+            ' SELECT Id,RecordType.DeveloperName,Batch_Process__c,Application_Status__c,FirstName__c,LastName__c,Email__c,BirthDate__c,QUT_Student_ID__c,Name, ' +
+            ' StudyLink_ApplicantID__c,QTAC_ApplicantID__c,Mobile__c,Indigenous_Status__c,Citizenship_Status__c,Citizenship_Country__c,MiddleName__c,Lead__c ' +
+            ' FROM hed__Application__c ' +
+            ' WHERE Batch_Process__c IN: batchProcessSet ';
+        return Database.getQueryLocator(query,accessLevel);
+    }
+    
+    public List<hed__Application__c> getApplicationsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+        String query =
+            ' SELECT Id,RecordType.DeveloperName,Batch_Process__c,Application_Status__c,FirstName__c,LastName__c,Email__c,BirthDate__c,QUT_Student_ID__c,Name, ' +
+            ' StudyLink_ApplicantID__c,QTAC_ApplicantID__c,Mobile__c,Indigenous_Status__c,Citizenship_Status__c,Citizenship_Country__c,MiddleName__c,Lead__c ' +
+            ' FROM hed__Application__c ' +
+            ' WHERE Batch_Process__c IN: batchProcessSet ' +
+            ' LIMIT 1 ';
+        return Database.query(query,accessLevel);
+    }
 }
