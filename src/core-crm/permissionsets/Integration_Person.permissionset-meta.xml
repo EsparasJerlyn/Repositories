@@ -3393,6 +3393,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Engagement_List_Event__c.Engagement_List_Criteria_Title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement_List_Event__c.Engagement_List_Event_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3429,6 +3434,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Event__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Event__c.Previous_Academic_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
