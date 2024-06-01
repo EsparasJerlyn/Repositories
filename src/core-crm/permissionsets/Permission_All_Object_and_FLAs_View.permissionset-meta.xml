@@ -4428,6 +4428,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Engagement_List_Criteria__c.Previous_Academic_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Engagement_List_Criteria__c.Preview_Job_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
