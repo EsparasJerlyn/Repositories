@@ -7,6 +7,9 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eugene.andrew.abuan            | May 13, 2024          | DEPP-8485              | Created file                 |
+      | kim.howard.capanas             | May 15, 2024          | DEPP-7526              | Update ValidationResult      |
+      |                                |                       |                        | wrapper to include student   |  
+      |                                |                       |                        | details                      |
  */
 
 
@@ -17,7 +20,6 @@ public with sharing class StudentIdValidator {
     * @param studentIds - List of Student Id based on the given csv
     * @return List<ValidationResult> - List of Student Id with the corresponding Validation Result
     */
-    @AuraEnabled
     public static List<ValidationResult> validate(List<String> studentIds) {
         Set<String> uniqueStudentIds = new Set<String>(studentIds);
 
@@ -25,14 +27,13 @@ public with sharing class StudentIdValidator {
         Map<String, ValidationResult> validationResults = new Map<String, ValidationResult>();
 
         List<Contact> contacts = ContactsDAO.newInstance().getContactByStudentId(studentIds, AccessLevel.SYSTEM_MODE);
-
         for (Contact contact : contacts) {
             if (!validationResults.containsKey(contact.QUT_Student_ID__c)) {
                 // Add the student ID to the map with VALID result
-                validationResults.put(contact.QUT_Student_ID__c, new ValidationResult(ValidationResultCode.VALID, contact.QUT_Student_Id__c));
+                validationResults.put(contact.QUT_Student_ID__c, new ValidationResult(ValidationResultCode.VALID, contact));
             } else {
                 // Add the student ID to the map with MULTIPLE_MATCH result
-               	validationResults.put(contact.QUT_Student_ID__c, new ValidationResult(ValidationResultCode.MULTIPLE_MATCH, contact.QUT_Student_Id__c));
+               	validationResults.put(contact.QUT_Student_ID__c, new ValidationResult(ValidationResultCode.MULTIPLE_MATCH, contact));
             }
         }
         		
@@ -52,9 +53,21 @@ public with sharing class StudentIdValidator {
     */
     public class ValidationResult {
         private ValidationResultCode resultCode;
+        private String id;
         private String studentId;
+        private String fullName;
+        private String email;
+        private String mobilePhone;
 
-      
+        public ValidationResult(ValidationResultCode resultCode, Contact contact) {
+            this.resultCode = resultCode;
+            this.studentId = contact.QUT_Student_ID__c;
+            this.fullName = contact.Name;
+            this.email = contact.Email;
+            this.mobilePhone = contact.MobilePhone;
+            this.id = contact.Id;
+        }
+
         public ValidationResult(ValidationResultCode resultCode, String studentId) {
             this.resultCode = resultCode;
             this.studentId = studentId;
@@ -68,6 +81,26 @@ public with sharing class StudentIdValidator {
         @AuraEnabled
         public String getStudentId() {
             return studentId;
+        }
+
+        @AuraEnabled
+        public String getFullName() {
+            return fullName;
+        }
+
+        @AuraEnabled
+        public String getEmail() {
+            return email;
+        }
+
+        @AuraEnabled
+        public String getMobilePhone() {
+            return mobilePhone;
+        }
+        
+        @AuraEnabled
+        public String getId() {
+            return id;
         }
     }
 
