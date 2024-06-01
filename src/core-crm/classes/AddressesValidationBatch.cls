@@ -9,22 +9,32 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.karl.munoz            | May 29, 2024          | DEPP-8955              | Created file                 |
  */
-public with sharing class AddressesValidationBatch implements Database.Batchable<sObject> {
+public with sharing class AddressesValidationBatch implements Database.Batchable<hed__Address__c>, Database.AllowsCallouts {
     
-    private List<hed__Address__c> addresses;
+    private List<hed__Address__c> addressList;
 
-    public AddressesValidationBatch(List<hed__Address__c> addresses){
-        this.addresses = addresses;
+    @SuppressWarnings('PMD.EmptyStatementBlock')
+    public AddressesValidationBatch(){}
+
+    public AddressesValidationBatch(List<hed__Address__c> addressList){
+        this.addressList = addressList;
     }
     
     public List<hed__Address__c> start(Database.BatchableContext bc){
-        return addresses;
-    }
+        return addressList;
+    }    
 
     public void execute(Database.BatchableContext bc, List<hed__Address__c> addressList){
+        processValidation(addressList);
+    }  
+
+    @SuppressWarnings('PMD.EmptyStatementBlock')
+    public void finish(Database.BatchableContext bc) {}
+
+    public void processValidation(List<hed__Address__c> addressList){
         try{ 
             Map<Id, hed__Address__c> addressByContactMap = new AddressValidation(addressList).validateAddresses();
-            
+
             ABS_Categorisation__c absCategorisation = new ABS_Categorisation__c();
             List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('USER_MODE');
             for(ABS_Categorisation__c absCateg : absCategorisationList){
@@ -39,15 +49,14 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
                 address.ABS_Categorisation__c = absCategorisation?.Id;
                 addressToUpdate.add(address);
 
-                Contact contact = new Contact();
                 contactsToUpdate.add(
                     new Contact(
-                        Id = contact.Id,
+                        Id = contactId,
                         Low_Socio_Economic_Status__c = setLowSocioEconomicStatus(absCategorisation, address)
                     )
                 );
             }
-
+            
             if(!contactsToUpdate.isEmpty()){
                 ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.USER_MODE);
             }
@@ -63,20 +72,19 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
                 Logger.saveLog();
             }
         }
-    }  
-
-    @SuppressWarnings('PMD.EmptyStatementBlock')
-    public void finish(Database.BatchableContext bc) {}
+    }
 
     private String setLowSocioEconomicStatus(ABS_Categorisation__c absCategorisation, hed__Address__c address){
-        String lowSocioEcoStatus = 'No';
+        String lowSocioEcoStatus = ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO;
+        
         if(
-            address.Validated__c == 'Validated' && 
+            address.Validated__c == AddressesDAO.VALID_ADDRESS && 
             address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c && 
             address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c
         ){
-            lowSocioEcoStatus = 'Yes';
+            lowSocioEcoStatus = ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES;
         }
+
         return lowSocioEcoStatus;
     }
 

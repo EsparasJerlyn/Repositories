@@ -11,7 +11,7 @@
  */
 public with sharing class AddressTriggerHelper {
     
-    public static void processValidation(List<hed__Address__c> addressList){
+    public static void validateAddress(List<hed__Address__c> addressList){
 
         Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
         for(hed__Address__c address : addressList){
@@ -33,9 +33,18 @@ public with sharing class AddressTriggerHelper {
             }
         }
 
+        processValidation(addressListForValidation);
+    }
+    
+    private static void processValidation (List<hed__Address__c> addressListForValidation){
         if(!addressListForValidation.isEmpty()){
-            AddressesValidationBatch batch = new AddressesValidationBatch(addressListForValidation);
-            Database.executeBatch(batch);
+            Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
+            if(isAsyncProcess){
+                new AddressesValidationBatch().processValidation(addressListForValidation);
+            }else{
+                AddressesValidationBatch batch = new AddressesValidationBatch(addressListForValidation);
+                Database.executeBatch(batch);
+            }
         }
     }
 

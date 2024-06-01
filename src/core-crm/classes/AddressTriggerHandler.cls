@@ -16,7 +16,7 @@ public with sharing class AddressTriggerHandler implements Disableable,  AfterIn
     * @param newItems - List of hed__Address__c.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        AddressTriggerHelper.processValidation((List<hed__Address__c>) newItems.values());
+        AddressTriggerHelper.validateAddress((List<hed__Address__c>) newItems.values());
     }
 
     /**

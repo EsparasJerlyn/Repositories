@@ -26,15 +26,18 @@ public inherited sharing class AddressValidation {
                 AddressValidationResult addressResponse = loqateAddressValidation(address);             
                 String isValidAddress = (addressResponse!=null && addressResponse.isValid) ? AddressesDAO.VALID_ADDRESS : AddressesDAO.NOT_VALID_ADDRESS;
                 
+                hed__address__c addressValidated = new hed__address__c();
+                addressValidated.Id = address.Id;
+                addressValidated.Validated__c = isValidAddress;   
+
                 if(isValidAddress == AddressesDAO.VALID_ADDRESS){
-                    address.Statistical_Area_1_Id__c = addressResponse.statisticalArea1;
-                    address.Meshblock_Id__c = addressResponse.meshBlockId;
-                    address.Socio_Economic_Percentile__c = addressResponse.socioEconomicPercentile;
-                    address.Remoteness_Class__c = addressResponse.remotenessClass;
+                    addressValidated.Statistical_Area_1_Id__c = addressResponse.statisticalArea1;
+                    addressValidated.Meshblock_Id__c = addressResponse.meshBlockId;
+                    addressValidated.Socio_Economic_Percentile__c = addressResponse.socioEconomicPercentile;
+                    addressValidated.Remoteness_Class__c = addressResponse.remotenessClass;
                 }
-                
-                address.Validated__c = isValidAddress;     
-                mapOfContactAddress.put(address.hed__Parent_Contact__c,address);
+                  
+                mapOfContactAddress.put(address.hed__Parent_Contact__c, addressValidated);
             }
         }
         
