@@ -34,7 +34,7 @@ public with sharing class AddressValidationManager {
             
         List<hed__address__c> addressToInsert = new List<hed__address__c>();
         Map<Id,Contact> contactToUpdateMap = new Map<Id,Contact>();
-        Map<Id,hed__address__c> addressToUpdateMap = new Map<Id,hed__address__c>();
+        List<hed__address__c> addressToUpdateMap = new List<hed__address__c>();
         
         try {
             
@@ -57,7 +57,7 @@ public with sharing class AddressValidationManager {
                 //Address to update and associate ABS Categorisation 
                 hed__address__c address = contactAddressMap.get(contactId);
                 address.ABS_Categorisation__c = absCategorisation[0].Id;
-                addressToUpdateMap.put(address.Id,address);
+                addressToUpdateMap.add(address);
                 
                 //contact to update that determines the low socio economic status
                 Contact con = new Contact(Id = contactId);           
@@ -84,15 +84,15 @@ public with sharing class AddressValidationManager {
             
         
             if(!contactToUpdateMap.values().isEmpty()){
-                ContactsDAO.newInstance().updateRecords(contactToUpdateMap.values(), false, AccessLevel.USER_MODE);
+                ContactsDAO.newInstance().updateRecords(contactToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
             } 
             
             if(!addressToInsert.isEmpty()){
-                AddressesDAO.newInstance().insertRecords(addressToInsert, false, AccessLevel.USER_MODE);
+                AddressesDAO.newInstance().insertRecords(addressToInsert, false, AccessLevel.SYSTEM_MODE);
             }
             
-            if(!addressToUpdateMap.values().isEmpty()){
-                AddressesDAO.newInstance().updateRecords(addressToUpdateMap.values(), false, AccessLevel.USER_MODE);
+            if(!addressToUpdateMap.isEmpty()){
+                AddressesDAO.newInstance().updateRecords(addressToUpdateMap, false, AccessLevel.SYSTEM_MODE);
             }
             
         } catch (Exception e) {
@@ -105,14 +105,14 @@ public with sharing class AddressValidationManager {
         }
     }
     
-    private void validateContactWithFirstAdmittedAddress(Map<Id,hed__Address__c> contactValidatedAddress,Map<Id,hed__address__c> addressToUpdateMap,Map<Id,Contact> contactToUpdateMap){
+    private void validateContactWithFirstAdmittedAddress(Map<Id,hed__Address__c> contactValidatedAddress,List<hed__address__c> addressToUpdateMap,Map<Id,Contact> contactToUpdateMap){
         Map<Id, hed__address__c> contactValidatedFirstAdmittedAddress = evaluateContactWithFirstAdmittedAddress(contactValidatedAddress);
         
         for(Id contactId : contactValidatedFirstAdmittedAddress.keySet()){
             
             hed__address__c address = contactValidatedFirstAdmittedAddress.get(contactId);
             address.ABS_Categorisation__c = absCategorisation[0].Id;
-            addressToUpdateMap.put(address.Id,address);
+            addressToUpdateMap.add(address);
             
             //get regional Remote from ABS and Remoteness Class
             String regionalRemote = (remotenessMap.containsKey(address.Remoteness_Class__c) && remotenessMap.get(address.Remoteness_Class__c))?'Yes':'No';
