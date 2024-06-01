@@ -29,6 +29,7 @@ public with sharing class ELCProgramEnrollmentParser {
 
     private void parse() {
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
+        programEnrollmentCriteria = processPreviousAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
         programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);        
         programEnrollmentCriteria = processProgramEnrollmentKeyDateOffsets(engagementListCriteria, programEnrollmentCriteria);
         if(programEnrollmentCriteria != null && !programEnrollmentCriteria.isEmpty()){
@@ -40,6 +41,13 @@ public with sharing class ELCProgramEnrollmentParser {
     private ProgramEnrollmentsDAO.Criteria processAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
         if (String.isNotBlank(engagementListCriteria.Academic_Status__c)) {
             programEnrollmentCriteria.setAcademicStatus(engagementListCriteria.Academic_Status__c);
+        }
+        return programEnrollmentCriteria;
+    }
+
+    private ProgramEnrollmentsDAO.Criteria processPreviousAcademicStatus(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria) {
+        if (String.isNotBlank(engagementListCriteria.Previous_Academic_Status__c)) {
+            programEnrollmentCriteria.setPreviousAcademicStatus(engagementListCriteria.Previous_Academic_Status__c);
         }
         return programEnrollmentCriteria;
     }
