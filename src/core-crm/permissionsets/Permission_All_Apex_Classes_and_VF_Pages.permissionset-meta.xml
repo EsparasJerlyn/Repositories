@@ -4397,6 +4397,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>OutreachCaseImportCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OutreachCaseImportCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>OutreachCasePostCreationQueuable</apexClass>
         <enabled>true</enabled>
     </classAccesses>

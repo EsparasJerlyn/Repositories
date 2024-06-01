@@ -13,6 +13,9 @@
    
     public static final String RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA = 'Entry_Criteria';
     public static final Id RECORD_TYPE_ID_ENTRY_CRITERIA = Schema.SObjectType.Engagement_List_Criteria__c.getRecordTypeInfosByDeveloperName().get(RECORD_TYPE_DEVELOPER_NAME_ENTRY_CRITERIA).getRecordTypeId();
+
+    public static final String RECORD_TYPE_DEVELOPER_NAME_IMPORTED = 'Imported';
+    public static final Id RECORD_TYPE_ID_IMPORTED = Schema.SObjectType.Engagement_List_Criteria__c.getRecordTypeInfosByDeveloperName().get(RECORD_TYPE_DEVELOPER_NAME_IMPORTED).getRecordTypeId();
     
     public static final String KEY_DATE_COMPLETED_CADENCE_DATE = 'Completed Cadence Date';
     public static final String KEY_DATE_LEAVE_OF_ABSENCE_END_DATE = 'Leave Of Absence End Date';
@@ -99,7 +102,14 @@
             'Key_Date_Offset_Lower_Boundary__c, ' +
             'Key_Date_Offset_Upper_Boundary__c, ' +
             'Engagement_List_Criteria_Title__c, ' +
-            'Preview_Result_Attachment_Id__c ' +
+            'Preview_Result_Attachment_Id__c, ' +
+            'Cases_Created__c, ' +
+            'Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c, ' +
+            'Engagement_List_Configuration__r.Start_Date__c, ' +
+            'Engagement_List_Configuration__r.End_Date__c, ' +
+            'Engagement_List_Configuration__r.Name, ' +
+            'Engagement_List_Configuration__r.Id, ' + 
+            'Engagement_List_Configuration__c ' + 
             'FROM Engagement_List_Criteria__c ' +
             'WHERE Id = :recordId LIMIT 1 ' +
             'FOR UPDATE', //Fix racing condition during preview
