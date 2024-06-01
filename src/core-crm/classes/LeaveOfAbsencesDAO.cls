@@ -65,6 +65,10 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         if(programEnrollmentCriteria.getAcademicStatus() != null){
             soql += 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
+        if(programEnrollmentCriteria.getPreviousAcademicStatus() != null){
+            System.debug('may laman naman');
+            soql += 'AND hed_Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' ';
+        }
         if(programEnrollmentCriteria.getEnrollmentStage() != null){
             soql += 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
@@ -116,7 +120,7 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
     ){
         return 'SELECT ' + 
         ' Id, Student__c, Name, Is_On_Leave__c, End_Date__c, ' +
-        ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' +
+        ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Previous_Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' +
         ' Student__r.hed__Citizenship_Status__c, Student__r.QUT_Student__c, Student__r.RecordType.DeveloperName ' +
         ' FROM Leave_Of_Absence__c ' +
         getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);

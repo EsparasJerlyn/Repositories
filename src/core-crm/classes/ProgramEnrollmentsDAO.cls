@@ -109,6 +109,9 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         if(programEnrollmentCriteria.getAcademicStatus() != null){
             soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
+        if(programEnrollmentCriteria.getPreviousAcademicStatus() != null){
+            soql += 'AND Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' ';
+        }
         if(programEnrollmentCriteria.getEnrollmentStage() != null){
             soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
@@ -164,7 +167,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     ){
         return 'SELECT ' + 
         ' Id, hed__Contact__c, Name,  ' +
-        ' Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, Academic_Status_Date__c, ' +
+        ' Academic_Status__c, Previous_Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, Academic_Status_Date__c, ' +
         ' hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
         ' FROM hed__Program_Enrollment__c ' +
         getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);
@@ -183,6 +186,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
      */
     public class Criteria {
         private String academicStatus;
+        private String previousAcademicStatus;
         private String enrollmentStage;
         private Set<String> enrollmentStatus;
         private List <String> categoryType;
@@ -195,6 +199,14 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
 
         public void setAcademicStatus(String varAcademicStatus){
             this.academicStatus = varAcademicStatus;
+        }
+
+        public String getPreviousAcademicStatus(){
+            return this.previousAcademicStatus;
+        }
+
+        public void setPreviousAcademicStatus(String previousAcademicStatus){
+            this.previousAcademicStatus = previousAcademicStatus;
         }
         
         public String getEnrollmentStage(){
@@ -238,7 +250,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         }
        
         public Boolean isEmpty() {
-            return academicStatus == null && enrollmentStage == null 
+            return academicStatus == null && previousAcademicStatus == null && enrollmentStage == null 
                 && categoryType == null && enrollmentStatus == null
                 && academicStatusDateFrom == null && academicStatusDateTo == null;
         }

@@ -43,12 +43,13 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
             contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
+
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
-
 
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
@@ -63,6 +64,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
                 + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
@@ -101,12 +103,13 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
             contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
+
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
-
 
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
@@ -121,6 +124,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
                 + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN ('+  DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
@@ -145,12 +149,13 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
             contactCriteria.setCitizenshipStatus(ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
+
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
-
 
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
             programEnrollmentBreachCriteria.setBreachStatus(ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH);
@@ -165,6 +170,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
                 + 'AND Breach_Date__c <= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateFrom()) + ' ' 
                 + 'AND Breach_Date__c >= ' + DynamicQueryService.convertDatetoDateString(programEnrollmentBreachCriteria.getBreachDateTo()) + ' '
                 + 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType()))+ ') '
@@ -192,6 +198,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     
             List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Previous_Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
@@ -217,6 +224,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
