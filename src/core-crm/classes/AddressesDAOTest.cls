@@ -95,13 +95,14 @@ public with sharing class AddressesDAOTest {
     }
     
     @isTest
-    static void testOtherTypeAddressesByContactIdsAndAddressType() {
+    static void testAddressesByContactIdsAndAddressType() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                con.QUT_Student__c = true;
             }         
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
             
@@ -110,7 +111,7 @@ public with sharing class AddressesDAOTest {
             for (Integer i = 0; i < contactList.size(); i++) {
                 hed__Address__c add = new hed__Address__c();
                 add.hed__Parent_Contact__c = contactList[i].Id;
-                add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
+                add.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
                 add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
                 add.hed__MailingCountry__c = 'Australia';
                 add.hed__MailingState__c = 'QLD';
@@ -126,7 +127,7 @@ public with sharing class AddressesDAOTest {
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsAndAddressType(
                     new Map<Id,Contact>(contactList).keySet(),
-                    new Set<String>{AddressesDAO.OTHER_ADDRESS},
+                    new Set<String>{AddressesDAO.FIRST_ADMITTED_ADDRESS},
                     'USER_MODE'
                 );
             
@@ -138,7 +139,7 @@ public with sharing class AddressesDAOTest {
 
             
             for(hed__Address__c address: addressList){
-                System.Assert.areEqual(AddressesDAO.OTHER_ADDRESS, address.hed__Address_Type__c , 'The address Tyoe us not equal to "Other"');
+                System.Assert.areEqual(AddressesDAO.FIRST_ADMITTED_ADDRESS, address.hed__Address_Type__c , 'The address type is not equal to "First Admitted Adress"');
             }
         }
         Test.stopTest();
