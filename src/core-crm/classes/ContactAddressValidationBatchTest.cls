@@ -104,16 +104,7 @@ private class ContactAddressValidationBatchTest {
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             }         
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
-            
             List<hed__Address__c> addresses = new List<hed__Address__c>();
-            
-            for (Integer i = 0; i < contactList.size(); i++) {
-                hed__Address__c add = new hed__Address__c();
-                add.hed__Parent_Contact__c = contactList[i].Id;
-                add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
-                add.Validated__c = AddressesDAO.VALID_ADDRESS;
-                addresses.add(add);
-            }
             
             for (Integer i = 0; i < contactList.size(); i++) {
                 hed__Address__c add = new hed__Address__c();
