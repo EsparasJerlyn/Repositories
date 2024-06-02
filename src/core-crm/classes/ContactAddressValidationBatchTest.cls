@@ -102,7 +102,6 @@ private class ContactAddressValidationBatchTest {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
-                con.QUT_Student__c = true;
             }         
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
             
