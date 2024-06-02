@@ -73,6 +73,13 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final String ATSI_CODE_ISLANDER = 'Torres Strait Islander';
     public static final String ATSI_CODE_ABORIGINAL_ISLANDER = 'Aboriginal and Torres Strait Islander';
 
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_YES = 'Yes';
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_NO = 'No';
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_UNKNOWN = 'Unknown';
+    public static final String REGIONAL_REMOTE_YES = 'Yes';
+    public static final String REGIONAL_REMOTE_NO = 'No';
+    public static final String REGIONAL_REMOTE_UNKNOWN = 'Unknown';
+
     public static IContactsDAO newInstance() {
         return (IContactsDAO) ImplementationSelector.DAO.newInstance(Contact.SObjectType);
     }

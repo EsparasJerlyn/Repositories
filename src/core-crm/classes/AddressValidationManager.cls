@@ -279,7 +279,7 @@ public with sharing class AddressValidationManager {
     private String setLowSocioEconomicStatus(hed__address__c address, ABS_Categorisation__c absCategorisation) {
         Boolean isLowSocioEconomicAddress = address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c &&
                                             address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c;
-        return (isLowSocioEconomicAddress) ? 'Yes' : 'No';
+        return (isLowSocioEconomicAddress) ? ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES : ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO;
     }
     
     /**
@@ -295,7 +295,7 @@ public with sharing class AddressValidationManager {
      * @return A string indicating whether the address has regional remoteness ('Yes' or 'No').
      */
     private String setRegionalRemoteValue(hed__address__c address, Map<String, Boolean> remotenessMap) {
-        return (remotenessMap.containsKey(address.Remoteness_Class__c) && remotenessMap.get(address.Remoteness_Class__c)) ? 'Yes' : 'No';
+        return (remotenessMap.containsKey(address.Remoteness_Class__c) && remotenessMap.get(address.Remoteness_Class__c)) ? ContactsDAO.REGIONAL_REMOTE_YES : ContactsDAO.REGIONAL_REMOTE_NO;
     }
     
     /**
@@ -331,7 +331,7 @@ public with sharing class AddressValidationManager {
                 if(contactFirstAdmittedAddress.containsKey(contactId)){
                     hed__Address__c firstAdmittedAddress = contactFirstAdmittedAddress.get(contactId);
                     // Check if the address is not validated
-                    if (firstAdmittedAddress.Validated__c != 'Valid') {
+                    if (firstAdmittedAddress.Validated__c != AddressesDAO.VALID_ADDRESS) {
                         // Add the address to the not validated list
                         notValidatedAddress.add(firstAdmittedAddress);
                     }
