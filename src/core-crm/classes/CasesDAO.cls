@@ -19,7 +19,9 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public static final String ORIGIN_WHATSAPP = 'WhatsApp';
     public static final String ORIGIN_ENGAGEMENT_LIST = 'Engagement List';
+    public static final String ORIGIN_EMAIL = 'Email';
     public static final String STATUS_CREATED = 'Created';
+    public static final String STATUS_CLOSED = 'Closed';
     public static final String DESCRIPTION_ENGAGEMENT_LIST = 'This case has been automatically generated as part of an Engagement List Configuration.';
     public static final String INITIAL_COMMUNICATION_STATUS_SENT = 'Sent';
     public static final String INITIAL_COMMUNICATION_STATUS_PENDING = 'Pending';
@@ -145,7 +147,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.query(
             'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
                 'Contact.Lead_Source_Category__c, Lead__r.Lead_Source_Category__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, ' +
-                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c, ' +
+                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c, Outreach_Key__c, ' +
                 'Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c, CaseNumber, Contact.Name, Status, Owner.Name ' +           
             'FROM Case ' +
             'WHERE Id IN :caseIds ',

@@ -14,6 +14,7 @@
       | mark.j.mahilum                 | Oct 30,2023           | DEPP-7051              | Updated case priority for whatsapp case origin   |
       | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Updated matchExistingContactOrLeadToCase         |
       | eccarius.munoz                 | April 5, 2024         | DEPP-7533	            | Added handleOutreachCasePriority                 | 
+      | eccarius.munoz                 | June 2, 2024          | DEPP-8484	            | Added setOutreachKeyForClosedCase                | 
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -409,6 +410,32 @@ public with sharing class CaseTriggerHelper {
                     caseRecord.Priority = CasesDAO.PRIORITY_MEDIUM;
                 }
             }
+        }
+    }
+
+    /**
+     * @description Sets the Outreach Key for outreach record type only
+     * @param newItems - List of case record
+     */
+    public static void setOutreachKeyForClosedCase(List<Case> newItems, Map<Id, Case> oldItems) {
+
+        List<Case> casesToUpdate = new List<Case>();      
+        for(Case caseRecord : newItems){
+            if(
+                oldItems.get(caseRecord.Id).Status != caseRecord.Status &&
+                caseRecord.RecordTypeId == CasesDAO.OUTREACH_RECTYPE_ID && 
+                caseRecord.Status == CasesDAO.STATUS_CLOSED && 
+                caseRecord.IsClosed
+            ){
+                Case caseToUpdate = new Case();
+                caseToUpdate.Id = caseRecord.Id;
+                caseToUpdate.Outreach_Key__c = caseRecord.Engagement_List_Configuration__c + '_' + caseRecord.ContactId + '_' + caseRecord.Id;
+                casesToUpdate.add(caseToUpdate);
+            }
+        }
+
+        if(!casesToUpdate.isEmpty()){
+            CasesDAO.newInstance().updateRecords(casesToUpdate, true, AccessLevel.SYSTEM_MODE);
         }
     }
 

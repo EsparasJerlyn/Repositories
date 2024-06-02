@@ -333,4 +333,50 @@ private class CaseTriggerHelperTest {
             System.assertEquals(numberOfContactsForLow, lowPrioCase, 'Case priority should be set to Low.');
         }
     }
+
+    @isTest
+    private static void testSetOutreachKeyForClosedCase(){
+        
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
+            config.Name = 'ELConfig Test';
+            config.Engagement_List_Configuration_Status__c = 'Active';
+            config.Start_Date__c = Date.today().addDays(-1);
+            config.End_Date__c = Date.today().addDays(1);
+            config.Qualtrics_Instrument_Id__c = 'test';
+            config.Instrument__c = 'test';
+            configs.add(config);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
+
+            Id studentRetentionId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
+            List<Case> caseList = new List<Case>();
+            Case outreachCase = TestDataFactory.createTestOutreachCaseRecord(configs[0], studentRetentionId, contactList[0].Id);
+            caseList.add(outreachCase);
+            CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Case> caseListToUpdate = new List<Case>();
+            for(Case caseRecord : caseList){
+                caseListToUpdate.add(new Case(
+                    Id = caseRecord.Id,
+                    Closure_Code__c = 'Unsuccessful - Uncontactable',
+                    Closure_Details__c = 'This is a test closure details',
+                    Status = CasesDAO.STATUS_CLOSED
+                ));
+            }
+            CasesDAO.newInstance().updateRecords(caseListToUpdate, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            String expectedOutreachKey = configs[0].Id + '_' + contactList[0].Id + '_' + caseListToUpdate[0].Id;
+            List<Case> updatedCaseList = CasesDAO.newInstance().getCasesByIds(new Set<Id>{caseListToUpdate[0].Id}, AccessLevel.SYSTEM_MODE);
+            System.assertEquals(expectedOutreachKey, updatedCaseList[0].Outreach_Key__c, 'Incorrect outreach key.');
+        }
+    }
 }
