@@ -155,7 +155,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
     ){
         return 'SELECT ' + 
         'Id, hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
-        'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
+        'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Previous_Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
         'hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
         'FROM hed__Course_Enrollment__c ' +
         getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
@@ -190,6 +190,9 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
 
         if(programEnrollmentCriteria.getAcademicStatus() != null){
             soql += 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ' ;
+        }
+        if(programEnrollmentCriteria.getPreviousAcademicStatus() != null){
+            soql += 'AND hed__Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' ';
         }
         if(programEnrollmentCriteria.getEnrollmentStage() != null){
             soql += 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ' ;

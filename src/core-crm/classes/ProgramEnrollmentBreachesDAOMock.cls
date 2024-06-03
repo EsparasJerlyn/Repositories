@@ -114,6 +114,9 @@
         if(programEnrollmentCriteria.getAcademicStatus() != null){
             soql += 'AND Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
+        if(programEnrollmentCriteria.getPreviousAcademicStatus() != null){
+            soql += 'AND Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' ';
+        }
         if(programEnrollmentCriteria.getEnrollmentStage() != null){
             soql += 'AND Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }

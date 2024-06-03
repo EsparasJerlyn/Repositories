@@ -73,7 +73,12 @@ public with sharing class ELECandidateGenerator {
                 
                 if (!elcParser.getELCProgramEnrollmentParser().getProgramEnrollmentCriteria().isEmpty()) {
                     newEvent.program_enrollment__c = programEnrollment.id;
-                    newEvent.Academic_Status__c = programEnrollment.Academic_Status__c;
+                    if(programEnrollment.Academic_Status__c != null){
+                        newEvent.Academic_Status__c = programEnrollment.Academic_Status__c;
+                    }
+                    if(programEnrollment.Previous_Academic_Status__c != null){
+                        newEvent.Previous_Academic_Status__c = programEnrollment.Previous_Academic_Status__c;
+                    }
                     newEvent.Program_Enrollment_Status__c = programEnrollment.Enrollment_Status__c;
                 }
 
@@ -144,7 +149,6 @@ public with sharing class ELECandidateGenerator {
         List<Engagement_List_Event__c> events = new List<Engagement_List_Event__c>();
         for (Engagement_List_Event__c event : engagemenListEvents) {
             for (Course_Connection_Assessment__c courseConnectionAssessment : courseConnectionAssessments) {               
-                System.debug('CHECK1 : ' + event);
                 Engagement_List_Event__c newEvent = event.clone();
 
                 if (!elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().isEmpty()) {
@@ -153,7 +157,6 @@ public with sharing class ELECandidateGenerator {
 
                 if (elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getDueDateFrom() != null ||
                     elcParser.getELCCourseConnectionAssessmentParser().getCourseConnectionAssessmentCriteria().getDueDateTo() != null) {
-                        System.debug('CHECK2 : ' + courseConnectionAssessment.Assessment_Name__r.Due_Date__c);
                     newEvent.Key_Date__c = courseConnectionAssessment.Assessment_Name__r.Due_Date__c;
                 }
 

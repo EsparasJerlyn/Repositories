@@ -45,11 +45,10 @@ public with sharing class LeaveOfAbsencesDAOTest {
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
-
-
             
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
@@ -62,6 +61,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' 
                 + 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND hed_Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
@@ -104,11 +104,10 @@ public with sharing class LeaveOfAbsencesDAOTest {
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
-
-
             
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
@@ -121,6 +120,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
                 + 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' 
                 + 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND hed_Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
@@ -149,11 +149,10 @@ public with sharing class LeaveOfAbsencesDAOTest {
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
-
-
             
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             leaveOfAbsenceCriteria.setIsOnleave(true);
@@ -163,13 +162,14 @@ public with sharing class LeaveOfAbsencesDAOTest {
             String whereClauseString = LeaveOfAbsencesDAO.newInstance().getQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
             String expectedWhereClause = 'SELECT ' 
                 + ' Id, Student__c, Name, Is_On_Leave__c, End_Date__c, ' 
-                + ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' 
+                + ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Previous_Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' 
                 + ' Student__r.hed__Citizenship_Status__c, Student__r.QUT_Student__c, Student__r.RecordType.DeveloperName ' 
                 + ' FROM Leave_Of_Absence__c WHERE ' +
                 + 'Is_On_Leave__c = ' + leaveOfAbsenceCriteria.getIsOnLeave() + ' '
                 + 'AND End_Date__c <= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateFrom()) + ' ' 
                 + 'AND End_Date__c >= ' + DynamicQueryService.convertDatetoDateString(leaveOfAbsenceCriteria.getEndDateTo()) + ' '
                 + 'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND hed_Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed_Program_Enrollment__r.Enrollment_Status__c IN (\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed_Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  IN ('+ DynamicQueryService.formatStringSetForWhereClause(new Set<String>(programEnrollmentCriteria.getCategoryType())) + ') '
@@ -198,6 +198,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     
             List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Previous_Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
@@ -219,6 +220,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
             
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
