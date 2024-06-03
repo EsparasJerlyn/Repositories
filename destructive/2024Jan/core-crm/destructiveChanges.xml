@@ -120,6 +120,11 @@
         <!--DEPP-8542 Start-->
         <name>AutoResponseRule</name>
     </types>
+
+    <types>
+        <members>QUTStudentRetentionEmailTemplates/Outreach_Held_Show_Cause_Unsatisfactory_Academic_Performance_1716856187779</members>
+        <name>EmailTemplate</name>
+    </types>
     
     <version>59.0</version> 
 </Package>
