@@ -60,7 +60,7 @@ public with sharing class AddressesValidationBatchTest {
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
 
             Test.startTest();
-            AddressesValidationBatch batch = new AddressesValidationBatch(addresses);
+            AddressesValidationBatch batch = new AddressesValidationBatch(addresses, new Map<Id,Contact>(contactList));
             Database.executeBatch(batch);
             Test.stopTest();
 
@@ -122,7 +122,7 @@ public with sharing class AddressesValidationBatchTest {
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
             
             Test.startTest();
-            AddressesValidationBatch batch = new AddressesValidationBatch(addresses);
+            AddressesValidationBatch batch = new AddressesValidationBatch(addresses, new Map<Id,Contact>(contactList));
             Database.executeBatch(batch);
             Test.stopTest();
 

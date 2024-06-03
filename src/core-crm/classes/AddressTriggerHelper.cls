@@ -33,16 +33,16 @@ public with sharing class AddressTriggerHelper {
             }
         }
 
-        processValidation(addressListForValidation);
+        processValidation(addressListForValidation, contactMap);
     }
     
-    private static void processValidation (List<hed__Address__c> addressListForValidation){
+    private static void processValidation (List<hed__Address__c> addressListForValidation, Map<Id, Contact> contactMap){
         if(!addressListForValidation.isEmpty()){
             Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
             if(isAsyncProcess){
-                new AddressesValidationBatch().processValidation(addressListForValidation);
+                new AddressesValidationBatch().processValidation(addressListForValidation, contactMap);
             }else{
-                AddressesValidationBatch batch = new AddressesValidationBatch(addressListForValidation);
+                AddressesValidationBatch batch = new AddressesValidationBatch(addressListForValidation, contactMap);
                 Database.executeBatch(batch);
             }
         }

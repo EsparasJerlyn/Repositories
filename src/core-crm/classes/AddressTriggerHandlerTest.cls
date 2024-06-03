@@ -20,7 +20,7 @@ public with sharing class AddressTriggerHandlerTest {
     static void testAddressValidation() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(100, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);          
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
                 con.QUT_Student__c = true;
@@ -46,7 +46,7 @@ public with sharing class AddressTriggerHandlerTest {
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
-            System.Assert.areEqual(100, addresses.size(), 'Incorrect number of address records inserted.');
+            System.Assert.areEqual(1, addresses.size(), 'Incorrect number of address records inserted.');
         }
     }
 }

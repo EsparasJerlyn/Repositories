@@ -12,12 +12,14 @@
 public with sharing class AddressesValidationBatch implements Database.Batchable<hed__Address__c>, Database.AllowsCallouts {
     
     private List<hed__Address__c> addressList;
+    private Map<Id, Contact> contactMap;
 
     @SuppressWarnings('PMD.EmptyStatementBlock')
     public AddressesValidationBatch(){}
 
-    public AddressesValidationBatch(List<hed__Address__c> addressList){
+    public AddressesValidationBatch(List<hed__Address__c> addressList, Map<Id, Contact> contactMap){
         this.addressList = addressList;
+        this.contactMap = contactMap;
     }
     
     public List<hed__Address__c> start(Database.BatchableContext bc){
@@ -25,13 +27,13 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
     }    
 
     public void execute(Database.BatchableContext bc, List<hed__Address__c> addressList){
-        processValidation(addressList);
+        processValidation(addressList, contactMap);
     }  
 
     @SuppressWarnings('PMD.EmptyStatementBlock')
     public void finish(Database.BatchableContext bc) {}
 
-    public void processValidation(List<hed__Address__c> addressList){
+    public void processValidation(List<hed__Address__c> addressList, Map<Id, Contact> contactDetailsMap){
         try{ 
             Map<Id, hed__Address__c> addressByContactMap = new AddressValidation(addressList).validateAddresses();
 
@@ -49,12 +51,21 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
                 address.ABS_Categorisation__c = absCategorisation?.Id;
                 addressToUpdate.add(address);
 
-                contactsToUpdate.add(
-                    new Contact(
-                        Id = contactId,
-                        Low_Socio_Economic_Status__c = AddressValidationManager.setLowSocioEconomicStatus(address, absCategorisation)
-                    )
-                );
+                String lowSocioEconomicStatus = AddressValidationManager.setLowSocioEconomicStatus(address, absCategorisation);
+                
+                Boolean isContactForUpdate = 
+                    String.isNotBlank(lowSocioEconomicStatus) && 
+                    contactDetailsMap.containsKey(contactId) && 
+                    contactDetailsMap.get(contactId).Low_Socio_Economic_Status__c != lowSocioEconomicStatus;
+
+                if(isContactForUpdate){
+                    contactsToUpdate.add(
+                        new Contact(
+                            Id = contactId,
+                            Low_Socio_Economic_Status__c = lowSocioEconomicStatus
+                        )
+                    );
+                }
             }
             
             if(!contactsToUpdate.isEmpty()){
@@ -72,6 +83,20 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
                 Logger.saveLog();
             }
         }
+    }
+
+    private String setLowSocioEconomicStatus(ABS_Categorisation__c absCategorisation, hed__Address__c address){
+        String lowSocioEcoStatus = ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO;
+        
+        if(
+            address.Validated__c == AddressesDAO.VALID_ADDRESS && 
+            address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c && 
+            address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c
+        ){
+            lowSocioEcoStatus = ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES;
+        }
+
+        return lowSocioEcoStatus;
     }
 
 }
