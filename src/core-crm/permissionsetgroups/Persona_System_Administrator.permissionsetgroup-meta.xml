@@ -33,6 +33,10 @@
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <permissionSets>et4ae5__Marketing_Cloud_System_User</permissionSets>
     <permissionSets>force__CommerceAdmin</permissionSets>
+    <permissionSets>force__CopilotSalesforceAdmin</permissionSets>
+    <permissionSets>force__CopilotSalesforceUser</permissionSets>
+    <permissionSets>force__EinsteinGPTPromptTemplateManager</permissionSets>
+    <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_Admin</permissionSets>
     <permissionSets>trailheadapp__Th_Badge_Admin</permissionSets>
