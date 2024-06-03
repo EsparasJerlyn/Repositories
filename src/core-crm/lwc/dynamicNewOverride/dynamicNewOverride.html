@@ -11,18 +11,16 @@
       <!-- modal footer start-->
       <footer class="slds-modal__footer">
         <lightning-button
-        disabled={saveInProcess}
         class="slds-button"
         variant="neutral"
         label="Cancel"
-        onclick={handleCloseClick}
+        onclick={handleCancelClick}
         ></lightning-button>
         <lightning-button
-        disabled={saveInProcess}
-        class="slds-button slds-m-left_xxx-small"
+        class="slds-button slds-m-left_none"
         variant="brand"
         label="Next"
-        onclick={handleSaveClick}
+        onclick={handleNextClick}
         ></lightning-button>
       </footer>
    </div>

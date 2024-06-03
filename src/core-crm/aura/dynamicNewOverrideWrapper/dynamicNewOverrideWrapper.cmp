@@ -1,0 +1,13 @@
+<aura:component 
+implements="force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes,force:hasRecordId"
+access="global">
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:attribute name="objectApiName" type="String" default="Case"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- Conditional rendering of LWC -->
+    <aura:if isTrue="{!v.isInitialized}">
+        <c:dynamicNewOverride objectApiName="{!v.objectApiName}" recordId="{!v.recordId}"></c:dynamicNewOverride>
+    </aura:if>
+</aura:component>
