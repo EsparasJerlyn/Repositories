@@ -105,7 +105,7 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisation, false, AccessLevel.USER_MODE);
             
             String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":50,"remotenessClass":"Remote","isValid":true}';
-            Test.setMock(HTTPCalloutMock.class, new AddressValidationMock(200, 'Success', mockResponseBody));
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Success', mockResponseBody));
 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
             

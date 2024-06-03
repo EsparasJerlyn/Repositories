@@ -62,7 +62,9 @@ public with sharing class AddressValidationManager {
             //validate the not validated address of contact 
             Map<Id, hed__address__c> contactAddressMap = validateContactAddressMap(contactNotValidatedAddress.values()); 
             //get the number of program enrollment associated with contact
-            Map<Id, Integer> contactProgramEnrollmentCounts = getAllProgramEnrollmentsOfContacts(contactAddressMap.keySet());              
+            Map<Id, Integer> contactProgramEnrollmentCounts = getAllProgramEnrollmentsOfContacts(contactAddressMap.keySet());            
+            // get the latest 'First Admitted' addresses of the contacts and add the latest address to Map                      
+            Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactAddressMap.keySet());
             
             for(Id contactId: contactAddressMap.keySet()){ 
                 
@@ -80,15 +82,15 @@ public with sharing class AddressValidationManager {
                     con.Low_Socio_Economic_Status__c = lowSocioEconomicStatus;
                     contactToUpdateMap.put(contactId,con);
                 }
-                
-                if(contactProgramEnrollmentCounts.containsKey(contactId) && contactProgramEnrollmentCounts.get(contactId) > 1){
+				//checking if contact has multiple program enrollment OR already has existing First Admitted Address               
+                if(contactProgramEnrollmentCounts.containsKey(contactId) && contactProgramEnrollmentCounts.get(contactId) > 1 || contactFirstAdmittedAddress.containsKey(contactId)){
                     contactValidatedAddress.put(contactId,contactAddressMap.get(contactId));                   
-                }else{
+                }else{                    
                     //clone "Other" address type and set to First Admitted
                     hed__address__c newAddress = address.clone();
                     newAddress.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
-                    addressToInsert.add(newAddress);
-                    
+                    addressToInsert.add(newAddress); 
+                                       
                     // Determine and set regional remote value
                     String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);
                     if(address.hed__Parent_Contact__r.Regional_Remote__c != regionalRemoteValue){
@@ -318,14 +320,9 @@ public with sharing class AddressValidationManager {
         // Check if the input map is not empty
         if (!contactValidatedAddress.values().isEmpty()){
             
-            Map<Id, hed__Address__c> contactFirstAdmittedAddress = new Map<Id, hed__Address__c>();
-            // get the latest 'First Admitted' addresses of the contacts and add the latest address to Map          
-            for(hed__Address__c firstAdmittedAddress: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactValidatedAddress.keySet(),new Set<String>{'First Admitted'},'USER_MODE')){
-                if(!contactFirstAdmittedAddress.containsKey(firstAdmittedAddress.hed__Parent_Contact__c)){
-                    contactFirstAdmittedAddress.put(firstAdmittedAddress.hed__Parent_Contact__c,firstAdmittedAddress);
-                }
-            }
-            
+            // get the latest 'First Admitted' addresses of the contacts and add the latest address to Map                      
+            Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactValidatedAddress.keySet());
+           
             // Iterate through each contactValidatedAddress and check if contact has existing 'First Admitted' address
             // log an error if no 'First Admitted' address found
             for(Id contactId : contactValidatedAddress.keySet()){
@@ -347,5 +344,24 @@ public with sharing class AddressValidationManager {
 
         // Return the list of not validated addresses
         return notValidatedAddress;
+    }
+    
+    /**
+     * Retrieves the latest 'First Admitted' addresses for a given set of contact IDs.
+     *
+     * @param contactIds Set of contact IDs for which to retrieve the 'First Admitted' addresses.
+     * @return Map<Id, hed__Address__c> where the key is the contact ID and the value is the latest 'First Admitted' address.
+     */
+    private Map<Id, hed__Address__c> getContactFirstAdmittedAddresses(Set<Id> contactIds) {
+        Map<Id, hed__Address__c> contactFirstAdmittedAddress = new Map<Id, hed__Address__c>();
+        
+        // Get the latest 'First Admitted' addresses of the contacts and add the latest address to Map
+        for (hed__Address__c firstAdmittedAddress : AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactIds, new Set<String>{AddressesDAO.FIRST_ADMITTED_ADDRESS}, 'USER_MODE')) {
+            if (!contactFirstAdmittedAddress.containsKey(firstAdmittedAddress.hed__Parent_Contact__c)) {
+                contactFirstAdmittedAddress.put(firstAdmittedAddress.hed__Parent_Contact__c, firstAdmittedAddress);
+            }
+        }
+        
+        return contactFirstAdmittedAddress;
     }
 }
