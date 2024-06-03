@@ -62,7 +62,7 @@ public with sharing class AddressValidationManager {
             //validate the not validated address of contact 
             Map<Id, hed__address__c> contactAddressMap = validateContactAddressMap(contactNotValidatedAddress.values()); 
             //get the number of program enrollment associated with contact
-            Map<Id, Integer> contactProgramEnrollmentCounts = getOtherProgramEnrollments(contactAddressMap.keySet());              
+            Map<Id, Integer> contactProgramEnrollmentCounts = getAllProgramEnrollmentsOfContacts(contactAddressMap.keySet());              
             
             for(Id contactId: contactAddressMap.keySet()){ 
                 
@@ -185,7 +185,7 @@ public with sharing class AddressValidationManager {
     /**
      * Retrieves the count of program enrollments for contacts.
      *
-     * This method takes a set of contact IDs and retrieves all program enrollments
+     * This method takes a set of contact IDs and Program Enrollment Statuses then retrieves all program enrollments
      * associated with those contacts in specified enrollment statuses.
      * It then counts the number of program enrollments for each contact
      * and returns a map of contact IDs to their respective enrollment counts.
@@ -193,17 +193,14 @@ public with sharing class AddressValidationManager {
      * @param contactIds A set of contact IDs for which program enrollments are to be retrieved.
      * @return A map of contact IDs to the count of program enrollments.
      */    
-    private Map<Id, Integer> getOtherProgramEnrollments(Set<Id> contactIds){       
+    private Map<Id, Integer> getAllProgramEnrollmentsOfContacts(Set<Id> contactIds){       
         Set<String> enrollmentStatuses = new Set<String>{'Admitted','Passed','Leave of Absence','Withdrawn'};
-        List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE);       
+        List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIdAndEnrollmentStatuses(contactIds,enrollmentStatuses, AccessLevel.SYSTEM_MODE);       
         Map<Id, Integer> contactProgramEnrollmentCounts = new Map<Id, Integer>();
                     
-        for (hed__Program_Enrollment__c pr : programEnrollmentList) {
-            
-            if(String.isNotEmpty(pr.hed__Contact__c) && enrollmentStatuses.contains(pr.Enrollment_Status__c)){                
-                Integer currentCount = (contactProgramEnrollmentCounts.containsKey(pr.hed__Contact__c)) ? contactProgramEnrollmentCounts.get(pr.hed__Contact__c) : 0;
-                contactProgramEnrollmentCounts.put(pr.hed__Contact__c, ++currentCount);
-            }               
+        for (hed__Program_Enrollment__c pr : programEnrollmentList) {          
+            Integer currentCount = (contactProgramEnrollmentCounts.containsKey(pr.hed__Contact__c)) ? contactProgramEnrollmentCounts.get(pr.hed__Contact__c) : 0;
+            contactProgramEnrollmentCounts.put(pr.hed__Contact__c, ++currentCount);
         }
         
         return contactProgramEnrollmentCounts;
@@ -276,7 +273,7 @@ public with sharing class AddressValidationManager {
      * @param absCategorisation The ABS categorization containing low socio-economic boundaries.
      * @return A string indicating whether the address has low socio-economic status ('Yes' or 'No').
      */
-    private String setLowSocioEconomicStatus(hed__address__c address, ABS_Categorisation__c absCategorisation) {
+    public static String setLowSocioEconomicStatus(hed__address__c address, ABS_Categorisation__c absCategorisation) {
         Boolean isLowSocioEconomicAddress = address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c &&
                                             address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c;
         return (isLowSocioEconomicAddress) ? ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES : ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO;
