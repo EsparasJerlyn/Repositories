@@ -155,6 +155,7 @@ public with sharing class CourseConnectionsDAOTest {
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
@@ -167,6 +168,7 @@ public with sharing class CourseConnectionsDAOTest {
                 + 'Enrollment_Status__c IN(\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                 + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                 + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                + 'AND hed__Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                 + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                 + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                 + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
@@ -209,6 +211,7 @@ public with sharing class CourseConnectionsDAOTest {
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
 
@@ -228,6 +231,7 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'Enrollment_Status__c IN(\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                     + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                    + 'AND hed__Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Status__c IN(\'Admitted\', \'Leave of Absence\') '
                     + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
@@ -253,6 +257,7 @@ public with sharing class CourseConnectionsDAOTest {
             courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
@@ -271,6 +276,7 @@ public with sharing class CourseConnectionsDAOTest {
                     + 'Enrollment_Status__c IN(\'Designated\', \'Failed\', \'Enrolled\', \'Leave of Absence\') '
                     + 'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.getCourseGrade() + '\' '
                     + 'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' '
+                    + 'AND hed__Program_Enrollment__r.Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' '
                     + 'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' '
                     + 'AND hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' '
                     + 'AND hed__Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' '
@@ -279,7 +285,7 @@ public with sharing class CourseConnectionsDAOTest {
             
             String expectedClauseString = 'SELECT ' + 
                                         'Id, hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
-                                        'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
+                                        'hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Previous_Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
                                         'hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
                                         'FROM hed__Course_Enrollment__c ' + expectedWhereClause;
                                                                     
@@ -363,7 +369,6 @@ public with sharing class CourseConnectionsDAOTest {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
-            
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
 
             List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
@@ -372,15 +377,14 @@ public with sharing class CourseConnectionsDAOTest {
     
             List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Previous_Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
             programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
-            
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
 
             List<Program_Offering__c> programOfferingListCreated = TestDataFactory.createTestProgramOfferingRecords(1, programPlanListCreated);
-            
             ProgramOfferingsDAO.newInstance().insertRecords(programOfferingListCreated,true,AccessLevel.SYSTEM_MODE);
 
             //Created a course connection record for negative test scenario
@@ -389,22 +393,18 @@ public with sharing class CourseConnectionsDAOTest {
             courseConnectionListCreated[0].Enrollment_Status__c = CourseConnectionsDAO.ENROLLMENT_STATUS_CANCELLED;
             courseConnectionListCreated[0].hed__Display_Grade__c = '100';
             courseConnectionListCreated[0].hed__Contact__c = contactList[0].Id;
-        
             CourseConnectionsDAO.newInstance().insertRecords(courseConnectionListCreated,true,AccessLevel.SYSTEM_MODE);
 
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             programEnrollmentCriteria.setAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
+            programEnrollmentCriteria.setPreviousAcademicStatus(ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE);
             programEnrollmentCriteria.setEnrollmentStage(ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED);
             programEnrollmentCriteria.setEnrollmentStatus(ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH);
             programEnrollmentCriteria.setCategoryType(new List<String>{'Graduate Certificate'});
 
-
-
-
             CourseConnectionsDAO.Criteria courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
             courseConnectionCriteria.setCourseGrade('100');
             courseConnectionCriteria.setStatus(ELCCourseConnectionParser.ENROLLMENT_STATUS_FOR_OUTREACH);
-
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setIsQUTStudent(true);

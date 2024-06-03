@@ -36,6 +36,25 @@ public with sharing class ELCProgramEnrollmentParserTest {
     }
 
     @isTest
+    static void parseProgramEnrollmentPreviousAcademicStatusTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+            
+            Test.startTest();
+            String academicStatus = 'Showcause';
+            Date executionDate = Date.today();
+            Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
+            engagementListCriteria.Previous_Academic_Status__c = academicStatus;
+            
+            ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(engagementListCriteria, executionDate);
+            Test.stopTest();
+
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getPreviousAcademicStatus(), academicStatus, 'Incorrect Previous Academic Status');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStage(), ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED, 'Enrollment Stage should be set to Admitted');
+            System.assertEquals(parser.getProgramEnrollmentCriteria().getEnrollmentStatus(), ELCProgramEnrollmentParser.ENROLLMENT_STATUS_FOR_OUTREACH, 'Enrollment Status should be set to Outreach');
+        }
+    }
+
+    @isTest
     static void parseProgramEnrollmentCategoryTypeTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
