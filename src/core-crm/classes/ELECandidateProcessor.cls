@@ -77,13 +77,17 @@ public with sharing class ELECandidateProcessor {
         }
 
         Map<Id, Case> outreachCaseMap = new Map<Id, Case>();
-        
+        Set<String> outreachKeySet = new Set<String>();
         for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){   
             Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
             Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
-            Case caseRecord = createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), eventCandidateContactId);
-            outreachCaseMap.put(eventCandidateContactId, caseRecord);
-            result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED, caseRecord));
+            String outreachKey = configId + '_' + eventCandidateContactId;
+            if(!outreachKeySet.contains(outreachKey)){
+                outreachKeySet.add(outreachKey);
+                Case caseRecord = createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), eventCandidateContactId, outreachKey);
+                outreachCaseMap.put(eventCandidateContactId, caseRecord);
+                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED, caseRecord));
+            }
         }
 
         Map<String, Object> saveRecordParam = new Map<String, Object>{
@@ -172,8 +176,9 @@ public with sharing class ELECandidateProcessor {
         return openCaseMap;
     }
 
-    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id contactId){
+    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id contactId, String outreachKey){
         Case newCase = new Case(); 
+        newCase.Outreach_Key__c = outreachKey;
         newCase.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
         newCase.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
         newCase.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;

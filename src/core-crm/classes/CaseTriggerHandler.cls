@@ -55,6 +55,11 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
             (List<Case>) newItems.values(), 
             (Map<Id, Case>) oldItems
         );
+        
+        CaseTriggerHelper.setOutreachKeyForClosedCase(
+            (List<Case>) newItems.values(), 
+            (Map<Id, Case>) oldItems
+        );
     }
        
    /**
