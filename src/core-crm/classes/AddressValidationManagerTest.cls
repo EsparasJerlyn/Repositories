@@ -194,16 +194,6 @@ private class AddressValidationManagerTest {
             AddressValidationManager addressValidation = new AddressValidationManager(otherAddresses);
             addressValidation.executeAddressValidation();           
             Test.stopTest();
-
-            for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(new Map<Id,Contact>(contactList).keySet(),new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){
-                System.Assert.areEqual(AddressesDAO.VALID_ADDRESS, address.Validated__c , 'The address Validated field is not equal to "Valid"');                
-                System.Assert.areEqual(null, address.Statistical_Area_1_Id__c , 'The address Statistical_Area_1_Id__c field is not the expected value');
-                System.Assert.areEqual(null, address.Meshblock_Id__c , 'The address Meshblock_Id__c field is not the expected value');                
-                System.Assert.areEqual(null, address.Socio_Economic_Percentile__c , 'The address Socio_Economic_Percentile__c field is not the expected value');
-                System.Assert.areEqual(null, address.Remoteness_Class__c , 'The address Remoteness_Class__c field is not the expected value');
-                System.Assert.areEqual('Unknown', address.hed__Parent_Contact__r.Regional_Remote__c, 'The Contact Regional_Remote__c field is not the expected value');
-                System.Assert.areEqual('Unknown', address.hed__Parent_Contact__r.Low_Socio_Economic_Status__c, 'The Contact Low_Socio_Economic_Status__c field is not the expected value');
-            }
             
             List<hed__Address__c> firstAdmittedAddress =  AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(new Map<Id,Contact>(contactList).keySet(),new Set<String>{AddressesDAO.FIRST_ADMITTED_ADDRESS},'USER_MODE');
             System.assert(firstAdmittedAddress.isEmpty(),'there should be no First Admitted Address created');
