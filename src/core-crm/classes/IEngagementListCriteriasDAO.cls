@@ -14,5 +14,6 @@ public interface IEngagementListCriteriasDAO extends DmlInterface {
         Date executionDate, 
         AccessLevel accessLevel
     );
+
     Engagement_List_Criteria__c getEntryCriteriaById(Id recordId, AccessLevel accessLevel);
 }

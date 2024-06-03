@@ -144,6 +144,16 @@
                 <identifier>RecordAcademic_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Previous_Academic_Status__c</fieldItem>
+                <identifier>RecordPrevious_Academic_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-4e267836-df43-4f02-9701-5201248e138d</name>
         <type>Facet</type>
     </flexiPageRegions>
