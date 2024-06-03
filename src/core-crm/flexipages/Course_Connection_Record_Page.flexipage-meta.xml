@@ -446,7 +446,7 @@
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Admin</rightValue>
+                        <rightValue>System Administrator</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
