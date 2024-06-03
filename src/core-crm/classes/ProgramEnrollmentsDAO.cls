@@ -56,12 +56,12 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         );
     }
 
-    public List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIdAndStatus(Set<Id> contactIds, String status, AccessLevel accessLevel){
+    public List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIdAndEnrollmentStatuses(Set<Id> contactIds, Set<String> statuses, AccessLevel accessLevel){
         return Database.query(
             'SELECT Id, hed__Account__c, hed__Contact__c ' +
               'FROM hed__Program_Enrollment__c ' +
              'WHERE hed__Contact__c IN :contactIds ' + 
-               'AND Enrollment_Status__c =: status',
+               'AND Enrollment_Status__c IN :statuses',
             accessLevel
         );
     }

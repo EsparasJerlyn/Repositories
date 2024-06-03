@@ -6,9 +6,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala		       | November 03, 2023     | DEPP-7145              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                      |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------------|
+      | roy.nino.s.regala		       | November 03, 2023     | DEPP-7145              | Created file                                        |
+      | mark.j.mahilum                 | May 31, 2024          | DEPP-8956              | Added new method to get the address of contact when |
+      |                                |                       |                        | program enrollment status is updated to "Admitted"  |
  */
 
 public with sharing class ProgramEnrollmentTriggerHelper {
@@ -45,6 +47,46 @@ public with sharing class ProgramEnrollmentTriggerHelper {
             } else {
                 QueueableCall executeQueueable = new QueueableCall(contactIdSet);
                 System.enqueueJob(executeQueueable);
+            }
+        }
+    }
+
+    /**
+     * @description get the contact address when the enrollment status become "Admitted"
+     * @param newItems  List of new hed__Program_Enrollment__c  records
+     * @param oldItems  Map of old hed__Program_Enrollment__c  records
+     */
+    public static void processAddressValidation(
+        List<hed__Program_Enrollment__c > newItems,
+        Map<Id, hed__Program_Enrollment__c > oldItems
+    ) {
+        Set<Id> contactIdSet = new Set<Id>();
+        for (hed__Program_Enrollment__c  enrollment : newItems) {
+
+            Boolean isEnrollmentStatusAdmitted =  enrollment.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
+                                                 (oldItems == null || enrollment.Enrollment_Status__c != oldItems.get(enrollment.Id).Enrollment_Status__c);
+                
+            //if a program enrolment with a contact has its enrollment status equal admitted
+            if (enrollment.hed__Contact__c != null && isEnrollmentStatusAdmitted) {
+                contactIdSet.add(enrollment.hed__Contact__c);
+            }
+        }
+        
+        Map<Id,hed__Address__c> mapOfContactAddress = new Map<Id,hed__Address__c>();
+        for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactIdSet,new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){           
+            if(!mapOfContactAddress.containsKey(address.hed__Parent_Contact__c)){
+                mapOfContactAddress.put(address.hed__Parent_Contact__c,address);
+            }
+        }
+        
+        if(!mapOfContactAddress.values().isEmpty()){              
+            Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
+            if (isAsyncProcess) {
+                // call the apex class to validate Address directly
+                AddressValidationManager addressValidation = new AddressValidationManager(mapOfContactAddress.values());
+                addressValidation.executeAddressValidation();  
+            } else {
+                Database.executeBatch(new ContactAddressValidationBatch(mapOfContactAddress.values()));
             }
         }
     }

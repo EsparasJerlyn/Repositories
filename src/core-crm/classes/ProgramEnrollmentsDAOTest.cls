@@ -60,16 +60,47 @@ public with sharing class ProgramEnrollmentsDAOTest {
     }
 
     @isTest
-    static void getProgramEnrollmentsByContactIdAndStatusTest() {
+    static void testEmptyProgramEnrollmentsByContactIdAndEnrollmentStatuses() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
-                .getProgramEnrollmentsByContactIdAndStatus(
+                .getProgramEnrollmentsByContactIdAndEnrollmentStatuses(
                     new Set<Id>(),
-                    '',
+                    new Set<String>(),
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should be empty.');
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testProgramEnrollmentsByContactIdAndEnrollmentStatuses() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
+            for(Contact con: contactList){
+                con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                con.QUT_Student__c = true;
+            }         
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnListWithContact = TestDataFactory.createTestProgramEnrollmentRecords(2); 
+            for(hed__Program_Enrollment__c prog: programEnListWithContact){                           
+                prog.hed__Contact__c = contactList[0].Id;
+                prog.Enrollment_Status__c = 'Passed';
+            }
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListWithContact, true, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
+                .getProgramEnrollmentsByContactIdAndEnrollmentStatuses(
+                    new Map<Id,Contact>(contactList).keySet(),
+                    new Set<String>{'Passed'},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(!programEnrollmentList.isEmpty(), 'Program Enrollment list should not be empty.');
+            System.Assert.areEqual(2, programEnrollmentList.size() , 'The programEnrollmentList size is not the expected value');
         }
         Test.stopTest();
     }
