@@ -10,6 +10,7 @@
         NOT(ISPICKVAL(Completed_Cadence__c,&quot;&quot;)),
         NOT(ISPICKVAL(Is_On_Leave_of_Absence__c,&quot;&quot;)),
         NOT(ISPICKVAL(Academic_Status__c,&quot;&quot;)),
+        NOT(ISPICKVAL(Previous_Academic_Status__c,&quot;&quot;)),
         NOT(ISBLANK(Breach__c)),
         NOT(ISPICKVAL(Failed_Assessment__c, &quot;&quot;)),
         NOT(ISPICKVAL(Failed_To_Submit_Assessment__c, &quot;&quot;))

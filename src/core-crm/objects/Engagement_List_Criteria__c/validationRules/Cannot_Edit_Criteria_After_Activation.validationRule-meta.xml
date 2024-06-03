@@ -10,6 +10,7 @@
   ),
   OR( 
     ISCHANGED(Academic_Status__c),
+    ISCHANGED(Previous_Academic_Status__c),
     ISCHANGED(Breach__c),
     ISCHANGED(Citizenship_Status__c),
     ISCHANGED(Completed_Cadence__c),

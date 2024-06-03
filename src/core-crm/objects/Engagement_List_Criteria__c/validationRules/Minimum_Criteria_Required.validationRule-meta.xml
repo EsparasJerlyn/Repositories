@@ -10,6 +10,7 @@
     ISPICKVAL(Completed_Cadence__c,&quot;&quot;),
     ISPICKVAL(Is_On_Leave_of_Absence__c,&quot;&quot;),
     ISPICKVAL(Academic_Status__c,&quot;&quot;),
+    ISPICKVAL(Previous_Academic_Status__c,&quot;&quot;),
     ISBLANK(Breach__c),
     ISPICKVAL(Failed_Assessment__c, &quot;&quot;),
     ISPICKVAL(Failed_To_Submit_Assessment__c, &quot;&quot;)
