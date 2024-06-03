@@ -2,6 +2,29 @@
 {
   "packageDirectories": [
     {
+      "path": "src/core-crm-data-pre",
+      "pathRelative": "src/core-crm-data-pre",
+      "package": "src/core-crm-data-pre",
+      "type": "data",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },{
+      "path": "src/core-crm-data-alias",
+      "pathRelative": "src/core-crm-data-alias",
+      "package": "src/core-crm-data-alias",
+      "type": "data",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0",
+      "aliasfy": true
+    },{
+      "path": "src/core-crm-data",
+      "pathRelative": "src/core-crm-data",
+      "package": "src/core-crm-data",
+      "type": "data",
+      "defaultData": true,
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },{
       "path": "src",
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
