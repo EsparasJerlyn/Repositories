@@ -548,18 +548,19 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>recordTypeName</name>
+                    <value>Alumni_Engagement</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedField</name>
-                    <value>hed__Contact__c</value>
+                    <value>Requestor_Name__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Affiliation Key&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Organization&quot;,&quot;fieldName&quot;:&quot;hed__Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Job Title&quot;,&quot;fieldName&quot;:&quot;Job_Title__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Status&quot;,&quot;fieldName&quot;:&quot;hed__Status__c&quot;,&quot;type&quot;:&quot;Text&quot;},{&quot;label&quot;:&quot;Start Date&quot;,&quot;fieldName&quot;:&quot;hed__StartDate__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;End Date&quot;,&quot;fieldName&quot;:&quot;hed__EndDate__c&quot;,&quot;type&quot;:&quot;date&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Engagement Opportunity Reference&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Engagement Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Engagement_Opportunity_Name__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Engagement Opportunity Type&quot;,&quot;fieldName&quot;:&quot;Engagement_Opportunity_Type__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;Stage__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner Name&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Created Date&quot;,&quot;fieldName&quot;:&quot;CreatedDate&quot;,&quot;type&quot;:&quot;date&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
-                    <value>hed__Affiliation_Type__c = &apos;Business Organization&apos;</value>
+                    <value>RecordType.DeveloperName = &apos;Alumni_Engagement&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
@@ -567,7 +568,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedRecord</name>
-                    <value>hed__Affiliation__c</value>
+                    <value>Engagement_Opportunity__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showEditButton</name>
@@ -1072,23 +1073,22 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentRecord</name>
-                    <value>Contact</value>
+                    <value>Contact__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>recordTypeName</name>
-                    <value>Corporate Engagement</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedField</name>
-                    <value>Requestor_Name__c</value>
+                    <value>Contact__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Engagement Opportunity Reference&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Engagement Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Engagement_Opportunity_Name__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Engagement Opportunity Type&quot;,&quot;fieldName&quot;:&quot;Engagement_Opportunity_Type__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;Stage__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner Name&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Created Date&quot;,&quot;fieldName&quot;:&quot;CreatedDate&quot;,&quot;type&quot;:&quot;date&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Opportunity__r.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Record Type&quot;,&quot;fieldName&quot;:&quot;Opportunity__r.RecordType.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;Opportunity__r.StageName&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner Full Name&quot;,&quot;fieldName&quot;:&quot;Opportunity__r.Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Created Date&quot;,&quot;fieldName&quot;:&quot;Opportunity__r.CreatedDate&quot;,&quot;type&quot;:&quot;date&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
-                    <value>RecordType.DeveloperName = &apos;Corporate_Engagement&apos;</value>
+                    <value>RecordType.DeveloperName = &apos;Advancement_Opportunity_Role&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
@@ -1096,7 +1096,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedRecord</name>
-                    <value>Engagement_Opportunity__c</value>
+                    <value>Contextual_Role__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showEditButton</name>
@@ -1119,7 +1119,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>(UserRole.DeveloperName = &apos;Corporate_Partnerships&apos; OR UserRole.DeveloperName = &apos;Alumni_Corporate_Partnerships_Super_User&apos; OR UserRole.DeveloperName = &apos;Alumni_Engagement&apos; OR UserRole.DeveloperName = &apos;Corporate_Event&apos; OR UserRole.DeveloperName = &apos;Corporate_Engagement&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable11</identifier>
