@@ -52,7 +52,7 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
                 contactsToUpdate.add(
                     new Contact(
                         Id = contactId,
-                        Low_Socio_Economic_Status__c = setLowSocioEconomicStatus(absCategorisation, address)
+                        Low_Socio_Economic_Status__c = AddressValidationManager.setLowSocioEconomicStatus(address, absCategorisation)
                     )
                 );
             }
@@ -72,20 +72,6 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
                 Logger.saveLog();
             }
         }
-    }
-
-    private String setLowSocioEconomicStatus(ABS_Categorisation__c absCategorisation, hed__Address__c address){
-        String lowSocioEcoStatus = ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO;
-        
-        if(
-            address.Validated__c == AddressesDAO.VALID_ADDRESS && 
-            address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c && 
-            address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c
-        ){
-            lowSocioEcoStatus = ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES;
-        }
-
-        return lowSocioEcoStatus;
     }
 
 }
