@@ -36,7 +36,7 @@ public with sharing class AddressesValidationBatchTest {
             ));
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisationList, true, AccessLevel.USER_MODE);
 
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(100, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
                 con.QUT_Student__c = true;
@@ -97,7 +97,7 @@ public with sharing class AddressesValidationBatchTest {
             ));
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisationList, true, AccessLevel.USER_MODE);
 
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(100, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);          
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);          
             for(Contact con: contactList){
                 con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
                 con.QUT_Student__c = true;
