@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersion>12</activeVersion>
+    <description>Prompt to populate Action Taken Field of case object</description>
+    <developerName>Prompt_to_populate_Action_Taken_Field_of_case_object</developerName>
+    <masterLabel>Prompt to populate Action Taken Field of case object</masterLabel>
+    <relatedEntity>Case</relatedEntity>
+    <relatedField>Case.Action_Taken__c</relatedField>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT35Turbo</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>1</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+Social Comment: If it exists
+Created Date,
+Created By,
+Summary of Comments (in dot point format) 
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>2</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>3</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is not record related.
+Make it concise and easy to read
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>4</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read
+
+use the format below to create the final input and do not show the related case activity if there is no record or information related 
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>5</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read
+
+use the format below to create the final input and do not show the related case activity if there is no record or information related 
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>6</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>7</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+Summarize the task, comments and email when you have multiple and mention the task type.
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>8</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+Summarize the tasks, comments and emails when you have multiple records and mention the task type such as log a call.
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>9</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record-related.
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purpose.
+
+Use the format below to get inspiration about how to create the final input and do not show the related case activity if there is no record or information related.
+When you have multiple tasks related to the case, summarize them and list the number of tasks.
+Highlight the key information from the email and keep only meaningful information that provide details on case actions and related interactions
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>12</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+When you have multiple tasks related to the case, summarize them.
+Highlight the key information from the email and keep only meaningful information that provide details on case actions and related interactions
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>10</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+When you have multiple tasks related to the case, summarize them and list the number of tasks.
+Highlight the key information from the email and keep only meaningful information that provide details on case actions and related interactions
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>11</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__fieldCompletion</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

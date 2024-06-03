@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <developerName>Testing</developerName>
+    <masterLabel>Testing</masterLabel>
+    <relatedEntity>Case</relatedEntity>
+    <relatedField>Case.Redirected_Case_ID__c</relatedField>
+    <templateVersions>
+        <content>{!$Apex:CaseHistoryProcessor.Prompt}. 
+
+Format the above data in below format 
+&quot;Queue Name&quot; : fast Queuename from the above text 
+&quot;Task&quot; : Task
+
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>apex://CaseHistoryProcessor</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Apex:CaseHistoryProcessor</referenceName>
+        </templateDataProviders>
+        <versionNumber>1</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__fieldCompletion</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

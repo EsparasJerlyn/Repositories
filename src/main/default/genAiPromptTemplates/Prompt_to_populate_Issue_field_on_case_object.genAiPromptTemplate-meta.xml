@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersion>2</activeVersion>
+    <description>Prompt to populate Issue field on case object</description>
+    <developerName>Prompt_to_populate_Issue_field_on_case_object</developerName>
+    <masterLabel>Prompt to populate Issue field on case object</masterLabel>
+    <relatedEntity>Case</relatedEntity>
+    <relatedField>Case.Issue__c</relatedField>
+    <templateVersions>
+        <content>{!$Input:Case.Subject}
+{!$Input:Case.Description}
+
+summarize the above subject and description in 2 lines.
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT35Turbo</primaryModel>
+        <status>Published</status>
+        <versionNumber>1</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Case.Subject}
+{!$Input:Case.Description}
+
+summarize the above subject and description in 2 lines.
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <versionNumber>2</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__fieldCompletion</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

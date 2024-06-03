@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersion>5</activeVersion>
+    <description>Prompt To Fetch Case History</description>
+    <developerName>Prompt_To_Fetch_Case_History</developerName>
+    <masterLabel>Prompt To Fetch Case History</masterLabel>
+    <templateVersions>
+        <content>Current Ownership: {!$Input:Case.Owner.Name}
+
+Case Ownership History:
+
+Based on all this flow output {!$Flow:Flow_To_Fetch_Case_History.Prompt}
+show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The above should be in this format, if there is no value in any section don&apos;t show it
+
+Note: Ascending Order By Created Date
+
+  Case Comments: If it exists 
+  Summary of Comments (in dot point format)
+  Task:  If it exists
+  Summary of Comments (in dot point format)
+  Log Call:   If it exists 
+  Summary of Comments (in dot point format)
+  Email:   If it exists 
+  Summary Of Email Content (in dot point format)
+  Social Comment:   If it exists
+  Summary of Comments   (in dot point format)
+
+
+</content>
+        <inputs>
+            <apiName>Case</apiName>
+            <definition>SOBJECT://Case</definition>
+            <masterLabel>Case</masterLabel>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_To_Fetch_Case_History</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Case</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_To_Fetch_Case_History</referenceName>
+        </templateDataProviders>
+        <versionNumber>1</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>Current Ownership: {!$Input:Case.Owner.Name}
+
+{!$RelatedList:Case.Cases.Records} do not show all the history details, only show the below from the history
+Case Ownership History: Based on the above case history show all case owner names who worked on this case in the order they have worked
+
+Based on all this flow output {!$Flow:Flow_To_Fetch_Case_History.Prompt}
+show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The above should be in this format, if there is no value in any section don&apos;t show it
+
+Note: Ascending Order By Created Date
+
+  Case Comments: If it exists 
+  Summary of Comments (in dot point format)
+  Task:  If it exists
+  Summary of Comments (in dot point format)
+  Log Call:   If it exists 
+  Summary of Comments (in dot point format)
+  Email:   If it exists 
+  Summary Of Email Content (in dot point format)
+  Social Comment:   If it exists
+  Summary of Comments   (in dot point format)
+
+
+</content>
+        <inputs>
+            <apiName>Case</apiName>
+            <definition>SOBJECT://Case</definition>
+            <masterLabel>Case</masterLabel>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_To_Fetch_Case_History</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Case</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_To_Fetch_Case_History</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Cases</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Cases.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>2</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content> {!$Input:Case.Owner.Name}
+
+Current Ownership: here showcase owner&apos;s name
+
+{!$RelatedList:Case.Cases.Records} do not show all the history details, only show the below from the history
+
+
+Based on all this flow output {!$Flow:Flow_To_Fetch_Case_History.Prompt}
+show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format, if there is no value in any section don&apos;t show it
+
+Case Ownership:  Present Case Owner
+
+Case Ownership History: Based on the above case history show all case owner names who worked on this case in the order they have worked
+
+Case Comments: If it exists 
+  Summary of Comments (in dot point format)
+Task:  If it exists
+  Summary of Comments (in dot point format)
+Email:   If it exists 
+  Summary Of Email Content (in dot point format)
+Social Comment:   If it exists
+  Summary of Comments   (in dot point format)
+
+
+</content>
+        <inputs>
+            <apiName>Case</apiName>
+            <definition>SOBJECT://Case</definition>
+            <masterLabel>Case</masterLabel>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_To_Fetch_Case_History</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Case</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_To_Fetch_Case_History</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Cases</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Cases.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>3</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content> {!$Input:Case.Owner.Name}
+
+Current Ownership: here showcase the owner&apos;s name
+
+{!$RelatedList:Case.Cases.Records} do not show all the history details, only show the below from the history
+
+
+Based on all this flow output {!$Flow:Flow_To_Fetch_Case_History.Prompt}
+show each output summary in bulleted points and have a heading for each of it and have in ascending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format, if there is no value in any section don&apos;t show it
+
+Case Ownership:  Present Case Owner
+
+Case Ownership History: Based on the above case history show all case owner names who worked on this case in the order they have worked
+
+Case Comments: If it exists 
+  Summary of Comments (in dot point format)
+Task:  If it exists
+  Summary of Comments (in dot point format)
+Email:   If it exists 
+  Summary Of Email Content (in dot point format)
+Social Comment:   If it exists
+  Summary of Comments   (in dot point format)
+
+
+</content>
+        <inputs>
+            <apiName>Case</apiName>
+            <definition>SOBJECT://Case</definition>
+            <masterLabel>Case</masterLabel>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_To_Fetch_Case_History</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Case</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_To_Fetch_Case_History</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Cases</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Cases.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>4</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content> {!$Input:Case.Owner.Name}
+
+Current Ownership: here showcase the owner&apos;s name
+
+Based on all this flow output {!$Flow:Flow_To_Fetch_Case_History.Prompt}
+show each output summary in bulleted points and have a heading for each of it and have in ascending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format, if there is no value in any section don&apos;t show it
+
+Case Ownership:  Present Case Owner
+
+Case Ownership History: Based on the above case history show all case owner names who worked on this case in the order they have worked
+
+Case Comments: If it exists 
+  Summary of Comments (in dot point format)
+Task:  If it exists
+  Summary of Comments (in dot point format)
+Log Call:   If it exists 
+       Summary of Comments (in dot point format)
+Email:   If it exists 
+  Summary Of Email Content (in dot point format)
+Social Comment:   If it exists
+  Summary of Comments   (in dot point format)
+
+
+</content>
+        <inputs>
+            <apiName>Case</apiName>
+            <definition>SOBJECT://Case</definition>
+            <masterLabel>Case</masterLabel>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_To_Fetch_Case_History</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Case</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_To_Fetch_Case_History</referenceName>
+        </templateDataProviders>
+        <versionNumber>5</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

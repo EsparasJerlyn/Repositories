@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersion>18</activeVersion>
+    <description>Prompt to fetch the application history of the student</description>
+    <developerName>Prompt_to_fetch_the_application_history_of_the_student</developerName>
+    <masterLabel>Prompt to fetch the application history of the student</masterLabel>
+    <relatedEntity>Contact</relatedEntity>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+Hyperlink to record (Application Name)
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>4</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+Create a Hyperlink  to the Application record using the org url https://qut360--devgoela1.sandbox.lightning.force.com/   using application id  (Application Name)
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>5</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+Create a Hyperlink  to the Application record using the org url https://qut360--devgoela1.sandbox.lightning.force.com/   using application id  (Application Name)
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>6</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+you must strictly follow my instructions below.
+Instructions:
+&quot;&quot;&quot;
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+Create a Hyperlink  to the Application record using the org url https://qut360--devgoela1.sandbox.lightning.force.com/   using application id  (Application Name), use HTML  rich text hyperlink format this hyperlink should be clickable
+&quot;&quot;&quot;
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>7</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+you must strictly follow my instructions below.
+Instructions:
+&quot;&quot;&quot;
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+
+Generate an HTML rich text hyperlink that links to an Application record in Salesforce. The base URL for the Salesforce org is https://qut360--devgoela1.sandbox.lightning.force.com/. Use the provided Application ID and Application Name to create the hyperlink. Here are the details:
+Base URL: https://qut360--devgoela1.sandbox.lightning.force.com/
+Application ID: {Application Id}
+Application Name:{Application Name}
+The generated hyperlink should be in the following format:
+&lt;a href=&quot;https://qut360--devgoela1.sandbox.lightning.force.com/ApplicationId&quot;&gt;Application Name&lt;/a&gt;
+
+&quot;&quot;&quot;
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>8</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+you must strictly follow my instructions below.
+Instructions:
+&quot;&quot;&quot;
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+
+Generate an HTML hyperlink that links to an Application record in Salesforce. The base URL for the Salesforce org is https://qut360--devgoela1.sandbox.lightning.force.com/. Use the provided Application ID and Application Name to create the hyperlink. Here are the details:
+Base URL: https://qut360--devgoela1.sandbox.lightning.force.com/
+Application ID: {Application Id}
+Application Name:{Application Name}
+The generated hyperlink should be in the following format and only the Aplication Name should be visible on UI and it should be clickable
+&lt;a href=&quot;https://qut360--devgoela1.sandbox.lightning.force.com/ApplicationId&quot;&gt;Application Name&lt;/a&gt;
+
+&quot;&quot;&quot;
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>9</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+you must strictly follow my instructions below.
+Instructions:
+&quot;&quot;&quot;
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+&quot;&quot;&quot;
+Generate an HTML hyperlink that links to an Application record in Salesforce. The base URL for the Salesforce org is https://qut360--devgoela1.sandbox.lightning.force.com/. Use the provided Application ID and Application Name to create the hyperlink. Here are the details:
+Base URL: https://qut360--devgoela1.sandbox.lightning.force.com/
+Application ID: {Application Id}
+Application Name:{Application Name}
+The generated hyperlink should be in the following format and only the Aplication Name should be visible on UI and it should be clickable
+&lt;a href=&quot;https://qut360--devgoela1.sandbox.lightning.force.com/ApplicationId&quot;&gt;Application Name&lt;/a&gt;
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4Turbo</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>10</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+you must strictly follow my instructions below.
+Instructions:
+&quot;&quot;&quot;
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+&quot;&quot;&quot;
+Generate an HTML hyperlink that links to an Application record in Salesforce. The base URL for the Salesforce org is https://qut360--devgoela1.sandbox.lightning.force.com/. Use the provided Application ID and Application Name to create the hyperlink. Here are the details:
+Base URL: https://qut360--devgoela1.sandbox.lightning.force.com/
+Application ID: {Application Id}
+Application Name:{Application Name}
+The generated hyperlink should be clickable and use anchor tag of HTML to make the link clickable, it should use HTML format
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>11</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+
+{!$Flow:Flow2.Prompt}
+you must strictly follow my instructions below.
+Instructions:
+&quot;&quot;&quot;
+If there is no Application record linked to this contact do not show the below structure, Just show this message in bold format There is no application record associated with this contact
+Based on the above input summarize, 
+The output should be in the below format 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}. 
+
+Below some additional information about the application: 
+Is International Application : {Is International Application}
+Application Stage : {Application Stage}
+Program Name : {Offered_Preference__r.Name}
+Term Name: {Applied_Intake_Study_Period__r.Name}
+if there is no data for any of the above field, don&apos;t show that node also .
+&quot;&quot;&quot;
+Generate an HTML hyperlink that links to an Application record in Salesforce. The base URL for the Salesforce org is https://qut360--devgoela1.sandbox.lightning.force.com/. Use the provided Application ID and Application Name to create the hyperlink. Here are the details:
+Base URL: https://qut360--devgoela1.sandbox.lightning.force.com/
+Application ID: {Application Id}
+Application Name:{Application Name}
+The generated hyperlink should be clickable and use the anchor tag of HTML to make the link clickable, it should use HTML format
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>12</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+ 
+{!$Flow:Flow2.Prompt}
+ Based on the above input summarize, 
+ The output should be in the below format 
+ {contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}.
+ 
+Below some additional information about the application: 
+ Is International Application : {Is International Application}
+ Application Stage : {Application Stage}
+ Program Name : {Offered_Preference__r.Name}
+ Term Name: {Applied_Intake_Study_Period__r.Name}
+ Hyperlink to record (Application Name)
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>13</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+ 
+{!$Flow:Flow2.Prompt}
+Based on the above flow output
+
+The output should be in the below format
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}.
+ 
+Below is some additional information about the Application: 
+Instruction &quot; If there is no data in any of the attributes below don&apos;t include that attribute in the additional information section&quot;
+ Is International Application : 
+ Application Stage :
+ Program Name: 
+ Term Name:
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>14</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+ 
+{!$Flow:Flow2.Prompt}
+Based on the above flow output
+
+The output should be in the below format, 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}.
+ 
+Below is some additional information about the Application: 
+Instruction &quot; If there is no data in any of the attributes below don&apos;t include that attribute in the additional information section&quot;
+ Is International Application : 
+ Application Stage :
+ Program Name: 
+ Term Name:
+
+If the response contains this sentence &quot;There is No Application Record Associated this Contact&quot; then give the output as &quot;There is No Application Record Associated this Contact&quot;
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>15</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+ 
+{!$Flow:Flow2.Prompt}
+Based on the above flow output
+
+The output should be in the below format, don&apos;t include any filler words. Strictly follow the below format.
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}.
+ 
+Below is some additional information about the Application: 
+Instruction &quot; If there is no data in any of the attributes below don&apos;t include that attribute in the additional information section&quot;
+ Is International Application : 
+ Application Stage :
+ Program Name: 
+ Term Name:
+
+If the response contains this sentence &quot;There is No Application Record Associated this Contact&quot; then only show the output as &quot;There is No Application Record Associated this Contact&quot;
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>16</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+ 
+{!$Flow:Flow2.Prompt}
+Based on the above flow output
+
+If the response contains this sentence &quot;There is No Application Record Associated this Contact&quot; then give the output as &quot;There is No Application Record Associated this Contact&quot; Else give the output in the below format
+
+Format
+&quot;The output should be in the below format, 
+ {contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}.
+
+ Below is some additional information about the Application: 
+ Instruction &quot; If there is no data in any of the attributes below don&apos;t include that attribute in the additional information section&quot;
+ Is International Application : 
+ Application Stage :
+ Program Name: 
+ Term Name:
+&quot;
+ 
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow2</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow2</referenceName>
+        </templateDataProviders>
+        <versionNumber>17</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Input:Contact.Name}
+ 
+{!$Flow:Flow_To_Fetch_Application_Linked_To_The_Student.Prompt}
+Based on the above flow output
+
+The output should be in the below format, 
+{contactname} received an offer the {Offer Status Date}, the current status is {Offer Status} and the assessment result is {Assessment Result}.
+ 
+Below is some additional information about the Application: 
+Instruction &quot; If there is no data in any of the attributes below don&apos;t include that attribute in the additional information section&quot;
+ Is International Application : 
+ Application Stage :
+ Program Name: 
+ Term Name:
+
+If the response contains this sentence &quot;There is No Application Record Associated this Contact&quot; then give the output as &quot;There is No Application Record Associated this Contact&quot;
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_To_Fetch_Application_Linked_To_The_Student</definition>
+            <parameters>
+                <definition>SOBJECT://Contact</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Contact}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_To_Fetch_Application_Linked_To_The_Student</referenceName>
+        </templateDataProviders>
+        <versionNumber>18</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__recordSummary</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
