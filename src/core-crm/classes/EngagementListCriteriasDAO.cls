@@ -93,6 +93,7 @@
             'Preview_Job_Id__c, ' +
             'Citizenship_Status__c, ' +
             'Academic_Status__c, ' +
+            'Previous_Academic_Status__c, ' +
             'Category_Type__c, ' +
             'Completed_Cadence__c, ' +
             'Course_Grade__c, ' +
