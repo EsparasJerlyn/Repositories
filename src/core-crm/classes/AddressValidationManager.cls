@@ -76,7 +76,7 @@ public with sharing class AddressValidationManager {
                 
                 //Contact to update the low socio economic value
                 Contact con = new Contact(Id = contactId);  
-                if(address.hed__Parent_Contact__r.Low_Socio_Economic_Status__c != lowSocioEconomicStatus){
+                if(String.isNotBlank(lowSocioEconomicStatus) && address.hed__Parent_Contact__r.Low_Socio_Economic_Status__c != lowSocioEconomicStatus){
                     con.Low_Socio_Economic_Status__c = lowSocioEconomicStatus;
                     contactToUpdateMap.put(contactId,con);
                 }
@@ -274,6 +274,11 @@ public with sharing class AddressValidationManager {
      * @return A string indicating whether the address has low socio-economic status ('Yes' or 'No').
      */
     public static String setLowSocioEconomicStatus(hed__address__c address, ABS_Categorisation__c absCategorisation) {
+        
+        if(address.Socio_Economic_Percentile__c == null){
+            return '';
+        }
+        
         Boolean isLowSocioEconomicAddress = address.Socio_Economic_Percentile__c >= absCategorisation.Low_SES_Lower_Boundary__c &&
                                             address.Socio_Economic_Percentile__c <= absCategorisation.Low_SES_Upper_Boundary__c;
         return (isLowSocioEconomicAddress) ? ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES : ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO;
