@@ -23,6 +23,8 @@
       | mark.j.mahilum            | July 03, 2023         | DEPP-5961            | Updated Marketing Course Application object |
       |                           |                       |                      | and replaced by Application object          |
       | mark.j.mahilum            | August 18, 2023       | DEPP-6391            | Marketing Course Application retrofit       |
+      | mark.j.mahilum            | May 06, 2024          | DEPP-7987            | Updated method name of convertLeadOnInsert  |
+      |                           |                       |                      | check if method should run as async or not  |
  */
 public without sharing class ContactWithMatchingLeadHelper {
 
@@ -275,11 +277,11 @@ public without sharing class ContactWithMatchingLeadHelper {
     }
 
     @Future
-    public static void convertLeadOnInsert(List<Id> newItems){
+    public static void convertLeadOnAsync(List<Id> newItems){
         convertLead(newItems);
     }
-
-    public static void convertLeadonUpdate(List<Id> newItems){
+    
+    public static void convertLeadOnSync(List<Id> newItems){
         convertLead(newItems);
     }
 
