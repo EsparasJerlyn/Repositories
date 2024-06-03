@@ -83,7 +83,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT $$DeveloperName$SobjectType, Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Application__c','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c','hed__Program_Plan__c')",
+            "query": "SELECT $$DeveloperName$SobjectType, Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Application__c','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c','hed__Program_Plan__c','Case')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,
@@ -428,6 +428,22 @@
             "externalId": "Name",
             "useCSVValuesMapping": true,
             "targetObject": "Study_Area_Plan__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name,IsActive, IsDefault, TimeZoneSidKey FROM BusinessHours",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BusinessHours",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,CaseNumber,ContactId,AccountId,BusinessHoursId,SuppliedCompany,RecordTypeId,Status,Origin,Language,Subject,Priority,Description,IsClosed,ClosedDate,IsEscalated,IsClosedOnCreate,ContactPhone,ContactMobile,ContactEmail,ContactFax,Comments,LastViewedDate,LastReferencedDate,hed__Category__c,hed__Location__c,hed__Occurrence_Date__c,Citizenship_Country__c,Closure_Details__c,Web_Mobile_Locale__c,Related_Case_Relationship__c,Region__c,Awaiting_Response_From__c,Category__c,Closure_Code__c,Auto_Priority_Assignment__c,Lead_Score_Reset__c,Marketing_Opt_In__c,My_Citizenship_Status__c,My_Country_of_Citizenship__c,My_Country_of_Residency__c,My_Education_Level__c,My_Primary_Study_Level__c,Sub_Category__c FROM Case",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BusinessHours",
             "importCSVFilesAsIs": true
         }
     ]
