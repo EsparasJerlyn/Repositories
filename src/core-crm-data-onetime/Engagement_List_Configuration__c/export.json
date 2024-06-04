@@ -1,7 +1,7 @@
 {
     "objects": [
         {
-            "query": "SELECT Id, Name, Engagement_List_Configuration_Status__c, Start_Date__c, Max_Number_Of_Call_Attempts__c, Communication_Channel__c,Instrument__c, Qualtrics_Instrument_ID__c,Description__c, Purpose__c, Briefing_Notes__c,Email_Template__c  FROM Engagement_List_Configuration__c",
+            "query": "SELECT Id, Name, Engagement_List_Configuration_Status__c, Start_Date__c, Max_Number_Of_Call_Attempts__c, Communication_Channel__c,Qualtrics_Instrument_Name__c, Qualtrics_Instrument_ID__c,Description__c, Purpose__c, Briefing_Notes__c,Email_Template__c  FROM Engagement_List_Configuration__c",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -17,7 +17,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Engagement_List_Criteria__c')",
+            "query": "SELECT $$DeveloperName$SobjectType, Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Engagement_List_Criteria__c')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,

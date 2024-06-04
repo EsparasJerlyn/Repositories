@@ -346,7 +346,7 @@ private class CaseTriggerHelperTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             config.Qualtrics_Instrument_Id__c = 'test';
-            config.Instrument__c = 'test';
+            config.Qualtrics_Instrument_Name__c = 'test';
             configs.add(config);
             EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
