@@ -52,6 +52,9 @@
         <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>EmailMessage-Email Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Engagement_List_Configuration__c-Engagement List Configuration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
