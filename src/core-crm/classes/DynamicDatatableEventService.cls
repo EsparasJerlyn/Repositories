@@ -89,7 +89,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Expense'
         },
         hed__Affiliation__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Account',
+            'ParentFields' => 'hed__Account__c',
             'ObjectLabel' => 'Affiliation'
         }
     };
