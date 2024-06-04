@@ -42,12 +42,11 @@ public with sharing class ContactTriggerHandlerTest {
 
     @testSetup
     static void testSetup() {
-        Test.startTest();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         TestDataFactoryUser.generateUserSystemAdministrator();
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
-        Test.stopTest();
+        
         System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
             leadScoreParentConfigList.add(
@@ -100,12 +99,12 @@ public with sharing class ContactTriggerHandlerTest {
         }
 
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
-        
+            Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
             contacts[0]
                 .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
             insert contacts;
-            
+            Test.stopTest();
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
             insert acc;
