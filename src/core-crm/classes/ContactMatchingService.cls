@@ -34,6 +34,17 @@ public without sharing class ContactMatchingService {
     };
 
     /**
+     * @description List of contact fields needed to be check if changed.
+     *              Add contact fields here if needed.
+     */
+    public static final Set<String> CONTACT_FIELDS_TO_CHECK = new Set<String>{
+        'FirstName',
+        'LastName',
+        'Birthdate',
+        'MobilePhone'
+    };
+
+    /**
      * Processes contact matching for a list of records and returns a map of matching contacts.
      * Matches are determined based on predefined key fields.
      * If more than one match is found for any record, logs an error and excludes the record from the result.

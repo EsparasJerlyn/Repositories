@@ -44,13 +44,16 @@ public without sharing class ContactTriggerHelper {
         Map<Id, Contact> oldItems
     ) {
         List<Contact> contactsToRecalculate = new List<Contact>();
+        List<Contact> contactsToMatch = new List<Contact>();
 
         for (Contact con : newItems) {
             Boolean isPerson = ContactsDAO.PERSON_RECORDTYPE_ID == con.RecordTypeId;
-            //non person contact process start
+            //non person/person contact process start
 
-            birthDateValidation(con); //validates contact birthdate
-            setMatchingFirstAndLastName(con, oldItems); // remove special characters from the first and last name field
+            //validates contact birthdate
+            birthDateValidation(con);
+            //remove special characters from the first and last name field
+            setMatchingFirstAndLastName(con, oldItems);
 
             //person contacts processes start
             if (!isPerson) {
@@ -59,11 +62,17 @@ public without sharing class ContactTriggerHelper {
 
             //This method check if redundant email value is duplicated in the other contact email fields.
             checkIfEmailIsAlreadyMatchOnContactLeadConversion(con, oldItems);
-
-            setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
-            setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
-            updateRegisteredEmail(con, oldItems); // updates Registered email when match with Primary Email or Work Email
+            //sets can nurture flag
+            setCanNurtureFlag(con, contactsToRecalculate, oldItems);
+            //sets QUT_Staff__c(Persona Flags) of Contact
+            setQUTPersonaFlag(con);
+            //updates Registered email when match with Primary Email or Work Email
+            updateRegisteredEmail(con, oldItems);
+            //updates sync to mc field
             updateSyncToMCField(con, oldItems);
+            //collects contact records to be for duplication
+            collectContactForMatching(con, oldItems, contactsToMatch);
+
             //if contact is person on insert/update Persona Type is Personal
             con.Persona_Type__c = 'Personal';
         }
@@ -71,6 +80,9 @@ public without sharing class ContactTriggerHelper {
         //processes with soql and dml start
         //recalculate Can Nurture by threshold
         recalculateCanNurture(contactsToRecalculate);
+
+        //do contact matching
+        processContactMatchingOnContactTrigger(contactsToMatch);
     }
 
     /**
@@ -1132,5 +1144,104 @@ public without sharing class ContactTriggerHelper {
             conSystemKeyCAIMap,
             false
         );
+    }
+
+    private static void collectContactForMatching(
+        Contact newContact,
+        Map<Id, Contact> oldContacts,
+        List<Contact> contactsToMatch
+    ) {
+        //if trigger is on update
+        //and one of the fields defined in CONTACT_FIELDS_TO_CHECK is updated
+        if (
+            oldContacts != null &&
+            ObjectFieldService.isOneOftheFieldsUpdated(
+                ContactMatchingService.CONTACT_FIELDS_TO_CHECK,
+                newContact,
+                oldContacts.get(newContact.Id)
+            )
+        ) {
+            contactsToMatch.add(newContact);
+        }
+    }
+
+    private static void processContactMatchingOnContactTrigger(List<Contact> contactsToMatch) {
+        if (contactsToMatch.isEmpty()) {
+            return;
+        }
+
+        // Initialize maps and lists to store data during processing
+        Map<Id, String> contactMatchingToMatchingResultKey = new Map<Id, String>();
+        List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
+        String uniqueKey = '';
+
+        for (Contact contactToMatch : contactsToMatch) {
+            // Create a matching record from the contact record's data
+            ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(
+                new Map<String, String>{
+                    'firstName' => contactToMatch.Matching_Firstname__c,
+                    'lastName' => contactToMatch.Matching_Lastname__c,
+                    'birthDate' => contactToMatch.Birthdate != null
+                        ? String.valueOf(contactToMatch.Birthdate)
+                        : '',
+                    'mobilePhone' => contactToMatch.MobilePhone
+                }
+            );
+            // Add the matching record to the list
+            matchingRecords.add(matchingRecord);
+            // Generate a unique key for the matching result
+            uniqueKey = ContactMatchingService.generateUniqueKey(
+                matchingRecord,
+                new List<String>(matchingRecord.fieldValues.keySet())
+            );
+            // Map the staging record ID to the matching result key
+            contactMatchingToMatchingResultKey.put(contactToMatch.Id, uniqueKey);
+        }
+
+        // Process the contact matching
+        Map<String, MatchingResult> matchingResults = ContactMatchingService.processContactMatching(
+            matchingRecords
+        );
+        // Process the matching results
+        processMatchingResult(contactsToMatch, matchingResults, contactMatchingToMatchingResultKey);
+    }
+
+    private static void processMatchingResult(
+        List<Contact> contactsToMatch,
+        Map<String, MatchingResult> matchingResults,
+        Map<Id, String> contactMatchingToMatchingResultKey
+    ) {
+        MatchingResult result;
+        Set<String> uniqueKeys = new Set<String>();
+
+        for (Contact contactToMatch : contactsToMatch) {
+            //get the contact uniquekey string assigned to the current contact id
+            String contactUniqueKey = contactMatchingToMatchingResultKey.get(contactToMatch.Id);
+            //get the matching result using the unique key
+            result = matchingResults.get(contactUniqueKey);
+            //if multple contacts found
+            boolean isMultipleMatch = result.error && result.errorMessage == 'Multiple match found';
+            //if a contact is found and it is not the current contact
+            boolean isSingleMatch =
+                !result.error &&
+                String.isNotBlank(result.matchingType) &&
+                result.contactIds.iterator().next() != contactToMatch.Id;
+            //if contact key fields exists in the same batch
+            boolean isExistingInSameBatch = uniqueKeys.contains(contactUniqueKey);
+
+            //other existing contact found
+            boolean otherExistingContactFound =
+                isMultipleMatch ||
+                isSingleMatch ||
+                isExistingInSameBatch;
+            //add an error to the current contact   
+            if (otherExistingContactFound) {
+                contactToMatch.addError(
+                    'Contact update failed to prevent duplicate contact creation'
+                );
+            }
+            //collect contact unique key fields
+            uniqueKeys.add(contactUniqueKey);
+        }
     }
 }
