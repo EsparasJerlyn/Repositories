@@ -37,7 +37,7 @@
                 <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-9093d735-cec2-4c6a-bd21-3710a0160c30</name>
+        <name>Facet-60933b9d-f5d9-4726-b79c-55629252a1c0</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -67,15 +67,19 @@
                 <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-fb0ddf57-2b7d-44d1-bf9a-e7e4a4503ce5</name>
+        <name>Facet-684ca254-9e85-41a9-a99d-2edb62368d9c</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-9093d735-cec2-4c6a-bd21-3710a0160c30</value>
+                    <value>Facet-60933b9d-f5d9-4726-b79c-55629252a1c0</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -88,8 +92,12 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>active</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-fb0ddf57-2b7d-44d1-bf9a-e7e4a4503ce5</value>
+                    <value>Facet-684ca254-9e85-41a9-a99d-2edb62368d9c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -99,7 +107,7 @@
                 <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-8ac3efa2-6310-49d3-aa4c-f06daad089fe</name>
+        <name>Facet-31d0d4fe-4808-41db-8171-4b88b7bf3a70</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -107,7 +115,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
-                    <value>Facet-8ac3efa2-6310-49d3-aa4c-f06daad089fe</value>
+                    <value>Facet-31d0d4fe-4808-41db-8171-4b88b7bf3a70</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset</identifier>
@@ -116,56 +124,10 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>showLegacyActivityComposer</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
-                <identifier>runtime_sales_activities_activityPanel</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-6b9b77da-b81a-4afb-a72b-9eb0865f15a3</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-6b9b77da-b81a-4afb-a72b-9eb0865f15a3</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.activity</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-03105b68-2e18-4ff3-969e-09cbd1cf2d84</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>tabs</name>
-                    <value>Facet-03105b68-2e18-4ff3-969e-09cbd1cf2d84</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>sidebar</name>
-        <type>Region</type>
-    </flexiPageRegions>
     <masterLabel>ABS Categorisation Record Page</masterLabel>
     <sobjectType>ABS_Categorisation__c</sobjectType>
     <template>
-        <name>flexipage:recordHomeTemplateDesktop</name>
+        <name>flexipage:recordHomeSimpleViewTemplate</name>
         <properties>
             <name>enablePageActionConfig</name>
             <value>false</value>

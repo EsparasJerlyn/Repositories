@@ -81,6 +81,74 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
             System.assert(leadScoreDetailsUpdated[0].Total_Lead_Score__c == 0, 'Incorrect Total Lead Score.');
         }        
     }
+    
+    @isTest
+    public static void programEnrollmentAddressValidationTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            
+            List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
+            absCategorisation.add(
+                new ABS_Categorisation__c(
+                    Name = 'Categorisation 1',
+                    Is_Active__c = true,
+                    Low_SES_Lower_Boundary__c = 0,
+                    Low_SES_Upper_Boundary__c = 80,
+                    Remoteness_Inner_Regional__c = true,
+                    Remoteness_Outer_Regional__c = true,
+                    Remoteness_Remote__c = true,
+                    Remoteness_Very_Remote__c = true
+                )
+            );
+            
+            ABSCategorisationsDAO.newInstance().insertRecords(absCategorisation, false, AccessLevel.USER_MODE);
+            
+            String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":50,"remotenessClass":"Remote","isValid":true}';
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Success', mockResponseBody));
+
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
+            
+            List<hed__Address__c> addresses = new List<hed__Address__c>();
+            
+            for (Integer i = 0; i < contactList.size(); i++) {
+                hed__Address__c add = new hed__Address__c();
+                add.hed__Parent_Contact__c = contactList[i].Id;
+                add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
+                add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.hed__MailingCountry__c = 'Australia';
+                add.hed__MailingState__c = 'QLD';
+                add.hed__MailingCity__c = 'DALLARNIL';
+                add.hed__MailingPostalCode__c = '12345';
+                add.hed__MailingStreet__c = '1234 Test St';
+                add.hed__MailingStreet2__c = '4321 Tester Street';
+                addresses.add(add);
+            }
+			AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnList = ProgramEnrollmentsDAO.newInstance()
+            .getAllProgramEnrollmentsByContactId(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
+            for(hed__Program_Enrollment__c prog: programEnList){ 
+                if(prog.hed__Account__c!=null){
+                    prog.Enrollment_Status__c = 'Admitted';
+                }                          
+            }
+            ProgramEnrollmentsDAO.newInstance().updateRecords(programEnList, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            //Other Address
+            for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(new Map<Id,Contact>(contactList).keySet(),new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){
+                System.Assert.areEqual(AddressesDAO.VALID_ADDRESS, address.Validated__c , 'The address Validated field is not equal to "Valid"');                
+                System.Assert.areEqual('Test Area', address.Statistical_Area_1_Id__c , 'The address Statistical_Area_1_Id__c field is not the expected value');
+                System.Assert.areEqual('12345', address.Meshblock_Id__c , 'The address Meshblock_Id__c field is not the expected value');                
+                System.Assert.areEqual(50, address.Socio_Economic_Percentile__c , 'The address Socio_Economic_Percentile__c field is not the expected value');
+                System.Assert.areEqual('Remote', address.Remoteness_Class__c , 'The address Remoteness_Class__c field is not the expected value');
+                System.Assert.areEqual('Yes', address.hed__Parent_Contact__r.Regional_Remote__c, 'The Contact Regional_Remote__c field is not the expected value');
+                System.Assert.areEqual('Yes', address.hed__Parent_Contact__r.Low_Socio_Economic_Status__c, 'The Contact Low_Socio_Economic_Status__c field is not the expected value');
+            }
+
+        }        
+    }
 
     private static void setupLeadScoreConfig(String citizenship, String studyLevel){
         List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();

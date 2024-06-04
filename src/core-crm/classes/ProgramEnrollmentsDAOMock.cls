@@ -46,11 +46,11 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         return programEnrollmentList;
     }
 
-    public List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIdAndStatus(Set<Id> contactIds, String status, AccessLevel accessLevel) {
+    public List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIdAndEnrollmentStatuses(Set<Id> contactIds, Set<String> statuses, AccessLevel accessLevel) {
         List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
 
         for (hed__Program_Enrollment__c record : programEnrollmentMap.values()) {
-            if (contactIds.contains(record.hed__Contact__c) && status == record.Enrollment_Status__c) {
+            if (contactIds.contains(record.hed__Contact__c) && statuses.contains(record.Enrollment_Status__c)) {
                 programEnrollmentList.add(record);
             }
         }
@@ -100,6 +100,9 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         if(programEnrollmentCriteria.getAcademicStatus() != null){
             soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
         }
+        if(programEnrollmentCriteria.getPreviousAcademicStatus() != null){
+            soql += 'AND Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' ';
+        }
         if(programEnrollmentCriteria.getEnrollmentStage() != null){
             soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';
         }
@@ -148,7 +151,7 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
     ){
         return 'SELECT ' + 
         ' Id, hed__Contact__c, Name,  ' +
-        ' Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, ' +
+        ' Academic_Status__c, Previous_Academic_Status__c, Enrollment_Stage__c, Enrollment_Status__c, ' +
         ' hed__Contact__r.hed__Citizenship_Status__c, hed__Contact__r.QUT_Student__c, hed__Contact__r.RecordType.DeveloperName ' +
         ' FROM hed__Program_Enrollment__c ' +
         getWhereClauseByCriteria(programEnrollmentCriteria, contactCriteria);

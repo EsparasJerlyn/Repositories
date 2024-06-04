@@ -162,6 +162,7 @@ public with sharing class ELECandidateGeneratorTest {
             
             List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Previous_Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
             programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
             programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
             programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
@@ -174,6 +175,7 @@ public with sharing class ELECandidateGeneratorTest {
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
             engagementListCriteria.Citizenship_Status__c = citizenshipStatus;
             engagementListCriteria.Academic_Status__c = academicStatus;
+            engagementListCriteria.Previous_Academic_Status__c = academicStatus;
             engagementListCriteria.Category_Type__c = categoryType;
             engagementListCriteria.Completed_Cadence__c = null;
             engagementListCriteria.Course_Grade__c = null;
@@ -207,6 +209,7 @@ public with sharing class ELECandidateGeneratorTest {
             for(Engagement_List_Event__c rec: engagementListEvents){
                 System.assertEquals(String.isNotBlank(rec.program_enrollment__c) , true, 'Program Enrollment  is not populated');
                 System.assertEquals(rec.Academic_Status__c, academicStatus, 'Academic status is not match');
+                System.assertEquals(rec.Previous_Academic_Status__c, academicStatus, 'Previous academic status is not match');
                 System.assertEquals(rec.Program_Enrollment_Status__c, ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED, 'Program Enrollment  is not enrollment status is not match');
                 System.assertEquals(rec.Key_Date__c !=null, true, 'Program Enrollment key date is empty');
             }       

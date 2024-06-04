@@ -54,6 +54,7 @@ public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(
         new Map<SObjectType, Type>{
+            ABS_Categorisation__c.SObjectType => ABSCategorisationsDAO.class,
             Account.SObjectType => AccountsDAO.class,
             Action__c.SObjectType => ActionsDAO.class,
             ActionCadenceTracker.SObjectType => ActionCadenceTrackersDAO.class,
@@ -215,4 +216,4 @@ public class ImplementationSelector {
      **/
     public class DeveloperException extends Exception {
     }
-}
+} 

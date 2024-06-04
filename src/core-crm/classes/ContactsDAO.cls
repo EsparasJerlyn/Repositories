@@ -73,6 +73,13 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final String ATSI_CODE_ISLANDER = 'Torres Strait Islander';
     public static final String ATSI_CODE_ABORIGINAL_ISLANDER = 'Aboriginal and Torres Strait Islander';
 
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_YES = 'Yes';
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_NO = 'No';
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_UNKNOWN = 'Unknown';
+    public static final String REGIONAL_REMOTE_YES = 'Yes';
+    public static final String REGIONAL_REMOTE_NO = 'No';
+    public static final String REGIONAL_REMOTE_UNKNOWN = 'Unknown';
+
     public static IContactsDAO newInstance() {
         return (IContactsDAO) ImplementationSelector.DAO.newInstance(Contact.SObjectType);
     }
@@ -419,7 +426,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c,QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c, ' +
             'Low_Socio_Economic_Status__c, Regional_Remote__c, Account.Is_Priority_Program__c, Account.RecordTypeId, ' +
             'ATSI_Code__c, Citizenship_Country__c, Is_Agent_Assisted__c, Agency_Name__c, Agency_Email__c, Is_International_Applicant__c, Applicant_Onshore__c, ' + 
-            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c ' +
+            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c, QUT_Student__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
@@ -630,7 +637,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
 
         return Database.query(
-            'SELECT Id, QUT_Student_ID__c FROM Contact ' +
+            'SELECT Id, QUT_Student_ID__c, Name, MobilePhone, Email FROM Contact ' +
             'Where RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
             'AND QUT_Student__c = true ' +
             'AND QUT_Student_Id__c in :studentIdList', 

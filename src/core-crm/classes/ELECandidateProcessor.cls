@@ -7,6 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 |  May 15, 2024         | DEPP-8484              | Created file                 |
+      | kim.howard.capanas             |  May 22, 2024         | DEPP-7526              | Added caseRecord             |
+      |                                |                       |                        | to ELECandidateProcessResult |
  */
 public with sharing class ELECandidateProcessor {
 
@@ -66,22 +68,26 @@ public with sharing class ELECandidateProcessor {
             event.Engagement_List_Criteria__c = criteriaId;
 
             if(openCaseMap.containsKey(eventCandidateContactId)){
-                event.Case__c = openCaseMap.get(eventCandidateContactId).Id;
+                Case caseRecord = openCaseMap.get(eventCandidateContactId);
+                event.Case__c = caseRecord.Id;
                 newEvents.add(event);
-                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED));
+                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED, caseRecord));
                 eventCandidateKeyMap.remove(candidateKey);
             }
         }
 
         Map<Id, Case> outreachCaseMap = new Map<Id, Case>();
+        Set<String> outreachKeySet = new Set<String>();
         for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){   
             Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
             Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
-            outreachCaseMap.put(
-                eventCandidateContactId, 
-                createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), eventCandidateContactId)
-            );
-            result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED));
+            String outreachKey = configId + '_' + eventCandidateContactId;
+            if(!outreachKeySet.contains(outreachKey)){
+                outreachKeySet.add(outreachKey);
+                Case caseRecord = createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), eventCandidateContactId, outreachKey);
+                outreachCaseMap.put(eventCandidateContactId, caseRecord);
+                result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED, caseRecord));
+            }
         }
 
         Map<String, Object> saveRecordParam = new Map<String, Object>{
@@ -170,8 +176,9 @@ public with sharing class ELECandidateProcessor {
         return openCaseMap;
     }
 
-    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id contactId){
+    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id contactId, String outreachKey){
         Case newCase = new Case(); 
+        newCase.Outreach_Key__c = outreachKey;
         newCase.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
         newCase.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
         newCase.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;

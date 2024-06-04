@@ -953,6 +953,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Outreach_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Redirected_Case_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3178,7 +3183,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Instrument__c</field>
+        <field>Engagement_List_Configuration__c.Qualtrics_Instrument_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3328,6 +3333,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Previous_Academic_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement_List_Criteria__c.Preview_Job_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3388,6 +3398,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Engagement_List_Event__c.Engagement_List_Criteria_Title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement_List_Event__c.Engagement_List_Event_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3424,6 +3439,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Event__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Event__c.Previous_Academic_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11949,6 +11969,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Enrollment__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Enrollment__c.Previous_Academic_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
