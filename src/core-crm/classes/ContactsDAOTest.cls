@@ -119,6 +119,39 @@ private class ContactsDAOTest {
     }
 
     @isTest
+    static void getContactsByMatchingAttributesEmptyTest(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            List<Contact> contactList = ContactsDAO.newInstance().getContactsByMatchingAttributes(
+                new Map<String,Set<String>>(),
+                new Set<Date>(), 
+                AccessLevel.SYSTEM_MODE
+            );
+            System.assert(contactList.isEmpty(), 'contactList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactsByMatchingAttributesTest(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+
+            Map<String,Set<String>> fieldSetMap = new Map<String,Set<String>>();
+            
+            Set<Date> birthDateSet = new Set<Date>();
+
+            List<Contact> contactList = ContactsDAO.newInstance().getContactsByMatchingAttributes(
+                fieldSetMap,
+                birthDateSet, 
+                AccessLevel.SYSTEM_MODE
+            );
+            System.assert(contactList.isEmpty(), 'contactList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getPersonContactsByCalculatedCadencesTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {

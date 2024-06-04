@@ -102,7 +102,6 @@ export default class CustomHeaderButtons extends LightningElement {
     get isDownloadCSVDisabled() {
         return this.listStageValue === "Distribute" ? false : true;
     }
-    
     recordTypeField = [LIST_RECORD_TYPE];
     @wire(getRecord, { recordId: "$listId", fields: "$recordTypeField" })
         wireRecordType(responseData) {
