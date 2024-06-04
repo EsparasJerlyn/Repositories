@@ -41,7 +41,7 @@ public with sharing class EngagementListEventsDAOTest {
     @isTest
     static void getEngagementListEventsByRelatedRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
