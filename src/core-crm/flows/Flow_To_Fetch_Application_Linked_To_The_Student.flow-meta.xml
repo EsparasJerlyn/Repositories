@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <description>Application Record Exist Prompt</description>
+        <name>Application_Record_Exist_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Application Record Exist Prompt</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>{
+Application Id : {!appRec.Id}
+Application Name : {!appRec.Name} 
+Is International Application:  {!appRec.Is_International_Applicant__c}
+Application Stage : {!appRec.Application_Stage__c}
+Program Name :{!appRec.Offered_Preference__r.Name}
+Term Name :{!appRec.Applied_Intake_Study_Period__r.Name}
+Contact Name : {!appRec.hed__Applicant__r.Name}
+Offer Status :{!appRec.Offer_Status__c}
+Offer Status Date :{!appRec.Offer_Status_Date__c}
+Assessment Result :{!appRec.Assessment_Result__c}
+}
+</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Application Record Not Exist Prompt</description>
+        <name>Application_Record_Not_Exist_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Application Record Not Exist Prompt</label>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There is No Application Record Associated this Contact
+</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>Checking if application record Exist for this contact</description>
+        <name>Checking_if_application_record_Exist_for_this_contact</name>
+        <label>Checking if application record Exist for this contact</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Application_Record_Not_Exist_Prompt</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Application_Record_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>appRec</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Application_Record_Exist_Prompt</targetReference>
+            </connector>
+            <label>Application Record Exist</label>
+        </rules>
+    </decisions>
+    <description>Flow To Fetch Application Linked To The Student</description>
+    <environments>Default</environments>
+    <interviewLabel>Flow To Fetch Application Linked To The Student {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow To Fetch Application Linked To The Student</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>PromptFlow</processType>
+    <recordLookups>
+        <name>Get_Application_Record</name>
+        <label>Get Application Record</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Checking_if_application_record_Exist_for_this_contact</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>hed__Applicant__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.objectToSummarize.Id</elementReference>
+            </value>
+        </filters>
+        <object>hed__Application__c</object>
+        <outputReference>appRec</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>Is_International_Applicant__c</queriedFields>
+        <queriedFields>Application_Stage__c</queriedFields>
+        <queriedFields>Application_Status__c</queriedFields>
+        <queriedFields>Offered_Preference__c</queriedFields>
+        <queriedFields>Applied_Intake_Study_Period__c</queriedFields>
+        <queriedFields>hed__Applicant__c</queriedFields>
+        <queriedFields>Offer_Status__c</queriedFields>
+        <queriedFields>Offer_Status_Date__c</queriedFields>
+        <queriedFields>Assessment_Result__c</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <capabilityTypes>
+            <name>PromptTemplateType://einstein_gpt__recordSummary</name>
+            <capabilityName>PromptTemplateType://einstein_gpt__recordSummary</capabilityName>
+            <inputs>
+                <name>objectToSummarize</name>
+                <capabilityInputName>objectToSummarize</capabilityInputName>
+                <dataType>SOBJECT://Contact</dataType>
+                <isCollection>false</isCollection>
+            </inputs>
+        </capabilityTypes>
+        <connector>
+            <targetReference>Get_Application_Record</targetReference>
+        </connector>
+        <triggerType>Capability</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Application Record Details</description>
+        <name>appRec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>hed__Application__c</objectType>
+    </variables>
+</Flow>

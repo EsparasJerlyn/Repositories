@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <description>Case Owner Prompt</description>
+        <name>Case_Owner_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Case Owner Prompt</label>
+        <locationX>162</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>ALL Owners who worked on this case
+{!Loop_Over_Case_Owners.NewValue}
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Case_Owners</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Case Comment Prompt</description>
+        <name>CaseCommentPrompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>CaseCommentPrompt</label>
+        <locationX>162</locationX>
+        <locationY>1658</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Internal Case Comments - 
+{!LoopOverCaseComments.CommentBody}
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopOverCaseComments</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>No Case Comment Record Error Handling</description>
+        <name>No_Case_Comment_Record_Error_Handling</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Case Comment Record Error Handling</label>
+        <locationX>290</locationX>
+        <locationY>1550</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There are no Case Comment Records
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Social_Post_Data</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>No Owner Error Handling</description>
+        <name>No_Owner_Error_Handling</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Owner Error Handling</label>
+        <locationX>290</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There are no Case Owners related to this Case
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GetTaskRecord</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>No Social Post Error Handling</description>
+        <name>No_Social_Post_Error_Handling</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Social Post Error Handling</label>
+        <locationX>314</locationX>
+        <locationY>2150</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There are no social Posts linked to this case.
+</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>No Task Error Handling</description>
+        <name>No_Task_Error_Handling</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Task Error Handling</label>
+        <locationX>290</locationX>
+        <locationY>950</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There are Task related to this Case
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GetCaseCommentRecords</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>SocialPostPrompt</description>
+        <name>SocialPostPrompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>SocialPostPrompt</label>
+        <locationX>138</locationX>
+        <locationY>2258</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Social Posts
+{!Loop_Over_Social_Posts.spr_sf__Message__c}
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Social_Posts</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>TaskRecordsPrompt</description>
+        <name>TaskRecordsPrompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>TaskRecordsPrompt</label>
+        <locationX>162</locationX>
+        <locationY>1058</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Tasks - 
+{!LoopOverTaskRecords.Description}
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopOverTaskRecords</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>If Case Comments Exist</description>
+        <name>If_Case_Comments_Exists</name>
+        <label>If Case Comments Exists</label>
+        <locationX>182</locationX>
+        <locationY>1442</locationY>
+        <defaultConnector>
+            <targetReference>No_Case_Comment_Record_Error_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Case_Comments_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AllCaseCommentRecords</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LoopOverCaseComments</targetReference>
+            </connector>
+            <label>Case Comments Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If Case Owners Exists</description>
+        <name>If_Case_Owners_Exists</name>
+        <label>If Case Owners Exists</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>No_Owner_Error_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Case_Owners_History_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>allCaseOwner</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_Case_Owners</targetReference>
+            </connector>
+            <label>Case Owners History Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If Social Post Exist</description>
+        <name>If_Social_Post_Exist</name>
+        <label>If Social Post Exist</label>
+        <locationX>182</locationX>
+        <locationY>2042</locationY>
+        <defaultConnector>
+            <targetReference>No_Social_Post_Error_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Social_Post_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AllSocialPost</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_Social_Posts</targetReference>
+            </connector>
+            <label>Social Post Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If Task Records Exists</description>
+        <name>If_Task_Records_Exists</name>
+        <label>If Task Records Exists</label>
+        <locationX>182</locationX>
+        <locationY>842</locationY>
+        <defaultConnector>
+            <targetReference>No_Task_Error_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Task_Record_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AllTasksRecords</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LoopOverTaskRecords</targetReference>
+            </connector>
+            <label>Task Record Exist</label>
+        </rules>
+    </decisions>
+    <description>Flow To Fetch Case History</description>
+    <environments>Default</environments>
+    <interviewLabel>Flow To Fetch Case History {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow To Fetch Case History</label>
+    <loops>
+        <description>Loop Over Case Owners</description>
+        <name>Loop_Over_Case_Owners</name>
+        <label>Loop Over Case Owners</label>
+        <locationX>74</locationX>
+        <locationY>350</locationY>
+        <collectionReference>allCaseOwner</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Case_Owner_Prompt</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>GetTaskRecord</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>Loop Over Social Posts</description>
+        <name>Loop_Over_Social_Posts</name>
+        <label>Loop Over Social Posts</label>
+        <locationX>50</locationX>
+        <locationY>2150</locationY>
+        <collectionReference>AllSocialPost</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>SocialPostPrompt</targetReference>
+        </nextValueConnector>
+    </loops>
+    <loops>
+        <description>Loop Over Case Comments</description>
+        <name>LoopOverCaseComments</name>
+        <label>LoopOverCaseComments</label>
+        <locationX>74</locationX>
+        <locationY>1550</locationY>
+        <collectionReference>AllCaseCommentRecords</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>CaseCommentPrompt</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Social_Post_Data</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>LoopOverTaskRecords</description>
+        <name>LoopOverTaskRecords</name>
+        <label>LoopOverTaskRecords</label>
+        <locationX>74</locationX>
+        <locationY>950</locationY>
+        <collectionReference>AllTasksRecords</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>TaskRecordsPrompt</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>GetCaseCommentRecords</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>PromptFlow</processType>
+    <recordLookups>
+        <description>Get Case Owners History</description>
+        <name>Get_Case_Owners_History</name>
+        <label>Get Case Owners History</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_Case_Owners_Exists</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2) AND 3 AND 4</filterLogic>
+        <filters>
+            <field>Field</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ownerAssignment</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Field</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Owner</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DataType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Text</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CaseId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.Case.Id</elementReference>
+            </value>
+        </filters>
+        <object>CaseHistory</object>
+        <outputReference>allCaseOwner</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>NewValue</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Social Post Data</description>
+        <name>Get_Social_Post_Data</name>
+        <label>Get Social Post Data</label>
+        <locationX>182</locationX>
+        <locationY>1934</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_Social_Post_Exist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>spr_sf__Case__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.Case.Id</elementReference>
+            </value>
+        </filters>
+        <object>spr_sf__SocialPost__c</object>
+        <outputReference>AllSocialPost</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CreatedById</queriedFields>
+        <queriedFields>spr_sf__Message__c</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Case Comment Records</description>
+        <name>GetCaseCommentRecords</name>
+        <label>GetCaseCommentRecords</label>
+        <locationX>182</locationX>
+        <locationY>1334</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_Case_Comments_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.Case.Id</elementReference>
+            </value>
+        </filters>
+        <object>CaseComment</object>
+        <outputReference>AllCaseCommentRecords</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CreatedById</queriedFields>
+        <queriedFields>CommentBody</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>GetTaskRecord</description>
+        <name>GetTaskRecord</name>
+        <label>GetTaskRecord</label>
+        <locationX>182</locationX>
+        <locationY>734</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_Task_Records_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhatId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.Case.Id</elementReference>
+            </value>
+        </filters>
+        <object>Task</object>
+        <outputReference>AllTasksRecords</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CreatedById</queriedFields>
+        <queriedFields>Description</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <capabilityTypes>
+            <name>PromptTemplateType://einstein_gpt__fieldCompletion</name>
+            <capabilityName>PromptTemplateType://einstein_gpt__fieldCompletion</capabilityName>
+            <inputs>
+                <name>RelatedEntity</name>
+                <capabilityInputName>RelatedEntity</capabilityInputName>
+                <dataType>SOBJECT://Case</dataType>
+                <isCollection>false</isCollection>
+            </inputs>
+        </capabilityTypes>
+        <connector>
+            <targetReference>Get_Case_Owners_History</targetReference>
+        </connector>
+        <triggerType>Capability</triggerType>
+    </start>
+    <status>InvalidDraft</status>
+    <variables>
+        <name>AllCaseCommentRecords</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CaseComment</objectType>
+    </variables>
+    <variables>
+        <description>All Case Owners Details</description>
+        <name>allCaseOwner</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CaseHistory</objectType>
+    </variables>
+    <variables>
+        <description>AllSocialPost</description>
+        <name>AllSocialPost</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>spr_sf__SocialPost__c</objectType>
+    </variables>
+    <variables>
+        <name>AllTasksRecords</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
+</Flow>
