@@ -60,7 +60,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Milestone'
         },
         Opportunity.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c,Stewardship__c,Contact__c',
+            'ParentFields' => 'Engagement__c,Stewardship__c,Contact__c,AccountId',
             'ObjectLabel' => 'Opportunity'
         },
         Opportunity_Outcome__c.SObjectType => new Map<String, String>{
