@@ -1,7 +1,0 @@
-<aura:component implements="force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes,force:hasRecordId">
-    <aura:attribute name="objectName" type="String"/>
-    <!-- Conditional rendering of LWC -->
-    <aura:if isTrue="{!v.isInitialized}">
-        <c:dynamicNewOverride objectName="{!v.objectName}"></c:dynamicNewOverride>
-    </aura:if>
-</aura:component>

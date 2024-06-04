@@ -5,17 +5,75 @@ import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import {
   IsConsoleNavigation,
   getTabInfo,
+  closeTab,
+  setTabLabel,
+  setTabIcon,
   EnclosingTabId
 } from "lightning/platformWorkspaceApi";
+import { MessageContext, subscribe, unsubscribe } from 'lightning/messageService';
+import tabClosedChannel from "@salesforce/messageChannel/lightning__tabClosed";
 
 export default class dynamicNewOverride extends NavigationMixin(
   LightningElement
 ) {
+
   @api objectApiName;
   @api recordId;
+  @api iconName;
   selectedRecordTypeId;
   recordOptions = [];
-  parentId;
+  uid;
+
+  connectedCallback(){
+    if (this.isConsoleNavigation) {
+      getTabInfo(this.enclosingTabId)
+      .then((tabInfo) => {
+        console.log('response in lwc(current tab)',JSON.parse(JSON.stringify(tabInfo)));
+        this.uid = tabInfo.pageReference.state.uid;
+        if(this.recordId){
+          window.sessionStorage.setItem(tabInfo.pageReference.state.uid,this.recordId)
+        }
+      })
+      .then(()=>{
+        return setTabLabel(this.enclosingTabId,'New '+ this.objectApiName);
+      })
+      .then(()=>{
+        return setTabIcon(this.enclosingTabId,this.iconName);
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
+      .finally(()=>{
+      })
+
+      this.unsubscribe();
+      this.messageSubscription = subscribe(this.messageContext, tabClosedChannel, (message) => {
+        this.handleMessage(message);
+      });
+    }
+  }
+
+  disconnectedCallback() {
+      this.unsubscribe();
+  }
+
+  unsubscribe() {
+      if (!this.messageSubscription) {
+        return;
+      }
+      unsubscribe(this.messageSubscription);
+      this.messageSubscriptions = null;
+  }
+
+  handleMessage(message) {
+    if (!message || !message.tabId) {
+       return;
+    }
+    window.sessionStorage.removeItem(this.uid);
+  }
+
+  @wire(MessageContext) messageContext;
+  messageSubscription = null;
 
   @wire(IsConsoleNavigation) isConsoleNavigation;
   @wire(EnclosingTabId) enclosingTabId;
@@ -35,18 +93,12 @@ export default class dynamicNewOverride extends NavigationMixin(
     }
   }
 
-  get hasRecordTypes() {
-    return this.recordOptions ? true : false;
+  get parentId(){
+    return window.sessionStorage.getItem(this.uid);
   }
 
-  navigateToNewRecordPage() {
-    this[NavigationMixin.Navigate]({
-      type: "standard__objectPage",
-      attributes: {
-        objectApiName: this.objectApiName,
-        actionName: "new"
-      }
-    });
+  get hasRecordTypes() {
+    return this.recordOptions ? true : false;
   }
 
   handleRecordTypeChange(event) {
@@ -54,12 +106,22 @@ export default class dynamicNewOverride extends NavigationMixin(
   }
 
   handleCancelClick() {
-    //close the new tab
+    this.closeNewTab();
+  }
+
+  handleNextClick() {
+    if(this.parentId){
+      this.handleNewRecordWithParentId();
+    }else{
+      this.handleNewRecord();
+    }
+    this.closeNewTab();
   }
 
   handleNewRecordWithParentId() {
     let encodeDefault = {};
-    encodeDefault['ContactId'] = this.recordId;
+    
+    encodeDefault['Lead__c'] = this.parentId;
     let finalDefaultValues = encodeDefaultFieldValues(encodeDefault);
 
     this[NavigationMixin.Navigate]({
@@ -90,48 +152,8 @@ export default class dynamicNewOverride extends NavigationMixin(
     });
   }
 
-  handleNextClick() {
-    console.log("this.objectApiName", this.objectApiName);
-    console.log("this.recordId",this.recordId);
-    console.log("this.selectedRecordTypeId",this.selectedRecordTypeId);
-    if(this.recordId){
-      this.handleNewRecordWithParentId();
-    }else{
-      this.handleNewRecord();
-    }
-    
-    // if (this.isConsoleNavigation) {
-    //   getTabInfo(this.enclosingTabId)
-    //     .then((tabInfo) => {
-    //       const primaryTabId = tabInfo.isSubtab
-    //         ? tabInfo.parentTabId
-    //         : tabInfo.tabId;
-    //       return primaryTabId;
-    //     })
-    //     .then((primaryTabId) => {
-    //       return getTabInfo(primaryTabId);
-    //     })
-    //     .then((primaryTabInfo) => {
-    //       this.parentId = this.getParentId(primaryTabInfo);
-    //     })
-    //     .catch((error) =>{
-    //       console.log(error);
-    //     })
-    //     .finally(()=>{
-    //       console.log("this.objectApiName", this.objectApiName);
-    //       console.log("this.recordId",this.recordId);
-    //       console.log("this.parentId",this.parentId);
-    //     })
-    // }
-    
-    //call navigation mixin with record type
-    //close the new tab
+  closeNewTab(){
+    closeTab(this.enclosingTabId);
+    window.sessionStorage.removeItem(this.uid);
   }
-
-  // getParentId(primaryTabInfo) {
-  //   const subTabsCount = primaryTabInfo.subtabs.length;
-  //   return subTabsCount > 1
-  //     ? primaryTabInfo.subtabs[subTabsCount - 2].recordId
-  //     : primaryTabInfo.recordId;
-  // }
 }

@@ -1,6 +1,4 @@
-<aura:component 
-implements="force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes,force:hasRecordId"
-access="global">
+<aura:component implements="force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:isUrlAddressable">
     <lightning:workspaceAPI aura:id="workspace" />
     <aura:attribute name="objectApiName" type="String" default="Case"/>
     <aura:attribute name="recordId" type="String"/>
