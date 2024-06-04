@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersion>18</activeVersion>
     <description>Prompt to fetch the application history of the student</description>
     <developerName>Prompt_to_fetch_the_application_history_of_the_student</developerName>
     <masterLabel>Prompt to fetch the application history of the student</masterLabel>
