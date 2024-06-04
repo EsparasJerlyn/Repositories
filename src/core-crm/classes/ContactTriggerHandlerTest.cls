@@ -167,7 +167,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void updateContactImageSuccessTest() {
-        User currUsr =TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
+        User currUsr =TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(currUsr) {
             Contact con = [
                 SELECT Id, Contact_Image__c
