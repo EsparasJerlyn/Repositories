@@ -901,7 +901,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>CustomButton.Case.NewCase</value>
+                            <value>CustomButton.Case.New_Case</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
