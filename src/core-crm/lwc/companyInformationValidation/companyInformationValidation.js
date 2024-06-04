@@ -17,6 +17,7 @@ import { getRecord, getFieldValue, updateRecord} from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LEAD_SCHEMA from '@salesforce/schema/Lead';
 import ENTITY_NAME_SCHEMA from '@salesforce/schema/Account.Entity_Name__c';
+import PHONE_SCHEMA from '@salesforce/schema/Account.Phone';
 import CAN_BE_CONVERTED from '@salesforce/schema/Lead.Can_Be_Converted__c';
 import {
     subscribe,
@@ -59,7 +60,8 @@ export default class CompanyInformationValidation extends LightningElement {
     disableEditButton;
     invalidConvertContact = false;
     isLoading = false;
-   
+    showEditField = true;
+
     /**
      * calls Apex method 'getMapping' and stores all fields to be queried
      */
@@ -241,7 +243,15 @@ export default class CompanyInformationValidation extends LightningElement {
      */
     handleEditButton(){
         this.disableEditButton = true;
+        this.showEditField = !this.showEditField;
     }
+
+    /**
+     * disables edit button for phone field
+     */
+    handleEdit() {
+        this.showEditField = !this.showEditField;
+      }
 
     /**
      * calls apex method 'validateCompany' and assigns results

@@ -144,6 +144,69 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         return contactList;
     }
 
+    public List<Contact> getContactsByMatchingAttributes(
+        Map<String,Set<String>> fieldSetMap,
+        Set<Date> birthDateSet,
+        AccessLevel accessLevel
+    ) {
+
+        String regexPattern = '[^a-zA-Z]';
+
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            Contact newContact = new Contact();
+
+            String firstNameFormula = record.FirstName != null?record.FirstName.replaceAll(regexPattern, ''):record.FirstName;
+            String lastNameFormula = record.LastName != null?record.LastName.replaceAll(regexPattern, ''):record.LastName;
+
+            boolean isPersonRecordType = record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID;
+            boolean hasMatchingFirstName = fieldSetMap.get('firstName').contains(firstNameFormula);
+            boolean hasMatchingLastName = fieldSetMap.get('lastName').contains(lastNameFormula);
+            boolean hasMatchingBirthdate = birthDateSet.contains(record.BirthDate);
+            boolean hasMatchingEmails = fieldSetMap.get('email').contains(record.Email) || fieldSetMap.get('email').contains(record.Work_Email__c) ||
+                                        fieldSetMap.get('email').contains(record.QUT_Learner_Email__c) || fieldSetMap.get('email').contains(record.QUT_Staff_Email__c);
+            boolean hasMatchingMobilePhones =  fieldSetMap.get('mobilePhone').contains(record.MobilePhone);
+            boolean hasMatchingEmailOrMobile = hasMatchingEmails || hasMatchingMobilePhones;
+            boolean isNaturalKeyMatch = hasMatchingFirstName && hasMatchingLastName && hasMatchingBirthdate;
+            boolean isPartialOrFirstNameStemMatch = hasMatchingLastName && hasMatchingBirthdate && hasMatchingEmailOrMobile;
+            boolean isMaidenNameMatch = hasMatchingFirstName && hasMatchingBirthdate && hasMatchingEmailOrMobile;
+            boolean noDOBMatch = hasMatchingFirstName && hasMatchingLastName && hasMatchingEmailOrMobile;
+            boolean hasMatch = isNaturalKeyMatch || isPartialOrFirstNameStemMatch || isMaidenNameMatch || noDOBMatch;
+    
+            
+            newContact = (Contact) JSON.deserialize(
+                            '{"attributes":{"type":"Contact"},"Id":"' +
+                            record.Id +
+                            '","FirstName":"' +
+                            record.FirstName +
+                            '","Matching_Firstname__c":"' +
+                            firstNameFormula +
+                            '","LastName":"' +
+                            record.LastName +
+                            '","Matching_Lastname__c":"' +
+                            lastNameFormula +
+                            '"}',
+                            Contact.class
+                        );
+            newContact.BirthDate = record.BirthDate;
+            newContact.Email = record.Email;
+            newContact.QUT_Staff_Email__c = record.QUT_Staff_Email__c;
+            newContact.QUT_Learner_Email__c = record.QUT_Learner_Email__c;
+            newContact.Work_Email__c = record.Work_Email__c;
+            newContact.RecordTypeId = record.RecordTypeId;
+            newContact.MobilePhone = record.MobilePhone;
+            newContact.QUT_Student_ID__c = record.QUT_Student_ID__c;
+            newContact.QUT_Employee_ID__c = record.QUT_Employee_ID__c;
+
+            //is person contact
+            if(isPersonRecordType && hasMatch){
+                contactList.add(newContact);
+            }
+
+        }
+        return contactList;
+    }
+
     public List<Contact> getPersonContactsByCalculatedCadences(
         Set<String> calculatedCadences
     ) {

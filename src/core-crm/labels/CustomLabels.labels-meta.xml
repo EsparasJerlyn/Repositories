@@ -780,6 +780,14 @@
         <value>/consumer/dep/v1/learner/courseEnrolment</value>
     </labels>
     <labels>
+        <fullName>ESBSAMSRefreshStudent</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBSAMSRefreshStudent</shortDescription>
+        <value>/consumer/dep/v1/ESBSAMSRefreshStudent</value>
+    </labels>
+    <labels>
         <fullName>ESBSAMSRegisterLearner</fullName>
         <categories>Endpoint</categories>
         <language>en_US</language>
