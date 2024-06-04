@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Business_Organization_Compact_Layout</fullName>
+    <fullName>University_Department_Compact_Layout</fullName>
     <fields>Name</fields>
     <fields>ParentId</fields>
     <fields>RecordTypeId</fields>
-    <label>Business Organization Compact Layout</label>
+    <fields>Organization_Unit_Level__c</fields>
+    <label>University Department Compact Layout</label>
 </CompactLayout>
