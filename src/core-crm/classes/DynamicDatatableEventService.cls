@@ -19,6 +19,7 @@
  *    | kenneth.f.alsay                | April 22, 2024        | DEPP-8432              | Added Designation__c as Parent |
  *    |                                |                       |                        | Field for Finance Summary      |
  *    | kenneth.f.alsay                | May 17, 2024          | DEPP-8789              | Added Stewardship__c           |
+ *    | jerlyn.esparas                 | June 04, 2024         | DEPP-8966              | Added hed__Affiliation__c      |
  
  * 
 
@@ -86,6 +87,10 @@ public with sharing class DynamicDatatableEventService {
         Expense__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Expense'
+        },
+        hed__Affiliation__c => new Map<String, String>{
+            'ParentFields' => 'Account',
+            'ObjectLabel' => 'Affiliation'
         }
     };
 
