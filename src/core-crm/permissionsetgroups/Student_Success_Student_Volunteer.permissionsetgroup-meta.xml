@@ -3,6 +3,7 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Student Success Student Volunteer</label>
     <mutingPermissionSets>Student_Success_Student_Volunteer_Muted</mutingPermissionSets>
+    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
