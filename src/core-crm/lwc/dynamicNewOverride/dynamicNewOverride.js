@@ -20,6 +20,7 @@ export default class dynamicNewOverride extends NavigationMixin(
   @api objectApiName;
   @api recordId;
   @api iconName;
+  @api objectLabel;
   selectedRecordTypeId;
   recordOptions = [];
   uid;
@@ -35,15 +36,13 @@ export default class dynamicNewOverride extends NavigationMixin(
         }
       })
       .then(()=>{
-        return setTabLabel(this.enclosingTabId,'New '+ this.objectApiName);
+        return setTabLabel(this.enclosingTabId,this.title);
       })
       .then(()=>{
         return setTabIcon(this.enclosingTabId,this.iconName);
       })
       .catch((error) =>{
         console.log(error);
-      })
-      .finally(()=>{
       })
 
       this.unsubscribe();
@@ -93,6 +92,10 @@ export default class dynamicNewOverride extends NavigationMixin(
     }
   }
 
+  get title(){
+    return 'New '+ this.objectLabel;
+  }
+
   get parentId(){
     return window.sessionStorage.getItem(this.uid);
   }
@@ -120,7 +123,7 @@ export default class dynamicNewOverride extends NavigationMixin(
 
   handleNewRecordWithParentId() {
     let encodeDefault = {};
-    
+    //TODO get dynamic parent field
     encodeDefault['Lead__c'] = this.parentId;
     let finalDefaultValues = encodeDefaultFieldValues(encodeDefault);
 
