@@ -27,6 +27,7 @@
       | mark.j.mahilum                 | Feb 29, 2024          | DEPP-7739              | Added method to Fixed issue with Lead to Contact |
       |                                |                       |                        | conversion mapping                               |
       | mark.j.mahilum                 | March 15, 2024        | DEPP-8314              | Updated can nurture logic for partner sourced    |
+      | roy.nino.s.regala              | Jun 05, 2024          | DEPP-9171              | Added contact matching logic on contact udpate   |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -70,7 +71,7 @@ public without sharing class ContactTriggerHelper {
             updateRegisteredEmail(con, oldItems);
             //updates sync to mc field
             updateSyncToMCField(con, oldItems);
-            //collects contact records to be for duplication
+            //collects contact records for contact matching
             collectContactForMatching(con, oldItems, contactsToMatch);
 
             //if contact is person on insert/update Persona Type is Personal
@@ -1146,13 +1147,19 @@ public without sharing class ContactTriggerHelper {
         );
     }
 
+    /**
+     * Collects contacts that need to be matched based on specific field updates.
+     *
+     * @param newContact The new contact being processed.
+     * @param oldContacts A map of existing contacts keyed by their Id.
+     * @param contactsToMatch The list of contacts to be matched.
+     */
     private static void collectContactForMatching(
         Contact newContact,
         Map<Id, Contact> oldContacts,
         List<Contact> contactsToMatch
     ) {
-        //if trigger is on update
-        //and one of the fields defined in CONTACT_FIELDS_TO_CHECK is updated
+        // Check if the trigger is on update and one of the fields defined in CONTACT_FIELDS_TO_CHECK is updated
         if (
             oldContacts != null &&
             ObjectFieldService.isOneOftheFieldsUpdated(
@@ -1161,11 +1168,18 @@ public without sharing class ContactTriggerHelper {
                 oldContacts.get(newContact.Id)
             )
         ) {
+            // Add the new contact to the list of contacts to match
             contactsToMatch.add(newContact);
         }
     }
 
+    /**
+     * Processes contact matching when the contact trigger is fired.
+     *
+     * @param contactsToMatch The list of contacts to be matched.
+     */
     private static void processContactMatchingOnContactTrigger(List<Contact> contactsToMatch) {
+        // If there are no contacts to match, exit the method
         if (contactsToMatch.isEmpty()) {
             return;
         }
@@ -1175,6 +1189,7 @@ public without sharing class ContactTriggerHelper {
         List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
         String uniqueKey = '';
 
+        // Iterate through each contact to match
         for (Contact contactToMatch : contactsToMatch) {
             // Create a matching record from the contact record's data
             ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(
@@ -1206,6 +1221,13 @@ public without sharing class ContactTriggerHelper {
         processMatchingResult(contactsToMatch, matchingResults, contactMatchingToMatchingResultKey);
     }
 
+    /**
+     * Processes the results of contact matching.
+     *
+     * @param contactsToMatch The list of contacts that were matched.
+     * @param matchingResults The results of the contact matching.
+     * @param contactMatchingToMatchingResultKey A map of contact IDs to their matching result keys.
+     */
     private static void processMatchingResult(
         List<Contact> contactsToMatch,
         Map<String, MatchingResult> matchingResults,
@@ -1214,33 +1236,34 @@ public without sharing class ContactTriggerHelper {
         MatchingResult result;
         Set<String> uniqueKeys = new Set<String>();
 
+        // Iterate through each contact to match
         for (Contact contactToMatch : contactsToMatch) {
-            //get the contact uniquekey string assigned to the current contact id
+            // Get the contact unique key string assigned to the current contact ID
             String contactUniqueKey = contactMatchingToMatchingResultKey.get(contactToMatch.Id);
-            //get the matching result using the unique key
+            // Get the matching result using the unique key
             result = matchingResults.get(contactUniqueKey);
-            //if multple contacts found
+            // Check if multiple contacts were found
             boolean isMultipleMatch = result.error && result.errorMessage == 'Multiple match found';
-            //if a contact is found and it is not the current contact
+            // Check if a single contact was found and it is not the current contact
             boolean isSingleMatch =
                 !result.error &&
                 String.isNotBlank(result.matchingType) &&
                 result.contactIds.iterator().next() != contactToMatch.Id;
-            //if contact key fields exists in the same batch
+            // Check if contact key fields exist in the same batch
             boolean isExistingInSameBatch = uniqueKeys.contains(contactUniqueKey);
 
-            //other existing contact found
+            // Determine if another existing contact was found
             boolean otherExistingContactFound =
                 isMultipleMatch ||
-                isSingleMatch ||
-                isExistingInSameBatch;
-            //add an error to the current contact   
+                isExistingInSameBatch ||
+                isSingleMatch;
+            // Add an error to the current contact if another existing contact was found
             if (otherExistingContactFound) {
                 contactToMatch.addError(
                     'Contact update failed to prevent duplicate contact creation'
                 );
             }
-            //collect contact unique key fields
+            // Collect contact unique key fields
             uniqueKeys.add(contactUniqueKey);
         }
     }
