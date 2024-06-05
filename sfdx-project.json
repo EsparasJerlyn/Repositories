@@ -2,6 +2,7 @@
 {
   "packageDirectories": [
     {
+      "path": "src",
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
