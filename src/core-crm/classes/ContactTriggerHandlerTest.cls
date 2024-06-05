@@ -183,15 +183,13 @@ public with sharing class ContactTriggerHandlerTest {
             List<ContentDocumentLink> conContentDocuLink = [
                 SELECT Id, LinkedEntityId
                 FROM ContentDocumentLink
-                WHERE LinkedEntityId = :con.Id
+                WHERE LinkedEntityId = :con.Id AND ContentDocument.Title = 'ContactImage.jpg'
             ];
             
-            System.assert(conContentDocuLink!=null, 'conContentDocuLink is Null');
-            System.assert(conContentDocuLink.size() > 0, 'conContentDocuLink is empty.');
-            /*System.assert(
+            System.assert(
                 conContentDocuLink.isEmpty(),
-                'Contact Image File is deleted'
-            );*/
+                'Contact Image File is not deleted'
+            );
         }
     }
     
