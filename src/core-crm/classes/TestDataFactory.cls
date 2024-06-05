@@ -4237,6 +4237,30 @@ public class TestDataFactory {
         return caseRecord;
     }
 
+    public static List<Case> createTestOutreachCaseRecords(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        List<Contact> contacts
+    ) {
+        List<Case> caseList = new List<Case>();
+        for(Contact contact : contacts){
+            Case caseRecord = new Case();
+            caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+            caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+            caseRecord.Subject = elConfig.Name;
+            caseRecord.ContactId = contact.Id;
+            caseRecord.OwnerId = ownerId;
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+            caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+            caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+            caseRecord.Status = CasesDAO.STATUS_CREATED;
+            caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+            caseList.add(caseRecord);
+        }
+        
+        return caseList;
+    }
+
     /** @description Method for creating serialized records with nonwritable fields
      * @return String serialized object
      */

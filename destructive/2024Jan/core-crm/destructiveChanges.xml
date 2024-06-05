@@ -85,6 +85,9 @@
         <!-- (Start) DEPP-8764 -->
         <members>Qualtrics_Survey__c.Case__c</members>
         <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-8764 -->
+        <members>Engagement_List_Configuration__c.Instrument__c</members>
+        <!--(End) DEPP-8764 -->
         <name>CustomField</name>
     </types>
     <types>

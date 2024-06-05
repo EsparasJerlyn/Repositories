@@ -7,11 +7,11 @@
 OR(
 ISNEW(),
 ISCHANGED( Qualtrics_Instrument_ID__c ),
-ISCHANGED( Instrument__c )
+ISCHANGED( Qualtrics_Instrument_Name__c )
 ),
 OR(
-AND(NOT( ISBLANK( Qualtrics_Instrument_ID__c )),ISBLANK( Instrument__c )),
-AND(NOT( ISBLANK( Instrument__c )),ISBLANK( Qualtrics_Instrument_ID__c ))
+AND(NOT( ISBLANK( Qualtrics_Instrument_ID__c )),ISBLANK( Qualtrics_Instrument_Name__c )),
+AND(NOT( ISBLANK( Qualtrics_Instrument_Name__c )),ISBLANK( Qualtrics_Instrument_ID__c ))
 )
 )</errorConditionFormula>
     <errorMessage>Both Qualtrics Instrument ID and Instrument need to be set when either is set.</errorMessage>
