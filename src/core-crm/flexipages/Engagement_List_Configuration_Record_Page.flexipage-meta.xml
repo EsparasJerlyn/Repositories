@@ -53,6 +53,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RECORDTYPE|EQUALS|[&quot;Entry_Criteria&quot;]</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -117,6 +122,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RECORDTYPE|EQUALS|[&quot;Imported&quot;]</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>

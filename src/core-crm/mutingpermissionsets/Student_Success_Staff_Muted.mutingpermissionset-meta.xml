@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MutingPermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Edit_Contact_Address</name>
+    </customPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Assessment__c.Assessment_Priority__c</field>
@@ -297,7 +301,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Instrument__c</field>
+        <field>Engagement_List_Configuration__c.Qualtrics_Instrument_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
