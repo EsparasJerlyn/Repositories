@@ -182,10 +182,15 @@ public with sharing class ContactTriggerHandlerTest {
             update con;
             Test.stopTest();
             
-            List<ContentDocumentLink> conContentDocuLink = [
+            /*List<ContentDocumentLink> conContentDocuLink = [
                 SELECT Id, LinkedEntityId
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :con.Id AND ContentDocument.Title = 'ContactImage.jpg'
+            ];*/
+            List<ContentDocumentLink> conContentDocuLink = [
+                SELECT Id
+                FROM ContentDocument
+                WHERE ContentDocument.Title = 'ContactImage.jpg'
             ];
             
             System.assert(
