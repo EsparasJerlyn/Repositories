@@ -263,13 +263,11 @@ private class CaseTriggerHelperTest {
 
     @isTest
     private static void testHandleOutreachCasePriority(){
-        
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
 
-            Integer numberOfContactsForHigh = 50;
-            Integer numberOfContactsForMedium = 30;
-            Integer numberOfContactsForLow = 20;
-            Integer numberOfCaseRecords = 100;
+            Integer numberOfContactsForHigh = 3;
+            Integer numberOfContactsForMedium = 2;
+            Integer numberOfContactsForLow = 1;
 
             List<Contact> contactList = new List<Contact>();
 
@@ -284,6 +282,11 @@ private class CaseTriggerHelperTest {
             List<Account> academicAccounts = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID);
             academicAccounts[0].Is_Priority_Program__c = true;
             AccountsDAO.newInstance().insertRecords(academicAccounts, true, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Program_Plan__c> programPlanList = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlanList[0].Category_Type__c = 'Graduate Certificate';
+            programPlanList[0].hed__Account__c = academicAccounts[0].Id;            
+            ProgramPlansDAO.newInstance().insertRecords(programPlanList,true,AccessLevel.SYSTEM_MODE);
 
             List<Contact> contactsForMediumPriority = TestDataFactory.createTestContactRecords(numberOfContactsForMedium);
             for(Contact contact : contactsForMediumPriority){
@@ -302,14 +305,34 @@ private class CaseTriggerHelperTest {
             contactList.addAll(contactsForLowPriority);
             ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
 
-            Test.startTest();
-            List<Case> cases = TestDataFactory.createTestCaseRecords(numberOfCaseRecords, new List<Lead>(), contactList);
-            for(Case caseRecord : cases){
-                caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
-                caseRecord.Origin = 'Email';
-                caseRecord.Case_Type__c = 'Student Success - Retention';
+            List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
+            for(Contact contact : contactsForMediumPriority){
+                hed__Program_Enrollment__c programEnrollment = new hed__Program_Enrollment__c();
+                programEnrollment.Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+                programEnrollment.Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
+                programEnrollment.Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+                programEnrollment.hed__Contact__c = contact.Id;
+                programEnrollment.hed__Program_Plan__c = programPlanList[0].Id;
+                programEnrollmentList.add(programEnrollment);
+
             }
-            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList,true,AccessLevel.SYSTEM_MODE);
+
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
+            config.Name = 'ELConfig Test';
+            config.Engagement_List_Configuration_Status__c = 'Active';
+            config.Start_Date__c = Date.today().addDays(-1);
+            config.End_Date__c = Date.today().addDays(1);
+            config.Qualtrics_Instrument_Id__c = 'test';
+            config.Qualtrics_Instrument_Name__c = 'test';
+            configs.add(config);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            Id studentRetentionId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
+            List<Case> cases = TestDataFactory.createTestOutreachCaseRecords(configs[0], studentRetentionId, contactList);
+            CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
             Integer highPrioCase = 0;
@@ -346,7 +369,7 @@ private class CaseTriggerHelperTest {
             config.Start_Date__c = Date.today().addDays(-1);
             config.End_Date__c = Date.today().addDays(1);
             config.Qualtrics_Instrument_Id__c = 'test';
-            config.Instrument__c = 'test';
+            config.Qualtrics_Instrument_Name__c = 'test';
             configs.add(config);
             EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
 
