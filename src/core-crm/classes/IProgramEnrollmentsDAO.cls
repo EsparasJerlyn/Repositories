@@ -35,4 +35,9 @@ public interface IProgramEnrollmentsDAO extends DmlInterface{
         ContactsDAO.Criteria contactCriteria,
         AccessLevel accessLevel
     );
+
+    List<hed__Program_Enrollment__c> getPriorityCourses(
+        Map<String, Object> params,
+        AccessLevel accessLevel
+    );
 }

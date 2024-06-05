@@ -73,6 +73,48 @@ public with sharing class ProgramEnrollmentsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void testGetPriorityCourses() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);            
+
+            List<Account> accountList = new List<Account>();
+            accountList.add(new Account(Name = 'Test', Program_Code__c = 'QC19', Is_Priority_Program__c = true, RecordTypeId = AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID));
+            AccountsDAO.newInstance().insertRecords(accountList,false,AccessLevel.USER_MODE);
+
+            List<hed__Program_Plan__c> programPlanListCreated = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlanListCreated[0].Category_Type__c = 'Graduate Certificate';
+            programPlanListCreated[0].hed__Account__c = accountList[0].Id;            
+            ProgramPlansDAO.newInstance().insertRecords(programPlanListCreated,true,AccessLevel.SYSTEM_MODE);
+
+            List<hed__Program_Enrollment__c> programEnrollmentListCreated = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentListCreated[0].Academic_Status__c = ProgramEnrollmentsDAO.ACADEMIC_STATUS_SHOW_CAUSE;
+            programEnrollmentListCreated[0].Enrollment_Stage__c = ProgramEnrollmentsDAO.ENROLLMENT_STAGE_ADMITTED;
+            programEnrollmentListCreated[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            programEnrollmentListCreated[0].hed__Contact__c = contactList[0].Id;
+            programEnrollmentListCreated[0].hed__Program_Plan__c = programPlanListCreated[0].Id;
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListCreated,true,AccessLevel.SYSTEM_MODE);
+            
+            Map<String, Object> params = new Map<String, Object>{
+                'contactIdSet' => new Set<Id>{contactList[0].Id},
+                'academicProgramRecTypeId' => AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID,
+                'enrollmentStatusList' => new Set<String>{
+                    ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED, 
+                    ProgramEnrollmentsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
+                }
+            };
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getPriorityCourses(params, AccessLevel.SYSTEM_MODE);
+            System.assertEquals(1, programEnrollmentList.size(), 'Program Enrollment list should be empty.');
+        }
+        Test.stopTest();
+    }
     
     @isTest
     static void testProgramEnrollmentsByContactIdAndEnrollmentStatuses() {
