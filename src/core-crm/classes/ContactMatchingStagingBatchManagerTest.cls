@@ -9,6 +9,11 @@
  */
 @isTest
 private class ContactMatchingStagingBatchManagerTest {
+
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+    }
+    
     @testSetup
     static void testSetup() {
         Test.startTest();

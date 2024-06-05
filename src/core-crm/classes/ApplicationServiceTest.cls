@@ -18,6 +18,10 @@ private class ApplicationServiceTest {
     private static final String EMAIL = 'testmail@mail.test';
     private static Integer recordsCount = 20;
     
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+    }
+
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });

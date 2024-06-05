@@ -14,7 +14,6 @@ private class DuplicateSanctionManagerTest {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
         Test.stopTest();
-
         List<Contact_Alternate_Id__c> conAltIdList = new List<Contact_Alternate_Id__c>();
         List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
         ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
@@ -31,6 +30,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processMissingQUTStudentIdTest() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
@@ -56,6 +56,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processSanctionStudentNotFoundTest() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
@@ -86,6 +87,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processDuplicateSanctionSuccessTest() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());

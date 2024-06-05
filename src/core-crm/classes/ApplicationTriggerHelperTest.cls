@@ -25,6 +25,10 @@ private class ApplicationTriggerHelperTest {
     private static final String BIRTHDAY = '2000-06-28';
     private static Integer recordsCount = 20;
     
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+    }
+    
     @testSetup
     static void testSetup() {
         Test.startTest();

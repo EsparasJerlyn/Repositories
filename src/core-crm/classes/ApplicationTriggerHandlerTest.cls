@@ -37,6 +37,8 @@ private class ApplicationTriggerHandlerTest {
     
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
@@ -54,6 +56,8 @@ private class ApplicationTriggerHandlerTest {
     
     @isTest
     private static void testApplicationBatchUpdateStatus() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
             List<hed__Application__c> applicationsList = [SELECT Id FROM hed__Application__c LIMIT: recordsCount];

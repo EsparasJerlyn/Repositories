@@ -18,6 +18,7 @@ private class ContactMatchingStagingTriggerHandlerTest {
 
     @isTest
     static void createContactMatchingStagingTest() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = TestDataFactory.createContactMatchingStagings(

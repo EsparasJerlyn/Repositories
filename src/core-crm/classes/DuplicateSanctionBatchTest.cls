@@ -19,6 +19,7 @@ private class DuplicateSanctionBatchTest {
 
     @isTest
     static void processMissingQUTStudentIdTest() {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(200);
