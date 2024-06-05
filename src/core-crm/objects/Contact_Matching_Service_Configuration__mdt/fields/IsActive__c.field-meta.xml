@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Username__c</fullName>
-    <description>Nominated user will have the automated priority calculation on case creation</description>
+    <fullName>IsActive__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>To indicate the batch job is currently enabled</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Username</label>
-    <length>255</length>
-    <required>false</required>
-    <type>Text</type>
-    <unique>false</unique>
+    <label>IsActive</label>
+    <type>Checkbox</type>
 </CustomField>
