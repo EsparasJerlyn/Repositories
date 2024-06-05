@@ -75,20 +75,6 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         );
     }
 
-    //updated test class and daomock
-    public List<hed__Program_Enrollment__c> getPriorityCourses(Map<String, Object> params, AccessLevel accessLevel){
-        return Database.queryWithBinds(
-            'SELECT Id, hed__Contact__c ' +
-              'FROM hed__Program_Enrollment__c ' +
-             'WHERE hed__Contact__c IN : contactIdSet ' + 
-               'AND hed__Program_Plan__r.hed__Account__r.Is_Priority_Program__c = true ' +
-               'AND hed__Program_Plan__r.hed__Account__r.RecordTypeId =: academicProgramRecTypeId ' +
-               'AND Enrollment_Status__c IN : enrollmentStatusList',
-            params,
-            accessLevel
-        );
-    }
-
     public Database.QueryLocator queryLocatorGetAllProgramEnrollmentsByContactId(
         Set<Id> recordIds
     ){

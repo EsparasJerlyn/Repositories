@@ -39,7 +39,7 @@ public class QualtricsSurveyCalloutQueuableTest {
             engagementListConfig[0].Email_Template__c = 'Test Email Template';
             engagementListConfig[0].Communication_Channel__c = 'Email';
             engagementListConfig[0].Qualtrics_Instrument_Id__c = 'test';
-            engagementListConfig[0].Qualtrics_Instrument_Name__c = 'test';            
+            engagementListConfig[0].Instrument__c = 'test';            
             EngagementsDAO.newInstance().updateRecords(engagementListConfig, true, AccessLevel.SYSTEM_MODE);
 
             List<Qualtrics_Survey__c> qualtricsSurveyList = TestDataFactory.createQualtricsSurveyRecord(100);

@@ -6,7 +6,6 @@
     <mutingPermissionSets>Future_Student_Agent_International_Muted</mutingPermissionSets>
     <permissionSets>Future_Student_Engagement</permissionSets>
     <permissionSets>Google_Integration_User</permissionSets>
-    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Knowledge_User</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>

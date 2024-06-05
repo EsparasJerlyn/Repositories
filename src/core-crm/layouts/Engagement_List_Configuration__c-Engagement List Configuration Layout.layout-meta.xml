@@ -42,7 +42,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Qualtrics_Instrument_Name__c</field>
+                <field>Instrument__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

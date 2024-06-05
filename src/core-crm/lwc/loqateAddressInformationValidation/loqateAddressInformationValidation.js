@@ -17,7 +17,6 @@ import { getRecordNotifyChange } from "lightning/uiRecordApi";
 import { refreshApex } from "@salesforce/apex";
 import { loadStyle } from "lightning/platformResourceLoader";
 
-import HAS_PERMISSION from '@salesforce/customPermission/Edit_Contact_Address';
 import getLoqateMetaData from "@salesforce/apex/AddressInformationValidationCtrl.getLoqateMetaData";
 import getHedAddress from "@salesforce/apex/AddressInformationValidationCtrl.getHedAddress";
 import upsertAddress from "@salesforce/apex/AddressInformationValidationCtrl.upsertHedAddress";
@@ -76,12 +75,6 @@ export default class LoqateAddressInformationValidation extends LightningElement
   wiredAddresses;
   addressSuffix = ADDRESS_SUFFIX;
   hasUnverifiedAddress = false;
-  showNoAddressRecorded = false;
-
-  //decides if user has access to this edit address
-  get hasAccess(){
-    return HAS_PERMISSION;
-  }
 
   //gets api mapping from custom metadata
   connectedCallback() {
@@ -124,7 +117,6 @@ export default class LoqateAddressInformationValidation extends LightningElement
         };
       });
       this.mapAddress = tempData;
-      this.showNoAddressRecorded = this.mapAddress.length === 0 && !this.hasAccess ? true : false;
       this.mapAddress.sort((a, b) => a.type.localeCompare(b.type));
       this.setupOptions(this.fieldApiMapping);
       this.noAddress =

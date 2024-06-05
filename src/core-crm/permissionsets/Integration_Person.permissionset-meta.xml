@@ -3183,7 +3183,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Qualtrics_Instrument_Name__c</field>
+        <field>Engagement_List_Configuration__c.Instrument__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

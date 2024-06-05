@@ -3,7 +3,6 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Student Success Manager</label>
     <mutingPermissionSets>Student_Success_Manager_Muted</mutingPermissionSets>
-    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
     <permissionSets>Student_Success_Super_User</permissionSets>
     <status>Updated</status>

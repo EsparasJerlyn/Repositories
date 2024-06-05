@@ -27,7 +27,7 @@ private class QualtricsSurveyServiceTest {
             List<Engagement_List_Configuration__c> elcList = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c elcRec = new Engagement_List_Configuration__c();
             elcRec.Qualtrics_Instrument_Id__c = 'test';
-            elcRec.Qualtrics_Instrument_Name__c = 'test';
+            elcRec.Instrument__c = 'test';
             elcList.add(elcRec);
             EngagementListConfigurationsDAO.newInstance().insertRecords(elcList, true, AccessLevel.USER_MODE);
 

@@ -99,15 +99,13 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
         })
   
         const recordsToDisplay = [];
-        if (caseData.length > 3) {
-          for (let i = 0; i < 3; i++) {
+        if (caseData.length > 0) {
+          for (let i = 0; i < 5; i++) {
             recordsToDisplay.push(caseData[i]);
           }
-          this.data = recordsToDisplay;
-        }else{
-          this.data = caseData;
         }
         
+        this.data = recordsToDisplay;
         this.dataForViewAll = caseData;
         this.showTable = recordsToDisplay.length > 5 ? false : true;
       }

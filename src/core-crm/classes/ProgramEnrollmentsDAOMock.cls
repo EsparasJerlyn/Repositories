@@ -69,26 +69,6 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
 
         return programEnrollmentList;
     }
-
-    public List<hed__Program_Enrollment__c> getPriorityCourses(Map<String, Object> params, AccessLevel accessLevel) {
-        List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
-
-        Set<Id> contactIds = (Set<Id>) params.get('contactIdSet');
-        Set<String> enrollmentStatusList = (Set<String>) params.get('enrollmentStatusList');
-
-        for (hed__Program_Enrollment__c record : programEnrollmentMap.values()) {
-            if (
-                contactIds.contains(record.hed__Contact__c) &&
-                enrollmentStatusList.contains(record.Enrollment_Status__c)
-            ) {
-                programEnrollmentList.add(record);
-            }
-        }
-
-        return programEnrollmentList;
-    }
-
-    
     
     public Database.QueryLocator queryLocatorGetAllProgramEnrollmentsByContactId(
         Set<Id> recordIds

@@ -15,7 +15,6 @@
       | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Updated matchExistingContactOrLeadToCase         |
       | eccarius.munoz                 | April 5, 2024         | DEPP-7533	            | Added handleOutreachCasePriority                 | 
       | eccarius.munoz                 | June 2, 2024          | DEPP-8484	            | Added setOutreachKeyForClosedCase                | 
-      | eccarius.munoz                 | June 4, 2024          | DEPP-7533	            | Updated handling for outreach case medium prio   | 
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -367,34 +366,22 @@ public with sharing class CaseTriggerHelper {
     }
 
     /**
-     * @description Handles case priority setup for outreac record type
+     * @description Set the case priority for outreach record type
      * @param newItems - List of case record
      */
     public static void handleOutreachCasePriority(List<Case> newItems) {
 
         //get all contacts from case
-        Map<Id, Case> caseByContactMap = new Map<Id, Case>();        
+        Set<Id> contactIdSet = new Set<Id>();        
         for(Case caseRecord : newItems){
             if(caseRecord.RecordTypeId == CasesDAO.OUTREACH_RECTYPE_ID){
-                caseByContactMap.put(caseRecord.contactId, caseRecord);
+                contactIdSet.add(caseRecord.contactId);
             }
         }
 
-        if(!caseByContactMap.isEmpty()){
-            setOutreachCasePriority(caseByContactMap);
-        }        
-    }
-
-    /**
-     * @description Sets the case priority for outreach record type
-     * @param caseByContactMap - Map of Cases by Contact Ids
-     */
-    private static void setOutreachCasePriority(Map<Id, Case> caseByContactMap){
         //get person contact details
-        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(caseByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
-        Set<Id> contactsWithPriorityCourses = getContacIdsWithPriorityCourse(caseByContactMap.keySet());
-
-        for(Case caseRecord : caseByContactMap.values()){
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
+        for(Case caseRecord : newItems){
 
             //set priority to low as default for case outreach
             caseRecord.Priority = CasesDAO.PRIORITY_LOW;        
@@ -410,9 +397,11 @@ public with sharing class CaseTriggerHelper {
                         contactMap.get(caseRecord.contactId).ATSI_Code__c == ContactsDAO.ATSI_CODE_ISLANDER || 
                         contactMap.get(caseRecord.contactId).ATSI_Code__c == ContactsDAO.ATSI_CODE_ABORIGINAL_ISLANDER
                     );
-                
+
                 //validate record if for medium priority
-                Boolean isCriteriaForMeidum = !isCriteriaForHigh && contactsWithPriorityCourses.contains(caseRecord.contactId);
+                Boolean isCriteriaForMeidum = 
+                    contactMap.get(caseRecord.contactId).Account.RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID &&
+                    contactMap.get(caseRecord.contactId).Account.Is_Priority_Program__c;
 
                 //set Priority
                 if(isCriteriaForHigh){
@@ -422,32 +411,6 @@ public with sharing class CaseTriggerHelper {
                 }
             }
         }
-    }
-
-    /**
-     * @description Retrieves Contact IDs with priority courses.
-     * @param contactIdSet - Set<Id> Contact IDs to check.
-     * @return Set<Id> - Set of Contact IDs with priority courses.
-     */
-    private static Set<Id> getContacIdsWithPriorityCourse(Set<Id> contactIdSet){
-
-        Set<Id> contactsWithPriorityCourses = new Set<Id>();
-
-        Map<String, Object> params = new Map<String, Object>{
-            'contactIdSet' => contactIdSet,
-            'academicProgramRecTypeId' => AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID,
-            'enrollmentStatusList' => new Set<String>{
-                ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED, 
-                ProgramEnrollmentsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
-            }
-        };
-
-        List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getPriorityCourses(params, AccessLevel.SYSTEM_MODE);
-        for(hed__Program_Enrollment__c programEnrollment : programEnrollmentList){
-            contactsWithPriorityCourses.add(programEnrollment.hed__Contact__c);
-        }
-        
-        return contactsWithPriorityCourses;
     }
 
     /**

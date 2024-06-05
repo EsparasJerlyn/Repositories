@@ -4,14 +4,6 @@
         <application>Student_Success</application>
         <visible>true</visible>
     </applicationVisibilities>
-    <classAccesses>
-        <apexClass>OutreachCampaignPreviewController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>OutreachCaseImportCtrl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <description>Give access for Student Success Super Users</description>
     <fieldPermissions>
         <editable>true</editable>
@@ -100,7 +92,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Qualtrics_Instrument_Name__c</field>
+        <field>Engagement_List_Configuration__c.Instrument__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
