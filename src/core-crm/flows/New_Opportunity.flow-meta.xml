@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
+        <name>Do_Contact_Matching</name>
+        <label>Do Contact Matching</label>
+        <locationX>3097</locationX>
+        <locationY>2612</locationY>
+        <actionName>ContactMatchingService</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Is_Contact_Match_Found</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>email</name>
+            <value>
+                <elementReference>WorkEmailInput.workEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>firstName</name>
+            <value>
+                <elementReference>First_Name</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>lastName</name>
+            <value>
+                <elementReference>Last_Name</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mobileLocale</name>
+            <value>
+                <elementReference>Mobile_Locale_Picklist</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mobileNoLocale</name>
+            <value>
+                <elementReference>MobileValue</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ContactMatchingService</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
@@ -58,8 +107,8 @@
     <assignments>
         <name>Assign_Contextual_Role_Object_Values</name>
         <label>Assign Contextual Role Object Values</label>
-        <locationX>3658</locationX>
-        <locationY>1448</locationY>
+        <locationX>2338</locationX>
+        <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -81,8 +130,8 @@
     <assignments>
         <name>Assign_Header_Title_Contact</name>
         <label>Assign Header Title Contact</label>
-        <locationX>3768</locationX>
-        <locationY>566</locationY>
+        <locationX>3922</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -98,14 +147,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Collect_Contact_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Opportunity_Record_Type</name>
         <label>Assign Opportunity Record Type</label>
-        <locationX>1106</locationX>
+        <locationX>3383</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>OpportunityRecord.RecordTypeId</assignToReference>
@@ -115,15 +163,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>What_Record_Type_Is_Selected_0</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignAccountNameCreated</name>
         <label>AssignAccountNameCreated</label>
-        <locationX>3636</locationX>
-        <locationY>1040</locationY>
+        <locationX>2184</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
             <operator>Assign</operator>
@@ -138,8 +185,8 @@
     <assignments>
         <name>AssignHeaderTitleFundingBodies</name>
         <label>AssignHeaderTitleFundingBodies</label>
-        <locationX>3240</locationX>
-        <locationY>566</locationY>
+        <locationX>2316</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -154,8 +201,8 @@
     <assignments>
         <name>AssignHeaderTitleOrganisation</name>
         <label>Assign Header Title Organisation</label>
-        <locationX>4032</locationX>
-        <locationY>566</locationY>
+        <locationX>4186</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -171,14 +218,15 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Collect_Account_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignHeaderTitlePartners</name>
         <label>AssignHeaderTitlePartners</label>
-        <locationX>3504</locationX>
-        <locationY>566</locationY>
+        <locationX>3658</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -187,13 +235,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Collect_Account_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignModalTitle</name>
         <label>AssignModalTitle</label>
-        <locationX>1909</locationX>
+        <locationX>2514</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -209,8 +258,8 @@
     <assignments>
         <name>AssignPrimaryContactContributorsContextualValue</name>
         <label>Assign  Primary Contact and Contributors Contextual Value</label>
-        <locationX>5506</locationX>
-        <locationY>1448</locationY>
+        <locationX>2866</locationX>
+        <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -240,15 +289,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Collect_Contact_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignSelectedAccount</name>
         <label>AssignSelectedAccount</label>
-        <locationX>3900</locationX>
-        <locationY>1040</locationY>
+        <locationX>2448</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountId</assignToReference>
             <operator>Add</operator>
@@ -284,8 +332,8 @@
     <assignments>
         <name>AssignSelectedContactId</name>
         <label>AssignSelectedContactId</label>
-        <locationX>4054</locationX>
-        <locationY>2528</locationY>
+        <locationX>3779</locationX>
+        <locationY>4076</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
             <operator>Assign</operator>
@@ -381,8 +429,8 @@
     <decisions>
         <name>Check_Account_and_Contact_Affiliation</name>
         <label>Check Account and Contact Affiliation</label>
-        <locationX>3658</locationX>
-        <locationY>2876</locationY>
+        <locationX>3383</locationX>
+        <locationY>4424</locationY>
         <defaultConnector>
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
         </defaultConnector>
@@ -406,7 +454,7 @@
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>1909</locationX>
+        <locationX>2514</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Record_Type_Selection_Industry_Engagement</targetReference>
@@ -642,10 +690,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_Contact_Match_Found</name>
+        <label>Is Contact Match Found</label>
+        <locationX>3097</locationX>
+        <locationY>2720</locationY>
+        <defaultConnector>
+            <targetReference>Opportunity_Display</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Contact_Match_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_Contact_Matching.error</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Contact_Match_Error_Screen</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_Create_New_Account_Selected</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>3768</locationX>
-        <locationY>932</locationY>
+        <locationX>2316</locationX>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedAccount</targetReference>
         </defaultConnector>
@@ -669,8 +742,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>3658</locationX>
-        <locationY>1964</locationY>
+        <locationX>3383</locationX>
+        <locationY>3512</locationY>
         <defaultConnector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
         </defaultConnector>
@@ -694,8 +767,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>1502</locationX>
-        <locationY>1448</locationY>
+        <locationX>1238</locationX>
+        <locationY>1406</locationY>
         <defaultConnector>
             <targetReference>Create_IPU_Opportunity</targetReference>
         </defaultConnector>
@@ -719,8 +792,8 @@
     <decisions>
         <name>Is_Create_New_Contact_Selected</name>
         <label>Is Create New Contact Selected?</label>
-        <locationX>3658</locationX>
-        <locationY>2420</locationY>
+        <locationX>3383</locationX>
+        <locationY>3968</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedContactId</targetReference>
         </defaultConnector>
@@ -742,10 +815,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_Create_New_Contact_Selected1</name>
+        <label>Is Create New Contact Selected?</label>
+        <locationX>3383</locationX>
+        <locationY>2504</locationY>
+        <defaultConnector>
+            <targetReference>Opportunity_Display</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Create_New_Contact1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Create_New_Contact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Do_Contact_Matching</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_Record_Type_Research_Partnership_Or_Commercialisation</name>
         <label>Is Record Type Research Partnership Or Commercialisation</label>
-        <locationX>3658</locationX>
-        <locationY>3176</locationY>
+        <locationX>3383</locationX>
+        <locationY>4724</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Research_Partnership</name>
@@ -811,8 +909,8 @@
     <decisions>
         <name>Opportunity_Display</name>
         <label>Opportunity Display</label>
-        <locationX>3658</locationX>
-        <locationY>1664</locationY>
+        <locationX>3383</locationX>
+        <locationY>3212</locationY>
         <defaultConnector>
             <targetReference>Collect_Opportunity_Details</targetReference>
         </defaultConnector>
@@ -843,8 +941,8 @@
     <decisions>
         <name>What_Record_Type_Is_Selected</name>
         <label>What Record Type Is Selected?</label>
-        <locationX>3768</locationX>
-        <locationY>1232</locationY>
+        <locationX>2316</locationX>
+        <locationY>1190</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>International_Projects_Unit</name>
@@ -902,8 +1000,8 @@
     <decisions>
         <name>What_Record_Type_Is_Selected_0</name>
         <label>What Record Type Is Selected?</label>
-        <locationX>3768</locationX>
-        <locationY>458</locationY>
+        <locationX>3383</locationX>
+        <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>International_Projects_Unit_0</name>
@@ -1158,8 +1256,8 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>3262</locationX>
-        <locationY>2180</locationY>
+        <locationX>2987</locationX>
+        <locationY>3728</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
@@ -1210,8 +1308,8 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record_0</name>
         <label>Create Account Record</label>
-        <locationX>1370</locationX>
-        <locationY>1664</locationY>
+        <locationX>1106</locationX>
+        <locationY>1622</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_IPU_Opportunity</targetReference>
@@ -1257,8 +1355,8 @@
     <recordCreates>
         <name>Create_Commercialisation_Opportunity</name>
         <label>Create Commercialisation Opportunity</label>
-        <locationX>3130</locationX>
-        <locationY>3284</locationY>
+        <locationX>2855</locationX>
+        <locationY>4832</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1296,8 +1394,8 @@
     <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>3658</locationX>
-        <locationY>3566</locationY>
+        <locationX>3383</locationX>
+        <locationY>5114</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
@@ -1353,9 +1451,10 @@
     <recordCreates>
         <name>Create_Financial_Split</name>
         <label>Create Financial Split</label>
-        <locationX>1502</locationX>
-        <locationY>2072</locationY>
+        <locationX>1238</locationX>
+        <locationY>2030</locationY>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
@@ -1386,8 +1485,8 @@
     <recordCreates>
         <name>Create_IPU_Opportunity</name>
         <label>Create IPU Opportunity</label>
-        <locationX>1502</locationX>
-        <locationY>1856</locationY>
+        <locationX>1238</locationX>
+        <locationY>1814</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Get_Opportunity_Funding_Body_Record_Type</targetReference>
@@ -1437,8 +1536,8 @@
     <recordCreates>
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
-        <locationX>3262</locationX>
-        <locationY>2636</locationY>
+        <locationX>2987</locationX>
+        <locationY>4184</locationY>
         <assignRecordIdToReference>ContactId</assignRecordIdToReference>
         <connector>
             <targetReference>Check_Account_and_Contact_Affiliation</targetReference>
@@ -1556,8 +1655,8 @@
     <recordCreates>
         <name>Create_Research_Partnership_Opportunity</name>
         <label>Create Research Partnership Opportunity</label>
-        <locationX>2602</locationX>
-        <locationY>3284</locationY>
+        <locationX>2327</locationX>
+        <locationY>4832</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1607,8 +1706,8 @@
     <recordCreates>
         <name>CreateIndividualGivingOpportunity</name>
         <label>Create Individual Giving Opportunity</label>
-        <locationX>3658</locationX>
-        <locationY>3284</locationY>
+        <locationX>3383</locationX>
+        <locationY>4832</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <isGoTo>true</isGoTo>
@@ -1701,8 +1800,8 @@
     <recordCreates>
         <name>CreateOrganisationGivingOpportunity</name>
         <label>Create Organisation Giving Opportunity</label>
-        <locationX>4186</locationX>
-        <locationY>3284</locationY>
+        <locationX>3911</locationX>
+        <locationY>4832</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1800,8 +1899,8 @@
     <recordLookups>
         <name>Get_Account_Record_Type</name>
         <label>Get Account Record Type</label>
-        <locationX>3262</locationX>
-        <locationY>2072</locationY>
+        <locationX>2987</locationX>
+        <locationY>3620</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record</targetReference>
@@ -1834,8 +1933,8 @@
     <recordLookups>
         <name>Get_Account_Record_Type_0</name>
         <label>Get Account Record Type</label>
-        <locationX>1370</locationX>
-        <locationY>1556</locationY>
+        <locationX>1106</locationX>
+        <locationY>1514</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record_0</targetReference>
@@ -1864,8 +1963,8 @@
     <recordLookups>
         <name>Get_Opportunity_Contextual_Role_Record_Id</name>
         <label>Get Opportunity Contextual Role Record Id</label>
-        <locationX>3658</locationX>
-        <locationY>1340</locationY>
+        <locationX>2338</locationX>
+        <locationY>1298</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
@@ -1898,8 +1997,8 @@
     <recordLookups>
         <name>Get_Opportunity_Funding_Body_Record_Type</name>
         <label>Get Opportunity Funding Body Record Type</label>
-        <locationX>1502</locationX>
-        <locationY>1964</locationY>
+        <locationX>1238</locationX>
+        <locationY>1922</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Financial_Split</targetReference>
@@ -1933,8 +2032,8 @@
         <description>Gets the Person recordtype for contact.</description>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>3262</locationX>
-        <locationY>2528</locationY>
+        <locationX>2987</locationX>
+        <locationY>4076</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_Contact_Record</targetReference>
@@ -1967,8 +2066,8 @@
     <recordLookups>
         <name>GetAdvancementOpportunityContextualRoleRecordId</name>
         <label>Get Advancement Opportunity Contextual Role Record Id</label>
-        <locationX>5506</locationX>
-        <locationY>1340</locationY>
+        <locationX>2866</locationX>
+        <locationY>1298</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignPrimaryContactContributorsContextualValue</targetReference>
@@ -2001,8 +2100,8 @@
     <screens>
         <name>Collect_Account_Details</name>
         <label>Collect Account Details</label>
-        <locationX>3768</locationX>
-        <locationY>824</locationY>
+        <locationX>2316</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2278,13 +2377,13 @@
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>3658</locationX>
-        <locationY>1556</locationY>
+        <locationX>3383</locationX>
+        <locationY>2396</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Opportunity_Display</targetReference>
+            <targetReference>Is_Create_New_Contact_Selected1</targetReference>
         </connector>
         <fields>
             <name>PartnerText</name>
@@ -2478,7 +2577,7 @@
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 40 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>LEN({!First_Name})&lt;=40</formulaExpression>
@@ -2756,8 +2855,8 @@
     <screens>
         <name>Collect_Opportunity_Details</name>
         <label>Collect Opportunity Details</label>
-        <locationX>3790</locationX>
-        <locationY>1772</locationY>
+        <locationX>3515</locationX>
+        <locationY>3320</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2968,8 +3067,8 @@
     <screens>
         <name>Collect_Opportunity_Details_IPU</name>
         <label>Collect Opportunity Details</label>
-        <locationX>1502</locationX>
-        <locationY>1340</locationY>
+        <locationX>1238</locationX>
+        <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -3020,8 +3119,8 @@
     <screens>
         <name>CollectOpportunitySummaryScreen</name>
         <label>Collect Opportunity Summary Screen</label>
-        <locationX>3526</locationX>
-        <locationY>1772</locationY>
+        <locationX>3251</locationX>
+        <locationY>3320</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -3167,6 +3266,22 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Contact_Match_Error_Screen</name>
+        <label>Contact_Match_Error_Screen</label>
+        <locationX>2965</locationX>
+        <locationY>2828</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>false</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>ContactMatchError</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, &amp;quot;system-ui&amp;quot;, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(186, 5, 23);&quot;&gt;Contact with these details already exists. Please search for the contact with provided details.﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Do_Not_Have_Access_General_Screen</name>
         <label>Do Not Have Access (General) Screen</label>
         <locationX>50</locationX>
@@ -3219,7 +3334,7 @@
     <screens>
         <name>Record_Type_Selection_Advancement_Opportunity_Management</name>
         <label>Record Type Selection (Advancement Opportunity Management)</label>
-        <locationX>1106</locationX>
+        <locationX>3383</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3269,12 +3384,13 @@
     <screens>
         <name>Record_Type_Selection_Industry_Engagement</name>
         <label>Record Type Selection (Industry Engagement)</label>
-        <locationX>3768</locationX>
+        <locationX>4978</locationX>
         <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>What_Record_Type_Is_Selected_0</targetReference>
         </connector>
         <fields>
@@ -3294,7 +3410,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1783</locationX>
+        <locationX>2388</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>AssignModalTitle</targetReference>
@@ -3304,8 +3420,8 @@
     <subflows>
         <name>Check_Contact_Affiliation</name>
         <label>Check Contact Affiliation</label>
-        <locationX>3526</locationX>
-        <locationY>2984</locationY>
+        <locationX>3251</locationX>
+        <locationY>4532</locationY>
         <connector>
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
         </connector>
@@ -3332,8 +3448,8 @@
     <subflows>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>1909</locationX>
-        <locationY>3890</locationY>
+        <locationX>2514</locationX>
+        <locationY>5354</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>

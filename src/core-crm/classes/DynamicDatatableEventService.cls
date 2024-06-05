@@ -41,7 +41,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Document'
         },
         Donation__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity__c,From_Designation__c',
+            'ParentFields' => 'Opportunity__c,From_Designation__c,Account__c',
             'ObjectLabel' => 'Donation'
         },
         Finance_Summary__c.SObjectType => new Map<String, String>{
@@ -61,7 +61,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Milestone'
         },
         Opportunity.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c,Stewardship__c,Contact__c',
+            'ParentFields' => 'Engagement__c,Stewardship__c,Contact__c,AccountId',
             'ObjectLabel' => 'Opportunity'
         },
         Opportunity_Outcome__c.SObjectType => new Map<String, String>{
@@ -81,7 +81,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Risk'
         },
         Stewardship__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Contact__c',
+            'ParentFields' => 'Contact__c,Account__c',
             'ObjectLabel' => 'Stewardship'
         },
         Expense__c.SObjectType => new Map<String, String>{
