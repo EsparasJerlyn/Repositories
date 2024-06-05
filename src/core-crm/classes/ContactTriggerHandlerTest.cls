@@ -187,7 +187,7 @@ public with sharing class ContactTriggerHandlerTest {
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :con.Id AND ContentDocument.Title = 'ContactImage.jpg'
             ];*/
-            List<ContentDocumentLink> conContentDocuLink = [
+            List<ContentDocument> conContentDocuLink = [
                 SELECT Id
                 FROM ContentDocument
                 WHERE ContentDocument.Title = 'ContactImage.jpg'
