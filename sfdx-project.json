@@ -2,6 +2,8 @@
 {
   "packageDirectories": [
     {
+      "type": "ENABLE_EINSTEIN"
+    },{
       "path": "src",
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
