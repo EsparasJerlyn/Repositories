@@ -175,7 +175,7 @@ public with sharing class ContactTriggerHandlerTest {
                 WHERE CreatedById = :currUsr.Id
                 LIMIT 1
             ];
-            System.assert(con.size() > 0, 'Query returns no Contact record.');
+            System.assert(con != null, 'Query returns no Contact record.');
 
             con.Contact_Image__c = null;
             Test.startTest();
