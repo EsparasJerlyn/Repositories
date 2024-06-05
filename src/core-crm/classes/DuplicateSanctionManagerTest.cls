@@ -9,6 +9,11 @@
  */
 @isTest
 private class DuplicateSanctionManagerTest {
+
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+    }
+
     @testSetup
     static void testSetup() {
         Test.startTest();
@@ -30,7 +35,6 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processMissingQUTStudentIdTest() {
-        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
@@ -56,7 +60,6 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processSanctionStudentNotFoundTest() {
-        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
@@ -87,7 +90,6 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processDuplicateSanctionSuccessTest() {
-        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
