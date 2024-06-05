@@ -190,7 +190,7 @@ public with sharing class ContactTriggerHandlerTest {
             List<ContentDocument> conContentDocuLink = [
                 SELECT Id
                 FROM ContentDocument
-                WHERE ContentDocument.Title = 'ContactImage.jpg'
+                WHERE Title = 'ContactImage.jpg'
             ];
             
             System.assert(
