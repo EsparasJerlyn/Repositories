@@ -167,7 +167,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void updateContactImageSuccessTest() {
-        User currUsr =TestDataFactoryUser.selectUserSystemAdministrator;
+        User currUsr =TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         System.runAs(currUsr) {
             Contact con = [
                 SELECT Id, Contact_Image__c
@@ -186,6 +186,7 @@ public with sharing class ContactTriggerHandlerTest {
                 WHERE LinkedEntityId = :con.Id
             ];
             
+            System.assert(conContentDocuLink!=null, 'conContentDocuLink is Null');
             System.assert(
                 conContentDocuLink.isEmpty(),
                 'Contact Image File is deleted'
