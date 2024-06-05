@@ -182,11 +182,6 @@ public with sharing class ContactTriggerHandlerTest {
             update con;
             Test.stopTest();
             
-            /*List<ContentDocumentLink> conContentDocuLink = [
-                SELECT Id, LinkedEntityId
-                FROM ContentDocumentLink
-                WHERE LinkedEntityId = :con.Id AND ContentDocument.Title = 'ContactImage.jpg'
-            ];*/
             List<ContentDocument> conContentDocuLink = [
                 SELECT Id
                 FROM ContentDocument
