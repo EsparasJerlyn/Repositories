@@ -19,6 +19,7 @@ public with sharing class EngagementListEventKey {
     private Id programEnrollmentBreachId;
     private Id leaveOfAbsenceId;
     private String academicStatus;
+    private String previousAcademicStatus;
     private String courseEnrollmentStatus;   
     private String programEnrollmentStatus;
     private Datetime keyDate;
@@ -34,6 +35,7 @@ public with sharing class EngagementListEventKey {
         programEnrollmentBreachId = event.Program_Enrollment_Breach__c;
         leaveOfAbsenceId = event.Leave_of_Absence__c;
         academicStatus = event.Academic_Status__c;
+        previousAcademicStatus = event.Previous_Academic_Status__c;
         courseEnrollmentStatus = event.Course_Enrollment_Status__c;
         keyDate = event.Key_Date__c;
         programEnrollmentStatus = event.Program_Enrollment_Status__c;
@@ -53,6 +55,7 @@ public with sharing class EngagementListEventKey {
                 this.programEnrollmentBreachId == key.programEnrollmentBreachId &&
                 this.leaveOfAbsenceId == key.leaveOfAbsenceId &&
                 this.academicStatus == key.academicStatus &&
+                this.previousAcademicStatus == key.previousAcademicStatus &&
                 this.courseEnrollmentStatus == key.courseEnrollmentStatus &&
                 this.keyDate == key.keyDate &&
                 this.programEnrollmentStatus == key.programEnrollmentStatus &&

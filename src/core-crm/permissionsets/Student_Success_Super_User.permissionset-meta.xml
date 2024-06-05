@@ -4,6 +4,10 @@
         <application>Student_Success</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <classAccesses>
+        <apexClass>OutreachCampaignPreviewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Give access for Student Success Super Users</description>
     <fieldPermissions>
         <editable>true</editable>
@@ -92,7 +96,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Instrument__c</field>
+        <field>Engagement_List_Configuration__c.Qualtrics_Instrument_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -238,6 +242,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Criteria__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Engagement_List_Criteria__c.Previous_Academic_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

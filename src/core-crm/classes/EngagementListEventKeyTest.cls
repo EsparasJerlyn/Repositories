@@ -40,6 +40,7 @@ public with sharing class EngagementListEventKeyTest {
             eventCandidate.Program_Enrollment_Breach__c = programEnrollmentBreachId;
             eventCandidate.Leave_of_Absence__c = leaveOfAbsenceId;
             eventCandidate.Academic_Status__c = 'Showcause';
+            eventCandidate.Previous_Academic_Status__c = 'Showcause';
             eventCandidate.Course_Enrollment_Status__c = 'Enrolled';
             eventCandidate.Key_Date__c = keyDate;
             eventCandidate.Program_Enrollment_Status__c = 'Active';
@@ -54,6 +55,7 @@ public with sharing class EngagementListEventKeyTest {
             existingEvent.Program_Enrollment_Breach__c = programEnrollmentBreachId;
             existingEvent.Leave_of_Absence__c = leaveOfAbsenceId;
             existingEvent.Academic_Status__c = 'Showcause';
+            existingEvent.Previous_Academic_Status__c = 'Showcause';
             existingEvent.Course_Enrollment_Status__c = 'Enrolled';
             existingEvent.Key_Date__c = keyDate;
             existingEvent.Program_Enrollment_Status__c = 'Active';

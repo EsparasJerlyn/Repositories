@@ -4099,6 +4099,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Leave_of_Absence__c.Is_On_Leave__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Leave_of_Absence__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>

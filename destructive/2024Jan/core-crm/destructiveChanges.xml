@@ -85,6 +85,9 @@
         <!-- (Start) DEPP-8764 -->
         <members>Qualtrics_Survey__c.Case__c</members>
         <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-8764 -->
+        <members>Engagement_List_Configuration__c.Instrument__c</members>
+        <!--(End) DEPP-8764 -->
         <name>CustomField</name>
     </types>
     <types>
@@ -120,6 +123,11 @@
         <!--DEPP-8542 Start-->
         <name>AutoResponseRule</name>
     </types>
-    
+    <!--DEPP-9125 Start-->
+    <types>
+        <members>QUTStudentRetentionEmailTemplates/Outreach_Held_Show_Cause_Unsatisfactory_Academic_Performance_1716856187779</members>
+        <name>EmailTemplate</name>
+    </types>
+    <!--DEPP-9125 End-->
     <version>59.0</version> 
 </Package>
