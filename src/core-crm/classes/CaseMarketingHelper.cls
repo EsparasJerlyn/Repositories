@@ -194,8 +194,7 @@ public with sharing class CaseMarketingHelper { //NOPMD
                     AccessLevel.SYSTEM_MODE
                 )
         ) {
-            boolean isConUpdateDateTime = contactRecord.HasOptedOutOfEmail == true ||
-                                    contactRecord.Email_Opt_In_DateTime__c == null;
+            boolean isConUpdateDateTime = contactRecord.HasOptedOutOfEmail == true;
             if (
                 isConUpdateDateTime &&
                 recordIdsWithDateTimeMap.containsKey(contactRecord.Id)
@@ -221,8 +220,7 @@ public with sharing class CaseMarketingHelper { //NOPMD
             Lead leadRecord : LeadsDAO.newInstance()
                 .getLeadsByIdSet(contactLeadIds, AccessLevel.SYSTEM_MODE)
         ) {
-            boolean isLeadUpdateDateTime = leadRecord.HasOptedOutOfEmail == true ||
-                                        leadRecord.Email_Opt_In_DateTime__c == null;
+            boolean isLeadUpdateDateTime = leadRecord.HasOptedOutOfEmail == true;
             if (
                 isLeadUpdateDateTime &&
                 recordIdsWithDateTimeMap.containsKey(leadRecord.Id)
