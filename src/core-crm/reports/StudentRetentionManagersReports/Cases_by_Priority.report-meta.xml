@@ -4,16 +4,16 @@
         <field>FK_NAME</field>
     </columns>
     <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
         <field>CONTACT.NAME</field>
     </columns>
     <columns>
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>PRIORITY</field>
-    </columns>
-    <columns>
-        <field>CREATED_DATE</field>
+        <field>STATUS</field>
     </columns>
     <columns>
         <field>CLOSED_DATE</field>
@@ -25,6 +25,7 @@
         <field>LAST_UPDATE</field>
     </columns>
     <filter>
+        <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
         <criteriaItems>
             <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
@@ -39,19 +40,33 @@
             <operator>equals</operator>
             <value>Student Success - Retention</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>CREATED_DATEONLY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>LAST_N_MONTHS:4</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CREATED_DATEONLY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>THIS_MONTH</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>OWNER</field>
+        <dateGranularity>Month</dateGranularity>
+        <field>CREATED_DATEONLY</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>STATUS</field>
+        <field>PRIORITY</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Cases by Assignee &amp; Status (This Week)</name>
+    <name>Cases by Priority</name>
     <params>
         <name>units</name>
         <value>d</value>
@@ -67,6 +82,6 @@
     <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
-        <interval>INTERVAL_THISWEEK</interval>
+        <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>
