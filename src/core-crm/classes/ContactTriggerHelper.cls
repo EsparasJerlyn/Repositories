@@ -45,7 +45,6 @@ public without sharing class ContactTriggerHelper {
         Map<Id, Contact> oldItems
     ) {
         List<Contact> contactsToRecalculate = new List<Contact>();
-        List<Contact> contactsToMatch = new List<Contact>();
 
         for (Contact con : newItems) {
             Boolean isPerson = ContactsDAO.PERSON_RECORDTYPE_ID == con.RecordTypeId;
@@ -71,8 +70,6 @@ public without sharing class ContactTriggerHelper {
             updateRegisteredEmail(con, oldItems);
             //updates sync to mc field
             updateSyncToMCField(con, oldItems);
-            //collects contact records for contact matching
-            collectContactForMatching(con, oldItems, contactsToMatch);
 
             //if contact is person on insert/update Persona Type is Personal
             con.Persona_Type__c = 'Personal';
@@ -81,9 +78,6 @@ public without sharing class ContactTriggerHelper {
         //processes with soql and dml start
         //recalculate Can Nurture by threshold
         recalculateCanNurture(contactsToRecalculate);
-
-        //do contact matching
-        processContactMatchingOnContactTrigger(contactsToMatch);
     }
 
     /**
@@ -1148,60 +1142,60 @@ public without sharing class ContactTriggerHelper {
     }
 
     /**
-     * Collects contacts that need to be matched based on specific field updates.
-     *
-     * @param newContact The new contact being processed.
-     * @param oldContacts A map of existing contacts keyed by their Id.
-     * @param contactsToMatch The list of contacts to be matched.
-     */
-    private static void collectContactForMatching(
-        Contact newContact,
-        Map<Id, Contact> oldContacts,
-        List<Contact> contactsToMatch
-    ) {
-        // Check if the trigger is on update and one of the fields defined in CONTACT_FIELDS_TO_CHECK is updated
-        if (
-            oldContacts != null &&
-            ObjectFieldService.isOneOftheFieldsUpdated(
-                ContactMatchingService.CONTACT_FIELDS_TO_CHECK,
-                newContact,
-                oldContacts.get(newContact.Id)
-            )
-        ) {
-            // Add the new contact to the list of contacts to match
-            contactsToMatch.add(newContact);
-        }
-    }
-
-    /**
      * Processes contact matching when the contact trigger is fired.
      *
-     * @param contactsToMatch The list of contacts to be matched.
+     * @param newContacts The list of new contacts
+     * @param oldContactsMap The map of old contacts
      */
-    private static void processContactMatchingOnContactTrigger(List<Contact> contactsToMatch) {
-        // If there are no contacts to match, exit the method
-        if (contactsToMatch.isEmpty()) {
-            return;
-        }
-
+    public static void processContactMatchingOnContactTrigger(
+        List<Contact> newContacts,
+        Map<Id, Contact> oldContactsMap
+    ) {
         // Initialize maps and lists to store data during processing
         Map<Id, String> contactMatchingToMatchingResultKey = new Map<Id, String>();
         List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
+        List<Contact> contactsToMatch = new List<Contact>();
         String uniqueKey = '';
 
-        // Iterate through each contact to match
-        for (Contact contactToMatch : contactsToMatch) {
+        // Iterate through each contact
+        for (Contact newContact : newContacts) {
+            //indicates that firstName,lastname,DOB, or Mobilephone has been updated
+            boolean isOneOfContactFieldsUpdated = ObjectFieldService.isOneOftheFieldsUpdated(
+                ContactMatchingService.CONTACT_FIELDS_TO_CHECK,
+                newContact,
+                oldContactsMap.get(newContact.Id)
+            );
+
+            //indicates that one of the email fields is updated
+            boolean isOneOfEmailFieldsUpdated = ObjectFieldService.isOneOftheFieldsUpdated(
+                ContactMatchingService.CONTACT_EMAIL_FIELDS_TO_CHECK,
+                newContact,
+                oldContactsMap.get(newContact.Id)
+            );
+
+            //indicates that no fields are updated
+            boolean isExcludedFromPayload =
+                !isOneOfContactFieldsUpdated && !isOneOfEmailFieldsUpdated;
+
+            if (isExcludedFromPayload) {
+                continue;
+            }
+
             // Create a matching record from the contact record's data
             ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(
                 new Map<String, String>{
-                    'firstName' => contactToMatch.Matching_Firstname__c,
-                    'lastName' => contactToMatch.Matching_Lastname__c,
-                    'birthDate' => contactToMatch.Birthdate != null
-                        ? String.valueOf(contactToMatch.Birthdate)
+                    'firstName' => newContact.Matching_Firstname__c,
+                    'lastName' => newContact.Matching_Lastname__c,
+                    //if any of the email is updated, set the primary email in the payload to null
+                    //this means that the email updated is unique or null
+                    'email' => isOneOfEmailFieldsUpdated ? '' : newContact.Email,
+                    'birthDate' => newContact.Birthdate != null
+                        ? String.valueOf(newContact.Birthdate)
                         : '',
-                    'mobilePhone' => contactToMatch.MobilePhone
+                    'mobilePhone' => newContact.MobilePhone
                 }
             );
+
             // Add the matching record to the list
             matchingRecords.add(matchingRecord);
             // Generate a unique key for the matching result
@@ -1210,13 +1204,21 @@ public without sharing class ContactTriggerHelper {
                 new List<String>(matchingRecord.fieldValues.keySet())
             );
             // Map the staging record ID to the matching result key
-            contactMatchingToMatchingResultKey.put(contactToMatch.Id, uniqueKey);
+            contactMatchingToMatchingResultKey.put(newContact.Id, uniqueKey);
+            // Store contacts for matching
+            contactsToMatch.add(newContact);
         }
 
-        // Process the contact matching
+        // skip contact matching services if no contacts for matching found
+        if (contactsToMatch.isEmpty()) {
+            return;
+        }
+
+        // Process the contact matching services
         Map<String, MatchingResult> matchingResults = ContactMatchingService.processContactMatching(
             matchingRecords
         );
+
         // Process the matching results
         processMatchingResult(contactsToMatch, matchingResults, contactMatchingToMatchingResultKey);
     }
@@ -1242,29 +1244,42 @@ public without sharing class ContactTriggerHelper {
             String contactUniqueKey = contactMatchingToMatchingResultKey.get(contactToMatch.Id);
             // Get the matching result using the unique key
             result = matchingResults.get(contactUniqueKey);
-            // Check if multiple contacts were found
-            boolean isMultipleMatch = result.error && result.errorMessage == 'Multiple match found';
-            // Check if a single contact was found and it is not the current contact
+
+            //evaluate matching result
+            boolean isMultipleMatch = result.errorMessage == 'Multiple match found';
             boolean isSingleMatch =
                 !result.error &&
                 String.isNotBlank(result.matchingType) &&
                 result.contactIds.iterator().next() != contactToMatch.Id;
-            // Check if contact key fields exist in the same batch
             boolean isExistingInSameBatch = uniqueKeys.contains(contactUniqueKey);
+            boolean isNaturalKeyConfirmationFailed =
+                result.errorMessage == 'Contact Record does not match email and/or mobile provided';
 
             // Determine if another existing contact was found
             boolean otherExistingContactFound =
                 isMultipleMatch ||
                 isExistingInSameBatch ||
-                isSingleMatch;
+                isSingleMatch ||
+                isNaturalKeyConfirmationFailed;
+
             // Add an error to the current contact if another existing contact was found
             if (otherExistingContactFound) {
                 contactToMatch.addError(
                     'Contact update failed to prevent duplicate contact creation'
                 );
+                // Log error message
+                Logger.error(
+                    JSON.serializePretty(result),
+                    contactToMatch.Id
+                );
             }
             // Collect contact unique key fields
             uniqueKeys.add(contactUniqueKey);
+        }
+
+        // Save the log if there are buffered log messages
+        if (Logger.getBufferSize() > 0) {
+            Logger.saveLog();
         }
     }
 }

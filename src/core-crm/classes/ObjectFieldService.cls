@@ -30,26 +30,6 @@ public inherited sharing class ObjectFieldService {
     }
 
     /**
-     * @description Method that checks if one of the fields(Api Name) between two records is different and updated to null
-     * @param {Set<String>} fields -  A set of field Api Names of an object
-     * @param SObject newRecord - An Sobject type of a new record
-     * @param SObject oldRecord - An Sobject type of a old record
-     * @return boolean - returns true if one field of a new record is not the same with the old record and is updated to null
-     */
-    public static boolean isOneOfTheFieldsUpdatedToNull(
-        Set<String> fields,
-        SObject newRecord,
-        SObject oldRecord
-    ) {
-        for (String field : fields) {
-            if (newRecord.get(field) != oldRecord.get(field) && newRecord.get(field) == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * @description Method that checks if any of the fields(Api Name) of a new record is populated or is boolean true
      * @param {Set<String>} fields -  A set of field Api Names of an object
      * @param SObject newRecord - An Sobject type of a new record

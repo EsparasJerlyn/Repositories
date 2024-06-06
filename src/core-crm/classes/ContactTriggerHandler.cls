@@ -126,6 +126,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   ) {
     Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
     Map<Id, Contact> oldMap = (Map<Id,Contact>) oldItems;
+    ContactTriggerHelper.processContactMatchingOnContactTrigger(newMap.values(),oldMap);
     ContactImageHelper.generateContactImageFile(newMap.values(), oldMap);
     processLeadOnUpdate(newMap, oldMap);
     processWelcomeEmail(newMap, oldMap);

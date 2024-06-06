@@ -45,6 +45,17 @@ public without sharing class ContactMatchingService {
     };
 
     /**
+     * @description List of contact email fields needed to be check if changed to null
+     *              Add contact fields here if needed.
+     */
+    public static final Set<String> CONTACT_EMAIL_FIELDS_TO_CHECK = new Set<String>{
+        'Email',
+        'Work_Email__c',
+        'QUT_Learner_Email__c',
+        'QUT_Staff_Email__c'
+    };
+
+    /**
      * Processes contact matching for a list of records and returns a map of matching contacts.
      * Matches are determined based on predefined key fields.
      * If more than one match is found for any record, logs an error and excludes the record from the result.
