@@ -3,7 +3,9 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Student Success Manager</label>
     <mutingPermissionSets>Student_Success_Manager_Muted</mutingPermissionSets>
+    <permissionSets>Email_SMS_Call_Scripts_Template_Editor</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
+    <permissionSets>Manage_Reports_and_Dashboards</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
     <permissionSets>Student_Success_Super_User</permissionSets>
     <status>Updated</status>
