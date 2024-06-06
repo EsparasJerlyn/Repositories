@@ -8,6 +8,10 @@
         <apexClass>OutreachCampaignPreviewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>OutreachCaseImportCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Give access for Student Success Super Users</description>
     <fieldPermissions>
         <editable>true</editable>

@@ -18,11 +18,15 @@
     </customPermissions>
     <customPermissions>
         <enabled>true</enabled>
-        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Held_Show_Cause_List_View</name>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Probation_List_View</name>
     </customPermissions>
     <customPermissions>
         <enabled>true</enabled>
-        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Probation_List_View</name>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Show_Cause_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Show_Cause_Upheld_List_View</name>
     </customPermissions>
     <customPermissions>
         <enabled>true</enabled>
