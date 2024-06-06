@@ -1,12 +1,12 @@
-<!-- 
-Open terminal and type
-sf project retrieve start -x /Users/adam.best/Documents/workspace/Q-SFDX/manifest/package.xml -c
-
--c = ignore conflicts
--x = manifest file location
--->
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- 
+        Open terminal and type
+        sf project retrieve start -x /Users/adam.best/Documents/workspace/Q-SFDX/manifest/package-AI-H1.xml -c
+
+        c = ignore conflicts
+        x = manifest file location
+    -->
     <types>
         <!-- H1 -->
         <members>Flow_To_Update_Ein_Recom_Chk_ValueTest</members>
@@ -17,10 +17,10 @@ sf project retrieve start -x /Users/adam.best/Documents/workspace/Q-SFDX/manifes
         <members>Case.Action_Taken__c</members>
         <members>Case.Resolution__c</members>
         <members>Case.Einstein_Recommendation_Applied__c</members>
-        <!-- H2
+        <!-- H2 
         <members>Case.Issue__c</members>
-        <name>CustomField</name>
         -->
+        <name>CustomField</name>
     </types>
     <types>
         <!-- H1 -->
@@ -42,9 +42,20 @@ sf project retrieve start -x /Users/adam.best/Documents/workspace/Q-SFDX/manifes
         <members>Flow_To_Fetch_Case_History</members>
         -->
         <name>Flow</name>
-    </types> 
+    </types>
     <types>
-        <members>EinsteinAgent</members>
+        <!-- H1 -->
+        <members>Prompt_to_populate_Action_Taken_Field_of_case_object</members>
+        <members>Prompt_to_populate_Resolution_Field_of_case_object</members>
+        <!-- H2
+        <members>Prompt_to_fetch_the_application_history_of_the_student</members>
+        <members>Prompt_To_Fetch_Case_History</members>
+        -->
+        <name>GenAiPromptTemplate</name>
+    </types>
+    <types>
+        <!-- H1 -->
+        <members>Einstein_Case_Classification_User_QUT</members>
         <name>PermissionSet</name>
     </types>
     <types>
@@ -68,15 +79,6 @@ sf project retrieve start -x /Users/adam.best/Documents/workspace/Q-SFDX/manifes
         <members>Einstein_Recommendation_Action</members>
         <name>QuickAction</name>
     </types>
-    <types>
-        <!-- H1 -->
-        <members>Prompt_to_populate_Action_Taken_Field_of_case_object</members>
-        <members>Prompt_to_populate_Resolution_Field_of_case_object</members>
-        <!-- H2
-        <members>Prompt_to_fetch_the_application_history_of_the_student</members>
-        <members>Prompt_To_Fetch_Case_History</members>
-        -->
-        <name>GenAiPromptTemplate</name>
-    </types>
+
     <version>61.0</version>
 </Package>
