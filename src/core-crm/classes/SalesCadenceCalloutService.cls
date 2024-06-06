@@ -27,6 +27,8 @@
  *    | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Changed getCompletedCadenceStatusMap datatype to Completed_Cadence,  |
  *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          |
  *    | mark.j.mahilum                 | April 08, 2024        | DEPP-8377              | Fixed callout issue and removed DML inside service callout           |
+ *    | mark.j.mahilum                 | June 06, 2024         | DEPP-9197              | Removed redundant code and added error logging for the method        |
+ *    |                                |                       |                        | updateCreateCompletedCadenceRecords                                  |
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -668,26 +670,34 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
      * @param Map<String, String> removedCadenceMap
      */    
     public static void updateCreateCompletedCadenceRecords(Map<String, String> assignedCadenceMap, Map<String, String> removedCadenceMap) {      
-        
-        if(!assignedCadenceMap.isEmpty()){
-            //create initial completed completed cadence without status
-            createInitialCompletedCadences(assignedCadenceMap); 
-            updateCompletedCadences(assignedCadenceMap);
-        }
-        
-        if(!removedCadenceMap.isEmpty()){
-            Boolean isNotExecutedByAutomatedProcess = !UserInfo.getUserName().contains('autoproc');
-            Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
-            
-            for(String key: removedCadenceMap.keySet()){
-                if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){                   
-                    manualRemoveCadenceMap.put(key,removedCadenceMap.get(key));
-                }
+        try { 
+            if(!assignedCadenceMap.isEmpty()){
+                //create initial completed completed cadence without status
+                createInitialCompletedCadences(assignedCadenceMap); 
             }
             
-            if(!manualRemoveCadenceMap.isEmpty() && isNotExecutedByAutomatedProcess){
-                createCompletedCadence(manualRemoveCadenceMap,null);   
-            }                
-        } 
+            if(!removedCadenceMap.isEmpty()){
+                Boolean isNotExecutedByAutomatedProcess = !UserInfo.getUserName().contains('autoproc');
+                Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
+                
+                for(String key: removedCadenceMap.keySet()){
+                    if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){                   
+                        manualRemoveCadenceMap.put(key,removedCadenceMap.get(key));
+                    }
+                }
+                
+                if(!manualRemoveCadenceMap.isEmpty() && isNotExecutedByAutomatedProcess){
+                    createCompletedCadence(manualRemoveCadenceMap,null);   
+                }                
+            }
+        } catch (Exception e) {
+            Logger.error('Exception caught in class SalesCadenceCalloutService method updateCreateCompletedCadenceRecords')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }        
+        
     }
-} 
+}
