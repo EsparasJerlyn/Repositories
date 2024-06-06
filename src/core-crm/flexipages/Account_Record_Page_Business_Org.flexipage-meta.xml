@@ -698,7 +698,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>icon</name>
-                    <value>standard:custom</value>
+                    <value>standard:opportunity</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionType</name>
@@ -713,7 +713,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numberOfRows</name>
-                    <value>10</value>
+                    <value>3</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentRecord</name>
@@ -721,19 +721,18 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>recordTypeName</name>
-                    <value>Account Relationship Manager</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedField</name>
-                    <value>Account__c</value>
+                    <value>AccountId</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Relationship Manager Type&quot;,&quot;fieldName&quot;:&quot;Relationship_Manager_Type__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Primary QUT Contact&quot;,&quot;fieldName&quot;:&quot;Primary_QUT_Contact__c&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Record Type&quot;,&quot;fieldName&quot;:&quot;RecordType.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;StageName&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner Full Name&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Created Date&quot;,&quot;fieldName&quot;:&quot;CreatedDate&quot;,&quot;type&quot;:&quot;date&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
-                    <value>RecordType.DeveloperName = &apos;Account_Relationship_Manager&apos;</value>
+                    <value>(RecordType.DeveloperName = &apos;International_Projects_Unit&apos; OR RecordType.DeveloperName = &apos;Research_Partnership&apos; OR RecordType.DeveloperName = &apos;Commercialisation&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
@@ -741,15 +740,15 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedRecord</name>
-                    <value>Relationship_Manager__c</value>
+                    <value>Opportunity</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showEditButton</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showNewButton</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortField</name>
