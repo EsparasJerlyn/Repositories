@@ -103,6 +103,9 @@
         <members>Case.International_Online_Enquires</members>
         <members>Case.Domestic_Online_Enquires</members>
         <!--(End) DEPP-8584-->
+        <!--(Start) DEPP-9144-->
+        <members>Case.Outreach_UAP_Held_Show_Cause</members>
+        <!--(End) DEPP-9144-->
         <name>ListView</name>
     </types>
     <types>
