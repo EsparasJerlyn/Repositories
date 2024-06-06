@@ -100,7 +100,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
         boolean isEmailOrMobilePopulated = isEmailPopulated || isMobilePhonePopulated;
 
         // Add contacts matching the natural key
-        if (!isEmailOrMobilePopulated && naturalKeyMatchingMap.containsKey(uniqueKey)) {
+        if (!isEmailOrMobilePopulated) {
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKey));
         }
         // Add contacts matching the natural key with email
@@ -116,6 +116,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
         // and no existing contact matched with email or mobile
         if (matchingContacts.isEmpty()) {
             return new MatchingResult(
+                new Set<Contact>(naturalKeyMatchingMap.get(uniqueKey)),
                 NATURAL_KEY_STEM_MATCHING_TYPE,
                 'Contact Record does not match email and/or mobile provided'
             );

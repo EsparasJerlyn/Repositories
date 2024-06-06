@@ -90,6 +90,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
+    ContactTriggerHelper.processContactMatchingOnContactTrigger((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.processSystemKeyChangeOnContactTrigger((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
   }
 
@@ -126,7 +127,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   ) {
     Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
     Map<Id, Contact> oldMap = (Map<Id,Contact>) oldItems;
-    ContactTriggerHelper.processContactMatchingOnContactTrigger(newMap.values(),oldMap);
     ContactImageHelper.generateContactImageFile(newMap.values(), oldMap);
     processLeadOnUpdate(newMap, oldMap);
     processWelcomeEmail(newMap, oldMap);

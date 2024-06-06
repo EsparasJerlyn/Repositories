@@ -48,4 +48,15 @@ public class MatchingResult {
         this.errorMessage = errorMessage;
         this.error = String.isNotBlank(errorMessage);
     }
+
+    public MatchingResult(Set<Contact> matchingContacts, String matchingType, String errorMessage) {
+
+        this.contactIds = new Set<Id>();
+        for(Contact con: matchingContacts){
+            this.contactIds.add(con.Id);
+        }    
+        this.matchingType = matchingType;
+        this.errorMessage = errorMessage;
+        this.error = String.isNotBlank(errorMessage);
+    }
 }

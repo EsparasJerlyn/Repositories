@@ -754,16 +754,20 @@ public without sharing class ContactTriggerHelper {
         // Regular expression pattern to match any character that is not a letter
         String regexPattern = '[^a-zA-Z]';
 
-        // Check if the first name is not blank and contains only letters
-        if (isFirstNameNewOrUpdated && String.isNotBlank(con.FirstName)) {
-            // Update the Matching_Firstname__c field with the cleaned first name
-            con.Matching_Firstname__c = con.FirstName.replaceAll(regexPattern, '');
+        // Check if the first name is updated
+        if (isFirstNameNewOrUpdated) {
+            // Update the Matching_Firstname__c field with the cleaned first name or empty
+            con.Matching_Firstname__c = String.isNotBlank(con.FirstName)
+                ? con.FirstName.replaceAll(regexPattern, '')
+                : '';
         }
 
-        // Check if the last name is not blank and contains only letters
-        if (isLastNameNewOrUpdated && String.isNotBlank(con.LastName)) {
-            // Update the Matching_Lastname__c field with the cleaned last name
-            con.Matching_Lastname__c = con.LastName.replaceAll(regexPattern, '');
+        // Check if the last name is updated
+        if (isLastNameNewOrUpdated) {
+            // Update the Matching_Lastname__c field with the cleaned last name or empty
+            con.Matching_Lastname__c = String.isNotBlank(con.LastName)
+                ? con.LastName.replaceAll(regexPattern, '')
+                : '';
         }
     }
     /**
@@ -1175,7 +1179,9 @@ public without sharing class ContactTriggerHelper {
 
             //indicates that no fields are updated
             boolean isExcludedFromPayload =
-                !isOneOfContactFieldsUpdated && !isOneOfEmailFieldsUpdated;
+                !isOneOfContactFieldsUpdated &&
+                !isOneOfEmailFieldsUpdated &&
+                newContact.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID;
 
             if (isExcludedFromPayload) {
                 continue;
@@ -1247,13 +1253,20 @@ public without sharing class ContactTriggerHelper {
 
             //evaluate matching result
             boolean isMultipleMatch = result.errorMessage == 'Multiple match found';
+            //one match found and id is not the current contact
             boolean isSingleMatch =
                 !result.error &&
                 String.isNotBlank(result.matchingType) &&
                 result.contactIds.iterator().next() != contactToMatch.Id;
             boolean isExistingInSameBatch = uniqueKeys.contains(contactUniqueKey);
+            //natural key email/mobile confirmation failed and multple contacts are found
+            //or single contact found is not the current contact
             boolean isNaturalKeyConfirmationFailed =
-                result.errorMessage == 'Contact Record does not match email and/or mobile provided';
+                result.errorMessage ==
+                'Contact Record does not match email and/or mobile provided' &&
+                !result.contactIds.isEmpty() &&
+                (result.contactIds.size() > 1 ||
+                result.contactIds.iterator().next() != contactToMatch.Id);
 
             // Determine if another existing contact was found
             boolean otherExistingContactFound =
@@ -1268,10 +1281,7 @@ public without sharing class ContactTriggerHelper {
                     'Contact update failed to prevent duplicate contact creation'
                 );
                 // Log error message
-                Logger.error(
-                    JSON.serializePretty(result),
-                    contactToMatch.Id
-                );
+                Logger.error(JSON.serializePretty(result), contactToMatch.Id);
             }
             // Collect contact unique key fields
             uniqueKeys.add(contactUniqueKey);
