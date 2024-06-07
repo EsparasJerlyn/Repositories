@@ -21,7 +21,7 @@
     <filters>
         <field>Engagement_List_Configuration__c</field>
         <operation>equals</operation>
-        <value>UAP - Probation</value>
+        <value>Probation - Unsatisfactory Academic Performance</value>
     </filters>
     <filters>
         <field>CASES.CLOSED</field>
