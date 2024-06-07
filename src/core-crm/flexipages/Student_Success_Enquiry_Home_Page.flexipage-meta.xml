@@ -295,12 +295,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_sales_activities:todayTaskContainer</componentName>
-                <identifier>runtime_sales_activities_todayTaskContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>enableInlineEdit</name>
                     <value>true</value>
@@ -327,6 +321,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>runtime_sales_activities:todayTaskContainer</componentName>
+                <identifier>runtime_sales_activities_todayTaskContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

@@ -3,6 +3,21 @@
     <columns>
         <field>CASE_NUMBER</field>
     </columns>
+    <columns>
+        <field>CONTACT.NAME</field>
+    </columns>
+    <columns>
+        <field>SUBJECT</field>
+    </columns>
+    <columns>
+        <field>STATUS</field>
+    </columns>
+    <columns>
+        <field>CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
     <filter>
         <criteriaItems>
             <column>RECORDTYPE</column>
