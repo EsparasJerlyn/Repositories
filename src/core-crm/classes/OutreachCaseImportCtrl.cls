@@ -84,7 +84,7 @@ public with sharing class OutreachCaseImportCtrl {
             }
         }
 
-        List<Case> caseList = CasesDAO.newInstance().getCasesByIds(mapper.keySet(), AccessLevel.USER_MODE);
+        List<Case> caseList = CasesDAO.newInstance().getCasesByIdsImported(mapper.keySet(), AccessLevel.USER_MODE);
         List<Case> updatedCaseList = new List<Case>();
 
         List<OutreachCases> outreachCaseList = new List<OutreachCases>();

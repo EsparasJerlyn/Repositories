@@ -155,6 +155,18 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         ); 
     }
 
+    public List<case> getCasesByIdsImported(
+        Set<Id> caseIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, CaseNumber, Contact.Name, Status, Owner.Name, CreatedDate ' +           
+            'FROM Case ' +
+            'WHERE Id IN :caseIds ',
+            accessLevel
+        ); 
+    }
+
     public Database.QueryLocator queryLocatorGetCasesByContactOrLeadIds(
         Set<Id> recordIds
     ){
