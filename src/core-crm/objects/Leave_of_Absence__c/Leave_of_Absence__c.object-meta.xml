@@ -165,7 +165,7 @@
         <label>Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
-    </nameField>
+    </nameField> 
     <pluralLabel>Leave of Absences</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
