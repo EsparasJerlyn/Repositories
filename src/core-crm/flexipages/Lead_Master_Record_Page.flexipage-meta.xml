@@ -475,7 +475,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordEmail_Opt_In_DateTime_cField</identifier>
@@ -495,7 +495,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Work_Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordWork_Email_Opt_In_DateTime_cField</identifier>
@@ -505,7 +505,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Work_Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordWork_Email_Opt_Out_DateTime_cField</identifier>
@@ -529,7 +529,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
@@ -539,7 +539,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
@@ -549,7 +549,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordEmail_Opt_Out_DateTime_cField</identifier>
