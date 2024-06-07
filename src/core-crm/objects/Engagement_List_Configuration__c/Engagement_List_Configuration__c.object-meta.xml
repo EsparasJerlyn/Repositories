@@ -159,7 +159,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Engagement List Configuration</label>
     <nameField>
-        <label>Engagement List Configuration Name</label>
+        <label>Outreach Name</label>
         <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
