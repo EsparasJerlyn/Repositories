@@ -26,6 +26,9 @@
     public static final String IN_PROGRESS_PREVIEW_STATUS = 'In Progress';
     public static final String NOT_GENERATED_PREVIEW_STATUS = 'Not Generated';
     public static final String FAILED_PREVIEW_STATUS = 'Failed';
+    public static final String ACTIVE_STATUS = 'Active';
+    public static final String DEACTIVATED_STATUS = 'Deactivated';
+    public static final String IS_ON_LEAVE_YES = 'Yes';
 
     public static final Set<String> CRITERIA_FIELDS = new Set<String>{
         'Academic_Status__c', 'Previous_Academic_Status__c', 'Citizenship_Status__c','Course_Grade__c','Failed_To_Submit_Assessment__c',
@@ -68,11 +71,11 @@
             'FROM Engagement_List_Criteria__c ' +
             'WHERE Engagement_List_Configuration__r.Engagement_List_Configuration_Status__c = \'Active\' ' +
             'AND Status__c = \'Active\' ' +
-            'AND Engagement_List_Configuration__r.Start_Date__c <= :executionDate ' +
-            'AND Engagement_List_Configuration__r.End_Date__c >= :executionDate ' +
-            'AND Start_Date__c <= :executionDate ' +
-            'AND RecordTypeId =: recordTypeId '+ 
-            'AND End_Date__c >= :executionDate',
+            'AND ( Engagement_List_Configuration__r.Start_Date__c <= :executionDate OR Engagement_List_Configuration__r.Start_Date__c = null ) ' +
+            'AND ( Engagement_List_Configuration__r.End_Date__c >= :executionDate OR Engagement_List_Configuration__r.End_Date__c = null ) ' +
+            'AND ( Start_Date__c <= :executionDate OR Start_Date__c = null ) ' +
+            'AND ( End_Date__c >= :executionDate OR End_Date__c = null ) ' +
+            'AND RecordTypeId =: recordTypeId',
             accessLevel
         );
     }
