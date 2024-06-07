@@ -19,10 +19,10 @@
                 <behavior>Required</behavior>
                 <field>hed_Program_Enrollment__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
+            <!-- <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Name</field>
-            </layoutItems>
+            </layoutItems> -->
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Is_On_Leave__c</field>
