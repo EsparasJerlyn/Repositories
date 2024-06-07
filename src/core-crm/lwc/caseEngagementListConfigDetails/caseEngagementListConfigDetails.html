@@ -20,7 +20,20 @@
             </header>
         </div>
         <div class="slds-card__body slds-card__body_inner">
-            <lightning-record-form lwc:if={hasConfig} object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={fields} mode="readonly"></lightning-record-form>
+            <lightning-tabset lwc:if={hasConfig} class="slds-tabs_default slds-tabs_medium">
+                <lightning-tab label="Overview">
+                    <lightning-record-form object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={overviewFields} mode="readonly"></lightning-record-form>
+                </lightning-tab>
+                <lightning-tab label="Description">
+                    <lightning-record-form object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={descriptionFields} mode="readonly"></lightning-record-form>
+                </lightning-tab>
+                <lightning-tab label="Purpose">
+                    <lightning-record-form object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={purposeFields} mode="readonly"></lightning-record-form>
+                </lightning-tab>
+                <lightning-tab label="Briefing Notes">
+                    <lightning-record-form object-api-name={elconfObjectApiName} record-id={elconfRecordId} fields={briefingNotesFields} mode="readonly"></lightning-record-form>
+                </lightning-tab>
+            </lightning-tabset>
         </div>
     </article>
 </template>

@@ -27,6 +27,19 @@ export default class CaseEngagementListConfigDetails extends NavigationMixin(Lig
         ELCONF_MAXNUMBEROFCALLATTEMPTS,
         ELCONF_BRIEFINGNOTES
     ];
+    overviewFields = [
+        ELCONF_NAME,
+        ELCONF_MAXNUMBEROFCALLATTEMPTS
+    ];
+    descriptionFields = [
+        ELCONF_DESCRIPTION
+    ];
+    purposeFields = [
+        ELCONF_PURPOSE
+    ];
+    briefingNotesFields = [
+        ELCONF_BRIEFINGNOTES
+    ];
     hasConfig = false;
 
     @api recordId;
