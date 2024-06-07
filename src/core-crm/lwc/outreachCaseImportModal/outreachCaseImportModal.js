@@ -186,7 +186,6 @@ export default class OutReachCaseImportModal extends LightningElement {
       if (!file.name.toLowerCase().endsWith('.csv')) {
         this.errors.push('Invalid file format. Please ensure the file is a comma separated (.csv) file.');
         this.showTabset = false;
-        console.log(this.error);
         return;
       }
       // start reading the uploaded csv file
@@ -207,7 +206,6 @@ export default class OutReachCaseImportModal extends LightningElement {
       const timestamp = new Date().toISOString();
       this.errors.push(`System error. A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`);
       this.showTabset = false; 
-      console.log(this.error);
     }
   }
 
@@ -274,23 +272,21 @@ export default class OutReachCaseImportModal extends LightningElement {
     if (!headers.includes('StudentID')) {
       this.errors.push("The file should contain a column with the header 'StudentID'.");
       this.showTabset = false;
-      console.log(this.error);
     }
 
     if (rows === 0) {
       this.errors.push('The file you have uploaded does not contain any data.');
       this.showTabset = false;
-      console.log(this.error);
     }
 
     if (rows > 3000) {
       this.errors.push('The CSV file contains too many rows. Please limit this to 3000 rows maximum.');
-      console.log(this.error);
       this.showTabset = false;
     }
   }
 
   validateStudents(studentIds){
+    const logger = this.template.querySelector("c-logger");
     listOfStudents({ studentIds: studentIds })
 		.then(result => {
       let allStudentsData = result;
@@ -350,7 +346,12 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.loaded = true; 
 		})
 		.catch(error => {
-			console.log('error ::: ', error);
+			if (logger) {
+        logger.error(
+          "Exception caught in method loadData in LWC outreachCaseImportModal: ",
+          JSON.stringify(error)
+        );
+      }
 		});
   }
 
@@ -439,6 +440,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
+    const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
     data.forEach( (data, i) => {
@@ -483,7 +485,12 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.loaded = true; 
 		})
 		.catch(error => {
-			console.log('error ::: ', error);
+			if (logger) {
+        logger.error(
+          "Exception caught in method loadData in LWC outreachCaseImportModal: ",
+          JSON.stringify(error)
+        );
+      }
 		});
   }
 
@@ -496,7 +503,7 @@ export default class OutReachCaseImportModal extends LightningElement {
         };
       }
     )
-    console.log('Data on Child : ', data);
+
     const closeModalEvent = new CustomEvent('closemodal', {
       detail: JSON.parse(JSON.stringify(data))
     });

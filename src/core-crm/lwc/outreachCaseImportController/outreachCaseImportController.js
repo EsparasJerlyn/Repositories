@@ -81,6 +81,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
   engagementListConfiguration;
 
   getListofCase(){
+    const logger = this.template.querySelector("c-logger");
     listOfCases({
         recordId: this.recordId
     }).then(result => {
@@ -113,7 +114,12 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
       }
 
     }).catch((error) =>{
-      console.log('ERROR ::: ', error);
+      if (logger) {
+        logger.error(
+          "Exception caught in method loadData in LWC outreachCaseImportController: ",
+          JSON.stringify(error)
+        );
+      }
 
     })
 	}

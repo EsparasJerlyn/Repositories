@@ -1025,7 +1025,19 @@
         <visibility>Available</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>SMS_Template__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Student_Sanction__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>hed__Course__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-CallTemplate</tab>
         <visibility>Available</visibility>
     </tabSettings>
     <userPermissions>

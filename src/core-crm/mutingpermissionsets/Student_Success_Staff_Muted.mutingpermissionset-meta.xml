@@ -885,6 +885,10 @@
         <tab>Student_Sanction__c</tab>
         <visibility>Available</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>hed__Course__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>CreatePackaging</name>

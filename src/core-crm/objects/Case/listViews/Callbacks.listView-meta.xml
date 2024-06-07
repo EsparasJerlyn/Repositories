@@ -36,6 +36,7 @@
     <label>Callbacks</label>
     <sharedTo>
         <group>Development_Team</group>
+        <group>Student_Success_Reporting</group>
         <group>System_Administrator</group>
         <group>System_Administrator_Modify_All_Data</group>
         <group>System_Administrator_Read_Only</group>

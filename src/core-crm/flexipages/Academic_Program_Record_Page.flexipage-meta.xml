@@ -123,16 +123,6 @@
                 <identifier>RecordStart_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.BillingAddress</fieldItem>
-                <identifier>RecordBillingAddressField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-92727d4b-2e23-4c19-9642-e9ea65fcf07e</name>
         <type>Facet</type>
     </flexiPageRegions>
