@@ -26,3 +26,6 @@ Default_Navigation1.navigationMenu-meta.xml
 **/flows/Appointment_Scheduler.**
 **/flows/Custom_Simplified_Create_Promotion.**
 **/flows/Reschedule_Appointment.**
+# DEPP-9194
+**/All_Domestic**
+**/All_International**
