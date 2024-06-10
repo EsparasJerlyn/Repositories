@@ -20,3 +20,7 @@ a.record-name:active {
 div.header-with-bg {
     background-color: var(--lwc-colorBackground);
 }
+.heading_name {
+    font-size: 1.125rem;
+    font-weight: bold;
+}

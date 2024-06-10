@@ -12,7 +12,7 @@
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title">
-                        <a onclick={handleClickHeader} class="slds-card__header-link slds-truncate">
+                        <a onclick={handleContactClick} class="slds-card__header-link">
                             <span>Contact Details</span>
                         </a>
                     </h2>
@@ -29,6 +29,8 @@
                     </div>
                 </div>
             </template>
+        </div>
+        <div class="slds-p-top_none slds-p-top_none slds-p-horizontal_x-small slds-p-bottom_medium">
             <template lwc:if={hasContact}>
                 <table class="slds-table slds-table_fixed-layout slds-table_header-hidden">
                     <thead class="slds-assistive-text">
@@ -44,8 +46,8 @@
                     <tbody>
                         <tr class="slds-hint-parent">
                             <th scope="row" colspan=2>
-                                <div class="slds-text-heading_large slds-truncate">
-                                    <a href="#" class="record-name" onclick={handleClickHeader}>{caseContactName}</a>
+                                <div class="slds-text-heading_medium heading_name slds-truncate">
+                                    <a class="record-name" onclick={handleClickHeader}>{caseContactName}</a>
                                 </div>
                             </th>
                         </tr>

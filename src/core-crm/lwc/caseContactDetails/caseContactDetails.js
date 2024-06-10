@@ -1,6 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { getFieldDisplayValue, getFieldValue, getRecord } from 'lightning/uiRecordApi';
+import { getObjectInfo } from "lightning/uiObjectInfoApi";
 
 import CASE_CONTACTID from '@salesforce/schema/Case.ContactId';
 import CASE_CONTACT_NAME from '@salesforce/schema/Case.Contact.Name';
@@ -14,11 +15,11 @@ import CASE_CONTACT_CITIZENSHIP_STATUS from '@salesforce/schema/Case.Contact.hed
 import CASE_CONTACT_CITIZENSHIP_COUNTRY from '@salesforce/schema/Case.Contact.Citizenship_Country__c';
 import CASE_CONTACT_COUNTRY_OF_RESIDENCY from '@salesforce/schema/Case.Contact.Country_of_Residency__c';
 import CASE_CONTACT_APPLICANT_ONSHORE from '@salesforce/schema/Case.Contact.Applicant_Onshore__c';
-import CASE_CONTACT_MAILING_STREET from '@salesforce/schema/Case.Contact.MailingStreet';
-import CASE_CONTACT_MAILING_CITY from '@salesforce/schema/Case.Contact.MailingCity';
-import CASE_CONTACT_MAILING_STATE from '@salesforce/schema/Case.Contact.MailingState';
-import CASE_CONTACT_MAILING_COUNTRY from '@salesforce/schema/Case.Contact.MailingCountry';
-import CASE_CONTACT_MAILING_POSTAL from '@salesforce/schema/Case.Contact.MailingPostalCode';
+import CASE_CONTACT_OTHER_STREET from '@salesforce/schema/Case.Contact.OtherStreet';
+import CASE_CONTACT_OTHER_CITY from '@salesforce/schema/Case.Contact.OtherCity';
+import CASE_CONTACT_OTHER_STATE from '@salesforce/schema/Case.Contact.OtherState';
+import CASE_CONTACT_OTHER_COUNTRY from '@salesforce/schema/Case.Contact.OtherCountry';
+import CASE_CONTACT_OTHER_POSTAL from '@salesforce/schema/Case.Contact.OtherPostalCode';
 import CASE_CONTACT_ATSI_CODE from '@salesforce/schema/Case.Contact.ATSI_Code__c';
 import CASE_CONTACT_LOW_SOCIO_ECONOMIC_STATUS from '@salesforce/schema/Case.Contact.Low_Socio_Economic_Status__c';
 import CASE_CONTACT_REGIONAL_REMOTE from '@salesforce/schema/Case.Contact.Regional_Remote__c';
@@ -36,22 +37,17 @@ const fields = [
     CASE_CONTACT_QUT_STUDENT_ID,
     CASE_CONTACT_PRIMARY_EMAIL,
     CASE_CONTACT_QUT_LEARNER_EMAIL,
-    CASE_CONTACT_MOBILEPHONE,
-    CASE_CONTACT_STUDENT_SUCCESS_DO_NOT_CALL,    
+    CASE_CONTACT_MOBILEPHONE,    
     CASE_CONTACT_CITIZENSHIP_STATUS,
     CASE_CONTACT_CITIZENSHIP_COUNTRY,
     CASE_CONTACT_COUNTRY_OF_RESIDENCY,
     CASE_CONTACT_APPLICANT_ONSHORE,
-    CASE_CONTACT_MAILING_STREET,
-    CASE_CONTACT_MAILING_CITY,
-    CASE_CONTACT_MAILING_STATE,
-    CASE_CONTACT_MAILING_COUNTRY,
-    CASE_CONTACT_MAILING_POSTAL,
+    CASE_CONTACT_OTHER_STREET,
+    CASE_CONTACT_OTHER_CITY,
+    CASE_CONTACT_OTHER_STATE,
+    CASE_CONTACT_OTHER_COUNTRY,
+    CASE_CONTACT_OTHER_POSTAL,
     CASE_CONTACT_ATSI_CODE,
-    CASE_CONTACT_LOW_SOCIO_ECONOMIC_STATUS,    
-    CASE_CONTACT_REGIONAL_REMOTE,
-    CASE_CONTACT_QUT_APPROVED_DISABILITY,
-    CASE_CONTACT_FIRST_IN_FAMILY,
     CASE_CONTACT_LEAD_SCORE,
     CASE_CONTACT_LEAD_SOURCE_CATEGORY,
     CASE_CONTACT_LEADSOURCE,
@@ -69,6 +65,25 @@ export default class CaseContactDetails extends NavigationMixin(LightningElement
     isOutreach;
 
     mailingAddressArray = [];
+
+    @wire(getObjectInfo, { objectApiName: 'Case' })
+    caseObjectInfo({ data, error }) {
+        if(data) {
+            for (let key in data.recordTypeInfos) {
+                if (data.recordTypeInfos.hasOwnProperty(key)) {
+                    let recordTypeInfo = data.recordTypeInfos[key];
+                    if (recordTypeInfo.name === "Outreach" && recordTypeInfo.available === true) {
+                        fields.push(CASE_CONTACT_LOW_SOCIO_ECONOMIC_STATUS)
+                        fields.push(CASE_CONTACT_STUDENT_SUCCESS_DO_NOT_CALL)
+                        fields.push(CASE_CONTACT_REGIONAL_REMOTE)
+                        fields.push(CASE_CONTACT_QUT_APPROVED_DISABILITY)
+                        fields.push(CASE_CONTACT_FIRST_IN_FAMILY)
+                    }
+                }
+            }
+        }
+    }
+
 
     @wire(getRecord, { recordId: '$recordId', fields })
     case({ data, error }) {
@@ -150,11 +165,11 @@ export default class CaseContactDetails extends NavigationMixin(LightningElement
     }
 
     get caseContactMailingAddress() {
-        let street = getFieldValue(this.caseRecord, CASE_CONTACT_MAILING_STREET);
-        let city = getFieldValue(this.caseRecord, CASE_CONTACT_MAILING_CITY);
-        let state = getFieldValue(this.caseRecord, CASE_CONTACT_MAILING_STATE);
-        let country = getFieldValue(this.caseRecord, CASE_CONTACT_MAILING_COUNTRY);
-        let postal = getFieldValue(this.caseRecord, CASE_CONTACT_MAILING_POSTAL);
+        let street = getFieldValue(this.caseRecord, CASE_CONTACT_OTHER_STREET);
+        let city = getFieldValue(this.caseRecord, CASE_CONTACT_OTHER_CITY);
+        let state = getFieldValue(this.caseRecord, CASE_CONTACT_OTHER_STATE);
+        let country = getFieldValue(this.caseRecord, CASE_CONTACT_OTHER_COUNTRY);
+        let postal = getFieldValue(this.caseRecord, CASE_CONTACT_OTHER_POSTAL);
         this.mailingAddressArray = [];
         if(street != null) this.mailingAddressArray.push(street);
         if(city != null) this.mailingAddressArray.push(city);
@@ -223,5 +238,18 @@ export default class CaseContactDetails extends NavigationMixin(LightningElement
                 actionName: 'view'
             },
         });
+    }
+
+    handleContactClick(event) {
+        this[NavigationMixin.Navigate]({
+            type:'standard__objectPage',
+            attributes: {
+                objectApiName: 'Contact',
+                actionName: 'list'
+            },
+            state: {
+                filterName: 'Recent'
+            }
+        })
     }
 }
