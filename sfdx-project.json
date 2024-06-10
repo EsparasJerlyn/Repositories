@@ -6,6 +6,9 @@
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
+      "type": "ENABLE_EINSTEIN_CLASSIFICATION"
+    },{
+      "path": "src",
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
       "type": "metadata",
