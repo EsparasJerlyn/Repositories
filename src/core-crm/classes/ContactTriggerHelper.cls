@@ -747,16 +747,20 @@ public without sharing class ContactTriggerHelper {
         // Regular expression pattern to match any character that is not a letter
         String regexPattern = '[^a-zA-Z]';
 
-        // Check if the first name is not blank and contains only letters
-        if (isFirstNameNewOrUpdated && String.isNotBlank(con.FirstName)) {
-            // Update the Matching_Firstname__c field with the cleaned first name
-            con.Matching_Firstname__c = con.FirstName.replaceAll(regexPattern, '');
+        // Check if the first name is updated
+        if (isFirstNameNewOrUpdated) {
+            // Update the Matching_Firstname__c field with the cleaned first name or empty
+            con.Matching_Firstname__c = String.isNotBlank(con.FirstName)
+                ? con.FirstName.replaceAll(regexPattern, '')
+                : '';
         }
 
-        // Check if the last name is not blank and contains only letters
-        if (isLastNameNewOrUpdated && String.isNotBlank(con.LastName)) {
-            // Update the Matching_Lastname__c field with the cleaned last name
-            con.Matching_Lastname__c = con.LastName.replaceAll(regexPattern, '');
+        // Check if the last name is updated
+        if (isLastNameNewOrUpdated) {
+            // Update the Matching_Lastname__c field with the cleaned last name or empty
+            con.Matching_Lastname__c = String.isNotBlank(con.LastName)
+                ? con.LastName.replaceAll(regexPattern, '')
+                : '';
         }
     }
     /**

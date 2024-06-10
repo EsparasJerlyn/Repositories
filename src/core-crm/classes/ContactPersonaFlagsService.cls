@@ -10,7 +10,8 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------------------------|
  *    | mark.j.mahilum                 | July 10,2023          | DEPP-5799	            | Created File                                                                         |
  *    | mark.j.mahilum                 | Aug 29.2023           | DEPP-6523              | Updated updateContactOnApplication to include removal of application link to contact |
- *    | mark.j.mahilum                 | Aug 31,2023           | DEPP-6455              | Updated multiple method name to describe the field in contact to be updated          | 
+ *    | mark.j.mahilum                 | Aug 31,2023           | DEPP-6455              | Updated multiple method name to describe the field in contact to be updated          |
+ *    | mark.j.mahilum                 | June 06, 2024         | DEPP-9212              | Updated to removed redundant code in the updateContactPartnerFlag method             |
  */
 public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not methods) can have a high amount of complexity and public methods
     /**
@@ -228,23 +229,6 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
                 )
             );             
         }
-
-        for (OpportunityContactRole ocr : [
-                                           SELECT Id, ContactId,role
-                                           FROM OpportunityContactRole
-                                           WHERE
-                                               role ='Client Decision-Maker'
-                                               AND ContactId IN :contactIds
-                                           WITH SYSTEM_MODE
-        ]) {
-            updateContactMap.put(
-                ocr.ContactId,
-                new Contact(
-                    id = ocr.ContactId,
-                    QUT_Partner__c = true
-                )
-            );
-        }         
         
         List<OpportunityContactRole> ocrList = OpportunityContactRolesDAO.newInstance().getOpportunityContactRoleByRoleContactIds(contactIds,new Set<String>{'Client Decision-Maker'},'SYSTEM_MODE');
 

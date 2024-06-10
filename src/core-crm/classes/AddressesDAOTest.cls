@@ -42,7 +42,7 @@ public with sharing class AddressesDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsSet(new Set<Id>(), AccessLevel.USER_MODE);
-            System.assert(addressList.isEmpty(), 'addressList is not empty');
+            System.assert(addressList.isEmpty(), 'actionlist is not empty');
         }
         Test.stopTest();
     }
