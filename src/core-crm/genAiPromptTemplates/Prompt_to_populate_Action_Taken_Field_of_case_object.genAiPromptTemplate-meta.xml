@@ -1,0 +1,1662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersion>26</activeVersion>
+    <description>Prompt to populate Action Taken Field of case object</description>
+    <developerName>Prompt_to_populate_Action_Taken_Field_of_case_object</developerName>
+    <masterLabel>Prompt to populate Action Taken Field of case object</masterLabel>
+    <relatedEntity>Case</relatedEntity>
+    <relatedField>Case.Action_Taken__c</relatedField>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT35Turbo</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>1</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+Social Comment: If it exists
+Created Date,
+Created By,
+Summary of Comments (in dot point format) 
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>2</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+don&apos;t include anything regarding who is the sender and who is the receiver of this email
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>3</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is not record related.
+Make it concise and easy to read
+
+The final output should be in this format
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>4</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read
+
+use the format below to create the final input and do not show the related case activity if there is no record or information related 
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>5</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read
+
+use the format below to create the final input and do not show the related case activity if there is no record or information related 
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>6</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>7</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+Summarize the task, comments and email when you have multiple and mention the task type.
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>8</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+Summarize the tasks, comments and emails when you have multiple records and mention the task type such as log a call.
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>9</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record-related.
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purpose.
+
+Use the format below to get inspiration about how to create the final input and do not show the related case activity if there is no record or information related.
+When you have multiple tasks related to the case, summarize them and list the number of tasks.
+Highlight the key information from the email and keep only meaningful information that provide details on case actions and related interactions
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>12</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+When you have multiple tasks related to the case, summarize them.
+Highlight the key information from the email and keep only meaningful information that provide details on case actions and related interactions
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>10</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>{!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+{!$Input:Case.Owner.Name}
+
+Based on all the above output show each output summary in bulleted points and have a heading for each of it and have created date and created by in separate lines  in descending order of created date
+only focus on the resolution provided don&apos;t look for any follow-up questions 
+Do not show the content if there is no record related.
+Make it concise and easy to read, take into consideration the output will be used for case reporting purpose
+
+Use the format below to create the final input and do not show the related case activity if there is no record or information related 
+When you have multiple tasks related to the case, summarize them and list the number of tasks.
+Highlight the key information from the email and keep only meaningful information that provide details on case actions and related interactions
+
+The {case owner} undertook the following action to solve the case:
+Action Details:
+Case Comments: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Task: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Log Call: If it exists
+ Created Date,
+ Created By,
+ Summary of Comments (in dot point format)
+Email: If it exists
+ Create Date,
+ From Email,
+ To Email,
+ Summary Of Email Content (in dot point format)
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <versionNumber>11</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+
+Using the details below, generate an output formatted as HTML-rich text. you must strictly follow my Instructions below.
+
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated. whenever there is an update to the case fields capture that date also (the date should be in this format  “Month Date, Year” without the time stamp),  for this data you can refer to the &quot;Case History&quot; of the case provided below 
+
+Email Communication Sent: In this Section, we should show 1) the Total number of emails sent to the student and 2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points.To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 1)the total number of tasks created for this case excluding the email tasks, 2)Summary of the case comment must fit in 2 bullets point, 3)Summary of task must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+The output should be in the below format 
+
+1)Key Case Updates:
+Case history details in bulleted point 
+
+2)Email Communication Sent:
+ Number of emails sent : 3
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number of all tasks : 3 activities created
+ Summarize of all comments
+ Summarize of all tasks
+ Summarize of all calls logged
+
+&quot;&quot;&quot;
+
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>13</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+
+when I ask you to generate summary you must strictly follow my Instructions below.
+
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated. whenever there is an update to the case fields particularly Case owner and status field ,  capture the details along with the date on which the change has happened (the date should be in this format  “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;, show all the case owner change history,  for this data you can refer to the &quot;Case History&quot; of the case provided below 
+
+Email Communication Sent: In this Section, we should show 1) the Total number of emails sent to the student and 2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 1)the total number of tasks created for this case excluding the email tasks, 2)Summary of the case comment must fit in 2 bullets point, 3)Summary of task must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related.Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purpose.
+
+1)Key Case Updates:
+Case history details in bulleted point 
+Case Assignment  : case owner changed from A to B on 2nd June 2024
+
+2)Email Communication Sent:
+ Number of emails sent : 2
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number of all tasks : 3 activities created
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+
+4)Agent Steps : 
+
+
+&quot;&quot;&quot;
+
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>14</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+
+when I ask you to generate summary you must strictly follow my Instructions below.
+
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated. whenever there is an update to the case fields particularly Case owner and status field ,  capture the details along with the date on which the change has happened (the date should be in this format  “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;, show all the case owner change history,  for this data you can refer to the &quot;Case History&quot; of the case provided below 
+
+Email Communication Sent: In this Section, we should show 1) the Total number of emails sent to the student and 2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 1)the total number of tasks created for this case excluding the email tasks, 2)Summary of the case comment must fit in 2 bullets point, 3)Summary of task must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related.Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purpose.
+
+1)Key Case Updates:
+Case history details in bulleted point 
+Case Assignment  : case owner changed from A to B on 2nd June 2024
+
+2)Email Communication Sent:
+ Number of emails sent : 2
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number of all tasks : 3 activities created
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+
+4)Agent Steps : 
+
+
+&quot;&quot;&quot;
+
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>15</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+
+when I ask you to generate summary you must strictly follow my Instructions below.
+
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated. whenever there is an update to the case fields particularly Case owner and status field ,  capture the details along with the date on which the change has happened (the date should be in this format  “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;, show all the case owner change history,  for this data you can refer to the &quot;Case History&quot; of the case provided below 
+
+Email Communication Sent: In this Section, we should show 1) the Total number of emails sent to the student and 2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 1)the total number of tasks created for this case excluding the email tasks, and should include the case comment records if any 2) the Summary of the case comment must fit in 2 bullets point, 3) the Summary of tasks must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+
+1)Key Case Updates:
+Case history details in bulleted point 
+Case Assignment  : case owner changed from A to B on 2nd June 2024
+
+2)Email Communication Sent:
+ Number of emails sent : 2
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number of all tasks : 3 activities created
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+
+4)Agent Steps : 
+
+
+&quot;&quot;&quot;
+
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>16</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+
+when I ask you to generate summary you must strictly follow my Instructions below.
+
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated. whenever there is an update to the case fields particularly Case owner and status field ,  capture the details along with the date on which the change has happened (the date should be in this format  “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;, show all the case owner change history,  for this data you can refer to the &quot;Case History&quot; of the case provided below 
+
+Email Communication Sent: In this Section, we should show 1) the Total number of emails sent to the student and 2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 1)the total number of tasks created for this case excluding the email tasks, and should include the case comment records if any 2) the Summary of the case comment must fit in 2 bullets point, 3) the Summary of tasks must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+
+1)Key Case Updates:
+Case history details in bulleted point 
+Case Assignment  : case owner changed from A to B on 2nd June 2024
+
+2)Email Communication Sent:
+ Number of emails sent : 2
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number of all tasks : 3 activities created
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+
+4)Agent Steps : 
+
+
+&quot;&quot;&quot;
+
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>17</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+
+When I ask you to generate summary you must strictly follow my Instructions below.
+
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated.Only show the details if the updates are related to Staus field and the Case Owner Field. Capture the details along with the date on which the change has happened (the date should be in this format  “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;. For this data you can refer to the &quot;Case History&quot; of the case provided below .
+
+Email Communication Sent: In this Section, we should show 1)Number of Emails Sent to the student (refer to the {Email Count} in Flow Output)
+2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 
+1)Number Of Tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count and show only the total count
+2) the Summary of the case comment must fit in 2 bullets point, 3) the Summary of tasks must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Strictly Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+
+1)Key Case Updates:
+Case history details in bulleted point 
+Case Assignment  : case owner changed from A to B on 2nd June 2024
+
+2)Email Communication Sent:
+ Number Of Emails Sent : 2
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number Of Tasks : 3 
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+
+4)Agent Steps : 
+
+
+&quot;&quot;&quot;
+
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>18</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+When I ask you to generate summary you must strictly follow my Instructions below.
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+
+Key Case Updates: In this  Section, must have a dedicated bullet point for each assignment and status updated.Only show the details if the updates are related to Staus field and the Case Owner Field. Capture the details along with the date on which the change has happened (the date should be in this format  “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;. For this data you can refer to the &quot;Case History&quot; of the case provided below .
+
+Email Communication Sent: In this Section, we should show 1)Number of Emails Sent to the student (refer to the {Email Count} in Flow Output)
+2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Case Activities: In this Section, we should show 
+1)Number Of Tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count and show only the total count
+2) the Summary of the case comment must fit in 2 bullets point, 3) the Summary of tasks must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+
+Strictly Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+
+1)Key Case Updates:
+Case history details in bulleted point 
+Case Assignment  : case owner changed from A to B on 2nd June 2024
+
+2)Email Communication Sent:
+ Number Of Emails Sent : 2
+.Summary of the  emails sent 
+
+3)Case Activities:
+ Number Of Tasks : 3 
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+
+4)Agent Steps : 
+
+
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>19</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case. When I ask you to generate summary you must strictly follow my Instructions below. Instructions: These Section headings &apos;Key Case Updates&apos;, &apos;Email Communication Sent&apos;, &apos;Case Activities:&apos; and &apos;Agent Steps&apos; must be present in that order. If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank. Agent Steps: In this Section, must stay blank so that the agent can manually fill this section. Key Case Updates: each assignment must have a dedicated bullet point and status updated. Only show key updates for the status and owner fields. Display the related date in this format: dd/mm/yyyy. For example, &quot;case owner changed from A to B on this date&quot;. For this data, you can refer to the &quot;Case History&quot; of the case record. Email Communication Sent must show: 1) Number of Emails Sent to the student (refer to the {Email Count} in Flow Output) 2) The Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who sender or receiver and focus on the resolution provided), you can refer to the flow &quot;Flow Output&quot; output. Case Activities must show: 1) Number Of Tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count and show only the total count 2) The Summary of the case comment, the Summary of tasks, and the Summary of calls logged must fit in no more than 3 bullet points. You can refer to the below flow &quot;Flow Output&quot; output. Strictly use the format below to get inspiration to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. 1) Key Case Updates: Case history details in bulleted point Case Assignment: case owner changed from A to B on 2nd June 2024 2) Email Communication Sent: Number Of Emails Sent: 2 Summary of the emails sent 3) Case Activities: Number Of Tasks: 3 Summary of all comments Summary of all tasks Summary of all calls logged 4) Agent Steps: 
+
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>20</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case. When I ask you to generate summary you must strictly follow my Instructions below.
+Instructions:
+ Agent Steps: In this Section, must stay blank so that the agent can manually fill this section. 
+Key Case Updates: each assignment must have a dedicated bullet point and status updated. Only show key updates for the status and owner fields. Display the related date in this format: dd/mm/yyyy. For example, &quot;case owner changed from A to B on this date&quot;. For this data, you can refer to the &quot;Case History&quot; of the case record. 
+Email Communication Sent must show: 
+1) Number of Emails Sent to the student (refer to the {Email Count} in Flow Output) 
+2) The Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who sender or receiver and focus on the resolution provided), you can refer to the flow &quot;Flow Output&quot; output. 
+Case Activities must show: 
+1) Number Of Tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count and show only the total count 
+2) The Summary of the case comment, the Summary of tasks, and the Summary of calls logged must fit in no more than 3 bullet points. You can refer to the below flow &quot;Flow Output&quot; output. Strictly use the format below to get inspiration to create the final output and do not show the related case activity if there is no record or information related. 
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. 
+1) Key Case Updates: 
+Case history details in bulleted point 
+Case Assignment: case owner changed from A to B on 2nd June 2024 
+2) Email Communication Sent: 
+Number Of Emails Sent: 2 
+Summary of the emails sent 
+3) Case Activities: 
+Number Of Tasks: 3 
+Summary of all comments 
+Summary of all tasks 
+Summary of all calls logged 
+4) Agent Steps: 
+
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>21</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case. When I ask you to generate summary you must strictly follow my Instructions below.
+Instructions:
+1)Agent Steps: In this Section, must stay blank so that the agent can manually fill this section.
+2)Key Case Updates: each assignment must have a dedicated bullet point and status updated. Only show key updates for the status and owner fields. Display the related date in this format: dd/mm/yyyy. 
+ 3)Email Communication Sent must show:
+Number of Emails Sent to the student (refer to the {Email Count} in Flow Output) 
+The Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who sender or receiver and focus on the resolution provided), you can refer to the flow &quot;Flow Output&quot; output. 
+4)Case Activities must show:
+Number Of Tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count and show only the total count 
+The Summary of the case comment, the Summary of tasks, and the Summary of calls logged must fit in no more than 3 bullet points. You can refer to the below flow &quot;Flow Output&quot; output. Strictly use the format below to get inspiration to create the final output and do not show the related case activity if there is no record or information related. 
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. 
+
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>22</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative that provide assistance to future student and student for the Queensland University of Technology.
+You need to create a summary of all the actions taken by an agent to solve the case and provide a comprehensive view of what happened.
+Instructions:
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+You can use the format below to get inspiration
+1) Key Case Updates:
+Case history details in bulleted point
+Case Assignment: case owner changed from A to B on 2nd June 2024
+2) Email Communication Sent:
+Number Of Emails Sent: 2
+Summary of the emails sent
+3) Case Activities:
+Number Of Tasks: 3
+Summary of all comments
+Summary of all tasks
+Summary of all calls logged
+4) Agent Steps: leave this section blank for manual completion
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>23</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative that provide assistance to future student and student for the Queensland University of Technology.
+You need to create a summary of all the actions taken by an agent to solve the case and provide a comprehensive view of what happened.
+Instructions:
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+You can use the format below to get inspiration
+1) Key Case Updates:
+Case history details in bulleted point
+Case Assignment: case owner changed from A to B on 2nd June 2024
+2) Email Communication Sent:
+Number Of Emails Sent: 2
+Summary of the emails sent
+3) Case Activities:
+Number Of Tasks: 3
+Summary of all comments
+Summary of all tasks
+Summary of all calls logged
+4) Agent Steps: leave this section blank for manual completion
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>24</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative that assist future student and student at the Queensland University of Technology.
+You need to create a summary of all the actions taken by an agent to solve the case and provide a comprehensive view of what happened.
+Instructions:
+You can use the format below to get inspiration
+1) Key Case Updates:
+Case history details in bulleted point
+Case Assignment: case owner changed from A to B on 2nd June 2024
+2) Email Communication Sent:
+Number Of Emails Sent: 2
+Summary of the emails sent
+3) Case Activities:
+Number Of Tasks: 3
+Summary of all comments
+Summary of all tasks
+Summary of all calls logged
+4) Agent Steps: leave this section blank for manual completion
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>25</versionNumber>
+    </templateVersions>
+    <templateVersions>
+        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+When I ask you to generate summary you must strictly follow my Instructions below.
+Instructions:
+&quot;&quot;&quot;
+These Section headings ‘Key Case Updates’, ‘Email Communication Sent’, ‘Case Activities:’ and &apos;Agent Steps&apos; must be present in that order.
+ 
+If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example if the case has no history is blank just show this section as blank.
+ 
+Agent Steps: In this Section, must stay blank so that the agent can manually fill this section
+ 
+Key Case Updates: In this Section, must have a dedicated bullet point for each assignment and status updated.Only show the details if the updates are related to Staus field and the Case Owner Field. Capture the details along with the date on which the change has happened (the date should be in this format “Month Date, Year” without the time stamp), for example &quot;case owner changed from A to B on this date&quot;. For this data you can refer to the &quot;Case History&quot; of the case provided below .
+ 
+Email Communication Sent: In this Section, we should show 1)Number of Emails Sent to the student (refer to the {Email Count} in Flow Output)
+2) the Summary of emails sent (summary of the emails sent should be in 3 bulleted points, don&apos;t include anything regarding who is the sender and who is the receiver of this email only focus on the resolution provided don&apos;t look for any follow-up questions ). To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+ 
+Case Activities: In this Section, we should show
+1)Number Of Tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count and show only the total count
+2) the Summary of the case comment must fit in 2 bullets point, 3) the Summary of tasks must fit in no more than 3 bullets point and Summary of calls logged must fit in no more than 2 bullet point. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+ 
+Strictly Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes.
+ 
+1)Key Case Updates:
+Case history details in bulleted point
+Case Assignment : case owner changed from A to B on 2nd June 2024
+ 
+2)Email Communication Sent:
+ Number Of Emails Sent : 2
+.Summary of the emails sent
+ 
+3)Case Activities:
+ Number Of Tasks : 3
+ Summary of all comments
+ Summary of all tasks
+ Summary of all calls logged
+ 
+4)Agent Steps : 
+&quot;&quot;&quot;
+Data 
+&quot;&quot;&quot;
+Flow Output : {!$Flow:Flow_Population_on_Case_Action_Taken_Field.Prompt}
+Case History : {!$RelatedList:Case.Histories.Records}
+&quot;&quot;&quot;
+Now Generate the Summary
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_Population_on_Case_Action_Taken_Field</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_Population_on_Case_Action_Taken_Field</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Case.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Histories</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Case.Histories.Records</referenceName>
+        </templateDataProviders>
+        <versionNumber>26</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__fieldCompletion</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
