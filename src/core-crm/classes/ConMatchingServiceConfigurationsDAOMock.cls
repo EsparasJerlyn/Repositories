@@ -30,7 +30,7 @@ public inherited sharing class ConMatchingServiceConfigurationsDAOMock extends D
         Contact_Matching_Service_Configuration__mdt customMetadata = null;
 
         for(Contact_Matching_Service_Configuration__mdt cmsConfig: conMatchServiceConfigMap.values()){
-            if(customMetadata.DeveloperName == developerName){
+            if(cmsConfig.DeveloperName == developerName){
                 return cmsConfig;
             }
         }
