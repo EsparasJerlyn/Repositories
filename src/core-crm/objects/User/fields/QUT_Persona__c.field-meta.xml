@@ -292,6 +292,11 @@
                 <default>false</default>
                 <label>Communication Automation User</label>
             </value>
+            <value>
+                <fullName>Student Success Reporting</fullName>
+                <default>false</default>
+                <label>Student Success Reporting</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
