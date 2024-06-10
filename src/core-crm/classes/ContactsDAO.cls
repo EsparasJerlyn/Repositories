@@ -403,7 +403,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         return Database.query(
             'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, MiddleName, Salutation, ' +
-            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Name, Birth_Country__c, Citizenship_Type__c, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Birth_Country__c, Citizenship_Type__c, ' +
             'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, Home_Language__c, ' +
             'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
             'SMS_Opt_In_DateTime__c, QUT_Student_ID__c, QUT_Employee_ID__c, MailingAddress, OtherAddress, '+ 
