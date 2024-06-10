@@ -27,9 +27,14 @@ public inherited sharing class ConMatchingServiceConfigurationsDAOMock extends D
     public Contact_Matching_Service_Configuration__mdt getInstanceByDeveloperName(
         String developerName
     ) {
-        return (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
-            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
-            Contact_Matching_Service_Configuration__mdt.class
-        );
+        Contact_Matching_Service_Configuration__mdt customMetadata = null;
+
+        for(Contact_Matching_Service_Configuration__mdt cmsConfig: conMatchServiceConfigMap.values()){
+            if(customMetadata.DeveloperName == developerName){
+                return cmsConfig;
+            }
+        }
+
+        return customMetadata;
     }
 }
