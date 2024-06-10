@@ -3,6 +3,9 @@
   "packageDirectories": [
     {
       "path": "src",
+      "type": "ENABLE_EINSTEIN"
+    },{
+      "path": "src",
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
       "type": "metadata",
@@ -68,7 +71,7 @@
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "59.0",
+  "sourceApiVersion": "61.0",
   "buildPackageFromTag":"",
   "plugins": {
     "sfdx-plugin-prettier": {
