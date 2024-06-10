@@ -23,6 +23,6 @@ Default_Navigation1.navigationMenu-meta.xml
 **/Permission_View_All_Data**
 
 # DEPP-8935
-**/flows/Appointment_Scheduler.**
-**/flows/Custom_Simplified_Create_Promotion.**
-**/flows/Reschedule_Appointment.**
+#**/flows/Appointment_Scheduler.**
+#**/flows/Custom_Simplified_Create_Promotion.**
+#**/flows/Reschedule_Appointment.**
