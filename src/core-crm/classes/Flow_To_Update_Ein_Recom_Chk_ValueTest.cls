@@ -18,16 +18,15 @@ public with sharing class Flow_To_Update_Ein_Recom_Chk_ValueTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
         List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', 100);
         CasesDAO.newInstance().insertRecords(internationalCases, false, AccessLevel.SYSTEM_MODE);
-
     }
-
+    
     @isTest
     static void UpdateEinsteinAppliedOtherUserChangesTest() {
         System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             List<Case> casList = [Select Id, Subject, Description From Case Limit 100];
             for(Case cas : casList){
                 cas.Category__c = 'Applying for a course';
-            	cas.Sub_Category__c = 'How to apply';
+                cas.Sub_Category__c = 'How to apply';
             }
             Test.startTest();
             update casList;
@@ -38,15 +37,15 @@ public with sharing class Flow_To_Update_Ein_Recom_Chk_ValueTest {
             System.assertEquals('How to apply', updatedCase.Sub_Category__c,'Case Sub Category Changed');
         }
     }
-
-        @isTest
+    
+    @isTest
     static void UpdateEinsteinAppliedAutomatedUserChangesTest() {
-         User us = [SELECT Id,Name FROM User where Name = 'Automated Process'];
+        User us = [SELECT Id,Name FROM User where Name = 'Automated Process'];
         System.runAs(us) {
             List<Case> casList = [Select Id, Subject, Description From Case Limit 100];
             for(Case cas : casList){
                 cas.Category__c = 'Applying for a course';
-            	cas.Sub_Category__c = 'How to apply';
+                cas.Sub_Category__c = 'How to apply';
             }
             Test.startTest();
             update casList;
