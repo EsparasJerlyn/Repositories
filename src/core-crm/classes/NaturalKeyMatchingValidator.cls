@@ -179,6 +179,11 @@ public inherited sharing class NaturalKeyMatchingValidator {
         uniqueKey += contact.Matching_Lastname__c;
         uniqueKey += String.valueOf(contact.Birthdate);
 
+        //if method is trying to get contact's specific field and it is null, skip to save processing time
+        if (String.isNotBlank(fieldApiName) && contact.get(fieldApiName) == null) {
+            return;
+        }
+
         if (String.isNotBlank(fieldApiName) && contact.get(fieldApiName) != null) {
             uniqueKey += String.valueOf(contact.get(fieldApiName));
         }

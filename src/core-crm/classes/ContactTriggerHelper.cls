@@ -1179,8 +1179,8 @@ public without sharing class ContactTriggerHelper {
 
             //indicates that no fields are updated
             boolean isExcludedFromPayload =
-                !isOneOfContactFieldsUpdated &&
-                !isOneOfEmailFieldsUpdated &&
+                (!isOneOfContactFieldsUpdated &&
+                !isOneOfEmailFieldsUpdated) ||
                 newContact.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID;
 
             if (isExcludedFromPayload) {
@@ -1280,16 +1280,16 @@ public without sharing class ContactTriggerHelper {
                 contactToMatch.addError(
                     'Contact update failed to prevent duplicate contact creation'
                 );
-                // Log error message
-                Logger.error(JSON.serializePretty(result), contactToMatch.Id);
+                // // Log error message
+                // Logger.error(JSON.serializePretty(result), contactToMatch.Id);
             }
             // Collect contact unique key fields
             uniqueKeys.add(contactUniqueKey);
         }
 
         // Save the log if there are buffered log messages
-        if (Logger.getBufferSize() > 0) {
-            Logger.saveLog();
-        }
+        // if (Logger.getBufferSize() > 0) {
+        //     Logger.saveLog();
+        // }
     }
 }
