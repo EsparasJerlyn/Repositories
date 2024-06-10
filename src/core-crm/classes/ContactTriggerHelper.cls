@@ -43,7 +43,6 @@ public without sharing class ContactTriggerHelper {
         List<Contact> newItems,
         Map<Id, Contact> oldItems
     ) {
-
         List<Contact> contactsToRecalculate = new List<Contact>();
 
         for (Contact con : newItems) {
@@ -51,6 +50,7 @@ public without sharing class ContactTriggerHelper {
             //non person contact process start
 
             birthDateValidation(con); //validates contact birthdate
+            setMatchingFirstAndLastName(con, oldItems); // remove special characters from the first and last name field
 
             //person contacts processes start
             if (!isPerson) {
@@ -58,7 +58,7 @@ public without sharing class ContactTriggerHelper {
             }
 
             //This method check if redundant email value is duplicated in the other contact email fields.
-			checkIfEmailIsAlreadyMatchOnContactLeadConversion(con,oldItems);
+            checkIfEmailIsAlreadyMatchOnContactLeadConversion(con, oldItems);
 
             setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
             setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
@@ -133,7 +133,6 @@ public without sharing class ContactTriggerHelper {
 
         //collect person contact ids
         for (Contact con : newItems) {
-
             if (con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID) {
                 personContactIds.add(con.Id);
             }
@@ -153,7 +152,8 @@ public without sharing class ContactTriggerHelper {
         for (Contact mcContact : existingChildMCContacts) {
             //checks if persona type is work,qut staff, or qut learner
             boolean isValidPersonaType =
-                MarketingService.PERSONA_TYPES_TO_EMAIL_MAP.keySet().contains(mcContact.Persona_Type__c) &&
+                MarketingService.PERSONA_TYPES_TO_EMAIL_MAP.keySet()
+                    .contains(mcContact.Persona_Type__c) &&
                 mcContact.Parent_Person_Contact__c != null;
 
             //group parent contact by persona type
@@ -682,7 +682,10 @@ public without sharing class ContactTriggerHelper {
                 assignContactToCadenceMap,
                 removeContactToCadenceMap
             );
-            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(assignContactToCadenceMap,removeContactToCadenceMap);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(
+                assignContactToCadenceMap,
+                removeContactToCadenceMap
+            );
         }
     }
     /**
@@ -725,6 +728,42 @@ public without sharing class ContactTriggerHelper {
     }
 
     /**
+     * @description Sets the Matching_Firstname__c and Matching_Lastname__c fields
+     *              on a Contact record by removing any non-letter characters from the
+     *              First Name and Last Name fields, only if the first name or last name
+     *              has been newly added or updated.
+     * @param con The Contact record for which to set the matching first and last names.
+     * @param oldItems A map containing the old versions of Contact records before the update.
+     */
+    private static void setMatchingFirstAndLastName(Contact con, Map<Id, Contact> oldItems) {
+        // Check if the first name or last name has been newly added or updated
+        boolean isFirstNameNewOrUpdated =
+            oldItems == null ||
+            con.FirstName != oldItems.get(con.Id).FirstName;
+        boolean isLastNameNewOrUpdated =
+            oldItems == null ||
+            con.LastName != oldItems.get(con.Id).LastName;
+
+        // Regular expression pattern to match any character that is not a letter
+        String regexPattern = '[^a-zA-Z]';
+
+        // Check if the first name is updated
+        if (isFirstNameNewOrUpdated) {
+            // Update the Matching_Firstname__c field with the cleaned first name or empty
+            con.Matching_Firstname__c = String.isNotBlank(con.FirstName)
+                ? con.FirstName.replaceAll(regexPattern, '')
+                : '';
+        }
+
+        // Check if the last name is updated
+        if (isLastNameNewOrUpdated) {
+            // Update the Matching_Lastname__c field with the cleaned last name or empty
+            con.Matching_Lastname__c = String.isNotBlank(con.LastName)
+                ? con.LastName.replaceAll(regexPattern, '')
+                : '';
+        }
+    }
+    /**
      * @description check or uncheck and QUT_Staff based on the contact details
      *
      * @param newItems  List of new Contact records
@@ -751,21 +790,27 @@ public without sharing class ContactTriggerHelper {
         Boolean isInsert = oldContacts == null;
         //on insert or update
         //check if QUT Applicant is set to false on insert or update
-        Boolean isQUTApplicantChanged = (!isInsert && oldContacts.get(con.Id).QUT_Applicant__c != con.QUT_Applicant__c);
-        
+        Boolean isQUTApplicantChanged = (!isInsert &&
+        oldContacts.get(con.Id).QUT_Applicant__c != con.QUT_Applicant__c);
+
         //check if lead score value changed
-        Boolean isLeadScoreChanged = (!isInsert && oldContacts.get(con.Id).Lead_Score__c != con.Lead_Score__c);       
-        boolean isPartnerSourced = con.Lead_Source_Category__c == ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
-		Boolean isPartnerSourcedChanged = (!isInsert && oldContacts.get(con.Id).Lead_Source_Category__c != con.Lead_Source_Category__c) && isPartnerSourced;
-        
-        if(isPartnerSourcedChanged){
-           con.Can_Nurture__c = true; 
-        }
-        
-       //check if contact is applicant
-        if ((con.QUT_Applicant__c || isPartnerSourced)  && isInsert) {
+        Boolean isLeadScoreChanged = (!isInsert &&
+        oldContacts.get(con.Id).Lead_Score__c != con.Lead_Score__c);
+        boolean isPartnerSourced =
+            con.Lead_Source_Category__c == ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
+        Boolean isPartnerSourcedChanged =
+            (!isInsert &&
+            oldContacts.get(con.Id).Lead_Source_Category__c != con.Lead_Source_Category__c) &&
+            isPartnerSourced;
+
+        if (isPartnerSourcedChanged) {
             con.Can_Nurture__c = true;
-        } else if(isLeadScoreChanged || isQUTApplicantChanged) {
+        }
+
+        //check if contact is applicant
+        if ((con.QUT_Applicant__c || isPartnerSourced) && isInsert) {
+            con.Can_Nurture__c = true;
+        } else if (isLeadScoreChanged || isQUTApplicantChanged) {
             contactsToRecalculate.add(con);
         }
     }
@@ -779,24 +824,26 @@ public without sharing class ContactTriggerHelper {
         if (contactsToRecalculate.isEmpty()) {
             return;
         }
-        
+
         Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack = new Map<String, Nurture_Track_Configuration__c>();
         Set<Id> contactWithActiveApplications = new Set<Id>();
         Map<Id, Contact> contactMap = new Map<Id, Contact>(contactsToRecalculate);
-        
+
         // Populate mapOfNurtureTrack with nurturing track records for Strong Interest
         populateNurtureTrackMap(mapOfNurtureTrack);
-        
+
         // Populate contactWithActiveApplications with active contact IDs
         populateActiveApplicationsSet(contactWithActiveApplications, contactMap);
-        
+
         if (!mapOfNurtureTrack.isEmpty() || !contactWithActiveApplications.isEmpty()) {
             for (Contact con : contactsToRecalculate) {
                 Decimal minScore = getMinScore(con.hed__Citizenship_Status__c, mapOfNurtureTrack);
-                
+
                 // Check if the lead score is greater than or equal to the Strong Interest threshold nurture track
                 // Or if the contact is linked to an active application record, then set the Can_Nurture flag to TRUE
-                con.Can_Nurture__c = LeadScoreService.isLeadScoreInRange(con.Lead_Score__c, minScore, null) || contactWithActiveApplications.contains(con.Id);
+                con.Can_Nurture__c =
+                    LeadScoreService.isLeadScoreInRange(con.Lead_Score__c, minScore, null) ||
+                    contactWithActiveApplications.contains(con.Id);
             }
         }
     }
@@ -804,79 +851,106 @@ public without sharing class ContactTriggerHelper {
      * @description get strong interest nurture track
      *
      * @param Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack)
-     */    
-    private static void populateNurtureTrackMap(Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack) {
-        for (Nurture_Track_Configuration__c nurture : NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackLeadScoreThreshold('SYSTEM_MODE')) {
+     */
+    private static void populateNurtureTrackMap(
+        Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack
+    ) {
+        for (
+            Nurture_Track_Configuration__c nurture : NurtureTrackConfigurationsDAO.newInstance()
+                .getNurtureTrackLeadScoreThreshold('SYSTEM_MODE')
+        ) {
             if (isStrongInterestCadence(nurture.Cadence_Name__c)) {
                 mapOfNurtureTrack.put(nurture.Cadence_Name__c, nurture);
             }
         }
     }
-    
+
     /**
      * @description check if cadence is strong interest
      *
      * @param String cadenceName
-     */      
+     */
     private static boolean isStrongInterestCadence(String cadenceName) {
-        return cadenceName == NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL ||
-            cadenceName == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
+        return cadenceName ==
+            NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL ||
+            cadenceName ==
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
     }
 
     /**
      * @description get active application of contact
      *
      * @param Set<Id> contactWithActiveApplications, Map<Id, Contact> contactMap
-     */     
-    private static void populateActiveApplicationsSet(Set<Id> contactWithActiveApplications, Map<Id, Contact> contactMap) {
-        for (hed__Application__c app : ApplicationsDAO.newInstance().getApplicationsActiveApplicants(contactMap.keySet(), 'SYSTEM_MODE')) {
+     */
+    private static void populateActiveApplicationsSet(
+        Set<Id> contactWithActiveApplications,
+        Map<Id, Contact> contactMap
+    ) {
+        for (
+            hed__Application__c app : ApplicationsDAO.newInstance()
+                .getApplicationsActiveApplicants(contactMap.keySet(), 'SYSTEM_MODE')
+        ) {
             contactWithActiveApplications.add(app.hed__Applicant__c);
         }
     }
-    
+
     /**
      * @description set the nurture track lead score threshold
      *
      * @param String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack
-     */     
-    private static Decimal getMinScore(String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack) {
+     */
+    private static Decimal getMinScore(
+        String citizenshipStatus,
+        Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack
+    ) {
         if (citizenshipStatus == 'Domestic' || citizenshipStatus == 'International') {
-            String cadenceName = (citizenshipStatus == 'International') ? NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL : NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
+            String cadenceName = (citizenshipStatus == 'International')
+                ? NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
+                : NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
             return mapOfNurtureTrack.get(cadenceName)?.Lead_Score_Threshold__c;
         }
         return null;
     }
 
     /***
-     * @description update Registered email when match to Primary Email or Work Email 
+     * @description update Registered email when match to Primary Email or Work Email
      * @param newItems - trigger.new contacts
      * @param oldItems - trigger.old contacts
      */
-    private static void updateRegisteredEmail(Contact newItems, Map<Id, Contact> oldItems){
+    private static void updateRegisteredEmail(Contact newItems, Map<Id, Contact> oldItems) {
         Boolean isUpdate = oldItems != null;
-        Boolean isPrimaryEmailChange = isUpdate && newItems.Email != oldItems.get(newItems.Id).Email;
-        Boolean isWorkEmailChange = isUpdate && newItems.Work_Email__c != oldItems.get(newItems.Id).Work_Email__c;
-        Boolean isRegisteredEmailMatchPrimaryEmail = isUpdate && (oldItems.get(newItems.Id).Email == oldItems.get(newItems.Id).Registered_Email__c);
-        Boolean isRegisteredEmailMatchWorkEmail = isUpdate && (oldItems.get(newItems.Id).Work_Email__c == oldItems.get(newItems.Id).Registered_Email__c);
-        Boolean updateRegisteredEmailFromPrimary = isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
-        Boolean updateRegisteredEmailFromWork =  isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
-        if(updateRegisteredEmailFromPrimary){
+        Boolean isPrimaryEmailChange =
+            isUpdate && newItems.Email != oldItems.get(newItems.Id).Email;
+        Boolean isWorkEmailChange =
+            isUpdate && newItems.Work_Email__c != oldItems.get(newItems.Id).Work_Email__c;
+        Boolean isRegisteredEmailMatchPrimaryEmail =
+            isUpdate &&
+            (oldItems.get(newItems.Id).Email == oldItems.get(newItems.Id).Registered_Email__c);
+        Boolean isRegisteredEmailMatchWorkEmail =
+            isUpdate &&
+            (oldItems.get(newItems.Id).Work_Email__c ==
+            oldItems.get(newItems.Id).Registered_Email__c);
+        Boolean updateRegisteredEmailFromPrimary =
+            isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail;
+        Boolean updateRegisteredEmailFromWork =
+            isWorkEmailChange && isRegisteredEmailMatchWorkEmail;
+        if (updateRegisteredEmailFromPrimary) {
             newItems.Registered_Email__c = newItems.Email;
-        }
-        else if(updateRegisteredEmailFromWork){
-            newItems.Registered_Email__c = newItems.Work_Email__c;    
+        } else if (updateRegisteredEmailFromWork) {
+            newItems.Registered_Email__c = newItems.Work_Email__c;
         }
     }
 
     public static void createLeadScoreDetailRecord(List<Contact> contactList) {
         List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
-        for(Contact contact : contactList){
-            if(contact.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
+        for (Contact contact : contactList) {
+            if (contact.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID) {
                 leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Contact__c = contact.Id));
             }
         }
-        if(!contactList.isEmpty()){
-            LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        if (!contactList.isEmpty()) {
+            LeadScoreDetailsDAO.newInstance()
+                .insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
         }
     }
 
@@ -885,21 +959,30 @@ public without sharing class ContactTriggerHelper {
      * @param newItems - trigger.new contact
      * @param oldItems - trigger.old contacts
      */
-    private static void updateSyncToMCField(Contact newItems, Map<Id, Contact> oldItems){
+    private static void updateSyncToMCField(Contact newItems, Map<Id, Contact> oldItems) {
         Boolean isUpdate = oldItems != null;
         Boolean isDoNotSyncToMCOverrideChanged = false;
         Boolean isPrimaryEmailChanged = false;
         Boolean isMobilePhoneChanged = false;
 
-        if(isUpdate){
-            isDoNotSyncToMCOverrideChanged = oldItems.get(newItems.Id).Do_Not_Sync_To_MC_Override__c != newItems.Do_Not_Sync_To_MC_Override__c;
+        if (isUpdate) {
+            isDoNotSyncToMCOverrideChanged =
+                oldItems.get(newItems.Id).Do_Not_Sync_To_MC_Override__c !=
+                newItems.Do_Not_Sync_To_MC_Override__c;
             isPrimaryEmailChanged = oldItems.get(newItems.Id).Email != newItems.Email;
             isMobilePhoneChanged = oldItems.get(newItems.Id).MobilePhone != newItems.MobilePhone;
         }
-        if( ( !isUpdate || isDoNotSyncToMCOverrideChanged ) && newItems.Do_Not_Sync_To_MC_Override__c == true ){
+        if (
+            (!isUpdate || isDoNotSyncToMCOverrideChanged) &&
+            newItems.Do_Not_Sync_To_MC_Override__c == true
+        ) {
             newItems.Sync_to_MC__c = false;
         }
-        if( ( !isUpdate || isPrimaryEmailChanged || isMobilePhoneChanged ) && ( newItems.Email != null || newItems.MobilePhone != null) ){
+        if (
+            (!isUpdate || isPrimaryEmailChanged || isMobilePhoneChanged) &&
+            (newItems.Email != null ||
+            newItems.MobilePhone != null)
+        ) {
             newItems.Sync_To_MC__c = true;
         }
     }
@@ -907,31 +990,151 @@ public without sharing class ContactTriggerHelper {
     /**
      * Checks if the email fields on a contact have been modified during lead conversion and performs actions accordingly.
      * This method ensures that redundant email information is not duplicated in the contact fields.
-     * 
+     *
      * @param con The Contact object representing the converted lead.
      * @param oldMap A map containing the old values of the contacts before conversion.
-     */    
-    private static void checkIfEmailIsAlreadyMatchOnContactLeadConversion(Contact con, Map<Id, Contact> oldMap){
-        
-        if(oldMap == null){
+     */
+    private static void checkIfEmailIsAlreadyMatchOnContactLeadConversion(
+        Contact con,
+        Map<Id, Contact> oldMap
+    ) {
+        if (oldMap == null) {
             return;
         }
-        
-        Boolean isEmailChanged = oldMap.get(con.Id).Email == NULL &&  con.Email != oldMap.get(con.Id).Email;
-        Boolean isWorkEmailChanged = oldMap.get(con.Id).Work_Email__c == NULL &&  con.Work_Email__c != oldMap.get(con.Id).Work_Email__c;
-               
-        if(isEmailChanged){
-            Boolean isPersonalEmailMatch = con.Email == con.Work_Email__c || con.Email == con.QUT_Learner_Email__c || con.Email == con.QUT_Staff_Email__c;
+
+        Boolean isEmailChanged =
+            oldMap.get(con.Id).Email == null &&
+            con.Email != oldMap.get(con.Id).Email;
+        Boolean isWorkEmailChanged =
+            oldMap.get(con.Id).Work_Email__c == null &&
+            con.Work_Email__c != oldMap.get(con.Id).Work_Email__c;
+
+        if (isEmailChanged) {
+            Boolean isPersonalEmailMatch =
+                con.Email == con.Work_Email__c ||
+                con.Email == con.QUT_Learner_Email__c ||
+                con.Email == con.QUT_Staff_Email__c;
             if (isPersonalEmailMatch) {
                 con.Email = '';
             }
         }
-        
-        if(isWorkEmailChanged){
-            Boolean isWorkEmailMatch = con.Work_Email__c == con.Email || con.Work_Email__c == con.QUT_Learner_Email__c || con.Work_Email__c == con.QUT_Staff_Email__c;
+
+        if (isWorkEmailChanged) {
+            Boolean isWorkEmailMatch =
+                con.Work_Email__c == con.Email ||
+                con.Work_Email__c == con.QUT_Learner_Email__c ||
+                con.Work_Email__c == con.QUT_Staff_Email__c;
             if (isWorkEmailMatch) {
                 con.Work_Email__c = '';
             }
         }
+    }
+
+    /**
+     * Processes system key changes on contacts.
+     * This method is triggered when there are changes to a list of contacts.
+     * It handles the insertion and updating of Contact Alternate IDs based on changes in system keys.
+     *
+     * @param newContacts List of new contacts or contacts with changes
+     * @param oldMap Map of old contacts (can be null if all contacts are new)
+     */
+    public static void processSystemKeyChangeOnContactTrigger(
+        List<Contact> newContacts,
+        Map<Id, Contact> oldMap
+    ) {
+        // Map to store new Contact Alternate IDs to be inserted
+        Map<String, Contact_Alternate_ID__c> conAltIdsToInsertMap = new Map<String, Contact_Alternate_ID__c>();
+        // Set to store contact Ids for querying existing Contact Alternate IDs
+        Set<Id> contactIds = new Set<Id>();
+        // Set to store system key Ids for querying existing Contact Alternate IDs
+        Set<String> systemKeyIds = new Set<String>();
+        String uniqueContactToIdKey = '';
+        String uniqueContactToIdTypeKey = '';
+
+        // Iterate through new contacts to determine system key changes
+        for (Contact con : newContacts) {
+            // Check if the contact has a new QUT Student ID
+            boolean isNewStudentId = oldMap == null && String.isNotBlank(con.QUT_Student_ID__c);
+            // Check if the contact has a new QUT Employee ID
+            boolean isNewEmployeeId = oldMap == null && String.isNotBlank(con.QUT_Employee_ID__c);
+            // Check if the contact's QUT Student ID has been updated
+            boolean isUpdatedStudentId =
+                oldMap != null &&
+                String.isNotBlank(con.QUT_Student_ID__c) &&
+                oldMap.get(con.Id).QUT_Student_ID__c != con.QUT_Student_ID__c;
+            // Check if the contact's QUT Employee ID has been updated
+            boolean isUpdatedEmployeeId =
+                oldMap != null &&
+                String.isNotBlank(con.QUT_Employee_ID__c) &&
+                oldMap.get(con.Id).QUT_Employee_ID__c != con.QUT_Employee_ID__c;
+
+            // Check if system key changes are related to Student ID
+            boolean isCheckStudentId = isNewStudentId || isUpdatedStudentId;
+            // Check if system key changes are related to Employee ID
+            boolean isCheckEmployeeId = isNewEmployeeId || isUpdatedEmployeeId;
+
+            // Process Student ID changes
+            if (isCheckStudentId) {
+                uniqueContactToIdKey = con.Id + con.QUT_Student_ID__c;
+                systemKeyIds.add(con.QUT_Student_ID__c);
+                // Create Contact Alternate ID record for Student ID
+                conAltIdsToInsertMap.put(
+                    uniqueContactToIdKey,
+                    new Contact_Alternate_ID__c(
+                        Contact_Alternate_Id__c = con.QUT_Student_ID__c,
+                        Alternate_Id_Status__c = 'Active',
+                        Alternate_Id_Type__c = 'QUT Student ID',
+                        Start_Date__c = System.Today(),
+                        Contact__c = con.Id
+                    )
+                );
+                contactIds.add(con.Id); // Add contact Id for querying existing Contact Alternate IDs
+            }
+
+            // Process Employee ID changes
+            if (isCheckEmployeeId) {
+                uniqueContactToIdKey = con.Id + con.QUT_Employee_ID__c;
+                systemKeyIds.add(con.QUT_Employee_ID__c);
+                // Create Contact Alternate ID record for Employee ID
+                conAltIdsToInsertMap.put(
+                    uniqueContactToIdKey,
+                    new Contact_Alternate_ID__c(
+                        Contact_Alternate_Id__c = con.QUT_Employee_ID__c,
+                        Alternate_Id_Status__c = 'Active',
+                        Alternate_Id_Type__c = 'QUT Employee ID',
+                        Start_Date__c = System.Today(),
+                        Contact__c = con.Id
+                    )
+                );
+                contactIds.add(con.Id); // Add contact Id for querying existing Contact Alternate IDs
+            }
+        }
+
+        // Get existing Contact Alternate IDs related to the collected Contact Ids
+        List<Contact_Alternate_ID__c> existingConAltIds = ContactAlternateIdsDAO.newInstance()
+            .getContactAlternateIdsByContactIdSet(contactIds, AccessLevel.SYSTEM_MODE);
+        // Map existing Contact Alternate IDs by Contact Id + System Key Type
+        // Remove existing Contact Alternate Ids by Contact Id + System key Id
+        Map<String, Contact_Alternate_ID__c> conSystemKeyCAIMap = new Map<String, Contact_Alternate_ID__c>();
+        for (Contact_Alternate_ID__c contactAltId : existingConAltIds) {
+            uniqueContactToIdTypeKey = contactAltId.Contact__c + contactAltId.Alternate_Id_Type__c;
+            uniqueContactToIdKey = contactAltId.Contact__c + contactAltId.Contact_Alternate_Id__c;
+
+            conSystemKeyCAIMap.put(uniqueContactToIdTypeKey, contactAltId);
+            conAltIdsToInsertMap.remove(uniqueContactToIdKey);
+        }
+
+        // Insert new Contact Alternate IDs if any
+        if (!conAltIdsToInsertMap.isEmpty()) {
+            ContactAlternateIdsDAO.newInstance()
+                .insertRecords(conAltIdsToInsertMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+
+        // Update existing Contact Alternate IDs
+        ContactAlternateIdService.updateContactAndContactAlternateIds(
+            conAltIdsToInsertMap.values(),
+            conSystemKeyCAIMap,
+            false
+        );
     }
 }

@@ -19,6 +19,7 @@
  *    | eccarius.munoz                 | October 6, 2023       | DEPP-5866              | Added handling for lead score |
  *    | roy.nino.s.regala              | November 1, 2023      | DEPP-7105              | Updated creation of marketing |
  *    | roy.nino.s.regala              | November 1, 2023      | DEPP-7105              | segmentation to future        |
+ *    | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Added Checking for async call | 
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -52,7 +53,16 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      */
     public void afterInsert(Map<Id, SObject> newItems) {
         LeadService.createLeadScoreDetailRecord((List<Lead>) newItems.values());
-        LeadService.createMarketingSegmentationForLeads(newItems.keySet());
+        
+        Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
+        if(isAsync) {
+            //Current transaction is running asynchronously
+            LeadService.createMarketingSegmentationSync(newItems.keySet());
+        } else {
+            //Current transaction is not running asynchronously;
+            LeadService.createMarketingSegmentationAsync(newItems.keySet());
+        }
+
         LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
     }
 
