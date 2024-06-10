@@ -528,7 +528,7 @@
         <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <layout>Relationship_Manager__c-Relationship Manager - QUTeX Account Relationship Manager</layout>
         <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
     </layoutAssignments>
     <layoutAssignments>
