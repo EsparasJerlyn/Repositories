@@ -76,7 +76,7 @@
     </types>
     <types>
         <!-- H1 -->
-        <members>Einstein_Recommendation_Action</members>
+        <members>Case.Einstein_Recommendation_Action</members>
         <name>QuickAction</name>
     </types>
 
