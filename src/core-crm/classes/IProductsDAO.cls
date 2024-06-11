@@ -10,6 +10,7 @@
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId  |
       | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationId    |
       | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references  |
+      | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPage            |
  */
 public interface IProductsDAO extends DmlInterface {
 
@@ -22,4 +23,11 @@ public interface IProductsDAO extends DmlInterface {
           Set<Id> designationIds,
           AccessLevel accessLevel
      );
+    ); 
+
+    List<Product2> getProductsOnPage(
+        Set<Id> productIdSet,
+        Set<Id> priceBookIds,
+        AccessLevel accessLevel
+    ); 
 }
