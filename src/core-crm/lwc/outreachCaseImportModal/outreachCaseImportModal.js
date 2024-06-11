@@ -88,7 +88,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track errors = [];
   @track studentsFound = 0;
   @track tempData = [];
-  @track tempDataCopy = [];
   @track dataForCreateOutreach = [];
 
   showTabset = false;
@@ -99,7 +98,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   showCaseCol = false;
   isCreateOutreach = false;
   exitModal = 'Cancel';
-  draftValues = [];
   studentTable = [];
   exclusionsTable = [];
   @track title;
@@ -113,7 +111,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   connectedCallback(){
     let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
     let exclusionsColumns = ['Student ID', 'Error'];
-    let toAddAction = false;
     const columns = this.tableColumns;
     const newStudentColumns = [];
     const newExclusionsColumns = [];
@@ -178,33 +175,29 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.loaded = false;
     const files = event.detail.files;
     this.errors = [];
-    
+
     if (files.length > 0) {
       const file = files[0];
       this.fileName = file.name;
       // Check if the file has a .csv extension
       if (!file.name.toLowerCase().endsWith('.csv')) {
-        this.errors.push('Invalid file format. Please ensure the file is a comma separated (.csv) file.');
+        this.errors.push('The file you have uploaded is an incorrect format. Please ensure the file is a comma separated (.csv) file.');
         this.showTabset = false;
         return;
       }
       // start reading the uploaded csv file
       this.read(file);
-      this.showTabset = true;
     }
   }
 
   async read(file) {
     try {
       const result = await this.load(file);
-      
       // execute the logic for parsing the uploaded csv file
       this.parse(result);
-      this.exclusionData = [];
     } catch (e) {
-      this.error = e;
       const timestamp = new Date().toISOString();
-      this.errors.push(`System error. A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`);
+      this.errors.push(`A system error occurred at ${timestamp}. Please contact the DEP support team to investigate the issue further.`);
       this.showTabset = false; 
     }
   }
@@ -224,10 +217,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   parse(csv) {
-    this.data = [];
-    this.exclusionData = [];
-    this.exclData = [];
-    this.showCaseCol = false;
     // parse the csv file and treat each line as one item of an array
     const lines = csv.split(/\r\n|\n/);
     
@@ -236,6 +225,14 @@ export default class OutReachCaseImportModal extends LightningElement {
     const rowCount = lines.length - 2;
 
     this.validateCsvFile(headers, rowCount);
+    if (this.errors.length > 0) {
+      this.showTabset = false;
+      return;
+    }
+
+    this.data = [];
+    this.exclusionData = [];
+    this.showCaseCol = false;
 
     // iterate through csv headers and transform them to column format supported by the datatable
     this.columns = headers.map((header) => {
@@ -269,19 +266,16 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   validateCsvFile(headers, rows){
     // Check if the header does not contain 'StudentID'
-    if (!headers.includes('StudentID')) {
-      this.errors.push("The file should contain a column with the header 'StudentID'.");
-      this.showTabset = false;
+    if (!headers.includes('StudentID') || headers.length > 1) {
+      this.errors.push("The file should only contain one column with the column header 'StudentID'.");
     }
 
     if (rows === 0) {
       this.errors.push('The file you have uploaded does not contain any data.');
-      this.showTabset = false;
     }
 
     if (rows > 3000) {
       this.errors.push('The CSV file contains too many rows. Please limit this to 3000 rows maximum.');
-      this.showTabset = false;
     }
   }
 
@@ -290,7 +284,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     listOfStudents({ studentIds: studentIds })
 		.then(result => {
       let allStudentsData = result;
-      const exclData = this.exclData;
+      const exclData = [];
       const data = this.data;
       for (let i = 0; i < allStudentsData.length; i++) {
         if (result[i].resultCode == 'VALID') {
@@ -315,8 +309,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       });
 
       if (exclData.length > 0) {
-        this.exclData = exclData;
-        this.exclusionData = this.exclData.sort((a, b) => a.studentId - b.studentId);
+        this.exclusionData = exclData.sort((a, b) => a.studentId - b.studentId);
       }
 
       if (data.length > 0) {
@@ -344,6 +337,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.tempData = this.data; // for search
       this.dataForCreateOutreach = this.data; // For Create Outreach Case
       this.loaded = true; 
+      this.showTabset = true;
 		})
 		.catch(error => {
 			if (logger) {
@@ -419,14 +413,10 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleTitle(event) {
-    this.showCaseCol = this.showCaseCol;
-    this.showTabset = this.showTabset;
     this.title = event.detail.value;
   }
 
   handleDescription(event) {
-    this.showCaseCol = this.showCaseCol;
-    this.showTabset = this.showTabset;
     this.description = event.detail.value;
   }
 
