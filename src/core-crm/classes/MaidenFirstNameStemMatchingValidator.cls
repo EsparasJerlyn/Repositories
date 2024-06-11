@@ -92,6 +92,11 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
             FIRST_NAME_STEM_FIELDS_WITH_MOBILE
         );
 
+        matchingRecord.set('uniqueKeyForMaidenNameEmail',uniqueKeyForMaidenNameEmail);
+        matchingRecord.set('uniqueKeyForMaidenNameMobile',uniqueKeyForMaidenNameMobile);
+        matchingRecord.set('uniqueKeyForFirstNameStemEmail',uniqueKeyForFirstNameStemEmail);
+        matchingRecord.set('uniqueKeyForFirstNameStemMobile',uniqueKeyForFirstNameStemMobile);
+
         return maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForMaidenNameEmail) ||
             maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForMaidenNameMobile) ||
             maidenOrFirstNameStemMatchingMap.containsKey(uniqueKeyForFirstNameStemEmail) ||
@@ -111,25 +116,10 @@ public inherited sharing class MaidenFirstNameStemMatchingValidator {
     ) {
         Set<Contact> matchingContacts = new Set<Contact>();
 
-        String uniqueKeyForMaidenNameEmail = ContactMatchingService.generateUniqueKey(
-            matchingRecord,
-            MAIDEN_NAME_FIELDS_WITH_EMAIL
-        );
-
-        String uniqueKeyForMaidenNameMobile = ContactMatchingService.generateUniqueKey(
-            matchingRecord,
-            MAIDEN_NAME_FIELDS_WITH_MOBILE
-        );
-
-        String uniqueKeyForFirstNameStemEmail = generateUniqueKeyForFirstNameStem(
-            matchingRecord,
-            FIRST_NAME_STEM_FIELDS_WITH_EMAIL
-        );
-
-        String uniqueKeyForFirstNameStemMobile = generateUniqueKeyForFirstNameStem(
-            matchingRecord,
-            FIRST_NAME_STEM_FIELDS_WITH_MOBILE
-        );
+        String uniqueKeyForMaidenNameEmail = matchingRecord.get('uniqueKeyForMaidenNameEmail');
+        String uniqueKeyForMaidenNameMobile = matchingRecord.get('uniqueKeyForMaidenNameMobile');
+        String uniqueKeyForFirstNameStemEmail = matchingRecord.get('uniqueKeyForFirstNameStemEmail');
+        String uniqueKeyForFirstNameStemMobile = matchingRecord.get('uniqueKeyForFirstNameStemMobile');
 
         String matchingType = '';
 

@@ -58,6 +58,9 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
             PARTIAL_NATURAL_KEY_FIELDS_WITH_MOBILE
         );
 
+        matchingRecord.set('uniqueKeyForEmail', uniqueKeyForEmail);
+        matchingRecord.set('uniqueKeyForMobile', uniqueKeyForMobile);
+
         return partialNaturalKeyMatchingMap.containsKey(uniqueKeyForEmail) ||
             partialNaturalKeyMatchingMap.containsKey(uniqueKeyForMobile);
     }
@@ -74,15 +77,8 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
     ) {
         Set<Contact> matchingContacts = new Set<Contact>();
 
-        String uniqueKeyForEmail = ContactMatchingService.generateUniqueKey(
-            matchingRecord,
-            PARTIAL_NATURAL_KEY_FIELDS_WITH_EMAIL
-        );
-
-        String uniqueKeyForMobile = ContactMatchingService.generateUniqueKey(
-            matchingRecord,
-            PARTIAL_NATURAL_KEY_FIELDS_WITH_MOBILE
-        );
+        String uniqueKeyForEmail = matchingRecord.get('uniqueKeyForEmail');
+        String uniqueKeyForMobile = matchingRecord.get('uniqueKeyForMobile');
 
         if (partialNaturalKeyMatchingMap.containsKey(uniqueKeyForEmail)) {
             matchingContacts.addAll(partialNaturalKeyMatchingMap.get(uniqueKeyForEmail));

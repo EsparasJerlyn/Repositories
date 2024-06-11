@@ -63,6 +63,8 @@ public inherited sharing class NaturalKeyMatchingValidator {
             NATURAL_KEY_FIELDS
         );
 
+        matchingRecord.set('uniqueKey',uniqueKey);
+
         // Check if generated keys exists in the map
         // this means FirstName + LastName + Birthdate matched to an existing contact
         return naturalKeyMatchingMap.containsKey(uniqueKey);
@@ -82,10 +84,8 @@ public inherited sharing class NaturalKeyMatchingValidator {
         Set<Contact> matchingContacts = new Set<Contact>();
 
         // Generate unique keys for natural key for base matching, email, and mobile
-        String uniqueKey = ContactMatchingService.generateUniqueKey(
-            matchingRecord,
-            NATURAL_KEY_FIELDS
-        );
+        String uniqueKey = matchingRecord.get('uniqueKey');
+        
         String uniqueKeyForEmail = ContactMatchingService.generateUniqueKey(
             matchingRecord,
             NATURAL_KEY_FIELDS_WITH_EMAIL

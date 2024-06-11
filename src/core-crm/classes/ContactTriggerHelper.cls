@@ -351,12 +351,12 @@ public without sharing class ContactTriggerHelper {
                     oldItems.get(con.Id)
                 );
 
-            if (isMCEmailNotBlank && isUpsertMCPersona) {
-                contactsToUpsert.addAll(
-                    //map the marketing fields to the MC Record
-                    buildMCPersonaRecords(personaType, triggerContactMap, childMCToParentMap)
-                );
-            }
+                if (isMCEmailNotBlank && isUpsertMCPersona) {
+                    contactsToUpsert.addAll(
+                        //map the marketing fields to the MC Record
+                        buildMCPersonaRecords(personaType, triggerContactMap, childMCToParentMap)
+                    );
+                }
         }
 
         return contactsToUpsert;
@@ -404,7 +404,7 @@ public without sharing class ContactTriggerHelper {
         );
 
         List<Contact> contactsToUpsert = new List<Contact>();
-        //create initial new MC Persona Record
+         //create initial new MC Persona Record
         Contact tempContact = new Contact(
             FirstName = con.FirstName,
             LastName = con.LastName,
@@ -1160,27 +1160,29 @@ public without sharing class ContactTriggerHelper {
         List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
         List<Contact> contactsToMatch = new List<Contact>();
         String uniqueKey = '';
+        Contact oldContact;
 
         // Iterate through each contact
         for (Contact newContact : newContacts) {
             //indicates that firstName,lastname,DOB, or Mobilephone has been updated
-            boolean isOneOfContactFieldsUpdated = ObjectFieldService.isOneOftheFieldsUpdated(
-                ContactMatchingService.CONTACT_FIELDS_TO_CHECK,
-                newContact,
-                oldContactsMap.get(newContact.Id)
-            );
 
-            //indicates that one of the email fields is updated
-            boolean isOneOfEmailFieldsUpdated = ObjectFieldService.isOneOftheFieldsUpdated(
-                ContactMatchingService.CONTACT_EMAIL_FIELDS_TO_CHECK,
-                newContact,
-                oldContactsMap.get(newContact.Id)
-            );
+            oldContact = oldContactsMap.get(newContact.Id);
+
+            boolean isOneOfContactFieldsUpdated = 
+            newContact.FirstName != oldContact.FirstName ||
+            newContact.LastName != oldContact.LastName || 
+            newContact.Birthdate != oldContact.Birthdate || 
+            newContact.Mobilephone != oldContact.Mobilephone;
+            
+            boolean isOneOfEmailFieldsUpdated = 
+            newContact.Email != oldContact.Email ||
+            newContact.QUT_Learner_Email__c != oldContact.QUT_Learner_Email__c || 
+            newContact.QUT_Staff_Email__c != oldContact.QUT_Staff_Email__c || 
+            newContact.Work_Email__c != oldContact.Work_Email__c;
 
             //indicates that no fields are updated
             boolean isExcludedFromPayload =
-                (!isOneOfContactFieldsUpdated &&
-                !isOneOfEmailFieldsUpdated) ||
+                (!isOneOfContactFieldsUpdated && !isOneOfEmailFieldsUpdated) ||
                 newContact.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID;
 
             if (isExcludedFromPayload) {
