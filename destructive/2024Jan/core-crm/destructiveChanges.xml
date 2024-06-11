@@ -132,5 +132,18 @@
         <name>EmailTemplate</name>
     </types>
     <!--DEPP-9125 End-->
+    <!--DEPP-8951 Start-->
+    <types>
+        <members>Sales_and_Marketing_Dashboards/AdoptationDashboard</members>
+        <members>Sales_and_Marketing_Dashboards/Best_Practice_Leads_Dashboard</members>
+        <members>Sales_and_Marketing_Dashboards/Best_Practices_Dashboard6</members>
+        <members>Service_Dashboards/Agent_Supervisor_Overview</members>
+        <members>Service_Dashboards/Service_Exec_Overview</members>
+        <members>Service_Dashboards/Service_KPIs</members>
+        <members>CRM_180925_HVS_Sample_Dashboard_Folder/CRM_180925_HVS_Sample_Dashboard</members>
+        <name>Dashboard</name>
+    </types>
+    <!--DEPP-8951 End-->
+
     <version>59.0</version> 
 </Package>
