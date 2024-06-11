@@ -76,7 +76,6 @@ public class TestDataFactoryUser {
             usr.LastName = 'SystemAdministrator';
             usr.Persona = 'System Administrator';
             usr.profileName = 'System Administrator';
-            usr.Role = '';
 
             usr.userpermissionsmarketinguser = true;
             usr.userpermissionsknowledgeuser = true;
