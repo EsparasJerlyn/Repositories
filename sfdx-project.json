@@ -3,6 +3,9 @@
   "packageDirectories": [
     {
       "path": "src",
+      "type": "ENABLE_VOICE"
+    },{
+      "path": "src",
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
