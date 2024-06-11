@@ -6,7 +6,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
+      | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPageTest  |
  */
 @isTest
 public with sharing class ProductsDAOTest {
@@ -61,6 +62,23 @@ public with sharing class ProductsDAOTest {
                 ProductsDAO.newInstance()
                     .getProductById(
                         new Set<Id>{builderForProduct.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getProductsOnPageTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductsOnPage(
+                        new Set<Id>(),
+                        new Set<Id>(),
                         AccessLevel.SYSTEM_MODE)
                     .isEmpty(),
                 'product retrieved is not empty'
