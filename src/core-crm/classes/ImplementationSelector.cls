@@ -71,6 +71,7 @@ public class ImplementationSelector {
             Contact.SObjectType => ContactsDAO.class,
             Contact_Alternate_ID__c.SObjectType => ContactAlternateIdsDAO.class,
             Contact_Matching_Configuration__c.SObjectType => ContactMatchingConfigurationsDAO.class,
+            Contact_Matching_Service_Configuration__mdt.SObjectType => ConMatchingServiceConfigurationsDAO.class,
             Contact_Matching_Staging__c.SObjectType => ContactMatchingStagingsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,
