@@ -97,7 +97,6 @@
         <!--End DEPP-8242-->
         <name>PathAssistant</name>
     </types>
-
     <types>
         <!--(Start) DEPP-8584-->
         <members>Case.International_Online_Enquires</members>
@@ -144,6 +143,112 @@
         <name>Dashboard</name>
     </types>
     <!--DEPP-8951 End-->
-
+    <types>
+        <!-- (Start) DEPP-6995 -->
+        <members>Country_Locale_Metadata__mdt.ar_SD</members>
+        <members>Country_Locale_Metadata__mdt.az_AZ</members>
+        <members>Country_Locale_Metadata__mdt.bs_BA</members>
+        <members>Country_Locale_Metadata__mdt.de_BE</members>
+        <members>Country_Locale_Metadata__mdt.bz_BT</members>
+        <members>Country_Locale_Metadata__mdt.el_CY</members>
+        <members>Country_Locale_Metadata__mdt.en_AE</members>
+        <members>Country_Locale_Metadata__mdt.en_AG</members>
+        <members>Country_Locale_Metadata__mdt.en_BB</members>
+        <members>Country_Locale_Metadata__mdt.en_BE</members>
+        <members>Country_Locale_Metadata__mdt.en_BM</members>
+        <members>Country_Locale_Metadata__mdt.en_BS</members>
+        <members>Country_Locale_Metadata__mdt.en_BW</members>
+        <members>Country_Locale_Metadata__mdt.en_CM</members>
+        <members>Country_Locale_Metadata__mdt.en_CY</members>
+        <members>Country_Locale_Metadata__mdt.en_DE</members>
+        <members>Country_Locale_Metadata__mdt.en_ER</members>
+        <members>Country_Locale_Metadata__mdt.en_FJ</members>
+        <members>Country_Locale_Metadata__mdt.en_FK</members>
+        <members>Country_Locale_Metadata__mdt.en_GH</members>
+        <members>Country_Locale_Metadata__mdt.en_GI</members>
+        <members>Country_Locale_Metadata__mdt.en_GM</members>
+        <members>Country_Locale_Metadata__mdt.en_GY</members>
+        <members>Country_Locale_Metadata__mdt.en_HK</members>
+        <members>Country_Locale_Metadata__mdt.en_ID</members>
+        <members>Country_Locale_Metadata__mdt.en_IL</members>
+        <members>Country_Locale_Metadata__mdt.en_KE</members>
+        <members>Country_Locale_Metadata__mdt.en_KY</members>
+        <members>Country_Locale_Metadata__mdt.en_LR</members>
+        <members>Country_Locale_Metadata__mdt.en_MG</members>
+        <members>Country_Locale_Metadata__mdt.en_MT</members>
+        <members>Country_Locale_Metadata__mdt.en_MU</members>
+        <members>Country_Locale_Metadata__mdt.en_MW</members>
+        <members>Country_Locale_Metadata__mdt.en_NA</members>
+        <members>Country_Locale_Metadata__mdt.en_NG</members>
+        <members>Country_Locale_Metadata__mdt.en_NL</members>
+        <members>Country_Locale_Metadata__mdt.en_PG</members>
+        <members>Country_Locale_Metadata__mdt.en_PK</members>
+        <members>Country_Locale_Metadata__mdt.en_RW</members>
+        <members>Country_Locale_Metadata__mdt.en_SB</members>
+        <members>Country_Locale_Metadata__mdt.en_SC</members>
+        <members>Country_Locale_Metadata__mdt.en_SH</members>
+        <members>Country_Locale_Metadata__mdt.en_SL</members>
+        <members>Country_Locale_Metadata__mdt.en_SX</members>
+        <members>Country_Locale_Metadata__mdt.en_SZ</members>
+        <members>Country_Locale_Metadata__mdt.en_TO</members>
+        <members>Country_Locale_Metadata__mdt.en_TZ</members>
+        <members>Country_Locale_Metadata__mdt.en_UG</members>
+        <members>Country_Locale_Metadata__mdt.en_VU</members>
+        <members>Country_Locale_Metadata__mdt.en_WS</members>
+        <members>Country_Locale_Metadata__mdt.es_CU</members>
+        <members>Country_Locale_Metadata__mdt.fr_HT</members>
+        <members>Country_Locale_Metadata__mdt.fr_KM</members>
+        <members>Country_Locale_Metadata__mdt.fr_MA</members>
+        <members>Country_Locale_Metadata__mdt.fr_MR</members>
+        <members>Country_Locale_Metadata__mdt.fr_WF</members>
+        <members>Country_Locale_Metadata__mdt.haw_US</members>
+        <members>Country_Locale_Metadata__mdt.ht_HT</members>
+        <members>Country_Locale_Metadata__mdt.ht_US</members>
+        <members>Country_Locale_Metadata__mdt.iw_IL</members>
+        <members>Country_Locale_Metadata__mdt.ji_US</members>
+        <members>Country_Locale_Metadata__mdt.ko_KP</members>
+        <members>Country_Locale_Metadata__mdt.lu_CD</members>
+        <members>Country_Locale_Metadata__mdt.my_MM</members>
+        <members>Country_Locale_Metadata__mdt.nl_AW</members>
+        <members>Country_Locale_Metadata__mdt.nl_SR</members>
+        <members>Country_Locale_Metadata__mdt.pt_AO</members>
+        <members>Country_Locale_Metadata__mdt.pt_CV</members>
+        <members>Country_Locale_Metadata__mdt.pt_MZ</members>
+        <members>Country_Locale_Metadata__mdt.pt_ST</members>
+        <members>Country_Locale_Metadata__mdt.rn_BI</members>
+        <members>Country_Locale_Metadata__mdt.ro_MD</members>
+        <members>Country_Locale_Metadata__mdt.ru_AM</members>
+        <members>Country_Locale_Metadata__mdt.ru_BY</members>
+        <members>Country_Locale_Metadata__mdt.ru_KG</members>
+        <members>Country_Locale_Metadata__mdt.ru_KZ</members>
+        <members>Country_Locale_Metadata__mdt.ru_LT</members>
+        <members>Country_Locale_Metadata__mdt.ru_MD</members>
+        <members>Country_Locale_Metadata__mdt.ru_PL</members>
+        <members>Country_Locale_Metadata__mdt.ru_UA</members>
+        <members>Country_Locale_Metadata__mdt.sh_BA</members>
+        <members>Country_Locale_Metadata__mdt.sh_CS</members>
+        <members>Country_Locale_Metadata__mdt.sh_ME</members>
+        <members>Country_Locale_Metadata__mdt.sh_ME_USD</members>
+        <members>Country_Locale_Metadata__mdt.sm_US</members>
+        <members>Country_Locale_Metadata__mdt.sm_WS</members>
+        <members>Country_Locale_Metadata__mdt.so_DJ</members>
+        <members>Country_Locale_Metadata__mdt.so_SO</members>
+        <members>Country_Locale_Metadata__mdt.sr_BA</members>
+        <members>Country_Locale_Metadata__mdt.sr_CS</members>
+        <members>Country_Locale_Metadata__mdt.sr_RS</members>
+        <members>Country_Locale_Metadata__mdt.ta_LK</members>
+        <members>Country_Locale_Metadata__mdt.tg_TJ</members>
+        <members>Country_Locale_Metadata__mdt.ti_ET</members>
+        <members>Country_Locale_Metadata__mdt.tl_PH</members>
+        <members>Country_Locale_Metadata__mdt.uz_LATN_UZ</members>
+        <members>Country_Locale_Metadata__mdt.yo_BJ</members>
+        <members>Country_Locale_Metadata__mdt.zh_CN_PINYIN</members>
+        <members>Country_Locale_Metadata__mdt.zh_CN_STROKE</members>
+        <members>Country_Locale_Metadata__mdt.zh_HK_STROKE</members>
+        <members>Country_Locale_Metadata__mdt.zh_MY</members>
+        <members>Country_Locale_Metadata__mdt.zh_TW_STROKE</members>
+        <!--(End) DEPP-6995 -->
+        <name>CustomMetadata</name>
+    </types>
     <version>59.0</version> 
 </Package>

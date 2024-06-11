@@ -5429,10 +5429,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ar-SD</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ar-SY</fullName>
             <default>false</default>
         </values>
@@ -5442,10 +5438,6 @@
         </values>
         <values>
             <fullName>ar-YE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>az-AZ</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5462,10 +5454,6 @@
         </values>
         <values>
             <fullName>bn-IN</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>bs-BA</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5489,10 +5477,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>de-BE</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>de-CH</fullName>
             <default>false</default>
         </values>
@@ -5505,47 +5489,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>dz-BT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>el-CY</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>el-GR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en-AE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-AG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-AU</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-BB</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-BE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-BM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-BS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-BW</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5557,63 +5505,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>en-CM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-CY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-DE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-ER</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-FJ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-FK</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-GB</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en-GH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-GI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-GM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-GY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-HK</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-ID</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-IE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-IL</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5625,47 +5521,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>en-KE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-KY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-LR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-MG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-MT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-MU</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-MW</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-MY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-NA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-NG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-NL</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5673,27 +5529,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>en-PG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-PH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-PK</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-RW</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-SB</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-SC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5701,47 +5537,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>en-SH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-SL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-SX</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-SZ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-TO</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-TT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>en-TZ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-UG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en-US</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-VU</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en-WS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5766,10 +5566,6 @@
         </values>
         <values>
             <fullName>es-CR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>es-CU</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5865,35 +5661,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>fr-GN</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>fr-HT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>fr-KM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>fr-LU</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>fr-MA</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>fr-MC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>fr-MR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>fr-WF</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5905,23 +5677,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>haw-US</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>hi-IN</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>hr-HR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ht-HT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ht-US</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5949,15 +5709,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>iw-IL</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ja-JP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ji-US</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5981,10 +5733,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ko-KP</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ko-KR</fullName>
             <default>false</default>
         </values>
@@ -6002,10 +5750,6 @@
         </values>
         <values>
             <fullName>lt-LT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>lu-CD</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6041,15 +5785,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>my-MM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ne-NP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>nl-AW</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6058,10 +5794,6 @@
         </values>
         <values>
             <fullName>nl-NL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>nl-SR</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6077,19 +5809,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>pt-AO</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>pt-BR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>pt-CV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>pt-MZ</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6097,19 +5817,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>pt-ST</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>rm-CH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>rn-BI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ro-MD</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6117,55 +5825,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ru-AM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-BY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-KG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-KZ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-LT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-MD</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-PL</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ru-RU</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru-UA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sh-BA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sh-CS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sh-ME</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sh-ME-USD</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6174,38 +5834,6 @@
         </values>
         <values>
             <fullName>sl-SI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sm-US</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sm-WS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>so-DJ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>so-SO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sq-AL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sr-BA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sr-CS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>sr-RS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6221,27 +5849,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ta-LK</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>te-IN</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>tg-TJ</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>th-TH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ti-ET</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>tl-PH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6257,10 +5869,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>uz-LATN-UZ</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>vi-VN</fullName>
             <default>false</default>
         </values>
@@ -6269,19 +5877,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>yo-BJ</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>zh-CN</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>zh-CN-PINYIN</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>zh-CN-STROKE</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6289,15 +5885,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>zh-HK-STROKE</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>zh-MO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>zh-MY</fullName>
             <default>false</default>
         </values>
         <values>
@@ -6309,11 +5897,147 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>zh-TW-STROKE</fullName>
+            <fullName>zu-ZA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>zu-ZA</fullName>
+            <fullName>as-in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ba-ru</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>bo-cn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>br-fr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>co-fr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>de-li</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>dv-mv</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>en-zw</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>fo-fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>fy-nl</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>gd-gb</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>gl-es</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>he-il</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>hr-ba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ig-ng</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ii-cn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>mn-mn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>nb-no</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>oc-fr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>or-in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>pa-in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>rw-rw</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>sa-in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>se-fi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>se-no</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>se-se</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>si-lk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>sq-al</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>sv-fi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tk-tm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tn-za</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tt-ru</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ug-cn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>wo-sn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>yo-ng</fullName>
             <default>false</default>
         </values>
     </picklistValues>
