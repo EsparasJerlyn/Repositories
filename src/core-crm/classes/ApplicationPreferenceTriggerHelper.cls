@@ -10,10 +10,13 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | julie.jane.alegre              | August 11, 2023       | DEPP-6252              | Created file                                     |
       | eccarius.munoz                 | August 23, 2023       | DEPP-6370              | Added handling for updating qtac apps            |
+      | sebastianne.k.trias            | May 9, 2024           | DEPP-8382              | Changed logic in setting value of application    |
+      |                                |                       |                        | calculated intake date field                     |
  */
 public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
 
     private static List<Application_Preference__c> qtacApplicationPreferences;
+    private static Map<Id, Date> appCalculatedDateMap = new Map<Id, Date>();
 
     /**
      * @description process records to be set as current preference
@@ -21,6 +24,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
      * @param oldItems - Map<Id, Application_Preference__c> old records map
      */
     public static void setCurrentPreference(List<Application_Preference__c> newItems, Map<Id, Application_Preference__c> oldItems) {
+        appCalculatedDateMap.clear();
         //Gets and sets Application Ids 
         Set<Id> applicationIDSet = new Set<Id>();
         for(Application_Preference__c appPref : newItems){
@@ -137,7 +141,12 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
         List<Package_Component__c> packageComponentList = PackageComponentDAO.newInstance().getPackageComponentsByAppPrefIdSet(appPrefSetIds, AccessLevel.USER_MODE);
         Map<Id, Package_Component__c> packageCompMap = new Map<Id, Package_Component__c>();
         for(Package_Component__c packageComp : packageComponentList){
-            if(packageComp.Application_Preference__c != null && packageComp.Package_Component_No__c == 1){
+            if(packageComp.Application_Preference__c != null){
+                if(!appCalculatedDateMap.containsKey(packageComp.Application_Preference__c)){
+                    appCalculatedDateMap.put(packageComp.Application_Preference__c, packageComp.Start_Date__c);
+                }else if(appCalculatedDateMap.get(packageComp.Application_Preference__c) > packageComp.Start_Date__c){
+                    appCalculatedDateMap.put(packageComp.Application_Preference__c, packageComp.Start_Date__c);
+                }
                 packageCompMap.put(packageComp.Application_Preference__c, packageComp);
             }
         }
@@ -215,9 +224,10 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
         Map<Id, Package_Component__c> packageCompMap
     ){
         Date calculatedDate = null;
-        Boolean isForStudyLink = app.Intake_Year__c!=null && app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-        if(isForStudyLink && packageCompMap.containsKey(applicationPreferenceMap.get(app.Id).Id)){
-            calculatedDate = packageCompMap.get(applicationPreferenceMap.get(app.Id).Id).Start_Date__c;
+
+        if( app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID && packageCompMap.containsKey(applicationPreferenceMap.get(app.Id).Id) ){
+            calculatedDate = appCalculatedDateMap.get(applicationPreferenceMap.get(app.Id).Id);
+            // calculatedDate = packageCompMap.get(applicationPreferenceMap.get(app.Id).Id).Start_Date__c;
         }
 
         return calculatedDate;

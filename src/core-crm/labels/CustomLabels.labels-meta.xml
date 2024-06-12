@@ -936,4 +936,12 @@
         <shortDescription>ELC Evaluation Cron Expression</shortDescription>
         <value>0 0 7 ? * TUE-THU</value>
     </labels>
+    <labels>
+        <fullName>ESBEndpointProcessAddress</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointProcessAddress</shortDescription>
+        <value>/consumer/dep/v1/event/processAddress</value>
+    </labels>
 </CustomLabels>

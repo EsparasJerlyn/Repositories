@@ -44,4 +44,13 @@ public inherited sharing class AddressesDAOMock extends DmlBaseMock implements I
         
         return addressList;
     }
+
+    public Database.QueryLocator getQueryLocatorByIntegrationStatus(Set<String> status) {
+        return null;
+    }
+
+    public Database.QueryLocator getQueryLocatorByIds(Set<Id> recordIds) {  
+        return null;
+    }
+
 }

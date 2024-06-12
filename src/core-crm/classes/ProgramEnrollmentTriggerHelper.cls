@@ -61,21 +61,22 @@ public with sharing class ProgramEnrollmentTriggerHelper {
         Map<Id, hed__Program_Enrollment__c > oldItems
     ) {
         Set<Id> contactIdSet = new Set<Id>();
-        for (hed__Program_Enrollment__c  enrollment : newItems) {
+        for (hed__Program_Enrollment__c enrollment : newItems) {
 
-            Boolean isEnrollmentStatusAdmitted =  enrollment.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
+            Boolean isEnrollmentStatusAdmitted = enrollment.hed__Contact__c != null &&
+                                                 enrollment.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
                                                  (oldItems == null || enrollment.Enrollment_Status__c != oldItems.get(enrollment.Id).Enrollment_Status__c);
                 
             //if a program enrolment with a contact has its enrollment status equal admitted
-            if (enrollment.hed__Contact__c != null && isEnrollmentStatusAdmitted) {
+            if (isEnrollmentStatusAdmitted) {
                 contactIdSet.add(enrollment.hed__Contact__c);
             }
         }
         
         Map<Id,hed__Address__c> mapOfContactAddress = new Map<Id,hed__Address__c>();
         for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactIdSet,new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){           
-            if(!mapOfContactAddress.containsKey(address.hed__Parent_Contact__c)){
-                mapOfContactAddress.put(address.hed__Parent_Contact__c,address);
+            if(!mapOfContactAddress.containsKey(address.Id)){
+                mapOfContactAddress.put(address.Id,address);
             }
         }
         
@@ -86,7 +87,7 @@ public with sharing class ProgramEnrollmentTriggerHelper {
                 AddressValidationManager addressValidation = new AddressValidationManager(mapOfContactAddress.values());
                 addressValidation.executeAddressValidation();  
             } else {
-                Database.executeBatch(new ContactAddressValidationBatch(mapOfContactAddress.values()));
+                Database.executeBatch(new ContactAddressValidationBatch(mapOfContactAddress.KeySet()));
             }
         }
     }

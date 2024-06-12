@@ -144,4 +144,107 @@ public with sharing class AddressesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void testGetQueryLocatorByIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
+            for(Contact con: contactList){
+                con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                con.QUT_Student__c = true;
+            }         
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            
+            List<hed__Address__c> addresses = new List<hed__Address__c>();
+            
+            for (Integer i = 0; i < contactList.size(); i++) {
+                hed__Address__c add = new hed__Address__c();
+                add.hed__Parent_Contact__c = contactList[i].Id;
+                add.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
+                add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.Address_Integration_Status__c = AddressesDAO.INTEGRATION_STATUS_RETRY;
+                add.hed__MailingCountry__c = 'Australia';
+                add.hed__MailingState__c = 'QLD';
+                add.hed__MailingCity__c = 'DALLARNIL';
+                add.hed__MailingPostalCode__c = '12345';
+                add.hed__MailingStreet__c = '1234 Test St';
+                add.hed__MailingStreet2__c = '4321 Tester Street';
+                addresses.add(add);
+            }
+            
+            AddressesDAO.newInstance().insertRecords(addresses, true, AccessLevel.USER_MODE);
+                        
+            Set<Id> addressIdSet = new Set<Id>();
+            for (hed__Address__c adr : addresses) {
+                addressIdSet.add(adr.Id);
+            }
+            
+            List<hed__Address__c> addressList = new List<hed__Address__c>();
+            Database.QueryLocator addressQueryLocator = AddressesDAO.newInstance()
+                .getQueryLocatorByIds(addressIdSet);
+            
+            Database.QueryLocatorIterator iterator = addressQueryLocator.iterator();
+            while(iterator.hasNext()) {
+                hed__Address__c address = (hed__Address__c) iterator.next();
+                addressList.add(address);
+            }
+
+            System.Assert.areEqual(1, addressList.size(), 'No Address with retry integration status retrieved.');
+            
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testGetQueryLocatorByIntegrationStatus() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
+            for(Contact con: contactList){
+                con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                con.QUT_Student__c = true;
+            }         
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            
+            List<hed__Address__c> addresses = new List<hed__Address__c>();
+            
+            for (Integer i = 0; i < contactList.size(); i++) {
+                hed__Address__c add = new hed__Address__c();
+                add.hed__Parent_Contact__c = contactList[i].Id;
+                add.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
+                add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.Address_Integration_Status__c = AddressesDAO.INTEGRATION_STATUS_RETRY;
+                add.hed__MailingCountry__c = 'Australia';
+                add.hed__MailingState__c = 'QLD';
+                add.hed__MailingCity__c = 'DALLARNIL';
+                add.hed__MailingPostalCode__c = '12345';
+                add.hed__MailingStreet__c = '1234 Test St';
+                add.hed__MailingStreet2__c = '4321 Tester Street';
+                addresses.add(add);
+            }
+            
+            AddressesDAO.newInstance().insertRecords(addresses, true, AccessLevel.USER_MODE);
+            
+            List<hed__Address__c> addressList = new List<hed__Address__c>();
+            
+            Database.QueryLocator addressQueryLocator = AddressesDAO.newInstance()
+                .getQueryLocatorByIntegrationStatus(
+                    new Set<String>{AddressesDAO.INTEGRATION_STATUS_RETRY}
+                );
+            
+            Database.QueryLocatorIterator iterator = addressQueryLocator.iterator();
+            while(iterator.hasNext()) {
+                hed__Address__c address = (hed__Address__c) iterator.next();
+                addressList.add(address);
+            }
+
+            System.Assert.areEqual(1, addressList.size(), 'No Address with retry integration status retrieved.');
+            
+        }
+        Test.stopTest();
+    }
+
 }
