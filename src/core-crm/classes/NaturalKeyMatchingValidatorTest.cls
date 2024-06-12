@@ -70,7 +70,7 @@ private class NaturalKeyMatchingValidatorTest {
         });
 
         Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
-            'firstnamelastname1996-09-29email@email.com' => new List<Contact>{
+            'firstnamelastname1996-09-29' => new List<Contact>{
                 new Contact(FirstName = 'Test')
             }   
         };
@@ -121,8 +121,8 @@ private class NaturalKeyMatchingValidatorTest {
         });
 
         Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
-            'firstnamelastname1996-09-29email.com' => new List<Contact>{
-                new Contact(FirstName = 'Test')
+            'firstnamelastname1996-09-29' => new List<Contact>{
+                new Contact(FirstName = 'Test',Email = 'mismatch2@email.com')
             }
         };
 
@@ -150,11 +150,9 @@ private class NaturalKeyMatchingValidatorTest {
         MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
 
         Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
-            'firstnamelastname1996-09-29email@email.com' => new List<Contact>{
-                new Contact(FirstName = 'Test', Id = mockIdGen.getMockId())
-            },
-            'firstnamelastname1996-09-2912345' => new List<Contact>{
-                new Contact(FirstName = 'Test 2', Id = mockIdGen.getMockId())
+            'firstnamelastname1996-09-29' => new List<Contact>{
+                new Contact(FirstName = 'Test', Id = mockIdGen.getMockId(), Email = 'email@email.com'),
+                new Contact(FirstName = 'Test 2', Id = mockIdGen.getMockId(), MobilePhone = '12345')
             }
         };
 
@@ -192,15 +190,11 @@ private class NaturalKeyMatchingValidatorTest {
             newContact.LastName = record.LastName;
             newContact.BirthDate = record.BirthDate;
             newContact.Email = record.Email;
-            newContact.QUT_Staff_Email__c = record.QUT_Staff_Email__c;
-            newContact.QUT_Learner_Email__c = record.QUT_Learner_Email__c;
-            newContact.Work_Email__c = record.Work_Email__c;
-            newContact.MobilePhone = record.MobilePhone;
 
             NaturalKeyMatchingValidator.buildNaturalKeyMatchingMap(newContact,naturalKeyMatchingMap);
         }
 
-        system.assertEquals(479, naturalKeyMatchingMap.keySet().size(), 'map should contain 479 contacts');
+        system.assertEquals(80, naturalKeyMatchingMap.keySet().size(), 'map should contain 80 contacts');
     }
 
     @isTest

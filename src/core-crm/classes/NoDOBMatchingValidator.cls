@@ -59,9 +59,6 @@ public inherited sharing class NoDOBMatchingValidator {
             NO_DOB_FIELDS_WITH_MOBILE
         );
 
-        matchingRecord.set('uniqueKeyForEmail',uniqueKeyForEmail);
-        matchingRecord.set('uniqueKeyForMobile',uniqueKeyForMobile);
-
         return noDOBMatchingMap.containsKey(uniqueKeyForEmail) ||
             noDOBMatchingMap.containsKey(uniqueKeyForMobile);
     }
@@ -78,9 +75,15 @@ public inherited sharing class NoDOBMatchingValidator {
     ) {
         Set<Contact> matchingContacts = new Set<Contact>();
 
-        String uniqueKeyForEmail = matchingRecord.get('uniqueKeyForEmail');
+        String uniqueKeyForEmail = ContactMatchingService.generateUniqueKey(
+            matchingRecord,
+            NO_DOB_FIELDS_WITH_EMAIL
+        );
 
-        String uniqueKeyForMobile = matchingRecord.get('uniqueKeyForMobile');
+        String uniqueKeyForMobile = ContactMatchingService.generateUniqueKey(
+            matchingRecord,
+            NO_DOB_FIELDS_WITH_MOBILE
+        );
 
         if (noDOBMatchingMap.containsKey(uniqueKeyForEmail)) {
             matchingContacts.addAll(noDOBMatchingMap.get(uniqueKeyForEmail));

@@ -63,8 +63,6 @@ public inherited sharing class NaturalKeyMatchingValidator {
             NATURAL_KEY_FIELDS
         );
 
-        matchingRecord.set('uniqueKey',uniqueKey);
-
         // Check if generated keys exists in the map
         // this means FirstName + LastName + Birthdate matched to an existing contact
         return naturalKeyMatchingMap.containsKey(uniqueKey);
@@ -83,43 +81,51 @@ public inherited sharing class NaturalKeyMatchingValidator {
         // Initialize variables
         Set<Contact> matchingContacts = new Set<Contact>();
 
-        // Generate unique keys for natural key for base matching, email, and mobile
-        String uniqueKey = matchingRecord.get('uniqueKey');
-        
-        String uniqueKeyForEmail = ContactMatchingService.generateUniqueKey(
+        // Generate unique keys for natural key
+        String uniqueKey = ContactMatchingService.generateUniqueKey(
             matchingRecord,
-            NATURAL_KEY_FIELDS_WITH_EMAIL
-        );
-        String uniqueKeyForMobile = ContactMatchingService.generateUniqueKey(
-            matchingRecord,
-            NATURAL_KEY_FIELDS_WITH_MOBILE
+            NATURAL_KEY_FIELDS
         );
 
-        boolean isEmailPopulated = String.isNotBlank(matchingRecord.get('email'));
-        boolean isMobilePhonePopulated = String.isNotBlank(matchingRecord.get('mobilePhone'));
-        boolean isEmailOrMobilePopulated = isEmailPopulated || isMobilePhonePopulated;
+        boolean isEmailOrMobilePopulated = String.isNotBlank(matchingRecord.get('email')) || String.isNotBlank(matchingRecord.get('mobilePhone'));
 
-        // Add contacts matching the natural key
+        // if email or mobile is not populated in the payload
         if (!isEmailOrMobilePopulated) {
+            //return the matching contacts
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKey));
-        }
-        // Add contacts matching the natural key with email
-        if (isEmailPopulated && naturalKeyMatchingMap.containsKey(uniqueKeyForEmail)) {
-            matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKeyForEmail));
-        }
-        // Add contacts matching the natural key with mobile phone
-        if (isMobilePhonePopulated && naturalKeyMatchingMap.containsKey(uniqueKeyForMobile)) {
-            matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKeyForMobile));
+
+            return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
         }
 
-        // when email or mobile phone is populated
-        // and no existing contact matched with email or mobile
-        if (matchingContacts.isEmpty()) {
-            return new MatchingResult(
-                new Set<Contact>(naturalKeyMatchingMap.get(uniqueKey)),
-                NATURAL_KEY_STEM_MATCHING_TYPE,
-                'Contact Record does not match email and/or mobile provided'
-            );
+        String emailPayload = matchingRecord.get('email');
+        String mobilePhonePayload = matchingRecord.get('mobilePhone');
+        //loop through all contacts matching through natural key
+        for (Contact con : naturalKeyMatchingMap.get(uniqueKey)) {
+            
+            // if any of the emails are populated and not equal to payload email
+            boolean isEmailMismatch =
+                String.isNotBlank(emailPayload) &&
+                ((con.Email != null && con.Email != emailPayload) ||
+                (con.QUT_Learner_Email__c != null && con.QUT_Learner_Email__c != emailPayload) ||
+                (con.QUT_Staff_Email__c != null && con.QUT_Staff_Email__c != emailPayload) ||
+                (con.Work_Email__c != null && con.Work_Email__c != emailPayload));
+            
+            // if mobilephone is populated and not equal to payload mobile phone
+            boolean isMobilePhoneMismatch = String.isNotBlank(mobilePhonePayload) && con.MobilePhone != null && con.MobilePhone != mobilePhonePayload;
+
+            boolean isConfirmationRuleFailed = isEmailMismatch || isMobilePhoneMismatch;
+
+            if (isConfirmationRuleFailed) {
+                return new MatchingResult(
+                    NATURAL_KEY_STEM_MATCHING_TYPE,
+                    'Contact Record does not match email and/or mobile provided'
+                );
+            }
+
+            //if existing contact emails and mobile phone are null 
+            //or if one of the emails matched with the payload email
+            //or if mobilephone matched with the payload mobilephone
+            matchingContacts.add(con);
         }
 
         return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
@@ -141,12 +147,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
         }
 
         // Generate unique natural keys for base fields of the contact and add them to the map
-        buildUniqueNaturalKeyContactMap('', existingContact, naturalKeyMatchingMap);
-
-        // Generate unique natural keys for Email or Mobile fields of the contact and add them to the map
-        for (String fieldApiName : ContactMatchingService.KEY_FIELDS_ON_CONTACT) {
-            buildUniqueNaturalKeyContactMap(fieldApiName, existingContact, naturalKeyMatchingMap);
-        }
+        buildUniqueNaturalKeyContactMap(existingContact, naturalKeyMatchingMap);
     }
 
     /**
@@ -168,7 +169,6 @@ public inherited sharing class NaturalKeyMatchingValidator {
      * @param naturalKeyMatchingMap - A map to store the generated natural key and corresponding contacts.
      */
     private static void buildUniqueNaturalKeyContactMap(
-        String fieldApiName,
         Contact contact,
         Map<String, List<Contact>> naturalKeyMatchingMap
     ) {
@@ -178,16 +178,6 @@ public inherited sharing class NaturalKeyMatchingValidator {
         uniqueKey += contact.Matching_Firstname__c;
         uniqueKey += contact.Matching_Lastname__c;
         uniqueKey += String.valueOf(contact.Birthdate);
-
-        //if method is trying to get contact's specific field and it is null, skip to save processing time
-        if (String.isNotBlank(fieldApiName) && contact.get(fieldApiName) == null) {
-            return;
-        }
-
-        if (String.isNotBlank(fieldApiName) && contact.get(fieldApiName) != null) {
-            uniqueKey += String.valueOf(contact.get(fieldApiName));
-        }
-
         uniqueKey = uniqueKey.toLowerCase();
 
         // Add the contact to the corresponding list in the map based on the generated natural key

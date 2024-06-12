@@ -1166,7 +1166,6 @@ public without sharing class ContactTriggerHelper {
         // Iterate through each contact
         for (Contact newContact : newContacts) {
             //indicates that firstName,lastname,DOB, or Mobilephone has been updated
-
             oldContact = oldContactsMap.get(newContact.Id);
 
             boolean isOneOfContactFieldsUpdated = 
@@ -1257,39 +1256,28 @@ public without sharing class ContactTriggerHelper {
 
             //evaluate matching result
             boolean isMultipleMatch = result.errorMessage == 'Multiple match found';
-            //one match found and id is not the current contact
+            //one match found
             boolean isSingleMatch =
                 !result.error &&
-                String.isNotBlank(result.matchingType) &&
-                result.contactIds.iterator().next() != contactToMatch.Id;
-            //natural key email/mobile confirmation failed and multple contacts are found
-            //or single contact found is not the current contact
+                String.isNotBlank(result.matchingType);
+            //natural key email/mobile confirmation failed and contacts are found
             boolean isNaturalKeyConfirmationFailed =
                 result.errorMessage ==
                 'Contact Record does not match email and/or mobile provided' &&
-                !result.contactIds.isEmpty() &&
-                (result.contactIds.size() > 1 ||
-                result.contactIds.iterator().next() != contactToMatch.Id);
+                !result.contactIds.isEmpty();
 
             // Determine if another existing contact was found
-            boolean otherExistingContactFound =
+            boolean isMatchingContactFound =
                 isMultipleMatch ||
                 isSingleMatch ||
                 isNaturalKeyConfirmationFailed;
 
             // Add an error to the current contact if another existing contact was found
-            if (otherExistingContactFound) {
+            if (isMatchingContactFound) {
                 contactToMatch.addError(
                     'Contact update failed to prevent duplicate contact creation'
                 );
-                // // Log error message
-                // Logger.error(JSON.serializePretty(result), contactToMatch.Id);
             }
         }
-
-        // Save the log if there are buffered log messages
-        // if (Logger.getBufferSize() > 0) {
-        //     Logger.saveLog();
-        // }
     }
 }
