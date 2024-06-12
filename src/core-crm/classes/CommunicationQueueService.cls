@@ -103,7 +103,7 @@ public inherited sharing class CommunicationQueueService {
         Set<Id> createdCommunicationsQueueIdSet = new Set<Id>();
         List<Communication_Queue__c> createCommunicationQueueList = new List<Communication_Queue__c>();
         List<Communication_Queue__c> createdCommunicationQueues = new List<Communication_Queue__c>();
-        List<Case> caseRecords = CasesDAO.newInstance().getCasesByIds(caseIds, accessLevel);
+        List<Case> caseRecords = CasesDAO.newInstance().getCasesByIdsImported(caseIds, accessLevel);
         List<Case> updateCaseList = new List<Case>();
         Set<String> setEmailTemplates = new Set<String>();
         List<EmailTemplate> listEmailTemplates = new List<EmailTemplate>();
