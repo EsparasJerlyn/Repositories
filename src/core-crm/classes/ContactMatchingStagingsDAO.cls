@@ -23,7 +23,7 @@ public inherited sharing class ContactMatchingStagingsDAO extends DmlBase implem
 		return (IContactMatchingStagingsDAO) ImplementationSelector.DAO.newInstance(Contact_Matching_Staging__c.SObjectType);
 	}
 
-	public Database.QueryLocator queryLocatorGetContactMarketingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+	public Database.QueryLocator queryLocatorGetContactMatchingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
         String query =
 		' SELECT Id, Contact__c, Birthdate__c, Citizenship_Status__c, Date_Deceased__c, Deceased__c, Email__c, FirstName__c, LastName__c, Indigenous_Status__c, ' +
 		' Mailing_City__c, Mailing_Country__c, Mailing_State__c, Mailing_Street__c, Mailing_PostalCode__c, MiddleName__c, Mobile_No_Locale__c, MobilePhone__c, ' +
@@ -35,7 +35,7 @@ public inherited sharing class ContactMatchingStagingsDAO extends DmlBase implem
         return Database.getQueryLocator(query,accessLevel);
     }
 
-	public List<Contact_Matching_Staging__c> getContactMarketingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+	public List<Contact_Matching_Staging__c> getContactMatchingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
 		if(batchProcessSet.isEmpty()){
 			return new List<Contact_Matching_Staging__c>();
 		}
