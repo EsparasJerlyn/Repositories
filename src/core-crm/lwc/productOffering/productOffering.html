@@ -419,7 +419,7 @@
                                 onsessionclose={handleCloseSession}
                             ></c-add-new-session >
                         </template>
-                        <lightning-accordion if:true={displayAccordion} allow-multiple-sections-open>
+                        <lightning-accordion if:true={displayAccordion} class='slds-p-top_x-small' allow-multiple-sections-open>
                             <template if:false={isPrescribed}>
                                 <!--Facilitators Section-->
                                 <lightning-accordion-section name="facilitatorDetails" label="Facilitator Details" class="nested-accordion-section">
