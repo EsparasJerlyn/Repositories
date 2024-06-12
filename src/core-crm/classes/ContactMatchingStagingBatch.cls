@@ -34,7 +34,7 @@ public inherited sharing class ContactMatchingStagingBatch implements Database.B
 
         // Fetch the Contact Matching Staging records to process
         return ContactMatchingStagingsDAO.newInstance()
-            .queryLocatorGetContactMarketingStagingsByBatchProcess(
+            .queryLocatorGetContactMatchingStagingsByBatchProcess(
                 new Set<String>{ ContactMatchingStagingsDAO.INSERT_PROCESS },
                 AccessLevel.USER_MODE
             );
@@ -64,7 +64,7 @@ public inherited sharing class ContactMatchingStagingBatch implements Database.B
     public void finish(Database.BatchableContext bc) {
         // Fetch Contact Matching Staging records that are yet to be processed
         List<Contact_Matching_Staging__c> conMatchingStagingsToBeProcessed = ContactMatchingStagingsDAO.newInstance()
-            .getContactMarketingStagingsByBatchProcess(
+            .getContactMatchingStagingsByBatchProcess(
                 new Set<String>{ ContactMatchingStagingsDAO.INSERT_PROCESS },
                 AccessLevel.USER_MODE
             );
