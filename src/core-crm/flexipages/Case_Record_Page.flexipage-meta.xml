@@ -156,7 +156,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Cases for Parent Lead</value>
+                    <value>Open Inbound Enquiry Cases</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -525,10 +525,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
+                            <value>OWNER_NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>OWNER_NAME</value>
+                            <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -555,7 +555,7 @@
                     <criteria>
                         <leftValue>{!Record.Case_Type__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>International Future Student Enquiry</rightValue>
+                        <rightValue>Domestic Future Student Enquiry</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!Record.Lead__r.LastName}</leftValue>
