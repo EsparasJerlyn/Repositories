@@ -6,9 +6,11 @@
  * @author Accenture
  * 
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | arsenio.jr.dayrit              | August 15,2023        | DEPP-6370	            | Created File                  | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
+ *    | arsenio.jr.dayrit              | August 15,2023        | DEPP-6370              | Created File                                     |
+      | sebastianne.k.trias            | May 9, 2024           | DEPP-8382              | Changed logic in setting value of application    |
+      |                                |                       |                        | calculated intake date field                     |
  */
 public with sharing class PackageComponentService {
 
@@ -21,7 +23,7 @@ public with sharing class PackageComponentService {
         Set<Id> appPreferenceIds = new Set<Id>();
 
         for(Package_Component__c packageComp : packageComponentList){
-            if(packageComp.Application_Preference__c != null && packageComp.Package_Component_No__c == 1){
+            if(packageComp.Application_Preference__c != null){
                 appPreferenceIds.add(packageComp.Application_Preference__c);
             }
         }
