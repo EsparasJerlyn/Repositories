@@ -1159,6 +1159,7 @@ public without sharing class ContactTriggerHelper {
         Map<Id, String> contactMatchingToMatchingResultKey = new Map<Id, String>();
         List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
         List<Contact> contactsToMatch = new List<Contact>();
+        Set<String> contactIds = new Set<String>();
         String uniqueKey = '';
         Contact oldContact;
 
@@ -1215,6 +1216,7 @@ public without sharing class ContactTriggerHelper {
             contactMatchingToMatchingResultKey.put(newContact.Id, uniqueKey);
             // Store contacts for matching
             contactsToMatch.add(newContact);
+            contactIds.add(newContact.Id);
         }
 
         // skip contact matching services if no contacts for matching found

@@ -20,6 +20,7 @@ public without sharing class ContactMatchingService {
     private static Map<String, List<Contact>> maidenOrFirstNameStemMatchingMap;
     private static Map<String, List<Contact>> partialNaturalKeyMatchingMap;
     private static Map<String, List<Contact>> noDOBMatchingMap;
+    private static Set<String> excludedIds = new Set<String>();
 
     /**
      * @description List of optional contact fields considered in the key matching process.
@@ -31,28 +32,6 @@ public without sharing class ContactMatchingService {
         'QUT_Learner_Email__c',
         'QUT_Staff_Email__c',
         'MobilePhone'
-    };
-
-    /**
-     * @description List of contact fields needed to be check if changed.
-     *              Add contact fields here if needed.
-     */
-    public static final Set<String> CONTACT_FIELDS_TO_CHECK = new Set<String>{
-        'FirstName',
-        'LastName',
-        'Birthdate',
-        'MobilePhone'
-    };
-
-    /**
-     * @description List of contact email fields needed to be check if changed to null
-     *              Add contact fields here if needed.
-     */
-    public static final Set<String> CONTACT_EMAIL_FIELDS_TO_CHECK = new Set<String>{
-        'Email',
-        'Work_Email__c',
-        'QUT_Learner_Email__c',
-        'QUT_Staff_Email__c'
     };
 
     /**
@@ -124,6 +103,21 @@ public without sharing class ContactMatchingService {
         }
 
         return matchingResultMap;
+    }
+
+    /**
+     * overload processContactMatching to set excluded contact ids
+     *
+     * @param matchingRecords The list of records to match with existing contacts.
+     * @param contactIds set of contact ids to be excluded for contact matching
+     * @return A map where keys are unique concatenated matching fields and values are matching results.
+     */
+    public static Map<String, MatchingResult> processContactMatching(
+        List<MatchingAttributes> matchingRecords,
+        Set<String> contactIds
+    ) {
+        excludedIds = contactIds;
+        return processContactMatching(matchingRecords);
     }
 
     /**
@@ -346,7 +340,8 @@ public without sharing class ContactMatchingService {
             'firstName' => new Set<String>(),
             'lastName' => new Set<String>(),
             'mobilePhone' => new Set<String>(),
-            'email' => new Set<String>()
+            'email' => new Set<String>(),
+            'excludedIds' => excludedIds
         };
 
         Set<Date> birthDateSet = new Set<Date>();
