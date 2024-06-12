@@ -25,7 +25,6 @@
  *    |                                |                       |                        | contact matching logic             |
  */
 public with sharing class ApplicationService { //NOPMD
-
     /**
      * @description Executes the contact matching rule via batch job for new applications and enqueues applications for future processing.
      *
@@ -58,21 +57,26 @@ public with sharing class ApplicationService { //NOPMD
             }
         }
         
-        //If no batch job needs to be run, return
-        if(!runBatchJob){
+        Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+                .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH);
+
+        //If no batch job needs to be run
+        //If batch is not active
+        //return
+        if(!runBatchJob || !cmsConfig.IsActive__c){
             return;
         }
         
         // Check if there are any existing running jobs for the ApplicationContactMatchingBatch
         List<AsyncApexJob> jobs = AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(
-            new Set<String>{'ApplicationContactMatchingBatch'},
+            new Set<String>{ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH},
             new Set<Id>(),
             AccessLevel.SYSTEM_MODE
         );
         
         // If no running jobs exist, execute the batch job
         if(jobs.isEmpty()){
-            Database.executeBatch(new ApplicationContactMatchingBatch());
+            Database.executeBatch(new ApplicationContactMatchingBatch(),(Integer)cmsConfig.Size__c);
         }
     }
     
