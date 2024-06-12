@@ -1662,7 +1662,6 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'QUTOPECatalogueUser';
             usr.profileName = 'OPE Catalogue';
-            usr.role = 'OPECatalogueCustomerUser';
             usr.contactId = con.Id;
             
 
