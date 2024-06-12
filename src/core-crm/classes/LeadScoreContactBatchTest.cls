@@ -14,10 +14,9 @@
 public with sharing class LeadScoreContactBatchTest {
     @TestSetup
     static void makeData(){
-        Test.startTest();
         TestDataFactoryUser.generateUserSystemAdministrator();
-        Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
+            Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.UNDETERMINED, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
@@ -26,7 +25,8 @@ public with sharing class LeadScoreContactBatchTest {
             List<Contact> contactsToAdd = new List<Contact>();
             List<Contact> contactList = TestDataFactory.createTestContactRecords(2);
             contactsToAdd.addAll(contactList);
-            ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);        
+            ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
+            Test.stopTest();  
         }
         
     }

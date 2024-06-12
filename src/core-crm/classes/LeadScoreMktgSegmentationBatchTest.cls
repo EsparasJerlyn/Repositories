@@ -15,10 +15,10 @@
       
     @TestSetup
     static void setupData(){
-        Test.startTest();
+        
         TestDataFactoryUser.generateUserSystemAdministrator();
-        Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
+            Test.startTest();
             setupDomesticUndeterminedLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
@@ -28,6 +28,7 @@
             List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             contactsToAdd.addAll(contactList);
             ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
+            Test.stopTest();
         }
     }
 
