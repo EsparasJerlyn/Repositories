@@ -25,7 +25,6 @@
  *    |                                |                       |                        | contact matching logic             |
  */
 public with sharing class ApplicationService { //NOPMD
-
     /**
      * @description Executes the contact matching rule via batch job for new applications and enqueues applications for future processing.
      *
@@ -58,21 +57,26 @@ public with sharing class ApplicationService { //NOPMD
             }
         }
         
-        //If no batch job needs to be run, return
-        if(!runBatchJob){
+        Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+                .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH);
+
+        //If no batch job needs to be run
+        //If batch is not active
+        //return
+        if(!runBatchJob || !cmsConfig.IsActive__c){
             return;
         }
         
         // Check if there are any existing running jobs for the ApplicationContactMatchingBatch
         List<AsyncApexJob> jobs = AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(
-            new Set<String>{'ApplicationContactMatchingBatch'},
+            new Set<String>{ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH},
             new Set<Id>(),
             AccessLevel.SYSTEM_MODE
         );
         
         // If no running jobs exist, execute the batch job
         if(jobs.isEmpty()){
-            Database.executeBatch(new ApplicationContactMatchingBatch());
+            Database.executeBatch(new ApplicationContactMatchingBatch(),(Integer)cmsConfig.Size__c);
         }
     }
     
@@ -236,22 +240,32 @@ public with sharing class ApplicationService { //NOPMD
             'Birth_Country__c' => 'Birth_Country__c',
             'Citizenship_Type__c' => 'Citizenship_Type__c',
             'Home_Language__c' => 'Home_Language__c',
+            'FirstName__c' => 'FirstName',
             'MiddleName__c' => 'MiddleName',
+            'LastName__c' => 'LastName',
+            'Email__c' => 'Email',
             'Mobile__c' => 'Mobile_No_Locale__c',
             'Salutation__c' => 'Salutation',
             'Applicant_Onshore__c' => 'Applicant_Onshore__c',
-            'Country_of_Residency__c' => 'Country_of_Residency__c'
+            'Country_of_Residency__c' => 'Country_of_Residency__c',
+            'QUT_Student_ID__c' => 'QUT_Student_ID__c'
         };
             
         //Unique SAMS and StudyLink application Field as Key => Contact field
         Map<String, String> samsStudyLinkUniquefieldMapping = new Map<String, String>{
-            'Citizenship_Country__c' => 'Citizenship_Country__c'
+            'QUT_Student_ID__c' => 'QUT_Student_ID__c',
+            'Is_International_Applicant__c' => 'Is_International_Applicant__c'
         };
             
         //Unique studyLink application Field as Key => Contact field
         Map<String, String> studyLinkUniquefieldMapping = new Map<String, String>{
-            'Applicant_Onshore__c' => 'Applicant_Onshore__c',
-            'Country_of_Residency__c' => 'Country_of_Residency__c'
+            'Country_of_Residency__c' => 'Country_of_Residency__c',
+            'Is_Agent_Assisted__c' => 'Is_Agent_Assisted__c',
+            'Agency_Name__c' => 'Agency_Name__c',
+            'Agency_Country__c' => 'Agency_Country__c',
+            'Agency_Email__c' => 'Agency_Email__c',
+            'Is_International_Applicant__c' => 'Is_International_Applicant__c',
+            'QUT_Student_ID__c' => 'QUT_Student_ID__c'
         };
         
         //Unique QTAC Application field as key => Contact field as value
@@ -259,8 +273,13 @@ public with sharing class ApplicationService { //NOPMD
             'Birth_Country__c' => 'Birth_Country__c',
             'Citizenship_Type__c' => 'Citizenship_Type__c',
             'Home_Language__c' => 'Home_Language__c',
-            'MiddleName__c' => 'MiddleName',
-            'Salutation__c' => 'Salutation'
+            'Salutation__c' => 'Salutation',
+            'Is_First_In_Family_Applicant__c' => 'First_in_Family_Applicant__c',
+            'Is_Education_Disruption_Applicant__c' => 'Education_Disruption_Applicant__c',
+            'Is_Personal_Illness_Disability_Applicant__c' => 'Personal_Illness_Disability_Applicant__c',
+            'Is_Elite_Athlete_Applicant__c' => 'Elite_Athlete_Applicant__c',
+            'Is_Financial_Hardship_Applicant__c' => 'Financial_Hardship_Applicant__c',
+            'Applicant_Onshore__c' => 'Applicant_Onshore__c'
         };
  
         //application record        

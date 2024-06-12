@@ -13,7 +13,6 @@
  */
 
 public inherited sharing class NaturalKeyMatchingValidator {
-
     // List of MatchingAttributes fields required for natural key matching.
     private static final List<String> NATURAL_KEY_FIELDS = new List<String>{
         'firstName',
@@ -21,7 +20,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
         'birthDate'
     };
 
-     //List of MatchingAttributes fields required for natural key matching with email.
+    //List of MatchingAttributes fields required for natural key matching with email.
     private static final List<String> NATURAL_KEY_FIELDS_WITH_EMAIL = new List<String>{
         'firstName',
         'lastName',
@@ -39,7 +38,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
 
     // Matching type variables
     private static final String NATURAL_KEY_STEM_MATCHING_TYPE = 'Natural Key Matching';
-    
+
     /**
      * Checks if a given contact record matches any existing contact based on natural keys.
      * @param matchingRecord - The record to be matched.
@@ -101,7 +100,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
         boolean isEmailOrMobilePopulated = isEmailPopulated || isMobilePhonePopulated;
 
         // Add contacts matching the natural key
-        if(!isEmailOrMobilePopulated && naturalKeyMatchingMap.containsKey(uniqueKey)){
+        if (!isEmailOrMobilePopulated && naturalKeyMatchingMap.containsKey(uniqueKey)) {
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKey));
         }
         // Add contacts matching the natural key with email
@@ -115,16 +114,19 @@ public inherited sharing class NaturalKeyMatchingValidator {
 
         // when email or mobile phone is populated
         // and no existing contact matched with email or mobile
-        if(matchingContacts.isEmpty()){
-            return new MatchingResult(NATURAL_KEY_STEM_MATCHING_TYPE, 'Contact Record does not match email and/or mobile provided');
+        if (matchingContacts.isEmpty()) {
+            return new MatchingResult(
+                NATURAL_KEY_STEM_MATCHING_TYPE,
+                'Contact Record does not match email and/or mobile provided'
+            );
         }
 
-        return new MatchingResult(matchingContacts,NATURAL_KEY_STEM_MATCHING_TYPE);
+        return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
     }
 
     /**
      * Builds a map of natural keys to corresponding contacts from a single existing contact.
-     * 
+     *
      * @param existingContact The existing contact for which to build the natural key map.
      * @param naturalKeyMatchingMap The map to populate with natural keys and corresponding contacts.
      */
@@ -138,14 +140,13 @@ public inherited sharing class NaturalKeyMatchingValidator {
         }
 
         // Generate unique natural keys for base fields of the contact and add them to the map
-        buildUniqueNaturalKeyContactMap('',existingContact, naturalKeyMatchingMap);
+        buildUniqueNaturalKeyContactMap('', existingContact, naturalKeyMatchingMap);
 
         // Generate unique natural keys for Email or Mobile fields of the contact and add them to the map
         for (String fieldApiName : ContactMatchingService.KEY_FIELDS_ON_CONTACT) {
             buildUniqueNaturalKeyContactMap(fieldApiName, existingContact, naturalKeyMatchingMap);
         }
     }
-
 
     /**
      * Checks if a contact has the required fields for a natural key.
@@ -154,7 +155,9 @@ public inherited sharing class NaturalKeyMatchingValidator {
      * @return Boolean Returns true if the contact has non-null values for FirstName, LastName, and Birthdate; otherwise, returns false.
      */
     private static Boolean hasRequiredNaturalKeyFields(Contact contact) {
-        return contact.Matching_Firstname__c != null && contact.Matching_Lastname__c != null && contact.Birthdate != null;
+        return contact.Matching_Firstname__c != null &&
+            contact.Matching_Lastname__c != null &&
+            contact.Birthdate != null;
     }
 
     /**

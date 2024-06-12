@@ -13,7 +13,7 @@ private class ContactMatchingConfigurationsDAOTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
         Test.stopTest();
     }
 
@@ -22,20 +22,20 @@ private class ContactMatchingConfigurationsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact_Matching_Configuration__c> conMatchingConfig = ContactMatchingConfigurationsDAO.newInstance()
-                .getContactMatchingConfigurationRecords(
-                    AccessLevel.SYSTEM_MODE
-                );
-            System.assert(conMatchingConfig.isEmpty(), 'contactAlternateIdsList is not empty');
+                .getContactMatchingConfigurationRecords(AccessLevel.SYSTEM_MODE);
+            System.assert(conMatchingConfig.isEmpty(), 'contactMatchingConfig is not empty');
         }
         Test.stopTest();
     }
-   
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            System.assert(ContactMatchingConfigurationsDAO.newInstance() != null, 'ContactMatchingConfigurationsDAO instance is null');
+            System.assert(
+                ContactMatchingConfigurationsDAO.newInstance() != null,
+                'ContactMatchingConfigurationsDAO instance is null'
+            );
         }
         Test.stopTest();
     }
@@ -45,11 +45,11 @@ private class ContactMatchingConfigurationsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             System.assert(
-                new ContactMatchingConfigurationsDAO().getSObjectType() == Contact_Matching_Configuration__c.SObjectType,
+                new ContactMatchingConfigurationsDAO().getSObjectType() ==
+                Contact_Matching_Configuration__c.SObjectType,
                 'SObject is not ContactMatchingConfigurationsDAO'
             );
         }
         Test.stopTest();
     }
-
 }

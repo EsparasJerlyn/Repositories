@@ -25,6 +25,22 @@ private class ApplicationTriggerHelperTest {
     private static final String BIRTHDAY = '2000-06-28';
     private static Integer recordsCount = 20;
     
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+    }
+    
     @testSetup
     static void testSetup() {
         Test.startTest();
@@ -201,11 +217,11 @@ private class ApplicationTriggerHelperTest {
             ];
             System.assert(applicationsToUpdate[0].Is_Agent_Assisted__c == updatedContact.Is_Agent_Assisted__c, 'Is_Agent_Assisted__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Is_International_Applicant__c == updatedContact.Is_International_Applicant__c, 'Is_International_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Personal_Illness_Disability_Applicant__c == updatedContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Elite_Athlete_Applicant__c == updatedContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Education_Disruption_Applicant__c == updatedContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_First_In_Family_Applicant__c == updatedContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Financial_Hardship_Applicant__c == updatedContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Personal_Illness_Disability_Applicant__c != updatedContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Elite_Athlete_Applicant__c != updatedContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Education_Disruption_Applicant__c != updatedContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_First_In_Family_Applicant__c != updatedContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Financial_Hardship_Applicant__c != updatedContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Name__c == updatedContact.Agency_Name__c, 'Agency_Name__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Country__c == updatedContact.Agency_Country__c, 'Agency_Country__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Email__c == updatedContact.Agency_Email__c, 'Agency_Email__c not updated correctly.');
@@ -303,7 +319,7 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Citizenship_Status__c, updatedContact.hed__Citizenship_Status__c, 'hed__Citizenship_Status__c update failed.');
             System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
             System.assertEquals(applications[0].Country_of_Residency__c, updatedContact.Country_of_Residency__c, 'Country_of_Residency__c update failed.');
-            System.assertEquals(applications[0].Applicant_Onshore__c, updatedContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
+            System.assertEquals(false, updatedContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
         }
     }
     
@@ -390,7 +406,7 @@ private class ApplicationTriggerHelperTest {
             Map<Id, SObject> newItems = new Map<Id, SObject>((List<Sobject>) applications);
             ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
             ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
-            Contact createdContact = retrieveQTACCreatedContact(contacts[0].Email);
+            Contact createdContact = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contacts[0].Id}, AccessLevel.SYSTEM_MODE)[0];
             Test.stopTest();
             System.assertEquals(applications[0].Indigenous_Status__c, createdContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
             System.assertEquals(applications[0].Birth_Country__c, createdContact.Birth_Country__c, 'Birth_Country__c update failed.');
@@ -405,6 +421,12 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].MiddleName__c, createdContact.MiddleName, 'MiddleName update failed.');
             System.assert(createdContact.OtherAddress != null, 'OtherAddress is blank. Update failed.');
             System.assertEquals(applications[0].Salutation__c, createdContact.Salutation, 'Salutation update failed.');
+            System.assertEquals(applications[0].Applicant_Onshore__c, createdContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
+            System.assert(applications[0].Is_Personal_Illness_Disability_Applicant__c == createdContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_Elite_Athlete_Applicant__c == createdContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_Education_Disruption_Applicant__c == createdContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_First_In_Family_Applicant__c == createdContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_Financial_Hardship_Applicant__c == createdContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
         }
     }
 
@@ -463,29 +485,14 @@ private class ApplicationTriggerHelperTest {
             Email__c = contactToMatch.Email,
             BirthDate__c = System.today().addYears(-25),
             Mobile__c = '0987654321',
-            hed__Applicant__c = contactToMatch.Id
+            hed__Applicant__c = contactToMatch.Id,
+            Applicant_Onshore__c = true,
+            Is_Personal_Illness_Disability_Applicant__c = true,
+            Is_Elite_Athlete_Applicant__c = true,
+            Is_Education_Disruption_Applicant__c = true,
+            Is_First_In_Family_Applicant__c = true,
+            Is_Financial_Hardship_Applicant__c = true
         );
-    }
-
-    private static Contact retrieveQTACCreatedContact(String email) {
-        return [
-            SELECT Id, 
-            ATSI_Code__c,
-            Birth_Country__c,
-            BirthDate,
-            hed__Citizenship_Status__c,
-            Citizenship_Type__c,
-            Email,
-            FirstName,
-            Home_Language__c,
-            LastName,
-            MailingAddress,
-            MiddleName,
-            OtherAddress,
-            Salutation
-            FROM Contact WHERE Email = :email
-            WITH SYSTEM_MODE LIMIT 1
-        ];
     }
 
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String applicationStatus,String recordType) {
