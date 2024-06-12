@@ -37,17 +37,21 @@ public inherited sharing class StudentSanctionTriggerHelper {
                 }
             }
 
+            Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+                .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.STUDENT_SANCTION_BATCH);
+
             // If no batch job needs to be run,
             // or batch is already running
+            // or batch job is not active 
             // return (skip the soql and dont execute the batch)
-            if (!runBatchJob || isBatchJobRunning) {
+            if (!runBatchJob || isBatchJobRunning || !cmsConfig.IsActive__c) {
                 return;
             }
 
             // Check if there are any existing running jobs for the DuplicateSanctionBatch
             List<AsyncApexJob> jobs = AsyncApexJobsDAO.newInstance()
                 .getRunningJobsByNameAndIdExemption(
-                    new Set<String>{ 'DuplicateSanctionBatch' },
+                    new Set<String>{ ConMatchingServiceConfigurationsDAO.STUDENT_SANCTION_BATCH },
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
@@ -55,7 +59,7 @@ public inherited sharing class StudentSanctionTriggerHelper {
             // If no running jobs exist, execute the batch job
             if (jobs.isEmpty()) {
                 isBatchJobRunning = true;
-                Database.executeBatch(new DuplicateSanctionBatch());
+                Database.executeBatch(new DuplicateSanctionBatch(), (Integer) cmsConfig.Size__c);
             }
         } catch (Exception e) {
             NebulaLoggerService.logExceptionDetails(
