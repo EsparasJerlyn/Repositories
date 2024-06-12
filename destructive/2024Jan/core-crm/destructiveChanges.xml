@@ -121,6 +121,7 @@
         <members>Opportunity.Commercialisation_Opportunities</members>
         <members>List__c.Distributed_List</members>
         <name>ListView</name>
+    </types>
     <types>
         <!-- (Start) DEPP-6995 -->
         <members>Country_Locale_Metadata__mdt.ar_SD</members>
