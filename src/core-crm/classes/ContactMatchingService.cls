@@ -357,12 +357,12 @@ public without sharing class ContactMatchingService {
         // by looping through the field names
         // Populate sets with attributes from matching records
         for (ContactMatchingService.MatchingAttributes matchingRecord : matchingRecords) {
-            for(String fieldName : fieldNames){
+            for (String fieldName : fieldNames) {
                 fieldValue = matchingRecord.get(fieldName);
-                if (String.isNotBlank(fieldValue)) {
+                if (fieldName == 'birthDate' && String.isNotBlank(fieldValue)){
                     birthDateSet.add(Date.valueOf(fieldValue));
                 } else if (String.isNotBlank(fieldValue)) {
-                    fieldSetMap.get(fieldName).add(matchingRecord.get(fieldValue));
+                    fieldSetMap.get(fieldName).add(fieldValue);
                 }
             }
         }
