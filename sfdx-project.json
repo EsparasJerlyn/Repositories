@@ -70,6 +70,9 @@
       "type": "data-onetime",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
+    },{
+      "path": "src",
+      "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
     }
   ],
   "namespace": "",
