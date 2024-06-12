@@ -18,12 +18,12 @@ private class ContactMatchingStagingsDAOTest {
     }
 
     @isTest
-    static void queryLocatorGetContactMarketingStagingsByBatchProcessTest() {
+    static void queryLocatorGetContactMatchingStagingsByBatchProcessTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             System.assert(
                 ContactMatchingStagingsDAO.newInstance()
-                    .queryLocatorGetContactMarketingStagingsByBatchProcess(
+                    .queryLocatorGetContactMatchingStagingsByBatchProcess(
                         new Set<String>(),
                         AccessLevel.SYSTEM_MODE
                     ) != null,
@@ -34,11 +34,11 @@ private class ContactMatchingStagingsDAOTest {
     }
 
     @isTest
-    static void getContactMarketingStagingsByBatchProcessEmptyTest() {
+    static void getContactMatchingStagingsByBatchProcessEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact_Matching_Staging__c> conMatchingStagings = ContactMatchingStagingsDAO.newInstance()
-                .getContactMarketingStagingsByBatchProcess(
+                .getContactMatchingStagingsByBatchProcess(
                     new Set<String>(),
                     AccessLevel.SYSTEM_MODE
                 );
@@ -48,11 +48,11 @@ private class ContactMatchingStagingsDAOTest {
     }
 
     @isTest
-    static void getContactMarketingStagingsByBatchProcessTest() {
+    static void getContactMatchingStagingsByBatchProcessTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact_Matching_Staging__c> conMatchingStagings = ContactMatchingStagingsDAO.newInstance()
-                .getContactMarketingStagingsByBatchProcess(
+                .getContactMatchingStagingsByBatchProcess(
                     new Set<String>{ 'Insert' },
                     AccessLevel.SYSTEM_MODE
                 );
