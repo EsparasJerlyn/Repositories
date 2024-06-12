@@ -10,6 +10,7 @@
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseIdTest
       | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationIdTest & getProductByDesignationIdNotEmptyTest
       | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references
+      | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPageTest  |
  */
 
 @isTest
@@ -99,10 +100,27 @@ public with sharing class ProductsDAOTest {
                     .getProductByDesignationId(
                         new Set<Id>{builderForDesigntation.getMockId()},
                         AccessLevel.SYSTEM_MODE)
+                        .isEmpty(),
+                    'product retrieved is not empty'
+                );
+            }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getProductsOnPageTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductsOnPage(
+                        new Set<Id>(),
+                        new Set<Id>(),
+                        AccessLevel.SYSTEM_MODE)
                     .isEmpty(),
                 'product retrieved is not empty'
             );
         }
         Test.stopTest();
     }
-} 
+}
