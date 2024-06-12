@@ -106,7 +106,7 @@ public without sharing class ContactMatchingService {
     }
 
     /**
-     * overload processContactMatching to set excluded contact ids
+     * Overload processContactMatching to set excluded contact ids
      *
      * @param matchingRecords The list of records to match with existing contacts.
      * @param contactIds set of contact ids to be excluded for contact matching
@@ -353,14 +353,16 @@ public without sharing class ContactMatchingService {
             'email'
         };
 
+        String fieldValue;
         // by looping through the field names
         // Populate sets with attributes from matching records
         for (ContactMatchingService.MatchingAttributes matchingRecord : matchingRecords) {
-            for (String fieldName : fieldNames) {
-                if (fieldName == 'birthDate' && String.isNotBlank(matchingRecord.get(fieldName))) {
-                    birthDateSet.add(Date.valueOf(matchingRecord.get(fieldName)));
-                } else if (String.isNotBlank(matchingRecord.get(fieldName))) {
-                    fieldSetMap.get(fieldName).add(matchingRecord.get(fieldName));
+            for(String fieldName : fieldNames){
+                fieldValue = matchingRecord.get(fieldName);
+                if (String.isNotBlank(fieldValue)) {
+                    birthDateSet.add(Date.valueOf(fieldValue));
+                } else if (String.isNotBlank(fieldValue)) {
+                    fieldSetMap.get(fieldName).add(matchingRecord.get(fieldValue));
                 }
             }
         }

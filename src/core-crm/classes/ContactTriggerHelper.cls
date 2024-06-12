@@ -1226,7 +1226,8 @@ public without sharing class ContactTriggerHelper {
 
         // Process the contact matching services
         Map<String, MatchingResult> matchingResults = ContactMatchingService.processContactMatching(
-            matchingRecords
+            matchingRecords,
+            contactIds
         );
 
         // Process the matching results
@@ -1246,7 +1247,6 @@ public without sharing class ContactTriggerHelper {
         Map<Id, String> contactMatchingToMatchingResultKey
     ) {
         MatchingResult result;
-        Set<String> uniqueKeys = new Set<String>();
 
         // Iterate through each contact to match
         for (Contact contactToMatch : contactsToMatch) {
@@ -1262,7 +1262,6 @@ public without sharing class ContactTriggerHelper {
                 !result.error &&
                 String.isNotBlank(result.matchingType) &&
                 result.contactIds.iterator().next() != contactToMatch.Id;
-            boolean isExistingInSameBatch = uniqueKeys.contains(contactUniqueKey);
             //natural key email/mobile confirmation failed and multple contacts are found
             //or single contact found is not the current contact
             boolean isNaturalKeyConfirmationFailed =
@@ -1275,7 +1274,6 @@ public without sharing class ContactTriggerHelper {
             // Determine if another existing contact was found
             boolean otherExistingContactFound =
                 isMultipleMatch ||
-                isExistingInSameBatch ||
                 isSingleMatch ||
                 isNaturalKeyConfirmationFailed;
 
@@ -1287,8 +1285,6 @@ public without sharing class ContactTriggerHelper {
                 // // Log error message
                 // Logger.error(JSON.serializePretty(result), contactToMatch.Id);
             }
-            // Collect contact unique key fields
-            uniqueKeys.add(contactUniqueKey);
         }
 
         // Save the log if there are buffered log messages
