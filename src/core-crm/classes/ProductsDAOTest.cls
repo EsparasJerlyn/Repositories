@@ -73,7 +73,7 @@ public with sharing class ProductsDAOTest {
     @isTest
     static void getProductsOnPageTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 ProductsDAO.newInstance()
                     .getProductsOnPage(

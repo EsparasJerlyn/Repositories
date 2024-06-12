@@ -66,7 +66,7 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
     @isTest
     private static void updateStudyLinkApplicationCalculatedDateOnPackageComponentMultiplePackageComponentTest(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
