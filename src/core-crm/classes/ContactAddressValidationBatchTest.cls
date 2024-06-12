@@ -37,11 +37,9 @@ private class ContactAddressValidationBatchTest {
     @isTest
     static void processEmptyAddressesTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-			
-            List<hed__Address__c> addresses = new List<hed__Address__c>();
-            
+			            
             Test.startTest();
-            ContactAddressValidationBatch batch = new ContactAddressValidationBatch(addresses);
+            ContactAddressValidationBatch batch = new ContactAddressValidationBatch(new Set<Id>{});
             Id batchableId = Database.executeBatch(batch);
             Test.stopTest();
             
@@ -65,6 +63,7 @@ private class ContactAddressValidationBatchTest {
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
             
             List<hed__Address__c> addresses = new List<hed__Address__c>();
+            Set<Id> addressIdSet = new Set<Id>();
             
             for (Integer i = 0; i < contactList.size(); i++) {
                 hed__Address__c add = new hed__Address__c();
@@ -72,12 +71,13 @@ private class ContactAddressValidationBatchTest {
                 add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
                 add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
                 addresses.add(add);
+                addressIdSet.add(add.Id);
             }
 
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
             
             Test.startTest();
-            ContactAddressValidationBatch batch = new ContactAddressValidationBatch(addresses);
+            ContactAddressValidationBatch batch = new ContactAddressValidationBatch(addressIdSet);
             Id batchableId = Database.executeBatch(batch);
             Test.stopTest();
             
@@ -105,6 +105,7 @@ private class ContactAddressValidationBatchTest {
             }         
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
             List<hed__Address__c> addresses = new List<hed__Address__c>();
+            Set<Id> addressIdSet = new Set<Id>();
             
             for (Integer i = 0; i < contactList.size(); i++) {
                 hed__Address__c add = new hed__Address__c();
@@ -112,12 +113,13 @@ private class ContactAddressValidationBatchTest {
                 add.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
                 add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
                 addresses.add(add);
+                addressIdSet.add(add.Id);
             }
 
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
             
             Test.startTest();
-            ContactAddressValidationBatch batch = new ContactAddressValidationBatch(addresses);
+            ContactAddressValidationBatch batch = new ContactAddressValidationBatch(addressIdSet);
             Id batchableId = Database.executeBatch(batch);
             Test.stopTest();
             
