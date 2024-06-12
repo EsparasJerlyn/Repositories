@@ -10,12 +10,15 @@
 public with sharing class AddressValidationManager {
     
     private List<hed__address__c> addresses;
-    private List<ABS_Categorisation__c> absCategorisation;
-    private Map<String, Boolean> remotenessMap;
+    private Map<Id, Contact> contactMap;
 
     public AddressValidationManager(List<hed__address__c> addresses) {
         this.addresses = addresses;
-        this.absCategorisation = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('USER_MODE');             
+    }
+
+    public AddressValidationManager(List<hed__address__c> addresses, Map<Id, Contact> contactMap) {
+        this.addresses = addresses;
+        this.contactMap = contactMap;
     }
     
     /**
@@ -30,91 +33,155 @@ public with sharing class AddressValidationManager {
      * Note: This method assumes that ABS categorization data is available.
      */   
     public void executeAddressValidation(){
-                        
+
+        try {
+            
+            Map<Id,hed__Address__c> contactOtherAddresses = new Map<Id,hed__Address__c>();
+            
+            for(hed__Address__c address: addresses){
+				 contactOtherAddresses.put(address.hed__Parent_Contact__c,address);
+            }
+
+            //get the number of program enrollment associated with contact
+            Map<Id, Integer> contactProgramEnrollmentCounts = getAllProgramEnrollmentsOfContacts(contactOtherAddresses.keySet());            
+            // get the latest 'First Admitted' addresses of the contacts and add the latest address to Map                      
+            Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactOtherAddresses.keySet());            
+            
+            List<hed__Address__c> addressToValidate = new List<hed__Address__c>();
+            
+            
+            for(Id contactId: contactOtherAddresses.keySet()){
+                
+                hed__Address__c otherAdress = contactOtherAddresses.get(contactId);                
+                Boolean contactHasFirstAdmittedAddress = contactFirstAdmittedAddress.containsKey(contactId);
+                Boolean contactHaveMultipleProgramEnrollment = (contactProgramEnrollmentCounts.containsKey(contactId) && contactProgramEnrollmentCounts.get(contactId) > 1);
+     
+                //checking if contact has multiple program enrollment OR already has existing First Admitted Address               
+                if(contactHaveMultipleProgramEnrollment || contactHasFirstAdmittedAddress){                   
+                    if(contactHasFirstAdmittedAddress){
+                        hed__Address__c firstAdmittedAddress = contactFirstAdmittedAddress.get(contactId);
+                        if(firstAdmittedAddress.Validated__c != AddressesDAO.VALID_ADDRESS){                                                        
+                            // send the first admitted addres for validation if not yet validated
+                            addressToValidate.add(firstAdmittedAddress);   
+                        }                        
+                    }else{
+                        // Log an error if the first admitted address is not found
+                        String logMessage = 'First Admitted Address not found for the following contact';
+                        Logger.error(logMessage, contactId);
+                    }                   
+                }else{                                        
+                    // set isFirstAdmissionAddress to true
+                    otherAdress.Is_First_Admission_Address__c = true;
+                }
+                
+                addressToValidate.add(otherAdress);
+                
+            }
+            
+            Map<Id,hed__Address__c> validatedAddressesMap = validateContactAddressMap(addressToValidate);
+            
+            //Update address
+            updateAddressRecords(validatedAddressesMap.values());
+
+
+        } catch (Exception e) {
+            Logger.error('Exception caught in class AddressValidationManager.').setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
+    }
+    
+    /**
+     * Processes and validates address records based on ABS categorisation and updates related contact records.
+     * 
+     * This method performs the following steps:
+     * 1. Checks if the ABS categorisation list is empty and returns if it is.
+     * 2. Creates a remoteness mapping using the first ABS categorisation entry.
+     * 3. Initializes maps and lists for storing contacts to update and addresses to update or insert.
+     * 4. Iterates over the address records to:
+     *    a. Update 'Other' address types with ABS categorisation and determine low socio-economic status.
+     *       i. If the address is marked as first admission, clone it to create a new address of type 'First Admitted'.
+     *       ii. Set the regional remote value for the contact.
+     *    b. Update 'First Admitted' address types by setting the regional remote value from the ABS categorisation.
+     * 5. Updates contact records with the new low socio-economic and regional remote values.
+     * 6. Updates and inserts address records accordingly.
+     */  
+    public void processValidateAddress(){
+        
+        List<ABS_Categorisation__c> absCategorisation = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('USER_MODE');
+        
         if(absCategorisation.isEmpty()){
             return;
         }
   
-		remotenessMap = new Map<String, Boolean>{
+		Map<String, Boolean> remotenessMap = new Map<String, Boolean>{
             AddressesDAO.OUTER_REGIONAL_AUSTRALIA => absCategorisation[0].Remoteness_Outer_Regional__c,
             AddressesDAO.INNER_REGIONAL_AUSTRALIA => absCategorisation[0].Remoteness_Inner_Regional__c,
             AddressesDAO.REMOTE => absCategorisation[0].Remoteness_Remote__c,
             AddressesDAO.VERY_REMOTE => absCategorisation[0].Remoteness_Very_Remote__c
         };
             
-        List<hed__address__c> addressToInsert = new List<hed__address__c>();
         Map<Id,Contact> contactToUpdateMap = new Map<Id,Contact>();
-        List<hed__address__c> addressToUpdate = new List<hed__address__c>();
+        List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
+        List<hed__Address__c> addressToInsert = new List<hed__Address__c>();
         
         try {
-            
-            Map<Id,hed__Address__c> contactValidatedAddress = new Map<Id,hed__Address__c>();
-            Map<Id,hed__Address__c> contactNotValidatedAddress = new Map<Id,hed__Address__c>();      
-            
-            for(hed__Address__c address: addresses){
-                if(address.Validated__c == AddressesDAO.VALID_ADDRESS){
-                    contactValidatedAddress.put(address.hed__Parent_Contact__c,address);
-                }else{
-                    contactNotValidatedAddress.put(address.hed__Parent_Contact__c,address);
+        
+            for(hed__Address__c address : addresses){
+                
+                Id contactId = address.hed__Parent_Contact__c;
+                Contact con = contactToUpdateMap.containsKey(contactId)? contactToUpdateMap.get(contactId) : new Contact(Id = contactId);
+                
+                switch on address.hed__Address_Type__c {
+                    
+                    when 'Other' {
+                        //Address to update and associate ABS Categorisation 
+                        address.ABS_Categorisation__c = absCategorisation[0].Id;
+                        addressToUpdate.add(address);
+                        
+                        // Determine and set low socio-economic status
+                        String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation[0]);
+                        //Contact to update the low socio economic value
+                        if(String.isNotBlank(lowSocioEconomicStatus)){
+                            con.Low_Socio_Economic_Status__c = lowSocioEconomicStatus;
+                            contactToUpdateMap.put(contactId,con);
+                        }
+                        if(address.Is_First_Admission_Address__c){
+                            //clone "Other" address type and set to First Admitted
+                            hed__address__c newAddress = address.clone();
+                            newAddress.Is_First_Admission_Address__c = false; 
+                            newAddress.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
+                            addressToInsert.add(newAddress);
+                            
+                            // Determine and set regional remote value
+                            String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);
+                            con.Regional_Remote__c = regionalRemoteValue;
+                            contactToUpdateMap.put(contactId,con);
+                        }
+                    }
+                    when 'First Admitted' {
+                        //get regional Remote from ABS and Remoteness Class
+                        String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);  
+                        con.Regional_Remote__c = regionalRemoteValue;                    
+                        contactToUpdateMap.put(contactId,con);
+                    }
                 }
             }
             
-            //validate the not validated address of contact 
-            Map<Id, hed__address__c> contactAddressMap = validateContactAddressMap(contactNotValidatedAddress.values()); 
-            //get the number of program enrollment associated with contact
-            Map<Id, Integer> contactProgramEnrollmentCounts = getAllProgramEnrollmentsOfContacts(contactAddressMap.keySet());            
-            // get the latest 'First Admitted' addresses of the contacts and add the latest address to Map                      
-            Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactAddressMap.keySet());
-            
-            for(Id contactId: contactAddressMap.keySet()){ 
-                
-                //Address to update and associate ABS Categorisation 
-                hed__address__c address = contactAddressMap.get(contactId);
-                address.ABS_Categorisation__c = absCategorisation[0].Id;
-                addressToUpdate.add(address);
-                
-                // Determine and set low socio-economic status
-                String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation[0]);
-                
-                //Contact to update the low socio economic value
-                Contact con = new Contact(Id = contactId);  
-                if(String.isNotBlank(lowSocioEconomicStatus) && address.hed__Parent_Contact__r.Low_Socio_Economic_Status__c != lowSocioEconomicStatus){
-                    con.Low_Socio_Economic_Status__c = lowSocioEconomicStatus;
-                    contactToUpdateMap.put(contactId,con);
-                }
-				//checking if contact has multiple program enrollment OR already has existing First Admitted Address               
-                if(contactProgramEnrollmentCounts.containsKey(contactId) && contactProgramEnrollmentCounts.get(contactId) > 1 || contactFirstAdmittedAddress.containsKey(contactId)){
-                    contactValidatedAddress.put(contactId,contactAddressMap.get(contactId));                   
-                }else{                    
-                    //clone "Other" address type and set to First Admitted
-                    hed__address__c newAddress = address.clone();
-                    newAddress.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
-                    addressToInsert.add(newAddress); 
-                                       
-                    // Determine and set regional remote value
-                    String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);
-                    if(address.hed__Parent_Contact__r.Regional_Remote__c != regionalRemoteValue){
-                       con.Regional_Remote__c = regionalRemoteValue;
-                       contactToUpdateMap.put(contactId,con);
-                    }                   
-                }
-            }
-            
-            //run validation on contact with First Admitted Address
-            validateContactWithFirstAdmittedAddress(contactValidatedAddress,addressToUpdate,contactToUpdateMap);
-                    	
             //Update the contact records
             updateContactRecords(contactToUpdateMap.values());
             
             //Update address
             updateAddressRecords(addressToUpdate);
-			
+            
             //Insert address
             insertAddressRecords(addressToInsert);
-
+            
         } catch (Exception e) {
-            Logger.error('Exception caught in class AddressValidationManager.')
-              .setExceptionDetails(e);
+            Logger.error('Exception caught in class AddressValidationManager. Method: processValidateAddress')
+                .setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
@@ -122,68 +189,6 @@ public with sharing class AddressValidationManager {
         }
     }
 
-    /**
-     * Validates the association of contacts with their first admitted address.
-     *
-     * This method takes a map of contact IDs to their corresponding validated addresses,
-     * a list of addresses to be updated, and a map of contact IDs to Contact objects to be updated.
-     * It evaluates the association of contacts with their first admitted address,
-     * updates the addresses with ABS categorization, and sets the regional remote value for contacts.
-     *
-     * @param contactValidatedAddress A map of contact IDs to their validated first admitted addresses.
-     * @param addressToUpdate A list of addresses to be updated with ABS categorization.
-     * @param contactToUpdateMap A map of contact IDs to Contact objects to be updated with regional remote values.
-     */    
-    private void validateContactWithFirstAdmittedAddress(Map<Id,hed__Address__c> contactValidatedAddress,List<hed__address__c> addressToUpdate,Map<Id,Contact> contactToUpdateMap){
-        Map<Id, hed__address__c> contactValidatedFirstAdmittedAddress = evaluateContactWithFirstAdmittedAddress(contactValidatedAddress);
-        
-        for(Id contactId : contactValidatedFirstAdmittedAddress.keySet()){
-            
-            hed__address__c address = contactValidatedFirstAdmittedAddress.get(contactId);
-            address.ABS_Categorisation__c = absCategorisation[0].Id;
-            addressToUpdate.add(address);
-            
-            //get regional Remote from ABS and Remoteness Class
-            String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);
-            
-            if(contactToUpdateMap.containsKey(contactId)){
-                Contact con = contactToUpdateMap.get(contactId);
-                con.Regional_Remote__c = regionalRemoteValue;
-                contactToUpdateMap.put(contactId,con);
-            }else{
-                if(address.hed__Parent_Contact__r.Regional_Remote__c != regionalRemoteValue){
-                    Contact con = new Contact(Id = contactId);
-                    con.Regional_Remote__c = regionalRemoteValue;                    
-                    contactToUpdateMap.put(contactId,con);
-                }                 
-            }           
-        }       
-    }
-
-    /**
-     * Evaluates contacts with their first admitted addresses for validation.
-     *
-     * This method takes a map of contact IDs to their corresponding addresses.
-     * It identifies addresses that have not been validated as first admitted addresses,
-     * retrieves them for validation, and returns a map of contact IDs to addresses
-     * that need to be updated based on validation results.
-     *
-     * @param contactAddressMap A map of contact IDs to their addresses.
-     * @return A map of contact IDs to addresses requiring validation or updates.
-     */    
-    private Map<Id, hed__address__c> evaluateContactWithFirstAdmittedAddress(Map<Id, hed__address__c> contactAddressMap){
-        
-        Map<Id, hed__address__c> contactToUpdateMap = new Map<Id, hed__address__c>();
-        List<hed__Address__c> notValidatedAddress = getNotValidFirstAdmittedContactAddresses(contactAddressMap);
-        
-        if(!notValidatedAddress.isEmpty()){
-            //run address validation
-			return validateContactAddressMap(notValidatedAddress);           
-        }  
-        
-        return contactToUpdateMap;
-    }
-    
     /**
      * Retrieves the count of program enrollments for contacts.
      *
@@ -275,7 +280,7 @@ public with sharing class AddressValidationManager {
      * @param absCategorisation The ABS categorization containing low socio-economic boundaries.
      * @return A string indicating whether the address has low socio-economic status ('Yes' or 'No').
      */
-    public static String setLowSocioEconomicStatus(hed__address__c address, ABS_Categorisation__c absCategorisation) {
+    private String setLowSocioEconomicStatus(hed__address__c address, ABS_Categorisation__c absCategorisation) {
         
         if(address.Socio_Economic_Percentile__c == null){
             return '';
@@ -303,50 +308,6 @@ public with sharing class AddressValidationManager {
     }
     
     /**
-     * Retrieves addresses of contacts with unvalidated first admitted status.
-     *
-     * This method takes a map of contact IDs to their validated addresses.
-     * It retrieves the latest 'First Admitted' addresses of the contacts
-     * and identifies addresses that are not yet validated.
-     * If no 'First Admitted' address is found for a contact, it logs an error.
-     *
-     * @param contactValidatedAddress A map of contact IDs to their validated addresses.
-     * @return A list of addresses with unvalidated 'First Admitted' status.
-     */
-    private List<hed__Address__c> getNotValidFirstAdmittedContactAddresses(Map<Id, hed__Address__c> contactValidatedAddress) {
-        // Initialize a list to store addresses that are not validated
-        List<hed__Address__c> notValidatedAddress = new List<hed__Address__c>();
-        
-        // Check if the input map is not empty
-        if (!contactValidatedAddress.values().isEmpty()){
-            
-            // get the latest 'First Admitted' addresses of the contacts and add the latest address to Map                      
-            Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactValidatedAddress.keySet());
-           
-            // Iterate through each contactValidatedAddress and check if contact has existing 'First Admitted' address
-            // log an error if no 'First Admitted' address found
-            for(Id contactId : contactValidatedAddress.keySet()){
-                
-                if(contactFirstAdmittedAddress.containsKey(contactId)){
-                    hed__Address__c firstAdmittedAddress = contactFirstAdmittedAddress.get(contactId);
-                    // Check if the address is not validated
-                    if (firstAdmittedAddress.Validated__c != AddressesDAO.VALID_ADDRESS) {
-                        // Add the address to the not validated list
-                        notValidatedAddress.add(firstAdmittedAddress);
-                    }
-                }else{
-                    // Log an error if the first admitted address is not found
-                    String logMessage = 'First Admitted Address not found for the following contact';
-                    Logger.error(logMessage, contactId);
-                }
-            }               
-        }
-
-        // Return the list of not validated addresses
-        return notValidatedAddress;
-    }
-    
-    /**
      * Retrieves the latest 'First Admitted' addresses for a given set of contact IDs.
      *
      * @param contactIds Set of contact IDs for which to retrieve the 'First Admitted' addresses.
@@ -363,5 +324,72 @@ public with sharing class AddressValidationManager {
         }
         
         return contactFirstAdmittedAddress;
+    }    
+
+    /**
+     * Process Address Validation triggered from Address object
+     * @param List<hed__Address__c> addressList - List of address to validate
+     * @param Map<Id, Contact> contactDetailsMap - Map of contact related to address
+     */
+    public void processValidationForAddress(){
+        try{ 
+            ABS_Categorisation__c absCategorisation = getABSCategorisation();  
+
+            Map<Id, hed__Address__c> addressMap = new AddressValidation(addresses).validateAddresses();
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+            List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
+            for(hed__Address__c address : addressMap.values()){
+                address.ABS_Categorisation__c = absCategorisation.Id;
+                addressToUpdate.add(address);
+
+                Id contactId = address.hed__Parent_Contact__c;
+                String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation);
+                Boolean isContactForUpdate = 
+                    String.isNotBlank(lowSocioEconomicStatus) && 
+                    contactMap.containsKey(contactId) && 
+                    (
+                        contactMap.get(contactId).Low_Socio_Economic_Status__c == null || 
+                        (contactMap.get(contactId).Low_Socio_Economic_Status__c != null && contactMap.get(contactId).Low_Socio_Economic_Status__c != lowSocioEconomicStatus)
+                    );
+
+                if(isContactForUpdate){
+                    contactsToUpdate.add(
+                        new Contact(
+                            Id = contactId,
+                            Low_Socio_Economic_Status__c = lowSocioEconomicStatus
+                        )
+                    );
+                }
+            }
+            
+            if(!contactsToUpdate.isEmpty()){
+                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            }
+
+            if(!addressToUpdate.isEmpty()){
+                AddressesDAO.newInstance().updateRecords(addressToUpdate, true, AccessLevel.SYSTEM_MODE);
+            }
+
+        }catch(Exception e){
+            Logger.error('Exception caught in execute method in Apex class AddressesValidationBatch.').setExceptionDetails(e);
+        }finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
+    }
+
+    /**
+     * Retrieves latest ABS_Categorisation__c
+     * @return ABS_Categorisation__c absCategorisation
+     */
+    private static ABS_Categorisation__c getABSCategorisation(){
+        ABS_Categorisation__c absCategorisation = new ABS_Categorisation__c();
+        List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('SYSTEM_MODE');
+        for(ABS_Categorisation__c absCateg : absCategorisationList){
+            absCategorisation = absCateg;
+        }
+        return absCategorisation;
     }
 }

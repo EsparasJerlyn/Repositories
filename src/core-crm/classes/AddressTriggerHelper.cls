@@ -26,26 +26,53 @@ public with sharing class AddressTriggerHelper {
         }
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(addressByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
-        List<hed__Address__c> addressListForValidation = new List<hed__Address__c>();
+        Map<Id, Contact> filteredContactMap = new Map<Id, Contact>();
+        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>();
         for(hed__Address__c address : addressByContactMap.values()){
             if(contactMap.containsKey(address.hed__Parent_Contact__c) && contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                addressListForValidation.add(address);
+                addressMap.put(address.Id, address);
+                filteredContactMap.put(address.hed__Parent_Contact__c, contactMap.get(address.hed__Parent_Contact__c));
             }
         }
 
-        processValidation(addressListForValidation, contactMap);
+        processValidation(addressMap, filteredContactMap);
     }
     
-    private static void processValidation (List<hed__Address__c> addressListForValidation, Map<Id, Contact> contactMap){
-        if(!addressListForValidation.isEmpty()){
+    private static void processValidation (Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
+        if(!addressMap.isEmpty() && !contactMap.isEmpty()){
             Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
             if(isAsyncProcess){
-                new AddressesValidationBatch().processValidation(addressListForValidation, contactMap);
+                new AddressValidationManager(addressMap.values(), contactMap).processValidationForAddress();
             }else{
-                AddressesValidationBatch batch = new AddressesValidationBatch(addressListForValidation, contactMap);
+                AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap);
                 Database.executeBatch(batch);
             }
         }
     }
 
+    public static void processValidateAddress(List<hed__Address__c> addressList, Map<Id, hed__Address__c> oldItems){       
+        List<hed__Address__c> validatedAddressList = new List<hed__Address__c>();
+        Set<Id> addressIds = new Set<Id>();
+        for(hed__Address__c address : addressList){
+
+            Boolean isAddressValidationSuccess =  address.hed__Parent_Contact__c != null && 
+                                                  address.hed__Address_Type__c != null && 
+                                                  address.Address_Integration_Status__c == AddressesDAO.INTEGRATION_STATUS_SUCCESS &&
+                                                  address.Validated__c != oldItems.get(address.Id).Validated__c &&
+                                                  address.Validated__c == AddressesDAO.VALID_ADDRESS;
+                
+            //if the address is successfully validated
+            if (isAddressValidationSuccess) {
+                addressIds.add(address.Id);
+                validatedAddressList.add(address);
+            }
+        }
+        
+        if(!addressIds.isEmpty()){
+            // call the method to validate Address
+            AddressesValidationBatch batch = new AddressesValidationBatch(addressIds);
+            Database.executeBatch(batch);
+            
+        }
+    }    
 }
