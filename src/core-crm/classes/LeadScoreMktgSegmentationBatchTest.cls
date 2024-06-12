@@ -15,21 +15,18 @@
       
     @TestSetup
     static void setupData(){
-        
+        Test.startTest();
         TestDataFactoryUser.generateUserSystemAdministrator();
-        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
-            Test.startTest();
-            setupDomesticUndeterminedLeadScoreConfig(
+        setupDomesticUndeterminedLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
             );
 
-            List<Contact> contactsToAdd = new List<Contact>();
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
-            contactsToAdd.addAll(contactList);
-            ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
-            Test.stopTest();
-        }
+        List<Contact> contactsToAdd = new List<Contact>();
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
+        contactsToAdd.addAll(contactList);
+        ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);  
+        Test.stopTest();
     }
 
     @isTest
