@@ -23,7 +23,6 @@ public interface IProductsDAO extends DmlInterface {
           Set<Id> designationIds,
           AccessLevel accessLevel
      );
-    ); 
 
     List<Product2> getProductsOnPage(
         Set<Id> productIdSet,
