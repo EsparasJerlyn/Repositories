@@ -233,6 +233,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.data = [];
     this.exclusionData = [];
     this.showCaseCol = false;
+    this.showTabset = true;
 
     // iterate through csv headers and transform them to column format supported by the datatable
     this.columns = headers.map((header) => {
