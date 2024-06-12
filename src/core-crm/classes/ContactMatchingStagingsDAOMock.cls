@@ -23,11 +23,11 @@ public inherited sharing class ContactMatchingStagingsDAOMock extends DmlBaseMoc
 		this.conMatchingStagingMap = (Map<Id, Contact_Matching_Staging__c>) super.records;
 	}
 
-	public Database.QueryLocator queryLocatorGetContactMarketingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+	public Database.QueryLocator queryLocatorGetContactMatchingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
         return null;
     }
 
-	public List<Contact_Matching_Staging__c> getContactMarketingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+	public List<Contact_Matching_Staging__c> getContactMatchingStagingsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
 		List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
 
 		for(Contact_Matching_Staging__c conMatchingStaging : conMatchingStagings){
