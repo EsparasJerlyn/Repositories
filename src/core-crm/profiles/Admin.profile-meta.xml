@@ -146,6 +146,9 @@
         <recordType>Contact.Person</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact_Matching_Service_Configuration__mdt-Contact Matching Service Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ContactPointEmail-Contact Point Email Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
