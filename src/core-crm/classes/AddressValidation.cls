@@ -3,100 +3,96 @@
  * @see AddressValidationManager
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | mark.j.mahilum            | May 30, 2024          | DEPP-8954            | Created file                 |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                   |
+      |---------------------------|-----------------------|----------------------|----------------------------------|
+      | mark.j.mahilum            | May 30, 2024          | DEPP-8954            | Created file                     |
+      | eccarius.munoz            | June 11, 2024         | DEPP-8954            | Added handling for integ status  |
  */
 public inherited sharing class AddressValidation {
     
+    private static final String ESB_ENDPOINT_PROCESS_ADDRESS = System.Label.ESBEndpointProcessAddress;
     private List<hed__address__c> addresses;
     
     public AddressValidation(List<hed__address__c> addresses) {
         this.addresses = addresses;
     }
     
+    /**
+     * Validates list of address
+     * 1. Checks if address is in Australia by checking the mailing country.
+     * 2. Callout ESB Process Address endpoint (This will update the address)
+     * 3. Set the Integration Status of address based on the ESB callout response
+     */
     public Map<Id, hed__address__c> validateAddresses(){
-        Map<Id, hed__address__c> mapOfContactAddress = new Map<Id, hed__address__c>();     
-        Set<String> australiaMailingCountry = new Set<String>{'AU','AUS','Australia'};
-        
-        for(hed__address__c address: addresses){
-            
-            if(australiaMailingCountry.contains(address.hed__MailingCountry__c)){
-                
-                AddressValidationResult addressResponse = loqateAddressValidation(address);             
-                String isValidAddress = (addressResponse!=null && addressResponse.isValid) ? AddressesDAO.VALID_ADDRESS : AddressesDAO.NOT_VALID_ADDRESS;
-                
-                hed__address__c addressValidated = new hed__address__c();
-                addressValidated.Id = address.Id;
-                addressValidated.Validated__c = isValidAddress;   
 
-                if(isValidAddress == AddressesDAO.VALID_ADDRESS){
-                    addressValidated.Statistical_Area_1_Id__c = addressResponse.statisticalArea1;
-                    addressValidated.Meshblock_Id__c = addressResponse.meshBlockId;
-                    addressValidated.Socio_Economic_Percentile__c = addressResponse.socioEconomicPercentile;
-                    addressValidated.Remoteness_Class__c = addressResponse.remotenessClass;
-                }
-                  
-                mapOfContactAddress.put(address.hed__Parent_Contact__c, addressValidated);
+        Map<Id, hed__address__c> mapOfAddresses = new Map<Id, hed__address__c>();     
+
+        List<hed__address__c> validAddressList = new List<hed__address__c> ();   
+        List<AddressValidationPayloadRequest> addressValidationRequest = new List<AddressValidationPayloadRequest>();
+
+        for(hed__address__c address: addresses){        
+            if(AddressesDAO.MAILING_COUNTRY_AU.contains(address.hed__MailingCountry__c)){
+                validAddressList.add(address);
+                addressValidationRequest.add(new AddressValidationPayloadRequest(address.Id));                
             }
         }
+
+        if(!addressValidationRequest.isEmpty()){
+
+            Boolean isCalloutSuccess = addressValidationRequest(addressValidationRequest);
+
+            for(hed__address__c address: validAddressList){
+                String integrationStatus = isCalloutSuccess ? AddressesDAO.INTEGRATION_STATUS_SENT : AddressesDAO.INTEGRATION_STATUS_RETRY;
+                if(String.isNotBlank(address.Address_Integration_Status__c) && address.Address_Integration_Status__c == AddressesDAO.INTEGRATION_STATUS_RETRY){
+                    integrationStatus = AddressesDAO.INTEGRATION_STATUS_FAILED;
+                }
+                address.Address_Integration_Status__c = integrationStatus;
+                mapOfAddresses.put(address.Id, address);
+            }
+            
+            return mapOfAddresses;     
+        }
         
-        return mapOfContactAddress;
+        return mapOfAddresses;
     }
     
-    private AddressValidationResult loqateAddressValidation(hed__address__c address){
-        try {
-            AddressValidationResult addressResponse = new AddressValidationResult();
-            
-            // temporary request body as the API specification is not yet define
-            String requestBody = JSON.serialize(address);
-            
-            // endpoint is not yet given and the named credential needed
-            HttpResponse response = sendRequest(requestBody,'');
+    public static boolean addressValidationRequest(List<AddressValidationPayloadRequest> addressValidationRequest){
 
-            switch on response.getStatusCode() {
+        boolean response = false;
+        HttpResponse httpResponse;
+
+        try {     
+            String requestBody = JSON.serialize(addressValidationRequest,true);
+            String endpoint = 'callout:ESB' + ESB_ENDPOINT_PROCESS_ADDRESS;    
+            String httpMethod = 'POST';
+
+            httpResponse = IntegrationCallOutCtrl.doCallout(endpoint, httpMethod, requestBody);
+            
+            switch on httpResponse.getStatusCode() {
                 when 200 {
-                    return addressResponse.parse(response.getBody());
+                    response = true;
                 }
                 when else {
-                    throw new CalloutException('Unexpected Response code: ' + response.getStatusCode());
+                    throw new CalloutException('Unexpected Response code: ' + httpResponse.getStatusCode());
                 }
             }
-        } catch (Exception e) {
-            Logger.error('Exception caught in method loqateAddressValidation in Apex class AddressValidation.').setExceptionDetails(e);
-            return null;  
-        }
-    }
-    
-    private HttpResponse sendRequest(String requestBody,String endpoint) {
-        
-        HttpRequest httpReq = new HttpRequest();
-        httpReq.setMethod('POST');
-        httpReq.setEndpoint(endpoint);
-        httpReq.setHeader('Content-Type', 'application/json');
-        httpReq.setBody(requestBody);
-        
-        Http http = new Http();
-        HttpResponse httpResponse = http.send(httpReq);
 
-        return httpResponse;
+        } catch (Exception e) {
+            Logger.error('Callout Exception caught in method addressValidationRequest in Apex class AddressValidation.').setExceptionDetails(e).setHttpResponseDetails(httpResponse);
+        } finally {
+            Logger.saveLog();
+        }
+
+        return response;
     }
     
    /**
-    * Wrapper class for AddressValidation Result
+    * Wrapper class for AddressValidation Request Payload
     */
-    public class AddressValidationResult {
-        String statisticalArea1;
-        String meshBlockId;
-        Integer socioEconomicPercentile;
-        String remotenessClass;
-        Boolean isValid;
-        
-        public AddressValidationResult parse(String json) {
-            return (AddressValidationResult) System.JSON.deserialize(
-                json,
-                AddressValidationResult.class
-            );
+    public class AddressValidationPayloadRequest{
+        private Id sfid;
+        public AddressValidationPayloadRequest(Id sfid){
+            this.sfid = sfid;
         }
-    }   
+    } 
 }

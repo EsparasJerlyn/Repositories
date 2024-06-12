@@ -12,21 +12,21 @@
  */
 public with sharing class ContactAddressValidationBatch implements Database.Batchable<sObject>, Database.AllowsCallouts {
 	
-    private List<SObject> recordList;
+    private Set<Id> recordIdSet;
         
-    public ContactAddressValidationBatch(List<SObject> recordList) {
-        this.recordList = recordList;
+    public ContactAddressValidationBatch(Set<Id> recordIdSet) {
+        this.recordIdSet = recordIdSet;
     }
     
    /**
-    * @description return the list of addresses 
+    * @description Method to query the hed__Address__c records 
     * @param bc - BatchableContext
-    * @return List<SObject> recordList - contains addresses object list
+    * @return query - hed__Address__c records
     */
 
-    public List<SObject> start(Database.BatchableContext context)
+    public Database.QueryLocator start(Database.BatchableContext context)
     {
-        return recordList;
+        return AddressesDAO.newInstance().getQueryLocatorByIds(recordIdSet);
     }
 
    /**
@@ -44,7 +44,5 @@ public with sharing class ContactAddressValidationBatch implements Database.Batc
     * @description chain current batch job to Complete Cadence job
     * @param bc - BatchableContext
     */
-    public void finish(Database.BatchableContext bc) {
-
-    }
+    public void finish(Database.BatchableContext bc) {}//NOPMD
 }

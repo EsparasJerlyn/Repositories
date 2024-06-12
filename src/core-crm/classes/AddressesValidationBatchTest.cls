@@ -21,12 +21,10 @@ public with sharing class AddressesValidationBatchTest {
     static void testAddressesValidationBatch() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
-            ImplementationSelector.DAO.setMock(new ABSCategorisationsDAOMock());
-            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-            ImplementationSelector.DAO.setMock(new AddressesDAOMock());
+            BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+            insert bypass;
 
-            String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":80,"remotenessClass":"Urban","isValid":true}';
-            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Success', mockResponseBody));
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
             
             List<ABS_Categorisation__c> absCategorisationList = new List<ABS_Categorisation__c>();
             absCategorisationList.add(new ABS_Categorisation__c(
@@ -48,6 +46,7 @@ public with sharing class AddressesValidationBatchTest {
                 hed__Address__c add = new hed__Address__c();
                 add.hed__Parent_Contact__c = contactList[i].Id;
                 add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
+                add.Socio_Economic_Percentile__c = 80;
                 add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
                 add.hed__MailingCountry__c = 'Australia';
                 add.hed__MailingState__c = 'QLD';
@@ -60,7 +59,7 @@ public with sharing class AddressesValidationBatchTest {
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
 
             Test.startTest();
-            AddressesValidationBatch batch = new AddressesValidationBatch(addresses, new Map<Id,Contact>(contactList));
+            AddressesValidationBatch batch = new AddressesValidationBatch(new Map<Id,hed__Address__c>(addresses).keySet(), new Map<Id,Contact>(contactList));
             Database.executeBatch(batch);
             Test.stopTest();
 
@@ -73,6 +72,7 @@ public with sharing class AddressesValidationBatchTest {
             List<hed__Address__c> addressesUpdated = AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactMap.keySet(), new Set<String>{AddressesDAO.OTHER_ADDRESS}, 'USER_MODE');
             for(hed__Address__c address: addressesUpdated){
                 System.Assert.areEqual(absCategorisationList[0].Id, address.ABS_Categorisation__c , 'Incorrect value for ABS_Categorisation__c.');
+                System.Assert.areEqual(AddressesDAO.INTEGRATION_STATUS_SENT, address.Address_Integration_Status__c , 'Incorrect value for Address_Integration_Status__c.');
             }
 
         }
@@ -82,12 +82,10 @@ public with sharing class AddressesValidationBatchTest {
     static void testAddressesValidationBatchLowSocioEcoStatusNo() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
-            ImplementationSelector.DAO.setMock(new ABSCategorisationsDAOMock());
-            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-            ImplementationSelector.DAO.setMock(new AddressesDAOMock());
+            BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+            insert bypass;
 
-            String mockResponseBody = '{"statisticalArea1":"Test Area","meshBlockId":"12345","socioEconomicPercentile":80,"remotenessClass":"Urban","isValid":true}';
-            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Success', mockResponseBody));
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
             
             List<ABS_Categorisation__c> absCategorisationList = new List<ABS_Categorisation__c>();
             absCategorisationList.add(new ABS_Categorisation__c(
@@ -110,6 +108,7 @@ public with sharing class AddressesValidationBatchTest {
                 add.hed__Parent_Contact__c = contactList[i].Id;
                 add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
                 add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.Socio_Economic_Percentile__c = 80;
                 add.hed__MailingCountry__c = 'Australia';
                 add.hed__MailingState__c = 'QLD';
                 add.hed__MailingCity__c = 'DALLARNIL';
@@ -122,7 +121,7 @@ public with sharing class AddressesValidationBatchTest {
             AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
             
             Test.startTest();
-            AddressesValidationBatch batch = new AddressesValidationBatch(addresses, new Map<Id,Contact>(contactList));
+            AddressesValidationBatch batch = new AddressesValidationBatch(new Map<Id,hed__Address__c>(addresses).keySet(), new Map<Id,Contact>(contactList));
             Database.executeBatch(batch);
             Test.stopTest();
 
@@ -135,6 +134,7 @@ public with sharing class AddressesValidationBatchTest {
             List<hed__Address__c> addressesUpdated = AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactMap.keySet(), new Set<String>{AddressesDAO.OTHER_ADDRESS}, 'USER_MODE');
             for(hed__Address__c address: addressesUpdated){
                 System.Assert.areEqual(absCategorisationList[0].Id, address.ABS_Categorisation__c , 'Incorrect value for ABS_Categorisation__c.');
+                System.Assert.areEqual(AddressesDAO.INTEGRATION_STATUS_SENT, address.Address_Integration_Status__c , 'Incorrect value for Address_Integration_Status__c.');
             }
 
         }
