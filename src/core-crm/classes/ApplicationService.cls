@@ -23,6 +23,7 @@
  *    |                                |                       |                        | contact mapping                    |
  *    | mark.j.mahilum                 | April 30, 2024        | DEPP-7987              | Code enhancement using the new     |
  *    |                                |                       |                        | contact matching logic             |
+ *    | sebastianne.k.trias            | June 1, 2024          | DEPP-8474              | Removed modify Opt in/out fields   |
  */
 public with sharing class ApplicationService { //NOPMD
     /**
@@ -160,34 +161,6 @@ public with sharing class ApplicationService { //NOPMD
             );
         }
         return leadMapToUpdate.get(leadId);
-    }
-    
-     /**
-     * @description used to map the marketing fields to the contact record related to the application
-     * @param Contact applicantToUpdate - contact record update
-     * @param RecordsToReferenceWrapper recordsToReference - application trigger records 
-     * @param boolean isForDisableMarketing - tells the method if marketing is for email opt out
-     */
-    public static void mapMarketingFields(Contact applicantToUpdate, RecordsToReferenceWrapper recordsToReference, Boolean isForDisableMarketing){
-        Boolean isQTACApp = recordsToReference.application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-        Boolean isUpdate = recordsToReference.oldApplication != null;
-        Boolean isContactUpdated = isUpdate && recordsToReference.application.hed__Applicant__c != recordsToReference.oldApplication.hed__Applicant__c;
-        Boolean isActiveUpdated = isUpdate && recordsToReference.oldApplication.Is_Active__c != recordsToReference.application.Is_Active__c;
-        Boolean isQTACRelevantFieldsUpdated = isContactUpdated || isActiveUpdated;
-        Boolean isProcessingQTAC = isQTACApp && recordsToReference.application.Is_Active__c && (!isUpdate || isQTACRelevantFieldsUpdated);
-        Boolean isProcessingNonQTAC = !isQTACApp && (!isUpdate || isContactUpdated);
-
-        //opt in marketing if New Record is created for All recrod types expcept QTAC
-        Boolean isOptInMarketing = isProcessingQTAC || isProcessingNonQTAC;
-        //opt out marketing if QTAC is set is active to false  
-        //And isForDisableMarketing is true (Contact has no cases, no interaction and no other application)
-        Boolean isOptOutMarketing = isQTACApp && isForDisableMarketing && !recordsToReference.application.Is_Active__c && (!isUpdate || isQTACRelevantFieldsUpdated);
-
-        if(isOptInMarketing){
-            MarketingService.optInOrOutMarketing(applicantToUpdate,true);
-        }else if(isOptOutMarketing){
-            MarketingService.optInOrOutMarketing(applicantToUpdate,false);
-        }
     }
 
      /**
