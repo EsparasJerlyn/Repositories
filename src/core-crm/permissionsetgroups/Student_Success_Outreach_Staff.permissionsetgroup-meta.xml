@@ -6,6 +6,7 @@
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>Student_Success_Base</permissionSets>
+    <permissionSets>Student_Success_Email_Access</permissionSets>
     <permissionSets>Student_Success_Outreach_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

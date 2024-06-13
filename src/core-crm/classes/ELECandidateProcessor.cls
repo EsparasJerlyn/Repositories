@@ -112,7 +112,7 @@ public with sharing class ELECandidateProcessor {
             if(!outreachCaseMap.values().isEmpty()){
                 CasesDAO.newInstance().insertRecords(outreachCaseMap.values(), true, AccessLevel.SYSTEM_MODE);
                 Map<Id,Case> caseMap = new Map<Id,Case>(outreachCaseMap.values());
-                List<Case> caseList = CasesDAO.newInstance().getCasesByIds(caseMap.keySet(), AccessLevel.SYSTEM_MODE);
+                List<Case> caseList = CasesDAO.newInstance().getCasesByIdsImported(caseMap.keySet(), AccessLevel.SYSTEM_MODE);
                 checkOutreachCases(caseList); 
             }
     

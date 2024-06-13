@@ -9,12 +9,28 @@
  */
 @isTest
 private class DuplicateSanctionManagerTest {
+
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.STUDENT_SANCTION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+    }
+
     @testSetup
     static void testSetup() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
         Test.stopTest();
-
         List<Contact_Alternate_Id__c> conAltIdList = new List<Contact_Alternate_Id__c>();
         List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
         ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
