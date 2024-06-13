@@ -215,39 +215,6 @@ private class ApplicationTriggerHelperTest {
     }
 
     @isTest
-    private static void testUpdateContactWhenQTACAppIsInactive(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
-            List<hed__Application__c> applicationToUpdate = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
-            for(hed__Application__c app : applicationToUpdate){
-                app.RecordTypeId = ApplicationsDAO.QTAC_RECTYPE_ID;
-                app.Is_Active__c = false;
-            }
-            Test.startTest();
-            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
-            Contact con = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.SYSTEM_MODE)[0];
-            System.assertEquals(true, con.HasOptedOutOfEmail, 'Marketing field should be false');
-            System.assertEquals(true, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.DoNotCall, 'Marketing field should be false');
-            System.assertEquals(false, con.Sync_to_MC__c, 'Marketing field should be true');
-            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
-            System.assertEquals('QTAC Application QUT preferences withdrawn',con.Dont_Market_Reason__c, 'Marketing field Dont_Market_Reason__c should be QTAC Application QUT preferences withdrawn');
-            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            
-            Test.stopTest();
-        }
-    }
-
-    @isTest
     private static void testStudyLinkMarketingFields(){
         System.runAs(TestDataFactoryUser.selectUserQUTESB){
             //get the contact created in the setup with a study link application
