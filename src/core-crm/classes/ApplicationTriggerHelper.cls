@@ -17,6 +17,7 @@
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added method to reset lead score of linked contact/lead        |
       | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Added logic in handling bulkAPI data when running queable job  |
       | roy.nino.s.regala              | Nov 03, 2023          | DEPP-7145              | Moved reusable methods for Lead Score Reset Logic              |
+      | sebastianne.k.trias            | June 1, 2024          | DEPP-8474              | Removed modify Opt in/out fields                               |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -94,41 +95,19 @@ public with sharing class ApplicationTriggerHelper {
         Map<Id,List<Case>> caseMap = new Map<Id,List<Case>>();
         // related interactions by contact
         Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = new Map<Id,List<Marketing_Interaction__c>>();
-        // related applications by contact
-        Map<Id,List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
         // update/upsert maps/list
         Map<Id, Contact> contactMapToUpdate = new Map<Id, Contact>();
         // related maps
         Map<Id, Contact> relatedContactMap = new Map<Id, Contact>(ApplicationService.getApplicantsFromApplications((List<hed__Application__c>) newItems.values()));
-        //collect contact ids
-        Set<Id> applicantIdsForMarketingOptOut = new Set<Id>();
         
-        ApplicationService.collectApplicantIdsForMarketingOptOut((List<hed__Application__c>) newItems.values(),oldItems, applicantIdsForMarketingOptOut);
-
-        if(!applicantIdsForMarketingOptOut.isEmpty()){
-            caseMap = ContactService.mapExistingCasesToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
-            marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
-            applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
-        }
-        
-        // process
         for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
             if(application.hed__Applicant__c != null){
-                // initial steps...
-                Id contactId = application.hed__Applicant__c;
-
-                Boolean noCaseandInteractionRecord = !caseMap.containsKey(contactId) && !marketingInteractionMap.containsKey(contactId);
-                Boolean hasOneORZeroApp = !applicationMap.containsKey(contactId) || applicationMap.get(contactId).size() == 1;
-                Boolean isForDisableMarketing = noCaseandInteractionRecord && hasOneORZeroApp;
-
                 Contact applicant = ApplicationService.getContactFromUpdateMap(contactMapToUpdate, application.hed__Applicant__c);
                 ApplicationService.RecordsToReferenceWrapper recordsToReference = new ApplicationService.RecordsToReferenceWrapper();
                 recordsToReference.existingContact = relatedContactMap.get(application.hed__Applicant__c);
                 recordsToReference.application = application;
                 recordsToReference.oldApplication = oldItems == null ? null : (hed__Application__c) oldItems.get(application.Id);
-                // field updates...
                 ApplicationService.mappedApplicationToContact(applicant, recordsToReference);
-                ApplicationService.mapMarketingFields(applicant, recordsToReference, isForDisableMarketing);
             }
         }
         // update
