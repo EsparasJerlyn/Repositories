@@ -95,8 +95,11 @@ public inherited sharing class NaturalKeyMatchingValidator {
             NATURAL_KEY_FIELDS_WITH_MOBILE
         );
 
-        boolean isEmailPopulated = String.isNotBlank(matchingRecord.get('email'));
-        boolean isMobilePhonePopulated = String.isNotBlank(matchingRecord.get('mobilePhone'));
+        String emailPayload = matchingRecord.get('email');
+        String mobilePhonePayload = matchingRecord.get('mobilePhone');
+
+        boolean isEmailPopulated = String.isNotBlank(emailPayload);
+        boolean isMobilePhonePopulated = String.isNotBlank(mobilePhonePayload);
         boolean isEmailOrMobilePopulated = isEmailPopulated || isMobilePhonePopulated;
 
         // if email or mobile is not populated in the payload
@@ -116,41 +119,50 @@ public inherited sharing class NaturalKeyMatchingValidator {
         }
 
         // if contact(s) were found by email or mobile matching, return matching results
-        if(!matchingContacts.isEmpty()){
+        if (!matchingContacts.isEmpty()) {
             return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
         }
-
-        String emailPayload = matchingRecord.get('email');
-        String mobilePhonePayload = matchingRecord.get('mobilePhone');
 
         //If still no contact(s) found
         //loop through all contacts matching through natural key
         for (Contact con : naturalKeyMatchingMap.get(uniqueKey)) {
-            
-            // if any of the existing contact emails are populated and not equal to payload email
-            boolean isEmailMismatch =
+            boolean emailsAreEmpty =
+                con.Email == null &&
+                con.QUT_Learner_Email__c == null &&
+                con.QUT_Staff_Email__c == null &&
+                con.Work_Email__c == null;
+
+            boolean isMobilePhoneEmpty = con.MobilePhone == null;
+
+            boolean isMatchFoundByBlankEmailMobile =
+                emailsAreEmpty &&
+                isMobilePhoneEmpty &&
                 String.isNotBlank(emailPayload) &&
-                ((con.Email != null && con.Email != emailPayload) ||
-                (con.QUT_Learner_Email__c != null && con.QUT_Learner_Email__c != emailPayload) ||
-                (con.QUT_Staff_Email__c != null && con.QUT_Staff_Email__c != emailPayload) ||
-                (con.Work_Email__c != null && con.Work_Email__c != emailPayload));
-            
-            // if mobilephone is populated and not equal to payload mobile phone
-            boolean isMobilePhoneMismatch = String.isNotBlank(mobilePhonePayload) && con.MobilePhone != null && con.MobilePhone != mobilePhonePayload;
+                String.isNotBlank(mobilePhonePayload);
+            boolean isMatchFoundByBlankEmail =
+                emailsAreEmpty &&
+                String.isNotBlank(emailPayload) &&
+                String.isBlank(mobilePhonePayload);
+            boolean isMatchFoundByBlankMobile =
+                IsMobilePhoneEmpty &&
+                String.isNotBlank(mobilePhonePayload) &&
+                String.isBlank(emailPayload);
 
-            boolean isConfirmationRuleFailed = isEmailMismatch || isMobilePhoneMismatch;
+            boolean isMatchFound =
+                isMatchFoundByBlankEmailMobile ||
+                isMatchFoundByBlankEmail ||
+                isMatchFoundByBlankMobile;
 
-            if (isConfirmationRuleFailed) {
-                return new MatchingResult(
-                    NATURAL_KEY_STEM_MATCHING_TYPE,
-                    'Contact Record does not match email and/or mobile provided'
-                );
+            if (isMatchFound) {
+                matchingContacts.add(con);
             }
+        }
 
-            //if existing contact emails and mobile phone are null 
-            //or if one of the emails matched with the payload email
-            //or if mobilephone matched with the payload mobilephone
-            matchingContacts.add(con);
+        if (matchingContacts.isEmpty()) {
+            return new MatchingResult(
+                NATURAL_KEY_STEM_MATCHING_TYPE,
+                'Contact Record does not match email and/or mobile provided'
+            );
         }
 
         return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
@@ -171,13 +183,13 @@ public inherited sharing class NaturalKeyMatchingValidator {
             return;
         }
 
-         // Generate unique natural keys for base fields of the contact and add them to the map
-         buildUniqueNaturalKeyContactMap('', existingContact, naturalKeyMatchingMap);
+        // Generate unique natural keys for base fields of the contact and add them to the map
+        buildUniqueNaturalKeyContactMap('', existingContact, naturalKeyMatchingMap);
 
-         // Generate unique natural keys for Email or Mobile fields of the contact and add them to the map
-         for (String fieldApiName : ContactMatchingService.KEY_FIELDS_ON_CONTACT) {
-             buildUniqueNaturalKeyContactMap(fieldApiName, existingContact, naturalKeyMatchingMap);
-         }
+        // Generate unique natural keys for Email or Mobile fields of the contact and add them to the map
+        for (String fieldApiName : ContactMatchingService.KEY_FIELDS_ON_CONTACT) {
+            buildUniqueNaturalKeyContactMap(fieldApiName, existingContact, naturalKeyMatchingMap);
+        }
     }
 
     /**
@@ -210,7 +222,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
         uniqueKey += contact.Matching_Lastname__c;
         uniqueKey += String.valueOf(contact.Birthdate);
 
-        if  (String.isNotBlank(fieldApiName) &&  contact.get(fieldApiName) == null){
+        if (String.isNotBlank(fieldApiName) && contact.get(fieldApiName) == null) {
             return;
         }
 
