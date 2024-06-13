@@ -12,6 +12,14 @@
  */
 
 public inherited sharing class ContactMatchingStagingTriggerHelper {
+    
+    private static boolean isBatchJobRunning = false;
+
+    /**
+     * Processes the given list of new Contact Matching Staging records to identify duplicate existing matching records and execute a batch.
+     *
+     * @param newItems The list of new Contact Matching Staging records.
+     */
     public static void executeContactMatchingBatch(List<Contact_Matching_Staging__c> newItems) {
         try {
             for (Contact_Matching_Staging__c conMatchingStaging : newItems) {
@@ -19,15 +27,29 @@ public inherited sharing class ContactMatchingStagingTriggerHelper {
                 conMatchingStaging.Batch_Process__c = ContactMatchingStagingsDAO.INSERT_PROCESS;
             }
 
+            Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+                .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.CONTACT_MATCHING_STAGING_BATCH);
+                
+            // if batch is already running
+            // or batch is not active 
+            // return (skip the soql and dont execute the batch)
+            if (isBatchJobRunning || !cmsConfig.IsActive__c) {
+                return;
+            }
+            
             List<AsyncApexJob> jobs = AsyncApexJobsDAO.newInstance()
                 .getRunningJobsByNameAndIdExemption(
-                    new Set<String>{ 'ContactMatchingStagingBatch' },
+                    new Set<String>{ ConMatchingServiceConfigurationsDAO.CONTACT_MATCHING_STAGING_BATCH },
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
 
             if (jobs.isEmpty()) {
-                Database.executeBatch(new ContactMatchingStagingBatch());
+                isBatchJobRunning = true;
+                Database.executeBatch(
+                    new ContactMatchingStagingBatch(),
+                    (Integer) cmsConfig.Size__c
+                );
             }
         } catch (Exception e) {
             NebulaLoggerService.logExceptionDetails(
