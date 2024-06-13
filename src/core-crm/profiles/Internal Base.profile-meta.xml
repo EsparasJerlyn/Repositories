@@ -14,6 +14,10 @@
         <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Case-Outreach Case Layout</layout>
+        <recordType>Case.Outreach</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Assessment__c-Assessment Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
