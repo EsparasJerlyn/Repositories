@@ -4,7 +4,7 @@
         <description>Logs an Error to the Nebula Logger</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1106</locationX>
+        <locationX>842</locationX>
         <locationY>998</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -41,43 +41,10 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
-        <name>Save_Appointment</name>
-        <label>Save Appointment</label>
-        <locationX>578</locationX>
-        <locationY>890</locationY>
-        <actionName>saveAppointment</actionName>
-        <actionType>saveAppointment</actionType>
-        <connector>
-            <targetReference>Confirmation_Screen</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>serviceAppointmentFields</name>
-            <value>
-                <elementReference>serviceAppointmentFields</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>selectedTimezone</name>
-            <value>
-                <elementReference>selectedTimezone</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>saveAppointment</nameSegment>
-        <outputParameters>
-            <assignToReference>ServiceAppointment.Id</assignToReference>
-            <name>serviceAppointmentId</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <description>Saves the Error Action of the Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1106</locationX>
+        <locationX>842</locationX>
         <locationY>1106</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
@@ -102,7 +69,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Save_Appointment</targetReference>
+            <targetReference>Update_Appointment</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -292,9 +259,11 @@
         <name>Update_Appointment</name>
         <label>Update Appointment</label>
         <locationX>578</locationX>
-        <locationY>1106</locationY>
+        <locationY>890</locationY>
+        <connector>
+            <targetReference>Confirmation_Screen</targetReference>
+        </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>ServiceAppointment</inputReference>
@@ -308,9 +277,6 @@
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Update_Appointment</targetReference>
-        </connector>
         <fields>
             <name>Your_Appointment_Has_Been_Updated</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 28px; color: rgb(1, 118, 211);&quot;&gt;Your Appointment Has Been Updated&lt;/strong&gt;&lt;/p&gt;</fieldText>
@@ -327,7 +293,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1106</locationX>
+        <locationX>842</locationX>
         <locationY>1214</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
