@@ -1,6 +1,6 @@
 System.debug(LoggingLevel.DEBUG, 'schedule-RetryAddressValidationBatchScheduler.apex');//NOPMD
  
-String cronExp = Label.Retry_Address_Validation_Cron_Expression;
+String cronExp = '0 0 2 ? * *';
 String ClassName = 'RetryAddressValidationBatchScheduler';
  
 list<AsyncApexJob> aJob= [

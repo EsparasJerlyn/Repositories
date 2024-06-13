@@ -21,7 +21,7 @@ public with sharing class RetryAddressValidationBatchSchedulerTest {
     @isTest
     static void schedulerTest(){
 		System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            String cronExpression = Label.Retry_Address_Validation_Cron_Expression;
+            String cronExpression = '0 0 2 ? * *';
             
             Test.startTest();
                 RetryAddressValidationBatchScheduler scheduler = new RetryAddressValidationBatchScheduler();

@@ -944,11 +944,4 @@
         <shortDescription>ESBEndpointProcessAddress</shortDescription>
         <value>/consumer/dep/v1/event/processAddress</value>
     </labels>
-    <labels>
-        <fullName>Retry_Address_Validation_Cron_Expression</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Retry Address Validation Cron Expression</shortDescription>
-        <value>0 0 2 ? * *</value>
-    </labels>
 </CustomLabels>
