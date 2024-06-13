@@ -118,7 +118,7 @@ public inherited sharing class NaturalKeyMatchingValidator {
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKeyForMobile));
         }
 
-        // if contact(s) were found by email or mobile matching, return matching results
+        // if contact(s) were found by natural key, w/ email or w/ mobile, return matching results
         if (!matchingContacts.isEmpty()) {
             return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
         }

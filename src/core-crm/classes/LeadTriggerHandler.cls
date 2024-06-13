@@ -20,6 +20,7 @@
  *    | roy.nino.s.regala              | November 1, 2023      | DEPP-7105              | Updated creation of marketing |
  *    | roy.nino.s.regala              | November 1, 2023      | DEPP-7105              | segmentation to future        |
  *    | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Added Checking for async call | 
+ *    | sebastianne.k.trias            | June 06, 2024         | DEPP-8474              | added setOptOutAndInDates     |
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -28,6 +29,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      * @param newItems - List of Lead.Trigger.new
      */
     public void beforeInsert(List<SObject> newItems) {
+        MarketingConsentHelper.setOptOutAndInDates(newItems, null, 'Lead');
         LeadService.setLeadSourceAndLeadSourceCategoryFields((List<Lead>) newItems);
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
     }
@@ -41,6 +43,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
+        MarketingConsentHelper.setOptOutAndInDates(newItems.values(), oldItems, 'Lead');
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values());

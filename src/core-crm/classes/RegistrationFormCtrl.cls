@@ -155,11 +155,8 @@ public without sharing class RegistrationFormCtrl {
 
         if(parsedRegistrationData.isOptIn == true){
           existingContact.HasOptedOutOfEmail = false;
-          existingContact.Email_Opt_In_DateTime__c = System.now();
           existingContact.Consent_Source__c = storeLinkSettings.Study_Store_Link__c;
           existingContact.Consent_Source_Category__c = 'Study Application';
-        }else{
-          existingContact.HasOptedOutOfEmail = true;
         }
 
         update existingContact;
@@ -524,8 +521,6 @@ public without sharing class RegistrationFormCtrl {
       c.Email_Opt_In_DateTime__c = System.now();
       c.Consent_Source__c = storeLinkSettings.Study_Store_Link__c;
       c.Consent_Source_Category__c = 'Study Application';
-    }else{
-      c.HasOptedOutOfEmail = true;
     }
 
     insert (c);

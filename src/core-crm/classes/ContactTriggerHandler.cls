@@ -40,6 +40,7 @@
       |                                |                       |                        | on beforeUpdate trigger event                   |
       | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Updated convertLead method to check transaction |
       |                                |                       |                        | is running on async call                        |
+      | sebastianne.k.trias            | June 06, 2024         | DEPP-8474              | modify setOptOutAndInDates                      |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -58,7 +59,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    */
   public void beforeInsert(List<SObject> newItems) {
 
-    MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems, null);
+    MarketingConsentHelper.setOptOutAndInDates(newItems, null, 'Contact');
     ContactTriggerHelper.reparentAccount((List<Contact>)newItems);
     ContactImageHelper.validateContactImageFile((List<Contact>) newItems);
     // Call method to detect if emails used in contacts creation is already being used
@@ -85,7 +86,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     // Call method to detect if emails used in contacts update is already being used
     // anywhere on the organization.
-    MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
+    MarketingConsentHelper.setOptOutAndInDates(newItems.values(), oldItems, 'Contact');
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
