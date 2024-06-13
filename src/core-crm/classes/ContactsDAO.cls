@@ -276,7 +276,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'OR QUT_Learner_Email__c IN :emailSet ' +
             'OR Work_Email__c IN :emailSet ' +
             'OR MobilePhone IN :mobilePhoneSet))) ' + 
-            'AND NOT IN: excludedIdsSet ',
+            'AND ID NOT IN: excludedIdsSet ',
             accessLevel
         );
     }
