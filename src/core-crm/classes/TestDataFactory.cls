@@ -2665,7 +2665,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2679,7 +2679,7 @@ public class TestDataFactory {
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'System_Administrator';
+                permSets = 'System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
