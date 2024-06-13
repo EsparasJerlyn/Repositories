@@ -190,11 +190,12 @@ private class NaturalKeyMatchingValidatorTest {
             newContact.LastName = record.LastName;
             newContact.BirthDate = record.BirthDate;
             newContact.Email = record.Email;
+            newContact.MobilePhone = record.MobilePhone;
 
             NaturalKeyMatchingValidator.buildNaturalKeyMatchingMap(newContact,naturalKeyMatchingMap);
         }
 
-        system.assertEquals(80, naturalKeyMatchingMap.keySet().size(), 'map should contain 80 contacts');
+        system.assertEquals(198, naturalKeyMatchingMap.keySet().size(), 'map should contain 198 contacts');
     }
 
     @isTest
