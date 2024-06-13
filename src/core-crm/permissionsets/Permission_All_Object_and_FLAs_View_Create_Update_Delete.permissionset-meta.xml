@@ -4842,11 +4842,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>IP_Management_Relationship__c.Created_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management_Relationship__c.Engagement__c</field>
         <readable>true</readable>
@@ -4899,11 +4894,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management_Relationship__c.Opportunity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>IP_Management_Relationship__c.Owner__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
