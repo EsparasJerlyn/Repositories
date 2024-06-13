@@ -16,6 +16,7 @@
       |                           |                       | DEPP-6654    |                                                                     |  
       | nicole.genon              | Oct. 4, 2023          | DEPP-6821    | Added Citizenship_Status__c field mapping for QTAC matching         |
       | roy.nino.s.regala         | Feb, 23, 2024         | DEPP-7738    | optimized creation of data setup                                    |
+      | sebastianne.k.trias       | June 1, 2024          | DEPP-8474    | Removed modify Opt in/out fields                                    |
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -225,39 +226,6 @@ private class ApplicationTriggerHelperTest {
             System.assert(applicationsToUpdate[0].Agency_Name__c == updatedContact.Agency_Name__c, 'Agency_Name__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Country__c == updatedContact.Agency_Country__c, 'Agency_Country__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Email__c == updatedContact.Agency_Email__c, 'Agency_Email__c not updated correctly.');
-        }
-    }
-
-    @isTest
-    private static void testUpdateContactWhenQTACAppIsInactive(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
-            List<hed__Application__c> applicationToUpdate = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
-            for(hed__Application__c app : applicationToUpdate){
-                app.RecordTypeId = ApplicationsDAO.QTAC_RECTYPE_ID;
-                app.Is_Active__c = false;
-            }
-            Test.startTest();
-            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
-            Contact con = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.SYSTEM_MODE)[0];
-            System.assertEquals(true, con.HasOptedOutOfEmail, 'Marketing field should be false');
-            System.assertEquals(true, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(true, con.DoNotCall, 'Marketing field should be false');
-            System.assertEquals(false, con.Sync_to_MC__c, 'Marketing field should be true');
-            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
-            System.assertEquals('QTAC Application QUT preferences withdrawn',con.Dont_Market_Reason__c, 'Marketing field Dont_Market_Reason__c should be QTAC Application QUT preferences withdrawn');
-            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            
-            Test.stopTest();
         }
     }
 
