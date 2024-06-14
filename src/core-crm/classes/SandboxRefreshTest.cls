@@ -2,12 +2,12 @@
 public class SandboxRefreshTest {
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
     
     @isTest
     public static void testSandboxRefresh() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {    
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {    
             Profile adminUserProfile = [SELECT Id FROM Profile WHERE Name = :SandboxRefresh.ADMIN_PROFILE_NAME]; 
             Profile standardUserProfile = [SELECT Id FROM Profile WHERE Name = 'Standard User']; 
             

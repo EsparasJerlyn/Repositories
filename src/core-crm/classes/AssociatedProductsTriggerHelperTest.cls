@@ -42,9 +42,10 @@ public without sharing class AssociatedProductsTriggerHelperTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
-        
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         System.runAs(PROGRAM_ADMIN){
             WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
             insert testWebStore;
@@ -116,13 +117,12 @@ public without sharing class AssociatedProductsTriggerHelperTest {
             }
             insert priceBookEntryList;
         }
-        Test.stopTest();
-
+        
     }
 
     @isTest
     public static void insertQUTeXLearningSolutionTest() {
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
 
@@ -182,7 +182,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
 
     @isTest
     public static void insertCorporateBundleTest() {
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
 
@@ -242,7 +242,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
 
     @isTest
     public static void insertCBwithProductsTest() {
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
 

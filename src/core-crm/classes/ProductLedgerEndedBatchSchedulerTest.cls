@@ -17,10 +17,10 @@ public class ProductLedgerEndedBatchSchedulerTest {
     static void testProductLedgerScheduler(){
 
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
 
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){              
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){              
             String cronExpression = Label.Product_Ledger_Ended_Cron_Expression;
             
             String jobId = System.Schedule('Test Product Ledger daily at 12AM', cronExpression, new ProductLedgerEndedBatchScheduler());

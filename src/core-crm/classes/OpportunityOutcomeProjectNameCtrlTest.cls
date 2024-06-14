@@ -14,7 +14,9 @@
 public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
+        Test.stopTest();
 
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
@@ -32,7 +34,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
             Name = 'RPO: Sample', 
             StageName = 'Qualify', 
             CloseDate = System.today() + 50, 
-            OwnerId = TestDataFactory.getOperationsManager().Id
+            OwnerId = TestDataFactoryUser.selectUserIndustryOperationsManager.Id
         );
 
         Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
@@ -45,7 +47,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createRPPRecord() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
@@ -58,7 +60,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createINPRecord() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
@@ -71,7 +73,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createRCPRecord() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
@@ -84,7 +86,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createRCCRecord() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.STARTUP_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;

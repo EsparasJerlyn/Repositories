@@ -17,12 +17,13 @@ public with sharing class StudySSORegHandlerTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @IsTest
     static void checkEmailDetailTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             StudySSORegHandler handler = new StudySSORegHandler();
             Auth.UserData data = TestDataFactory.createCommunityUser('testdata@test.com', 'Data', 'Test', 'tUser');
 
@@ -46,10 +47,10 @@ public with sharing class StudySSORegHandlerTest {
 
     @isTest
     static void updateUserTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             StudySSORegHandler handler = new StudySSORegHandler();
             Auth.UserData data = TestDataFactory.createCommunityUser('testdata@test.com', 'Data', 'Test', 'tUser');
-            Id userId = TestDataFactory.getProgramAdminUser()?.Id;
+            Id userId = TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id;
             handler.updateUser(userId, null, data);
             User updatedUser = [SELECT Id, LastName, FirstName FROM User WHERE LastName='Data' AND FirstName='Test' LIMIT 1];
             System.assert(updatedUser != null, 'User was not updated.');

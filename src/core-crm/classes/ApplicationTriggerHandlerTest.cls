@@ -21,23 +21,23 @@ private class ApplicationTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ApplicationsDAO.newInstance()
                 .insertRecords(
                     createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'New'),
                     false,
                     AccessLevel.SYSTEM_MODE
                 );
-            Test.stopTest();
         }
     }
     
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -54,7 +54,7 @@ private class ApplicationTriggerHandlerTest {
     
     @isTest
     private static void testApplicationBatchUpdateStatus() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<hed__Application__c> applicationsList = [SELECT Id FROM hed__Application__c LIMIT: recordsCount];
             

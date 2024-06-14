@@ -48,9 +48,11 @@ public with sharing class Product2TriggerHandlerTest {
 
   @testSetup
   static void setupMethod() {
-    TestDataFactory.generateTestUsers();
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
-      Test.startTest();
+    Test.startTest();
+    TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    Test.stopTest();
+
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
       insert testWebStore;
 
@@ -176,13 +178,12 @@ public with sharing class Product2TriggerHandlerTest {
         );
       insert prodCategTTE;
       
-      Test.stopTest();
     }
   }
 
   @IsTest
   private static void validateFacilConImageTest() {
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+    final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
     DmlException expectedException;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
@@ -215,7 +216,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void decomissonProduct() {
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+    final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
     System.runAs(PROGRAM_ADMIN) {
       List<Product2> prod2List = [
         SELECT Id, Decommission_Product__c,
@@ -245,7 +246,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void includeProductToStoreCCETest() {
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+    final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -336,7 +337,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void includeProductToStoreOPETest() {
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+    final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -431,7 +432,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void courseReleaseToPublishTest() {
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+    final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -477,7 +478,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void programReleaseToPublishTest() {
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+    final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
     System.runAs(PROGRAM_ADMIN) {
       Test.startTest();
 
@@ -526,7 +527,7 @@ public with sharing class Product2TriggerHandlerTest {
 
   @IsTest
   private static void validateDoNotShowStartDateTest() {
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       Test.startTest();
 
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

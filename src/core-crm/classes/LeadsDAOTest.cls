@@ -18,13 +18,14 @@
 public with sharing class LeadsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
     }
 
     @isTest
     static void getExistingUnconvertedLeadsByEmailTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getExistingUnconvertedLeadsByEmail(
                     new Set<String>(),
@@ -39,7 +40,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLeadsWithLimitTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
@@ -49,7 +50,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new LeadsDAO().getSObjectType() == Lead.SObjectType,
                 'SObject is not Lead'
@@ -61,7 +62,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getExistingUnconvertedLeadsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getExistingUnconvertedLeads(
                     new Set<String>(),
@@ -75,7 +76,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLearnerLeadsByCalculatedCadencesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLearnerLeadsByCalculatedCadences(
                     new Set<String>()
@@ -88,7 +89,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLeadsCalculatedCadenceByIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLeadsCalculatedCadenceByIds(
                     new Set<String>(),
@@ -102,7 +103,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLeadsByCaseMobileTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLeadsByCaseMobile(
                     new Set<String>(),
@@ -116,7 +117,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLeadsByIdSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLeadsByIdSet(
                     new Set<Id>(),
@@ -130,7 +131,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLeadsByIdSetAndTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLeadsByIdSetAndType(
                     new Set<Id>(),
@@ -150,7 +151,7 @@ public with sharing class LeadsDAOTest {
         objList[0].LastName = 'lastname';
         objList[0].Email = 'firstlast@mail.test';
         objList[0].MobilePhone = '1234567';
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             LeadsDAO.QueryParamWrapperEmailOrName leadQueryParam = new LeadsDAO.QueryParamWrapperEmailOrName(
                 objList[0].Email, objList[0].FirstName, objList[0].LastName , objList[0].MobilePhone
             );
@@ -169,7 +170,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getLeadMobilePhoneByRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLeadMobilePhoneByRecordIds(
                     new Set<Id>(),
@@ -182,7 +183,7 @@ public with sharing class LeadsDAOTest {
 
     @isTest
     static void queryLocatorGetLeadsByIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 LeadsDAO.newInstance().queryLocatorGetLeadsByIds(
@@ -197,7 +198,7 @@ public with sharing class LeadsDAOTest {
 
     @isTest
     static void getLearnerLeadsByEmailOrWorkEmailTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
                 new Set<String>{'test@mail.test'},
@@ -210,7 +211,7 @@ public with sharing class LeadsDAOTest {
 
     @isTest
     static void getLearnerLeadsByEmailOrWorkEmailEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
                 new Set<String>(),
@@ -223,7 +224,7 @@ public with sharing class LeadsDAOTest {
 
     @isTest
     static void getLearnerLeadsByEmailOrWorkEmailBothEmailSetsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
                 new Set<String>{'test.email@mail.test'},
@@ -237,7 +238,7 @@ public with sharing class LeadsDAOTest {
 
     @isTest
     static void getLearnerLeadsByEmailOrWorkEmailBothEmailSetsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
                 new Set<String>(),
@@ -252,7 +253,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getUnconvertedLeadsByIdSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             MockIdGenerator leadMock = new MockIdGenerator(Lead.sObjectType);
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getUnconvertedLeadsByIdSet(
@@ -267,7 +268,7 @@ public with sharing class LeadsDAOTest {
     @isTest
     static void getUnconvertedLeadsByIdSetEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getUnconvertedLeadsByIdSet(
                     new Set<Id>(),

@@ -18,9 +18,10 @@ public with sharing class PaymentConfirmationCtrlTest {
   static void setupMethod() {
     BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
     insert bypass;
-    TestDataFactory.generateTestUsers();
     Test.startTest();
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    TestDataFactoryUser.generateUserSystemAdministrator();
+    Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     //create account
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -233,12 +234,11 @@ public with sharing class PaymentConfirmationCtrlTest {
       CatalogId = prodCatalog.Id
     );
     insert prodCateg;
-    Test.stopTest();
   }
 
   @isTest
   static void getCartDataTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
       WebCart webC = [
         SELECT Id, External_Id__c, OwnerId
@@ -265,7 +265,7 @@ public with sharing class PaymentConfirmationCtrlTest {
 
   @isTest
   static void checkCartOwnerShipTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
       WebCart cart = [SELECT Id, OwnerId, Name, External_Id__c FROM WebCart LIMIT 1];
         
@@ -313,7 +313,7 @@ public with sharing class PaymentConfirmationCtrlTest {
 
   @isTest
   static void updateWebCartTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
     WebCart webCart = [
       SELECT 
