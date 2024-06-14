@@ -14,10 +14,11 @@
 public with sharing class ProgramEnrollmentTriggerHelperTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
@@ -46,7 +47,6 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
             }
             programEnListToInsert.addAll(programEnList);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListToInsert, true, AccessLevel.SYSTEM_MODE);
-            Test.stopTest();
             
             List<Marketing_Segmentation__c> marketingSegmentationConList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
             List<Marketing_Segmentation__c> mktgSegConToUpdate = new List<Marketing_Segmentation__c>();
@@ -61,7 +61,7 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
 
     @isTest
     public static void resetLeadScoreTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
 

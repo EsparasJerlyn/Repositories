@@ -11,13 +11,13 @@ public with sharing class CommunitiesLandingControllerTest {
         ProductCategory prodCateg = new ProductCategory( Name = 'Products',CatalogId = prodCatalog.Id);
     	insert prodCateg;
         
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         
 	}
     
 	@isTest
     public static void testCommunitiesLandingController() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             // Instantiate a new controller with all parameters in the page
             CommunitiesLandingController controller = new CommunitiesLandingController();

@@ -5,8 +5,10 @@ public class SAMSRegisterLearnerBatchHandlerTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setup() {
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
                 acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -41,7 +43,7 @@ public class SAMSRegisterLearnerBatchHandlerTest {
     @isTest
     static void testLearnerRegisterUpdate() 
     {   
-        System.runAs(TestDataFactory.getProgramAdminUser()) {     
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {     
             Test.startTest();
             SAMSRegisterLearnerBatchHandler job = new SAMSRegisterLearnerBatchHandler();
             DataBase.executeBatch(job, 1); 

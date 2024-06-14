@@ -18,13 +18,13 @@ public with sharing class ApplicationsDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getApplicationsBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsBySetIds(
                     new Set<Id>(),
@@ -38,7 +38,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ApplicationsDAO().getSObjectType() == hed__Application__c.SObjectType,
                 'SObject is not hed__Application__c'
@@ -50,7 +50,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadIds(
                     new Set<Id>(),
@@ -64,7 +64,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByContactIds(
                     new Set<Id>(),
@@ -78,7 +78,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getQtacApplicationsWithQtacApplicantIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getQtacApplicationsWithQtacApplicantId(
                     new List<String>(),
@@ -92,7 +92,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsActiveApplicantsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsActiveApplicants(
                     new Set<Id>(),
@@ -106,7 +106,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadOrContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadOrContactIds(
                     new Set<String>(),
@@ -121,7 +121,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getAppsWithLatestCalculatedIntakeDateByApplicantIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getAppsWithLatestCalculatedIntakeDateByApplicantIds(
                     new Set<Id>(),
@@ -135,7 +135,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadIdOrContactIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadIdOrContactId(
                     new Set<String>(),
@@ -147,7 +147,7 @@ public with sharing class ApplicationsDAOTest {
     }
     
     static void queryApplicationsByPastIntakeDateAndActiveApplicantsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 ApplicationsDAO.newInstance().queryApplicationsByPastIntakeDateAndActiveApplicants('SYSTEM_MODE') != null,

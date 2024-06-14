@@ -631,7 +631,7 @@ public class TestDataFactory {
      */
     public static List<Product_Specification__c> retrieveCCEProductSpecifications() {
         List<Product_Specification__c> prodSpecList = [
-            SELECT Id, RecordTypeId
+            SELECT Id, RecordTypeId, Program_Name__c, Product_Specification_Name__c
             FROM Product_Specification__c
             WHERE RecordType.DeveloperName = 'CCE'
         ];

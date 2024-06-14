@@ -13,13 +13,13 @@
 public with sharing class ProgramEnrollmentsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getProgramEnrollmentsByIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
                 .getProgramEnrollmentsById(
                     new Set<Id>(),
@@ -33,7 +33,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ProgramEnrollmentsDAO().getSObjectType() == hed__Program_Enrollment__c.SObjectType,
                 'SObject is not hed__Program_Enrollment__c'
@@ -45,7 +45,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
     @isTest
     static void getProgramEnrollmentsByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
                 .getProgramEnrollmentsByContactIds(
                     new Set<Id>(),
@@ -59,7 +59,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
     @isTest
     static void getProgramEnrollmentsByContactIdAndStatusTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
                 .getProgramEnrollmentsByContactIdAndStatus(
                     new Set<Id>(),
@@ -74,7 +74,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
     @isTest
     static void getAllProgramEnrollmentsByContactIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
                 .getAllProgramEnrollmentsByContactId(
                     new Set<Id>(),
@@ -87,7 +87,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
 
     @isTest
     static void queryLocatorGetAllProgramEnrollmentsByContactIdTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 ProgramEnrollmentsDAO.newInstance().queryLocatorGetAllProgramEnrollmentsByContactId(

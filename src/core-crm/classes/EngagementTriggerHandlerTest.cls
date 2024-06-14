@@ -12,7 +12,7 @@
 public with sharing class EngagementTriggerHandlerTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
         Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         engCodeAutoNum.Commercialisation__c = 1;
         engCodeAutoNum.Research_Partnership__c = 1;
@@ -25,7 +25,7 @@ public with sharing class EngagementTriggerHandlerTest {
     
     @isTest
     private static void createRCERecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
@@ -44,7 +44,7 @@ public with sharing class EngagementTriggerHandlerTest {
     
     @isTest
     private static void createRCERecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
@@ -67,7 +67,7 @@ public with sharing class EngagementTriggerHandlerTest {
     
     @isTest
     private static void createRPERecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
@@ -86,7 +86,7 @@ public with sharing class EngagementTriggerHandlerTest {
     
     @isTest
     private static void createRPERecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
@@ -109,7 +109,7 @@ public with sharing class EngagementTriggerHandlerTest {
     
     @isTest
     private static void createComboRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Engagement__c> engs = new List<Engagement__c>();
             engs.addAll(TestDataFactory.createTestEngagementRecords(30, 'RCE - ', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID));
             engs.addAll(TestDataFactory.createTestEngagementRecords(40, 'RPE - ', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));

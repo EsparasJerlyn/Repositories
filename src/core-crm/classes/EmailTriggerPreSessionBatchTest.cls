@@ -19,13 +19,13 @@ public with sharing class EmailTriggerPreSessionBatchTest {
 
     @TestSetup
     static void makeData(){
-      TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
 	@isTest
     public static void testEmailTriggerPreSessionBatch() {
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             // ACCOUNT
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
