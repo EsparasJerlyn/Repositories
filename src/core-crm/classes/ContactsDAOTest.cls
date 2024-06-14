@@ -124,7 +124,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsByMatchingAttributesEmptyTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Contact> contactList = ContactsDAO.newInstance().getContactsByMatchingAttributes(
                 new Map<String,Set<String>>(),
                 new Set<Date>(), 
@@ -138,7 +138,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsByMatchingAttributesTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             Map<String,Set<String>> fieldSetMap = new Map<String,Set<String>>();
             
@@ -445,7 +445,7 @@ private class ContactsDAOTest {
     @isTest
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -467,7 +467,7 @@ private class ContactsDAOTest {
     @isTest
     static void getWhereClauseByCriteriaNoCitizenshipTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -488,7 +488,7 @@ private class ContactsDAOTest {
     @isTest
     static void getWhereClauseByNoCriteria() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
             String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
             String expectedWhereClause = '';
@@ -500,7 +500,7 @@ private class ContactsDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
             contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactListCreated[0].QUT_Student__c = true;
@@ -530,7 +530,7 @@ private class ContactsDAOTest {
         contactListCreated[0].QUT_Student__c = false;
         ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setIsQUTStudent(true);
@@ -547,7 +547,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getQueryLocatorByCriteriaTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
@@ -570,7 +570,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getQueryLocatorBySubQueryTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -604,7 +604,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactByStudentIdTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contact = TestDataFactory.createTestContactRecords(1);
             contact[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contact[0].QUT_Student__c = true;
@@ -625,7 +625,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactByStudentIdNegativeSTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactByStudentId(
