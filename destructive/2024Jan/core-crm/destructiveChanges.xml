@@ -250,5 +250,10 @@
         <!--(End) DEPP-6995 -->
         <name>CustomMetadata</name>
     </types>
+    <types>
+        <!--DEPP-8951-->
+        <members>DigitalMarketing</members>
+        <name>Reportfolder</name>
+    </types>
     <version>59.0</version> 
 </Package>
