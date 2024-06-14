@@ -19,17 +19,19 @@ public with sharing class ServiceAppointmentServiceTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_International_Future_Student_Agent'});
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        Test.stopTest();
      
         List<Account> accList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.SYSTEM_MODE);
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
         	List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
         	WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
         }
         
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
         	List<WorkType> workTypesInt = TestDataFactory.createTestWorkTypeRecords();
         	WorkTypesDAO.newInstance().insertRecords(workTypesInt, false, AccessLevel.SYSTEM_MODE);
             List<EmailTemplate> internationalEmailTemplate = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String, String> {'Bookable Appointment - International Confirmation' => 'Appointment Confirmation'});
@@ -40,12 +42,11 @@ public with sharing class ServiceAppointmentServiceTest {
             EmailTemplatesDAO.newInstance().insertRecords(internationalEmailTemplate,false, AccessLevel.SYSTEM_MODE);
         }
 
-        Test.stopTest();
     }
 
     @isTest
     private static void sendConfirmationEmailToInternationalServiceAppointmentsTest() {
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -86,7 +87,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
     @isTest
     private static void sendConfirmationEmailToDomesticServiceAppointmentsTest() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -131,7 +132,7 @@ public with sharing class ServiceAppointmentServiceTest {
     @isTest
     private static void sendEmailAfterServiceAppointmentCancellationTest() {
 
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
 
             Test.startTest();
 
@@ -197,7 +198,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
     @isTest
     private static void sendConfirmationEmailToInternationalServiceAppointmentsFailedTest() {
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);

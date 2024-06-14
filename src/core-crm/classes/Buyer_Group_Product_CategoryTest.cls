@@ -23,13 +23,13 @@ public with sharing class Buyer_Group_Product_CategoryTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
         
     @isTest
     private static void createBuyerGroupTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
             for(Account acc: accountList){

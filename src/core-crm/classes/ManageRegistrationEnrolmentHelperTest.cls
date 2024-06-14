@@ -30,14 +30,15 @@ public class ManageRegistrationEnrolmentHelperTest {
      static void setupData(){
           
           Test.startTest();
-          TestDataFactory.generateTestUsers();
+          TestDataFactoryUser.generateUserSystemAdministrator();
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
           Test.stopTest();
           createRecord(RT_ACTIVITY_ID);
      }
 
      @isTest
      static void addRegistrationNewContactTest(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+          final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
           System.runAs(PORTAL_SYS_ADMIN){
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
@@ -117,7 +118,7 @@ public class ManageRegistrationEnrolmentHelperTest {
 
      @isTest
      static void addRegistrationOldContactTest(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+          final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
           System.runAs(PORTAL_SYS_ADMIN){
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
@@ -201,7 +202,7 @@ public class ManageRegistrationEnrolmentHelperTest {
 
      @isTest
      static void addRegistrationNoPriceTest(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+          final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
           System.runAs(PORTAL_SYS_ADMIN){
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
@@ -279,7 +280,7 @@ public class ManageRegistrationEnrolmentHelperTest {
      }
 
      private static void createRecord(String productRequestRecordType){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                BuyerGroup bg = new BuyerGroup();
                bg.Name = 'OPE BuyerGroup';

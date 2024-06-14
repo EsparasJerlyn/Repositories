@@ -14,9 +14,8 @@
 public with sharing class LeadLeadScoreHelperTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
             Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
@@ -35,13 +34,12 @@ public with sharing class LeadLeadScoreHelperTest {
                 mktgSegToUpdate.add(mktgSeg);
             }
             MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegToUpdate, true, AccessLevel.SYSTEM_MODE);
-        }
         
     }
 
     @isTest
     public static void processLeadScoreCalculationDomUGTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<Lead> leadListToUpdate = new List<Lead>();

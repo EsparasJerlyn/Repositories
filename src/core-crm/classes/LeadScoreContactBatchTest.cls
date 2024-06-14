@@ -14,26 +14,23 @@
 public with sharing class LeadScoreContactBatchTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_System_Administrator'});
-        System.runAs(TestDataFactory.getSystemAdminUser()){
-            Test.startTest();
-            setupLeadScoreConfig(
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.UNDETERMINED, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
             );
 
-            List<Contact> contactsToAdd = new List<Contact>();
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(2);
-            contactsToAdd.addAll(contactList);
-            ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
-            Test.stopTest();            
-        }
-        
+        List<Contact> contactsToAdd = new List<Contact>();
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(2);
+        contactsToAdd.addAll(contactList);
+        ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
+        Test.stopTest();  
     }
 
     @isTest
     private static void updateSubCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();

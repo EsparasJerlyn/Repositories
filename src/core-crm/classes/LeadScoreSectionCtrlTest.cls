@@ -15,12 +15,12 @@
 private class LeadScoreSectionCtrlTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     public static void testGetScoreByCitizenshipStudyLvl() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
 
             List<RecordType> recordType = [
@@ -53,7 +53,7 @@ private class LeadScoreSectionCtrlTest {
 
     @isTest
     public static void testGetScoreDomesticStrongInterestPreApplication() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
 
             List<Nurture_Track_Configuration__c> nurtureTrackConfiguration = new List<Nurture_Track_Configuration__c>();

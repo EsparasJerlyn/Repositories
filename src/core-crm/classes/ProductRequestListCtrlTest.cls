@@ -32,7 +32,7 @@ private class ProductRequestListCtrlTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -149,7 +149,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsCourse() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             List<Account> accounts;
             accounts = TestDataFactory.createTestAccountRecords(1);
@@ -187,7 +187,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsProgram() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
             getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id, Product_Specification__c FROM Product_Request__c  WHERE RecordTypeId =: opeProgProdReqId Limit 1].Product_Specification__c));
@@ -198,7 +198,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsCourseWithGrandChild() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
             List<Account> accounts;
@@ -252,7 +252,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsProgramPresWithGrandChild() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
             List<Product_Specification__c> prodSpec = [SELECT Id, Name FROM Product_Specification__c LIMIT 1];
@@ -301,7 +301,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsProgramFlexWithGrandChild() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
             List<Product_Specification__c> prodSpec = [SELECT Id, Name FROM Product_Specification__c LIMIT 1];
@@ -344,7 +344,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsProgramFlex() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
             getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id, Product_Specification__c, (SELECT Id, Program_Delivery_Structure__c FROM Program_Plans__r WHERE Program_Delivery_Structure__c = 'Flexible Program') 
@@ -356,7 +356,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testGetProductRequestsProgramPres() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
             getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id, Product_Specification__c, (SELECT Id, Program_Delivery_Structure__c FROM Program_Plans__r WHERE Program_Delivery_Structure__c = 'Prescribed Program') 
@@ -368,7 +368,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testUpdateProdReqCourseToNotProceeding() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product2 testProduct = [
                 SELECT
                     Id,
@@ -396,7 +396,7 @@ private class ProductRequestListCtrlTest {
 
     @isTest
     static void testUpdateProdReqProgramToNotProceeding() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product2 testProduct = [
                 SELECT
                     Id,

@@ -11,14 +11,14 @@
 @isTest 
 public with sharing class CustomCommunitiesLandingControllerTest {
     @testSetup static void setupMethod() {
-     TestDataFactory.generateTestUsers();
+     TestDataFactoryUser.generateUserSystemAdministrator();
  		WebStore testWebStore = new WebStore( Name = 'CCE', DefaultLanguage = 'en_US');
     	     insert testWebStore; 
 	}
     
 	@isTest
     public static void testCustomCommunitiesLandingController() {
-     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+     final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
      Test.startTest();
      System.runAs(PORTAL_SYS_ADMIN){
           // Instantiate a new controller with all parameters in the page

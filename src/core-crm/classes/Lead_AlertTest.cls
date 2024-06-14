@@ -17,12 +17,12 @@ public without sharing class Lead_AlertTest {
 
     @testSetup static void setup() {
         // Generate test users.
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTMarketingCloud();
     }
 
     @isTest
     public static void testInternationalLeadAlert() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Test.startTest();
             Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
             marketingStaging.First_Name__c = 'Test1';
@@ -50,7 +50,7 @@ public without sharing class Lead_AlertTest {
 
     @isTest
     public static void testDomesticLeadAlert() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Test.startTest();
             Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
             marketingStaging.First_Name__c = 'Test1';
@@ -78,7 +78,7 @@ public without sharing class Lead_AlertTest {
 
     @isTest
     public static void testResearchLeadAlert() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Test.startTest();
             Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
             marketingStaging.First_Name__c = 'Test1';
@@ -106,7 +106,7 @@ public without sharing class Lead_AlertTest {
 
     @isTest
     public static void testQTACLeadAlert() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Test.startTest();
             Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
             marketingStaging.First_Name__c = 'Test1';
@@ -135,7 +135,7 @@ public without sharing class Lead_AlertTest {
 
     @isTest
     public static void testExchangeLeadAlert() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Test.startTest();
             Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
             marketingStaging.First_Name__c = 'Test1';

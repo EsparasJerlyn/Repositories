@@ -21,11 +21,11 @@ private class Lead_Score_Config_Max_Score_UpdateTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
     @isTest
     static void updateMaxScoreOnParentConfigurationTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             Test.startTest();
                 Decimal totalMaxScore = 0;
                 //Create Parent Record

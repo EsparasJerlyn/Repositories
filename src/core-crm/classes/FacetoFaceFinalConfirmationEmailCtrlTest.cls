@@ -17,18 +17,19 @@ public with sharing class FacetoFaceFinalConfirmationEmailCtrlTest{
 
   @testSetup
   static void makeData(){
-    TestDataFactory.generateTestUsers();
     Test.startTest();
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    Test.stopTest();
+
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
       insert bypass;
     }
-    Test.stopTest();
   }
 
   @isTest
   public static void controllerTest(){
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for (Account acc : accounts){
