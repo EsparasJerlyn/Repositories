@@ -57,13 +57,13 @@ private class LoqateMobileValidationBatchTest {
         leads.addAll(leadsNZ);
         insert leads;
 
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
 
     }
 
     @isTest
     private static void validateContactPhoneFieldsTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
 
@@ -77,7 +77,7 @@ private class LoqateMobileValidationBatchTest {
     }
     @isTest
     private static void validateLeadPhoneFieldsTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
 

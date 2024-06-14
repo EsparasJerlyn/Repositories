@@ -30,9 +30,10 @@ public with sharing class RelatedProductsCtrlTest {
      @testSetup 
      static void setupMethod() {
          Test.startTest();
-         TestDataFactory.generateTestUsers();
+         TestDataFactoryUser.generateUserSystemAdministrator();
+         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
          Test.stopTest();
-         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();  
+         final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;  
 
          System.runAs(PORTAL_SYS_ADMIN){
  
@@ -181,7 +182,7 @@ public with sharing class RelatedProductsCtrlTest {
 
      @isTest
      public static void getProductsWithPricingTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                List<Product_Request__c> prList = new List<Product_Request__c>([
                     SELECT Id FROM Product_Request__c 
                     WHERE Product_Specification__r.RecordType.DeveloperName = 'CCE'
@@ -201,7 +202,7 @@ public with sharing class RelatedProductsCtrlTest {
 
      @isTest
      public static void getProductsTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                List<Product2> allProducts = new List<Product2>([
                     SELECT Id 
                     FROM Product2
@@ -233,7 +234,7 @@ public with sharing class RelatedProductsCtrlTest {
 
      @isTest
      public static void upsertPricebookEntriesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                List<PricebookEntry> allPbEntry = new List<PricebookEntry>([
                     SELECT Id, UnitPrice
@@ -256,7 +257,7 @@ public with sharing class RelatedProductsCtrlTest {
 
      @isTest
      public static void upsertAssociatedProductstTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                List<Associated_Products__c> allAssocProd = new List<Associated_Products__c>([
                     SELECT Id, IsActive__c

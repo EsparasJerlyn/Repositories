@@ -11,13 +11,13 @@
 public with sharing class SMSTemplatesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 new SMSTemplatesDAO().getSObjectType() == SMS_Template__c.SObjectType,
                 'SObject is not SMS_Template__c'
@@ -28,7 +28,7 @@ public with sharing class SMSTemplatesDAOTest {
 
     @isTest
     static void getActiveSMSTemplatesTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             System.assert(
                 SMSTemplatesDAO.newInstance().getActiveSMSTemplates(AccessLevel.SYSTEM_MODE) != null,

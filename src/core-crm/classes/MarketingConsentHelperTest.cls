@@ -17,10 +17,11 @@
 
 	@testSetup
     static void setupMethod() {
-        
-        TestDataFactory.generateTestUsers();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+		Test.stopTest();
 		
-		System.runAs(TestDataFactory.getProgramAdminUser()){
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 			List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
 			for(integer i = 0; i < 49; i++){
 				contactList[i].Consent_Source_Category__c = 'Study Application';
@@ -40,7 +41,7 @@
  
 	 @isTest
 	 public static void optInToOptOutTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()){
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 			List<Contact> contactList = new List<Contact>([
 				SELECT Id, HasOptedOutOfEmail
 				FROM Contact
@@ -64,7 +65,7 @@
 
 	 @isTest
 	 public static void optInToOptInNullPrimaryTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()){
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
 			List<Contact> contactList = new List<Contact>([
 				SELECT Id, HasOptedOutOfEmail, Email_Opt_In_DateTime__c, Marketing_Segmentation__c
@@ -95,7 +96,7 @@
 
 	 @isTest
 	 public static void optInToOptInTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()){
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
 			List<Contact> contactList = new List<Contact>([
 				SELECT Id, HasOptedOutOfEmail, Email_Opt_In_DateTime__c, Marketing_Segmentation__c

@@ -21,9 +21,10 @@ public with sharing class CaseMarketingHelperTest {
     
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(0,50);
             for(Integer i = 0; i < contactList.size(); i++){
@@ -39,12 +40,12 @@ public with sharing class CaseMarketingHelperTest {
             }
             LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.USER_MODE);
         }
-        Test.stopTest();
+        
     }
 
     @isTest
     static void insertCaseAndMapContactMarketingFields(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Case> cases = new List<Case>();
             for(Integer i = 0; i < 50; i++){
@@ -86,7 +87,7 @@ public with sharing class CaseMarketingHelperTest {
 
     @isTest
     static void insertCaseAndMapLeadMarketingFields(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Case> cases = new List<Case>();
             for(Integer i = 0; i < 50; i++){
@@ -128,7 +129,7 @@ public with sharing class CaseMarketingHelperTest {
     
     @isTest
     static void insertCaseAssociatedToContact(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
                         
             List<Contact> contactToUpdate = new List<Contact>();
             Map<String,Contact> contactMap = new Map<String,Contact>();          
