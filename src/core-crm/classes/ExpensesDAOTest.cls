@@ -12,13 +12,13 @@
 public with sharing class ExpensesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             System.assert(ExpensesDAO.newInstance() != null, 'ExpensesDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class ExpensesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             System.assert(
                 new ExpensesDAO().getSObjectType() == Expense__c.SObjectType,
                 'SObject is not Expense__c'

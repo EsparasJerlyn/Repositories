@@ -15,12 +15,12 @@ public without sharing class FlowLookupHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
     @isTest
     public static void getNameFieldTest() {
-        System.runAs(TestDataFactory.getOperationsManager()){
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){
         String nameField = FlowLookupHelper.getNameField('Account');
         
         System.assertNotEquals(null, nameField, 'Name field should not be null');
@@ -29,7 +29,7 @@ public without sharing class FlowLookupHelperTest {
 
     @isTest
     public static void getFieldMapTest() {
-        System.runAs(TestDataFactory.getOperationsManager()){
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){
         Map<String, Schema.SObjectField> fieldMap = FlowLookupHelper.getFieldMap('Account');
         
         System.assertNotEquals(null, fieldMap, 'Field map should not be null');
@@ -39,7 +39,7 @@ public without sharing class FlowLookupHelperTest {
 
     @isTest
     public static void splitAndTrimTestNoDelimiter() {
-        System.runAs(TestDataFactory.getOperationsManager()){
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){
             String testString = 'test1,test2,test3';
             List<String> splitStrings = FlowLookupHelper.splitAndTrim(testString);
             
@@ -53,7 +53,7 @@ public without sharing class FlowLookupHelperTest {
     @isTest
     public static void splitAndTrimTestDelimiter() {
         String testString = 'test1,test2,test3';
-        System.runAs(TestDataFactory.getOperationsManager()){
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){
             List<String> splitStrings = FlowLookupHelper.splitAndTrim(testString, ',');
             
             System.assertEquals(3, splitStrings.size(), 'Three split strings are expected');

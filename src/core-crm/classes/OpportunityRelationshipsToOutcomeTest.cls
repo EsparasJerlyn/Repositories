@@ -36,15 +36,15 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
                 false,
                 AccessLevel.USER_MODE
             );
-
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
-        );
+        Test.startTest();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
+        Test.stopTest();
 
         List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             // Create Opportunity records with IPU record type
             List<Opportunity> comOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 1,
@@ -123,7 +123,7 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
                 .insertRecords(contextualRolesList, false, AccessLevel.USER_MODE);
         }
 
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             // Create Opportunity records with Commercialisation record type
             List<Opportunity> comOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 1,
@@ -222,7 +222,7 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
 
     @isTest
     private static void createCommercialisationOutcomeRecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             List<Opportunity> comOpportunityList = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Test Com Opportunity', false, '%');
@@ -243,7 +243,7 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
     
     @isTest
     private static void createStartupOutcomeRecord() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Test.startTest();
             List<Opportunity> comOpportunityList = OpportunitiesDAO.newInstance()
             .getRecordsLikeName('Test Com Opportunity', false, '%');
@@ -266,7 +266,7 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
     @isTest
     static void testUpdateOpportunityOutcome() {
 
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
         List<Opportunity> comOpportunityList = OpportunitiesDAO.newInstance()
             .getRecordsLikeName('Test Com Opportunity', false, '%');
         List<Opportunity_Outcome__c> testOpportunityOutcomes = TestDataFactory.createOpportunityOutcome(

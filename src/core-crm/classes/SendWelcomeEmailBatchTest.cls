@@ -25,13 +25,13 @@ public with sharing class SendWelcomeEmailBatchTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Sys_Admin'});
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
         
     @isTest
     private static void sendWelcomEmailTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
                 FirstName = 'test firstname',

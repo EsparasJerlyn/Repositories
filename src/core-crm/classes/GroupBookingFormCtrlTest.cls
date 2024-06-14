@@ -17,11 +17,12 @@ public with sharing class GroupBookingFormCtrlTest {
 
   @testSetup
   static void setupMethod() {
-
-    TestDataFactory.generateTestUsers();
-    //create account
     Test.startTest();
-    User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    TestDataFactoryUser.generateUserSystemAdministrator();
+    Test.stopTest();
+    //create account
+
+    User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
     accounts[0].Organization_Unit_Level__c = '2';
@@ -315,14 +316,13 @@ public with sharing class GroupBookingFormCtrlTest {
     );
     insert prodCateg;
     
-    Test.stopTest();
   }
 
   
 
   @isTest
   static void saveBookingTest(){
-    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
       Test.startTest();
       Contact newContact = new Contact(
         Email ='testemail12@email.com', 
@@ -387,7 +387,7 @@ public with sharing class GroupBookingFormCtrlTest {
 
   @isTest
   static void addCartItemsTest(){
-    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
       Product2 product = [SELECT Id, Name FROM Product2 LIMIT 1];
       hed__Course_Offering__c offering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
       PricebookEntry pbEntry = [SELECT Id, UnitPrice FROM PricebookEntry Limit 1];
@@ -415,7 +415,7 @@ public with sharing class GroupBookingFormCtrlTest {
 
   @isTest
   static void removeCartItemsTest(){
-    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
       CartItem cartItem = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Cart.Status = 'Active' LIMIT 1];
       Id ownerId = cartItem.Cart.OwnerId;
       Id cartItemId = cartItem.Id;
@@ -431,7 +431,7 @@ public with sharing class GroupBookingFormCtrlTest {
 
   @isTest
   static void getAvailableSeatsTest(){
-    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
       String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
       Test.startTest();
       Decimal availableSeats = GroupBookingFormCtrl.getAvailableSeats(courseOfferingId, false);

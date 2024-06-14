@@ -24,17 +24,17 @@ private class ContactDuplicatesHelperTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             ContactsDAO.newInstance()
                 .insertRecords(
                     createTestContactRecords(0, recordsCount),
                     false,
                     AccessLevel.USER_MODE
                 );
-            Test.stopTest();
         }
     }
 
@@ -42,7 +42,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchInsertNoDuplicates() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ContactsDAO.newInstance()
                 .insertRecords(
@@ -60,7 +60,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchInsertEachDuplicatesExisting() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ContactsDAO.newInstance()
                 .insertRecords(
@@ -78,7 +78,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchInsertDuplicatesWithinBatch() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, recordsCount);
             for (Contact con : newContacts) {
                 con.Email = EMAIL;
@@ -100,7 +100,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchInsertPartialDuplicatesExisting() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = new List<Contact>();
             newContacts.addAll(createTestContactRecords(0, recordsCount / 2));
             newContacts.addAll(
@@ -134,7 +134,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchInsertPartialDuplicatesWithinBatch() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(recordsCount, recordsCount * 2);
             for (Integer i = 0; i < recordsCount / 2; i++) {
                 newContacts[i].Email = 'dupe' + EMAIL;
@@ -170,7 +170,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchInsertDuplicatesWithinAndExisting() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, recordsCount);
             
             for (Integer i = 0; i < recordsCount / 2; i++) {
@@ -198,7 +198,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchUpdateNoDuplicates() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> conList = ContactsDAO.newInstance()
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conToUpdate = new List<Contact>();
@@ -225,7 +225,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchUpdatePartialDuplicatesExisting() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> conList = ContactsDAO.newInstance()
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conListToUpdate = new List<Contact>();
@@ -281,7 +281,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchUpdatePartialDuplicatesWithinBatch() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> conList = ContactsDAO.newInstance()
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conListToUpdate = new List<Contact>();
@@ -336,7 +336,7 @@ private class ContactDuplicatesHelperTest {
 
     @isTest
     private static void testBatchUpdateDuplicatesWithinAndExisting() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> conList = ContactsDAO.newInstance()
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conListToUpdate = new List<Contact>();

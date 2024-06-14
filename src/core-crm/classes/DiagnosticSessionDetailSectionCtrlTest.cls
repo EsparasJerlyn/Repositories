@@ -28,17 +28,17 @@ public without sharing class DiagnosticSessionDetailSectionCtrlTest {
 
      @testSetup
      static void makeData(){
-          TestDataFactory.generateTestUsers();
-          System.runAs(TestDataFactory.getProgramAdminUser()){
-               Test.startTest();
+          Test.startTest();
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+          Test.stopTest();
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(PR_DIAGNOSTIC);
-               Test.stopTest();
           }
      }
 
      @isTest
      public static void getRegisteredLearnersTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                hed__Course_Offering__c courseOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
                List<DiagnosticSessionDetailSectionCtrl.DiagnosticSessionSectionDetails> response = 
@@ -51,7 +51,7 @@ public without sharing class DiagnosticSessionDetailSectionCtrlTest {
 
      @isTest
      public static void getRegisteredLearnersTestNull(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                List<DiagnosticSessionDetailSectionCtrl.DiagnosticSessionSectionDetails> response = 
                DiagnosticSessionDetailSectionCtrl.getRegisteredLearners(null);
@@ -62,7 +62,7 @@ public without sharing class DiagnosticSessionDetailSectionCtrlTest {
 
      @isTest
      public static void getSessionStatusValuesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                List<String> picklist = DiagnosticSessionDetailSectionCtrl.getSessionStatusValues();
                System.assert(picklist != null, 'No values returned');
                System.assertEquals(2, picklist.size(), 'Number of picklist count is more than 2');
@@ -73,7 +73,7 @@ public without sharing class DiagnosticSessionDetailSectionCtrlTest {
      }
 
      private static void createRecord(String productRequestRecordType){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                /** Create Account */
                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
                for(Account account : accounts){

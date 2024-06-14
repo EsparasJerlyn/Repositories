@@ -20,9 +20,10 @@ private class CaseTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
             International_Tier__c internationalTiersWithSubCateg = TestDataFactory.createInternationalTierRecords(new List<String>{ 'Yemen' }, 'Untiered',  true)[0];
             internationalTiersWithSubCateg.Tier_Subcategory__c = 'Restricted';
@@ -32,13 +33,13 @@ private class CaseTriggerHelperTest {
             List<Case_Priority_Configuration__c> casePrioConfig = TestDataFactory.createCasePrioConfigRecords();
             CasePriorityConfigurationsDAO.newInstance().insertRecords(casePrioConfig,false,AccessLevel.USER_MODE);
         }
-        Test.stopTest();
+        
         
     }
     
     @isTest
     private static void testCaseEmailMatchToContactEmail() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Email = '1testmail@mail.test';
@@ -64,7 +65,7 @@ private class CaseTriggerHelperTest {
     
     @isTest
     private static void testCaseEmailMatchToLeadEmail() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(0,1);
             leadList[0].Email = '1testmail@mail.test';
@@ -90,7 +91,7 @@ private class CaseTriggerHelperTest {
     
     @isTest
     private static void testCaseEmailNoMatchToExistingContactEmail() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Email = '1testmail@mail.test';
@@ -116,7 +117,7 @@ private class CaseTriggerHelperTest {
 
     @isTest
     private static void testCaseRecordByContactMobileMatching() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].MobilePhone = '090909';
@@ -140,7 +141,7 @@ private class CaseTriggerHelperTest {
 
     @isTest
     private static void testCaseRecordByLeadMobileMatching() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(0,1);
             leadList[0].MobilePhone = '090909';
@@ -165,7 +166,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleAutoPriorityAssignedCase(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             
             List<Case> cases = new List<Case>();
             cases.add(
@@ -190,7 +191,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleAutoPriorityAssignedCaseWithSubCateg(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Citizenship_Country__c = 'Yemen';
@@ -222,7 +223,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleAutoPriorityAssignedCaseWithLeadSourceCategory(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
