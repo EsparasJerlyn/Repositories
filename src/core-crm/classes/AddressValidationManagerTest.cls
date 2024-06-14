@@ -50,7 +50,7 @@ private class AddressValidationManagerTest {
             List<hed__Program_Enrollment__c> programEnListWithContact = TestDataFactory.createTestProgramEnrollmentRecords(2); 
             for(hed__Program_Enrollment__c prog: programEnListWithContact){                           
                 prog.hed__Contact__c = contactList[0].Id;
-                prog.Enrollment_Status__c = 'Passed';
+                prog.Enrollment_Status__c = 'Admitted';
             }
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListWithContact, true, AccessLevel.SYSTEM_MODE);
             
@@ -99,7 +99,7 @@ private class AddressValidationManagerTest {
             List<hed__Program_Enrollment__c> programEnListWithContact = TestDataFactory.createTestProgramEnrollmentRecords(2); 
             for(hed__Program_Enrollment__c prog: programEnListWithContact){                           
                 prog.hed__Contact__c = contactList[0].Id;
-                prog.Enrollment_Status__c = 'Passed';
+                prog.Enrollment_Status__c = 'Admitted';
             }
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListWithContact, true, AccessLevel.SYSTEM_MODE);
             
@@ -144,7 +144,7 @@ private class AddressValidationManagerTest {
     }
 
     @isTest
-    static void executeAddressValidationOtherAddress() {
+    static void executeAddressValidationOtherAddressTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
@@ -185,6 +185,58 @@ private class AddressValidationManagerTest {
             
             for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(new Map<Id,Contact>(contactList).keySet(),new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){
                 System.Assert.areEqual(true, address.Is_First_Admission_Address__c , 'First Admission must set be true');                
+            }
+        }
+    }
+
+    @isTest
+    static void executeAddressValidationOtherAddressCloneTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
+            for(Contact con: contactList){
+                con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                con.QUT_Student__c = true;
+                con.Low_Socio_Economic_Status__c = 'Unknown';
+                con.Regional_Remote__c = 'Unknown';
+            }         
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+
+            List<hed__Program_Enrollment__c> programEnListWithContact = TestDataFactory.createTestProgramEnrollmentRecords(1); 
+            programEnListWithContact[0].hed__Contact__c = contactList[0].Id;
+            programEnListWithContact[0].Enrollment_Status__c = 'Admitted';
+            
+
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListWithContact, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Address__c> addresses = new List<hed__Address__c>();
+            for (Integer i = 0; i < contactList.size(); i++) {
+                hed__Address__c add = new hed__Address__c();
+                add.hed__Parent_Contact__c = contactList[i].Id;
+                add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
+                add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.hed__MailingCountry__c = 'Philippines';
+                add.hed__MailingState__c = 'PH';
+                add.hed__MailingCity__c = 'MNL';
+                add.hed__MailingPostalCode__c = '06125';
+                add.hed__MailingStreet__c = '1234 Test St';
+                add.hed__MailingStreet2__c = '4321 Tester Street';
+                addresses.add(add);
+            }
+			AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.USER_MODE);
+            Test.startTest();
+            AddressValidationManager addressValidation = new AddressValidationManager(addresses);
+            addressValidation.executeAddressValidation();           
+            Test.stopTest();
+            
+            for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(new Map<Id,Contact>(contactList).keySet(),new Set<String>{AddressesDAO.FIRST_ADMITTED_ADDRESS},'USER_MODE')){
+                System.assertEquals(false, address.Is_First_Admission_Address__c , 'Cloned Address First Admission must set be false');
+                System.assertEquals('Philippines', address.hed__MailingCountry__c , 'Cloned Address Mailing Country should be the same as the test data setup');                
+                System.assertEquals(AddressesDAO.FIRST_ADMITTED_ADDRESS, address.hed__Address_Type__c , 'Cloned Address Type should be set as First Admitted');                
+                System.assertEquals('PH', address.hed__MailingState__c , 'Cloned Address Mailing State should be the same as the test data setup');                
+                System.assertEquals('06125', address.hed__MailingPostalCode__c , 'Cloned Address Mailing Postal Code should be the same as the test data setup');                
+                System.assertEquals(contactList[0].Id, address.hed__Parent_Contact__c , 'Cloned Address Parent Contact should be the same as the test data setup');                
+    
             }
         }
     }

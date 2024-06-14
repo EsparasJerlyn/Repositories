@@ -48,6 +48,7 @@ public with sharing class AddressValidationManager {
             Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactOtherAddresses.keySet());            
             
             List<hed__Address__c> addressToValidate = new List<hed__Address__c>();
+            List<hed__Address__c> addressToInsert = new List<hed__Address__c>();
             
             
             for(Id contactId: contactOtherAddresses.keySet()){
@@ -69,9 +70,20 @@ public with sharing class AddressValidationManager {
                         String logMessage = 'First Admitted Address not found for the following contact';
                         Logger.error(logMessage, contactId);
                     }                   
-                }else{                                        
-                    // set isFirstAdmissionAddress to true
-                    otherAdress.Is_First_Admission_Address__c = true;
+                }else{
+                    //Other Program Enrollment with Status = Admitted
+                    //Check if the Address is Australia
+                    if(!AddressesDAO.MAILING_COUNTRY_AU.contains(otherAdress.hed__MailingCountry__c)){                                                        
+                        //clone "Other" address type and set to First Admitted
+                        hed__address__c newAddress = otherAdress.clone();
+                        newAddress.Is_First_Admission_Address__c = false; 
+                        newAddress.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
+                        addressToInsert.add(newAddress);
+                    }else{
+                        //set isFirstAdmissionAddress to true
+                        otherAdress.Is_First_Admission_Address__c = true;
+                    }
+
                 }
                 
                 addressToValidate.add(otherAdress);
@@ -83,6 +95,8 @@ public with sharing class AddressValidationManager {
             //Update address
             updateAddressRecords(validatedAddressesMap.values());
 
+            //Insert cloned address
+            insertAddressRecords(addressToInsert);
 
         } catch (Exception e) {
             Logger.error('Exception caught in class AddressValidationManager.').setExceptionDetails(e);
@@ -201,7 +215,7 @@ public with sharing class AddressValidationManager {
      * @return A map of contact IDs to the count of program enrollments.
      */    
     private Map<Id, Integer> getAllProgramEnrollmentsOfContacts(Set<Id> contactIds){       
-        Set<String> enrollmentStatuses = new Set<String>{'Admitted','Passed','Leave of Absence','Withdrawn'};
+        Set<String> enrollmentStatuses = new Set<String>{'Admitted'}; 
         List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIdAndEnrollmentStatuses(contactIds,enrollmentStatuses, AccessLevel.SYSTEM_MODE);       
         Map<Id, Integer> contactProgramEnrollmentCounts = new Map<Id, Integer>();
                     
@@ -209,7 +223,7 @@ public with sharing class AddressValidationManager {
             Integer currentCount = (contactProgramEnrollmentCounts.containsKey(pr.hed__Contact__c)) ? contactProgramEnrollmentCounts.get(pr.hed__Contact__c) : 0;
             contactProgramEnrollmentCounts.put(pr.hed__Contact__c, ++currentCount);
         }
-        
+       
         return contactProgramEnrollmentCounts;
     }
     

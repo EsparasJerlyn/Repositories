@@ -80,15 +80,8 @@ public with sharing class ProgramEnrollmentTriggerHelper {
             }
         }
         
-        if(!mapOfContactAddress.values().isEmpty()){              
-            Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
-            if (isAsyncProcess) {
-                // call the apex class to validate Address directly
-                AddressValidationManager addressValidation = new AddressValidationManager(mapOfContactAddress.values());
-                addressValidation.executeAddressValidation();  
-            } else {
-                Database.executeBatch(new ContactAddressValidationBatch(mapOfContactAddress.KeySet()));
-            }
+        if(!mapOfContactAddress.values().isEmpty()){       
+              Database.executeBatch(new ContactAddressValidationBatch(mapOfContactAddress.KeySet()));
         }
     }
 
