@@ -1580,11 +1580,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Boolean hasAutomatedCompletedCadence
     ) {
 
-        if (hasAutomatedCompletedCadence){
+        // if (hasAutomatedCompletedCadence){
             domesticFirstOffertoAcceptanceManual.put(application.Id, application); // Group Manual Application
-        } else {
-            domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
-        }
+        // } else {
+        //     domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
+        // }
     }
 
     /**
