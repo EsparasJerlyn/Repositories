@@ -20,11 +20,13 @@ public with sharing class SendNewOfferingNotificationHelperTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
         insert customEmail;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
                 'Send Register Interest Email' => 'Test Email Subject'}).iterator().next();
             insert template;
@@ -74,7 +76,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
 
     @isTest
     static void sendCourseOfferingAvailabiltyNotificationTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<hed__Course__c> course = [SELECT Id FROM hed__Course__c LIMIT 1];
             List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
@@ -96,7 +98,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
 
     @isTest
     static void sendProgramOfferingAvailabiltyNotificationTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<hed__Program_Plan__c> programPlan = [SELECT Id FROM hed__Program_Plan__c LIMIT 1];
             List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1,programPlan);
@@ -117,7 +119,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
 
     @isTest
     static void updateSendCourseOfferingAvailabiltyNotificationTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<hed__Course__c> course = [SELECT Id FROM hed__Course__c LIMIT 1];
             List<hed__Term__c> term = [SELECT Id FROM hed__Term__c LIMIT 1];
@@ -140,7 +142,7 @@ public with sharing class SendNewOfferingNotificationHelperTest {
 
     @isTest
     static void updateSendProgramOfferingAvailabiltyNotificationTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<hed__Program_Plan__c> programPlan = [SELECT Id FROM hed__Program_Plan__c LIMIT 1];
             List<Program_Offering__c> programOfferings = TestDataFactory.createTestProgramOfferingRecords(1,programPlan);

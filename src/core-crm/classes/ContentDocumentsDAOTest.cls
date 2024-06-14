@@ -12,12 +12,12 @@
 private class ContentDocumentsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
     @isTest
     static void getContentDocumentsByTitle() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<ContentDocument> contentDocumentList = ContentDocumentsDAO.newInstance()
                 .getContentDocumentsByTitle('');
             System.assert(contentDocumentList.isEmpty(), 'contentDocumentList is not empty');

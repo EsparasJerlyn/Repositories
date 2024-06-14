@@ -13,13 +13,13 @@
 public with sharing class EngagementsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(EngagementsDAO.newInstance() != null, 'Engagementsdao instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class EngagementsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new EngagementsDAO().getSObjectType() == Engagement__c.SObjectType,
                 'SObject is not Engagement__c'
@@ -40,7 +40,7 @@ public with sharing class EngagementsDAOTest {
     @isTest
     static void getRecordsSortByEngagementCodeAscTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Engagement__c> engagementsList = EngagementsDAO.newInstance().getRecordsSortByEngagementCodeAsc();
             System.assert(engagementsList.isEmpty(), 'engagementsList is not empty');
         }
@@ -50,7 +50,7 @@ public with sharing class EngagementsDAOTest {
     @isTest
     static void getRecordsWithLikeEngagementCodeSortAscTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Engagement__c> engagementsList = EngagementsDAO.newInstance().getRecordsWithLikeEngagementCodeSortAsc('');
             System.assert(engagementsList.isEmpty(), 'engagementsList is not empty');
         }

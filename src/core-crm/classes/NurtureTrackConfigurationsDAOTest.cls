@@ -12,13 +12,13 @@
 public with sharing class NurtureTrackConfigurationsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new NurtureTrackConfigurationsDAO().getSObjectType() == Nurture_Track_Configuration__c.SObjectType,
                 'SObject is not Nurture_Track_Configuration__c'
@@ -30,7 +30,7 @@ public with sharing class NurtureTrackConfigurationsDAOTest {
     @isTest
     static void getExistingUnconvertedLeadsByEmailTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackLeadScoreThreshold('SYSTEM_MODE');
             System.assert(nurtureList.isEmpty(), 'nurtureList should not be empty');
         }
@@ -39,7 +39,7 @@ public with sharing class NurtureTrackConfigurationsDAOTest {
     @isTest
     static void getNurtureTrackByCadenceNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
                 .getNurtureTrackByCadenceNames(
                     new Set<String>(),
@@ -53,7 +53,7 @@ public with sharing class NurtureTrackConfigurationsDAOTest {
     @isTest
     static void getNurtureTrackTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
             .getNurtureTrack(
                 NurtureTrackConfigurationsDAO.NURTURE_FIELDS,

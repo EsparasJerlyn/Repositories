@@ -30,7 +30,7 @@ public with sharing class PromotionDiscountCtrlTest {
      static void setupData(){
           
           Test.startTest();
-          TestDataFactory.generateTestUsers();
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
           Test.stopTest();
           createRecord(RT_ACTIVITY_ID);
      }
@@ -38,7 +38,7 @@ public with sharing class PromotionDiscountCtrlTest {
    
     @isTest
      static void getDiscountTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                //getDiscount(String selectedPBId, String standardPBId, String offeringId, Boolean prescribedProgram, String couponCode) {
 
@@ -65,7 +65,7 @@ public with sharing class PromotionDiscountCtrlTest {
 
      @istest
      static void getDiscountProductTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                //get sample data
                List<Product2> sampleProduct = [SELECT Id, Name FROM Product2 ORDER BY NAME LIMIT 1];
@@ -116,7 +116,7 @@ public with sharing class PromotionDiscountCtrlTest {
 
      @istest
      static void getDiscountInvalidCoupon(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                //get sample data
                List<Product2> sampleProduct = [SELECT Id, Name FROM Product2 ORDER BY NAME LIMIT 1];
@@ -143,7 +143,7 @@ public with sharing class PromotionDiscountCtrlTest {
 
      @istest
      static void getDiscountProductCategoryTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                //get sample data
                List<Product2> sampleProduct = [SELECT Id, Name FROM Product2 ORDER BY NAME LIMIT 1];
@@ -219,7 +219,7 @@ public with sharing class PromotionDiscountCtrlTest {
      }
 
      private static void createRecord(String productRequestRecordType){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
              List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
              for(Account account : accounts){

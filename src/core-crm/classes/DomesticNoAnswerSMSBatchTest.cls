@@ -13,8 +13,10 @@
 public with sharing class DomesticNoAnswerSMSBatchTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Communication_Queue__c> commQueues = new List<Communication_Queue__c>();
             commQueues.add(new Communication_Queue__c(
                 Status__c = CommunicationQueuesDAO.STATUS_SCHEDULED,
@@ -27,7 +29,7 @@ public with sharing class DomesticNoAnswerSMSBatchTest {
     @isTest
     private static void executeBatchTest() {
         Id batchableId;
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             DomesticNoAnswerSMSBatch batchable = new DomesticNoAnswerSMSBatch();
             batchableId = Database.executeBatch(batchable);            
