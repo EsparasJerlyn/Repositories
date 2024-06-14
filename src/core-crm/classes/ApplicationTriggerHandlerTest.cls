@@ -25,7 +25,7 @@ private class ApplicationTriggerHandlerTest {
         TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
         
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             ApplicationsDAO.newInstance()
                 .insertRecords(
                     createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'New'),
