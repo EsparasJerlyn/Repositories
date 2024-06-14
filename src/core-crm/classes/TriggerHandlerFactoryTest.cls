@@ -4,12 +4,12 @@ private class TriggerHandlerFactoryTest {
 
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void should_return_instances_of_handlers() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             TriggerHandlerFactory.setConfigProvider((HandlerConfigProvider) new MockHandlerConfigProvider());
             final List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('Mock');
             System.assert(handlers[0] instanceOf MockHandler, 'Instance returned not of the right type');
@@ -18,7 +18,7 @@ private class TriggerHandlerFactoryTest {
 
     @isTest
     private static void should_return_empty_list_when_config_invalid() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             TriggerHandlerFactory.setConfigProvider((HandlerConfigProvider) new MockInvalidHandlerConfigProvider());
             final List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('Mock');
             System.assert(handlers.isEmpty(), 'Instance returned not of the right type');
@@ -31,7 +31,7 @@ private class TriggerHandlerFactoryTest {
      */
     @isTest
     private static void should_not_throw_excpetion_when_using_custom_metadata_provider() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             try {
                 TriggerHandlerFactory.getHandlersForSObjectType('NotARealObject');
             } catch (Exception ex) {

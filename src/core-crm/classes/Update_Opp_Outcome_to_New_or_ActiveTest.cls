@@ -19,7 +19,7 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
 
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
@@ -64,7 +64,7 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
 
     @isTest
     private static void updateOpportunityOutcomeStartDateToCurrentTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithStartDate(currentDate + 10); // from future date
 
@@ -86,7 +86,7 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
 
     @isTest
     private static void updateOpportunityOutcomeStartDateToFutureTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithStartDate(currentDate + 10); // from future date
 
@@ -108,7 +108,7 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
 
     @isTest
     private static void updateOpportunityOutcomeStartDateToPreviousTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithStartDate(currentDate + 10); // from future date
 
