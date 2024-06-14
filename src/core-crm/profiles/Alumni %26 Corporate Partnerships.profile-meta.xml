@@ -31,4 +31,8 @@
         <layout>Engagement_Opportunity__c-Alumni %26 Corporate Engagement Layout</layout>
         <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Alumni %26 Corporate Account Relationship Manager</layout> 
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
 </Profile>

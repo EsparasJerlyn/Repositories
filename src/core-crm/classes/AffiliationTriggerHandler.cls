@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.j.mahilum		           | July 13, 2023     	   | DEPP-5799              | Created file                 |
+      | mark.j.mahilum                 | June 06, 2024         | DEPP-9212              | Removed unused method        |
  */
 
 public with sharing class AffiliationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
@@ -19,7 +20,6 @@ public with sharing class AffiliationTriggerHandler implements Disableable,  Aft
     */
     public void afterInsert(Map<Id, SObject> newItems) {
         DynamicDatatableEventService.publishPlatformEvent(new AffiliationsDAO().getSObjectType(),newItems.values(),true);
-        AffiliationTriggerHelper.getContactFromAffiliation((List<hed__Affiliation__c>) newItems.values(),null);
     }
 
    /**
@@ -32,7 +32,6 @@ public with sharing class AffiliationTriggerHandler implements Disableable,  Aft
         Map<Id, Sobject> oldItems
     ) {
         DynamicDatatableEventService.publishPlatformEvent(new AffiliationsDAO().getSObjectType(),newItems.values(),false);
-        AffiliationTriggerHelper.getContactFromAffiliation((List<hed__Affiliation__c>) newItems.values(),(Map<Id, hed__Affiliation__c>) oldItems);
     }
     
    /**

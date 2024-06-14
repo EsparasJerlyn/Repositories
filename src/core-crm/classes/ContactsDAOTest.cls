@@ -117,7 +117,7 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
-
+    
     @isTest
     static void getContactsByMatchingAttributesEmptyTest(){
         Test.startTest();
@@ -131,7 +131,7 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
-
+        
     @isTest
     static void getContactsByMatchingAttributesTest(){
         Test.startTest();

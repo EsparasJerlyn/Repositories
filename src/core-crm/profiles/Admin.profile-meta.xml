@@ -29,6 +29,9 @@
         <recordType>Contact.Person</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact_Matching_Service_Configuration__mdt-Contact Matching Service Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
