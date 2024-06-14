@@ -26,7 +26,7 @@ public with sharing class BuyerGroupTriggerHandlerTest {
   @testSetup 
   static void setupMethod() {
       Test.startTest();
-      TestDataFactory.generateTestUsers();
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
       Test.stopTest();
 
       ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
@@ -90,7 +90,7 @@ public with sharing class BuyerGroupTriggerHandlerTest {
   @isTest
   private static void publishToDecomissionTest() {
     
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       List<BuyerGroup> bgList = new List<BuyerGroup>([
         SELECT Id, Ready_for_publishing__c
         FROM BuyerGroup

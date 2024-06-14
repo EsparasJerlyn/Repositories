@@ -27,9 +27,9 @@ public with sharing class CceManageRegistrationSectionCtrlTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();  
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;  
         System.runAs(PORTAL_SYS_ADMIN){
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -195,7 +195,7 @@ public with sharing class CceManageRegistrationSectionCtrlTest {
     @isTest
     static void getLearnerDetailsTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             
             List<Product_Request__c> prList = new List<Product_Request__c>([
                 SELECT Id 
@@ -211,7 +211,7 @@ public with sharing class CceManageRegistrationSectionCtrlTest {
     @isTest
     static void updateLearnersTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             
             List<hed__Course_Enrollment__c> courseEnrollmentList = new List<hed__Course_Enrollment__c>([
                 SELECT Id, hed__Status__c

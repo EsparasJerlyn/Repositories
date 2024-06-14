@@ -14,13 +14,13 @@
 public with sharing class ContentVersionsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getContentVersionBySetContentDocumentIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ContentVersion> contentVersionList = ContentVersionsDAO.newInstance()
                 .getContentVersionBySetContentDocumentIds(new Set<Id>());
             System.assert(contentVersionList.isEmpty(), 'contentVersionList should not be empty');
@@ -31,7 +31,7 @@ public with sharing class ContentVersionsDAOTest {
     @isTest
     static void getContentVersionBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ContentVersion> contentVersionList = ContentVersionsDAO.newInstance()
                 .getContentVersionBySetIds(new Set<Id>());
             System.assert(contentVersionList.isEmpty(), 'contentVersionList should not be empty');
@@ -42,7 +42,7 @@ public with sharing class ContentVersionsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ContentVersionsDAO().getSObjectType() == ContentVersion.SObjectType,
                 'SObject is not ContentVersion'
@@ -54,7 +54,7 @@ public with sharing class ContentVersionsDAOTest {
     @isTest
     static void getContentVersionByTitle() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ContentVersion> contentVersionList = ContentVersionsDAO.newInstance()
                 .getContentVersionByTitle(new Set<String>());
             System.assert(contentVersionList.isEmpty(), 'contentVersionList should not be empty');

@@ -14,13 +14,13 @@
 public with sharing class TasksDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(TasksDAO.newInstance() != null, 'TasksDAO instance is null');
         }
         Test.stopTest();
@@ -29,7 +29,7 @@ public with sharing class TasksDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new TasksDAO().getSObjectType() == Task.SObjectType,
                 'SObject is not Tasks'
@@ -41,7 +41,7 @@ public with sharing class TasksDAOTest {
     @isTest
     static void getCompletedTasksByTargetIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<task> taskList = TasksDAO.newInstance()
                 .getCompletedTasksByTargetId(
                     new Set<String>(),
@@ -55,7 +55,7 @@ public with sharing class TasksDAOTest {
     @isTest
     static void getCompletedSMSTasksByActionCadenceStepTrackerIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<task> taskList = TasksDAO.newInstance()
                 .getCompletedSMSTasksByActionCadenceStepTrackerId(
                     new Set<String>()

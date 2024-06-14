@@ -12,13 +12,13 @@
 public with sharing class RelationshipManagersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_IE_Partnership_Manager'});
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             System.assert(RelationshipManagersDAO.newInstance() != null, 'RelationshipManagerDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class RelationshipManagersDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             System.assert(
                 new RelationshipManagersDAO().getSObjectType() == Relationship_Manager__c.SObjectType,
                 'SObject is not Relationship_Manager__c'

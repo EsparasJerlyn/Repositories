@@ -41,7 +41,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
      */
     @testSetup
     private static void setup() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         // Configuration setup
         TestDataFactory.loadEDATriggers();
         TestDataFactory.configureAffiliationMapping();
@@ -62,7 +62,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
      * @description Retrieve accounts records created in @testSetup method
      */
     private static void retrieveAccounts() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             // Select accounts records
             List<Account> accounts = [Select id, RecordType.DeveloperName from Account where RecordTypeId in (:ACCOUNT_RECORD_TYPE_ID_UNIVERSITY_DEPARTMENT, :ACCOUNT_RECORD_TYPE_ID_BUSINESS_ORGANIZATION, :ACCOUNT_RECORD_TYPE_ID_ADMINISTRATIVE)];
             
@@ -94,7 +94,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
      */
     @isTest
     private static void shouldPopulateRoleWhenInsertContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             // prepare test data
             retrieveAccounts();
 
@@ -123,7 +123,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
      */
     @isTest
     private static void shouldPopulateRoleWhenUpdateContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             // prepare test data
             retrieveAccounts();
 
