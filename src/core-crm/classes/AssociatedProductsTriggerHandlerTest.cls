@@ -42,9 +42,9 @@ public without sharing class AssociatedProductsTriggerHandlerTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
-        
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         System.runAs(PROGRAM_ADMIN){
             WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
             insert testWebStore;
@@ -116,13 +116,12 @@ public without sharing class AssociatedProductsTriggerHandlerTest {
             }
             insert priceBookEntryList;
         }
-        Test.stopTest();
-
+        
     }
 
     @isTest
     public static void includeToStoreTestStandingOfferArgmnt() {
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
 

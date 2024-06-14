@@ -15,20 +15,20 @@ public with sharing class MarketingInteractionTriggerHandlerTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
 
             List<Contact> contactList =TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);       
         
         }
-        Test.stopTest();
     }
     
     @isTest
     public static void testInsertMarketingInteraction() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
@@ -42,7 +42,7 @@ public with sharing class MarketingInteractionTriggerHandlerTest {
 
     @isTest
     public static void testUpdateMarketingInteraction() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);

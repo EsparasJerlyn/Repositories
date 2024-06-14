@@ -22,13 +22,13 @@ public with sharing class EmailTriggerPostCourseBatchTest {
 
     @TestSetup
     static void makeData(){
-      TestDataFactory.generateTestUsers();
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
 	  @isTest
     public static void testEmailTriggerPostCourseBatch() {
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){

@@ -20,29 +20,29 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_International_Future_Student_Agent'});
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        Test.stopTest();
      
         List<Account> accList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.SYSTEM_MODE);
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
         	List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
         	WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
         }
         
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
         	List<WorkType> workTypesInt = TestDataFactory.createTestWorkTypeRecords();
         	WorkTypesDAO.newInstance().insertRecords(workTypesInt, false, AccessLevel.SYSTEM_MODE);
         }
-
-        Test.stopTest();
 
     }
 
     @isTest
     private static void updateContactLeadLinkedtoServiceAppointmentBeforeInsertTest(){
         
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -87,7 +87,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
     @isTest
     private static void sendEmailOnInternationalServiceAppointmentCreation() {
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -120,7 +120,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
     @isTest
     private static void sendEmailOnDomesticServiceAppointmentCreation() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -151,7 +151,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     
     @isTest
     private static void sendEmailOnInternationalServiceAppointmentCreation48hours() {
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -188,7 +188,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
     @isTest
     private static void sendEmailOnDomesticServiceAppointmentCreation24hours() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -226,7 +226,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     @isTest
     private static void sendEmailOnInternationalAfterUpdateReschedule() {
 
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
 
             Test.startTest();
 
@@ -271,7 +271,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     @isTest
     private static void sendEmailOnDomesticAfterUpdateReschedule() {
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
 
             Test.startTest();
 
@@ -316,7 +316,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     @isTest
     private static void sendEmailOnInternationalAfterUpdateCancellation() {
 
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
 
             Test.startTest();
 
@@ -362,7 +362,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     @isTest
     private static void sendEmailOnDomesticAfterUpdateCancellation() {
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
 
             Test.startTest();
 
@@ -407,7 +407,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
     @isTest
     private static void sendEmailFailureOnServiceAppointmentCreation() {
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
 
             Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
@@ -422,7 +422,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     }
 
     private static void generateGUIDTest() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> newItems = TestDataFactory.createTestServiceAppointmentRecords(200, accList.get(0).Id);
             Test.startTest();
@@ -435,7 +435,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     }
 
     private static void generateGUIDBeforeUpdateTest() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> newItems = TestDataFactory.createTestServiceAppointmentRecords(200, accList.get(0).Id);
             for(ServiceAppointment serviceApp : newItems ){

@@ -26,7 +26,7 @@ private class LeadTriggerHandlerTest {
 
     @testSetup static void setupMethod() {
         
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next(); 
         insert acc;
 
@@ -115,7 +115,7 @@ private class LeadTriggerHandlerTest {
 
     @isTest
     private static void testCreateMarketingSegmentationForLeads() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(10);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(10);

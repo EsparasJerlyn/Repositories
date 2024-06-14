@@ -18,8 +18,10 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         //create account
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -123,7 +125,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
     @isTest
     static void testBlankToInvoice() {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
                                     WHERE Profile.Name = 'OPE Catalogue' 
@@ -175,7 +177,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
     @isTest
     static void testProgramOfferingWithChild() {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
                                     WHERE Profile.Name = 'OPE Catalogue' 
@@ -227,7 +229,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
     @isTest
     static void testBlankToPayNow() {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
                                     WHERE Profile.Name = 'OPE Catalogue' 
@@ -280,7 +282,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
     @isTest
     static void testInvoiceToPayNow() {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
                                     WHERE Profile.Name = 'OPE Catalogue' 

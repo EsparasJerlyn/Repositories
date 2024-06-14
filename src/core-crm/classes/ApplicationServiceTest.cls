@@ -21,12 +21,12 @@ private class ApplicationServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -43,7 +43,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertNewApplication() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -60,7 +60,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertMultipleContactMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME;
@@ -94,7 +94,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailContactMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME + i;
@@ -128,7 +128,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailLeadMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> newLeads = createTestLeadRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newLeads[i].FirstName = FIRSTNAME + i;
@@ -162,7 +162,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationSAMBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
             
@@ -186,7 +186,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationQTACBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
                                                              

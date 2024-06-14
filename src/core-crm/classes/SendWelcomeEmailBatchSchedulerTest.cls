@@ -13,14 +13,14 @@
 public class SendWelcomeEmailBatchSchedulerTest {
     @testSetup 
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
 
     @isTest
     static void testSendWelcomeEmailBatch(){
         
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){              
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){              
             String cronExpression = Label.Send_Welcome_Email_Cron_Expression;
             
             Test.startTest();
