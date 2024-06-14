@@ -40,13 +40,8 @@ public with sharing class AddressTriggerHelper {
     
     private static void processValidation (Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
         if(!addressMap.isEmpty() && !contactMap.isEmpty()){
-            Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
-            if(isAsyncProcess){
-                new AddressValidationManager(addressMap.values(), contactMap).processValidationForAddress();
-            }else{
-                AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap);
-                Database.executeBatch(batch);
-            }
+            AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap);
+            Database.executeBatch(batch);
         }
     }
 
