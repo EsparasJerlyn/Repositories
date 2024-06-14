@@ -4,7 +4,6 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Future Student Agent - International</label>
     <mutingPermissionSets>Future_Student_Agent_International_Muted</mutingPermissionSets>
-    <permissionSets>Einstein_Case_Classification_User_QUT</permissionSets>
     <permissionSets>Future_Student_Engagement</permissionSets>
     <permissionSets>Future_Student_International_Email_Access</permissionSets>
     <permissionSets>Google_Integration_User</permissionSets>
