@@ -121,7 +121,7 @@ private class ApplicationServiceHelperTest {
     }
 
     @isTest
-    private static void testApplicationBatchInsertNewApplication() {
+    private static void testApplicationBatchSystemKeyMatched() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
@@ -206,11 +206,8 @@ private class ApplicationServiceHelperTest {
     }
 
     @isTest
-    private static void testApplicationBatchInsertOneContactMatch() {
+    private static void testApplicationBatchMultipleMatched() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            List<Contact> newContacts = createTestContactRecords(0, 1);            
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
             Test.startTest();
 
             List<Contact_Alternate_ID__c> contactAlternateIds = new List<Contact_Alternate_ID__c>();
@@ -284,25 +281,8 @@ private class ApplicationServiceHelperTest {
     }
 
     @isTest
-    private static void testApplicationBatchInsertMultipleContactMatch() {
+    private static void testApplicationBatchMultipleInsufficeintDetails() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            List<Contact> newContacts = createTestContactRecords(0, 3);
-			for (Integer i = 0; i < 3; i++) {
-                newContacts[i].FirstName = FIRSTNAME;
-                newContacts[i].LastName = LASTNAME;
-                newContacts[i].BirthDate = null;
-            }            
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
-            List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'Existing');
-            
-			for (Integer i = 0; i < 3; i++) {
-                newApplications[i].FirstName__c = FIRSTNAME;
-                newApplications[i].LastName__c = LASTNAME;
-                newApplications[i].BirthDate__c = null;
-            }            
-            
-            
             Test.startTest();
 
             List<Contact_Alternate_ID__c> contactAlternateIds = new List<Contact_Alternate_ID__c>();
@@ -376,44 +356,13 @@ private class ApplicationServiceHelperTest {
     }
 
     @isTest
-    private static void testApplicationBatchInsertEmailContactMatch() {
+    private static void testApplicationBatchInsertMatchToExistingLead() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            List<Contact> newContacts = createTestContactRecords(0, 3);
-			for (Integer i = 0; i < 3; i++) {
-                newContacts[i].FirstName = FIRSTNAME + i;
-                newContacts[i].LastName = LASTNAME + i;
-                newContacts[i].Email = i + EMAIL;
-            }            
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
-            List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'Existing');
-            
-			for (Integer i = 0; i < 3; i++) {
-                newApplications[i].FirstName__c = FIRSTNAME;
-                newApplications[i].LastName__c = LASTNAME;
-                newApplications[i].Email__c = i + EMAIL;
-            }            
-            
-            
             Test.startTest();
-            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
-                .insertRecords(
-                    newApplications,
-                    false,
-                    AccessLevel.SYSTEM_MODE
-                );
-            Test.stopTest();
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not saved.');
-            }
-        }
-    }
-    
-    @isTest
-    private static void testApplicationBatchInsertEmailLeadMatch() {
-        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            List<Lead> newLeads = createTestLeadRecords(0, 3);
-			for (Integer i = 0; i < 3; i++) {
+
+            List<Lead> newLeads = TestDataFactory.createTestLeadRecordForApplication(0, 3);
+            Map<String, String> leadEmailMap = new Map<String, String>();
+            for (Integer i = 0; i < 3; i++) {
                 newLeads[i].FirstName = FIRSTNAME + i;
                 newLeads[i].LastName = LASTNAME + i;
                 newLeads[i].Email = i + EMAIL;

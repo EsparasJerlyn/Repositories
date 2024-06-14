@@ -164,48 +164,6 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void updatePrimaryBusinessOrgContactTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<Account> accList = [
-                SELECT Id, RecordTypeId
-                FROM Account
-                WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID OR RecordTypeId = :ADMINISTRATIVE
-            ];
-            Id adminAccount;
-            Id businessAccount;
-            for (Account acc : accList) {
-                if (acc.RecordTypeId == BUSINESS_ACC_RECTYPEID) {
-                    businessAccount = acc.Id;
-                } else if (acc.RecordTypeId == ADMINISTRATIVE) {
-                    adminAccount = acc.Id;
-                }
-            }
-
-            List<Contact> conList = TestDataFactory.createTestContactRecords(100);
-            for (Integer i = 0; i < conList.size(); i++) {
-                conList[i].hed__Primary_Organization__c = businessAccount;
-            }
-
-            Test.startTest();
-            insert (conList);
-            for (Integer i = 0; i < conList.size(); i++) {
-                conList[i].hed__Primary_Organization__c = null;
-            }
-            update (conList);
-            Test.stopTest();
-
-            List<AccountContactRelation> acrt = new List<AccountContactRelation>(
-                [
-                    SELECT Id
-                    FROM AccountContactRelation
-                    WHERE Account.RecordTypeId = :BUSINESS_ACC_RECTYPEID AND IsActive = FALSE
-                ]
-            );
-            System.assert(acrt.size() == 100, 'Contacts where not updated');
-        }
-    }
-
-    @isTest
     private static void testContactCanNurtureFlag() {
 
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {

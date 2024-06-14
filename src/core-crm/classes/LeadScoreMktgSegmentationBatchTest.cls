@@ -29,7 +29,6 @@
             contactsToAdd.addAll(contactList);
             ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
             Test.stopTest();
-        }
     }
 
     @isTest
