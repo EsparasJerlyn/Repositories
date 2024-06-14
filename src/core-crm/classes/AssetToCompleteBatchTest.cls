@@ -26,14 +26,14 @@ public with sharing class AssetToCompleteBatchTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
 
     }
         
     @isTest
     private static void runToCompleteTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 
             List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
             for(Account acc: accountList){

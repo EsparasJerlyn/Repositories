@@ -3,11 +3,11 @@
 private class TriggerDispatcherTest {
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest static void should_dispatch_beforeInsert_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_INSERT);
             System.assert(handler.beforeInsertCalled, 'Before insert should have been called');
@@ -15,7 +15,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_beforeUpdate_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_UPDATE);
             System.assert(handler.beforeUpdateCalled, 'Before update should have been called');
@@ -23,7 +23,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_beforeDelete_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_DELETE);
             System.assert(handler.beforeDeleteCalled, 'Before delete should have been called');
@@ -31,7 +31,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_afterInsert_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_INSERT);
             System.assert(handler.afterInsertCalled, 'After insert should have been called');
@@ -39,7 +39,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_afterUpdate_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_UPDATE);
             System.assert(handler.afterUpdateCalled, 'After update should have been called');
@@ -47,7 +47,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_afterDelete_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_DELETE);
             System.assert(handler.afterDeleteCalled, 'After delete should have been called');
@@ -55,7 +55,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_afterUndelete_event() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_UNDELETE);
             System.assert(handler.afterUndeleteCalled, 'After Undelete should have been called');
@@ -63,7 +63,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_bypass_a_disabled_handler() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler = new MockTriggerHandler();
             handler.isDisabled = true;
             TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_INSERT);
@@ -72,7 +72,7 @@ private class TriggerDispatcherTest {
     }
 
     @isTest static void should_dispatch_events_to_multiple_handlers() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             final MockTriggerHandler handler1 = new MockTriggerHandler();
             final MockTriggerHandler handler2 = new MockTriggerHandler();
             final List<Object> handlers = new List<Object>();

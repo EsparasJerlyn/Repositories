@@ -12,13 +12,13 @@
 public with sharing class WebStoresDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(WebStoresDAO.newInstance() != null, 'WebStoresdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class WebStoresDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new WebStoresDAO().getSObjectType() == WebStore.SObjectType,
                 'SObject is not WebStore'
@@ -38,7 +38,7 @@ public with sharing class WebStoresDAOTest {
 
     @isTest
     static void getCCEWebStoreIdTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 WebStoresDAO.newInstance().getCCEWebStoreId() == null, 

@@ -14,7 +14,7 @@ public class BuyerGroupToPublishBatchSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
@@ -22,7 +22,7 @@ public class BuyerGroupToPublishBatchSchedulerTest {
     @isTest
     static void schedulerTest(){
         
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){              
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){              
             String cronExpression = Label.Buyer_Group_Cron_Expression;
             
             Test.startTest();

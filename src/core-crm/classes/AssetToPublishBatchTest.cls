@@ -25,7 +25,7 @@ public with sharing class AssetToPublishBatchTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
 
         ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
@@ -46,7 +46,7 @@ public with sharing class AssetToPublishBatchTest {
         
     @isTest
     private static void runToPublishTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 
             List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
             for(Account acc: accountList){

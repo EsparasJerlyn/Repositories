@@ -18,14 +18,14 @@ public class CsvBulkRegistrationCtrlTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
     
     @isTest
     static void testGetCMSContentDataByNameFailed()
     {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             List<NetworkMember> communityIds = [SELECT NetworkId FROM NetworkMember limit 1];
             String communityId = communityIds[0].NetworkId;
@@ -49,7 +49,7 @@ public class CsvBulkRegistrationCtrlTest {
     @isTest
     static void testGetCMSContentDataByNameError()
     {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String fakecommunityId = '98098EWQ';
             Test.startTest();
@@ -75,7 +75,7 @@ public class CsvBulkRegistrationCtrlTest {
     
     @isTest
     static void testreadCSVFileSucces(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             List<CsvBulkRegistrationCtrl.FieldDataType> csvContent = new List<CsvBulkRegistrationCtrl.FieldDataType>();
             ContentVersion contentVersionInsert = new ContentVersion(

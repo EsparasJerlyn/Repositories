@@ -26,12 +26,12 @@ public class ContentDocumentLinkTriggerHelperTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
     }
 
     @isTest
     private static void createMemoPDFURLTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager){
             String baseUrl =
             SYSTEM.URL.getSalesforceBaseUrl()
                 .toExternalForm()

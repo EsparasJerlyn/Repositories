@@ -15,12 +15,12 @@ public with sharing class MobileLoqateValidationServiceTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     private static void validateLeadMobileTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,2);
             for(Lead lead : leadList){
@@ -59,7 +59,7 @@ public with sharing class MobileLoqateValidationServiceTest {
 
     @isTest
     private static void validateLeadMobileFailTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,2);
             LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.USER_MODE);
