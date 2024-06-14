@@ -14,11 +14,11 @@
 @isTest
 public without sharing class MarketingSegmentationTriggerHandlerTest {
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTMarketingCloud();
     }
     @isTest
     public static void testInsertMarketingSegmentation() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Test.startTest();
             Marketing_Segmentation__c marketingSegmentation = new Marketing_Segmentation__c();
             Database.SaveResult saveResult = Database.insert(marketingSegmentation);
@@ -28,7 +28,7 @@ public without sharing class MarketingSegmentationTriggerHandlerTest {
     }
     @isTest
     public static void testUpdateMarketingSegmentation() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             Marketing_Segmentation__c marketingSegmentation = new Marketing_Segmentation__c();
             insert marketingSegmentation;
             Test.startTest();

@@ -29,9 +29,9 @@ public with sharing class SendCertificateBatchTest {
     @testSetup
     static void makeData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<EmailTemplate> templates = TestDataFactory.createTestEmailTemplateRecords(2,new Map<String,String>{
                 EMAIL_TEMPLATE => 'Test Email Subject',
                 COVER_TEMPLATE => 'Send Certificate'});

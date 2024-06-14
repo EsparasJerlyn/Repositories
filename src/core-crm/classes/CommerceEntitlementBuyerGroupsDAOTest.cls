@@ -13,13 +13,13 @@
 public with sharing class CommerceEntitlementBuyerGroupsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getCommerceEntitlementBuyerGroupsByBuyerGroupIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 CommerceEntitlementBuyerGroupsDAO.newInstance()
                     .getCommerceEntitlementBuyerGroupsByBuyerGroupId(
@@ -35,7 +35,7 @@ public with sharing class CommerceEntitlementBuyerGroupsDAOTest {
     @isTest
     static void getCommerceEntitlementBuyerGroupsByBuyerGroupIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builder = new MockIdGenerator(CommerceEntitlementBuyerGroup.sObjectType);
             System.assert(
                 CommerceEntitlementBuyerGroupsDAO.newInstance()
@@ -52,7 +52,7 @@ public with sharing class CommerceEntitlementBuyerGroupsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CommerceEntitlementBuyerGroupsDAO().getSObjectType() == CommerceEntitlementBuyerGroup.SObjectType,
                 'SObject is not Commerce Entitlement Buyer Group'
