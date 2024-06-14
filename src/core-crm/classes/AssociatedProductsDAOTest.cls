@@ -14,13 +14,13 @@
 public with sharing class AssociatedProductsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getActiveAssociatedProductsByProductRequestTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 AssociatedProductsDAO.newInstance()
                     .getActiveAssociatedProductsByProductRequest(new Set<Id>())
@@ -34,7 +34,7 @@ public with sharing class AssociatedProductsDAOTest {
     @isTest
     static void getAssociatedProductsByIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 AssociatedProductsDAO.newInstance()
                     .getAssociatedProductsById(
@@ -50,7 +50,7 @@ public with sharing class AssociatedProductsDAOTest {
     @isTest
     static void getAssociatedProductsByIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builder = new MockIdGenerator(Associated_Products__c.sObjectType);
             System.assert(
                 AssociatedProductsDAO.newInstance()
@@ -67,7 +67,7 @@ public with sharing class AssociatedProductsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new AssociatedProductsDAO().getSObjectType() == Associated_Products__c.SObjectType,
                 'SObject is not Associated Products'

@@ -19,7 +19,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
             'Send Register Interest Email' => 'Test Email Subject'}).iterator().next();
         insert template;
@@ -28,7 +28,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
     @isTest
     private static void setToInactiveTest()
     {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
@@ -94,7 +94,7 @@ private class Expression_of_Interest_Inactive_FlowTest{
     @isTest
     private static void updateToInactiveTest()
     {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');

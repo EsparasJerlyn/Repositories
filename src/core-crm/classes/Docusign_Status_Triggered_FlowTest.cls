@@ -18,8 +18,10 @@
 private class Docusign_Status_Triggered_FlowTest {
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.Organization_Unit_Level__c = '3';
@@ -49,7 +51,6 @@ private class Docusign_Status_Triggered_FlowTest {
                 oppList[i].Faculty_Capacity__c = 'Yes';
                 oppList[i].Existing_Relationship__c = 'Yes';
             }
-            Test.startTest();
             insert(oppList);
 
             List<OpportunityContactRole> programLeadRole = TestDataFactory.createTestOpportunityContactRolesRecords(conProgramLead?.Id,oppList);
@@ -72,7 +73,6 @@ private class Docusign_Status_Triggered_FlowTest {
             }
 
             update(oppList);
-            Test.stopTest();
         }
     }  
 
@@ -82,7 +82,7 @@ private class Docusign_Status_Triggered_FlowTest {
         List<Opportunity> oppRecs = [Select Id FROM Opportunity];
         List<dfsle__EnvelopeStatus__c> docuSignStatuses = TestDataFactory.createTestEnvelopeStatusRecords(oppRecs,'Sent');
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             insert(docuSignStatuses);
             system.assert(![SELECT Id FROM Opportunity Where Status__c = 'Under Client Review'].isEmpty(), 'Status should be updated');
 

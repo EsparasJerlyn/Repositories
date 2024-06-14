@@ -15,13 +15,14 @@ public with sharing class ApplicantFlagBatchTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
-            TestDataFactory.generateTestUsers();
+            TestDataFactoryUser.generateUserSystemAdministrator();
+            TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
     @isTest
     private static void runApplicantFlagBatchTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = new List<Contact>();
             newContacts.add(
                 new Contact(
@@ -51,7 +52,7 @@ public with sharing class ApplicantFlagBatchTest {
             }
             update updateContacts;
         }
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
                 ApplicantFlagBatch batch = new ApplicantFlagBatch();
                 Database.executeBatch(batch);

@@ -14,13 +14,13 @@
 private class OpportunityOutcomesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             System.assert(
                 OpportunityOutcomesDAO.newInstance() != null,
                 'OpportunityOutcomesDAO instance is null'
@@ -32,7 +32,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             System.assert(
                 new OpportunityOutcomesDAO().getSObjectType() == Opportunity_Outcome__c.SObjectType,
                 'SObject is not Opportunity Outcome'
@@ -44,7 +44,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsSortByCodeAscTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsSortByCodeAsc();
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -55,7 +55,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithLikeCodeSortAscTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithLikeCodeSortAsc('');
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -65,7 +65,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithEqualEndDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithEqualEndDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -75,7 +75,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithNotEqualEndDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithNotEqualEndDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -85,7 +85,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithStartDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithStartDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -95,7 +95,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithFutureDateAsDecommissionedDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithFutureDateAsDecommissionedDate();
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -105,7 +105,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithPastDateAsDecommissionedDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithPastDateAsDecommissionedDate();
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
