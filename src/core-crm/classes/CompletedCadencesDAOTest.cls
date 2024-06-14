@@ -17,13 +17,14 @@
 public with sharing class CompletedCadencesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CompletedCadencesDAO().getSObjectType() == Completed_Cadence__c.SObjectType,
                 'SObject is not Completed_Cadence__c'
@@ -35,7 +36,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByContactIds(
                     new Set<Id>(),
@@ -49,7 +50,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByLeadIds(
                     new Set<Id>(),
@@ -63,7 +64,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByTargetIdsAndCadenceNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIdsAndCadenceName(
                     new Set<String>(),
@@ -78,7 +79,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByTargetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIds(
                     new Set<Id>(),

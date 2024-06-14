@@ -21,7 +21,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
     @testSetup
     static void setupMethod() {
         List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTMarketingCloud();
         for(integer i = 0; i < contactList.size(); i++){
             contactList[i].QUT_Student_ID__c = 'Test' + i;
             contactList[i].Email = 'testContact@email.com' + i;
@@ -44,7 +44,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
 
     @isTest
     public static void bulkContactMatchTest(){
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
             Marketing_Staging__c staging;
             //matching student id
@@ -105,7 +105,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
 
     @isTest
     public static void bulkContactExistingMarketingRecordsTest(){
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
             List<Marketing_Staging__c> stagingList2 = new List<Marketing_Staging__c>();
             Marketing_Staging__c staging;
@@ -187,7 +187,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
 
     @isTest
     public static void bulkLeadExistingMarketingRecordsTest(){
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
             List<Marketing_Staging__c> stagingList2 = new List<Marketing_Staging__c>();
             Marketing_Staging__c staging;
@@ -240,7 +240,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
 
     @isTest
     public static void bulkLeadMatchTest(){
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
             Marketing_Staging__c staging;
             //matching email

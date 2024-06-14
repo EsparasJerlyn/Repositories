@@ -28,13 +28,13 @@ public with sharing class AssetToReleaseBatchTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     private static void runPublishToReleaseTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             // create business account
             List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
             for(Account acc: accountList){

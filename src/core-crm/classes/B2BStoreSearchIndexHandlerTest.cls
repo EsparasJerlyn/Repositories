@@ -19,13 +19,13 @@ public class B2BStoreSearchIndexHandlerTest {
         Test.startTest();
         insert(prodList);
         Test.stopTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }  
     
     
     @isTest
     public static void testBuildSearchIndex() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             List<Product2> productList = [SELECT Id, isActive FROM Product2 LIMIT 1];

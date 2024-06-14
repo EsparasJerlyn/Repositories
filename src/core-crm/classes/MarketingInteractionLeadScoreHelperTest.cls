@@ -14,9 +14,8 @@
 public with sharing class MarketingInteractionLeadScoreHelperTest {
     @TestSetup
     static void makeData() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC,
@@ -66,13 +65,12 @@ public with sharing class MarketingInteractionLeadScoreHelperTest {
             );
             MarketingInteractionsDAO.newInstance()
                 .insertRecords(marInteractionList, true, AccessLevel.USER_MODE);
-        }
         
     }
 
     @isTest
     public static void processContactLeadScoreCalculationUndergradTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
             List<Marketing_Interaction__c> marInteractionList = new List<Marketing_Interaction__c>();
@@ -117,7 +115,7 @@ public with sharing class MarketingInteractionLeadScoreHelperTest {
 
     @isTest
     public static void processLeadLeadScoreCalculationUndergradTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             List<Marketing_Interaction__c> marInteractionList = new List<Marketing_Interaction__c>();
@@ -161,7 +159,7 @@ public with sharing class MarketingInteractionLeadScoreHelperTest {
 
     @isTest
     public static void processLeadUpdateLeadScoreCalculationUndergradTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
 

@@ -13,13 +13,13 @@
 public with sharing class IndividualEmailResultsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 new IndividualEmailResultsDAO().getSObjectType() == et4ae5__IndividualEmailResult__c.SObjectType,
                 'SObject is not et4ae5__IndividualEmailResult__c'
@@ -31,7 +31,7 @@ public with sharing class IndividualEmailResultsDAOTest {
     @isTest
     static void getIndivEmailResultsByContactOrLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<et4ae5__IndividualEmailResult__c> indivEmailList = IndividualEmailResultsDAO.newInstance()
                 .getIndivEmailResultsByContactOrLeadIds(
                     new Set<Id>(),
@@ -44,7 +44,7 @@ public with sharing class IndividualEmailResultsDAOTest {
 
     @isTest
     static void queryLocatorGetIndivEmailResultsByContactOrLeadIdsTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             System.assert(
                 IndividualEmailResultsDAO.newInstance().queryLocatorGetIndivEmailResultsByContactOrLeadIds(

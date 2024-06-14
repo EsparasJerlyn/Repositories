@@ -12,12 +12,12 @@
 public with sharing class DocumentTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        System.runAs(testDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List <IP_Management__c> ipManagementRecords = TestDataFactory.createIPManagement(
                 1,
                 IPManagementsDAO.PATENT_RECTYPE_ID

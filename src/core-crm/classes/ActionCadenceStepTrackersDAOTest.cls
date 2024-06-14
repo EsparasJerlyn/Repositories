@@ -14,13 +14,13 @@
 public with sharing class ActionCadenceStepTrackersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 new ActionCadenceStepTrackersDAO().getSObjectType() == ActionCadenceStepTracker.SObjectType,
                 'SObject is not ActionCadenceStepTracker'
@@ -31,7 +31,7 @@ public with sharing class ActionCadenceStepTrackersDAOTest {
 
     @isTest
     static void getUsersByNameSetTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             System.assert(
                 ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(new List<String>(), AccessLevel.SYSTEM_MODE) != null,

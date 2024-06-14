@@ -29,8 +29,10 @@ public with sharing class ManageApplicationSectionCtrlTest {
 
     @testSetup
      static void setupMethod(){
-          TestDataFactory.generateTestUsers();
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          Test.startTest();
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+          Test.stopTest();
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                List<EmailTemplate> emailTemplateList = TestDataFactory.createTestEmailTemplateRecords(3,new Map<String,String>{
                     SEND_APPLICATION_RESPONSE_TEMPLATE => 'Test Email Subject1',
                     APPLICATION_APPROVED_TEMPLATE => 'Test Email Subject2',
@@ -48,7 +50,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
     
      @isTest
      static void getApplicationStatusValuesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                List<String> appStatusValues = ManageApplicationSectionCtrl.getApplicationStatusValues();
                Test.stopTest();
@@ -58,7 +60,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
 
      @isTest
      static void getStudentApplicationsTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(opeActProdReqRecType);
                String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
                Test.startTest();
@@ -70,7 +72,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
 
      @isTest
      static void updateStudentApplicationTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(opeActProdReqRecType);
                String questionId = [SELECT Id FROM Questionnaire_Response_Summary__c LIMIT 1].Id;
                String applicationStatus= 'Rejected';
@@ -83,7 +85,7 @@ public with sharing class ManageApplicationSectionCtrlTest {
      }
 
      private static void createRecord(String productRequestRecordType){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                 Id offeringId = null;
 
                 List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
