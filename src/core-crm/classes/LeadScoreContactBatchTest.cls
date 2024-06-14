@@ -14,10 +14,9 @@
 public with sharing class LeadScoreContactBatchTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_System_Administrator'});
-        System.runAs(TestDataFactory.getSystemAdminUser()){
-            Test.startTest();
-            setupLeadScoreConfig(
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.UNDETERMINED, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
             );
@@ -35,7 +34,7 @@ public with sharing class LeadScoreContactBatchTest {
 
     @isTest
     private static void updateSubCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();

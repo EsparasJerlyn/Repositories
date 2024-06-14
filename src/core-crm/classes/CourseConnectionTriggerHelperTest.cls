@@ -18,9 +18,7 @@ public class CourseConnectionTriggerHelperTest {
     @TestSetup
     public static void testSetup(){
         //create test user
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Program_Administrator'}
-        );
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         //create Course Connection Records
         List<hed__Course_Enrollment__c> courseConnectionRecords = TestDataFactory.createTestCourseConnectionRecordsByStatus(200, 'Active', 'Sent');
         CourseConnectionsDAO.newInstance().insertRecords(courseConnectionRecords, false, AccessLevel.USER_MODE);
@@ -28,7 +26,7 @@ public class CourseConnectionTriggerHelperTest {
     
     @isTest
     public static void testSetLMSIntegrationStatusToNull(){
-        System.RunAs(TestDataFactory.getProgramAdminUser()){
+        System.RunAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Course_Enrollment__c> courseConnectionRecords = CourseConnectionsDAO.newInstance().getCourseConnectionByStatus('Active', 'Sent');
             Test.StartTest();
             for(hed__Course_Enrollment__c courseConnection : courseConnectionRecords){

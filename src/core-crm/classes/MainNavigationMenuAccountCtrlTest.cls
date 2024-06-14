@@ -19,13 +19,14 @@ public with sharing class MainNavigationMenuAccountCtrlTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTCorporatePartnerUser();
         Test.stopTest();
     }
 
     @isTest
     public static void getAllChildAccounts(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             Account parentAccount = new Account();
             parentAccount.RecordTypeId = BUSINESS_ACC_RECTYPEID;
@@ -62,7 +63,7 @@ public with sharing class MainNavigationMenuAccountCtrlTest {
             CCECorporateUserCtrl.enablePortalUser(contact.Id, 'Corporate Portal');
             User user = [SELECT Name, Username FROM User WHERE ContactId =: contact.Id LIMIT 1];
 
-            System.runAs(TestDataFactory.getCorporatePartnerUser()){
+            System.runAs(TestDataFactoryUser.selectUserQUTCorporatePartnerUser){
                 Id selectedId;
                 MainNavigationMenuAccountCtrl.UserAccountOptionWrapper getAcct = MainNavigationMenuAccountCtrl.getAllRelatedBusinessAccountOfUser(user.Id, selectedId);
                 System.assert(!getAcct.accountOptions.isEmpty(), 'No acccount names retrieve');

@@ -24,7 +24,9 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_International_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        Test.stopTest();
         // create lead
         List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
         LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);
@@ -35,19 +37,18 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
         List<Contact> conList = TestDataFactory.createTestContactRecords(1);
         ContactsDAO.newInstance().insertRecords(conList, false, AccessLevel.SYSTEM_MODE);
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
         	List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
         	WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
         }
 
-        Test.stopTest();
 
     }
 
     @isTest
     private static void sendEmailOnDomesticServiceAppointmentCreation() {
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
@@ -79,7 +80,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     @isTest
     private static void updateContactLinkedtoServiceAppointment(){
         
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             Test.startTest();
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -124,7 +125,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     @isTest
     private static void updateLeadLinkedtoServiceAppointment(){
         
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
             List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
@@ -186,7 +187,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     @isTest
     private static void sendEmailAfterUpdateCancellationOrReschedule() {
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
 
             Test.startTest();
 
@@ -232,8 +233,8 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     
     @isTest
     private static void testAppointmentEmailMatchToContactEmail() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
+            Test.startTest();
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -242,7 +243,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Email = '1testmail@mail.test';
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
-            Test.startTest();
+            
             List<ServiceAppointment> serviceAppointmentList = TestDataFactory.createTestServiceAppointmentRecords(1, newAccounts[0].Id);
             serviceAppointmentList[0].Email = '1testmail@mail.test';
             serviceAppointmentList[0].Contact__c = null;
@@ -262,7 +263,8 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     
     @isTest
     private static void testAppointmentEmailMatchToLeadEmail() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
+            Test.startTest();
             
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(6,7);
             LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.USER_MODE);
@@ -272,7 +274,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
             AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.SYSTEM_MODE);
             
-            Test.startTest();
             List<ServiceAppointment> serviceAppointmentList = TestDataFactory.createTestServiceAppointmentRecords(1, newAccounts[0].Id);
             serviceAppointmentList[0].Email = '6testmail@mail.test';
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
@@ -291,7 +292,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
 
     @isTest
     private static void generateGUIDTest() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> newItems = TestDataFactory.createTestServiceAppointmentRecords(200, accList.get(0).Id);
             Test.startTest();

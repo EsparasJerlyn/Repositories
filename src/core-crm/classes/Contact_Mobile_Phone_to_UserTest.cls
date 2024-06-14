@@ -16,9 +16,9 @@ public with sharing class Contact_Mobile_Phone_to_UserTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contacts = TestDataFactory.createTestContactRecords(5);
             for (Contact contact : contacts) {
                 contact.MobilePhone = '6112345678';
@@ -67,7 +67,7 @@ public with sharing class Contact_Mobile_Phone_to_UserTest {
         List<User> users = new List<User>();
         String updatedMobilePhone = '6111111112';
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<Contact> contacts = [
