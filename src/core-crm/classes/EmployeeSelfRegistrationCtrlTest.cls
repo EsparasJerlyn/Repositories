@@ -19,13 +19,13 @@ public with sharing class EmployeeSelfRegistrationCtrlTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     private static void sendEmployeeRegistrationEmailTest()
     {
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs ( PORTAL_SYS_ADMIN ) {
 
             //Create account

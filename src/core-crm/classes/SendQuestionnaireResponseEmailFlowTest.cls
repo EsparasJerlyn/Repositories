@@ -20,7 +20,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
             'Send Application Response Email' => 'Test Email Subject'}).iterator().next();
         insert template;
@@ -74,7 +74,7 @@ private class SendQuestionnaireResponseEmailFlowTest{
 
     @isTest
     private static void applyOnProgramTest(){
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         Test.startTest();
         System.runAs(PORTAL_SYS_ADMIN) {
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');

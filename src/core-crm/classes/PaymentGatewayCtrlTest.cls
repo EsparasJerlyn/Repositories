@@ -2,7 +2,7 @@
 public with sharing class PaymentGatewayCtrlTest {
     @testSetup
     static void insertTestData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Payment_Gateway_Settings__c paymentGateway = new Payment_Gateway_Settings__c();
         paymentGateway.Payment_URL__c = 'https://www.test@sample.com/tranadd?';
         paymentGateway.GL_Code__c = '1234';
@@ -20,7 +20,7 @@ public with sharing class PaymentGatewayCtrlTest {
     
     @isTest
     static void getPaymentGatewayTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {        
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {        
             String fullname = 'John Doe';
             String email = 'sample@email.com';
             String amount = '500.00';

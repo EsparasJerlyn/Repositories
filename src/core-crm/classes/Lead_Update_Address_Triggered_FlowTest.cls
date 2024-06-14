@@ -20,13 +20,13 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void upsertLeadAddressTest()
         {
-        System.runAs(TestDataFactory.getProgramAdminUser())
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
             {
                 List<Account> accs = new List<Account>();
                 List<lead> tLeads = new List<lead>();

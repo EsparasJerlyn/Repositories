@@ -20,8 +20,10 @@ public with sharing class ProductSpecificationTriggerHandlerTest {
     private static final String STR_IN_PROGRESS = 'In Progress';
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accounts;
             accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
@@ -45,7 +47,7 @@ public with sharing class ProductSpecificationTriggerHandlerTest {
 
     @isTest
     static void validateInsertProductSpecificationTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             DmlException expectedException;
             Test.startTest();
                 List<Contact> contacts = [Select Id, Name From Contact];
@@ -65,7 +67,7 @@ public with sharing class ProductSpecificationTriggerHandlerTest {
     
     @isTest
     static void validateUpdateProductSpecificationTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             DmlException expectedException;
             Test.startTest();
                 List<Product_Specification__c> psList = [SELECT Id, Name, Opportunity_Name__c FROM Product_Specification__c];

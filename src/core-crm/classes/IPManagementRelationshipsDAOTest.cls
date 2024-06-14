@@ -12,13 +12,13 @@
 public with sharing class IPManagementRelationshipsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             System.assert(
                 IPManagementRelationshipsDAO.newInstance() != null,
                 'IPManagementRelationships instance is null'
@@ -30,7 +30,7 @@ public with sharing class IPManagementRelationshipsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             System.assert(
                 new IPManagementRelationshipsDAO().getSObjectType() ==
                 IP_Management_Relationship__c.SObjectType,

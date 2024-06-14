@@ -28,7 +28,7 @@ public with sharing class BuyerGroupTriggerHelperTest {
   @testSetup 
   static void setupMethod() {
       Test.startTest();
-      TestDataFactory.generateTestUsers();
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
       Test.stopTest();
 
       ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
@@ -90,7 +90,7 @@ public with sharing class BuyerGroupTriggerHelperTest {
   @isTest
   private static void buyerGroupValidationErrorTest() {
     
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       List<BuyerGroup> bgList = new List<BuyerGroup>([
         SELECT Id, Ready_for_publishing__c
         FROM BuyerGroup
@@ -115,7 +115,7 @@ public with sharing class BuyerGroupTriggerHelperTest {
   @isTest
   private static void buyerGroupValidationSuccessTest() {
     
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       List<BuyerGroup> bgList = new List<BuyerGroup>([
         SELECT Id, Ready_for_publishing__c
         FROM BuyerGroup
@@ -156,7 +156,7 @@ public with sharing class BuyerGroupTriggerHelperTest {
   @isTest
   private static void decomissionTest() {
     
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       List<BuyerGroup> bgList = new List<BuyerGroup>([
         SELECT Id, Ready_for_publishing__c
         FROM BuyerGroup
@@ -203,7 +203,7 @@ public with sharing class BuyerGroupTriggerHelperTest {
 
   @isTest
   private static void validateExistingPublishedBuyerGrpTest() {
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       List<BuyerGroup> buyerGroupList = [SELECT Id, Ready_for_publishing__c, Product_Request__c, Primary_Account__c FROM BuyerGroup WHERE Product_Request__c != null LIMIT 1];
       buyerGroupList[0].Ready_for_publishing__c = 'Yes';
 

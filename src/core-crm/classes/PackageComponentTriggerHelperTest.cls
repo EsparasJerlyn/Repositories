@@ -22,7 +22,7 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
 
     }
@@ -30,7 +30,7 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
     @isTest
     private static void updateStudyLinkApplicationCalculatedDateOnPackageComponentTest(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -66,7 +66,7 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
     @isTest
     private static void updateStudyLinkApplicationCalculatedDateOnPackageComponentMultiplePackageComponentTest(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
