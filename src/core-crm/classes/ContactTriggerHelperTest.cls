@@ -25,7 +25,8 @@ private class ContactTriggerHelperTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
         TestDataFactory.loadEDATriggers();
         Test.stopTest();
 
@@ -35,7 +36,7 @@ private class ContactTriggerHelperTest {
         accountList.add(acc);
         insert accountList;
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
             leadScoreParentConfigList.add(
                 new Lead_Score_Configuration__c(
@@ -98,7 +99,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void insertContactTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Account> accList = [SELECT Id, RecordTypeId From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID OR RecordTypeId =: ADMINISTRATIVE];
             Id adminAccount;
             Id businessAccount;
@@ -126,7 +127,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void updatePrimaryBusinessOrgContactTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Account> accList = [SELECT Id, RecordTypeId From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID OR RecordTypeId =: ADMINISTRATIVE];
             Id adminAccount;
             Id businessAccount;
@@ -159,7 +160,7 @@ private class ContactTriggerHelperTest {
     @isTest
     private static void testContactCanNurtureFlag() {
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
@@ -181,7 +182,7 @@ private class ContactTriggerHelperTest {
     
     @isTest
     private static void testGetContactCalculatedCadence() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
@@ -204,7 +205,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void testUpdateMovingToBrisbaneOnInsert() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
             insert marSeg;
@@ -220,7 +221,7 @@ private class ContactTriggerHelperTest {
     
     @isTest
     private static void testUpdateMovingToBrisbaneOnUpdate() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
             insert marSeg;
@@ -236,7 +237,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void createMarketingSegmentationTest() {        
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 
@@ -262,7 +263,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void updateRegisteredEmailTest() {        
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 
@@ -296,7 +297,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void createMCPersonaRecordsTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
             Set<Id> personContactIds = new Set<Id>();
             Test.startTest();
@@ -324,7 +325,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void createMCPersonaByUpdatingPersonContact(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
             Set<Id> personContactIds = new Set<Id>();
             Test.startTest();
@@ -359,7 +360,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void updateMCPersonaByUpdatingPersonContact(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 
             Set<Id> personContactIds = new Set<Id>();
@@ -413,7 +414,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void updateParentByUpdatingChildMCPersona(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 
             Set<Id> personContactIds = new Set<Id>();
@@ -457,7 +458,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void updateParentLeadByUpdatingMCPersona(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Lead> leads = TestDataFactory.createTestLeadRecords(10);
             Set<Id> leadIds = new Set<Id>();
 
@@ -490,7 +491,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void testContactPrimaryEmailIsEmptyAndConvertLeadToContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Integer numOfRecords = 10;
             List<Lead> leads = new List<Lead>();
             for(Integer i = 0; i <= numOfRecords; i++){
@@ -548,7 +549,7 @@ private class ContactTriggerHelperTest {
     
     @isTest
     private static void testLeadWorkEmailIsPopulatedAndConvertLeadToContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             Integer numOfRecords = 5;
             List<Contact> contactList = new List<Contact>();

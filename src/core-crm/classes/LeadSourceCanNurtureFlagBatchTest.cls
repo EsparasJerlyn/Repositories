@@ -21,8 +21,11 @@ public with sharing class LeadSourceCanNurtureFlagBatchTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-        System.runAs(TestDataFactory.getProgramAdminUser()) {           
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {           
             
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
@@ -36,7 +39,7 @@ public with sharing class LeadSourceCanNurtureFlagBatchTest {
 
     @isTest
     private static void testAutomaticInternationalPreApplicationPartnerSourcedEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             // create marketing segmentation
             Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');
             insert internationalMS;
@@ -82,7 +85,7 @@ public with sharing class LeadSourceCanNurtureFlagBatchTest {
     
     @isTest
     private static void testContactAndLeadWithNoActiveApplicantions(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             conList[0].recordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             conList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
@@ -140,7 +143,7 @@ public with sharing class LeadSourceCanNurtureFlagBatchTest {
     
     @isTest
     private static void testContactAndLeadWithaAssociatedActiveApplicantions(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             conList[0].recordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             conList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
@@ -214,7 +217,7 @@ public with sharing class LeadSourceCanNurtureFlagBatchTest {
     // Test method for exception handling
     @isTest
     static void testExceptionHandling() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             // Call the batch class execute method
             LeadSourceCanNurtureFlagBatch batchable = new LeadSourceCanNurtureFlagBatch();

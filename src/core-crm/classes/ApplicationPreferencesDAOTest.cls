@@ -13,13 +13,13 @@
 public with sharing class ApplicationPreferencesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(ApplicationPreferencesDAO.newInstance() != null, 'ApplicationPreferencesDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class ApplicationPreferencesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new ApplicationPreferencesDAO().getSObjectType() == Application_Preference__c.SObjectType,
                 'SObject is not Application_Preference__c'
@@ -39,7 +39,7 @@ public with sharing class ApplicationPreferencesDAOTest {
     @isTest
     static void getApplicationPreferenceByAppSetIdsQTAC() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Application_Preference__c> applicationPreferenceList = ApplicationPreferencesDAO.newInstance()
                 .getApplicationPreferenceByAppSetIdsQTAC(
                     new Set<Id>(),
@@ -52,7 +52,7 @@ public with sharing class ApplicationPreferencesDAOTest {
     @isTest
     static void getApplicationPreferenceByAppSetIdsStudyLink() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Application_Preference__c> applicationPreferenceList = ApplicationPreferencesDAO.newInstance()
                 .getApplicationPreferenceByAppSetIdsStudyLink(
                     new Set<Id>(),
@@ -66,7 +66,7 @@ public with sharing class ApplicationPreferencesDAOTest {
     @isTest
     static void getCurrentApplicationPreferenceByIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Application_Preference__c> applicationPreferenceList = ApplicationPreferencesDAO.newInstance()
                 .getCurrentApplicationPreferenceById(
                     new Set<Id>(),

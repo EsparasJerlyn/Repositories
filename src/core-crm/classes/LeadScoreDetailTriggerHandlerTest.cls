@@ -16,8 +16,10 @@ private class LeadScoreDetailTriggerHandlerTest {
 
     @testSetup
     static void setupMethod(){  
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent' });
-        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        Test.stopTest();
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);
@@ -27,11 +29,10 @@ private class LeadScoreDetailTriggerHandlerTest {
                 lead.Lead_Type__c = 'CCE Corporate Partner';
             }   
             LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
-        }    
     }
     @isTest 
     private static void linkLeadScoreDetailToContactTest(){ 
-        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){ 
             List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords);
             Test.startTest();
             convertLead(leads);

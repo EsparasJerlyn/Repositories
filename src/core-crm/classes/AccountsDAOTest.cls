@@ -15,13 +15,13 @@
 public with sharing class AccountsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getAccountsBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetIds(new Set<Id>());
             System.assert(accountList.isEmpty(), 'accountList is not empty');
@@ -31,7 +31,7 @@ public with sharing class AccountsDAOTest {
 
     @isTest
     static void getPartnerAccountsByIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockAccount = new MockIdGenerator(Account.SObjectType);
             List<Account> accounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
@@ -45,7 +45,7 @@ public with sharing class AccountsDAOTest {
 
     @isTest
     static void getPartnerAccountsByIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Account> accounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
                 new Set<Id>(),
@@ -59,7 +59,7 @@ public with sharing class AccountsDAOTest {
     @isTest
     static void getAccountsByFieldsSetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetIds(new Set<Id>(), new List<String>(), AccessLevel.SYSTEM_MODE);
             System.assert(accountList.isEmpty(), 'accountList is not empty');
@@ -70,7 +70,7 @@ public with sharing class AccountsDAOTest {
     @isTest
     static void getAccountsBySetNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetNames(new Set<String>());
             System.assert(accountList.isEmpty(), 'accountList is not empty');
@@ -81,7 +81,7 @@ public with sharing class AccountsDAOTest {
     @isTest
     static void getAccountIdByBlankABNTest() {
         Test.startTest();      
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Account account = AccountsDAO.newInstance().getAccountIdByABN('');
             System.assert(account == null, 'No Account should be found');
         }
@@ -91,7 +91,7 @@ public with sharing class AccountsDAOTest {
     @isTest
     static void getAccountIdByABNTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
        		List<Account> accountList = TestDataFactory.createTestAccountWithABNRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             Account account = AccountsDAO.newInstance().getAccountIdByABN('ABN0');
@@ -103,7 +103,7 @@ public with sharing class AccountsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new AccountsDAO().getSObjectType() == Account.SObjectType,
                 'SObject is not Account'
@@ -115,7 +115,7 @@ public with sharing class AccountsDAOTest {
     @isTest
     static void getAccountBySetNamesWithLimitTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountBySetNamesWithLimit(new Set<String>(), 1);
             System.assert(accountList.isEmpty(), 'accountList is not empty');

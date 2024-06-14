@@ -18,13 +18,13 @@ public with sharing class IntegrationCallOutCtrlTest {
     @testSetup
     static void setupData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
     @isTest 
     static void testCallout() {   
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             List<Contact> contacts = TestDataFactory.createTestContactRecords(2);

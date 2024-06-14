@@ -67,13 +67,13 @@ public class B2BRegisterInterestBatchTest {
         interests = TestDataFactory.createExpressionOfInterest(25,contacts[0],products);
         insert interests;
 
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
 
     @isTest
     public static void testRegisterInterest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String htmlValue = 'Contact_FirstName Contact_LastName Product_Name Product_URL';
             Id userId = UserInfo.getUserId();
