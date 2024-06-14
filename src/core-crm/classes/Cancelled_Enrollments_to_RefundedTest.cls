@@ -25,14 +25,14 @@ public  class Cancelled_Enrollments_to_RefundedTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
     @isTest
     private static void cancellRegistrationTestRefunded() {
         
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             Id offeringId = null;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -114,7 +114,7 @@ public  class Cancelled_Enrollments_to_RefundedTest {
     @isTest
     private static void cancellRegistrationTestNotPaid() {
         
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             Id offeringId = null;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

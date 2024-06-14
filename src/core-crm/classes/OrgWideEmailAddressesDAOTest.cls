@@ -15,13 +15,13 @@ public with sharing class OrgWideEmailAddressesDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(OrgWideEmailAddressesDAO.newInstance() != null, 'OrgWideEmailAddressesDAO instance is null');
         }
         Test.stopTest();
@@ -30,7 +30,7 @@ public with sharing class OrgWideEmailAddressesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new OrgWideEmailAddressesDAO().getSObjectType() == OrgWideEmailAddress.SObjectType,
                 'SObject is not OrgWideEmailAddress'
@@ -42,7 +42,7 @@ public with sharing class OrgWideEmailAddressesDAOTest {
     @isTest
     static void getOrgWideEmailAddressByDisplayNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<OrgWideEmailAddress> orgwideEmailAdd = new List<OrgWideEmailAddress>();
             orgwideEmailAdd = OrgWideEmailAddressesDAO.newInstance()
                 .getOrgWideEmailAddressByDisplayName(

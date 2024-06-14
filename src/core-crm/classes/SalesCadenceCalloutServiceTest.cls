@@ -23,7 +23,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
         Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
         nurtureConfig.Cadence_Name__c = 'Test Cadences automated';
@@ -36,7 +36,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testQueueableCall() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             newContacts[0].Calculated_Cadence__c = 'Test Cadences automated';
@@ -58,7 +58,7 @@ private class SalesCadenceCalloutServiceTest {
 
     @isTest
     private static void testContactWithCalculatedCadencesAddValue() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -83,7 +83,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testContactWithCalculatedCadencesRemoveValue() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
@@ -115,7 +115,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testLeadWithCalculatedCadencesRemoveValue() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
 
@@ -148,7 +148,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testLeadProcessCompletedCadenceTracker() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();            
             Test.startTest();
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
@@ -175,7 +175,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testContactProcessCompletedCadenceTracker() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -202,7 +202,7 @@ private class SalesCadenceCalloutServiceTest {
 
     @isTest
     private static void updateCadenceStepTrackerTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
@@ -219,7 +219,7 @@ private class SalesCadenceCalloutServiceTest {
 
     @isTest
     private static void updateCompletedCadencesTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);  
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
@@ -250,7 +250,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testCompletedCadencesInitialCreation() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);  
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
@@ -278,7 +278,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @isTest
     private static void testUpdateCompletedCadencesOnRemoved() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);  
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();

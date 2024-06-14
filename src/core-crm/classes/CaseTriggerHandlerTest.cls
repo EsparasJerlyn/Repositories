@@ -17,12 +17,12 @@ private class CaseTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     private static void testCaseEmailMatchToContactEmail() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Email = '1testmail@mail.test';
@@ -48,7 +48,7 @@ private class CaseTriggerHandlerTest {
 
     @isTest
     private static void testCaseMobileMatchToContactMobile() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].MobilePhone = '090909';

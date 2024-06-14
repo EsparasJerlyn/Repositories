@@ -16,8 +16,10 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
  
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
             leadScoreParentConfigList.add(
@@ -134,7 +136,7 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     
     @isTest
     private static void sendEmailWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, AccessLevel.USER_MODE);
@@ -182,7 +184,7 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     
     @isTest
     private static void sendSMSWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest(); 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, AccessLevel.USER_MODE);

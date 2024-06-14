@@ -12,13 +12,13 @@
 public with sharing class MarketingInteractionsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new MarketingInteractionsDAO().getSObjectType() == Marketing_Interaction__c.SObjectType,
                 'SObject is not Marketing_Interaction__c'
@@ -30,7 +30,7 @@ public with sharing class MarketingInteractionsDAOTest {
     @isTest
     static void getMarketingInteractionByApplicantIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Marketing_Interaction__c> marketingInteractionList = MarketingInteractionsDAO.newInstance()
                 .getMarketingInteractionByApplicantIds(
                     new Set<Id>(),
@@ -44,7 +44,7 @@ public with sharing class MarketingInteractionsDAOTest {
     @isTest
     static void getMarketingInteractionsByContactOrLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Marketing_Interaction__c> marketingInteractionList = MarketingInteractionsDAO.newInstance()
                 .getMarketingInteractionsByContactOrLeadIds(
                     new Set<Id>(),
@@ -57,7 +57,7 @@ public with sharing class MarketingInteractionsDAOTest {
 
     @isTest
     static void queryLocatorGetMarketingInteractionsByContactOrLeadIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 MarketingInteractionsDAO.newInstance().queryLocatorGetMarketingInteractionsByContactOrLeadIds(
