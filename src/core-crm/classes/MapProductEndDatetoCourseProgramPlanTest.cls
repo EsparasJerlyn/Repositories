@@ -7,7 +7,7 @@ public with sharing class MapProductEndDatetoCourseProgramPlanTest {
 	@testSetup
     static void setup() {
         // Generate test users.
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         // Create accounts.
         List<Account> accList = new List<Account>();
         // > Test Account [0]
@@ -82,7 +82,7 @@ public with sharing class MapProductEndDatetoCourseProgramPlanTest {
     // this test method is to validate that the setup was successful.
     @isTest
     static void validateSetup() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Product_Specification__c> psList = [SELECT Id FROM Product_Specification__c];
             List<Product_Request__c> prList = [SELECT Id FROM Product_Request__c];
@@ -96,7 +96,7 @@ public with sharing class MapProductEndDatetoCourseProgramPlanTest {
     
     @isTest
     static void changeProductEndDates() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Product2> ptList = [SELECT Id, End_Date__c, Program_Plan__c, Course__c FROM Product2];
             Id ppId;
             Id crId;

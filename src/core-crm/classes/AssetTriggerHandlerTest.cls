@@ -24,8 +24,9 @@ public with sharing class AssetTriggerHandlerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         System.runAs(PROGRAM_ADMIN){
             ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
             insert prodCatalog;
@@ -86,12 +87,12 @@ public with sharing class AssetTriggerHandlerTest {
             ));
             insert bgToInsertList;
         }
-        Test.stopTest();
+        
     }
     
     @isTest 
     private static void validateAssetTestPositive() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Asset[] assetList = [SELECT Id, Mark_Design_Stage_as_Complete__c FROM Asset LIMIT 1];
             assetList[0].Mark_Design_Stage_as_Complete__c = true;
             Test.startTest();
@@ -104,7 +105,7 @@ public with sharing class AssetTriggerHandlerTest {
 
     @isTest
     private static void validatePublishingTestPositive() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Asset[] assetList = [SELECT Id, Ready_for_publishing__c FROM Asset LIMIT 1];
             assetList[0].Ready_for_publishing__c = 'Yes';
             Test.startTest();
@@ -117,7 +118,7 @@ public with sharing class AssetTriggerHandlerTest {
     
     @isTest
     private static void publishParentTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Asset[] assetList = [SELECT Id, Ready_for_publishing__c, Publishing_Start_Date__c, Product_Request__c FROM Asset LIMIT 1];
             assetList[0].Ready_for_publishing__c = 'Yes';
             assetList[0].Publishing_Start_Date__c = Date.today();
@@ -133,7 +134,7 @@ public with sharing class AssetTriggerHandlerTest {
 
     @isTest
     private static void completeParentTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Asset[] assetList = [SELECT Id, Publishing_End_Date__c, Product_Request__c FROM Asset LIMIT 1];
             assetList[0].Ready_for_publishing__c = 'Yes';
             assetList[0].Publishing_Start_Date__c = Date.today();
@@ -153,7 +154,7 @@ public with sharing class AssetTriggerHandlerTest {
 
     @isTest
     private static void validateExistingPublishedAssetTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Asset> assetList = [SELECT Id, Ready_for_publishing__c, Product_Request__c, AccountId, ContactId FROM Asset LIMIT 1];
             assetList[0].Ready_for_publishing__c = 'Yes';
             

@@ -22,13 +22,13 @@ public with sharing class EmailTriggerOnlineSelfPacedBatchTest {
 
     @TestSetup
     static void makeData(){
-      TestDataFactory.generateTestUsers();
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
 	  @isTest
     public static void testEmailOnlineSeldPacedBatch() {
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             /** ACCOUNT CREATION */
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

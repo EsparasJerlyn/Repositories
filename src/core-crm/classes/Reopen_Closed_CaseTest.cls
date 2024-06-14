@@ -18,7 +18,8 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
         
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
@@ -45,7 +46,7 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @IsTest
     static void reopenClosedInternationalCaseTest(){
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
             Test.startTest();
@@ -74,7 +75,7 @@ public with sharing class Reopen_Closed_CaseTest {
 
     @IsTest
     static void reopenClosedDomesticCaseTest(){
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
             Test.startTest();

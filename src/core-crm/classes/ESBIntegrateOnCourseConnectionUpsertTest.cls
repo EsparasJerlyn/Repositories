@@ -16,9 +16,10 @@
      */
     @testSetup static void setup() {
         // Generate test users.
-        TestDataFactory.generateTestUsers();
-
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Integration_Settings__c integrationSettings = new Integration_Settings__c(
                 Allow_ESB_Integration__c = false
             );
@@ -68,9 +69,7 @@
                 hed__Contact__c = cont.Id,
                 hed__Course_Offering__c = coff.Id
             );
-            Test.startTest();
             insert cenr;
-            Test.stopTest();
         }
     }
     
@@ -80,7 +79,7 @@
      * create a course enrollment record.
      */
     @isTest private static void integOffNewCourseEnr() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert([SELECT Id FROM hed__Course_Enrollment__c LIMIT 1].size() > 0, 'The course enrollment record was not created.');
             Test.stopTest();
@@ -93,7 +92,7 @@
      * should never run any in the first place.
      */
     @isTest private static void integOffUpdateCourseEnr() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             hed__Course_Enrollment__c cenr = [SELECT Id, hed__Contact__c FROM hed__Course_Enrollment__c LIMIT 1];
             Contact cont = new Contact( LastName = 'Updater' );
             Test.startTest();
@@ -111,7 +110,7 @@
      * create a course enrollment record.
      */
     @isTest private static void integOnNewCourseEnr() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             Integration_Settings__c integrationSettings = Integration_Settings__c.getOrgDefaults();
             integrationSettings.Allow_ESB_Integration__c = true;
@@ -135,7 +134,7 @@
      * should never run any in the first place.
      */
     @isTest private static void integOnUpdateCourseEnr() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             Integration_Settings__c integrationSettings = Integration_Settings__c.getOrgDefaults();
             integrationSettings.Allow_ESB_Integration__c = true;

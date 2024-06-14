@@ -16,20 +16,22 @@
 private class Account_Update_Triggered_FlowTest {
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         List<Account> accList = TestDataFactory.createTestAccountRecords(100);
         for(Account acc : accList){
                 acc.AccountABNEntity_Validation__c = 'Valid';
                 acc.Entity_Name__c = 'Test';
         }
         AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.USER_MODE);
-        List<AccountShare> accShare = TestDataFactory.createAccountShareRecords(accList, TestDataFactory.getProgramAdminUser().Id, 'Edit');
+        List<AccountShare> accShare = TestDataFactory.createAccountShareRecords(accList, TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id, 'Edit');
         insert accShare;
     }
 
     @isTest
     private static void updateAbnTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){           
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){           
             Test.startTest();
             List<Account> accList = [Select Id, ABN__c FROM Account];
             for(Account acc : accList){
