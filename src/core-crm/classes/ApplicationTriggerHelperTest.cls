@@ -49,7 +49,7 @@ private class ApplicationTriggerHelperTest {
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactory.loadEDATriggers();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -260,7 +260,6 @@ private class ApplicationTriggerHelperTest {
     @isTest
     private static void testStudyLinkMatching() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            Test.startTest();
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
@@ -273,7 +272,7 @@ private class ApplicationTriggerHelperTest {
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            
+            Test.startTest();
             ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
@@ -297,7 +296,7 @@ private class ApplicationTriggerHelperTest {
     @isTest
     private static void testSAMSLegacyMatching() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            Test.startTest();
+            
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
@@ -311,6 +310,7 @@ private class ApplicationTriggerHelperTest {
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
+            Test.startTest();
             ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             Contact updatedContact = [
@@ -329,7 +329,7 @@ private class ApplicationTriggerHelperTest {
     @isTest
     private static void testSAMSCIAnywhereMatching() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            Test.startTest();
+            
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
@@ -343,6 +343,7 @@ private class ApplicationTriggerHelperTest {
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
+            Test.startTest();
             ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             Contact updatedContact = [
