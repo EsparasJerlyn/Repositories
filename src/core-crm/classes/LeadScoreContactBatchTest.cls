@@ -24,6 +24,8 @@ public with sharing class LeadScoreContactBatchTest {
 
             List<Contact> contactsToAdd = new List<Contact>();
             List<Contact> contactList = TestDataFactory.createTestContactRecords(2);
+            contactList[0].Email_Opt_In_DateTime__c = System.now();
+            contactList[1].Email_Opt_In_DateTime__c = System.now();
             contactsToAdd.addAll(contactList);
             ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
             Test.stopTest();            
