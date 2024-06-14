@@ -142,6 +142,10 @@
         <members>CRM_180925_HVS_Sample_Dashboard_Folder/CRM_180925_HVS_Sample_Dashboard</members>
         <name>Dashboard</name>
     </types>
+    <types>
+        <members>DigitalMarketing</members>
+        <name>ReportFolder</name>
+    </types>
     <!--DEPP-8951 End-->
     <types>
         <!-- (Start) DEPP-6995 -->
