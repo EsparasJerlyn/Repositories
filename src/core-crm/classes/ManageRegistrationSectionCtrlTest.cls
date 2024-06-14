@@ -32,15 +32,15 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      static void makeData(){
           BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
           insert bypass;
-          TestDataFactory.generateTestUsers();
           Test.startTest();
-          createRecord(RT_ACTIVITY_ID);
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
           Test.stopTest();
+          createRecord(RT_ACTIVITY_ID);
      }
 
      @isTest
      static void getRegisteredEmailTest(){        
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                Contact con1 = [SELECT Id, Registered_Email__c FROM Contact WHERE Registered_Email__c != null LIMIT 1];
                Contact con2 = [SELECT Id, Registered_Email__c FROM Contact WHERE Registered_Email__c = null LIMIT 1];
@@ -56,7 +56,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getEmailOptionsTest(){
-          User programUser = TestDataFactory.getProgramAdminUser();
+          User programUser = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
           System.runAs(programUser){
                Test.startTest();
                
@@ -95,7 +95,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void checkOfferingAvailabilityTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){               
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){               
                Test.startTest();
                Boolean isAvailable = ManageRegistrationSectionCtrl.checkOfferingAvailability([
                     SELECT Id 
@@ -110,7 +110,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getPaidInFullValuesTest(){        
-          System.runAs(TestDataFactory.getProgramAdminUser()){               
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){               
                Test.startTest();
                List<String> paidInFullValues = ManageRegistrationSectionCtrl.getPaidInFullValues();
                Test.stopTest();
@@ -120,7 +120,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getRegistrationStatusValuesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                List<String> registrationStatusValues = ManageRegistrationSectionCtrl.getRegistrationStatusValues();
                Test.stopTest();
@@ -130,7 +130,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getPricingValidationValuesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                List<String> registrationStatusValues = ManageRegistrationSectionCtrl.getPricingValidationValues();
                Test.stopTest();
@@ -140,7 +140,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getQuestionsTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                String prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
                Test.startTest();
                List<Related_Answer__c> relatedAnswerList = ManageRegistrationSectionCtrl.getQuestions(prodReqId);
@@ -151,7 +151,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getSearchedContactsTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Test.startTest();
                List<Id> contactIds = new List<Id>();
                contactIds.add([SELECT Id FROM Contact Where Name LIKE :'Test%' AND Recordtype.DeveloperName = 'Person' LIMIT 1].Id);
@@ -164,7 +164,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
 
      @isTest
      static void getPBEntriesTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                List<hed__Course_Offering__c> courseOfferings = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
                Test.startTest();
                List<Map<String,String>> pbEntriesMap = ManageRegistrationSectionCtrl.getPBEntries(courseOfferings[0].Id, false);
@@ -174,7 +174,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
      }
 
      private static void createRecord(String productRequestRecordType){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Id offeringId = null;
 
                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

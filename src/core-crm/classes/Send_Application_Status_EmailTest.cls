@@ -22,8 +22,10 @@ private class Send_Application_Status_EmailTest {
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<EmailTemplate> templateList = TestDataFactory.createTestEmailTemplateRecords(3,new Map<String,String>{
                 EMAIL_TEMPLATE_RESPONSE => 'Test Email Subject1',
                 EMAIL_TEMPLATE_REJECTED => 'Test Email Subject2',
@@ -40,7 +42,7 @@ private class Send_Application_Status_EmailTest {
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
         insert studyStore;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
                 conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';
@@ -94,7 +96,7 @@ private class Send_Application_Status_EmailTest {
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
         insert studyStore;
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             for(Integer i =0;i<conList.size();i++){
                 conList[i].Registered_Email__c = 'testIdeaFormUser'+i+'@mailinator.com';

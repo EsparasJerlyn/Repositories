@@ -12,13 +12,13 @@
 public with sharing class BuyerGroupPriceBooksDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(BuyerGroupPriceBooksDAO.newInstance() != null, 'buyerGroupPriceBooksdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class BuyerGroupPriceBooksDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new BuyerGroupPriceBooksDAO().getSObjectType() == BuyerGroupPriceBook.SObjectType,
                 'SObject is not BuyerGroupPriceBook'
@@ -38,7 +38,7 @@ public with sharing class BuyerGroupPriceBooksDAOTest {
 
     @isTest
     static void getBuyerGroupPriceBooksByPricebookIdTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockPriceBook = new MockIdGenerator(BuyerGroupPriceBook.SObjectType);
             List<BuyerGroupPriceBook> bgPriceBooks = BuyerGroupPriceBooksDAO.newInstance().getBuyerGroupPriceBooksByPricebookId(
@@ -52,7 +52,7 @@ public with sharing class BuyerGroupPriceBooksDAOTest {
 
     @isTest
     static void getBuyerGroupPriceBooksByPricebookIdEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<BuyerGroupPriceBook> bgPriceBooks = BuyerGroupPriceBooksDAO.newInstance().getBuyerGroupPriceBooksByPricebookId(
                 null,
@@ -65,7 +65,7 @@ public with sharing class BuyerGroupPriceBooksDAOTest {
 
     @isTest
     static void getBuyerGroupPriceBooksByPricebookIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockPriceBook = new MockIdGenerator(BuyerGroupPriceBook.SObjectType);
             List<BuyerGroupPriceBook> bgPriceBooks = BuyerGroupPriceBooksDAO.newInstance().getBuyerGroupPriceBooksByPricebookIds(
@@ -79,7 +79,7 @@ public with sharing class BuyerGroupPriceBooksDAOTest {
 
     @isTest
     static void getBuyerGroupPriceBooksByPricebookIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<BuyerGroupPriceBook> bgPriceBooks = BuyerGroupPriceBooksDAO.newInstance().getBuyerGroupPriceBooksByPricebookIds(
                 new Set<Id>(),

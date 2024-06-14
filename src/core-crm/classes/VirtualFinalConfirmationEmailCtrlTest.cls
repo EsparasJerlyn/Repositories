@@ -20,12 +20,12 @@ public with sharing class VirtualFinalConfirmationEmailCtrlTest {
 
   @testSetup
   static void makeData(){
-    TestDataFactory.generateTestUsers();
+    TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
   }
 
   @isTest
   public static void testGeneratePDFandSendEmail() {
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for (Account acc : accounts){
