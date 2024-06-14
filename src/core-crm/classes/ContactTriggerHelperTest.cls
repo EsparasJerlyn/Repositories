@@ -697,7 +697,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void setMatchingfirstAndLastNameTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             String regexPattern = '[^a-zA-Z]';
             for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(100)) {
                 system.assertEquals(
@@ -716,7 +716,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void processSystemKeyChangeOnContactTriggerInsert() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactRecords = TestDataFactory.createTestContactRecords(100);
             Integer count = 0;

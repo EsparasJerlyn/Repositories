@@ -528,7 +528,7 @@ public with sharing class ContactTriggerHandlerTest {
 
     @isTest
     private static void processSystemKeyChangeOnContactTriggerInsert() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactRecords = TestDataFactory.createTestContactRecords(100);
             Integer count = 0;
@@ -554,7 +554,7 @@ public with sharing class ContactTriggerHandlerTest {
 
     @isTest
     private static void processSystemKeyChangeOnContactTriggerUpdate() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactRecords = TestDataFactory.createTestContactRecords(100);
             Integer count = 0;

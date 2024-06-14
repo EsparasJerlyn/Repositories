@@ -121,7 +121,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsByMatchingAttributesEmptyTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Contact> contactList = ContactsDAO.newInstance().getContactsByMatchingAttributes(
                 new Map<String,Set<String>>(),
                 new Set<Date>(), 
@@ -135,7 +135,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsByMatchingAttributesTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             Map<String,Set<String>> fieldSetMap = new Map<String,Set<String>>();
             
