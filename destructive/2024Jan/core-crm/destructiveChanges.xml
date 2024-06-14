@@ -253,7 +253,7 @@
     <types>
         <!--DEPP-8951-->
         <members>DigitalMarketing</members>
-        <name>Folder</name>
+        <name>Reportfolder</name>
     </types>
     <version>59.0</version> 
 </Package>
