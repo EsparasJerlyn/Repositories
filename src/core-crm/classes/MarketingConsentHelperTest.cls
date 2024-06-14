@@ -129,7 +129,7 @@
 
 	 @isTest
 	 static void optOutLeadsTest(){
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Account> accList = TestDataFactory.createTestAccountRecords(1);
 			insert accList;
 			Test.StartTest();
@@ -146,7 +146,7 @@
 
 	 @isTest
 	 static void optInLeadsTest(){
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Account> accList = TestDataFactory.createTestAccountRecords(1);
 			insert accList;
 			
