@@ -49,10 +49,10 @@ Less than X number of days before Class start date",International Application to
 NTC-0014,International Application to Offer,Inactive,"International FS (Contact) has received an offer on the application. OR
 International FS (Contact) has withdrawn the application OR
 International FS (Contact) has received an unsuccessful response on application.",International Application to Offer,Exit,,1,,,,
-NTC-0015,Domestic First Offer to Acceptance (Automated),Active,"Domestic FS (contact) has received an offer on any of their preferences AND
+NTC-0015,Domestic First Offer to Acceptance (Automated),Inactive,"Domestic FS (contact) has received an offer on any of their preferences AND
 Offer is not a previously deferred offer AND
 has not provide any sort of response to QUT.",Domestic First Offer to Acceptance,Entry,,1,,,,
-NTC-0016,Domestic First Offer to Acceptance (Automated),Active,"Domestic FS (contact) has accepted the offer OR
+NTC-0016,Domestic First Offer to Acceptance (Automated),Inactive,"Domestic FS (contact) has accepted the offer OR
 Domestic FS (contact) has declined the offer OR
 Domestic FS (contact) has deferred the offer OR
 Domestic FS (contact) offer has lapsed.",Domestic First Offer to Acceptance,Exit,,1,,,,
