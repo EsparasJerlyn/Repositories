@@ -305,12 +305,12 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID)
             };
+            Test.startTest();
             
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            Test.startTest();
             ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             Contact updatedContact = [
@@ -338,12 +338,12 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID)
             };
+            Test.startTest();
             
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            Test.startTest();
             ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             Contact updatedContact = [
