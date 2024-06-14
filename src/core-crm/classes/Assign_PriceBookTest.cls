@@ -17,9 +17,10 @@ private class Assign_PriceBookTest {
     private static final String STR_PB_NAME = 'Custom Corporate Products & Services';
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
-
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Pricebook2 priceBook = new Pricebook2(Name=STR_PB_NAME,IsActive=true);
             insert priceBook;
 
@@ -34,7 +35,7 @@ private class Assign_PriceBookTest {
 
     @isTest
     private static void assignPricebookToOpportunityTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Account acc = [SELECT Id From Account LIMIT 1];
             Contact con = [SELECT Id From Contact LIMIT 1];
             Id cceRecTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('QUTeX CCE').getRecordTypeId();

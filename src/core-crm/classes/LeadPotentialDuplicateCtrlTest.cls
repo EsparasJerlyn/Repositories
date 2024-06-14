@@ -33,12 +33,12 @@ private class LeadPotentialDuplicateCtrlTest {
         potentialDuplicates.add(new Potential_Duplicate__c(Duplicate_Lead__c = leads[0].Id, Contact__c = contacts[0].Id));
         insert potentialDuplicates;
 
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void getSelectedLeadTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
             List<Lead> leads = [SELECT Id FROM Lead];
             Id recordId = leads[0].Id;
@@ -51,7 +51,7 @@ private class LeadPotentialDuplicateCtrlTest {
 
     @isTest
     static void getLeadPotentialDuplicateTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
             List<Lead> leads = [SELECT Id FROM Lead];
             Id recordId = leads[0].Id;
@@ -64,7 +64,7 @@ private class LeadPotentialDuplicateCtrlTest {
 
     @isTest
     static void mergeLeadsTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
             List<Lead> leads = [SELECT Id FROM Lead];
             Id recordId = leads[0].Id;

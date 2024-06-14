@@ -14,7 +14,7 @@ public class AssetToPublishBatchSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
@@ -22,7 +22,7 @@ public class AssetToPublishBatchSchedulerTest {
     @isTest
     static void schedulerTest(){
         
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){              
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){              
             String cronExpression = Label.Asset_Cron_Expression;
             
             Test.startTest();

@@ -18,8 +18,10 @@ public with sharing class FinancialSplitsDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager' });
-         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+
+        Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';
         acc.Name = QUTEXPROD;
@@ -36,7 +38,7 @@ public with sharing class FinancialSplitsDAOTest {
     @isTest
     static void getFinancialSplitsRecordsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             List<Financial_Split__c> financialSplitList = FinancialSplitsDAO.newInstance()
                 .getFinancialSplitsRecords(FS_COURSE_FIELD,course?.Id);
@@ -48,7 +50,7 @@ public with sharing class FinancialSplitsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new FinancialSplitsDAO().getSObjectType() == Financial_Split__c.SObjectType,
                 'SObject is not Financial Split'
@@ -60,7 +62,7 @@ public with sharing class FinancialSplitsDAOTest {
     @isTest
     static void getActiveOpportunityFinancialSplitsRecordsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Financial_Split__c> financialSplits = FinancialSplitsDAO.newInstance().getActiveOpportunityFinancialSplitsRecords(new Set<Id>());
             System.assert(financialSplits != null, 'Financial Splits not found');
         }

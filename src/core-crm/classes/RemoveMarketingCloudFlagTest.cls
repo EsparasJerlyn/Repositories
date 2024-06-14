@@ -16,8 +16,11 @@ private class RemoveMarketingCloudFlagTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager'} );
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
            List<Contact> contacts = TestDataFactory.createTestContactRecords(200);
             for(Contact c : contacts){
                 c.Sync_To_MC__c = true;
@@ -29,7 +32,7 @@ private class RemoveMarketingCloudFlagTest {
 
     @isTest
     static void invalidateFieldsForObjectTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
 
             // Start the batch job
@@ -49,7 +52,7 @@ private class RemoveMarketingCloudFlagTest {
         String expectedMessage = 'sObject requested does not exist or user has no access to it';
         String resultMessage;
         try{
-             System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+             System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager){
                  Test.startTest();
                  // Start the batch job
                  RemoveMarketingCloudFlag batch = new RemoveMarketingCloudFlag();

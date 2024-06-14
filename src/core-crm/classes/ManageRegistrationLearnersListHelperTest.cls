@@ -29,14 +29,15 @@ public class ManageRegistrationLearnersListHelperTest {
      static void setupData(){
           
           Test.startTest();
-          TestDataFactory.generateTestUsers();
+          TestDataFactoryUser.generateUserSystemAdministrator();
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
           Test.stopTest();
           createRecord(RT_ACTIVITY_ID);
      }
 
      @isTest
      static void getRegistrations(){
-          final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+          final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
           System.runAs(PORTAL_SYS_ADMIN){
                Account portalAccount = new Account(Name='TestAccount', OwnerId = PORTAL_SYS_ADMIN.Id);
                Database.insert(portalAccount);
@@ -122,7 +123,7 @@ public class ManageRegistrationLearnersListHelperTest {
 
      @isTest
      static void updateRegistrationTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                hed__Course_Enrollment__c student = [
                     SELECT Id, hed__Status__c, Paid_in_Full__c, Pricing_Validation__c, Program_Offering__c 
                     FROM hed__Course_Enrollment__c 
@@ -141,7 +142,7 @@ public class ManageRegistrationLearnersListHelperTest {
      }
 
      private static void createRecord(String productRequestRecordType){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Id offeringId = null;
 
                BuyerGroup bg = new BuyerGroup();

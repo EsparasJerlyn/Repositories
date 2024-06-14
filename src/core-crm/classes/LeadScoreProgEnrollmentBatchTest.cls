@@ -14,9 +14,10 @@
 public with sharing class LeadScoreProgEnrollmentBatchTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_System_Administrator'});
-        System.runAs(TestDataFactory.getSystemAdminUser()){
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
@@ -46,7 +47,6 @@ public with sharing class LeadScoreProgEnrollmentBatchTest {
             }
             programEnListToInsert.addAll(programEnList);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListToInsert, true, AccessLevel.SYSTEM_MODE);
-            Test.stopTest();
             
             List<Marketing_Segmentation__c> marketingSegmentationConList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
             List<Marketing_Segmentation__c> mktgSegConToUpdate = new List<Marketing_Segmentation__c>();
@@ -61,7 +61,7 @@ public with sharing class LeadScoreProgEnrollmentBatchTest {
 
     @isTest
     private static void updateSubCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();

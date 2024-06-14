@@ -17,12 +17,12 @@ public with sharing class NurturingTrackServiceTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void getNurturingTrackRecordsTest() {
-            System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ImplementationSelector.DAO.setMock(new NurtureTrackConfigurationsDAOMock());
             Test.startTest(); 
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
@@ -41,7 +41,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void getApplicantIdsWithCompletedCadence(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             conList[0].recordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -84,7 +84,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void populateCalculatedCadenceMultipleTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             String automatedCadence = 'International Application Submission - Direct Applicant (Automated)';
             String manualCadence = 'International Application Submission - Direct Applicant';
@@ -142,7 +142,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void populateCalculatedCadenceSingleTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             String automatedCadence = 'International Application Submission - Direct Applicant (Automated)';
             String manualCadence = null;
@@ -199,7 +199,7 @@ public with sharing class NurturingTrackServiceTest {
     }
     @isTest
     private static void getCurrentIntakePeriodTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
@@ -230,7 +230,7 @@ public with sharing class NurturingTrackServiceTest {
     }
     @isTest
     private static void isDateWithinRangeTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             Date dateToCheck = System.today();
             Date lowerDate = System.today().addMonths(-15);
@@ -242,7 +242,7 @@ public with sharing class NurturingTrackServiceTest {
     }
     @isTest
     private static void isDateWithinRangeFailsafeTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             Date dateToCheck = System.today();
             Date upperDate = System.today().addMonths(-15);
