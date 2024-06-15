@@ -17,7 +17,7 @@ private class LeadScoreCalculatorServiceTest {
     @TestSetup
     static void setupData(){
         TestDataFactoryUser.generateUserSystemAdministrator();
-        
+
         setupLeadScoreConfig(
             LeadScoreConfigurationDAO.DOMESTIC, 
             LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
@@ -205,13 +205,12 @@ private class LeadScoreCalculatorServiceTest {
     @isTest
     private static void executeBatchTest() {
         Id batchableId;
+        Test.startTest();
         System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
-            Test.startTest();
             LeadScoreCalculationBatch batchable = new LeadScoreCalculationBatch();
             batchableId = Database.executeBatch(batchable);            
-            Test.stopTest();
         }
-
+        Test.stopTest();
         System.assert(
             batchableId != null,
             'The batch job failed to execute.'
