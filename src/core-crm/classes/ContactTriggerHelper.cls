@@ -1263,8 +1263,7 @@ public without sharing class ContactTriggerHelper {
             //natural key email/mobile confirmation failed and contacts are found
             boolean isNaturalKeyConfirmationFailed =
                 result.errorMessage ==
-                'Contact Record does not match email and/or mobile provided' &&
-                !result.contactIds.isEmpty();
+                'Contact Record does not match email and/or mobile provided';
 
             // Determine if another existing contact was found
             boolean isMatchingContactFound =
@@ -1277,7 +1276,13 @@ public without sharing class ContactTriggerHelper {
                 contactToMatch.addError(
                     'Contact update failed to prevent duplicate contact creation'
                 );
+                // Log error message
+                Logger.error(JSON.serializePretty(result), contactToMatch.Id);
+                
             }
+        }
+        if (Logger.getBufferSize() > 0) {
+            Logger.saveLog();
         }
     }
 }
