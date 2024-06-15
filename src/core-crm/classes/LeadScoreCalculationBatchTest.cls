@@ -39,13 +39,14 @@ public with sharing class LeadScoreCalculationBatchTest {
     @isTest
     private static void executeBatchTest() {
         Id batchableId;
-        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
-            Test.startTest();
-            LeadScoreCalculationBatch batchable = new LeadScoreCalculationBatch();
-            batchableId = Database.executeBatch(batchable);            
-            Test.stopTest();
-        }
 
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            LeadScoreCalculationBatch batchable = new LeadScoreCalculationBatch();
+            batchableId = Database.executeBatch(batchable);      
+        }
+        Test.stopTest();
+        
         System.assert(
             batchableId != null,
             'The batch job failed to execute.'
