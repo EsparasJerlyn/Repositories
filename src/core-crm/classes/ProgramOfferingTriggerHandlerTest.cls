@@ -19,7 +19,7 @@ public with sharing class ProgramOfferingTriggerHandlerTest {
 
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
@@ -39,7 +39,7 @@ public with sharing class ProgramOfferingTriggerHandlerTest {
 
     @isTest
     private static void validateRelatedProductBeforeUpdateTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(100);

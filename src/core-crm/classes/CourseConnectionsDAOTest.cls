@@ -23,13 +23,14 @@ public with sharing class CourseConnectionsDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' , 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CourseConnectionsDAO().getSObjectType() == hed__Course_Enrollment__c.SObjectType,
                 'SObject is not hed__Course_Enrollment__c'
@@ -42,7 +43,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByPEContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByPEContactIds(
                     new Set<Id>(),
@@ -56,7 +57,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByProgramEnrollmentIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByProgramEnrollmentIds(
                     new Set<Id>(),
@@ -70,7 +71,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getActiveCourseConnectionsBySetContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getActiveCourseConnectionsBySetContactIds(
                     new Set<String>(),
@@ -84,7 +85,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getRegisteredLearnersEmailByCourseOfferingTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getRegisteredLearnersEmailByCourseOffering(
                     new Set<Id>(),
@@ -99,7 +100,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByStatusTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByStatus(
                     'Active',
@@ -113,7 +114,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByCartItemTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByCartItem(
                     new Set<Id>(),
@@ -127,7 +128,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByCartItemNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForCartItem = new MockIdGenerator(CartItem.sObjectType);
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByCartItem(
@@ -142,7 +143,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -183,7 +184,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getWhereClauseByNoCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
@@ -200,7 +201,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getContactQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -248,7 +249,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
 
@@ -297,7 +298,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             //Created record
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -364,7 +365,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void findByCriteriaNegativeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             //Created record
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -426,7 +427,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             CourseConnectionsDAO.Criteria criteria = new CourseConnectionsDAO.Criteria();
             System.assert(criteria.isEmpty(), 'Criteria should be empty.');
         }

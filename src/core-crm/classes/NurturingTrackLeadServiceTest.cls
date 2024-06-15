@@ -21,9 +21,11 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -133,12 +135,11 @@ public with sharing class NurturingTrackLeadServiceTest {
             List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
             newLead[0].Email_Opt_In_Datetime__c = System.Today();
             LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);
-            Test.stopTest();
     }
     
     @isTest
     private static void testManualInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -168,7 +169,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForEntryAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -208,7 +209,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForEntryManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -263,7 +264,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForExitAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -298,7 +299,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void testAutomaticInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // get lead
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -330,7 +331,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void testAutomaticInternationalDirectApplicantExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -361,7 +362,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void testManualInternationalDirectApplicantExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -392,7 +393,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForExitManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -427,7 +428,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest 
     private static void getEntryInternationalStrongInterestPreApplicationTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
@@ -484,7 +485,7 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @isTest
     private static void getExitInternationalStrongInterestPreApplicationTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -535,7 +536,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticAcceptedAndAdmittedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
@@ -574,7 +575,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getEntryInternationalApplicationToOfferDirectAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(1);
 
             List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
@@ -608,7 +609,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getExitInternationalApplicationToOfferDirectAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Lead> leads = LeadsDAO.getLeadsWithLimit(1);
             leads[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED;
             LeadsDAO.newInstance().updateRecords(leads, false, AccessLevel.SYSTEM_MODE);
@@ -643,7 +644,7 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @isTest 
     private static void testEntryInternationalPreApplicationPartnerSourcedManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
@@ -683,7 +684,7 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @isTest 
     private static void testEntryInternationalPreApplicationPartnerSourcedAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);

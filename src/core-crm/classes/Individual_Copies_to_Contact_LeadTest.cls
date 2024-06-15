@@ -9,7 +9,8 @@ private class Individual_Copies_to_Contact_LeadTest {
    
     @testSetup static void setupMethod() {
         Test.startTest();
-            TestDataFactory.generateTestUsers(new List<String>{'QUT_Marketing_Cloud'});
+        TestDataFactoryUser.generateUserQUTMarketingCloud();  
+
         Test.stopTest();
         
         insert(TestDataFactory.createTestContactRecords(1));
@@ -29,7 +30,7 @@ private class Individual_Copies_to_Contact_LeadTest {
 
     @isTest
     private static void updateIndividualRecord(){
-         System.runAs(TestDataFactory.getMarketingCloudUser()) {
+         System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
             DateTime currentTime = System.now();
 
             Individual individual = [SELECT Id, HasOptedOutSolicit, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Individual];

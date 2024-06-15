@@ -12,12 +12,12 @@
 public with sharing class RelationshipManagerTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_IE_Partnership_Manager'});
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
     }
 
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        System.runAs(testDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             //create account record
             List <Account> accountBusinesOrganization = TestDataFactory.createTestAccountRecordsWithRecordType(
                 1,
@@ -34,7 +34,7 @@ public with sharing class RelationshipManagerTriggerHandlerTest {
                 1,
                 RelationshipManagersDAO.ACCOUNT_RELATIONSHIP_MANAGER_RECTYPE_ID,
                 accountBusinesOrganization[0].Id,
-                testDataFactory.getQUTIEPartnershipManager().Id
+                TestDataFactoryUser.selectUserIndustryPartnershipManager.Id
             );
 
             System.assert(

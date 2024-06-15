@@ -18,12 +18,13 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void queryLocatorScheduledCommunicationQueueTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 CommunicationQueuesDAO.newInstance().queryLocatorScheduledCommunicationQueue() != null,
@@ -35,7 +36,7 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @isTest
     static void queryLocatorSentCommunicationQueueTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 CommunicationQueuesDAO.newInstance().queryLocatorSentCommunicationQueue() != null,
@@ -47,7 +48,7 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @isTest
     static void queryLocatorNoAnswerSMSQueueTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 CommunicationQueuesDAO.newInstance().queryLocatorNoAnswerSMSQueue() != null,
@@ -60,7 +61,7 @@ public with sharing class CommunicationQueuesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CommunicationQueuesDAO().getSObjectType() == Communication_Queue__c.SObjectType,
                 'SObject is not Communication_Queue__c'
@@ -72,7 +73,7 @@ public with sharing class CommunicationQueuesDAOTest {
     @isTest
     static void getComminicationQueueRecordsByStatusTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Communication_Queue__c> commsQueueList = CommunicationQueuesDAO.newInstance()
                 .getComminicationQueueRecordsByStatus(
                     new Set<String>(),
@@ -86,7 +87,7 @@ public with sharing class CommunicationQueuesDAOTest {
     @isTest
     static void getCommsQueueRecordsByStatusAndLastModifiedTodayTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Communication_Queue__c> commsQueueList = CommunicationQueuesDAO.newInstance()
                 .getCommsQueueRecordsByStatusAndLastModifiedToday(
                     new Set<String>(),
@@ -99,7 +100,7 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @isTest
     static void getComminicationQueueRecordsByIdSetsTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;

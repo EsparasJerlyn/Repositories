@@ -26,13 +26,15 @@ public with sharing class ContactUserNameCreatedHelperTest {
 
     @testSetup
     static void testSetup() {
-      TestDataFactory.generateTestUsers();
+      Test.startTest();
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+      Test.stopTest();
     }
 
     @isTest
     private static void sendEmailOnContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+          
             Integer i = 0;
             List<Contact> contacts = TestDataFactory.createTestContactRecords(100);
             for (Contact contact : contacts) {
@@ -41,7 +43,7 @@ public with sharing class ContactUserNameCreatedHelperTest {
               i++;
             }
             insert contacts;
-
+            Test.startTest();
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
             insert studyStore;
             
@@ -61,7 +63,7 @@ public with sharing class ContactUserNameCreatedHelperTest {
 
     @isTest
     public static void emailDeliverabilityTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
           // Create Accounts
           List<Account> accounts = TestDataFactory.createTestAccountRecords(100);
           for (Account acc : accounts){

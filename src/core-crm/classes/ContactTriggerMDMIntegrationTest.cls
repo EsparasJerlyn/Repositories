@@ -16,7 +16,7 @@ public with sharing class ContactTriggerMDMIntegrationTest {
     @testSetup
     static void setupData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
@@ -31,7 +31,7 @@ public with sharing class ContactTriggerMDMIntegrationTest {
         Integration_Settings__c integrationSettings = new Integration_Settings__c(Allow_ESB_Integration__c = true);
         insert integrationSettings;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             try{
                 List<Contact> contacts = TestDataFactory.createTestContactRecords(2);
@@ -61,7 +61,7 @@ public with sharing class ContactTriggerMDMIntegrationTest {
 
         TestDataFactory.createTestContactRecords(2);
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             try{
                 List<Contact> contactList = [SELECT Id FROM Contact WHERE FirstName LIKE '%Test%' AND LastName LIKE '%Contact%' WITH SECURITY_ENFORCED];
                 for(Contact con : contactList){

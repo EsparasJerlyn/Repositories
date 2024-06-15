@@ -17,13 +17,14 @@
 public with sharing class CompletedCadencesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CompletedCadencesDAO().getSObjectType() == Completed_Cadence__c.SObjectType,
                 'SObject is not Completed_Cadence__c'
@@ -35,7 +36,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByContactIds(
                     new Set<Id>(),
@@ -49,7 +50,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByLeadIds(
                     new Set<Id>(),
@@ -63,7 +64,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByTargetIdsAndCadenceNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIdsAndCadenceName(
                     new Set<String>(),
@@ -78,7 +79,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getCompletedCadenceByTargetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIds(
                     new Set<Id>(),
@@ -93,7 +94,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
@@ -122,7 +123,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getWhereClauseByCriteriaEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             String whereClauseString = CompletedCadencesDAO.newInstance().
                 getWhereClauseByCriteria(
                     new CompletedCadencesDAO.Criteria(), 
@@ -136,7 +137,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getContactQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
@@ -171,7 +172,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void getQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
@@ -209,7 +210,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             //Create record
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
@@ -258,7 +259,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void findByCriteriaNegativeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             //Create record
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
@@ -306,7 +307,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             CompletedCadencesDAO.Criteria criteria = new CompletedCadencesDAO.Criteria();
             System.assert(criteria.isEmpty(), 'Criteria should be empty.');
         }
@@ -316,7 +317,7 @@ public with sharing class CompletedCadencesDAOTest {
     @isTest
     static void criteriaIsNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             String completedCadenceName = 'Domestic Accepted and Admitted';
 
             CompletedCadencesDAO.Criteria completedCadenceCriteria = new CompletedCadencesDAO.Criteria();

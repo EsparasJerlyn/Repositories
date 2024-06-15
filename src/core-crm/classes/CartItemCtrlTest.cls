@@ -17,9 +17,11 @@ public with sharing class CartItemCtrlTest {
 
   @testSetup
   static void setupMethod() {
-    TestDataFactory.generateTestUsers();
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
+    TestDataFactoryUser.generateUserSystemAdministrator();
+    Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
+  
     //create account
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
     accounts[0].RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -386,12 +388,12 @@ public with sharing class CartItemCtrlTest {
       CatalogId = prodCatalog.Id
     );
     insert prodCateg;
-    Test.stopTest();
+    
   }
 
   @isTest
   static void getCartItemsTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
       User userTest = [
@@ -433,7 +435,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void checkCartOwnerShipTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       WebCart cart = [SELECT Id, OwnerId, Name FROM WebCart LIMIT 1];
         
@@ -453,7 +455,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void saveCartSummaryQuestionsTest(){
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       hed__Course_Offering__c courseOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
       List<CartItemCtrl.QuestionnaireResponseData> qrsDataList = new List<CartItemCtrl.QuestionnaireResponseData>();
@@ -507,7 +509,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void getCartItemDiscountTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
     WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
@@ -532,7 +534,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void updateCartStatusTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
@@ -547,7 +549,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void closeCartTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
     WebCart webCart = [SELECT Id, Name, Status FROM WebCart LIMIT 1];
 
@@ -564,7 +566,7 @@ public with sharing class CartItemCtrlTest {
   
   @isTest
   static void getOPEProductCategTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       Test.startTest();
       ProductCategory prodCategId = CartItemCtrl.getOPEProductCateg();
@@ -576,7 +578,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void updatePaymentMethodTest() {
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
@@ -592,7 +594,7 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void getWebCartExternalIdTest(){
-  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+  final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN) {
       WebCart webCart = [SELECT Id, Name, External_Id__c FROM WebCart LIMIT 1];
 

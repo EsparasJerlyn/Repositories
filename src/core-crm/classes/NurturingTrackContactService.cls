@@ -1581,11 +1581,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Boolean hasAutomatedCompletedCadence
     ) {
 
-        if (hasAutomatedCompletedCadence){
+        // tactical fix - by removing this condition manual cadence doesn't depend on a completed automated cadence
+        // if (hasAutomatedCompletedCadence){
             domesticFirstOffertoAcceptanceManual.put(application.Id, application); // Group Manual Application
-        } else {
-            domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
-        }
+        // } else {
+        //     domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
+        // }
     }
 
     /**
@@ -1653,23 +1654,24 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> latestApplicationManual,
         Map<Id, Contact> contactToUpdateMap
     ) {
+        // tactical fix - by removing this condition manual cadence doesn't depend on a completed automated cadence
         // Check Contact and Cadence Name if Automated is already Completed
-        Map<Id, Set<String>> applicantIdsWithCompletedCadenceAutomated = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
-            domesticEntryContactMap.keySet(),
-            new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
-            applicantIdsWithCompletedCadence
-        );
+        // Map<Id, Set<String>> applicantIdsWithCompletedCadenceAutomated = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+        //     domesticEntryContactMap.keySet(),
+        //     new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
+        //     applicantIdsWithCompletedCadence
+        // );
 
-        Map<Id, hed__Application__c> latesetApplicationForManualCadence = new Map<Id, hed__Application__c>();
+        //Map<Id, hed__Application__c> latesetApplicationForManualCadence = new Map<Id, hed__Application__c>();
 
         // Get only the contact application that needs to be inserted if Automated is Completed
-        for (Id applicationId : latestApplicationManual.keySet()) {
-            hed__Application__c application = latestApplicationManual.get(applicationId);
+        // for (Id applicationId : latestApplicationManual.keySet()) {
+        //     hed__Application__c application = latestApplicationManual.get(applicationId);
 
-            if (applicantIdsWithCompletedCadenceAutomated.containsKey(application.hed__Applicant__c)) {
-                latesetApplicationForManualCadence.put(applicationId, application);
-            }
-        }
+        //     if (applicantIdsWithCompletedCadenceAutomated.containsKey(application.hed__Applicant__c)) {
+        //         latesetApplicationForManualCadence.put(applicationId, application);
+        //     }
+        // }
 
         // Check Contact and Cadence Name if Manual is already Completed
         Map<Id, Set<String>> applicantIdsWithCompletedCadenceManual = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
@@ -1687,7 +1689,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         // Check and Update Contacts Cadence Name
         List<Contact> contactToUpdateListManual = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
             applicantIdsWithCompletedCadenceManual,
-            latesetApplicationForManualCadence.values(),
+            //latesetApplicationForManualCadence.values(),
+            latestApplicationManual.values(),
             cadenceWrapper
         );
 

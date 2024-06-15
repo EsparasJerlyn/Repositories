@@ -14,8 +14,11 @@ public with sharing class CompleteCadenceBatchTest {
     @TestSetup
     static void setupData(){
         
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
@@ -76,7 +79,7 @@ public with sharing class CompleteCadenceBatchTest {
     private static void executeBatchTest() {
         Id batchableId;
         
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             ImplementationSelector.DAO.setMock(new ActionCadenceStepTrackersDAOMock());
             CompleteCadenceBatch batchable = new CompleteCadenceBatch();

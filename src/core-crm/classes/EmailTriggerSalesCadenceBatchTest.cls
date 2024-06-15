@@ -19,8 +19,10 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
             EmailTemplate emailTemplate = new EmailTemplate();
             emailTemplate.Name = 'Test Email Temp';
@@ -39,7 +41,7 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     
     @isTest
     private static void sendEmailWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');      
             for(Integer i = 0; i < contactList.size(); i ++){
@@ -100,7 +102,7 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     
     @isTest
     private static void sendSMSWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Integer i = 0; i < contactList.size(); i ++){
@@ -160,7 +162,7 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     
     @isTest
     private static void sendNurturingEmailWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Integer i = 0; i < contactList.size(); i ++){
