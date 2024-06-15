@@ -23,7 +23,7 @@ private class BuyerGroupMemberRelatedListCtrlTest {
     static void setupMethod(){
 
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
 
         List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
@@ -74,7 +74,7 @@ private class BuyerGroupMemberRelatedListCtrlTest {
     static void getSearchedAccountsTest() {
         List<Product_Request__c> prList = new List<Product_Request__c>([SELECT Id FROM Product_Request__c LIMIT 1]);
         List<Map<String,String>> searchResult = new List<Map<String,String>>();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             if(!prList.isEmpty()){
                 Test.startTest();
                 searchResult = BuyerGroupMemberRelatedListCtrl.getSearchedAccounts('TestAccount',prList[0].Id);
@@ -88,7 +88,7 @@ private class BuyerGroupMemberRelatedListCtrlTest {
     @isTest
     static void createBuyerGroupMemberTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<BuyerGroup> bg = new List<BuyerGroup>([SELECT Id FROM BuyerGroup LIMIT 1]);
             List<Account> newAccount = TestDataFactory.createTestAccountRecords(1);
@@ -108,7 +108,7 @@ private class BuyerGroupMemberRelatedListCtrlTest {
     @isTest
     static void getBuyerGroupRecordTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Product_Request__c> prList = new List<Product_Request__c>([SELECT Id FROM Product_Request__c LIMIT 1]);
 
@@ -122,7 +122,7 @@ private class BuyerGroupMemberRelatedListCtrlTest {
     @isTest
     static void getRelatedBuyerGroupMembersListTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Product_Request__c> prList = new List<Product_Request__c>([SELECT Id FROM Product_Request__c LIMIT 1]);
 

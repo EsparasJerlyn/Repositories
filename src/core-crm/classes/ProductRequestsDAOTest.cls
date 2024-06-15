@@ -12,13 +12,13 @@
 private class ProductRequestsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getProductRequestsBySetNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Product_Request__c> productRequestList = ProductRequestsDAO.newInstance()
                 .getProductRequestsBySetNames(new Set<String>());
             System.assert(productRequestList.isEmpty(), 'productRequestList is not empty');
@@ -29,7 +29,7 @@ private class ProductRequestsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ProductRequestsDAO().getSObjectType() == Product_Request__c.SObjectType,
                 'SObject is not Product_Request__c'

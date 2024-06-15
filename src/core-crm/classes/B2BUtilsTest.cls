@@ -15,12 +15,12 @@
 public with sharing class B2BUtilsTest {
    
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
     
   	@isTest
     public static void resolveCommunityIdToWebstoreId() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String exceptionMessage;
             Test.startTest();
@@ -38,7 +38,7 @@ public with sharing class B2BUtilsTest {
     
     @isTest
     static void getAPIVersionTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Decimal retVal = B2BUtils.getAPIVersion('B2BUtilsTest');
@@ -51,7 +51,7 @@ public with sharing class B2BUtilsTest {
     
     @isTest
     static void getCommunityIdByNameTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             String retVal = B2BUtils.getCommunityIdByName('Test');

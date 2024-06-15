@@ -16,43 +16,41 @@
 public with sharing class IndividualEmailLeadScoreHelperTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
+
+        Test.startTest();
+        setupLeadScoreConfig();
+
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
+        ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);    
+
+        List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,2);
+        LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);    
+        Test.stopTest();
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
-            Test.startTest();
-            setupLeadScoreConfig();
+        List<Marketing_Segmentation__c> mktgSegToUpdate = new List<Marketing_Segmentation__c>();
+        List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(
+            new Set<Id>{contactList[0].Id, contactList[1].Id}, 
+            new Set<Id>{leadList[0].Id}, 
+            AccessLevel.SYSTEM_MODE
+        );
 
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
-            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);    
-
-            List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,2);
-            LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);    
-            Test.stopTest();
-            
-            List<Marketing_Segmentation__c> mktgSegToUpdate = new List<Marketing_Segmentation__c>();
-            List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(
-                new Set<Id>{contactList[0].Id, contactList[1].Id}, 
-                new Set<Id>{leadList[0].Id}, 
-                AccessLevel.SYSTEM_MODE
-            );
-
-            for(Marketing_Segmentation__c mktgSeg : marketingSegmentationList){
-                mktgSeg.My_Primary_Study_Level__c = 'Postgraduate';
-                mktgSeg.My_Citizenship_Status__c = MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU;
-                if(mktgSeg.Contact__c != null){
-                    mktgSeg.My_Primary_Study_Level__c = 'Undergraduate';
-                }
-                mktgSegToUpdate.add(mktgSeg);
+        for(Marketing_Segmentation__c mktgSeg : marketingSegmentationList){
+            mktgSeg.My_Primary_Study_Level__c = 'Postgraduate';
+            mktgSeg.My_Citizenship_Status__c = MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU;
+            if(mktgSeg.Contact__c != null){
+                mktgSeg.My_Primary_Study_Level__c = 'Undergraduate';
             }
-            MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegToUpdate, true, AccessLevel.SYSTEM_MODE);
-
+            mktgSegToUpdate.add(mktgSeg);
         }
+        MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegToUpdate, true, AccessLevel.SYSTEM_MODE);
+
         
     }
 
     @isTest
     public static void processIndividualEmailInsertTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
 
@@ -104,7 +102,7 @@ public with sharing class IndividualEmailLeadScoreHelperTest {
 
     @isTest
     public static void processIndividualEmailUpdateTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
 

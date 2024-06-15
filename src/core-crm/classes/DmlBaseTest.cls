@@ -13,7 +13,7 @@
 private class DmlBaseTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     private class TestDmlBase extends DmlBase {
@@ -94,7 +94,7 @@ private class DmlBaseTest {
         TestDmlBase dml = new TestDmlBase();
         Account testAccount = new Account(Name = 'Test Account');
         dml.insertRecords(new List<Account>{ testAccount }, true, AccessLevel.USER_MODE);
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             //program admin should not have delete access
             List<Database.DeleteResult> deleteResults = dml.deleteRecords(
                 new List<Account>{ testAccount },
@@ -121,7 +121,7 @@ private class DmlBaseTest {
         TestDmlBase dml = new TestDmlBase();
 		Account testAccount = new Account(Name='Test Account');
         dml.insertRecords(new List<Account>{testAccount}, true, AccessLevel.USER_MODE);
-        System.runAs(TestDataFactory.getProgramAdminUser()){//program admin should not have delete access
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){//program admin should not have delete access
             List<Database.DeleteResult> deleteResults = dml.deleteRecords(new List<Id>{testAccount.Id}, false, AccessLevel.USER_MODE);
             System.assert(!deleteResults[0].isSuccess(),'dml was successful');
         }

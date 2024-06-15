@@ -15,12 +15,12 @@
 public with sharing class EmailHelperTest {
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void setBodyValuesTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             String body = 'Dear {LastName}, {FirstName}. Hello. Welcome. Thank you. Good bye, {FirstName}.';
             Map<String, String> params = new Map<String, String>{
                 '{LastName}' => 'Smithers',
@@ -37,7 +37,7 @@ public with sharing class EmailHelperTest {
 
     @isTest
     static void setBodyValuesWithHeaderFooterTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             String emailBody = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
                                 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure' +
                                 ' dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non' + 

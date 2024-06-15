@@ -16,9 +16,10 @@ public class LMSIntegrationManagerTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     
     @testSetup static void setup() {
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
                 acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -48,14 +49,13 @@ public class LMSIntegrationManagerTest {
                 courseEnrollment.recordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
             }
             insert courseConnections;
-            Test.stopTest();
         }
     }
     
     @isTest
     static void testCourseOfferingLMSUpdate()
     {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
            	hed__Course__c course = [SELECT Id, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
             course.Primary_Delivery_Platform__c = 'QUT Canvas';
             update course;
@@ -77,7 +77,7 @@ public class LMSIntegrationManagerTest {
     @isTest
     static void testCourseEnrollmentLMSUpdate() 
     {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Contact contact = [SELECT Id, QUT_Identity_ID__c, QUT_Employee_ID__c, QUT_Student_ID__c  FROM Contact LIMIT 1];
             contact.QUT_Identity_ID__c = 'test';
             contact.QUT_Student_ID__c = 'test';
@@ -109,7 +109,7 @@ public class LMSIntegrationManagerTest {
     @isTest
     static void testLearnerRegisterUpdate() 
     {        
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             SAMSRegisterLearnerBatchHandler job = new SAMSRegisterLearnerBatchHandler();
             DataBase.executeBatch(job, 1); 

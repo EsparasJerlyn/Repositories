@@ -22,13 +22,13 @@ public with sharing class CourseConnectionsDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CourseConnectionsDAO().getSObjectType() == hed__Course_Enrollment__c.SObjectType,
                 'SObject is not hed__Course_Enrollment__c'
@@ -41,7 +41,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByPEContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByPEContactIds(
                     new Set<Id>(),
@@ -55,7 +55,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByProgramEnrollmentIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByProgramEnrollmentIds(
                     new Set<Id>(),
@@ -69,7 +69,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getActiveCourseConnectionsBySetContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getActiveCourseConnectionsBySetContactIds(
                     new Set<String>(),
@@ -83,7 +83,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getRegisteredLearnersEmailByCourseOfferingTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getRegisteredLearnersEmailByCourseOffering(
                     new Set<Id>(),
@@ -98,7 +98,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByStatusTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByStatus(
                     'Active',
@@ -112,7 +112,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByCartItemTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByCartItem(
                     new Set<Id>(),
@@ -126,7 +126,7 @@ public with sharing class CourseConnectionsDAOTest {
     @isTest
     static void getCourseConnectionByCartItemNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForCartItem = new MockIdGenerator(CartItem.sObjectType);
             List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
                 .getCourseConnectionByCartItem(

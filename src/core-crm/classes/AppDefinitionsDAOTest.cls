@@ -11,13 +11,13 @@
 private class AppDefinitionsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 AppDefinitionsDAO.newInstance() != null,
                 'AppDefinitionsDAO instance is null'
@@ -29,7 +29,7 @@ private class AppDefinitionsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 new AppDefinitionsDAO().getSObjectType() == AppDefinition.SObjectType,
                 'SObject is not AppDefinitionsDAO'
@@ -41,7 +41,7 @@ private class AppDefinitionsDAOTest {
     @isTest
     static void getAppDefinitionRecordsByDurableIdSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<AppDefinition> appDefinitionList = AppDefinitionsDAO.newInstance()
                 .getAppDefinitionRecordsByDurableIdSet(new Set<String>{});
             System.assert(appDefinitionList.isEmpty(), 'AppDefinitionList is not empty');

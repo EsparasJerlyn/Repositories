@@ -18,7 +18,7 @@
  
      @testSetup 
      static void setupMethod() {
-         TestDataFactory.generateTestUsers();
+         TestDataFactoryUser.generateUserQUTMarketingCloud();
          List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
          for(integer i = 0; i < contactList.size(); i++){
              contactList[i].QUT_Student_ID__c = 'Test' + i;
@@ -41,7 +41,7 @@
  
      @isTest 
      public static void bulkContactMatchTest(){
-         System.runAs(TestDataFactory.getMarketingCloudUser()) {
+         System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
              List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
              Marketing_Staging__c staging;
              //matching student id
@@ -102,7 +102,7 @@
  
      @isTest
      public static void bulkLeadMatchTest(){
-         System.runAs(TestDataFactory.getMarketingCloudUser()) {
+         System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
              List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
              Marketing_Staging__c staging;
              //matching email
@@ -147,7 +147,7 @@
  
      @isTest 
      public static void bulkContactMatchTestNoMatch(){
-         System.runAs(TestDataFactory.getMarketingCloudUser()) {
+         System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud) {
              List<Marketing_Staging__c> stagingList = new List<Marketing_Staging__c>();
              Marketing_Staging__c staging;
              

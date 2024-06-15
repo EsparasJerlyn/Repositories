@@ -15,8 +15,10 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
 
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
@@ -58,7 +60,7 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
     @isTest
     private static void updateSubCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
             List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];
@@ -79,7 +81,7 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
     @isTest
     private static void updateCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
             List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];
