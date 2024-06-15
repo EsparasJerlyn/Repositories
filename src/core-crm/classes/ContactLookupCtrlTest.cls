@@ -17,8 +17,10 @@
 @isTest
 public class ContactLookupCtrlTest {
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Account> accList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.USER_MODE);
 
@@ -38,7 +40,7 @@ public class ContactLookupCtrlTest {
     @isTest
     static void getContactRecords(){
         List<Contact> contactList = new List<Contact>();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Account> accList = [SELECT Id FROM Account];
             contactList = ContactLookupCtrl.getContactRecords(accList[0].Id);

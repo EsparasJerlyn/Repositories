@@ -15,8 +15,10 @@ public with sharing class SalesCadenceSMSRequestCommandTest {
 
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
 
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
             leadScoreParentConfigList.add(
@@ -133,7 +135,7 @@ public with sharing class SalesCadenceSMSRequestCommandTest {
 
     @isTest
     private static void sendEmailWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<Communication_Queue__c> commsQueueList = new List<Communication_Queue__c>();
@@ -166,7 +168,7 @@ public with sharing class SalesCadenceSMSRequestCommandTest {
     
     @isTest
     private static void createTaskRecordForNoAnswerSMS() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contacts = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<Communication_Queue__c> commQueues = new List<Communication_Queue__c>();
             commQueues.add(new Communication_Queue__c(
@@ -197,7 +199,7 @@ public with sharing class SalesCadenceSMSRequestCommandTest {
     
     @isTest
     private static void createTaskRecordForNurtureTrackSMS() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contacts = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<Communication_Queue__c> commQueues = new List<Communication_Queue__c>();
             commQueues.add(new Communication_Queue__c(

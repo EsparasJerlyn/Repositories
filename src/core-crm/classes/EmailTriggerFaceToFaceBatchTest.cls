@@ -19,13 +19,13 @@ public with sharing class EmailTriggerFaceToFaceBatchTest {
 
     @TestSetup
     static void makeData(){
-      TestDataFactory.generateTestUsers();
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
 	  @isTest
     public static void testEmailTriggerFaceToFaceBatch() {
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
               acc.RecordTypeId = ACCT_UNIV_DEP_ID;

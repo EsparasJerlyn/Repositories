@@ -17,18 +17,18 @@ public with sharing class PreSessionReminderEmailCtrlTest{
 
   @testSetup
   static void makeData(){
-    TestDataFactory.generateTestUsers();
     Test.startTest();
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    Test.stopTest();
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
       insert bypass;
     }
-    Test.stopTest();
   }
 
   @isTest
   public static void controllerWithSessionTest(){
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for (Account acc : accounts){
@@ -90,7 +90,7 @@ public with sharing class PreSessionReminderEmailCtrlTest{
 
   @isTest
   public static void controllerWithoutSessionTest(){
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       Test.startTest();
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
       for (Account acc : accounts){

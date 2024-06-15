@@ -15,13 +15,13 @@ public with sharing class EmailTemplatesDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(EmailTemplatesDAO.newInstance() != null, 'EmailTemplatesDAO instance is null');
         }
         Test.stopTest();
@@ -30,7 +30,7 @@ public with sharing class EmailTemplatesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new EmailTemplatesDAO().getSObjectType() == EmailTemplate.SObjectType,
                 'SObject is not EmailTemplate'
@@ -42,7 +42,7 @@ public with sharing class EmailTemplatesDAOTest {
     @isTest
     static void getEmailTemplatesByNameSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<EmailTemplate> emailTempList = EmailTemplatesDAO.newInstance()
                 .getEmailTemplatesByNameSet(
                     new Set<String>(),
@@ -56,7 +56,7 @@ public with sharing class EmailTemplatesDAOTest {
     @isTest
     static void getEmailTemplatesByDeveloperNameSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<EmailTemplate> emailTempList = EmailTemplatesDAO.newInstance()
                 .getEmailTemplatesByDeveloperNameSet(
                     new Set<String>(),

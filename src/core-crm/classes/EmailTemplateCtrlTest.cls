@@ -9,7 +9,7 @@ public with sharing class EmailTemplateCtrlTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -49,7 +49,7 @@ public with sharing class EmailTemplateCtrlTest {
 
     @isTest
     static void getEmailTemplateTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
             e.FolderId = UserInfo.getUserId();
             insert e;

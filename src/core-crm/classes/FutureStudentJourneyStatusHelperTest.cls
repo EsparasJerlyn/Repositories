@@ -16,9 +16,11 @@ private class FutureStudentJourneyStatusHelperTest {
      
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -77,7 +79,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testContactCreationWithExploreStatus() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
@@ -101,7 +103,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testContactCreationWithNoStatus() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0,10);   
             for(Contact record : newContacts){
                 record.FirstName = 'Contact with No Status';
@@ -119,7 +121,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testContactCreationWithStudyStatus() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0,10);  
             Set<Id> contactIds = new Set<Id>(); 
             for(Contact con: newContacts){
@@ -136,7 +138,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationBlankWithApplication() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);  
             newContacts[0].HasOptedOutOfEmail = true;          
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -163,7 +165,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationApplyStudyLink() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -187,7 +189,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationApplySAMS() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -211,7 +213,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationApplyQTAC() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Account> accountList = AccountsDAO.newInstance()
             .getAccountsBySetNames(new Set<String>{'Test Account'});
@@ -246,7 +248,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationOfferStudyLink() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -270,7 +272,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationOfferSAMS() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -295,7 +297,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationOfferQTAC() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Account> accountList = AccountsDAO.newInstance()
             .getAccountsBySetNames(new Set<String>{'Test Account'});
@@ -331,7 +333,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationAcceptAdmitStudyLink() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -356,7 +358,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationAcceptAdmitSAMS() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -381,7 +383,7 @@ private class FutureStudentJourneyStatusHelperTest {
 
     @isTest
     private static void testApplicationAcceptAdmitQTAC() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Account> accountList = AccountsDAO.newInstance()
             .getAccountsBySetNames(new Set<String>{'Test Account'});

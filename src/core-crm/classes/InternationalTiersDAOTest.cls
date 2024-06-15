@@ -14,13 +14,13 @@
 public with sharing class InternationalTiersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new InternationalTiersDAO().getSObjectType() == International_Tier__c.SObjectType,
                 'SObject is not International_Tier__c'
@@ -31,7 +31,7 @@ public with sharing class InternationalTiersDAOTest {
 
     @isTest
     static void getActiveInternationalTiersTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             System.assert(
                 InternationalTiersDAO.newInstance().getActiveInternationalTiers(AccessLevel.USER_MODE) != null,
