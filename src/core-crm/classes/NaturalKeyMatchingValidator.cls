@@ -104,27 +104,32 @@ public inherited sharing class NaturalKeyMatchingValidator {
 
         // if email or mobile is not populated in the payload
         if (!isEmailOrMobilePopulated) {
-            //return the matching contacts
+            //return the matching contacts with the same base natural keys
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKey));
             return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
         }
 
-        // Add contacts matching the natural key with email
+        // if email is populated in the payload
         if (isEmailPopulated && naturalKeyMatchingMap.containsKey(uniqueKeyForEmail)) {
+            //return the matching contacts with the same base natural keys + email
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKeyForEmail));
         }
-        // Add contacts matching the natural key with mobile phone
+
+        //if mobile is populated in the payload
         if (isMobilePhonePopulated && naturalKeyMatchingMap.containsKey(uniqueKeyForMobile)) {
+            //return the matching contacts with the same baase natural keys + mobile
             matchingContacts.addAll(naturalKeyMatchingMap.get(uniqueKeyForMobile));
         }
 
-        // if contact(s) were found by natural key, w/ email or w/ mobile, return matching results
+        // if contact(s) were found by base natural key or w/ email or w/ mobile, return matching results
         if (!matchingContacts.isEmpty()) {
             return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
         }
 
         //If still no contact(s) found
-        //loop through all contacts matching through natural key
+        //loop through all contacts matching through the base natural key
+        //this means that there are existing contacts that matched through the base natural key
+        //but has no email and mobile or email and mobile did not match with the payload
         processConfirmationRule(
             naturalKeyMatchingMap.get(uniqueKey),
             matchingRecord,
