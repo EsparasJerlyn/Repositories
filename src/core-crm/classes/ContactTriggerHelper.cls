@@ -1276,13 +1276,7 @@ public without sharing class ContactTriggerHelper {
                 contactToMatch.addError(
                     'Contact update failed to prevent duplicate contact creation'
                 );
-                // Log error message
-                Logger.error(JSON.serializePretty(result), contactToMatch.Id);
-                
             }
-        }
-        if (Logger.getBufferSize() > 0) {
-            Logger.saveLog();
         }
     }
 }

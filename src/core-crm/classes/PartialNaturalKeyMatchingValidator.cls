@@ -78,7 +78,7 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
             matchingRecord,
             PARTIAL_NATURAL_KEY_FIELDS_WITH_EMAIL
         );
-        
+
         String uniqueKeyForMobile = ContactMatchingService.generateUniqueKey(
             matchingRecord,
             PARTIAL_NATURAL_KEY_FIELDS_WITH_MOBILE

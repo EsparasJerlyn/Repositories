@@ -53,7 +53,6 @@ public inherited sharing class NoDOBMatchingValidator {
             matchingRecord,
             NO_DOB_FIELDS_WITH_EMAIL
         );
-
         String uniqueKeyForMobile = ContactMatchingService.generateUniqueKey(
             matchingRecord,
             NO_DOB_FIELDS_WITH_MOBILE

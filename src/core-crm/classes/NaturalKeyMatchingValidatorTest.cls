@@ -150,8 +150,10 @@ private class NaturalKeyMatchingValidatorTest {
         MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
 
         Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
-            'firstnamelastname1996-09-29' => new List<Contact>{
-                new Contact(FirstName = 'Test', Id = mockIdGen.getMockId(), Email = 'email@email.com'),
+            'firstnamelastname1996-09-29email@email.com' => new List<Contact>{
+                new Contact(FirstName = 'Test', Id = mockIdGen.getMockId(), Email = 'email@email.com')
+            },
+            'firstnamelastname1996-09-2912345' => new List<Contact>{
                 new Contact(FirstName = 'Test 2', Id = mockIdGen.getMockId(), MobilePhone = '12345')
             }
         };
@@ -160,6 +162,118 @@ private class NaturalKeyMatchingValidatorTest {
 
         system.assertEquals(true,matchingResult.error,'there should be an error');
         system.assertNotEquals(1,matchingResult.contactIds.size(),'there should multple match');
+        system.assertEquals('Natural Key Matching',matchingResult.matchingType,'Natural Key Matching should be the matching type');
+
+    }
+
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Service class is mocked, user will never create/update records. 
+    //With this user access cannot be tested
+    private static void confirmationRuleBlankEmailMobileTest(){
+        ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+            'firstName' => 'firstname',
+            'lastName' => 'lastname',
+            'birthDate' => '1996-09-29',
+            'email' => 'email@email.com',
+            'mobilePhone' => '12345'
+        });
+
+        MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+
+        Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
+            'firstnamelastname1996-09-29' => new List<Contact>{
+                new Contact(
+                    FirstName = 'Test', 
+                    Id = mockIdGen.getMockId(), 
+                    Email = null, 
+                    QUT_Learner_Email__c = null, 
+                    QUT_Staff_Email__c = null, 
+                    Work_Email__c = null, 
+                    MobilePhone = null
+                )
+            }
+        };
+
+        MatchingResult matchingResult = NaturalKeyMatchingValidator.processNaturalKeyMatching(matchingRecord,naturalKeyMatchingMap);
+
+        system.assertEquals(false,matchingResult.error,'there should be no error');
+        system.assertEquals(1,matchingResult.contactIds.size(),'there should 1 match');
+        system.assertEquals('Natural Key Matching',matchingResult.matchingType,'Natural Key Matching should be the matching type');
+
+    }
+
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Service class is mocked, user will never create/update records. 
+    //With this user access cannot be tested
+    private static void confirmationRuleWithEmailTest(){
+        ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+            'firstName' => 'firstname',
+            'lastName' => 'lastname',
+            'birthDate' => '1996-09-29',
+            'email' => 'email@email.com'
+        });
+
+        MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+
+        Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
+            'firstnamelastname1996-09-29' => new List<Contact>{
+                new Contact(
+                    FirstName = 'Test', 
+                    Id = mockIdGen.getMockId(), 
+                    Email = 'mismatch@Email.com', 
+                    QUT_Learner_Email__c = null, 
+                    QUT_Staff_Email__c = null, 
+                    Work_Email__c = null, 
+                    MobilePhone = null
+                )
+            }
+        };
+
+        MatchingResult matchingResult = NaturalKeyMatchingValidator.processNaturalKeyMatching(matchingRecord,naturalKeyMatchingMap);
+
+        system.assertEquals(true,matchingResult.error,'there should be no error');
+        system.assertEquals('Contact Record does not match email and/or mobile provided',matchingResult.errorMessage,'there should be an error message');
+        system.assertEquals(0,matchingResult.contactIds.size(),'there should no match');
+        system.assertEquals('Natural Key Matching',matchingResult.matchingType,'Natural Key Matching should be the matching type');
+
+    }
+
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Service class is mocked, user will never create/update records. 
+    //With this user access cannot be tested
+    private static void confirmationRuleWithMobileTest(){
+        ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+            'firstName' => 'firstname',
+            'lastName' => 'lastname',
+            'birthDate' => '1996-09-29',
+            'email' => 'email@email.com',
+            'mobilePhone'=> '123456789'
+        });
+
+        MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+
+        Map<String, List<Contact>> naturalKeyMatchingMap = new Map<String, List<Contact>>{
+            'firstnamelastname1996-09-29' => new List<Contact>{
+                new Contact(
+                    FirstName = 'Test', 
+                    Id = mockIdGen.getMockId(), 
+                    Email = null, 
+                    QUT_Learner_Email__c = null, 
+                    QUT_Staff_Email__c = null, 
+                    Work_Email__c = null, 
+                    MobilePhone = '123456780'
+                )
+            }
+        };
+
+        MatchingResult matchingResult = NaturalKeyMatchingValidator.processNaturalKeyMatching(matchingRecord,naturalKeyMatchingMap);
+
+        system.assertEquals(true,matchingResult.error,'there should be no error');
+        system.assertEquals('Contact Record does not match email and/or mobile provided',matchingResult.errorMessage,'there should be an error message');
+        system.assertEquals(0,matchingResult.contactIds.size(),'there should no match');
         system.assertEquals('Natural Key Matching',matchingResult.matchingType,'Natural Key Matching should be the matching type');
 
     }
@@ -195,7 +309,7 @@ private class NaturalKeyMatchingValidatorTest {
             NaturalKeyMatchingValidator.buildNaturalKeyMatchingMap(newContact,naturalKeyMatchingMap);
         }
 
-        system.assertEquals(198, naturalKeyMatchingMap.keySet().size(), 'map should contain 198 contacts');
+        system.assertEquals(239, naturalKeyMatchingMap.keySet().size(), 'map should contain 239 contacts');
     }
 
     @isTest
