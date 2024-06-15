@@ -151,7 +151,7 @@ private class OpportunitiesDAOTest {
     @isTest
     static void getOpportunityByRecordTypeIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
                 .getOpportunityByRecordTypeIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
             System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
@@ -162,7 +162,7 @@ private class OpportunitiesDAOTest {
     @isTest
     static void getOpportunityByRecordTypeIdsNotEmpty() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             MockIdGenerator recordTypeMock = new MockIdGenerator(Recordtype.getSObjectType());
             List<Opportunity> opportunityList = OpportunitiesDAO.newInstance()
                 .getOpportunityByRecordTypeIds(
