@@ -360,7 +360,11 @@ export default class ContactInformationValidation extends LightningElement {
         this.handleUpdateFields(fieldsToUpdate, true);
       })
       .catch((error) => {
-        this.generateToast("Error.", LWC_Error_General, "error");
+        if(error.detail && error.detail.output && error.detail.output.errors){
+          this.generateToast("Error.", error.detail.output.errors[0].message, "error");
+        }else{
+          this.generateToast("Error.", LWC_Error_General, "error");
+        }
         this.isLoading = false;
       });
   }
