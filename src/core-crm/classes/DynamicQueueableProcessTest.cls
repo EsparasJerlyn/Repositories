@@ -22,7 +22,8 @@ private class DynamicQueueableProcessTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
         Test.startTest();
         List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
         insert tierList;
@@ -33,7 +34,7 @@ private class DynamicQueueableProcessTest {
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -50,7 +51,7 @@ private class DynamicQueueableProcessTest {
 
     @isTest
     private static void testHandleAutoPriorityAssignedCase(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Case> cases = new List<Case>();
             cases.add(
                 new Case(  

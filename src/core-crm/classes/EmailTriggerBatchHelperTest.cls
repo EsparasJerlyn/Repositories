@@ -16,7 +16,7 @@ public with sharing class EmailTriggerBatchHelperTest {
     static void makeData(){
 
       Test.startTest();
-      TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+      TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
       Test.stopTest();
 
       final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -28,7 +28,7 @@ public with sharing class EmailTriggerBatchHelperTest {
       final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
       final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
       
-      System.runAs(TestDataFactory.getprogramadminUser()){
+      System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
 
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -107,7 +107,7 @@ public with sharing class EmailTriggerBatchHelperTest {
     @isTest
     public static void testSendingOfEmailWithoutAttachment(){
       Test.startTest();
-      System.runAs(TestDataFactory.getprogramadminUser()){
+      System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         hed__Course_Enrollment__c enrollment = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1];
         Contact con = [SELECT Id, Name, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
         hed__Course_Offering__c courseOffering = [SELECT Id, Name FROM hed__Course_Offering__c LIMIT 1];
@@ -142,7 +142,7 @@ public with sharing class EmailTriggerBatchHelperTest {
     @isTest
     public static void testSendingOfEmailWithAttachmentForVirtual(){
       Test.startTest();
-      System.runAs(TestDataFactory.getprogramadminUser()){
+      System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         hed__Course_Enrollment__c enrollment = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1];
         Contact con = [SELECT Id, Name, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
         hed__Course_Offering__c courseOffering = [SELECT Id, Name FROM hed__Course_Offering__c LIMIT 1];
@@ -179,7 +179,7 @@ public with sharing class EmailTriggerBatchHelperTest {
     @isTest
     public static void testSendingOfEmailWithAttachmentForPreSession(){
       Test.startTest();
-      System.runAs(TestDataFactory.getprogramadminUser()){
+      System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         hed__Course_Enrollment__c enrollment = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1];
         Contact con = [SELECT Id, Name, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
         hed__Course_Offering__c courseOffering = [SELECT Id, Name FROM hed__Course_Offering__c LIMIT 1];
@@ -216,7 +216,7 @@ public with sharing class EmailTriggerBatchHelperTest {
     @isTest
     public static void testSendingOfEmailWithAttachmentForFaceToFace(){
       Test.startTest();
-      System.runAs(TestDataFactory.getprogramadminUser()){
+      System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         hed__Course_Enrollment__c enrollment = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1];
         Contact con = [SELECT Id, Name, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
         hed__Course_Offering__c courseOffering = [SELECT Id, Name FROM hed__Course_Offering__c LIMIT 1];

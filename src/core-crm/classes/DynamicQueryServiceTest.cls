@@ -15,7 +15,10 @@
 private class DynamicQueryServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager','QUT_IE_Partnership_Manager' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
+        Test.stopTest();
 
         List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance()
@@ -36,7 +39,7 @@ private class DynamicQueryServiceTest {
                 false,
                 AccessLevel.USER_MODE
             );
-            System.runAs(TestDataFactory.getOperationsManager()) {
+            System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
                 List<Opportunity_Outcome__c> oppOutcomes = TestDataFactory.createTestOpportunityOutcomeRecords(
                     1,
                     'Sample Company',
@@ -59,7 +62,7 @@ private class DynamicQueryServiceTest {
 
     @isTest
     private static void getRelatedRecordsWithOffSetInOrderTest() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Test.startTest();
              List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
              oppOutcomes = OpportunityOutcomesDAO.newInstance()
@@ -94,7 +97,7 @@ private class DynamicQueryServiceTest {
 
     @isTest
     private static void getRecordWithFilterTest() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Test.startTest();
             List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
             oppOutcomes = OpportunityOutcomesDAO.newInstance()
@@ -121,7 +124,7 @@ private class DynamicQueryServiceTest {
 
     @isTest
     private static void getRelatedRecordsCountWithFilterTest() {
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Test.startTest();
             List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
             oppOutcomes = OpportunityOutcomesDAO.newInstance()
@@ -151,7 +154,7 @@ private class DynamicQueryServiceTest {
 
     @isTest
     private static void getRecordsWithFieldsByIdSetTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
 
             Test.startTest();
             List<Account> accountList = new List<Account>();

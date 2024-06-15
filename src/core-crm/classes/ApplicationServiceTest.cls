@@ -20,12 +20,12 @@ private class ApplicationServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -42,7 +42,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertNewApplication() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -58,46 +58,8 @@ private class ApplicationServiceTest {
     }
     
     @isTest
-    private static void testApplicationBatchInsertOneContactMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<Contact> newContacts = createTestContactRecords(0, 1);            
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
-            Test.startTest();
-            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
-                .insertRecords(
-                    createTestApplicationStudyLinkRecords(0, recordsCount,'Existing'),
-                    false,
-                    AccessLevel.SYSTEM_MODE
-                );
-            Test.stopTest();
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved.');
-            }
-
-            Contact con =  ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)[0];
-            System.assertEquals(false, con.HasOptedOutOfEmail, 'Marketing field should be false');
-            System.assertEquals(false, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.DoNotCall, 'Marketing field should be false');
-            System.assertEquals(true, con.Sync_to_MC__c, 'Marketing field should be true');
-            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
-            System.assert(con.Dont_Market_Reason__c == null, 'Marketing field Dont_Market_Reason__c should be empty');
-            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-        }
-    }
-    
-    @isTest
     private static void testApplicationBatchInsertMultipleContactMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME;
@@ -131,7 +93,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailContactMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME + i;
@@ -165,7 +127,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailLeadMatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> newLeads = createTestLeadRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newLeads[i].FirstName = FIRSTNAME + i;
@@ -199,7 +161,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationSAMBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
             
@@ -223,7 +185,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationQTACBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
                                                              

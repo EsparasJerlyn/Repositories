@@ -21,7 +21,7 @@ public with sharing class CourseOfferingTriggerHandlerTest {
 
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
@@ -65,7 +65,7 @@ public with sharing class CourseOfferingTriggerHandlerTest {
 
     @isTest
     private static void validateRelatedProductBeforeUpdateTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(100);

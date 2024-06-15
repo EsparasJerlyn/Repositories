@@ -13,13 +13,13 @@
 public with sharing class WorkTypesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
     }
 
     @isTest
     static void getWorkTypesBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<WorkType> workTypeList = WorkTypesDAO.newInstance()
                 .getWorkTypesBySetIds(new Set<Id>(), AccessLevel.SYSTEM_MODE);
             System.assert(workTypeList.isEmpty(), 'workTypeList is not empty');
@@ -30,7 +30,7 @@ public with sharing class WorkTypesDAOTest {
     @isTest
     static void getWorkTypesBySetNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<WorkType> workTypeList = WorkTypesDAO.newInstance()
                 .getWorkTypesBySetNames(new Set<String>(), AccessLevel.SYSTEM_MODE);
             System.assert(workTypeList.isEmpty(), 'workTypeList is not empty');

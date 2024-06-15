@@ -14,8 +14,10 @@
 private class OpportunityContactRoleTriggerHandlerTest {
     
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.Organization_Unit_Level__c = '3';
@@ -45,7 +47,7 @@ private class OpportunityContactRoleTriggerHandlerTest {
                 oppList[i].Faculty_Capacity__c = 'Yes';
                 oppList[i].Existing_Relationship__c = 'Yes';
             }
-            Test.startTest();
+        //    Test.startTest();
             insert(oppList);
 
             List<OpportunityContactRole> programLeadRole = TestDataFactory.createTestOpportunityContactRolesRecords(conProgramLead?.Id,oppList);
@@ -68,13 +70,13 @@ private class OpportunityContactRoleTriggerHandlerTest {
             }
 
             update(oppList);
-            Test.stopTest();
+        //    Test.stopTest();
         }
     }  
     
     @isTest
     private static void testOpportunityContactRoleWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             Test.startTest();
             List<OpportunityContactRole> clientDecisionMakerRole = [SELECT Id FROM OpportunityContactRole WHERE Role = 'Program Lead' limit 1];
@@ -91,7 +93,7 @@ private class OpportunityContactRoleTriggerHandlerTest {
     
     @isTest
     private static void testOpportunityContactRoleChangeRoleContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             Test.startTest();
             List<OpportunityContactRole> clientDecisionMakerRole = [SELECT Id FROM OpportunityContactRole WHERE Role = 'Client Decision-Maker' limit 1];

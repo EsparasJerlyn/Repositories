@@ -16,10 +16,10 @@ public with sharing class CommunitiesLoginControllerTest {
     @isTest
     public static void testCommunitiesLoginController () {
             Test.startTest();
-            TestDataFactory.generateTestUsers();
+            TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
             Test.stopTest();
 
-            System.runAs(TestDataFactory.getProgramAdminUser()){
+            System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             CommunitiesLoginController controller = new CommunitiesLoginController();
             System.assertEquals(null, controller.forwardToAuthPage(),'Forward to AuthPage is not null.');       
         }    
