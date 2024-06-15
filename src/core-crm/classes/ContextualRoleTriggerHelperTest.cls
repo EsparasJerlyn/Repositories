@@ -20,13 +20,13 @@ private class ContextualRoleTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     private static void testContextualRolesWithContactAndOpportunity() {
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -60,7 +60,7 @@ private class ContextualRoleTriggerHelperTest {
     @isTest
     private static void testContextualRolesWithAffiliation() {
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
             insert acc;

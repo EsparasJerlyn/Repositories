@@ -12,13 +12,13 @@
 public with sharing class ProfilesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getProfileRecordsBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Profile> profileList = ProfilesDAO.newInstance()
                 .getProfileRecordsBySetIds(new Set<Id>());
             System.assert(profileList.isEmpty(), 'profileList is not empty');
@@ -29,7 +29,7 @@ public with sharing class ProfilesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ProfilesDAO().getSObjectType() == Profile.SObjectType,
                 'SObject is not Profile'

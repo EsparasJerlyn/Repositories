@@ -23,13 +23,14 @@ public with sharing class Create_Pricebook_on_New_Buyer_GroupTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
         
     @isTest
     private static void createBuyerGroupTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
             for(Account acc: accountList){

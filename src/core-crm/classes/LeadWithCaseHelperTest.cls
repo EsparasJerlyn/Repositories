@@ -16,10 +16,11 @@ private class LeadWithCaseHelperTest {
     @testSetup
     static void setupMethod(){     
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactory.loadEDATriggers();
         Test.stopTest(); 
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){ 
             List<Lead> leads = TestDataFactory.createTestLeadRecords(100);
             insert leads;
             List<Case> cases = TestDataFactory.createTestCaseRecords(100,leads,null);
@@ -35,7 +36,7 @@ private class LeadWithCaseHelperTest {
     private static void convertLeadToContactTest(){ 
         List<Lead> leads = [SELECT Id FROM Lead LIMIT 100];
         
-        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){ 
 
             Test.startTest();  
             convertLead(leads);

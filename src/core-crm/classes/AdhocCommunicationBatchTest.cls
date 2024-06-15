@@ -14,8 +14,9 @@ public with sharing class AdhocCommunicationBatchTest {
 
     @testSetup 
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager'} );
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+
             Test.startTest();
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
@@ -48,12 +49,12 @@ public with sharing class AdhocCommunicationBatchTest {
             CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 			
             Test.stopTest();
-        }
+        
     }
         
     @isTest
     private static void sendAdhocEmailBatchTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             AdhocCommunicationTriggerHandler.isRunning = true;
 
             Id programOfferingId = [Select Id From Program_Offering__c Limit 1]?.Id;
@@ -73,7 +74,7 @@ public with sharing class AdhocCommunicationBatchTest {
     @isTest
     static void sendAdhocEmailBatchExceptionTest(){
         try{
-            System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+            System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager){
                 AdhocCommunicationTriggerHandler.isRunning = true;
 
                 Id programOfferingId = [Select Id From Program_Offering__c Limit 1]?.Id;

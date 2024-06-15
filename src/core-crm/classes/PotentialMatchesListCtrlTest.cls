@@ -21,14 +21,17 @@ private class PotentialMatchesListCtrlTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
-
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserFutureStudentSuperTeamLeaderDomestic();
+        Test.stopTest();
+        List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentSuperTeamLeaderDomestic){
+            WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Account> accList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.USER_MODE);
-
-            List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
-            WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.USER_MODE);
 
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1, accList[0].Id);
 
@@ -76,7 +79,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testGetPossibleMatchEnquery() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<Case> caseList = CasesDAO.newInstance().getCaseBySuppliedEmail(EMAIL, AccessLevel.USER_MODE);
@@ -97,7 +100,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testPossibleMatchServiceAppointmentContactLead() { // DEPP-7280 AC-1 and AC-2
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByEmail(EMAIL, AccessLevel.SYSTEM_MODE);
@@ -118,7 +121,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToCaseContact() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<Case> caseList = CasesDAO.newInstance().getCaseBySuppliedEmail(EMAIL, AccessLevel.USER_MODE);
@@ -148,7 +151,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToServiceAppointmentContact() { // DEPP-7280 AC-5 Contact
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByEmail(EMAIL, AccessLevel.SYSTEM_MODE);
@@ -178,7 +181,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToServiceAppointmentLead() { // DEPP-7280 AC-5 Lead
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByEmail(EMAIL, AccessLevel.SYSTEM_MODE);
@@ -208,7 +211,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToCaseLead() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             List<Case> caseList = CasesDAO.newInstance().getCaseBySuppliedEmail(EMAIL, AccessLevel.USER_MODE);
@@ -239,7 +242,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToCaseLeadFailed() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
 
             Boolean updatedCase = PotentialMatchesListCtrl.linkToObject('', '', '', '');

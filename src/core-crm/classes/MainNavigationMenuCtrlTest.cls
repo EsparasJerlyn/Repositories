@@ -19,14 +19,14 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     public static void getOpportunityContractTypeTest(){
         
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 
             User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
             insert currentUser;
@@ -39,7 +39,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     
     @isTest
     public static void defaultMenuTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             List<NavigationMenuItem> navMenu = MainNavigationMenuCtrl.defaultMenu();
             System.assert(navMenu.size() == 0, 'Pass');
@@ -50,7 +50,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
 
         @isTest
     public static void getStoreFrontCategoriesCCETest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             final String COMMUNITY_NAME = 'CCE';
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             
@@ -70,7 +70,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     
     @isTest
     public static void getStoreFrontCategoriesStudyTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             final String COMMUNITY_NAME = 'STUDY';
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             
@@ -99,7 +99,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     
     @isTest
     public static void getStudyProductsTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             final String COMMUNITY_NAME = 'STUDY';
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             ProductCatalog cat =new ProductCatalog(Name='STUDY');
@@ -127,7 +127,7 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     }
     @isTest
     public static void getAccountNameTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();     
             String accountName = MainNavigationMenuCtrl.getAccountName('');
             System.assert(String.isBlank(accountName), 'Has account name');

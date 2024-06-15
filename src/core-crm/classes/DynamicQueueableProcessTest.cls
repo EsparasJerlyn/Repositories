@@ -22,8 +22,9 @@ private class DynamicQueueableProcessTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_ESB' });
         Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
         List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
         insert tierList;
         List<Case_Priority_Configuration__c> casePrioConfig = TestDataFactory.createCasePrioConfigRecords();
@@ -33,7 +34,7 @@ private class DynamicQueueableProcessTest {
 
     @isTest
     private static void testHandleAutoPriorityAssignedCase(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Case> cases = new List<Case>();
             cases.add(
                 new Case(  

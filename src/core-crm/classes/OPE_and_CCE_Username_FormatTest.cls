@@ -18,7 +18,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
   @testSetup
   public static void setUp() {
     Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
 
         BuyerGroup opeBuyerGroup = new BuyerGroup(Name = 'OPE BuyerGroup');
         insert opeBuyerGroup;
@@ -29,7 +29,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
   @isTest
   static void registerOPEUserTest() {
     Test.startTest();
-    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;
@@ -70,7 +70,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
   @isTest
   static void registerCCEUserTest() {
     Test.startTest();
-    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
       Account testAccount = new Account();
       testAccount.Name = 'OPE Catalogue';
       insert testAccount;

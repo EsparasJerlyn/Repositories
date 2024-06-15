@@ -13,12 +13,12 @@
 public with sharing class EmailTemplateSelectorTest {
 
      @testSetup static void setupMethod() {
-          TestDataFactory.generateTestUsers();
+          TestDataFactoryUser.generateUserSystemAdministrator();
       }
 
     @isTest
      static void checkEmailSelectorEmpty(){
-     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+     final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
           System.runAs(PORTAL_SYS_ADMIN) {
           Test.startTest();
           EmailTemplate coverTemplate = EmailTemplateSelector.getEmailTemplate('Send Certificate'); 

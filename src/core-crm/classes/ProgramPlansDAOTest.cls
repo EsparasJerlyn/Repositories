@@ -13,13 +13,13 @@
 public with sharing class ProgramPlansDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(ProgramPlansDAO.newInstance() != null, 'ProgramPlansDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class ProgramPlansDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ProgramPlansDAO().getSObjectType() == hed__Program_Plan__c.SObjectType,
                 'SObject is not hed__Program_Plan__c'
