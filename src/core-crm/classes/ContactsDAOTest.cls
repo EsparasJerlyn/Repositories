@@ -237,7 +237,7 @@ private class ContactsDAOTest {
     @isTest
     static void getAlumniPersonContactsBySetIdsTest() { 
         Test.startTest();
-        System.runAs(TestDataFactoryUser.select) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getAlumniPersonContactsBySetIds(
                     new Set<Id>(),
