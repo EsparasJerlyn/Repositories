@@ -15,9 +15,10 @@ public with sharing class MarketingSegmentationLeadScoreHelperTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
 
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
@@ -51,12 +52,11 @@ public with sharing class MarketingSegmentationLeadScoreHelperTest {
             ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);            
            
         }
-        Test.stopTest();
     }
 
     @isTest
     public static void processLeadScoreCalculationUndergradTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactList = [SELECT Id, Name, hed__Citizenship_Status__c FROM Contact WHERE hed__Citizenship_Status__c = 'Domestic'];
 
@@ -85,7 +85,7 @@ public with sharing class MarketingSegmentationLeadScoreHelperTest {
 
     @isTest
     public static void processLeadScoreCalculationPostgradTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactList = [SELECT Id, Name, hed__Citizenship_Status__c FROM Contact WHERE hed__Citizenship_Status__c = 'International'];
 
@@ -113,7 +113,7 @@ public with sharing class MarketingSegmentationLeadScoreHelperTest {
 
     @isTest
     public static void processLeadScoreCalculationUndeterminedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactList = [SELECT Id, Name, hed__Citizenship_Status__c FROM Contact WHERE hed__Citizenship_Status__c = null];
 
@@ -141,7 +141,7 @@ public with sharing class MarketingSegmentationLeadScoreHelperTest {
 
     @isTest
     public static void processLeadScoreCalculationDomPGTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactList = [SELECT Id, Name, hed__Citizenship_Status__c FROM Contact WHERE hed__Citizenship_Status__c = 'Domestic'];
 
@@ -170,7 +170,7 @@ public with sharing class MarketingSegmentationLeadScoreHelperTest {
 
     @isTest
     public static void processLeadScoreCalculationIntUGTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactList = [SELECT Id, Name, hed__Citizenship_Status__c FROM Contact WHERE hed__Citizenship_Status__c = 'International'];
 

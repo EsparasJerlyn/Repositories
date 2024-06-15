@@ -19,6 +19,9 @@
  @testSetup
         
     static void setup(){
+            Test.startTest();
+            TestDataFactoryUser.generateUserIndustryOperationsManager();
+            Test.stopTest();
         	//setup for auto number
         	Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             opptyCodeAutoNum.Commercialisation__c = 1;
@@ -40,8 +43,7 @@
                 AccessLevel.USER_MODE
             );
         
-            TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
-            System.runAs(TestDataFactory.getOperationsManager()){
+            System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){
                 
             //creation of opportunity 
             List<Opportunity> opportunities = TestDataFactory.createOpportunityRecords(1, 'Opportunity Test', OpportunitiesDAO.IDENTIFY_STAGE); 
@@ -60,7 +62,7 @@
     
     @isTest 
     private static void checkStageNameUponUpdate(){
-        System.runAs(TestDataFactory.getOperationsManager()){  
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){  
         	List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance().getRecordsSortByCodeAsc(); 
         	System.assertEquals(true, opportunityOutcomeListToUpdate.Size() > 0, 'Empty');
             Test.startTest();  
@@ -77,7 +79,7 @@
     
     @isTest 
     private static void checkEndDateForDecommissionedDateinFutureDate(){ 
-        System.runAs(TestDataFactory.getOperationsManager()){  
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){  
         	List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance().getRecordsSortByCodeAsc(); 
         	Test.startTest();  
             	updateDecommissionedDatetoFutureDate(opportunityOutcomeListToUpdate);

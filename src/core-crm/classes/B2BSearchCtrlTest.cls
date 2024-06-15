@@ -18,12 +18,12 @@ public class B2BSearchCtrlTest {
     
     @testSetup static void setupMethod() {
         TestDataFactory.createTestAccount(true);
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 	
     @isTest
     private static void productSearchTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             Account account = TestDataFactory.createTestAccount(false);
@@ -43,7 +43,7 @@ public class B2BSearchCtrlTest {
 	
 	@isTest
     private static void getSortRulesTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 

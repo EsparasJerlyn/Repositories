@@ -633,7 +633,7 @@ public class TestDataFactory {
      */
     public static List<Product_Specification__c> retrieveCCEProductSpecifications() {
         List<Product_Specification__c> prodSpecList = [
-            SELECT Id, RecordTypeId
+            SELECT Id, RecordTypeId, Program_Name__c, Product_Specification_Name__c
             FROM Product_Specification__c
             WHERE RecordType.DeveloperName = 'CCE'
         ];
@@ -2665,7 +2665,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2679,7 +2679,7 @@ public class TestDataFactory {
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'System_Administrator';
+                permSets = 'System_Administrator,Permission_All_Object_and_FLAs_View_Create_Update_Delete';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3960,7 +3960,7 @@ public class TestDataFactory {
                 new Contact(
                     FirstName = 'TestfirstName' + i,
                     LastName = i + 'Testlastname',
-                    BirthDate = Date.valueOf('2000-06-28'),
+                    BirthDate = System.Today().addYears(-17).addDays(i),
                     Email = i + EMAIL,
                     QUT_Learner_Email__c = 'learner' + i + email,
                     QUT_Staff_Email__c = 'staff' + i + email,
@@ -3988,13 +3988,13 @@ public class TestDataFactory {
                 new hed__Application__c(
                     FirstName__c = 'TestfirstName' + i,
                     LastName__c = i + 'Testlastname',
-                    BirthDate__c = Date.valueOf('2000-06-28'),
+                    BirthDate__c = System.Today().addYears(-17).addDays(i),
                     Email__c = 'work' + i + email,
                     Application_Status__c = applicationStatus,
                     RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
                     Indigenous_Status__c = 'Aboriginal',
                     Citizenship_Country__c = 'Australia',
-                    Mobile__c = '0400000000',
+                    Mobile__c = '0400000000' + i,
                     Citizenship_Status__c = 'Domestic'
                 )
             );
@@ -4039,5 +4039,22 @@ public class TestDataFactory {
         }
 
         return studentSanctionList;
+    }
+
+    /** @description Method for creating test contact matching staging records
+     * @return Contact_Matching_Staging__c record
+     */
+    public static List<Contact_Matching_Staging__c> createContactMatchingStagings(Integer count) {
+        List<Contact_Matching_Staging__c> contactMatchingStagingList = new List<Contact_Matching_Staging__c>();
+
+        for(Integer i = 0; i< count; i++){
+            contactMatchingStagingList.add( 
+                new Contact_Matching_Staging__c(
+                    LastName__c = 'Test'+i
+                )
+            );
+        }
+
+        return contactMatchingStagingList;
     }
 }

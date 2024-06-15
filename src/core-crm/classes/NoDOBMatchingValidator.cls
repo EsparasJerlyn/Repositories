@@ -14,7 +14,6 @@
  *    | roy.nino.s.regala              | April 01, 2024        | DEPP-7986              | Created file                 |
  */
 public inherited sharing class NoDOBMatchingValidator {
-
     /**
      * @description List of fields required for matching with email.
      */
@@ -46,8 +45,7 @@ public inherited sharing class NoDOBMatchingValidator {
         ContactMatchingService.MatchingAttributes matchingRecord,
         Map<String, List<Contact>> noDOBMatchingMap
     ) {
-
-        if(String.isNotBlank(matchingRecord.get('birthDate'))){
+        if (String.isNotBlank(matchingRecord.get('birthDate'))) {
             return false;
         }
 
@@ -94,20 +92,19 @@ public inherited sharing class NoDOBMatchingValidator {
             matchingContacts.addAll(noDOBMatchingMap.get(uniqueKeyForMobile));
         }
 
-        return new MatchingResult(matchingContacts,NO_DOB_MATCHING_TYPE);
+        return new MatchingResult(matchingContacts, NO_DOB_MATCHING_TYPE);
     }
 
     /**
      * Builds a map of contacts without a Date of Birth (DOB) to corresponding contacts from a single existing contact.
-     * 
+     *
      * @param existingContact The existing contact from which to extract contacts without a Date of Birth.
      * @param noDOBMatchingMap The map to populate with contacts without a Date of Birth and corresponding contacts.
      */
     public static void buildNoDOBMatchingMap(
-        Contact existingContact, 
+        Contact existingContact,
         Map<String, List<Contact>> noDOBMatchingMap
     ) {
-
         if (!hasRequiredNoDOBFields(existingContact)) {
             // Skip contacts without necessary matching attributes
             return;
@@ -124,14 +121,16 @@ public inherited sharing class NoDOBMatchingValidator {
      * @return Boolean - Returns true if the contact has non-null values for FirstName and LastName; otherwise, returns false.
      */
     private static Boolean hasRequiredNoDOBFields(Contact contact) {
+        boolean isEmailOrMobilePhonePopulated =
+            contact.Email != null ||
+            contact.QUT_Staff_Email__c != null ||
+            contact.QUT_Learner_Email__c != null ||
+            contact.Work_Email__c != null ||
+            contact.MobilePhone != null;
 
-        boolean isEmailOrMobilePhonePopulated = contact.Email != null || 
-                                                contact.QUT_Staff_Email__c != null || 
-                                                contact.QUT_Learner_Email__c != null || 
-                                                contact.Work_Email__c != null || 
-                                                contact.MobilePhone != null;
-        
-        return contact.Matching_Firstname__c != null && contact.Matching_Lastname__c != null && isEmailOrMobilePhonePopulated;
+        return contact.Matching_Firstname__c != null &&
+            contact.Matching_Lastname__c != null &&
+            isEmailOrMobilePhonePopulated;
     }
 
     /**

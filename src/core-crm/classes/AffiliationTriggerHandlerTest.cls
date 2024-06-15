@@ -20,8 +20,10 @@ private class AffiliationTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });      
-        System.runAs(TestDataFactory.getProgramAdminUser()) {  
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();   
+        Test.stopTest();  
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {  
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -33,9 +35,10 @@ private class AffiliationTriggerHandlerTest {
     
     @isTest
     private static void testAffiliationWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
+            acc.Name = TestDataFactory.generateRandomString('test_Account');
             insert acc;
             
             List<Contact> newContacts = createTestContactRecords(0, 1);     
@@ -56,7 +59,7 @@ private class AffiliationTriggerHandlerTest {
     
     @isTest
     private static void testUpdateAffiliationWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {   
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {   
             
             List<Contact> newContacts = createTestContactRecords(0, 1);     
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -76,7 +79,7 @@ private class AffiliationTriggerHandlerTest {
     
     @isTest
     private static void testAffiliationWithOutContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;

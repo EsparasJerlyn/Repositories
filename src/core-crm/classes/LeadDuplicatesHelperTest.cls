@@ -25,23 +25,23 @@ private class LeadDuplicatesHelperTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             LeadsDAO.newInstance()
                 .insertRecords(
                     createTestLeadRecords(0, recordsCount),
                     false,
                     AccessLevel.USER_MODE
                 );
-            Test.stopTest();
         }
     }
 
     @isTest
     private static void testLeadBatchInsertNoDuplicates() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
                 .insertRecords(
@@ -59,7 +59,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchInsertEachDuplicatesExisting() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
                 .insertRecords(
@@ -77,7 +77,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchInsertDuplicatesWithinBatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> newLeads = createTestLeadRecords(0, recordsCount);
             for (Lead ld : newLeads) {
                 ld.Email = EMAIL;
@@ -97,7 +97,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchInsertPartialDuplicatesExisting() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> newLeads = new List<Lead>();
             newLeads.addAll(createTestLeadRecords(0, recordsCount / 2));
             newLeads.addAll(createTestLeadRecords(recordsCount, recordsCount + (recordsCount / 2)));
@@ -129,7 +129,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchInsertPartialDuplicatesWithinBatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> newLeads = createTestLeadRecords(recordsCount, recordsCount * 2);
             for (Integer i = 0; i < newLeads.size() / 2; i++) {
                 newLeads[i].Email = EMAIL;
@@ -162,7 +162,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchInsertDuplicatesWithinAndExisting() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> newLeads = createTestLeadRecords(0, recordsCount);
             for (Integer i = 0; i < recordsCount / 2; i++) {
                 newLeads[i].Email = EMAIL;
@@ -182,7 +182,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchUpdateNoDuplicates() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> leadToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
@@ -206,7 +206,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchUpdatePartialDuplicatesExisting() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> ldListToUpdate = new List<Lead>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
@@ -256,7 +256,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchUpdatePartialDuplicatesWithinBatch() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> ldListToUpdate = new List<Lead>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
@@ -306,7 +306,7 @@ private class LeadDuplicatesHelperTest {
 
     @isTest
     private static void testLeadBatchUpdateDuplicatesWithinAndExisting() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> ldListToUpdate = new List<Lead>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {

@@ -14,7 +14,6 @@
  *    | roy.nino.s.regala              | April 01, 2024        | DEPP-7986              | Created file                 |
  */
 public inherited sharing class PartialNaturalKeyMatchingValidator {
-
     /**
      * @description List of fields required for partial natural key matching with email.
      */
@@ -35,7 +34,7 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
 
     // Matching type variables
     private static final String PARTIAL_NATURAL_KEY_MATCHING_TYPE = 'Partial Natural Key Matching';
-    
+
     /**
      * @description Checks if a given contact record matches any existing contact based on partial natural keys.
      * @param matchingRecord - The record to be matched.
@@ -46,8 +45,7 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
         ContactMatchingService.MatchingAttributes matchingRecord,
         Map<String, List<Contact>> partialNaturalKeyMatchingMap
     ) {
-        
-        if(String.isNotBlank(matchingRecord.get('firstName'))){
+        if (String.isNotBlank(matchingRecord.get('firstName'))) {
             return false;
         }
 
@@ -94,12 +92,12 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
             matchingContacts.addAll(partialNaturalKeyMatchingMap.get(uniqueKeyForMobile));
         }
 
-        return new MatchingResult(matchingContacts,PARTIAL_NATURAL_KEY_MATCHING_TYPE);
+        return new MatchingResult(matchingContacts, PARTIAL_NATURAL_KEY_MATCHING_TYPE);
     }
 
     /**
      * Builds a map of partial natural keys to corresponding contacts from a single existing contact.
-     * 
+     *
      * @param existingContact The existing contact for which to build the partial natural key map.
      * @param partialNaturalKeyMatchingMap The map to populate with partial natural keys and corresponding contacts.
      */
@@ -114,7 +112,11 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
 
         // Generate unique partial natural keys for each key field of the contact and add them to the map
         for (String fieldApiName : ContactMatchingService.KEY_FIELDS_ON_CONTACT) {
-            buildUniquePartialNaturalKeyContactMap(fieldApiName, existingContact, partialNaturalKeyMatchingMap);
+            buildUniquePartialNaturalKeyContactMap(
+                fieldApiName,
+                existingContact,
+                partialNaturalKeyMatchingMap
+            );
         }
     }
 
@@ -124,13 +126,16 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
      * @return Boolean - Returns true if the contact has non-null values for LastName and Birthdate; otherwise, returns false.
      */
     private static Boolean hasRequiredPartialNaturalKeyFields(Contact contact) {
-        boolean isEmailOrMobilePhonePopulated = contact.Email != null || 
-                                                contact.QUT_Staff_Email__c != null || 
-                                                contact.QUT_Learner_Email__c != null || 
-                                                contact.Work_Email__c != null || 
-                                                contact.MobilePhone != null;
+        boolean isEmailOrMobilePhonePopulated =
+            contact.Email != null ||
+            contact.QUT_Staff_Email__c != null ||
+            contact.QUT_Learner_Email__c != null ||
+            contact.Work_Email__c != null ||
+            contact.MobilePhone != null;
 
-        return contact.Matching_Lastname__c != null && contact.Birthdate != null && isEmailOrMobilePhonePopulated;
+        return contact.Matching_Lastname__c != null &&
+            contact.Birthdate != null &&
+            isEmailOrMobilePhonePopulated;
     }
 
     /**
@@ -152,7 +157,7 @@ public inherited sharing class PartialNaturalKeyMatchingValidator {
         String uniqueKey = '';
 
         uniqueKey += contact.Matching_Lastname__c;
-        uniqueKey += String.valueOf(contact.Birthdate); 
+        uniqueKey += String.valueOf(contact.Birthdate);
         uniqueKey += String.valueOf(contact.get(fieldApiName));
 
         uniqueKey = uniqueKey.toLowerCase();

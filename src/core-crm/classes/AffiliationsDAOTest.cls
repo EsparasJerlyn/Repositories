@@ -14,13 +14,13 @@ public with sharing class AffiliationsDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new AffiliationsDAO().getSObjectType() == hed__Affiliation__c.SObjectType,
                 'SObject is not hed__Affiliation__c'
@@ -32,7 +32,7 @@ public with sharing class AffiliationsDAOTest {
     @isTest
     static void getAffiliationByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Affiliation__c> affiliationsList = AffiliationsDAO.newInstance()
                 .getAffiliationByContactIds(
                     new Set<Id>(),

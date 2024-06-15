@@ -17,12 +17,12 @@ public class ContactHeaderSectionCtrlTest {
 
     @testSetup
     static void testData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void createContentDistributionTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             // Create a new test account
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -57,7 +57,7 @@ public class ContactHeaderSectionCtrlTest {
 
     @isTest
     static void createContentDistributionErrorTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             Boolean exceptionOccurred = false;
             try{

@@ -18,12 +18,12 @@ public with sharing class CartTriggerHandlerTest {
     @testSetup
     static void setupMethod() {
 
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void insertCartTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -44,7 +44,7 @@ public with sharing class CartTriggerHandlerTest {
 
     @isTest
     static void insertCartWithCartPaymentTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
