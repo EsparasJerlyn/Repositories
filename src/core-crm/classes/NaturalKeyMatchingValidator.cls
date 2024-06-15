@@ -125,38 +125,11 @@ public inherited sharing class NaturalKeyMatchingValidator {
 
         //If still no contact(s) found
         //loop through all contacts matching through natural key
-        for (Contact con : naturalKeyMatchingMap.get(uniqueKey)) {
-            boolean emailsAreEmpty =
-                con.Email == null &&
-                con.QUT_Learner_Email__c == null &&
-                con.QUT_Staff_Email__c == null &&
-                con.Work_Email__c == null;
-
-            boolean isMobilePhoneEmpty = con.MobilePhone == null;
-
-            boolean isMatchFoundByBlankEmailMobile =
-                emailsAreEmpty &&
-                isMobilePhoneEmpty &&
-                String.isNotBlank(emailPayload) &&
-                String.isNotBlank(mobilePhonePayload);
-            boolean isMatchFoundByBlankEmail =
-                emailsAreEmpty &&
-                String.isNotBlank(emailPayload) &&
-                String.isBlank(mobilePhonePayload);
-            boolean isMatchFoundByBlankMobile =
-                IsMobilePhoneEmpty &&
-                String.isNotBlank(mobilePhonePayload) &&
-                String.isBlank(emailPayload);
-
-            boolean isMatchFound =
-                isMatchFoundByBlankEmailMobile ||
-                isMatchFoundByBlankEmail ||
-                isMatchFoundByBlankMobile;
-
-            if (isMatchFound) {
-                matchingContacts.add(con);
-            }
-        }
+        processConfirmationRule(
+            naturalKeyMatchingMap.get(uniqueKey),
+            matchingRecord,
+            matchingContacts
+        );
 
         if (matchingContacts.isEmpty()) {
             return new MatchingResult(
@@ -166,6 +139,63 @@ public inherited sharing class NaturalKeyMatchingValidator {
         }
 
         return new MatchingResult(matchingContacts, NATURAL_KEY_STEM_MATCHING_TYPE);
+    }
+
+    /**
+     * Processes a list of contacts to find matches based on given attributes.
+     *
+     * @param contacts List of Contact objects to be processed.
+     * @param matchingRecord ContactMatchingService.MatchingAttributes object containing matching attributes.
+     * @param matchingContacts Set of Contact objects where matching contacts will be added.
+     */
+    private static void processConfirmationRule(
+        List<Contact> contacts,
+        ContactMatchingService.MatchingAttributes matchingRecord,
+        Set<Contact> matchingContacts
+    ) {
+        // Retrieve the email and mobile phone values from the matchingRecord.
+        String emailPayload = matchingRecord.get('email');
+        String mobilePhonePayload = matchingRecord.get('mobilePhone');
+
+        // Loop through each contact in the list.
+        for (Contact con : contacts) {
+            // Check if all email fields are null.
+            boolean emailsAreEmpty =
+                con.Email == null &&
+                con.QUT_Learner_Email__c == null &&
+                con.QUT_Staff_Email__c == null &&
+                con.Work_Email__c == null;
+
+            // Check if the mobile phone field is null.
+            boolean isMobilePhoneEmpty = con.MobilePhone == null;
+
+            // Determine if a match is found based on the combination of email and mobile phone fields.
+            boolean isMatchFoundByBlankEmailMobile =
+                emailsAreEmpty &&
+                isMobilePhoneEmpty &&
+                String.isNotBlank(emailPayload) &&
+                String.isNotBlank(mobilePhonePayload);
+
+            boolean isMatchFoundByBlankEmail =
+                emailsAreEmpty &&
+                String.isNotBlank(emailPayload) &&
+                String.isBlank(mobilePhonePayload);
+
+            boolean isMatchFoundByBlankMobile =
+                isMobilePhoneEmpty &&
+                String.isNotBlank(mobilePhonePayload) &&
+                String.isBlank(emailPayload);
+
+            boolean isMatchFound =
+                isMatchFoundByBlankEmailMobile ||
+                isMatchFoundByBlankEmail ||
+                isMatchFoundByBlankMobile;
+
+            // Add the contact to the matchingContacts set if a match is found.
+            if (isMatchFound) {
+                matchingContacts.add(con);
+            }
+        }
     }
 
     /**
