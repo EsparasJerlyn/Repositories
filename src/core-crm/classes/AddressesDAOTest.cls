@@ -39,7 +39,7 @@ public with sharing class AddressesDAOTest {
     @isTest
     static void getAddressesByContactIdsSet() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsSet(new Set<Id>(), AccessLevel.USER_MODE);
             System.assert(addressList.isEmpty(), 'actionlist is not empty');
@@ -50,7 +50,7 @@ public with sharing class AddressesDAOTest {
     @isTest
     static void getAddressesByContactIdsNotEmptySet() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsSet(
