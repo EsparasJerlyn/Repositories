@@ -27,9 +27,9 @@ public with sharing class ManageCertificateSectionCtrlTest {
     @testSetup
     static void makeData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<EmailTemplate> templates = TestDataFactory.createTestEmailTemplateRecords(2,new Map<String,String>{
                 EMAIL_TEMPLATE => 'Test Email Subject',
                 COVER_TEMPLATE => 'Send Certificate'});
@@ -39,7 +39,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @isTest
     static void getRegDetailsForNonProgPlanTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -51,7 +51,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @isTest
     static void getRegDetailsForProgPlanTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(RT_PROG_PLAN_ID);
             String offeringId = [SELECT Id FROM Program_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -63,7 +63,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @isTest
     static void sendEmailTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
             insert studyStore;
             createRecord(RT_ACTIVITY_ID);
@@ -78,7 +78,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @isTest
     static void previewPDFTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             Test.startTest();
@@ -91,7 +91,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
 
     @isTest
     static void updateCourseConnDetailsTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(RT_ACTIVITY_ID);
             String offeringId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
             List<ManageCertificateSectionCtrl.ManageCertificateDetails> certificateDetails = ManageCertificateSectionCtrl.getCertificateDetails(offeringId, false);
@@ -106,7 +106,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
     }
 
     private static void createRecord(String productRequestRecordType){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id offeringId = null;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

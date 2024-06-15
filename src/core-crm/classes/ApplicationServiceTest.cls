@@ -37,12 +37,12 @@ private class ApplicationServiceTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -59,7 +59,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertNewApplication() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -76,7 +76,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertMultipleContactMatch() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME;
@@ -110,7 +110,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailContactMatch() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME + i;
@@ -142,7 +142,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailLeadMatch() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Lead> newLeads = createTestLeadRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newLeads[i].FirstName = FIRSTNAME + i;
@@ -176,7 +176,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationSAMBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
             
@@ -200,7 +200,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationQTACBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
                                                              

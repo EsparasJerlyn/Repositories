@@ -20,12 +20,12 @@ private class ContactPersonaFlagsServiceTest {
      
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     private static void testApplicationWithContactPositive() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -45,7 +45,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testApplicationWithContactNegative() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -65,7 +65,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testProgramEnrollmentWithContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -80,7 +80,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testProgramEnrollmentWithCourseConnection() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -116,7 +116,7 @@ private class ContactPersonaFlagsServiceTest {
 
     @isTest
     private static void testProgramEnrollmentToWithdrawn() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
             
@@ -155,7 +155,7 @@ private class ContactPersonaFlagsServiceTest {
 
     @isTest
     private static void testProgramEnrollmentToWithdrawnWithApplyApplication() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
 
@@ -197,7 +197,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testAffiliationWithContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -220,7 +220,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testUpdateAffiliationWithContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -244,7 +244,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testAffiliationWithOpportunity() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -271,7 +271,7 @@ private class ContactPersonaFlagsServiceTest {
     @isTest
     private static void testContextualRolesWithContactAndOpportunity() {
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -305,7 +305,7 @@ private class ContactPersonaFlagsServiceTest {
     @isTest
     private static void testContextualRolesWithAffiliation() {
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
             insert acc;

@@ -48,12 +48,15 @@ public with sharing class ProductCtrlTest {
 
 	@testSetup
 	static void setupMethod() {
+		Test.startTest();
 		TestDataFactory.loadEDATriggers();
-		TestDataFactory.generateTestUsers();
+		TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+		TestDataFactoryUser.generateUserQUTCorporatePartnerUser();
+		Test.stopTest();
+
 		BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
 		insert bypass;
-		Test.startTest();
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
 			insert testWebStore;
 			List<Account> accounts = TestDataFactory.createTestAccountRecords(2);
@@ -263,12 +266,11 @@ public with sharing class ProductCtrlTest {
 			);
 			insert commEntPolicy;
 		}
-		Test.stopTest();
 	}
 
 	@isTest
 	static void getProductsSortNewlyAdded_SingleFreeTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			Pricebook2 pbFree = new Pricebook2();
 			pbFree.Name = 'Free';
 			insert pbFree;
@@ -316,7 +318,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortNewlyAdded_SingleEBTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Course__c,
@@ -340,7 +342,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortNewlyAdded_SingleSTDTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Course__c,
@@ -364,7 +366,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortComingUp_SingleSTDTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Course__c,
@@ -388,7 +390,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortComingUp_SingleEBTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Course__c,
@@ -412,7 +414,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortComingUp_SingleEFreeTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			Pricebook2 pbFree = new Pricebook2();
 			pbFree.Name = 'Free';
 			insert pbFree;
@@ -460,7 +462,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortComingUp_ProgEBTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Program_Plan__c,
@@ -484,7 +486,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortComingUp_ProgSTDTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Program_Plan__c,
@@ -508,7 +510,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceLowToHigh_ProgSTDTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Program_Plan__c,
@@ -532,7 +534,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceLowToHigh_ProgEBTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Program_Plan__c,
@@ -556,7 +558,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceLowToHigh_SingleFreeTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			Pricebook2 pbFree = new Pricebook2();
 			pbFree.Name = 'Free';
 			insert pbFree;
@@ -603,7 +605,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceLowToHigh_SingleEBTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Course__c,
@@ -627,7 +629,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceLowToHigh_SingleSTDTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [
 				SELECT Id, Name, Course__c,
@@ -651,7 +653,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceLowToHighTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -670,7 +672,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsSortPriceHighToLowTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -689,7 +691,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsPublishDateTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -708,7 +710,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsStartDateTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -727,7 +729,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsByCategoryTailoredExecEducTest() {
-		final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+		final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
 		System.runAs(PROGRAM_ADMIN) {
 			Test.startTest();
 			List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
@@ -892,8 +894,8 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsByCategoryCorpBundleTest() {
-	  final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-	  System.runAs(TestDataFactory.getProgramAdminUser()) {
+	  final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
+	  System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 	    Test.startTest();
 			List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -1104,8 +1106,8 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductsByCategoryQUTeXLearningTest() {
-	  final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-	  System.runAs(TestDataFactory.getProgramAdminUser()) {
+	  final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
+	  System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 	    Test.startTest();
 			List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
 				FROM Account 
@@ -1304,7 +1306,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterSearchKeyTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1336,7 +1338,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterStudyAreaTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1366,7 +1368,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterDeliveryTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1397,7 +1399,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterProductTypeTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1428,7 +1430,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterDateSortPriceTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1466,7 +1468,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterDateTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1514,7 +1516,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterPriceDateCombo_ComingUpTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1563,7 +1565,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterPriceDateCombo_NewlyAddedTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1612,7 +1614,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterPriceDateCombo_HighToLowTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1661,7 +1663,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getFilterPriceDateCombo_LowToHighTest() {
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Product2> p = new List<Product2>();
 			p = [SELECT Id, Delivery__c FROM Product2];
 			List<String> productId = new List<String>();
@@ -1710,7 +1712,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getProductSpecsByAccountTest(){
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' LIMIT 1];
 			List<Contact> conList = [SELECT Id, Name, AccountId FROM Contact WHERE AccountId =: accounts[0].Id];
 			List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList[0].Id);
@@ -1736,7 +1738,7 @@ public with sharing class ProductCtrlTest {
 
 	@isTest
 	static void getBuyerGroupsTest(){
-		System.runAs(TestDataFactory.getProgramAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Account> accounts = [SELECT Id, Name, RecordType.Name FROM Account WHERE Name ='TestAccount1' AND RecordType.Name = 'Business Organization' WITH SECURITY_ENFORCED LIMIT 1];
 
 			List<Product_Request__c> prodRequestList = TestDataFactory.createTestProductRequestRecords(1);
@@ -1765,7 +1767,7 @@ public with sharing class ProductCtrlTest {
 			
 			Test.startTest();
 			List<BuyerGroup> buyerGrps = new List<BuyerGroup>();
-			System.runAs(TestDataFactory.getCorporatePartnerUser()) {
+			System.runAs(TestDataFactoryUser.selectUserQUTCorporatePartnerUser) {
 				buyerGrps = ProductCtrl.getBuyerGroups(accounts[0].Id);
 			}
 			Test.stopTest();

@@ -14,13 +14,13 @@ private  class ActionCadenceTrackerCETriggerHandlerTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest static void testActionCadenceEvent() {
         
         List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {    
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {    
             Test.enableChangeDataCapture(); 
             ImplementationSelector.DAO.setMock(new LeadsDAOMock());
             ImplementationSelector.DAO.setMock(new ActionCadenceTrackersDAOMock());

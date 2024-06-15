@@ -16,13 +16,13 @@
 public with sharing class ServiceAppointmentsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(ServiceAppointmentsDAO.newInstance() != null, 'ServiceAppointmentsDAO instance is null');
         }
         Test.stopTest();
@@ -31,7 +31,7 @@ public with sharing class ServiceAppointmentsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             System.assert(
                 new ServiceAppointmentsDAO().getSObjectType() == ServiceAppointment.SObjectType,
                 'SObject is not ServiceAppointment'
@@ -43,7 +43,7 @@ public with sharing class ServiceAppointmentsDAOTest {
     @isTest
     static void getServiceAppointmentsBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance()
                 .getServiceAppointmentsBySetIds(new Set<Id>(), new List<String>(), AccessLevel.SYSTEM_MODE);
             System.assert(serviceAppointmentList.isEmpty(), 'serviceAppointmentList is not empty');
@@ -54,7 +54,7 @@ public with sharing class ServiceAppointmentsDAOTest {
     @isTest
     static void getServiceAppointmentByEmailTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance()
                 .getServiceAppointmentByEmail(
                     '',
@@ -68,7 +68,7 @@ public with sharing class ServiceAppointmentsDAOTest {
     @isTest
     static void getServiceAppointmentByAppointmentEmailTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance()
                 .getServiceAppointmentByAppointmentEmail(
                     '',
@@ -82,7 +82,7 @@ public with sharing class ServiceAppointmentsDAOTest {
     @isTest
     static void getServiceAppointmentByLeadIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance()
                 .getServiceAppointmentByLeadId(
                     new Set<Id>()

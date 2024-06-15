@@ -12,13 +12,13 @@
 private class PricebookEntriesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new PricebookEntriesDAO().getSObjectType() == PricebookEntry.SObjectType,
                 'SObject is not PricebookEntry'
@@ -30,7 +30,7 @@ private class PricebookEntriesDAOTest {
     @isTest
     static void getPricebookEntriesByRecordIdsAndPricebookNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<PricebookEntry> pricebookEntryList = PricebookEntriesDAO.newInstance()
                 .getPricebookEntriesByRecordIdsAndPricebookNames(
                     new Set<String>(),
@@ -44,7 +44,7 @@ private class PricebookEntriesDAOTest {
 
     @isTest
     static void getPricebookEntriesByIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockPbEntry = new MockIdGenerator(PricebookEntry.SObjectType);
             List<PricebookEntry> pbEntries = PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
@@ -58,7 +58,7 @@ private class PricebookEntriesDAOTest {
 
     @isTest
     static void getPricebookEntriesByIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<PricebookEntry> pbEntries = PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
                 new Set<Id>(),

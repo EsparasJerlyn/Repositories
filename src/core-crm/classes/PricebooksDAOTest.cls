@@ -12,13 +12,13 @@
 public with sharing class PricebooksDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(PricebooksDAO.newInstance() != null, 'Pricebooksdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class PricebooksDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new PricebooksDAO().getSObjectType() == Pricebook2.SObjectType,
                 'SObject is not Pricebook'

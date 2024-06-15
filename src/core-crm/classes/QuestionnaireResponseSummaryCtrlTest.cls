@@ -28,9 +28,11 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
   static void setupMethod(){
     BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
     insert bypass;
-    TestDataFactory.generateTestUsers();
     Test.startTest();
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    TestDataFactoryUser.generateUserSystemAdministrator();
+    Test.stopTest();
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       List<EmailTemplate> templateList = TestDataFactory.createTestEmailTemplateRecords(2,new Map<String,String>{
         EMAIL_TEMPLATE1 => 'Test Email Subject',
         EMAIL_TEMPLATE2 => 'Test Email Subject'});
@@ -43,12 +45,11 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
     Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
     insert studyStore;
     createRecord(ACTIVITY_RECTYPEID);
-    Test.stopTest();
   }
 
   @isTest
   static void getAppQuestionsQRSDetailsTest() {
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       String qrsId = [
         SELECT Id
         FROM Questionnaire_Response_Summary__c
@@ -69,7 +70,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
 
   @isTest
   static void getRegQuestionsQRSDetailsTest() {
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       String qrsId = [
         SELECT Id
         FROM Questionnaire_Response_Summary__c
@@ -90,7 +91,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
 
   @isTest
   static void getRegCriteriaQRSDetailsTest() {
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       String qrsId = [
         SELECT Id
         FROM Questionnaire_Response_Summary__c
@@ -111,7 +112,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
 
   @isTest
   static void updateApplicationStatusTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     System.runAs(PORTAL_SYS_ADMIN){
       Test.startTest();
       //Create account
@@ -203,7 +204,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
   }
 
   private static void createRecord(String productRequestRecordType) {
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       Id offeringId = null;
 
       List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
