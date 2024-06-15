@@ -13,6 +13,9 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | roy.nino.s.regala              | April 01, 2024        | DEPP-7986              | Created file                 |
  */
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity')
+// Cognitive Complexity is bypassed because this service class is expected to have many methods for different scenarios
+// Methods complexity should not be bypassed
 public without sharing class ContactMatchingService {
     // Maps to store contacts grouped by different matching criteria
     private static Map<String, List<Contact>> systemKeyMatchingMap;
