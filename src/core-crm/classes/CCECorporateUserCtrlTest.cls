@@ -22,8 +22,10 @@ public with sharing class CCECorporateUserCtrlTest {
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account account = new Account();
             account.Name = 'Test Account';
             account.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Business Organization').getRecordTypeId();
@@ -48,7 +50,7 @@ public with sharing class CCECorporateUserCtrlTest {
 
     @isTest
     static void enableOPEWithExistingTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Contact contact = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
             CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
@@ -65,7 +67,7 @@ public with sharing class CCECorporateUserCtrlTest {
     }
     @isTest
     static void enableOPEWithExistingCCETest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Contact contact = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
             CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
@@ -79,7 +81,7 @@ public with sharing class CCECorporateUserCtrlTest {
 
     @isTest
     static void enableCCECorporateUserForOPETest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Contact contact = [SELECT Id, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
             Test.startTest();
             CCECorporateUserCtrl.ContactDetails conDetails = new CCECorporateUserCtrl.ContactDetails();
@@ -99,7 +101,7 @@ public with sharing class CCECorporateUserCtrlTest {
 
     @isTest
     static void createExtManagedAcctTest(){ 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Contact contact = [SELECT Id, FirstName, LastName, Registered_Email__c, AccountId, hed__Primary_Organization__c, hed__Primary_Organization__r.Name FROM Contact LIMIT 1];
             Test.startTest();
             CCECorporateUserCtrl.ContactDetails conDetails = new CCECorporateUserCtrl.ContactDetails();

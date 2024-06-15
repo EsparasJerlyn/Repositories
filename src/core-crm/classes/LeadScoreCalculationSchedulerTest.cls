@@ -15,13 +15,13 @@ public with sharing class LeadScoreCalculationSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getSystemAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.StartTest();
             LeadScoreCalculationScheduler emailScheduler = new LeadScoreCalculationScheduler();
             String sch = '0 0 10 * * ?';

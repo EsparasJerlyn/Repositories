@@ -13,7 +13,8 @@
 public with sharing class OpportunityOutcomeTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -42,7 +43,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeRPPRecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -75,7 +76,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeRPPRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -115,7 +116,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeINPRecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -148,7 +149,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeINPRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -188,7 +189,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeRCPRecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -221,7 +222,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeRCPRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -261,7 +262,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void updateOpportunityOutcomeRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -290,7 +291,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeRCCRecord() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -323,7 +324,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeRCCRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(
@@ -363,7 +364,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void createOpportunityOutcomeComboRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
             oppOutcomes.addAll(
                 TestDataFactory.createTestOpportunityOutcomeRecords(

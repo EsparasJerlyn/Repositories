@@ -16,13 +16,13 @@
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
     @isTest
     public static void testSiteLoginController () {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             // Instantiate a new controller with all parameters in the page
             SiteLoginController controller = new SiteLoginController ();
             controller.username = 'test@salesforce.com';

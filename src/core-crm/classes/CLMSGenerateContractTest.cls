@@ -15,8 +15,10 @@
 private class CLMSGenerateContractTest {
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getPartnershipManager()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXPartnershipManager();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             insert acc;
 
@@ -25,16 +27,15 @@ private class CLMSGenerateContractTest {
 
             List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id,con?.Id);
 
-            Test.startTest();
             insert(oppList);
-            Test.stopTest();
+
         }
     }   
 
     @isTest
     private static void generateContractTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getPartnershipManager()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager){
             List<Opportunity> oppList = new List<Opportunity>([Select Id From Opportunity LIMIT 100]);
             List<CLMSGenerateContract.ContractRequest> contractRequestList = new List<CLMSGenerateContract.ContractRequest>();
 

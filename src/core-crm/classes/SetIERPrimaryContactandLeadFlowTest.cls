@@ -22,9 +22,9 @@ private class SetIERPrimaryContactandLeadFlowTest{
     @testSetup
   static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTMarketingCloud();
         Test.stopTest();
-        System.runAs(TestDataFactory.getMarketingCloudUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud){
           List<Contact> cons = TestDataFactory.createTestContactRecords(1);
               cons[0].RecordTypeId = PERSON;
               cons[0].FirstName = 'Contact FN 4';
@@ -44,7 +44,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
 
   @isTest
   static void parentPersonContactAsPrimaryTest(){
-    System.runAs(TestDataFactory.getMarketingCloudUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud){
     test.startTest();
       List<Contact> contacts = new List<Contact>([SELECT Id,Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Contact__c != null limit 1]);
       List<et4ae5__Automated_Send__c> triggerSend = [SELECT Id FROM et4ae5__Automated_Send__c LIMIT 1];
@@ -58,7 +58,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
 
   @isTest
   static void parentContactAsPrimaryTest(){
-    System.runAs(TestDataFactory.getMarketingCloudUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud){
       test.startTest();
       List<Contact> contacts = new List<Contact>([SELECT Id,Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Contact__c = NULL AND RecordTypeId =:PERSON limit 1]);
       List<et4ae5__Automated_Send__c> triggerSend = [SELECT Id FROM et4ae5__Automated_Send__c LIMIT 1];
@@ -73,7 +73,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
 
   @isTest
   static void parentPersonLeadAsPrimaryTest(){
-    System.runAs(TestDataFactory.getMarketingCloudUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud){
       test.startTest();
       List<Account> accs = TestDataFactory.createTestAccountRecords(1);
       insert accs;
@@ -93,7 +93,7 @@ private class SetIERPrimaryContactandLeadFlowTest{
 
   @isTest
   static void parentLeadAsPrimaryTest(){
-    System.runAs(TestDataFactory.getMarketingCloudUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTMarketingCloud){
       test.startTest();
       List<Account> accs = TestDataFactory.createTestAccountRecords(1);
       insert accs;

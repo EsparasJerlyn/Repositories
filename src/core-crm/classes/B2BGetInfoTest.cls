@@ -16,7 +16,7 @@ private class B2BGetInfoTest {
     private static final String COMMUNITY_NAME = 'CCE';
   
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         TestDataFactory.createTestAccount(true);
         TestDataFactory.createTestBuyerGroup(true);
         TestDataFactory.createTestProduct2(true);  
@@ -24,7 +24,7 @@ private class B2BGetInfoTest {
     
     @isTest
     private static void getProductAndPriceTest() {  
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Product2 prd = TestDataFactory.createTestProduct2(false);
             Account account = TestDataFactory.createTestAccount(false);
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
@@ -42,7 +42,7 @@ private class B2BGetInfoTest {
 
     @isTest
     private static void addToCartAndGetCartSummaryTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Account account = TestDataFactory.createTestAccount(false);
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             
@@ -63,7 +63,7 @@ private class B2BGetInfoTest {
 
     @isTest
     private static void createAndAddToListTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Product2 prd = TestDataFactory.createTestProduct2(false);
             Account account = TestDataFactory.createTestAccount(false);
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
@@ -83,7 +83,7 @@ private class B2BGetInfoTest {
 
     @isTest
     private static void getOrCreateActiveCartSummaryTest() { 
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Account account = TestDataFactory.createTestAccount(false);
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             

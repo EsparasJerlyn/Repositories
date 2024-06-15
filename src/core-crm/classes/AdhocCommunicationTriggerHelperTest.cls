@@ -15,9 +15,11 @@ private class AdhocCommunicationTriggerHelperTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'} );
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
+            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -48,13 +50,12 @@ private class AdhocCommunicationTriggerHelperTest {
             )); 
             CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 			
-            Test.stopTest();
         }
     }
 
     @isTest 
     static void getAdhocCommunicationToSendEmailSuccessTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             AdhocCommunicationTriggerHandler.isRunning = true;
 
@@ -73,7 +74,7 @@ private class AdhocCommunicationTriggerHelperTest {
     @isTest
     static void getAdhocCommunicationExceptiontest(){
         try{
-            System.runAs(TestDataFactory.getProgramAdminUser()){
+            System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                 Test.startTest();
          	    AdhocCommunicationTriggerHelper.getAdhocCommunicationToSendEmail(null, null);
                 Test.stopTest();

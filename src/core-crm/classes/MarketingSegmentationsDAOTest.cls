@@ -13,13 +13,13 @@ public with sharing class MarketingSegmentationsDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(MarketingSegmentationsDAO.newInstance() != null, 'MarketingSegmentationsDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new MarketingSegmentationsDAO().getSObjectType() == Marketing_Segmentation__c.SObjectType,
                 'SObject is not Marketing_Segmentation__c'
@@ -40,7 +40,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getMarketingSegmentationByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
                 .getMarketingSegmentationByContactIds(
                     new Set<Id>(),
@@ -54,7 +54,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getMarketingSegmentationByContactIdsNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator mockContact = new MockIdGenerator(Contact.SObjectType);
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
                 .getMarketingSegmentationByContactIds(
@@ -69,7 +69,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getMarketingSegmentationByLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
                 .getMarketingSegmentationByLeadIds(
                     new Set<Id>(),
@@ -83,7 +83,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getMarketingSegmentationByContactOrLeadTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
                 .getMarketingSegmentationByContactOrLead(
                     new Set<Id>(),
@@ -97,7 +97,7 @@ public with sharing class MarketingSegmentationsDAOTest {
 
     @isTest
     static void queryLocatorGetMarketingSegmentationsByContactOrLeadIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 MarketingSegmentationsDAO.newInstance().queryLocatorGetMarketingSegmentationsByContactOrLeadIds(
@@ -112,7 +112,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getExistingMarketingSegmentationsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 MarketingSegmentationsDAO.newInstance()
                     .getExistingMarketingSegmentations(
@@ -128,7 +128,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     @isTest
     static void getExistingMarketingSegmentationsNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(0,1);
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             System.assert(
@@ -145,7 +145,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     
     @isTest
     static void getLinkedMarketingSegByContactOrLeadIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockContact = new MockIdGenerator(Contact.SObjectType);
             MockIdGenerator mockLead = new MockIdGenerator(Lead.SObjectType);
@@ -163,7 +163,7 @@ public with sharing class MarketingSegmentationsDAOTest {
 
     @isTest
     static void getLinkedMarketingSegByContactOrLeadIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Marketing_Segmentation__c> msList = MarketingSegmentationsDAO.newInstance()
                 .getLinkedMarketingSegByContactOrLeadIds(
