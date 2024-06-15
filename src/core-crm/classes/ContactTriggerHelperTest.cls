@@ -742,7 +742,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void processSystemKeyChangeOnContactTriggerUpdate() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contactRecords = TestDataFactory.createTestContactRecords(100);
             Integer count = 0;
