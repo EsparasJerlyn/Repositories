@@ -17,7 +17,7 @@ public with sharing class RegistrationMatchingHelperTest {
   @testSetup
   public static void setupMethod() {
     Test.startTest();
-    TestDataFactory.generateTestUsers();
+    TestDataFactoryUser.generateUserSystemAdministrator();
     Test.stopTest();
     List<Contact> conList = new List<Contact>();
     conList.add(
@@ -57,7 +57,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerUserNoMatchTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -80,7 +80,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerUserOnlyEmail() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -103,7 +103,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerUserOnlyLearnerEmail() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -126,7 +126,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerUserOnlyStaffEmail() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -149,7 +149,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerUserOnlyWorkEmail() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -172,7 +172,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerOnlyDetailsMatch() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -195,7 +195,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerOnlyDetailsMatchNoDOB() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();
@@ -217,7 +217,7 @@ public with sharing class RegistrationMatchingHelperTest {
 
   @isTest
   static void registerAllMatch() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     
     List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
     List<Contact> contactToValidateList = new List<Contact>();

@@ -13,13 +13,13 @@
 public with sharing class CommerceEntitlementProductsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getCommerceEntitlementProductByPolicyIdAndProductIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 CommerceEntitlementProductsDAO.newInstance()
                     .getCommerceEntitlementProductByPolicyIdAndProductId(
@@ -36,7 +36,7 @@ public with sharing class CommerceEntitlementProductsDAOTest {
     @isTest
     static void getCommerceEntitlementProductByPolicyIdAndProductIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForCommerceEntitlementBuyerGroup = new MockIdGenerator(CommerceEntitlementBuyerGroup.sObjectType);
             MockIdGenerator builderForAssociatedProducts = new MockIdGenerator(Associated_Products__c.sObjectType);
             System.assert(
@@ -55,7 +55,7 @@ public with sharing class CommerceEntitlementProductsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CommerceEntitlementProductsDAO().getSObjectType() == CommerceEntitlementProduct.SObjectType,
                 'SObject is not Commerce Entitlement Products'

@@ -16,12 +16,12 @@
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
     }
  
      @isTest
      public static void optInOrOutMarketingOptInTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Contact> contactList = TestDataFactory.createTestContactRecords(50);
             ContactsDAO.newInstance().insertRecords(contactList,false,AccessLevel.SYSTEM_MODE);
             List<Marketing_Interaction__c> marketingIntList = new List<Marketing_Interaction__c>();

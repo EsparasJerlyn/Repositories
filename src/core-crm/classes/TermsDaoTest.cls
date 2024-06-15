@@ -13,13 +13,13 @@
 public with sharing class TermsDaoTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(TermsDAO.newInstance() != null, 'TermsDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class TermsDaoTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new TermsDAO().getSObjectType() == hed__Term__c.SObjectType,
                 'SObject is not hed__Term__c'
@@ -40,7 +40,7 @@ public with sharing class TermsDaoTest {
     @isTest
     static void getTermRecordByApplicationTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Term__c> termList = TermsDAO.newInstance()
                 .getTermRecordByApplication(
                     new Set<Id>(),

@@ -14,13 +14,12 @@ public with sharing class CourseConPricingValidationHelperTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Corporate_Partner_User', 'QUT_Sys_Admin' }
-        );
+        TestDataFactoryUser.generateUserQUTCorporatePartnerUser();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
-
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            User corporateUser = TestDataFactory.getCorporatePartnerUser();
+        
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            User corporateUser = TestDataFactoryUser.selectUserQUTCorporatePartnerUser;
             WebStore testWebStore = new WebStore(Name = 'Study', DefaultLanguage = 'en_US');
 
             WebStoresDAO.newInstance()
@@ -162,7 +161,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testAlumiUnsuccessfulVerification() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
@@ -200,7 +199,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testAlumiSuccessfulVerification() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].Alumni_Verified__c = true;
@@ -239,7 +238,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testAlumniUnsuccessfulVerificationToCompleted() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
@@ -289,7 +288,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testStaffUnsuccessfulVerification() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
@@ -326,7 +325,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testStaffSuccessfulVerification() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].Staff_Verified__c = true;
@@ -366,7 +365,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testLearnerUnsuccessfulVerification() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
@@ -414,7 +413,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testLearnerSuccessfulVerification() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].Current_Learner_Verified__c = true;
@@ -453,7 +452,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testLearnerUnsuccessfulVerificationInactive() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].Current_Learner_Verified__c = true;
@@ -504,7 +503,7 @@ public with sharing class CourseConPricingValidationHelperTest {
 
     @isTest
     static void testWithoutPricing() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
 

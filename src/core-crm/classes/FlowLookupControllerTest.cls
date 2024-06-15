@@ -15,19 +15,15 @@
 public class FlowLookupControllerTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(
-            new List<String>{
-                'QUT_IE_Partnership_Manager',
-                'QUT_Operations_Manager',
-                'QUT_Sys_Admin'
-            }
-        );
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     private static void getEmptySearchResultForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             String whereClause = 'Name = \'Test\'';
             List<SObject> records = FlowLookupController.search(
                 'test',
@@ -50,7 +46,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getEmptySearchResultForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             String whereClause = 'Name = \'Test\'';
             List<SObject> records = FlowLookupController.search(
                 'test',
@@ -73,7 +69,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getSearchResultForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
@@ -95,7 +91,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getSearchResultForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
@@ -117,7 +113,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getContactSearchResultForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1); 
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
 
@@ -139,7 +135,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getSearchResultMultipleFieldsForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
@@ -166,7 +162,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getSearchResultMultipleFieldsForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
@@ -193,7 +189,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordsFromIdsForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             String accountName = AccountCtrl.getAccountName(accountList.iterator().next()?.Id);
@@ -213,7 +209,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordsFromIdsForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             String accountName = AccountCtrl.getAccountName(accountList.iterator().next()?.Id);
@@ -232,7 +228,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getEmptyRecentlyViewedResultForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<SObject> records = FlowLookupController.getRecentlyViewed(
                 'Account',
                 'Name',
@@ -252,7 +248,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getEmptyRecentlyViewedResultForPartnerhipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<SObject> records = FlowLookupController.getRecentlyViewed(
                 'Account',
                 'Name',
@@ -272,7 +268,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getStandardObjectIconForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             // Test for a standard object (Account)
             String accountIcon = FlowLookupController.getObjectIcon('Account');
             System.assertNotEquals(null, accountIcon, 'Account icon should not be null');
@@ -287,7 +283,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getStandardObjectIconForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             // Test for a standard object (Account)
             String accountIcon = FlowLookupController.getObjectIcon('Account');
             System.assertNotEquals(null, accountIcon, 'Account icon should not be null');
@@ -312,7 +308,7 @@ public class FlowLookupControllerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             // Test for a custom object (Engagement__c)
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
@@ -340,7 +336,7 @@ public class FlowLookupControllerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             // Test for a custom object (Engagement__c)
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
@@ -358,7 +354,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getNonExistentObjectIconForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             // Test for a nonexistent object
             String nonExistentIcon = FlowLookupController.getObjectIcon('NonExistentObject__c');
             System.assertEquals(
@@ -373,7 +369,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getNonExistentObjectIconForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             // Test for a nonexistent object
             String nonExistentIcon = FlowLookupController.getObjectIcon('NonExistentObject__c');
             System.assertEquals(
@@ -388,7 +384,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordsWhereClauseForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
@@ -411,7 +407,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordsWhereClauseForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
@@ -434,7 +430,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordsDefaultReturnForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<SObject> records = FlowLookupController.getRecords(
                 'Account',
                 'Name',
@@ -453,7 +449,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordsDefaultReturnForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<SObject> records = FlowLookupController.getRecords(
                 'Account',
                 'Name',
@@ -472,7 +468,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordDetailForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             String accountId = accountList.iterator().next()?.Id;
@@ -491,7 +487,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getRecordDetailForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             String accountId = accountList.iterator().next()?.Id;
@@ -510,7 +506,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getMultipleRecordDetailsForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             List<Id> accountIds = new List<Id>();
@@ -535,7 +531,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getMultipleRecordDetailsForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
             List<Id> accountIds = new List<Id>();

@@ -8,7 +8,8 @@ public class Update_Opp_Outcome_to_CompletedTest {
     private static Date currentDate = System.today();
  @testSetup
     static void setupOpportunity(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager'});
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
         List<Opportunity> opportunities = TestDataFactory.createOpportunityRecords(1, 'OpportunityTest', OpportunitiesDAO.IDENTIFY_STAGE);
         OpportunitiesDAO.newInstance().insertRecords(opportunities, false,AccessLevel.USER_MODE);
     }
@@ -27,7 +28,7 @@ public class Update_Opp_Outcome_to_CompletedTest {
  
     @isTest 
     private static void checkStageNameForNewOpportunityOutcome(){ 
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){  
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager){  
             List<Opportunity_Outcome__c> oppOutcomes = OpportunityOutcomesDAO.newInstance().getRecordsWithEqualEndDate(currentDate);          
             for(Opportunity_Outcome__c oppOutcome : oppOutcomes){                
                 System.assertEquals(OpportunityOutcomesDAO.COMPLETED_STAGE, oppOutcome.Stage_Name__c,'Not equal');
@@ -36,7 +37,7 @@ public class Update_Opp_Outcome_to_CompletedTest {
     }
      @isTest 
     private static void checkStageNameForUpdatedOpportunityOutcomeForOperationsManager(){ 
-        System.runAs(TestDataFactory.getOperationsManager()){  
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager){  
         	List<Opportunity_Outcome__c> oppOutcomes = OpportunityOutcomesDAO.newInstance().getRecordsWithEqualEndDate(currentDate);
             Test.startTest();  
             updateEndDate(oppOutcomes);
@@ -50,7 +51,7 @@ public class Update_Opp_Outcome_to_CompletedTest {
     
     @isTest 
     private static void checkStageNameForUpdatedOpportunityOutcome(){ 
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){  
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager){  
         	List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance().getRecordsWithNotEqualEndDate(currentDate); 
         	Test.startTest();  
             updateEndDate(opportunityOutcomeListToUpdate);

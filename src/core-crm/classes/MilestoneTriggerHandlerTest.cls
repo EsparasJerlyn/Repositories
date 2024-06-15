@@ -13,7 +13,7 @@
 private class MilestoneTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
         Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Start_Up__c = 1;
@@ -27,7 +27,7 @@ private class MilestoneTriggerHandlerTest {
 
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        System.runAs(testDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> oppOutcomes = TestDataFactory.createTestOpportunityOutcomeRecords(
                 1,
                 'Sample Company',

@@ -17,12 +17,12 @@ public with sharing class CartTriggerHelperTest {
     @testSetup
     static void setupMethod() {
 
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void insertCartWithCartPaymentTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

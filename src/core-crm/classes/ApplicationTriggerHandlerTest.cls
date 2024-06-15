@@ -21,17 +21,17 @@ private class ApplicationTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             ApplicationsDAO.newInstance()
                 .insertRecords(
                     createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'New'),
                     false,
                     AccessLevel.SYSTEM_MODE
                 );
-            Test.stopTest();
         }
     }
     
@@ -51,7 +51,7 @@ private class ApplicationTriggerHandlerTest {
                 AccessLevel.SYSTEM_MODE
             );
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -82,7 +82,7 @@ private class ApplicationTriggerHandlerTest {
                 AccessLevel.SYSTEM_MODE
             );
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<hed__Application__c> applicationsList = [SELECT Id FROM hed__Application__c LIMIT: recordsCount];
             

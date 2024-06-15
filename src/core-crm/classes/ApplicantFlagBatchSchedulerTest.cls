@@ -14,13 +14,13 @@ public class ApplicantFlagBatchSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-            TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     static void schedulerTest(){
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){              
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){              
             String cronExpression = Label.Applicant_Flag_Cron_Expression;
             
             Test.startTest();

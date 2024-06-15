@@ -26,10 +26,10 @@ private class ProductLedgerTriggerHelperTest{
     static void setupMethod() {
 
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id offeringId = null;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account account : accounts){
@@ -110,7 +110,7 @@ private class ProductLedgerTriggerHelperTest{
     @isTest
     static void productLedgerRollUpUpdateToEndedTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Course_Enrollment__c> courseEnrollList = new List<hed__Course_Enrollment__c>([
                 SELECT ID
                 FROM hed__Course_Enrollment__c
@@ -129,7 +129,7 @@ private class ProductLedgerTriggerHelperTest{
     @isTest
     static void productLedgerRollUpUpdateToCancelledTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Course_Enrollment__c> courseEnrollList = new List<hed__Course_Enrollment__c>([
                 SELECT ID
                 FROM hed__Course_Enrollment__c
