@@ -14,13 +14,13 @@ public with sharing class OpportunityContactRolesDAOTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new OpportunityContactRolesDAO().getSObjectType() == OpportunityContactRole.SObjectType,
                 'SObject is not OpportunityContactRole'
@@ -32,7 +32,7 @@ public with sharing class OpportunityContactRolesDAOTest {
     @isTest
     static void getOpportunityContactRoleByRoleContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<OpportunityContactRole> ocrList = OpportunityContactRolesDAO.newInstance()
                 .getOpportunityContactRoleByRoleContactIds(
                     new Set<Id>(),

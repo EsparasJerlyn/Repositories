@@ -16,6 +16,11 @@ private class LeadScoreDetailTriggerHelperTest {
 
     @testSetup
     static void setupMethod(){  
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
         List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
         leadScoreParentConfigList.add(
             new Lead_Score_Configuration__c(
@@ -70,8 +75,7 @@ private class LeadScoreDetailTriggerHelperTest {
 
         NurtureTrackConfigurationsDAO.newInstance().insertRecords(configsList, true, AccessLevel.SYSTEM_MODE);
 
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent', 'QUT_ESB'});
-        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){ 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);
@@ -82,9 +86,7 @@ private class LeadScoreDetailTriggerHelperTest {
                 lead.Email_Opt_In_Datetime__c = System.Today();
                 lead.Lead_Source_Category__c = '';
             }   
-            Test.startTest();
             LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
-            Test.stopTest();
         }  
         List<Contact> newContact = TestDataFactory.createTestContactRecords(0, 1);
         newContact[0].FirstName = 'Test Contact Flag';
@@ -93,7 +95,7 @@ private class LeadScoreDetailTriggerHelperTest {
     }
     @isTest 
     private static void linkLeadScoreDetailToContactTest(){ 
-        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){ 
             List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords);
             Test.startTest();
             convertLead(leads);
@@ -118,7 +120,7 @@ private class LeadScoreDetailTriggerHelperTest {
 
     @isTest
     private static void setLeadFlagsTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){ 
             Test.startTest();
             
             Set<Id> leadIdSet = new Set<Id>();
@@ -146,7 +148,7 @@ private class LeadScoreDetailTriggerHelperTest {
 
     @isTest
     private static void setContactFlagsTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){ 
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
             List<Contact> contactListToUpdate = new List<Contact>();

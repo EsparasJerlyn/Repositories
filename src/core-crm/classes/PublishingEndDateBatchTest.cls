@@ -26,8 +26,10 @@ public with sharing class PublishingEndDateBatchTest {
 
     @testSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
                 acc.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -116,7 +118,7 @@ public with sharing class PublishingEndDateBatchTest {
     
     @isTest
     public static void testPublishingEndDateBatchCourse() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
 
             List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Course__r.ProductRequestID__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Course__r.ProductRequestID__c != NULL];
             for(Product2 product : products){
@@ -145,7 +147,7 @@ public with sharing class PublishingEndDateBatchTest {
 
     @isTest
     public static void testPublishingEndDateBatchProgram() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
 
             List<Product2> products = [SELECT Id,Publishing_End_date__c,IsActive,Program_Plan__r.Product_Request__c, Publishing_Start_date__c, QA_Review_Completed__c,Ready_for_publishing__c  FROM Product2 WHERE Program_Plan__r.Product_Request__c != NULL];
             for(Product2 product : products){
@@ -174,7 +176,7 @@ public with sharing class PublishingEndDateBatchTest {
  
     @isTest
     public static void testPublishingEndDateBatchWithParent() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
 
             List<Product_Request__c> childProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeShortProdReqId];
             List<Product_Request__c> parentProductRequest = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeProgProdReqId];

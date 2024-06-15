@@ -20,12 +20,12 @@ private class Add_Logo_URL_on_Course_InsertTest {
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void addLogoUrlOnCourseInsertTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.RecordTypeId = ACCT_UNIV_DEP_ID;
             acc.Organization_Unit_Level__c = '2';

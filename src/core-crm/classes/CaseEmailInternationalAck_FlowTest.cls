@@ -17,12 +17,12 @@ public with sharing class CaseEmailInternationalAck_FlowTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
     }
     
     @IsTest
     static void caseOriginWebsiteInternationalCaseTest(){
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
                 STR_EMAIL_TEMPLATE => 'FS International Email Template Test'
             }).iterator().next();

@@ -2,12 +2,12 @@
 public with sharing class CommonUtilsTest {
 
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void addTestClass(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         String retVal;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();

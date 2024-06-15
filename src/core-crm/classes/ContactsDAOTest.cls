@@ -25,15 +25,16 @@
 private class ContactsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager', 'QUT_Domestic_Future_Student_Agent' }
-        );
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        
     }
 
     @isTest
     static void getExistingPersonContactsWithMatchingEmailsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getExistingPersonContactsWithMatchingEmails(
                     new Set<String>(),
@@ -48,7 +49,7 @@ private class ContactsDAOTest {
     @isTest
     static void getPersonContactsWithLimitTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
             System.assert(contactList.isEmpty(), 'contactList is not empty');
         }
@@ -58,7 +59,7 @@ private class ContactsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ContactsDAO().getSObjectType() == Contact.SObjectType,
                 'SObject is not Contact'
@@ -70,7 +71,7 @@ private class ContactsDAOTest {
     @IsTest
     static void checkWorkEmailFlowInputExistTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .checkWorkEmailFlowInputExist('test');
             System.Assert(contactList.isEmpty(), 'Contact with same email not found');
@@ -81,7 +82,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsWithMatchingEmailsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsWithMatchingEmails(
                     new Set<String>(),
@@ -95,7 +96,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsWithMatchingApplicationDetailsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsWithMatchingApplicationDetails(
                     new ContactsDAO.QueryParamWrapper(),
@@ -109,7 +110,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsWithMatchingSamsApplicationsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsWithMatchingSamsApplications(
                     new ContactsDAO.QueryParamWrapper(),
@@ -123,7 +124,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsByMatchingAttributesEmptyTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Contact> contactList = ContactsDAO.newInstance().getContactsByMatchingAttributes(
                 new Map<String,Set<String>>(),
                 new Set<Date>(), 
@@ -137,7 +138,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsByMatchingAttributesTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             Map<String,Set<String>> fieldSetMap = new Map<String,Set<String>>();
             
@@ -156,7 +157,7 @@ private class ContactsDAOTest {
     @isTest
     static void getPersonContactsByCalculatedCadencesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getPersonContactsByCalculatedCadences(
                     new Set<String>()
@@ -169,7 +170,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactCalculatedCadenceByIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactCalculatedCadenceByIds(
                     new Set<String>(),
@@ -182,7 +183,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactsFromConvertedLeadTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsFromConvertedLead(
                     new Set<Id>(),
@@ -204,7 +205,7 @@ private class ContactsDAOTest {
         conList[0].MobilePhone = '1234567';
         ContactsDAO.newInstance().insertRecords(conList, false, AccessLevel.SYSTEM_MODE);
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             ContactsDAO.QueryParamWrapperEmailOrName contactQueryParam = new ContactsDAO.QueryParamWrapperEmailOrName(
                 conList[0].Email, conList[0].FirstName, conList[0].LastName , conList[0].MobilePhone
             );
@@ -222,7 +223,7 @@ private class ContactsDAOTest {
     @isTest
     static void getPersonContactsBySetIdsTest() { 
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getPersonContactsBySetIds(
                     new Set<Id>(),
@@ -236,7 +237,7 @@ private class ContactsDAOTest {
     @isTest
     static void getPersonContactsBySetIdsTestWithId() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType);
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getPersonContactsBySetIds(
@@ -251,7 +252,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactByCaseMobileTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactByCaseMobile(
                     new Set<String>(),
@@ -264,7 +265,7 @@ private class ContactsDAOTest {
 
     static void getContactsForQTACAddressUpdate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance().
                 getContactsForQTACAddressUpdate(new Set<Id>(), AccessLevel.SYSTEM_MODE);
             System.assert(contactList.isEmpty(), 'contactList should not be empty');
@@ -275,7 +276,7 @@ private class ContactsDAOTest {
     @isTest
     static void getContactMobilePhoneByRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactMobilePhoneByRecordIds(
                     new Set<Id>(),
@@ -288,7 +289,7 @@ private class ContactsDAOTest {
   
     @isTest
     static void queryLocatorGetContactsByIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 ContactsDAO.newInstance().queryLocatorGetContactsByIds(
@@ -303,7 +304,7 @@ private class ContactsDAOTest {
     @isTest
     static void getExistingMCPersonaContactsBySetIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getExistingMCPersonaContactsBySetIds(
                     new Set<Id>(),
@@ -316,7 +317,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactsByParentPersonLeadIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Lead.SObjectType);
             List<Contact> contactList = ContactsDAO.newInstance()
@@ -331,7 +332,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactsByParentPersonLeadIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsByParentPersonLeadIds(
@@ -345,7 +346,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactsNoParentPersonContactByIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             List<Contact> contactList = ContactsDAO.newInstance()
@@ -360,7 +361,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactsNoParentPersonContactByIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsNoParentPersonContactByIds(
@@ -374,7 +375,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactsWithParentPersonContactByIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             List<Contact> contactList = ContactsDAO.newInstance()
@@ -389,7 +390,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactsWithParentPersonContactByIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsWithParentPersonContactByIds(
@@ -403,7 +404,7 @@ private class ContactsDAOTest {
 
     static void getMCPersonaContactsByParentPersonContactIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getMCPersonaContactsByParentPersonContactIds(
                     new Set<Id>(),
@@ -417,7 +418,7 @@ private class ContactsDAOTest {
     @isTest
     static void getMCPersonaContactsByParentPersonLeadIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getMCPersonaContactsByParentPersonLeadIds(
                     new Set<Id>(),
@@ -431,7 +432,7 @@ private class ContactsDAOTest {
     @isTest
     static void getPersonContactsByNameUsingSOSLTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getPersonContactsByNameUsingSOSL(
                     'test'
@@ -444,7 +445,7 @@ private class ContactsDAOTest {
     @isTest
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -466,7 +467,7 @@ private class ContactsDAOTest {
     @isTest
     static void getWhereClauseByCriteriaNoCitizenshipTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -487,7 +488,7 @@ private class ContactsDAOTest {
     @isTest
     static void getWhereClauseByNoCriteria() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
             String whereClauseString = ContactsDAO.newInstance().getWhereClauseByCriteria(criteria);
             String expectedWhereClause = '';
@@ -499,7 +500,7 @@ private class ContactsDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
             contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactListCreated[0].QUT_Student__c = true;
@@ -529,7 +530,7 @@ private class ContactsDAOTest {
         contactListCreated[0].QUT_Student__c = false;
         ContactsDAO.newInstance().insertRecords(contactListCreated,true,AccessLevel.USER_MODE);
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             contactCriteria.setRecordType(ContactsDAO.PERSON_RECORDTYPE);
             contactCriteria.setIsQUTStudent(true);
@@ -546,7 +547,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getQueryLocatorByCriteriaTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
@@ -569,7 +570,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getQueryLocatorBySubQueryTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -603,7 +604,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactByStudentIdTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> contact = TestDataFactory.createTestContactRecords(1);
             contact[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contact[0].QUT_Student__c = true;
@@ -624,7 +625,7 @@ private class ContactsDAOTest {
 
     @isTest
     static void getContactByStudentIdNegativeSTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactByStudentId(

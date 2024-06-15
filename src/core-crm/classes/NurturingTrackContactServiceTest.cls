@@ -31,9 +31,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     @testSetup
     static void testSetup() {
         
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {   
             Test.startTest();
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
@@ -107,12 +106,11 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             }
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);     
             Test.stopTest();  
-        }
     }
     
     @isTest
     private static void testAutomaticInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -136,7 +134,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     
     @isTest
     private static void testManualInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -170,7 +168,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testInternationalAcceptanceDepositNotPaidEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -206,7 +204,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testAutomatedDomesticFirstOffertoAcceptanceEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -249,7 +247,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testAutomatedInternationalOffertoAcceptanceEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -275,7 +273,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     
     @isTest
     private static void testManualInternationalOffertoAcceptanceEntryHasCompleteCadence() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -336,7 +334,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testManualDomesticFirstOffertoAcceptanceEntryHasCompleteCadence() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -414,7 +412,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testMultipleRecordsNoCompleteCadenceDomesticFirstOffertoAcceptanceEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -490,7 +488,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testInternationalAcceptanceDepositNotPaidExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -528,7 +526,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testAutomaticInternationalDirectApplicantExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -552,7 +550,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     
     @isTest
     private static void testManualInternationalDirectApplicantExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -583,7 +581,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForEntryManualTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -657,7 +655,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForEntryAutomatedTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -688,7 +686,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForExitAutomatedTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -718,7 +716,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForExitManualTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -748,7 +746,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticDeferredOfferToAcceptanceForEntryTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             
             List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
@@ -791,7 +789,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticDeferredOfferToAcceptanceForExitTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -816,7 +814,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testAutomatedDomesticFirstOffertoAcceptanceExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -844,7 +842,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticAcceptedAndAdmittedExitTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -872,7 +870,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testAutomatedInternationalOffertoAcceptanceExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -899,7 +897,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getInternationalOfferToAcceptanceAgentForEntryTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -925,7 +923,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getInternationalOfferToAcceptanceAgentForExitTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -952,7 +950,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testManualDomesticFirstOffertoAcceptanceExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -988,7 +986,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testManualInternationalOffertoAcceptanceExit() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1012,7 +1010,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         }
     }
     private static void getDomesticEnrollmentToCensusForEntryTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic and International Enrolment to Census', 'Entry', 14);
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
@@ -1051,7 +1049,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticEnrollmentToCensusForExitTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic and International Enrolment to Census', 'Exit', 14);
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
@@ -1078,7 +1076,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getEntryDomesticOfferLapsedAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             //Create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1144,7 +1142,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getEntryDomesticOfferLapsedManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             //Create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1218,7 +1216,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getEntryInternationalApplicationToOfferTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             //Create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1302,7 +1300,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getInternationalEnrollmentToCensusForEntryTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic and International Enrolment to Census', 'Entry', 14);
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
@@ -1342,7 +1340,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getInternationalEnrollmentToCensusForExitTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic and International Enrolment to Census', 'Exit', 14);
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
@@ -1390,7 +1388,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getExitDomesticOfferLapsedAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             //Create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1436,7 +1434,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getExitInternationalApplicationToOfferTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             //Create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1467,7 +1465,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getExitDomesticOfferLapsedManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             //Create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -1509,7 +1507,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForEntryAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
@@ -1564,7 +1562,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     
     @isTest
     private static void getDomesticStrongInterestPreApplicationForEntryManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
@@ -1625,7 +1623,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForExitAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             // create contact
@@ -1657,7 +1655,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForExitManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             // create contact
@@ -1688,7 +1686,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getExitInternationalStrongInterestPreApplicationTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
 
@@ -1716,7 +1714,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
 	@isTest
     private static void getDomesticAcceptedAndAdmittedTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
            
             List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic Accepted and Admitted', 'Entry', 14);
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
@@ -1763,7 +1761,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getEntryInternationalApplicationToOfferDirectAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
                 LastName = 'Test',
@@ -1795,7 +1793,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getExitInternationalApplicationToOfferDirectAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
                 LastName = 'Test',
@@ -1825,7 +1823,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getEntryInternationalApplicationToOfferAgentAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
                 LastName = 'Test',
@@ -1857,7 +1855,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void getExitInternationalApplicationToOfferAgenttAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
                 LastName = 'Test',
@@ -1886,7 +1884,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     }
     @isTest
     private static void testEntryInternationalPreApplicationPartnerSourcedAutomatedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             
@@ -1931,7 +1929,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     
     @isTest
     private static void testEntryInternationalPreApplicationPartnerSourcedManualTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             

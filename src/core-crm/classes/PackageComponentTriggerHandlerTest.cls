@@ -19,12 +19,12 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     private static void getAllApplicationPreferenceIdInPackageComponentBeforeInsert() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -58,7 +58,7 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
 
     @isTest
     private static void getAllApplicationPreferenceIdInPackageComponentBeforeUpdate() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
