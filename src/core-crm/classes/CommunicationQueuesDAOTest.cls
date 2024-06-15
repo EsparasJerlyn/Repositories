@@ -100,7 +100,7 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @isTest
     static void getComminicationQueueRecordsByIdSetsTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;

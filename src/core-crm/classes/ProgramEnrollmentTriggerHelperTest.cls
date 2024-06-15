@@ -84,7 +84,7 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
     
     @isTest
     public static void programEnrollmentAddressValidationTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             

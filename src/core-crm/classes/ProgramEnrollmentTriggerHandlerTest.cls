@@ -25,7 +25,7 @@ private class ProgramEnrollmentTriggerHandlerTest {
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
