@@ -26,7 +26,11 @@ private class LeadServiceTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
         List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
         Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
@@ -35,21 +39,19 @@ private class LeadServiceTest {
         nurtureList.add(nurtureConfig);
         NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE); 
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             LeadsDAO.newInstance()
                 .insertRecords(
                     TestDataFactory.createTestLeadRecords(0, recordsCount),
                     true,
                     AccessLevel.USER_MODE
                 );
-            Test.stopTest();
         }
     }
 
     @isTest
     private static void testLeadBatchInsertLeadScoreBelowFifty() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             setupLeadScoreConfig(10);
 
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
@@ -77,7 +79,7 @@ private class LeadServiceTest {
     
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveFifty() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             setupLeadScoreConfig(60);
 
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
@@ -106,7 +108,7 @@ private class LeadServiceTest {
     
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveOneHundred() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             setupLeadScoreConfig(200);
 
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
@@ -135,7 +137,7 @@ private class LeadServiceTest {
 
     @isTest
     private static void testLeadBatchUpdateCanNurtureIsCheck() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             setupLeadScoreConfig(2);
             
@@ -165,7 +167,7 @@ private class LeadServiceTest {
 
     @isTest
     private static void testGetLeadCalculatedCadence() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> leadsToUpdate = new List<Lead>();
@@ -187,7 +189,7 @@ private class LeadServiceTest {
     }    
     @isTest
     private static void testCreateLeadScoreDetail() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(recordsCount);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
@@ -207,7 +209,7 @@ private class LeadServiceTest {
 
     @isTest
     private static void testCreateLeadCanNurture() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {   
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {   
             Test.startTest(); 
             List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
             for(Lead lead : leads){   
@@ -237,7 +239,7 @@ private class LeadServiceTest {
 
     @isTest
     private static void testCreateMarketingSegmentationForLeads() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(recordsCount);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
@@ -263,7 +265,7 @@ private class LeadServiceTest {
 
     @isTest
     private static void testSetLeadSourceAndLeadSourceCategoryFields() {
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             setupLeadScoreConfig(10);
             Test.startTest();
             String lastName = 'FSELead';
@@ -288,7 +290,7 @@ private class LeadServiceTest {
 
     @isTest
     private static void testSetLeadSourceAndLeadSourceCategoryFieldsNonFSE() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             setupLeadScoreConfig(10);
             for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {
                 System.assertEquals(null, lead.LeadSource, 'Lead Source did not match');

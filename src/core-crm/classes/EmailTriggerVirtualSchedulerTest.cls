@@ -16,13 +16,13 @@ public with sharing class EmailTriggerVirtualSchedulerTest {
 	@testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
 	@isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 			Test.StartTest();
 			EmailTriggerVirtualScheduler emailScheduler = new EmailTriggerVirtualScheduler();
 			String sch = '0 0 23 * * ?';

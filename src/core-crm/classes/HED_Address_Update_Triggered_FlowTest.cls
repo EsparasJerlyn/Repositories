@@ -25,10 +25,10 @@ private class HED_Address_Update_Triggered_FlowTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<account> accs = new List<Account>();
             List<lead> leads = new List<lead>();
             List<contact> contacts = new List<contact>();
@@ -56,7 +56,7 @@ private class HED_Address_Update_Triggered_FlowTest {
 
     @isTest
     private static void updateAccountShippingAddressTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: SHIPPING_TYPE];
             for(hed__Address__c a : address){
                 a.hed__MailingCity__c = 'NewCity';
@@ -76,7 +76,7 @@ private class HED_Address_Update_Triggered_FlowTest {
     @isTest
     private static void updateAccountBillingAddressTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: BILLING_TYPE];
             for(hed__Address__c a : address){
                 a.hed__MailingCity__c = 'NewCity';
@@ -94,7 +94,7 @@ private class HED_Address_Update_Triggered_FlowTest {
     @isTest
     private static void updateContactMailingAddressTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: MAILING_TYPE];
             for(hed__Address__c a : address){
                 a.hed__MailingCity__c = 'NewCity';
@@ -112,7 +112,7 @@ private class HED_Address_Update_Triggered_FlowTest {
     @isTest
     private static void updateContactOtherAddressTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: OTHER_TYPE];
             for(hed__Address__c a : address){
                 a.hed__MailingCity__c = 'NewCity';
@@ -129,7 +129,7 @@ private class HED_Address_Update_Triggered_FlowTest {
     @isTest
     private static void updateLeadAddressTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c Where hed__Address_Type__c =: LEAD_TYPE];
             for(hed__Address__c a : address){
@@ -150,7 +150,7 @@ private class HED_Address_Update_Triggered_FlowTest {
     @isTest
     private static void updateAllAddressesTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Address__c> address = [SELECT id, hed__MailingCity__c from hed__Address__c];
             for(hed__Address__c a : address){
                 a.hed__MailingCity__c = 'NewCity';

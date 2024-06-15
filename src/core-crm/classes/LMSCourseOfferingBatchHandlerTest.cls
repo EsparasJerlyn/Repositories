@@ -31,13 +31,13 @@ public class LMSCourseOfferingBatchHandlerTest {
         }
         insert courseOfferings;   
         
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void testCourseOfferingLMSUpdate()
     {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
 		System.runAs(PORTAL_SYS_ADMIN) {
             hed__Course__c course = [SELECT Id, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
             course.Primary_Delivery_Platform__c = 'QUT Canvas';

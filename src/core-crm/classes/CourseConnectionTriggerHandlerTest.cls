@@ -30,14 +30,14 @@ public with sharing class CourseConnectionTriggerHandlerTest{
   @testSetup
   static void makeData(){
     Test.startTest();
-      TestDataFactory.generateTestUsers(new List<String> {'QUT_Program_Administrator'});
+    TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     Test.stopTest();
   }
 
   @isTest
   private static void insertCourseConnection(){
     final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
     
       Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
       insert studyStore;
@@ -121,7 +121,7 @@ public with sharing class CourseConnectionTriggerHandlerTest{
 
   @isTest
   private static void updateCourseConnection(){
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       
       Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
       insert studyStore;
@@ -184,7 +184,7 @@ public with sharing class CourseConnectionTriggerHandlerTest{
 
   @isTest
   private static void updateCourseConnectionStatus(){
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       
       Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
       insert studyStore;
@@ -242,7 +242,7 @@ public with sharing class CourseConnectionTriggerHandlerTest{
 
   @isTest
   private static void deleteCourseConnection(){
-    System.runAs(TestDataFactory.getProgramAdminUser()){
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
       
       Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Study_Store_Link__c = 'https://studystorelinktest.com/');
       insert studyStore;
@@ -303,8 +303,7 @@ public with sharing class CourseConnectionTriggerHandlerTest{
     Id diagnosticToolRecTypeId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
                                             .get(Label.RT_ProductRequest_Diagnostic_Tool)
                                             .getRecordTypeId();
-    System.runAs(TestDataFactory.getProgramAdminUser()) {
-      Test.startTest();
+    System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
       List<Account> accounts;
       accounts = TestDataFactory.createTestAccountRecords(100);
       for(Account acc : accounts){
@@ -315,7 +314,7 @@ public with sharing class CourseConnectionTriggerHandlerTest{
       List<Contact> conList;
       conList = TestDataFactory.createTestContactRecords(100);
       insert conList;
-
+      Test.startTest();
       List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList.iterator().next()?.Id);
       insert oppList;
 

@@ -12,13 +12,13 @@
 public with sharing class AdhocCommunicationsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(AdhocCommunicationsDAO.newInstance() != null, 'adhocCommunicationsdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class AdhocCommunicationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new AdhocCommunicationsDAO().getSObjectType() == Adhoc_Communication__c.SObjectType,
                 'SObject is not Adhoc_Communication__c'
@@ -39,7 +39,7 @@ public with sharing class AdhocCommunicationsDAOTest {
     @isTest
     static void getAdhocCommunicationsByOfferingFieldAndProductOfferingIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Adhoc_Communication__c> adhocCommunicationList = AdhocCommunicationsDAO.newInstance()
                 .getAdhocCommunicationsByOfferingFieldAndProductOfferingId(
                     '',
@@ -52,7 +52,7 @@ public with sharing class AdhocCommunicationsDAOTest {
     }
     @isTest
     static void getAdhocCommunicationsByDateTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 AdhocCommunicationsDAO.newInstance().getAdhocCommunicationsByDate(null) != null,

@@ -26,10 +26,10 @@ private class ProductLedgerEndedBatchTest{
     static void setupMethod() {
 
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id offeringId = null;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account account : accounts){
@@ -110,7 +110,7 @@ private class ProductLedgerEndedBatchTest{
     @isTest
     static void productLedgerBatchTest(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
     
             Test.startTest();
     
