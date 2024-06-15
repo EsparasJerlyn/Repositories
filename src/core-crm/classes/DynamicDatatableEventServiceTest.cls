@@ -14,7 +14,9 @@ private class DynamicDatatableEventServiceTest {
 
     @isTest
     private static void publishPlatformEvent() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        Test.stopTest();
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -38,7 +40,7 @@ private class DynamicDatatableEventServiceTest {
                 AccessLevel.USER_MODE
             );
 
-        System.runAs(testDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
                 'RCE',
@@ -47,7 +49,6 @@ private class DynamicDatatableEventServiceTest {
             EngagementsDAO.newInstance()
                 .insertRecords(engagementList, false, AccessLevel.USER_MODE);
 
-            Test.startTest();
             List<Opportunity> ipuOpportunityList = TestDataFactory.createOpportunityRecords(
                 1,
                 'test',
@@ -60,7 +61,6 @@ private class DynamicDatatableEventServiceTest {
                     .isSuccess(),
                 'Opportunity is not created'
             );
-            Test.stopTest();
         }
     }
 }

@@ -13,13 +13,13 @@
 public with sharing class ConsultanciesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getConsultanciesWithActionsBySetProductRequestIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Consultancy__c> consultanciesList = ConsultanciesDAO.newInstance()
                 .getConsultanciesWithActionsBySetProductRequestIds(new Set<Id>());
             System.assert(consultanciesList.isEmpty(), 'consultanciesList is not empty');
@@ -30,7 +30,7 @@ public with sharing class ConsultanciesDAOTest {
     @isTest
     static void getConsultanciesBySetNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Consultancy__c> consultanciesList = ConsultanciesDAO.newInstance()
                 .getConsultanciesBySetNames(new Set<String>());
             System.assert(consultanciesList.isEmpty(), 'consultanciesList is not empty');
@@ -41,7 +41,7 @@ public with sharing class ConsultanciesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ConsultanciesDAO().getSObjectType() == Consultancy__c.SObjectType,
                 'SObject is not Consultancy__c'

@@ -16,13 +16,13 @@ public with sharing class EmailTriggerOnlineSelfPacedSchedulerTest {
 	@testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+		TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
 	@isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
 			Test.StartTest();
 			EmailTriggerOnlineSelfPacedScheduler emailScheduler = new EmailTriggerOnlineSelfPacedScheduler();
 			String sch = '0 0 23 * * ?';

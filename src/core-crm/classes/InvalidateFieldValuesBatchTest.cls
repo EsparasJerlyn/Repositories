@@ -3,12 +3,12 @@ public with sharing class InvalidateFieldValuesBatchTest {
     
     @testSetup static void setup() {
         // Generate test users.
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @IsTest
     public static void testContact(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             InvalidateFieldValuesBatch invalidate = new InvalidateFieldValuesBatch();
             Contact cont = new Contact(LastName='Costa', FirstName='Marcelo', Email ='marsson@test.com.br');
             insert cont;
@@ -23,7 +23,7 @@ public with sharing class InvalidateFieldValuesBatchTest {
     } 
     @IsTest
     public static void testContactWithEmailANDPhone(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             InvalidateFieldValuesBatch invalidate = new InvalidateFieldValuesBatch();
             Contact cont = new Contact(LastName='Costa', FirstName='Marcelo', Email ='marsson@test.com.br', MobilePhone='614136289374');
             insert cont;
@@ -41,7 +41,7 @@ public with sharing class InvalidateFieldValuesBatchTest {
 
     @IsTest
     public static void testContactWithEmailANDPhoneInvalidatingSync(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             InvalidateFieldValuesBatch invalidate = new InvalidateFieldValuesBatch();
             Contact cont = new Contact(LastName='Costa', FirstName='Marcelo', Email ='marsson@test.com.br', MobilePhone='614136289374');
             insert cont;

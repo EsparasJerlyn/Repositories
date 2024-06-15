@@ -16,14 +16,15 @@ public with sharing class Program_Plan_Start_Date_to_TodayTest {
 
     @isTest
     static void programplanStartDateTodayTest() {
-        TestDataFactory.generateTestUsers();
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(100);
             insert programPlans;
         }
         system.assert(![SELECT Id FROM hed__Program_Plan__c WHERE hed__Start_Date__c = TODAY LIMIT 100].isEmpty(), 'program plans start dates are not today');
-        Test.stopTest();
     }
 }
 
