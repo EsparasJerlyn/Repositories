@@ -13,6 +13,15 @@
 */
 @isTest
 public with sharing class SalesCadenceListViewCtrlTest {
+
+    @TestSetup
+    static void setupData(){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        Test.stopTest();
+    }
+
     @isTest
     // prettier-ignore
     static void getTableDataWrapperTest() {// NOPMD - test class is mocked 
@@ -266,14 +275,13 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @isTest
     private static void testConvertDateTime() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
 
         Datetime actualDatetime;
 
         // 2023-11-23 15:00:00 in GMT, which is 2023-11-24 01:00:00 in BNE time
         Datetime rawDateTime = Datetime.newInstanceGmt(2023, 11, 23, 15, 0, 0);
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             Test.startTest();
             actualDatetime = SalesCadenceListViewCtrl.convertDatetime(rawDateTime);
             Test.stopTest();
@@ -290,9 +298,8 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @istest
     private static void getRecentlyViewedTest(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic){
             Test.startTest();
             System.assertEquals(0, SalesCadenceListViewCtrl.getRecentlyViewed('Domestic').size(), 'recentlyviewed should be empty');
             Test.stopTest();
@@ -301,9 +308,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @istest
     private static void checkUserRoleTest(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
-
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic){
             Test.startTest();
             System.assertEquals(false, SalesCadenceListViewCtrl.checkUserRole(), 'Return should be false');
             Test.stopTest();
@@ -312,11 +317,9 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @istest
     private static void getSearchedUsersTest(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_ESB'});
-
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             Test.startTest();
-            System.assertEquals(1, SalesCadenceListViewCtrl.getSearchedUsers('QUT','Domestic').size(), 'there should be 1 user queried');
+            System.assertEquals(1, SalesCadenceListViewCtrl.getSearchedUsers('FutureStudentAgentDomestic','Domestic').size(), 'there should be 1 user queried');
             Test.stopTest();
         }
     }

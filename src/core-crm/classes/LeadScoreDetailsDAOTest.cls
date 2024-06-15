@@ -14,13 +14,13 @@ public with sharing class LeadScoreDetailsDAOTest{
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(LeadScoreDetailsDAO.newInstance() != null, 'LeadScoreDetailsDAO instance should not be null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class LeadScoreDetailsDAOTest{
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new LeadScoreDetailsDAO().getSObjectType() == Lead_Score_Detail__c.SObjectType,
                 'SObject is not Lead_Score_Detail__c'
@@ -39,7 +39,7 @@ public with sharing class LeadScoreDetailsDAOTest{
     @isTest
     static void getLeadsWithLimitTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead_Score_Detail__c> leadScoreDetailList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailWithLimit(1);
             System.assert(leadScoreDetailList.isEmpty(), 'leadScoreDetailList should be empty');
         }
@@ -49,7 +49,7 @@ public with sharing class LeadScoreDetailsDAOTest{
     @isTest
     static void getLeadScoreDetailsByContactOrLeadIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead_Score_Detail__c> leadScoreDetailList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(
                 new Set<Id>(),
                 AccessLevel.SYSTEM_MODE
@@ -62,7 +62,7 @@ public with sharing class LeadScoreDetailsDAOTest{
     @isTest
     static void getLeadScoreDetailsByCitizenshipAndStudyLevelTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Lead_Score_Detail__c> leadScoreDetailList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByCitizenshipAndStudyLevel(
                 new Set<String>(),
                 new Set<String>(),
@@ -75,7 +75,7 @@ public with sharing class LeadScoreDetailsDAOTest{
     
     @isTest
     static void getLeadScoreDetailsWithContactOrLeadTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsWithContactOrLead() != null,
@@ -87,7 +87,7 @@ public with sharing class LeadScoreDetailsDAOTest{
     
     @isTest
     static void queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevelTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 LeadScoreDetailsDAO.newInstance().queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(

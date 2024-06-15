@@ -14,9 +14,10 @@
 private class DynamicDataTableCtrlTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance()
                 .insertRecords(accountListToInsert, false, AccessLevel.USER_MODE);
@@ -26,13 +27,12 @@ private class DynamicDataTableCtrlTest {
 
             ContactsDAO.newInstance()
                 .insertRecords(contactListToInsert, false, AccessLevel.USER_MODE);
-            Test.stopTest();
         }
     }
 
     @isTest
     private static void getTableDataWrapperTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             List<Account> accountList = new List<Account>();
             accountList = AccountsDAO.newInstance()
@@ -73,7 +73,7 @@ private class DynamicDataTableCtrlTest {
 
     @isTest
     private static void percentChangeTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             Test.startTest();
             List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);

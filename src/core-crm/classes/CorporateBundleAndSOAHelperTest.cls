@@ -43,9 +43,10 @@ public with sharing class CorporateBundleAndSOAHelperTest {
      @testSetup
      static void testSetup() {
           Test.startTest();
-          TestDataFactory.generateTestUsers();
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+          TestDataFactoryUser.generateUserSystemAdministrator();
           Test.stopTest();
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
                insert testWebStore;
@@ -153,7 +154,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
                insert courseOfferings;
           }
 
-          System.runAs(TestDataFactory.getPortalSysAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
                Contact con = [SELECT Id,Registered_Email__c,LastName,FirstName FROM Contact WHERE Registered_Email__c =: 'registeredtest@email.com' Limit 1];
                Profile profile = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' LIMIT 1];
                User commerceUser = new User();
@@ -176,7 +177,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
      @isTest
      private static void getCorporateUserTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                Pricebook2 pricebookRecord = [
                     SELECT Id 
                     FROM Pricebook2
@@ -192,7 +193,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
      @isTest
      private static void createCCEWebCartTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                User corporateUser = [
                     SELECT Id, AccountId, Contact.hed__Primary_Organization__c
                     FROM User 
@@ -207,7 +208,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
      @isTest
      private static void checkCreditAvailabilityTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                Pricebook2 pricebookRecord = [
                     SELECT Id
@@ -244,7 +245,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
      @isTest
      private static void getAssetTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                Pricebook2 pricebookRecord = [
                     SELECT Id
@@ -283,7 +284,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
      @isTest
      private static void createProductLedgerRecordsTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                
                hed__Course_Offering__c courseOffering = [
                     SELECT Id 
@@ -311,7 +312,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
      @isTest
      private static void createAffiliationRecordsWithoutCartTest(){
-          System.runAs(TestDataFactory.getProgramAdminUser()){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                hed__Course_Offering__c courseOffering = [
                     SELECT Id 

@@ -12,8 +12,10 @@
 */
 @isTest private class ProductRequestContactRoleTrggrHndlrTest {
     @testSetup static void setup() {
-        TestDataFactory.generateTestUsers();
-        User partnershipManagerUser = TestDataFactory.getPartnershipManager();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXPartnershipManager();
+        Test.stopTest();
+        User partnershipManagerUser = TestDataFactoryUser.selectUserQUTeXPartnershipManager;
         List<Product_Request__c> testProdReqs = TestDataFactory.createTestProductRequestRecords(1);
         testProdReqs[0].OwnerId = partnershipManagerUser.Id;
         insert testProdReqs;
@@ -31,7 +33,7 @@
     }
     
     @isTest static void newFacultyLeadNoExisting() {
-        System.runAs(TestDataFactory.getPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager) {
             Contact con = [SELECT Id FROM Contact WITH SECURITY_ENFORCED LIMIT 1];
             Product_Request__c pr = [SELECT Id FROM Product_Request__c WITH SECURITY_ENFORCED LIMIT 1];
             Product_Request_Contact_Role__c prcr = new Product_Request_Contact_Role__c(
@@ -49,7 +51,7 @@
     }
     
     @isTest static void newFacultyLeadWithExisting() {
-        System.runAs(TestDataFactory.getPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager) {
             List<Contact> cons = [SELECT Id FROM Contact WITH SECURITY_ENFORCED LIMIT 2];
             Product_Request__c pr = [SELECT Id FROM Product_Request__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Product_Request_Contact_Role__c> prcrs = new List<Product_Request_Contact_Role__c>();
@@ -76,7 +78,7 @@
     }
     
     @isTest static void newMultipleFacultyBatch() {
-        System.runAs(TestDataFactory.getPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager) {
             List<Contact> cons = [SELECT Id FROM Contact WITH SECURITY_ENFORCED];
             Product_Request__c pr = [SELECT Id FROM Product_Request__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Product_Request_Contact_Role__c> prcrs = new List<Product_Request_Contact_Role__c>();
@@ -102,7 +104,7 @@
     }
     
     @isTest static void updateToFacultyLeadWithoutExisting() {
-        System.runAs(TestDataFactory.getPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager) {
             List<Contact> cons = [SELECT Id FROM Contact WITH SECURITY_ENFORCED LIMIT 2];
             Product_Request__c pr = [SELECT Id FROM Product_Request__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Product_Request_Contact_Role__c> prcrs = new List<Product_Request_Contact_Role__c>();
@@ -125,7 +127,7 @@
     }
     
     @isTest static void updateToFacultyLeadWithExisting() {
-        System.runAs(TestDataFactory.getPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXPartnershipManager) {
             List<Contact> cons = [SELECT Id FROM Contact WITH SECURITY_ENFORCED LIMIT 2];
             Product_Request__c pr = [SELECT Id FROM Product_Request__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Product_Request_Contact_Role__c> prcrs = new List<Product_Request_Contact_Role__c>();
