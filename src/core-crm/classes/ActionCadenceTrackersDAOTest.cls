@@ -14,13 +14,14 @@
 public with sharing class ActionCadenceTrackersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
     }
 
     @isTest
     static void getRunningACTrackerByTargetIdAndCadenceNameTest() {//NOPMD
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<ActionCadenceTracker> actionCadenceTrackerList = ActionCadenceTrackersDAO.newInstance()
                 .getRunningACTrackerByTargetIdAndCadenceName(new Set<Id>(), new Set<String>(),'SYSTEM_MODE');
             System.assert(actionCadenceTrackerList.isEmpty(), 'actionCadenceTrackerList is not empty');
@@ -31,7 +32,7 @@ public with sharing class ActionCadenceTrackersDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 new ActionCadenceTrackersDAO().getSObjectType() == ActionCadenceTracker.SObjectType,
                 'SObject is not ActionCadenceTracker'
@@ -43,7 +44,7 @@ public with sharing class ActionCadenceTrackersDAOTest {
     @isTest
     static void getCompletedACTrackerByIdTest() {//NOPMD
         Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<ActionCadenceTracker> actionCadenceTrackerList = ActionCadenceTrackersDAO.newInstance()
                 .getCompletedACTrackerById(new Set<String>(),'SYSTEM_MODE');
             System.assert(actionCadenceTrackerList.isEmpty(), 'actionCadenceTrackerList is not empty');

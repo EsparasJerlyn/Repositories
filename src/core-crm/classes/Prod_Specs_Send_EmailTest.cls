@@ -19,13 +19,13 @@ public with sharing class Prod_Specs_Send_EmailTest {
 
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void updateProdSpecsFromQualifyToDesignInternal()
     {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
@@ -97,7 +97,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
     @isTest
     private static void updateProdSpecsFromQualifyToDesignExternal()
     {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             

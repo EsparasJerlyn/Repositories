@@ -17,13 +17,13 @@ private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest 
     private static void insertUpdateLeadRecordTest(){
         Id opeProductSpecsId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE').getRecordTypeId();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;

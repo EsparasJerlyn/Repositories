@@ -12,13 +12,13 @@
 public with sharing class AddressesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(AddressesDAO.newInstance() != null, 'Addressesdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class AddressesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new AddressesDAO().getSObjectType() == hed__Address__c.SObjectType,
                 'SObject is not hed__Address__c'
@@ -39,7 +39,7 @@ public with sharing class AddressesDAOTest {
     @isTest
     static void getAddressesByContactIdsSet() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsSet(new Set<Id>(), AccessLevel.USER_MODE);
             System.assert(addressList.isEmpty(), 'actionlist is not empty');
@@ -50,7 +50,7 @@ public with sharing class AddressesDAOTest {
     @isTest
     static void getAddressesByContactIdsNotEmptySet() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             List<hed__Address__c> addressList = AddressesDAO.newInstance()
                 .getAddressesByContactIdsSet(

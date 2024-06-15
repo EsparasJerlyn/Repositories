@@ -16,13 +16,13 @@ public with sharing class CasesDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CasesDAO().getSObjectType() == Case.SObjectType,
                 'SObject is not Case'
@@ -34,7 +34,7 @@ public with sharing class CasesDAOTest {
     @isTest
     static void getCasesByContactIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesByContactIds(
                     new Set<Id>(),
@@ -48,7 +48,7 @@ public with sharing class CasesDAOTest {
     @isTest
     static void getCasesByLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesByLeadIds(
                     new Set<Id>(),
@@ -62,7 +62,7 @@ public with sharing class CasesDAOTest {
     @isTest
     static void getCasesByContactOrLeadIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesByContactOrLeadIds(
                     new Set<Id>(),
@@ -76,7 +76,7 @@ public with sharing class CasesDAOTest {
     @isTest
     static void getCaseBySuppliedEmailTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCaseBySuppliedEmail(
                     '',
@@ -90,7 +90,7 @@ public with sharing class CasesDAOTest {
     @isTest
     static void getCasesBySuppliedPhoneTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesBySuppliedPhone(
                     new Set<String>(),
@@ -103,7 +103,7 @@ public with sharing class CasesDAOTest {
 
     @isTest
     static void queryLocatorGetCasesByContactOrLeadIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 CasesDAO.newInstance().queryLocatorGetCasesByContactOrLeadIds(

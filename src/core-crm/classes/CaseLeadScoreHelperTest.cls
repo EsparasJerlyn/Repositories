@@ -14,10 +14,7 @@
 public with sharing class CaseLeadScoreHelperTest {
     @TestSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
-        
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
-            
+            TestDataFactoryUser.generateUserQUTESB();
             Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
@@ -84,12 +81,12 @@ public with sharing class CaseLeadScoreHelperTest {
                 caseRec.ContactId = contactList[0].Id;
             }
             CasesDAO.newInstance().insertRecords(caseConList, true, AccessLevel.SYSTEM_MODE);  
-        } 
+        //} 
     }
 
     @isTest
     public static void processLeadScoreCalculationDomUGTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
 
@@ -114,7 +111,7 @@ public with sharing class CaseLeadScoreHelperTest {
     
     @isTest
     public static void processLeadScoreCalculationDomPGTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
 
@@ -139,7 +136,7 @@ public with sharing class CaseLeadScoreHelperTest {
 
     @isTest
     public static void processLeadScoreCalculationIntPGTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
 
