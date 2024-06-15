@@ -15,29 +15,25 @@ public with sharing class LeadScoreCalculationBatchTest {
     
     @TestSetup
     static void setupData(){
-        Test.startTest();
         TestDataFactoryUser.generateUserSystemAdministrator();
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.DOMESTIC, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
+        );
+
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.DOMESTIC, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+        );
+
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.INTERNATIONAL, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+        );
+        Test.startTest();
+        setupRecordForCase();
+        setupRecordForMktgInt();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.DOMESTIC, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
-            );
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.DOMESTIC, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.INTERNATIONAL, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
-
-            setupRecordForCase();
-            setupRecordForMktgInt();
-        }
     }
 
     @isTest

@@ -16,28 +16,26 @@ private class LeadScoreCalculatorServiceTest {
 
     @TestSetup
     static void setupData(){
-        Test.startTest();
         TestDataFactoryUser.generateUserSystemAdministrator();
-        Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
+        
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.DOMESTIC, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
+        );
 
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.DOMESTIC, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
-            );
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.DOMESTIC, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+        );
 
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.DOMESTIC, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.INTERNATIONAL, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.INTERNATIONAL, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+        );
+        Test.startTest();
             setupRecordForCase();
             setupRecordForMktgInt();
-        }
+        Test.stopTest();
     }
 
     @isTest
