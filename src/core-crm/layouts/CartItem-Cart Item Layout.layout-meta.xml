@@ -145,6 +145,14 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>TotalPriceTaxAmount</field>
+            </layoutItems>  
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>UnitItemAdjustmentAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>UnitAdjustedPriceWithItemAdj</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
@@ -166,6 +174,8 @@
         <fields>NetAdjustmentAmount</fields>
         <fields>GrossAdjustmentAmount</fields>
         <fields>TotalPriceTaxAmount</fields>
+        <fields>UnitItemAdjustmentAmount</fields>
+        <fields>UnitAdjustedPriceWithItemAdj</fields>
     </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
