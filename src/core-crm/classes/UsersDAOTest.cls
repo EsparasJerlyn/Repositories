@@ -15,13 +15,13 @@
 public with sharing class UsersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new UsersDAO().getSObjectType() == User.SObjectType,
                 'SObject is not User'
@@ -32,7 +32,7 @@ public with sharing class UsersDAOTest {
 
     @isTest
     static void getUsersByNameSetTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 UsersDAO.newInstance().getUsersByNameSet(new Set<String>{Userinfo.getUserName()}, AccessLevel.USER_MODE) != null,
@@ -44,7 +44,7 @@ public with sharing class UsersDAOTest {
 
     @isTest
     static void getUsersByIdTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 UsersDAO.newInstance().getUsersById(new Set<Id>(), AccessLevel.USER_MODE).isEmpty(),
@@ -56,7 +56,7 @@ public with sharing class UsersDAOTest {
 
     @isTest
     static void getUsersByIdNotEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator builderForUser = new MockIdGenerator(User.sObjectType);
             System.assert(

@@ -17,10 +17,10 @@ private class BuyerGroupFlowTest {
     
     @testSetup static void setupMethod() {
         Test.startTest();
-            TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
 
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) { 
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
             insert testWebStore;
         }
@@ -31,7 +31,7 @@ private class BuyerGroupFlowTest {
         acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
         insert acc;
 
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){ 
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){ 
         Test.startTest();
             System.Assert(![SELECT Id FROM BuyerGroup].isEmpty(), 'No Buyer Group was Created');
             System.Assert(![SELECT Id FROM BuyerGroupMember].isEmpty(), 'No Account was assigned to the Buyer Group');

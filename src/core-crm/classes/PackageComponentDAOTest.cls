@@ -15,13 +15,13 @@
 public with sharing class PackageComponentDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(PackageComponentDAO.newInstance() != null, 'PackageComponentDAO instance is null');
         }
         Test.stopTest();
@@ -30,7 +30,7 @@ public with sharing class PackageComponentDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new PackageComponentDAO().getSObjectType() == Package_Component__c.SObjectType,
                 'SObject is not Package_Component__c'
@@ -42,7 +42,7 @@ public with sharing class PackageComponentDAOTest {
     @isTest
     static void getPackageComponentsByAppPrefIdSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Package_Component__c> packageComponentList = PackageComponentDAO.newInstance()
                 .getPackageComponentsByAppPrefIdSet(
                     new Set<Id>(),

@@ -39,13 +39,13 @@ private class ApplicationServiceHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<hed__Application__c> appList = TestDataFactory.createTestApplicationStudyLinkRecords(
                 recordsCount,
@@ -90,7 +90,7 @@ private class ApplicationServiceHelperTest {
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContactCreateNewLead() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -122,7 +122,7 @@ private class ApplicationServiceHelperTest {
 
     @isTest
     private static void testApplicationBatchSystemKeyMatched() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Contact_Alternate_ID__c> contactAlternateIds = new List<Contact_Alternate_ID__c>();
@@ -207,7 +207,7 @@ private class ApplicationServiceHelperTest {
 
     @isTest
     private static void testApplicationBatchMultipleMatched() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Contact_Alternate_ID__c> contactAlternateIds = new List<Contact_Alternate_ID__c>();
@@ -282,7 +282,7 @@ private class ApplicationServiceHelperTest {
 
     @isTest
     private static void testApplicationBatchMultipleInsufficeintDetails() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Contact_Alternate_ID__c> contactAlternateIds = new List<Contact_Alternate_ID__c>();
@@ -357,7 +357,7 @@ private class ApplicationServiceHelperTest {
 
     @isTest
     private static void testApplicationBatchInsertMatchToExistingLead() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Lead> newLeads = TestDataFactory.createTestLeadRecordForApplication(0, 3);

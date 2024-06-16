@@ -26,14 +26,15 @@ public with sharing class GroupRegistrationHelperTest {
     @testSetup
     static void setupData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_Sys_Admin'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     static void cceBulkRegistrationTest(){
         createCCERecord();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Course_Offering__c> offerings = [SELECT Id From hed__Course_Offering__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Contact> contactList = createContactList(3);
             Id corpPriceBook = [SELECT Id FROM Pricebook2 WHERE Name Like 'Corporate%' WITH SECURITY_ENFORCED LIMIT 1].Id;
@@ -56,7 +57,7 @@ public with sharing class GroupRegistrationHelperTest {
     @isTest
     static void opeBulkRegistrationTest(){
         createRecord(RT_ACTIVITY_ID);
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             WebStore webStore = new WebStore();
             webStore.Name = 'Study';
             webStore.DefaultLanguage = 'en_US';
@@ -84,7 +85,7 @@ public with sharing class GroupRegistrationHelperTest {
     @isTest
     static void cceTailoredBulkRegistrationTest(){
         createRecord(RT_ACTIVITY_ID);
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Course_Offering__c> offerings = [SELECT Id From hed__Course_Offering__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Contact> contactList = createContactList(3);
 
@@ -107,7 +108,7 @@ public with sharing class GroupRegistrationHelperTest {
     @isTest
     static void opeProgramBulkRegistrationTest(){
         createRecord(RT_ACTIVITY_ID);
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             WebStore webStore = new WebStore();
             webStore.Name = 'Study';
             webStore.DefaultLanguage = 'en_US';
@@ -135,7 +136,7 @@ public with sharing class GroupRegistrationHelperTest {
     @isTest
     static void cceProgramBulkRegistrationTest(){
         createRecord(RT_ACTIVITY_ID);
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Program_Offering__c> offerings = [SELECT Id From Program_Offering__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Contact> contactList = createContactList(3);
 
@@ -158,7 +159,7 @@ public with sharing class GroupRegistrationHelperTest {
     @isTest
     static void getAvailableSeatTest(){
         createRecord(RT_ACTIVITY_ID);
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<hed__Course_Offering__c> offerings = [SELECT Id From hed__Course_Offering__c WITH SECURITY_ENFORCED LIMIT 1];
             Test.startTest();
             Integer availableSeats = GroupRegistrationCtrl.getAvailableSeat(offerings[0].Id);
@@ -169,7 +170,7 @@ public with sharing class GroupRegistrationHelperTest {
 
     @isTest
     static void getMobileLocaleOptions(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<GroupRegistrationHelper.MobileLocaleWrapper> mobileLocaleOptions = GroupRegistrationCtrl.getMobileLocaleOptions();
             Test.stopTest();
@@ -198,7 +199,7 @@ public with sharing class GroupRegistrationHelperTest {
     }
     
     private static void createRecord(String productRequestRecordType){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             BuyerGroup bg = new BuyerGroup();
             bg.Name = 'OPE BuyerGroup';
@@ -264,7 +265,7 @@ public with sharing class GroupRegistrationHelperTest {
     } 
 
     private static void createCCERecord(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             WebStore testWebStore = new WebStore(Name='CCE', DefaultLanguage='en_US');
             insert testWebStore;
 
@@ -398,7 +399,7 @@ public with sharing class GroupRegistrationHelperTest {
             insert pbEToInsert;
         }
 
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             BuyerGroup bg = new BuyerGroup();
             bg.Name = 'OPE BuyerGroup';
             insert bg;

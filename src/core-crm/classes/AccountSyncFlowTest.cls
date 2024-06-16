@@ -15,7 +15,9 @@
 public class AccountSyncFlowTest {
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         
         for(Account a : accounts){
@@ -25,13 +27,13 @@ public class AccountSyncFlowTest {
         
         AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);
 
-        List<AccountShare> accShare = TestDataFactory.createAccountShareRecords(accounts, TestDataFactory.getProgramAdminUser().Id, 'Edit');
+        List<AccountShare> accShare = TestDataFactory.createAccountShareRecords(accounts, TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id, 'Edit');
         insert accShare;
     }
     
     @isTest
     public static void updateSyncTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
         Test.startTest();
        	List<Account> accountsToUpdate = [Select Id, Sync_To_MC__c, Do_Not_Sync_To_MC_Override__c FROM Account];
         	for(Account a: accountsToUpdate){

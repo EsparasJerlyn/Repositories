@@ -13,13 +13,13 @@
 public with sharing class ProductCategoryProductsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     } 
 
     @isTest
     static void getProductCategoryProductByProdCatalogIdAndProdCategoryIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 ProductCategoryProductsDAO.newInstance()
                     .getProductCategoryProductByProdCatalogIdAndProdCategoryId(
@@ -36,7 +36,7 @@ public with sharing class ProductCategoryProductsDAOTest {
     @isTest
     static void getProductCategoryProductByProdCatalogIdAndProdCategoryIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForProductCatalog = new MockIdGenerator(ProductCatalog.sObjectType);
             MockIdGenerator builderForProductCategory = new MockIdGenerator(ProductCategory.sObjectType);
             System.assert(
@@ -55,7 +55,7 @@ public with sharing class ProductCategoryProductsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ProductCategoryProductsDAO().getSObjectType() == ProductCategoryProduct.SObjectType,
                 'SObject is not Product Category Products'

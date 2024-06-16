@@ -35,12 +35,12 @@ private class CustomLayoutCtrlTest {
         insert course;
         Product2 product = TestDataFactory.createTestProductRecords(1, new List<hed__Course__c>{course}).iterator().next();
         insert product;
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     private static void getChildRecordIdTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
@@ -57,7 +57,7 @@ private class CustomLayoutCtrlTest {
 
     @isTest
     private static void getParentRecordTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
@@ -76,7 +76,7 @@ private class CustomLayoutCtrlTest {
 
     @isTest
     private static void getGrandChildRecordIdTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             Product2 product = [SELECT Id FROM Product2 LIMIT 1];
             Map<String,String> grandChild = new Map<String,String>();
@@ -96,7 +96,7 @@ private class CustomLayoutCtrlTest {
 
     @isTest
     private static void getGrandParentRecordTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             Product2 product = [SELECT Id FROM Product2 LIMIT 1];
             Map<String,String> grandChild = new Map<String,String>();
@@ -117,7 +117,7 @@ private class CustomLayoutCtrlTest {
 
     @isTest
     private static void getLayoutMappingTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Field_Layout_Setting__mdt> fieldLayoutList = CustomLayoutCtrl.getLayoutMapping(COMMUNICATION_SCHEDULE_API_NAME,MDT_COMMUNICATION_SCHEDULE,true);
             Test.stopTest();
@@ -129,7 +129,7 @@ private class CustomLayoutCtrlTest {
     private static void getLayoutMappingWithFieldTest(){
 
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             Map<String,String> objectMap = new Map<String,String>();
