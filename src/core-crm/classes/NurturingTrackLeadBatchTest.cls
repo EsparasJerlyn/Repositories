@@ -23,7 +23,6 @@ public with sharing class NurturingTrackLeadBatchTest {
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
-        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             List<Account> newAccounts = new List<Account>();
