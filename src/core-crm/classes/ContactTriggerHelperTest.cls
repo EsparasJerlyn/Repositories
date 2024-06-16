@@ -99,40 +99,54 @@ private class ContactTriggerHelperTest {
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
         }
-    } 
+    }
 
     @isTest
-    private static void insertContactTest(){
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
-            List<Account> accList = [SELECT Id, RecordTypeId From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID OR RecordTypeId =: ADMINISTRATIVE];
+    private static void insertContactTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            List<Account> accList = [
+                SELECT Id, RecordTypeId
+                FROM Account
+                WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID OR RecordTypeId = :ADMINISTRATIVE
+            ];
             Id adminAccount;
             Id businessAccount;
-            for(Account acc: accList){
-                if(acc.RecordTypeId == BUSINESS_ACC_RECTYPEID){
+            for (Account acc : accList) {
+                if (acc.RecordTypeId == BUSINESS_ACC_RECTYPEID) {
                     businessAccount = acc.Id;
-                }else if(acc.RecordTypeId == ADMINISTRATIVE){
+                } else if (acc.RecordTypeId == ADMINISTRATIVE) {
                     adminAccount = acc.Id;
                 }
-            }            
-            
+            }
+
             List<Contact> conList = TestDataFactory.createTestContactRecords(100);
-            for(Integer i = 0;i<conList.size(); i++){
+            for (Integer i = 0; i < conList.size(); i++) {
                 conList[i].hed__Primary_Organization__c = businessAccount;
             }
 
             Test.startTest();
-            insert(conList);
+            insert (conList);
             Test.stopTest();
-            
-            List<AccountContactRelation> acrt = new List<AccountContactRelation>([SELECT Id FROM AccountContactRelation WHERE Account.RecordTypeId =: BUSINESS_ACC_RECTYPEID]);
-            System.assert(acrt.size() == 100,'Contacts where not updated');
+
+            List<AccountContactRelation> acrt = new List<AccountContactRelation>(
+                [
+                    SELECT Id
+                    FROM AccountContactRelation
+                    WHERE Account.RecordTypeId = :BUSINESS_ACC_RECTYPEID
+                ]
+            );
+            System.assert(acrt.size() == 100, 'Contacts where not updated');
         }
     }
 
     @isTest
-    private static void updatePrimaryBusinessOrgContactTest(){
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
-            List<Account> accList = [SELECT Id, RecordTypeId From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID OR RecordTypeId =: ADMINISTRATIVE];
+    private static void updatePrimaryBusinessOrgContactTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            List<Account> accList = [
+                SELECT Id, RecordTypeId
+                FROM Account
+                WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID OR RecordTypeId = :ADMINISTRATIVE
+            ];
             Id adminAccount;
             Id businessAccount;
             for (Account acc : accList) {
@@ -165,9 +179,7 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void testContactCanNurtureFlag() {
-
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
             List<Contact> contactListToUpdate = new List<Contact>();
@@ -198,10 +210,9 @@ private class ContactTriggerHelperTest {
     @isTest
     private static void testGetContactCalculatedCadence() {
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
-            
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
-            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             List<Contact> updateContactList = new List<Contact>();
             for (Contact con : newContacts) {
                 Contact conRec = new Contact();
@@ -281,7 +292,7 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void createMarketingSegmentationTest() {        
+    private static void createMarketingSegmentationTest() {
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
@@ -312,7 +323,7 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void updateRegisteredEmailTest() {        
+    private static void updateRegisteredEmailTest() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
@@ -355,8 +366,8 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void createMCPersonaRecordsTest(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB){
+    private static void createMCPersonaRecordsTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
             Set<Id> personContactIds = new Set<Id>();
             Test.startTest();
@@ -391,8 +402,8 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void createMCPersonaByUpdatingPersonContact(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB){
+    private static void createMCPersonaByUpdatingPersonContact() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
             Set<Id> personContactIds = new Set<Id>();
             Test.startTest();
@@ -443,8 +454,8 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void updateMCPersonaByUpdatingPersonContact(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB){
+    private static void updateMCPersonaByUpdatingPersonContact() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 
             Set<Id> personContactIds = new Set<Id>();
@@ -516,8 +527,8 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void updateParentByUpdatingChildMCPersona(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB){
+    private static void updateParentByUpdatingChildMCPersona() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 
             Set<Id> personContactIds = new Set<Id>();
@@ -585,8 +596,8 @@ private class ContactTriggerHelperTest {
     }
 
     @isTest
-    private static void updateParentLeadByUpdatingMCPersona(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB){
+    private static void updateParentLeadByUpdatingMCPersona() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Lead> leads = TestDataFactory.createTestLeadRecords(10);
             Set<Id> leadIds = new Set<Id>();
 
@@ -803,7 +814,6 @@ private class ContactTriggerHelperTest {
     @isTest
     private static void testLeadWorkEmailIsPopulatedAndConvertLeadToContact() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-            
             Integer numOfRecords = 5;
             List<Contact> contactList = new List<Contact>();
             for (Integer i = 0; i <= numOfRecords; i++) {
@@ -882,6 +892,43 @@ private class ContactTriggerHelperTest {
                 System.assertEquals(true, rec.IsConverted, 'Lead is not converted');
                 System.assertEquals('Qualified', rec.Status, 'Lead is not converted');
             }
+        }
+    }
+
+    @isTest
+    private static void testContactMatching() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0, 50);
+            List<Contact> contactToUpdate = new List<Contact>();
+            for (Contact con : contactRecords) {
+                con.Birthdate = System.Today().addYears(-18);
+            }
+            ContactsDAO.newInstance().insertRecords(contactRecords, true, AccessLevel.USER_MODE);
+
+            Test.startTest();
+            Integer count = 0;
+            for (Contact con : contactRecords) {
+                con.Birthdate = System.Today().addYears(-18);
+                con.MobilePhone = '12345612345';
+                contactToUpdate.add(con);
+                count++;
+                if (count == 25) {
+                    break;
+                }
+            }
+            for (
+                Database.SaveResult result : ContactsDAO.newInstance()
+                    .updateRecords(contactRecords, false, AccessLevel.USER_MODE)
+            ) {
+                for (Database.Error error : result.getErrors()) {
+                    System.assertEquals(
+                        error.getMessage(),
+                        'Contact update failed to prevent duplicate contact creation',
+                        'update was successful'
+                    );
+                }
+            }
+            Test.stopTest();
         }
     }
 }
