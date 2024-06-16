@@ -105,8 +105,10 @@ public with sharing class ApplicationTriggerHelper {
             boolean isStudylink = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             boolean isBlockUpdateForNonStudyLink = isUpdate && isNonStudyLink && oldApplication.Offer_Status__c != null;
             boolean isBlockUpdateForStudyLink = isUpdate && isStudylink && ApplicationsDAO.CONTACT_UPDATE_BLOCK_STUDYLINK_STATUS.contains(oldApplication.Application_Status__c);
-            boolean isMapToContact = application.hed__Applicant__c != null && !(isBlockUpdateForNonStudyLink || isBlockUpdateForStudyLink);
-            
+            boolean isBlockUpdate = isBlockUpdateForNonStudyLink || isBlockUpdateForStudyLink;
+            boolean isApplicantUpdated = isUpdate && oldApplication.hed__Applicant__c != application.hed__Applicant__c;
+            boolean isMapToContact = application.hed__Applicant__c != null && (!isBlockUpdate || isApplicantUpdated);
+
             if(isMapToContact){
                 Contact applicant = ApplicationService.getContactFromUpdateMap(contactMapToUpdate, application.hed__Applicant__c);
                 ApplicationService.RecordsToReferenceWrapper recordsToReference = new ApplicationService.RecordsToReferenceWrapper();
