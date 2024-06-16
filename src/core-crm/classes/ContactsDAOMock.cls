@@ -172,6 +172,7 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             boolean isMaidenNameMatch = hasMatchingFirstName && hasMatchingBirthdate && hasMatchingEmailOrMobile;
             boolean noDOBMatch = hasMatchingFirstName && hasMatchingLastName && hasMatchingEmailOrMobile;
             boolean hasMatch = isNaturalKeyMatch || isPartialOrFirstNameStemMatch || isMaidenNameMatch || noDOBMatch;
+            boolean isIdExcluded = fieldSetMap.get('excludedIds').contains(record.Id);
     
             
             newContact = (Contact) JSON.deserialize(
@@ -199,7 +200,7 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             newContact.QUT_Employee_ID__c = record.QUT_Employee_ID__c;
 
             //is person contact
-            if(isPersonRecordType && hasMatch){
+            if(isPersonRecordType && hasMatch && !isIdExcluded){
                 contactList.add(newContact);
             }
 
