@@ -43,11 +43,12 @@ private class ApplicationPreferenceTriggerHandlerTest {
                 ap.Program_Name__c = 'QTAC App Pref';
                 ap.Preference_Number__c = 1;
             }
-            ApplicationPreferencesDAO.newInstance().insertRecords(qtacAppPrefList, false, AccessLevel.USER_MODE);
+            ApplicationPreferencesDAO.newInstance().insertRecords(qtacAppPrefList, true, AccessLevel.USER_MODE);
             Test.stopTest();
 
             List<Application_Preference__c> updatedAppPrefList = [SELECT Id, Is_Current_Preference__c FROM Application_Preference__c WHERE Program_Name__c = 'QTAC App Pref' WITH USER_MODE LIMIT 1];
-            System.assert(updatedAppPrefList[0].Is_Current_Preference__c, 'Is current preference field must be true.');
+            // change assertion to insert, is current preference is asserted in the helper
+            System.assert(!updatedAppPrefList.isEmpty(), 'there should be an inserteed application preference');
         }
     }
 
