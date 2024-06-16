@@ -146,7 +146,7 @@ private class ApplicationPreferenceTriggerHelperTest {
             packageComp2.Application_Preference__c = studyLinkAppPrefList[0].Id;
             packageComp2.Start_Date__c = System.Today().addDays(-2);
             packageCompList.add(packageComp2);
-            ApplicationPreferencesDAO.newInstance().insertRecords(packageCompList, true, AccessLevel.USER_MODE);
+            PackageComponentDAO.newInstance().insertRecords(packageCompList, true, AccessLevel.USER_MODE);
 
             for(Application_Preference__c ap : studyLinkAppPrefList){
                 ap.Program_Name__c = 'StudyLinkAppPrefUpdate';
