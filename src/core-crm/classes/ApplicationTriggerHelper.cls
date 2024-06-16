@@ -91,22 +91,28 @@ public with sharing class ApplicationTriggerHelper {
      * @param Map<Id, SObject> oldItems - An application id to replaced application record map
      */
     public static void updateRelatedRecords(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
-        // related cases by contact
-        Map<Id,List<Case>> caseMap = new Map<Id,List<Case>>();
-        // related interactions by contact
-        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = new Map<Id,List<Marketing_Interaction__c>>();
         // update/upsert maps/list
         Map<Id, Contact> contactMapToUpdate = new Map<Id, Contact>();
         // related maps
         Map<Id, Contact> relatedContactMap = new Map<Id, Contact>(ApplicationService.getApplicantsFromApplications((List<hed__Application__c>) newItems.values()));
-        
+        hed__Application__c oldApplication;
         for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
-            if(application.hed__Applicant__c != null){
+            boolean isUpdate = oldItems != null;
+            oldApplication = isUpdate?(hed__Application__c) oldItems.get(application.Id):null;
+            boolean isSAMSRecType = (application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
+            boolean isQTACRecType = application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+            boolean isNonStudyLink = isQTACRecType || isSAMSRecType;
+            boolean isStudylink = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            boolean isBlockUpdateForNonStudyLink = isUpdate && isNonStudyLink && oldApplication.Offer_Status__c != null;
+            boolean isBlockUpdateForStudyLink = isUpdate && isStudylink && ApplicationsDAO.CONTACT_UPDATE_BLOCK_STUDYLINK_STATUS.contains(oldApplication.Application_Status__c);
+            boolean isMapToContact = application.hed__Applicant__c != null && !(isBlockUpdateForNonStudyLink || isBlockUpdateForStudyLink);
+            
+            if(isMapToContact){
                 Contact applicant = ApplicationService.getContactFromUpdateMap(contactMapToUpdate, application.hed__Applicant__c);
                 ApplicationService.RecordsToReferenceWrapper recordsToReference = new ApplicationService.RecordsToReferenceWrapper();
                 recordsToReference.existingContact = relatedContactMap.get(application.hed__Applicant__c);
                 recordsToReference.application = application;
-                recordsToReference.oldApplication = oldItems == null ? null : (hed__Application__c) oldItems.get(application.Id);
+                recordsToReference.oldApplication = oldApplication;
                 ApplicationService.mappedApplicationToContact(applicant, recordsToReference);
             }
         }
