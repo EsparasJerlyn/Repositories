@@ -204,12 +204,12 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     // @isTest
     // private static void testAutomatedDomesticFirstOffertoAcceptanceEntry() {
-    // System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-    //     Test.startTest();
-    //     // create contact
-    //     List<Contact> newContacts = createTestContactRecords(0, 1);
-    //     newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-    //     ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+    //     System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+    //         Test.startTest();
+    //         // create contact
+    //         List<Contact> newContacts = createTestContactRecords(0, 1);
+    //         newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+    //         ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
     //         List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
     //         programList[0].Program_Level__c = 'Undergraduate';
@@ -412,12 +412,12 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     // @isTest
     // private static void testMultipleRecordsNoCompleteCadenceDomesticFirstOffertoAcceptanceEntry() {
-    // System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-    //     Test.startTest();
-    //     // create contact
-    //     List<Contact> newContacts = createTestContactRecords(0, 1);
-    //     newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-    //     ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+    //     System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+    //         Test.startTest();
+    //         // create contact
+    //         List<Contact> newContacts = createTestContactRecords(0, 1);
+    //         newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+    //         ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
     //         List<hed__Application__c> applicationsToInsert = new List<hed__Application__c>();
 
