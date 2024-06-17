@@ -13,6 +13,9 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | roy.nino.s.regala              | April 01, 2024        | DEPP-7986              | Created file                 |
  */
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity')
+// Cognitive Complexity is bypassed because this service class is expected to have many methods for different scenarios
+// Methods complexity should not be bypassed
 public without sharing class ContactMatchingService {
     // Maps to store contacts grouped by different matching criteria
     private static Map<String, List<Contact>> systemKeyMatchingMap;
@@ -20,6 +23,7 @@ public without sharing class ContactMatchingService {
     private static Map<String, List<Contact>> maidenOrFirstNameStemMatchingMap;
     private static Map<String, List<Contact>> partialNaturalKeyMatchingMap;
     private static Map<String, List<Contact>> noDOBMatchingMap;
+    private static Set<String> excludedIds = new Set<String>();
 
     /**
      * @description List of optional contact fields considered in the key matching process.
@@ -102,6 +106,21 @@ public without sharing class ContactMatchingService {
         }
 
         return matchingResultMap;
+    }
+
+    /**
+     * Overload processContactMatching to set excluded contact ids
+     *
+     * @param matchingRecords The list of records to match with existing contacts.
+     * @param contactIds set of contact ids to be excluded for contact matching
+     * @return A map where keys are unique concatenated matching fields and values are matching results.
+     */
+    public static Map<String, MatchingResult> processContactMatching(
+        List<MatchingAttributes> matchingRecords,
+        Set<String> contactIds
+    ) {
+        excludedIds = contactIds;
+        return processContactMatching(matchingRecords);
     }
 
     /**
@@ -324,7 +343,8 @@ public without sharing class ContactMatchingService {
             'firstName' => new Set<String>(),
             'lastName' => new Set<String>(),
             'mobilePhone' => new Set<String>(),
-            'email' => new Set<String>()
+            'email' => new Set<String>(),
+            'excludedIds' => excludedIds
         };
 
         Set<Date> birthDateSet = new Set<Date>();
@@ -336,14 +356,16 @@ public without sharing class ContactMatchingService {
             'email'
         };
 
+        String fieldValue;
         // by looping through the field names
         // Populate sets with attributes from matching records
         for (ContactMatchingService.MatchingAttributes matchingRecord : matchingRecords) {
             for (String fieldName : fieldNames) {
-                if (fieldName == 'birthDate' && String.isNotBlank(matchingRecord.get(fieldName))) {
-                    birthDateSet.add(Date.valueOf(matchingRecord.get(fieldName)));
-                } else if (String.isNotBlank(matchingRecord.get(fieldName))) {
-                    fieldSetMap.get(fieldName).add(matchingRecord.get(fieldName));
+                fieldValue = matchingRecord.get(fieldName);
+                if (fieldName == 'birthDate' && String.isNotBlank(fieldValue)){
+                    birthDateSet.add(Date.valueOf(fieldValue));
+                } else if (String.isNotBlank(fieldValue)) {
+                    fieldSetMap.get(fieldName).add(fieldValue);
                 }
             }
         }

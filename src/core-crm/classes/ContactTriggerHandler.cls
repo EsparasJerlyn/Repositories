@@ -91,6 +91,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
+    ContactTriggerHelper.processContactMatchingOnContactTrigger((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.processSystemKeyChangeOnContactTrigger((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
   }
 
