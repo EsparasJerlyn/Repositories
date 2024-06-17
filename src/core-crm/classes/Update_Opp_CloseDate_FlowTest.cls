@@ -17,13 +17,13 @@ public class Update_Opp_CloseDate_FlowTest {
     @TestSetup
     static void makeData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
     @isTest
     private static void updateOppCloseDateTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account acct = TestDataFactory.createTestAccountRecords(1).iterator().next();
             insert acct;
     

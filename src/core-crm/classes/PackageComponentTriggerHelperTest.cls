@@ -5,9 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
-      |--------------------------------|-----------------------|------------------------|-----------------------------------|
-      | arsenio.jr.dayrit       	   | August 15, 2023       | DEPP-6370              | Created file                      | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
+      | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Created file                                     |
+      | sebastianne.k.trias            | May 9, 2024           | DEPP-8382              | Changed logic in setting value of application    |
+      |                                |                       |                        | calculated intake date field                     |
  */
 @isTest
 public with sharing class PackageComponentTriggerHelperTest { //NOPMD
@@ -20,7 +22,7 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
 
     }
@@ -28,7 +30,7 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
     @isTest
     private static void updateStudyLinkApplicationCalculatedDateOnPackageComponentTest(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -59,6 +61,50 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
         }
             List<hed__Application__c> updatedApplication = [SELECT Id, Calculated_Intake_Date__c FROM hed__Application__c];
             System.assertEquals(System.today(), updatedApplication[0].Calculated_Intake_Date__c, 'Calculated Intake date should be populated');
+    }
+
+    @isTest
+    private static void updateStudyLinkApplicationCalculatedDateOnPackageComponentMultiplePackageComponentTest(){
+        
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            newContacts[0].Calculated_Cadence__c = '';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<hed__Application__c> newStudyLinkApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(newStudyLinkApplications, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Application_Preference__c> appPrefList = new List<Application_Preference__c>();
+            Application_Preference__c appPref = new Application_Preference__c();
+            appPref.Is_Current_Preference__c = true;
+            appPref.RecordTypeId = ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID;
+            appPref.Application__c = newStudyLinkApplications[0].Id;
+            appPrefList.add(appPref);
+            ApplicationPreferencesDAO.newInstance().insertRecords(appPrefList, false, AccessLevel.SYSTEM_MODE);
+
+            List<Package_Component__c> packageComList = new List<Package_Component__c>();
+            Package_Component__c packageCom = new Package_Component__c();
+            packageCom.Package_Component_No__c = 1;
+            packageCom.Application_Preference__c = appPrefList[0].Id;
+            packageCom.Start_Date__c = System.today().addDays(-2);
+            packageComList.add(packageCom);
+            PackageComponentDAO.newInstance().insertRecords(packageComList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Package_Component__c> packageComList2 = new List<Package_Component__c>();
+            Package_Component__c packageCom2 = new Package_Component__c();
+            packageCom2.Application_Preference__c = appPrefList[0].Id;
+            packageCom2.Start_Date__c = System.today();
+            packageComList2.add(packageCom2);
+            PackageComponentDAO.newInstance().insertRecords(packageComList2, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+        }
+            List<hed__Application__c> updatedApplication = [SELECT Id, Calculated_Intake_Date__c FROM hed__Application__c];
+            System.assertEquals(System.today().addDays(-2), updatedApplication[0].Calculated_Intake_Date__c, 'Calculated Intake date should be populated');
     }
 
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String recordType, String applicationStatus) {

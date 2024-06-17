@@ -17,13 +17,13 @@ public class TranslateServiceTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
     
     @isTest
     static void testGetTranslationEndpoint() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.startTest();
         String translationEndpoint = TranslateService.getTranslationEndpoint();
         Test.stopTest();
@@ -37,7 +37,7 @@ public class TranslateServiceTest {
 
     @isTest
     static void testGetDetectionEndpoint() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.startTest();
         String detectionEndpoint = TranslateService.getDetectionEndpoint();
         Test.stopTest();
@@ -47,7 +47,7 @@ public class TranslateServiceTest {
 
     @isTest
     static void testGetSupportedLanguagesEndpoint() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.startTest();
         String supportedLanguagesEndpoint = TranslateService.getSupportedLanguagesEndpoint();
         Test.stopTest();
@@ -61,7 +61,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testSingleTranslation() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(true));
 
         String translation;
@@ -75,7 +75,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testMultipleTranslation() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(false));
 
         String[] translations;
@@ -92,7 +92,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testSingleTranslationWithSourceLanguage() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(true));
 
         String translation;
@@ -106,7 +106,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testMultipleTranslationWithSourceLanguage() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(false));
 
         String[] translations;
@@ -124,7 +124,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testInvalidTranslationCallout() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(true));
 
         String translation;
@@ -138,7 +138,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testSingleDetection() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleDetectionMock());
 
         String detections;
@@ -152,7 +152,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testMultipleDetections() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleDetectionMock());
 
         String[] detections;
@@ -167,7 +167,7 @@ public class TranslateServiceTest {
 
     @IsTest
     private static void testInvalidDetectionCallout() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleDetectionMock());
 
         String detections;
@@ -181,7 +181,7 @@ public class TranslateServiceTest {
 
     @isTest
     static void testGetSupportedLanguages() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         Test.setMock(HttpCalloutMock.class, new GoogleSupportedLanguagesMock());
 
         String supportedLanguages = TranslateService.getSupportedLanguages();
@@ -191,7 +191,7 @@ public class TranslateServiceTest {
 
     @isTest
     static void testMapLanguageCode() {
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
         // Test mapping for 'iw' (Hebrew)
         String mappedHebrew = TranslateService.mapLanguageCode('iw');
         System.assertEquals('he', mappedHebrew, 'Hebrew should be mapped to "he"');

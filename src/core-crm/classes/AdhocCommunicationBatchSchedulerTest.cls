@@ -15,13 +15,12 @@ public class AdhocCommunicationBatchSchedulerTest {
 
     @testSetup 
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'} );
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void adhocCommunicationSchedulerTest(){
-        
-        System.runAs(TestDataFactory.getProgramAdminUser()){              
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){              
             String cronExpression = Label.Adhoc_Communication_Cron_Expression;
             
             Test.startTest();

@@ -29,7 +29,8 @@ private class AddProductRequestCtrlTest {
     @testSetup
     static void makeData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
 
         List<Account> accounts;
@@ -79,7 +80,7 @@ private class AddProductRequestCtrlTest {
     @isTest
     private static void testGetQUTeXAccountId(){
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
            List<Account> acc= TestDataFactory.createTestAccountRecords(1);
            Account a = new Account(Name = 'QUTeX Products');
            acc.add(a);
@@ -106,7 +107,7 @@ private class AddProductRequestCtrlTest {
             u.emailEncodingKey = 'UTF-8';
             u.timeZoneSidKey = 'Australia/Brisbane';
            insert u;
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
            List<Map<String,String>> us =AddProductRequestCtrl.getSearchedUsers('Test 2');
            Test.stopTest();
            System.assert(!us.isEmpty(), 'user did not match as expected');
@@ -117,7 +118,7 @@ private class AddProductRequestCtrlTest {
 
     @isTest
     private static void testGetRecordTypes(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Map<String,String>> recordTypeMap = AddProductRequestCtrl.getRecordTypes(PRODUCT_REQ_API_NAME);
             Test.stopTest();
@@ -128,7 +129,7 @@ private class AddProductRequestCtrlTest {
     @isTest
     private static void testGetSearchedCourseProductRequests(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             AddProductRequestCtrl.SearchProductRequestParameters searchParameters = new AddProductRequestCtrl.SearchProductRequestParameters();
             searchParameters.filterPRList = new List<Product_Request__c>();
@@ -144,7 +145,7 @@ private class AddProductRequestCtrlTest {
     @isTest
     private static void testGetSearchedCourseProductRequestsSOA(){
 
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             AddProductRequestCtrl.SearchProductRequestParameters searchParameters = new AddProductRequestCtrl.SearchProductRequestParameters();
             searchParameters.filterPRList = new List<Product_Request__c>();
@@ -167,7 +168,7 @@ private class AddProductRequestCtrlTest {
         insert testWebStore;
 
         Id productRequestId = null;
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             Test.startTest();
             productRequestId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
             AddProductRequestCtrl.BuyerGroupAndEntDetails details = new AddProductRequestCtrl.BuyerGroupAndEntDetails();

@@ -12,13 +12,13 @@
 public with sharing class LeadStatusesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-    } 
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(LeadStatusesDAO.newInstance() != null, 'leadStatusesdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class LeadStatusesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new LeadStatusesDAO().getSObjectType() == LeadStatus.SObjectType,
                 'SObject is not LeadStatus'
@@ -38,7 +38,7 @@ public with sharing class LeadStatusesDAOTest {
 
     @isTest
     static void getConvertedLeadStatusTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(LeadStatusesDAO.newInstance()
                 .getConvertedLeadStatus(AccessLevel.USER_MODE) != null,
