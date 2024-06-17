@@ -18,8 +18,8 @@ public with sharing class NurturingTrackServiceTest {
     @TestSetup
     static void makeData(){
         Test.startTest();
-        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
     }
 
