@@ -12,13 +12,13 @@
 private class ContentDocumentLinksDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getContentDocLinksBySetLinkedEntityIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builder = new MockIdGenerator(ContentDocumentLink.sObjectType);
             List<ContentDocumentLink> contentDocumentLinkList = ContentDocumentLinksDAO.newInstance()
                 .getContentDocLinksBySetLinkedEntityIds(builder.getMockId());
@@ -33,7 +33,7 @@ private class ContentDocumentLinksDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ContentDocumentLinksDAO().getSObjectType() == ContentDocumentLink.SObjectType,
                 'SObject is not ContentDocumentLink'

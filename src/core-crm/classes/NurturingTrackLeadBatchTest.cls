@@ -20,8 +20,11 @@ public with sharing class NurturingTrackLeadBatchTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_ESB' });
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -48,7 +51,7 @@ public with sharing class NurturingTrackLeadBatchTest {
     @isTest
     private static void testAutomaticInternationalDirectApplicantEntry() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             // create marketing segmentation
             Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');
             insert internationalMS;
@@ -89,7 +92,7 @@ public with sharing class NurturingTrackLeadBatchTest {
 
     @isTest
     private static void testManualInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create marketing segmentation
             Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');
@@ -132,7 +135,7 @@ public with sharing class NurturingTrackLeadBatchTest {
     // Test method for exception handling
     @isTest
     static void testExceptionHandling() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             // Call the batch class execute method
             NurturingTrackLeadBatch batchable = new NurturingTrackLeadBatch();

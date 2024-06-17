@@ -14,13 +14,13 @@
 public with sharing class CasePriorityConfigurationsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new CasePriorityConfigurationsDAO().getSObjectType() == Case_Priority_Configuration__c.SObjectType,
                 'SObject is not Case_Priority_Configuration__c'
@@ -31,7 +31,7 @@ public with sharing class CasePriorityConfigurationsDAOTest {
 
     @isTest
     static void getActiveCasePriorityConfigurationsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             System.assert(
                 CasePriorityConfigurationsDAO.newInstance().getActiveCasePriorityConfigurations(AccessLevel.USER_MODE) != null,

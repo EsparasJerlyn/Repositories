@@ -15,13 +15,13 @@ public with sharing class LeadSourceCanNurtureBatchSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getSystemAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.StartTest();
             LeadSourceCanNurtureFlagBatchScheduler LeadScoreCanNurtureScheduler = new LeadSourceCanNurtureFlagBatchScheduler();
             String sch = '0 0 0 * * ?';

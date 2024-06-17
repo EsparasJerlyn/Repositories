@@ -16,8 +16,10 @@ private class LeadScoreCalculatorServiceTest {
 
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
 
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
@@ -33,10 +35,8 @@ private class LeadScoreCalculatorServiceTest {
                 LeadScoreConfigurationDAO.INTERNATIONAL, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
             );
-            Test.startTest();
             setupRecordForCase();
             setupRecordForMktgInt();
-            Test.stopTest();
         }
     }
 
@@ -207,7 +207,7 @@ private class LeadScoreCalculatorServiceTest {
     @isTest
     private static void executeBatchTest() {
         Id batchableId;
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             LeadScoreCalculationBatch batchable = new LeadScoreCalculationBatch();
             batchableId = Database.executeBatch(batchable);            
