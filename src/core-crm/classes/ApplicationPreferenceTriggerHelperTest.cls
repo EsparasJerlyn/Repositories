@@ -144,19 +144,17 @@ private class ApplicationPreferenceTriggerHelperTest {
             packageCompList.add(packageComp);
             Package_Component__c packageComp2 = new Package_Component__c();
             packageComp2.Application_Preference__c = studyLinkAppPrefList[0].Id;
-            packageComp2.Start_Date__c = System.Today().addDays(-1);
+            packageComp2.Start_Date__c = System.Today().addDays(-2);
             packageCompList.add(packageComp2);
-            ApplicationPreferencesDAO.newInstance().insertRecords(packageCompList, false, AccessLevel.USER_MODE);
+            PackageComponentDAO.newInstance().insertRecords(packageCompList, true, AccessLevel.USER_MODE);
 
             for(Application_Preference__c ap : studyLinkAppPrefList){
                 ap.Program_Name__c = 'StudyLinkAppPrefUpdate';
             }
-            ApplicationPreferencesDAO.newInstance().updateRecords(studyLinkAppPrefList, false, AccessLevel.USER_MODE);
-
             Test.stopTest();
-
+            ApplicationPreferencesDAO.newInstance().updateRecords(studyLinkAppPrefList, true, AccessLevel.USER_MODE);
             List<hed__Application__c> updatedApplication = [SELECT Id, Calculated_Intake_Date__c FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.STUDYLINK_RECTYPE_ID WITH USER_MODE LIMIT 1];
-            System.assertEquals(System.Today().addDays(-1), updatedApplication[0].Calculated_Intake_Date__c, 'Calculated Date should be equal to the earliest package component startdate');
+            System.assertEquals(System.Today().addDays(-2), updatedApplication[0].Calculated_Intake_Date__c, 'Calculated Date should be equal to the earliest package component startdate');
         }
     }
    

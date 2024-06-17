@@ -1242,4 +1242,74 @@ private class ContactMatchingServiceTest {
 
     }
 
+    @isTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Service class is mocked, user will never create/update records. 
+    //With this user access cannot be tested
+    private static void contactIdExclusionTest(){
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactAlternateIdsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactMatchingConfigurationsDAOMock());
+        List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
+        List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0,100);
+        Set<String> contactIds = new Set<String>();
+        ContactsDAO.newInstance().insertRecords(contactRecords,true,AccessLevel.SYSTEM_MODE);
+
+
+        for(Integer i = 0; i < 20; i ++ ){
+            matchingRecords.add(new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+                'firstName' => contactRecords[i].FirstName + 'mismatch',
+                'lastName' => contactRecords[i].LastName,
+                'birthDate' => String.valueOf(contactRecords[i].BirthDate),
+                'email'=> contactRecords[i].Email
+            }));
+            contactIds.add(contactRecords[i].Id);
+        }
+
+        for(Integer i = 20; i < 40; i ++ ){
+            matchingRecords.add(new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+                'firstName' => contactRecords[i].FirstName + 'mismatch',
+                'lastName' => contactRecords[i].LastName,
+                'birthDate' => String.valueOf(contactRecords[i].BirthDate),
+                'email' => contactRecords[i].QUT_Learner_Email__c
+            }));
+            contactIds.add(contactRecords[i].Id);
+        }
+
+        for(Integer i = 40; i < 60; i ++ ){
+            matchingRecords.add(new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+                'firstName' => contactRecords[i].FirstName + 'mismatch',
+                'lastName' => contactRecords[i].LastName,
+                'birthDate' => String.valueOf(contactRecords[i].BirthDate),
+                'email' => contactRecords[i].QUT_Staff_Email__c
+            }));
+            contactIds.add(contactRecords[i].Id);
+        }
+
+        for(Integer i = 60; i < 80; i ++ ){
+            matchingRecords.add(new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+                'firstName' => contactRecords[i].FirstName + 'mismatch',
+                'lastName' => contactRecords[i].LastName,
+                'birthDate' => String.valueOf(contactRecords[i].BirthDate),
+                'email' => contactRecords[i].Work_Email__c
+            }));
+            contactIds.add(contactRecords[i].Id);
+        }
+
+        for(Integer i = 80; i < 100; i ++ ){
+            matchingRecords.add(new ContactMatchingService.MatchingAttributes(new Map<String,String>{
+                'firstName' => contactRecords[i].FirstName + 'mismatch',
+                'lastName' => contactRecords[i].LastName,
+                'birthDate' => String.valueOf(contactRecords[i].BirthDate),
+                'mobilePhone' => contactRecords[i].MobilePhone
+            }));
+            contactIds.add(contactRecords[i].Id);
+        }
+
+        for(MatchingResult matchingResult: ContactMatchingService.processContactMatching(matchingRecords,contactIds).values()){
+            system.assertEquals(false,matchingResult.error,'there should be no error');
+            system.assertEquals(0,matchingResult.contactIds.size(),'there should be no contact match');
+        }
+    }
+
 }
