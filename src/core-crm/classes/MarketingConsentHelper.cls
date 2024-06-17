@@ -17,6 +17,8 @@
 */
 public without sharing class MarketingConsentHelper {
 
+	public static Map<Id, Boolean> runSetOptOutAndInDates = new Map<Id, Boolean>();
+
 	public static void setOptOutAndInDates(List<SObject> newItems, Map<Id, SObject> oldMap, String objectName ) {
         Boolean isInsert = oldMap == null;
 
@@ -24,21 +26,40 @@ public without sharing class MarketingConsentHelper {
 
 			if(objectName == 'Contact'){
 				item = (Contact) item;
+				// fixed for issue on marketing field always updating
+				if (!runSetOptOutAndInDates.containsKey((Id) item.get('Id')) && item.get('RecordTypeId') == ContactsDAO.MC_PERSONA_RECORDTYPE_ID ){
+					runSetOptOutAndInDates.put((Id) item.get('Id'), false);
+				}
+				else if ( runSetOptOutAndInDates.containsKey((Id) item.get('Id')) && item.get('RecordTypeId') == ContactsDAO.MC_PERSONA_RECORDTYPE_ID && !runSetOptOutAndInDates.get((Id) item.get('Id'))){
+					continue;
+				}
 			}
 			else if(objectName == 'Lead'){
 				item = (Lead) item;
 			}
 
-			boolean hasOptedOutOfEmailUpdated = !isInsert && ( item.get('HasOptedOutOfEmail') != oldMap.get( (Id) item.get('Id') ).get('HasOptedOutOfEmail') );
-			boolean conditionToSetOptIn =  item.get('HasOptedOutOfEmail') == false;
-			boolean conditionToSetOptOut =  item.get('HasOptedOutOfEmail') == true;
+			boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get('HasOptedOutOfEmail') != oldMap.get( (Id) item.get('Id') ).get('HasOptedOutOfEmail') );
+			boolean isEmailOptInDatetimeChanged = !isInsert &&  ( item.get('Email_Opt_In_DateTime__c') != oldMap.get( (Id) item.get('Id')).get('Email_Opt_In_DateTime__c') );
+			boolean isEmailOptOutDatetimeChanged = !isInsert && ( item.get('Email_Opt_Out_DateTime__c') != oldMap.get( (Id) item.get('Id')).get('Email_Opt_Out_DateTime__c') );
 
-			if (hasOptedOutOfEmailUpdated && conditionToSetOptIn ){
+			boolean conditionToSetDefaultOptInValue =  item.get('HasOptedOutOfEmail') == false && 
+														(
+															isHasOptedOutOfEmailChanged && !isEmailOptInDatetimeChanged
+														);
+			
+			// 
+			boolean conditionToSetDefaultOptOutValue =  item.get('HasOptedOutOfEmail') == true &&
+														 (
+														  isHasOptedOutOfEmailChanged && !isEmailOptOutDatetimeChanged
+														 );
+
+			if ( conditionToSetDefaultOptInValue ){
 				item.put('Email_Opt_In_DateTime__c', System.now());
 			}
 
-			else if ( (hasOptedOutOfEmailUpdated && conditionToSetOptOut) ||
-					  (isInsert &&  conditionToSetOptOut) ){
+			else if ( conditionToSetDefaultOptOutValue ||
+					 ( isInsert &&  conditionToSetOptOut && item.get('Email_Opt_Out_DateTime__c') == null ) 
+					){
 				item.put('Email_Opt_Out_DateTime__c', System.now());
 			}
 		}

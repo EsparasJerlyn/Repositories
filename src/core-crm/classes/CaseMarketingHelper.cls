@@ -10,6 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------------|
  *    | roy.nino.s.regala              | November 01, 2023     | DEPP-7060              | Created file to handle case marketing fields mapping            |
  *    | mark.j.mahilum                 | Feb 19, 2024          | DEPP-7551              | Updated method to add field mapping for contact and lead fields |
+ *    | sebastianne.k.trias            | June 17, 2024         | DEPP-              | Removed Marketing Opt In Functionality |
  */
 public with sharing class CaseMarketingHelper { //NOPMD
     private static final List<String> MARKETING_FIELDS = new List<String>{
@@ -23,8 +24,6 @@ public with sharing class CaseMarketingHelper { //NOPMD
     public static void mapMarketingFieldsFromCase(List<Case> newItems, Map<Id, Case> oldItems) {
         Boolean isInsert = oldItems == null;
 
-        //map that groups contact/lead to its potential new Email_Opt_In_DateTime__c
-        Map<Id, Datetime> recordIdsWithDateTimeMap = new Map<Id, Datetime>();
         //map that groups contact/lead to its updated marketing segmentation record
         Map<Id, Marketing_Segmentation__c> parentIdToMarketingSegmentation = new Map<Id, Marketing_Segmentation__c>();
         Set<Id> contactLeadIds = new Set<Id>();
@@ -62,12 +61,10 @@ public with sharing class CaseMarketingHelper { //NOPMD
                 contactLeadIds.add(contactLeadId);
                 contactLeadCaseMap.put(contactLeadId,caseRecord);
             }
-
-            processEmailOptInDateToBeUpdated(recordIdsWithDateTimeMap, caseRecord, oldItems);
         }
 
         updateMarketingSegmentationRecords(parentIdToMarketingSegmentation);
-        updateLeadAndContactOptInDates(recordIdsWithDateTimeMap,contactLeadIds,contactLeadCaseMap);
+        updateLeadAndContactOptInDates(contactLeadIds,contactLeadCaseMap);
     }
 
     private static void mapMarketingSegmenationFields(
@@ -140,53 +137,17 @@ public with sharing class CaseMarketingHelper { //NOPMD
         }
     }
 
-    private static void processEmailOptInDateToBeUpdated(
-        Map<Id, Datetime> recordIdsWithDateTimeMap,
-        Case caseRecord,
-        Map<Id, Case> oldItems
+    private static void updateLeadAndContactOptInDates(
+        Set<Id> contactLeadIds,
+        Map<Id,Case> contactLeadCaseMap
     ) {
-        Boolean isInsert = oldItems == null;
-
-        //check if case has a contact/lead
-        //and if case is marketing opt in true
-        //and when case is newly created
-        //or when lead or contact is newly linked to case
-        Boolean isNewOrUpdatedContact =
-            caseRecord.ContactId != null &&
-            (isInsert || oldItems.get(caseRecord.Id).ContactId != caseRecord.ContactId);
-        Boolean isNewOrUpdatedLead =
-            caseRecord.Lead__c != null &&
-            (isInsert || oldItems.get(caseRecord.Id).Lead__c != caseRecord.Lead__c);
-
-        Boolean isOptInToTrueForContact = caseRecord.Marketing_Opt_In__c && isNewOrUpdatedContact;
-        Boolean isOptInToTrueForLead = caseRecord.Marketing_Opt_In__c && isNewOrUpdatedLead;
-
-        //collect contact ids and its new Email_Opt_In_DateTime__c
-        if (isOptInToTrueForContact) {
-            recordIdsWithDateTimeMap.put(caseRecord.ContactId, caseRecord.CreatedDate);
-        }
-
-        //collect lead ids and its new Email_Opt_In_DateTime__c
-        if (isOptInToTrueForLead) {
-            recordIdsWithDateTimeMap.put(caseRecord.Lead__c, caseRecord.CreatedDate);
-        }
-    }
-
-    private static void updateLeadAndContactOptInDates(Map<Id, Datetime> recordIdsWithDateTimeMap, Set<Id> contactLeadIds,Map<Id,Case> contactLeadCaseMap) {
         Map<Id,Contact> contactsToUpdateMap = new Map<Id,Contact>();
         Map<Id,Lead> leadsToUpdateMap = new Map<Id,Lead>();
-        
-        if(!recordIdsWithDateTimeMap.keySet().isEmpty()){
-            contactLeadIds.addAll(recordIdsWithDateTimeMap.keySet());
-        }
 
         if (contactLeadIds.isEmpty()) {
             return;
         }
 
-        //get contact fields
-        //and check if Email_Opt_In_DateTime__c is already populated
-        //and update email opt in date of contact to Case.Createddate
         for (
             Contact contactRecord : ContactsDAO.newInstance()
                 .getPersonContactsBySetIds(
@@ -194,21 +155,6 @@ public with sharing class CaseMarketingHelper { //NOPMD
                     AccessLevel.SYSTEM_MODE
                 )
         ) {
-            boolean conditionToSetOptIn = contactRecord.HasOptedOutOfEmail == true || ( contactRecord.HasOptedOutOfEmail == false && contactRecord.Email_Opt_In_DateTime__c == null );
-
-            if (
-                conditionToSetOptIn &&
-                recordIdsWithDateTimeMap.containsKey(contactRecord.Id)
-            ) {
-                contactsToUpdateMap.put(
-                    contactRecord.Id,
-                    new Contact(
-                        Id = contactRecord.Id,
-                        Email_Opt_In_DateTime__c = recordIdsWithDateTimeMap.get(contactRecord.Id),
-                        HasOptedOutOfEmail = false
-                    )
-                );
-            }
             
             mapCaseToContactFields(contactRecord,contactLeadCaseMap,contactsToUpdateMap);
             
@@ -221,22 +167,6 @@ public with sharing class CaseMarketingHelper { //NOPMD
             Lead leadRecord : LeadsDAO.newInstance()
                 .getLeadsByIdSet(contactLeadIds, AccessLevel.SYSTEM_MODE)
         ) {
-            
-            boolean conditionToSetOptIn = leadRecord.HasOptedOutOfEmail == true || ( leadRecord.HasOptedOutOfEmail == false && leadRecord.Email_Opt_In_DateTime__c == null );
-
-            if (
-                conditionToSetOptIn &&
-                recordIdsWithDateTimeMap.containsKey(leadRecord.Id)
-            ) {
-                leadsToUpdateMap.put(
-                    leadRecord.Id,
-                    new Lead(
-                        Id = leadRecord.Id,
-                        Email_Opt_In_DateTime__c = recordIdsWithDateTimeMap.get(leadRecord.Id),
-                        HasOptedOutOfEmail = false
-                    )
-                );
-            }
             
             mapCaseToLeadFields(leadRecord,contactLeadCaseMap,leadsToUpdateMap);
         }
