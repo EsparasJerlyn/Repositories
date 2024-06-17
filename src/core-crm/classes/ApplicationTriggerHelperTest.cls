@@ -511,6 +511,84 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
         }
     }
+
+    @isTest
+    private static void testQTACFailOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.QTAC_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Offer_Status__c = 'Offered';
+            applications[0].Birthdate__c = null;
+            applications[0].Postal_Address_Line1__c = 'Postal';
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            applications[0].Indigenous_Status__c = 'Aboriginal';
+            applications[0].Postal_Address_Line1__c = 'Postal 1';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                MailingStreet
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals('I prefer not to say', updatedContact.ATSI_Code__c, 'ATSI_Code__c update should fail.');
+            System.assertEquals('Postal', updatedContact.MailingStreet, 'MailingStreet update should fail.');
+        }
+    }
+
+    @isTest
+    private static void testQTACSuccessOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.QTAC_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = null;
+            applications[0].LastName__c = null;
+            applications[0].Email__c = null;
+            applications[0].Offer_Status__c = null;
+            applications[0].Birthdate__c = null;
+            applications[0].Postal_Address_Line1__c = 'Postal';
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Indigenous_Status__c = 'Aboriginal';
+            applications[0].Postal_Address_Line1__c = 'Postal 1';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c, Is_International_Applicant__c,
+                MailingStreet
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals('Aboriginal', updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
+            System.assertEquals('Postal 1', updatedContact.MailingStreet, 'MailingStreet update failed.');
+        }
+    }
     
     @isTest
     private static void testQTACMatching() {
