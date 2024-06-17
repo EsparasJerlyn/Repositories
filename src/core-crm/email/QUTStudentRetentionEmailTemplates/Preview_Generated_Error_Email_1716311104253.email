@@ -2,7 +2,9 @@
 <head>
 	<title></title>
 </head>
-<body aria-readonly="false" style="height: auto; min-height: auto;">Dear {firstName},<br />
+<body aria-readonly="false" style="height: auto; min-height: auto;"><span style="font-family:Arial,Helvetica,sans-serif;"><strong>This is a system generated email.</strong><br />
+<br />
+Dear {firstName},<br />
 <br />
 We regret to inform you that an error has occurred during the generation of your preview for <a href="{elcUrl}">{elcTitle}</a>.<br />
 <br />
@@ -11,5 +13,5 @@ Kindly contact or forward this email to the DEP support team for resolution (tro
 Regards,<br />
 DEP<br />
 <br />
-{errors}</body>
+{errors}</span></body>
 </html>
