@@ -59,6 +59,17 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
     public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
 
+    public static final Set<String> CONTACT_UPDATE_BLOCK_STUDYLINK_STATUS = new Set<String>{
+        'Acceptance - Payment Received',
+        'Acceptance - Pending More Information',
+        'Acceptance - Pending Payment',
+        'Acceptance – Pending Payment',
+        'Acceptance Processing',
+        'Accepted',
+        'Accepted Deferral',
+        'EOI Successful'
+    };
+
     public static final Set<String> studyLinkStatuses = new Set<String>{
         'Accepted',
         'Application Archived',
