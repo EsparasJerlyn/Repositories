@@ -236,6 +236,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         Set<String> lastNameSet = fieldSetMap.get('lastName');
         Set<String> emailSet = fieldSetMap.get('email');
         Set<String> mobilePhoneSet = fieldSetMap.get('mobilePhone');
+        Set<String> excludedIdsSet = fieldSetMap.get('excludedIds');
 
         if(setsAreEmpty){
             return new List<Contact>();
@@ -274,7 +275,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'OR QUT_Staff_Email__c IN :emailSet ' +
             'OR QUT_Learner_Email__c IN :emailSet ' +
             'OR Work_Email__c IN :emailSet ' +
-            'OR MobilePhone IN :mobilePhoneSet))) ',
+            'OR MobilePhone IN :mobilePhoneSet))) ' + 
+            'AND ID NOT IN: excludedIdsSet ',
             accessLevel
         );
     }
