@@ -27,6 +27,7 @@
       | mark.j.mahilum                 | Feb 29, 2024          | DEPP-7739              | Added method to Fixed issue with Lead to Contact |
       |                                |                       |                        | conversion mapping                               |
       | mark.j.mahilum                 | March 15, 2024        | DEPP-8314              | Updated can nurture logic for partner sourced    |
+      | roy.nino.s.regala              | Jun 05, 2024          | DEPP-9171              | Added contact matching logic on contact udpate   |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -47,10 +48,12 @@ public without sharing class ContactTriggerHelper {
 
         for (Contact con : newItems) {
             Boolean isPerson = ContactsDAO.PERSON_RECORDTYPE_ID == con.RecordTypeId;
-            //non person contact process start
+            //non person/person contact process start
 
-            birthDateValidation(con); //validates contact birthdate
-            setMatchingFirstAndLastName(con, oldItems); // remove special characters from the first and last name field
+            //validates contact birthdate
+            birthDateValidation(con);
+            //remove special characters from the first and last name field
+            setMatchingFirstAndLastName(con, oldItems);
 
             //person contacts processes start
             if (!isPerson) {
@@ -59,11 +62,15 @@ public without sharing class ContactTriggerHelper {
 
             //This method check if redundant email value is duplicated in the other contact email fields.
             checkIfEmailIsAlreadyMatchOnContactLeadConversion(con, oldItems);
-
-            setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
-            setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
-            updateRegisteredEmail(con, oldItems); // updates Registered email when match with Primary Email or Work Email
+            //sets can nurture flag
+            setCanNurtureFlag(con, contactsToRecalculate, oldItems);
+            //sets QUT_Staff__c(Persona Flags) of Contact
+            setQUTPersonaFlag(con);
+            //updates Registered email when match with Primary Email or Work Email
+            updateRegisteredEmail(con, oldItems);
+            //updates sync to mc field
             updateSyncToMCField(con, oldItems);
+
             //if contact is person on insert/update Persona Type is Personal
             con.Persona_Type__c = 'Personal';
         }
@@ -344,12 +351,12 @@ public without sharing class ContactTriggerHelper {
                     oldItems.get(con.Id)
                 );
 
-            if (isMCEmailNotBlank && isUpsertMCPersona) {
-                contactsToUpsert.addAll(
-                    //map the marketing fields to the MC Record
-                    buildMCPersonaRecords(personaType, triggerContactMap, childMCToParentMap)
-                );
-            }
+                if (isMCEmailNotBlank && isUpsertMCPersona) {
+                    contactsToUpsert.addAll(
+                        //map the marketing fields to the MC Record
+                        buildMCPersonaRecords(personaType, triggerContactMap, childMCToParentMap)
+                    );
+                }
         }
 
         return contactsToUpsert;
@@ -397,7 +404,7 @@ public without sharing class ContactTriggerHelper {
         );
 
         List<Contact> contactsToUpsert = new List<Contact>();
-        //create initial new MC Persona Record
+         //create initial new MC Persona Record
         Contact tempContact = new Contact(
             FirstName = con.FirstName,
             LastName = con.LastName,
@@ -1136,5 +1143,140 @@ public without sharing class ContactTriggerHelper {
             conSystemKeyCAIMap,
             false
         );
+    }
+
+    /**
+     * Processes contact matching when the contact trigger is fired.
+     *
+     * @param newContacts The list of new contacts
+     * @param oldContactsMap The map of old contacts
+     */
+    public static void processContactMatchingOnContactTrigger(
+        List<Contact> newContacts,
+        Map<Id, Contact> oldContactsMap
+    ) {
+        // Initialize maps and lists to store data during processing
+        Map<Id, String> contactMatchingToMatchingResultKey = new Map<Id, String>();
+        List<ContactMatchingService.MatchingAttributes> matchingRecords = new List<ContactMatchingService.MatchingAttributes>();
+        List<Contact> contactsToMatch = new List<Contact>();
+        Set<String> contactIds = new Set<String>();
+        String uniqueKey = '';
+        Contact oldContact;
+
+        // Iterate through each contact
+        for (Contact newContact : newContacts) {
+            //indicates that firstName,lastname,DOB, or Mobilephone has been updated
+            oldContact = oldContactsMap.get(newContact.Id);
+
+            boolean isOneOfContactFieldsUpdated = 
+            newContact.FirstName != oldContact.FirstName ||
+            newContact.LastName != oldContact.LastName || 
+            newContact.Birthdate != oldContact.Birthdate || 
+            newContact.Mobilephone != oldContact.Mobilephone;
+            
+            boolean isOneOfEmailFieldsUpdated = 
+            newContact.Email != oldContact.Email ||
+            newContact.QUT_Learner_Email__c != oldContact.QUT_Learner_Email__c || 
+            newContact.QUT_Staff_Email__c != oldContact.QUT_Staff_Email__c || 
+            newContact.Work_Email__c != oldContact.Work_Email__c;
+
+            //indicates that no fields are updated
+            boolean isExcludedFromPayload =
+                (!isOneOfContactFieldsUpdated && !isOneOfEmailFieldsUpdated) ||
+                newContact.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID;
+
+            if (isExcludedFromPayload) {
+                continue;
+            }
+
+            // Create a matching record from the contact record's data
+            ContactMatchingService.MatchingAttributes matchingRecord = new ContactMatchingService.MatchingAttributes(
+                new Map<String, String>{
+                    'firstName' => newContact.Matching_Firstname__c,
+                    'lastName' => newContact.Matching_Lastname__c,
+                    //if any of the email is updated, set the primary email in the payload to null
+                    //this means that the email updated is unique or null
+                    'email' => isOneOfEmailFieldsUpdated ? '' : newContact.Email,
+                    'birthDate' => newContact.Birthdate != null
+                        ? String.valueOf(newContact.Birthdate)
+                        : '',
+                    'mobilePhone' => newContact.MobilePhone
+                }
+            );
+
+            // Add the matching record to the list
+            matchingRecords.add(matchingRecord);
+            // Generate a unique key for the matching result
+            uniqueKey = ContactMatchingService.generateUniqueKey(
+                matchingRecord,
+                new List<String>(matchingRecord.fieldValues.keySet())
+            );
+            // Map the staging record ID to the matching result key
+            contactMatchingToMatchingResultKey.put(newContact.Id, uniqueKey);
+            // Store contacts for matching
+            contactsToMatch.add(newContact);
+            contactIds.add(newContact.Id);
+        }
+
+        // skip contact matching services if no contacts for matching found
+        if (contactsToMatch.isEmpty()) {
+            return;
+        }
+
+        // Process the contact matching services
+        Map<String, MatchingResult> matchingResults = ContactMatchingService.processContactMatching(
+            matchingRecords,
+            contactIds
+        );
+
+        // Process the matching results
+        processMatchingResult(contactsToMatch, matchingResults, contactMatchingToMatchingResultKey);
+    }
+
+    /**
+     * Processes the results of contact matching.
+     *
+     * @param contactsToMatch The list of contacts that were matched.
+     * @param matchingResults The results of the contact matching.
+     * @param contactMatchingToMatchingResultKey A map of contact IDs to their matching result keys.
+     */
+    private static void processMatchingResult(
+        List<Contact> contactsToMatch,
+        Map<String, MatchingResult> matchingResults,
+        Map<Id, String> contactMatchingToMatchingResultKey
+    ) {
+        MatchingResult result;
+
+        // Iterate through each contact to match
+        for (Contact contactToMatch : contactsToMatch) {
+            // Get the contact unique key string assigned to the current contact ID
+            String contactUniqueKey = contactMatchingToMatchingResultKey.get(contactToMatch.Id);
+            // Get the matching result using the unique key
+            result = matchingResults.get(contactUniqueKey);
+
+            //evaluate matching result
+            boolean isMultipleMatch = result.errorMessage == 'Multiple match found';
+            //one match found
+            boolean isSingleMatch =
+                !result.error &&
+                String.isNotBlank(result.matchingType);
+            //natural key email/mobile confirmation failed and contacts are found
+            boolean isNaturalKeyConfirmationFailed =
+                result.errorMessage ==
+                'Contact Record does not match email and/or mobile provided';
+
+            // Determine if another existing contact was found
+            boolean isMatchingContactFound =
+                isMultipleMatch ||
+                isSingleMatch ||
+                isNaturalKeyConfirmationFailed;
+
+            // Add an error to the current contact if another existing contact was found
+            if (isMatchingContactFound) {
+                contactToMatch.addError(
+                    'Contact update failed to prevent duplicate contact creation'
+                );
+            }
+        }
     }
 }
