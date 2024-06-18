@@ -2964,6 +2964,26 @@
         <field>hed__Relationship__c.hed__Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Relationship_Manager__c.Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Relationship_Manager__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Relationship_Manager__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Relationship_Manager__c.Primary_QUT_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <hasActivationRequired>false</hasActivationRequired>
     <label>Alumni &amp; Corporate Partnership Base</label>
     <license>Salesforce</license>
@@ -3147,6 +3167,15 @@
         <object>Dynamic_Datatable_Event__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Relationship_Manager__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>    
     <recordTypeVisibilities>
         <recordType>Account.Business_Organization</recordType>
         <visible>true</visible>
@@ -3195,6 +3224,14 @@
         <recordType>Opportunity_Outcome__c.Corporate_Partnership</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>    
     <tabSettings>
         <tab>Engagement_Opportunity__c</tab>
         <visibility>Visible</visibility>
