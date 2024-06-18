@@ -14,6 +14,7 @@
  *    | ryan.j.a.dela.cruz             | December 6, 2023      | DEPP-7369              | Confirmation email sending fix                           |
  *    | kenneth.f.alsay                | December 11, 2023     | DEPP-7394              | Added convert email string to lower case before matching |
  *    | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                                 |
+ *    | sebastianne.k.trias            | June 17, 2024         | DEPP-8474              | Removed Marketing Consent                                 |
  */
 public without sharing class ServiceAppointmentTriggerHelper {
 
@@ -93,9 +94,6 @@ public without sharing class ServiceAppointmentTriggerHelper {
         if(serviceAppointment.Mobile_No_Locale__c != null){
             con.Mobile_No_Locale__c = serviceAppointment.Mobile_No_Locale__c;
         }
-        if(serviceAppointment.Marketing_Consent__c){
-            con.Email_Opt_In_DateTime__c = System.Now();
-        }
         contactToUpdateMap.put(serviceAppointment.Contact__c,con);
         serviceAppointmentMap.put(serviceAppointment.Contact__c,serviceAppointment);
     }
@@ -111,9 +109,6 @@ public without sharing class ServiceAppointmentTriggerHelper {
         }
         if(serviceAppointment.Mobile_No_Locale__c != null){
             lead.Mobile_No_Locale__c = serviceAppointment.Mobile_No_Locale__c;
-        }
-        if(serviceAppointment.Marketing_Consent__c){
-            lead.Email_Opt_In_DateTime__c = System.Now();
         }
         leadToUpdateMap.put(serviceAppointment.LeadId__c,lead);
         serviceAppointmentMap.put(serviceAppointment.LeadId__c,serviceAppointment);
