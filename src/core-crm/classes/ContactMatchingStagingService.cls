@@ -90,7 +90,8 @@ public inherited sharing class ContactMatchingStagingService {
             // Retrieve the corresponding Contact field name from the map
             String contactField = FIELDS_TO_CONTACT_MAP.get(conMatchingStagingField);
 
-            // current match is system key and field is 'FirstName' or 'LastName' or field is not null
+            // current match is system key 
+            // field is not null or field belonging to fields that can be nullified
             boolean isSystemKeyMapping =
                 !isNonSystemKey &&
                 (conMatchingStage.get(conMatchingStagingField) != null ||
@@ -158,7 +159,8 @@ public inherited sharing class ContactMatchingStagingService {
         for (String conMatchingStagingField : addressMapping.keySet()) {
             String addressField = addressMapping.get(conMatchingStagingField);
 
-            // current match is system key and field is 'FirstName' or 'LastName' or field is not null
+            // current match is system key 
+            // field is not null or field belonging to fields that can be nullified
             boolean isSystemKeyMapping =
                 !isNonSystemKey &&
                 (conMatchingStage.get(conMatchingStagingField) != null ||
