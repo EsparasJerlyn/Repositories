@@ -162,5 +162,12 @@
         <!--(End) DEPP-6995 -->
         <name>CustomMetadata</name>
     </types>
+    <types>
+        <!--Start DEPP-8810-->
+        <members>Messaging_User</members>
+        <!--End DEPP-8810-->
+        <name>PermissionSet</name>
+    </types>
+     
     <version>59.0</version> 
 </Package>
