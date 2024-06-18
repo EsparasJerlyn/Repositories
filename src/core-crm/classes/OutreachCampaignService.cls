@@ -24,6 +24,7 @@ public with sharing class OutreachCampaignService {
         if (previewStatus == EngagementListCriteriasDAO.IN_PROGRESS_PREVIEW_STATUS) {
             criteria.Preview_Result_Attachment_Id__c = null;
         } else if (previewStatus == EngagementListCriteriasDAO.NOT_GENERATED_PREVIEW_STATUS) {
+            criteria.Preview_Result_Attachment_Id__c = null;
             criteria.Preview_Job_Id__c = null;
         }
 
