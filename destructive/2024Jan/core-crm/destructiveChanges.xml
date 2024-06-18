@@ -88,6 +88,9 @@
         <!-- (Start) DEPP-8764 -->
         <members>Engagement_List_Configuration__c.Instrument__c</members>
         <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-9315 -->
+        <members>Engagement_List_Event__c.Engagement_List_Event_Time__c</members>
+        <!--(End) DEPP-9315 -->
         <name>CustomField</name>
     </types>
     <types>

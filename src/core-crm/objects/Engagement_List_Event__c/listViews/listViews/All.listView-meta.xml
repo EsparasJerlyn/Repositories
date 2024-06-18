@@ -3,7 +3,6 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Engagement_List_Criteria__c</columns>
-    <columns>Engagement_List_Event_Time__c</columns>
     <columns>Case__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
