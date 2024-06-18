@@ -10,7 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------------|
  *    | roy.nino.s.regala              | November 01, 2023     | DEPP-7060              | Created file to handle case marketing fields mapping            |
  *    | mark.j.mahilum                 | Feb 19, 2024          | DEPP-7551              | Updated method to add field mapping for contact and lead fields |
- *    | sebastianne.k.trias            | June 17, 2024         | DEPP-              | Removed Marketing Opt In Functionality |
+ *    | sebastianne.k.trias            | June 17, 2024         | DEPP-8474              | Removed Marketing Opt In Functionality                          |
  */
 public with sharing class CaseMarketingHelper { //NOPMD
     private static final List<String> MARKETING_FIELDS = new List<String>{
