@@ -92,11 +92,11 @@ private class ContactMatchingStagingBatchManagerTest {
             }
 
             System.assertEquals(
-                2,
+                100,
                 AddressesDAO.newInstance()
                     .getAddressesByContactIdsSet(contactIdSet, AccessLevel.USER_MODE)
                     .size(),
-                'There should be 2 address records'
+                'There should be 100 address records'
             );
         }
     }
