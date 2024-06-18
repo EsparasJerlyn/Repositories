@@ -49,17 +49,18 @@ private class ContactMatchingStagingBatchManagerTest {
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
 
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName,
-                        FirstName__c = con.FirstName,
+                        FirstName__c = null,
                         Email__c = con.Email,
                         QUT_Learner_Email__c = con.QUT_Learner_Email__c,
                         QUT_Staff_Email__c = con.QUT_Staff_Email__c,
                         QUT_Student_ID__c = con.QUT_Student_ID__c,
                         QUT_Employee_ID__c = con.QUT_Employee_ID__c,
                         Deceased__c = true,
+                        Phone__c = '0909090909',
                         Mailing_State__c = 'Test',
                         Mailing_City__c = 'Test',
                         Mailing_Street__c = 'Test',
@@ -74,9 +75,11 @@ private class ContactMatchingStagingBatchManagerTest {
             ContactMatchingStagingsDAO.newInstance()
                 .insertRecords(conMatchingStagings, true, AccessLevel.USER_MODE);
             Test.stopTest();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
                 system.assertEquals(true, con.hed__Deceased__c, 'Contact should be deceased');
-                system.assertEquals(null, con.Work_Email__c, 'work email should be null');
+                system.assertEquals(null, con.FirstName, 'Contact fistname should be nullified');
+                system.assert(con.Work_Email__c != null, 'work email should not be nullified');
+                system.assertEquals('0909090909', con.Phone, 'phone should match');
                 system.assertEquals('Test', con.MailingState, 'Mailing State should match');
                 system.assertEquals('Test', con.MailingCity, 'Mailing City should match');
                 system.assertEquals('Test', con.MailingStreet, 'Mailing Street should match');
@@ -89,11 +92,11 @@ private class ContactMatchingStagingBatchManagerTest {
             }
 
             System.assertEquals(
-                100,
+                2,
                 AddressesDAO.newInstance()
                     .getAddressesByContactIdsSet(contactIdSet, AccessLevel.USER_MODE)
                     .size(),
-                'There should be 100 address records'
+                'There should be 2 address records'
             );
         }
     }

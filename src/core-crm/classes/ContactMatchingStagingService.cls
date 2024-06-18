@@ -63,18 +63,18 @@ public inherited sharing class ContactMatchingStagingService {
     };
 
     private static final Set<String> FIELDS_TO_NULLIFY = new Set<String>{
-        'FirstName__c', 'LastName__c'
+        'FirstName__c'
     };
 
     /**
      * Constructs a new Contact record based on the data provided from a Contact Matching Staging record.
-     * @param isIgnoreNullFields Boolean indicating whether null values are copied to Contact
+     * @param isNonSystemKey Boolean indicating whether null values are copied to Contact
      * @param contactId The ID of an existing contact record if matched, or null otherwise.
      * @param conMatchingStage The Contact Matching Staging record from which to extract data.
      * @return A Contact record populated with data from the Contact Matching Staging record.
      */
     public static Contact buildContactRecord(
-        Boolean isIgnoreNullFields,
+        Boolean isNonSystemKey,
         Id contactId,
         Contact_Matching_Staging__c conMatchingStage
     ) {
@@ -90,10 +90,18 @@ public inherited sharing class ContactMatchingStagingService {
             // Retrieve the corresponding Contact field name from the map
             String contactField = FIELDS_TO_CONTACT_MAP.get(conMatchingStagingField);
 
-            // Check if nullfields are to be ignored
-            boolean isIgnoreField =
-                isIgnoreNullFields && (conMatchingStage.get(conMatchingStagingField) == null && FIELDS_TO_NULLIFY.contains(conMatchingStagingField)) ;
-            if (!isIgnoreField) {
+            // current match is system key and field is 'FirstName' or 'LastName' or field is not null
+            boolean isSystemKeyMapping =
+                !isNonSystemKey &&
+                (conMatchingStage.get(conMatchingStagingField) != null ||
+                FIELDS_TO_NULLIFY.contains(conMatchingStagingField));
+            //current match is non system key and field is not null
+            boolean isNonSystemKeyMapping =
+                isNonSystemKey && conMatchingStage.get(conMatchingStagingField) != null;
+            //update contact if above conditions are satisfied
+            boolean isUpdateContact = isSystemKeyMapping || isNonSystemKeyMapping;
+
+            if (isUpdateContact) {
                 // Set the field in the Contact object using the retrieved field name and value from the Contact Matching Staging record
                 con.put(contactField, conMatchingStage.get(conMatchingStagingField));
             }
@@ -106,18 +114,18 @@ public inherited sharing class ContactMatchingStagingService {
     /**
      * Builds a mapping of addresses
      *
-     * @param isIgnoreNullFields Boolean indicating whether null values are copied
+     * @param isNonSystemKey Boolean indicating whether null values are copied
      * @param addressToUpsert A map to store addresses to upsert.
      * @param conMatchingStage The Contact Matching Staging record.
      */
     public static void buildAddressMapping(
-        boolean isIgnoreNullFields,
+        boolean isNonSystemKey,
         Map<String, hed__Address__c> addressToUpsert,
         Contact_Matching_Staging__c conMatchingStage
     ) {
         for (String addressType : ADDRESS_TYPE_MAP.keySet()) {
             hed__Address__c address = buildAddressRecord(
-                isIgnoreNullFields,
+                isNonSystemKey,
                 addressType,
                 conMatchingStage
             );
@@ -130,13 +138,13 @@ public inherited sharing class ContactMatchingStagingService {
     /**
      * Constructs a new Address record based on the data provided from a Contact Matching Staging record.
      *
-     * @param isIgnoreNullFields Boolean indicating whether null values are copied to hed__Address__c
+     * @param isNonSystemKey Boolean indicating whether null values are copied to hed__Address__c
      * @param addressType The type of address ('Mailing' or 'Other').
      * @param conMatchingStage The Contact Matching Staging record containing data for the address construction.
      * @return A new Address record populated with data from the Contact Matching Staging record.
      */
     public static hed__Address__c buildAddressRecord(
-        Boolean isIgnoreNullFields,
+        Boolean isNonSystemKey,
         String addressType,
         Contact_Matching_Staging__c conMatchingStage
     ) {
@@ -150,12 +158,18 @@ public inherited sharing class ContactMatchingStagingService {
         for (String conMatchingStagingField : addressMapping.keySet()) {
             String addressField = addressMapping.get(conMatchingStagingField);
 
-            // Check if nullfields are to be ignored
-            boolean isIgnoreField =
-                isIgnoreNullFields && conMatchingStage.get(conMatchingStagingField) == null;
+            // current match is system key and field is 'FirstName' or 'LastName' or field is not null
+            boolean isSystemKeyMapping =
+                !isNonSystemKey &&
+                (conMatchingStage.get(conMatchingStagingField) != null ||
+                FIELDS_TO_NULLIFY.contains(conMatchingStagingField));
+            //current match is non system key and field is not null
+            boolean isNonSystemKeyMapping =
+                isNonSystemKey && conMatchingStage.get(conMatchingStagingField) != null;
+            //update contact if above conditions are satisfied
+            boolean isUpdateContact = isSystemKeyMapping || isNonSystemKeyMapping;
 
-            // Skip setting the field in the Address object if it's a non-system key match and the value is null
-            if (!isIgnoreField) {
+            if (isUpdateContact) {
                 // Set the address type
                 address.put('hed__Address_Type__c', addressType);
                 // Set the field in the Address object using the retrieved field name and value from the Contact Matching Staging record
