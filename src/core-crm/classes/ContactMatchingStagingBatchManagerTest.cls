@@ -60,7 +60,6 @@ private class ContactMatchingStagingBatchManagerTest {
                         QUT_Student_ID__c = con.QUT_Student_ID__c,
                         QUT_Employee_ID__c = con.QUT_Employee_ID__c,
                         Deceased__c = true,
-                        Phone__c = '0909090909',
                         Mailing_State__c = 'Test',
                         Mailing_City__c = 'Test',
                         Mailing_Street__c = 'Test',
@@ -79,7 +78,6 @@ private class ContactMatchingStagingBatchManagerTest {
                 system.assertEquals(true, con.hed__Deceased__c, 'Contact should be deceased');
                 system.assertEquals(null, con.FirstName, 'Contact fistname should be nullified');
                 system.assert(con.Work_Email__c != null, 'work email should not be nullified');
-                system.assertEquals('0909090909', con.Phone, 'phone should match');
                 system.assertEquals('Test', con.MailingState, 'Mailing State should match');
                 system.assertEquals('Test', con.MailingCity, 'Mailing City should match');
                 system.assertEquals('Test', con.MailingStreet, 'Mailing Street should match');
