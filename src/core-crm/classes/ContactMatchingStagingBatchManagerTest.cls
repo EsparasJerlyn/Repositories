@@ -49,7 +49,7 @@ private class ContactMatchingStagingBatchManagerTest {
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
 
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName,
@@ -75,7 +75,7 @@ private class ContactMatchingStagingBatchManagerTest {
             ContactMatchingStagingsDAO.newInstance()
                 .insertRecords(conMatchingStagings, true, AccessLevel.USER_MODE);
             Test.stopTest();
-            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
+            for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
                 system.assertEquals(true, con.hed__Deceased__c, 'Contact should be deceased');
                 system.assertEquals(null, con.FirstName, 'Contact fistname should be nullified');
                 system.assert(con.Work_Email__c != null, 'work email should not be nullified');
