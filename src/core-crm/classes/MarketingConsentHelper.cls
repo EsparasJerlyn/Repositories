@@ -58,7 +58,7 @@ public without sharing class MarketingConsentHelper {
 			}
 
 			else if ( conditionToSetDefaultOptOutValue ||
-					 ( isInsert &&  conditionToSetOptOut && item.get('Email_Opt_Out_DateTime__c') == null ) 
+					 ( isInsert &&  item.get('HasOptedOutOfEmail') == true && item.get('Email_Opt_Out_DateTime__c') == null ) 
 					){
 				item.put('Email_Opt_Out_DateTime__c', System.now());
 			}
