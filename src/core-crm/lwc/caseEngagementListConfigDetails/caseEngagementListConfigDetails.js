@@ -56,15 +56,4 @@ export default class CaseEngagementListConfigDetails extends NavigationMixin(Lig
             this.elconfRecordId = undefined;
         }
     }
-
-    handleClickHeader() {
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.elconfRecordId,
-                objectApiName: 'Engagement_List_Configuration__c',
-                actionName: 'view'
-            },
-        });
-    }
 }
