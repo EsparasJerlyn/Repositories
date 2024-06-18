@@ -108,6 +108,13 @@ public inherited sharing class ELCPreviewResultHandler {
         // delete temp attachments if it exists
         OutreachCampaignService.deleteTempAttachments(criteria);
 
+        // Construct the base URL for your Salesforce instance
+        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
+        // Append the object type and record Id to the base URL
+        String recordUrl = baseUrl + '/' + criteria.Id;
+        // Get the record Title field value
+        String recordTitle = criteria.Engagement_List_Criteria_Title__c;
+        // Compile the error set
         if (job.ExtendedStatus != null) {
             logErrors(job);
             errorMessageSet.add(job.ExtendedStatus);
@@ -128,7 +135,11 @@ public inherited sharing class ELCPreviewResultHandler {
         // Send notification email
         sendEmailNotification(
             'Preview Generated Error Email',
-            new Map<String, String>{ '{errors}' => fullError }
+            new Map<String, String>{ 
+                '{elcTitle}' => recordTitle,
+                '{elcUrl}' => recordUrl,
+                '{errors}' => fullError 
+            }
         );
     }
 

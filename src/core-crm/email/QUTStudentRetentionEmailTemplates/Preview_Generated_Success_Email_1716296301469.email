@@ -2,7 +2,9 @@
 <head>
 	<title></title>
 </head>
-<body aria-readonly="false" style="height: auto; min-height: auto;">Dear {firstName},<br />
+<body aria-readonly="false" style="height: auto; min-height: auto;"><span style="font-family:Arial,Helvetica,sans-serif;"><strong>This is a system generated email.</strong><br />
+<br />
+Dear {firstName},<br />
 <br />
 We are pleased to inform you that the preview for&nbsp;{criteriaTitle} is now available for your review. No emails have been sent to students.&nbsp;<br />
 <br />
@@ -10,5 +12,5 @@ Kindly access DEP to view the results or simply click on the following URL to vi
 <br />
 <br />
 Regards,<br />
-DEP</body>
+DEP</span></body>
 </html>
