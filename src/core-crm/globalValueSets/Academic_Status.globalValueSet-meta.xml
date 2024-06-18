@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Excluded</fullName>
+        <default>false</default>
+        <label>Excluded</label>
+    </customValue>
+    <customValue>
+        <fullName>Under consideration</fullName>
+        <default>false</default>
+        <label>Under consideration</label>
+    </customValue>
+    <customValue>
+        <fullName>Intern&apos;l Exclusion</fullName>
+        <default>false</default>
+        <label>Intern&apos;l Exclusion</label>
+    </customValue>
+    <customValue>
+        <fullName>Conditional</fullName>
+        <default>false</default>
+        <label>Conditional</label>
+    </customValue>
+    <customValue>
+        <fullName>Good Standing</fullName>
+        <default>false</default>
+        <label>Good Standing</label>
+    </customValue>
+    <customValue>
+        <fullName>Showcause</fullName>
+        <default>false</default>
+        <label>Showcause</label>
+    </customValue>
+    <customValue>
+        <fullName>Probation</fullName>
+        <default>false</default>
+        <label>Probation</label>
+    </customValue>
+    <customValue>
+        <fullName>At Risk</fullName>
+        <default>false</default>
+        <label>At Risk</label>
+    </customValue>
+    <customValue>
+        <fullName>Probation Conversion</fullName>
+        <default>false</default>
+        <label>Probation Conversion</label>
+    </customValue>
+    <customValue>
+        <fullName>Held Show cause</fullName>
+        <default>false</default>
+        <label>Held Show cause</label>
+    </customValue>
+    <customValue>
+        <fullName>Intern&apos;l Ext Appeal</fullName>
+        <default>false</default>
+        <label>Intern&apos;l Ext Appeal</label>
+    </customValue>
+    <description>The student’s current academic status</description>
+    <masterLabel>Academic Status</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
