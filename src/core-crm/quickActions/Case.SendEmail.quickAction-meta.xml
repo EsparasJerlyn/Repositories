@@ -22,7 +22,7 @@
    ISPICKVAL(Case.Case_Type__c, &quot;Domestic Future Student Enquiry&quot;)
   ), 
   &quot;{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}&quot;, 
-   &quot;&quot;	
+  IF( AND(Case.RecordType.DeveloperName = &quot;Outreach&quot;, ISPICKVAL(Case.Case_Type__c, &quot;Student Success - Retention&quot;)) , &quot;{CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS}&quot;, &quot;&quot;) 	
  )
 )</formula>
     </fieldOverrides>
