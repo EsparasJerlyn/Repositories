@@ -62,6 +62,10 @@ public inherited sharing class ContactMatchingStagingService {
         'Other' => OTHER_TO_CONTACT_MAP
     };
 
+    private static final Set<String> FIELDS_TO_NULLIFY = new Set<String>{
+        'FirstName__c', 'LastName__c'
+    };
+
     /**
      * Constructs a new Contact record based on the data provided from a Contact Matching Staging record.
      * @param isIgnoreNullFields Boolean indicating whether null values are copied to Contact
@@ -88,7 +92,7 @@ public inherited sharing class ContactMatchingStagingService {
 
             // Check if nullfields are to be ignored
             boolean isIgnoreField =
-                isIgnoreNullFields && conMatchingStage.get(conMatchingStagingField) == null;
+                isIgnoreNullFields && (conMatchingStage.get(conMatchingStagingField) == null && FIELDS_TO_NULLIFY.contains(conMatchingStagingField)) ;
             if (!isIgnoreField) {
                 // Set the field in the Contact object using the retrieved field name and value from the Contact Matching Staging record
                 con.put(contactField, conMatchingStage.get(conMatchingStagingField));
