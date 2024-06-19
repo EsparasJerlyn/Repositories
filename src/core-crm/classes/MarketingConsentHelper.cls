@@ -55,10 +55,12 @@ public without sharing class MarketingConsentHelper {
 			}
 
 			else{
-				runSetOptOutAndInDates.put((Id) item.get('Id'), false);
-
+				if( !isInsert && !runSetOptOutAndInDates.containsKey((Id) item.get('Id')) ){
+					runSetOptOutAndInDates.put((Id) item.get('Id'), false);
+				}
+				
 				for(Map<String,String> optOutFields : setOptOutAndInFields.values()){
-					if( isInsert && (Boolean) item.get(optOutFields.get('optedOutField')) == false && item.get(optOutFields.get('optInDateTimeField')) == null ){
+					if( isInsert && item.get(optOutFields.get('optedOutField')) == false && item.get(optOutFields.get('optInDateTimeField')) == null ){
 						continue;
 					}
 					boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get(optOutFields.get('optedOutField')) != oldMap.get( (Id) item.get('Id') ).get(optOutFields.get('optedOutField')) );
@@ -124,12 +126,14 @@ public without sharing class MarketingConsentHelper {
 
 		if( isInsert && optedOutOfEmailValue == false && newOptInValue != null ){
 			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = null;
 		}
 		else if( isInsert && optedOutOfEmailValue == true && newOptOutValue != null ){
+			emailOptInDateTimeValue = null;
 			emailOptOutDateTimeValue = newOptOutValue;
 		}
 
-		if( !isFieldOptOutOfEmailChanged ){
+		if( !isInsert && !isFieldOptOutOfEmailChanged ){
 			emailOptInDateTimeValue = oldOptInValue;
 			emailOptOutDateTimeValue = oldOptOutValue;
 		}
