@@ -20,6 +20,7 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     public void beforeInsert(List<SObject> newItems) { 
         CaseTriggerHelper.caseRecordByMobileMatching((List<Case>) newItems);
         CaseTriggerHelper.updateCaseAutoPriorityAssignment((List<Case>) newItems);
+        CaseTriggerHelper.handleOutreachCasePriority((List<Case>) newItems);
     }
 
    /**
@@ -51,6 +52,11 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
         Map<Id, SObject> oldItems
     ) {
         CaseLeadScoreHelper.processLeadScoreCalculation(
+            (List<Case>) newItems.values(), 
+            (Map<Id, Case>) oldItems
+        );
+        
+        CaseTriggerHelper.setOutreachKeyForClosedCase(
             (List<Case>) newItems.values(), 
             (Map<Id, Case>) oldItems
         );

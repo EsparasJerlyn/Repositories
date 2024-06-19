@@ -13,36 +13,57 @@
 | roy.nino.s.regala              | Oct 31, 2023          | DEPP-7060              | made sure to email opt in date to now only if it is not directly updated      |
 |								 |                       |                        | this happens on lead convert or case creation                                 |
 | johanna.a.gibas                | Jan 04, 2024          | ApexCRUDViolationFix   | Fixed CRUD Violation                                                          |
+| sebastianne.k.trias            | June 06, 2024         | DEPP-8474              | Modify method setOptOutAndInDates                                             |
 */
 public without sharing class MarketingConsentHelper {
 
-	public static void setOptOutAndInDates(List<Contact> newItems, Map<Id, Contact> oldMap) {
+	public static Map<Id, Boolean> runSetOptOutAndInDates = new Map<Id, Boolean>();
+
+	public static void setOptOutAndInDates(List<SObject> newItems, Map<Id, SObject> oldMap, String objectName ) {
         Boolean isInsert = oldMap == null;
 
-        for (Contact con : newItems) {
-            Boolean hasOptedOutOfEmailUpdated =
-                !isInsert && con.HasOptedOutOfEmail != oldMap.get(con.Id).HasOptedOutOfEmail;
-            Boolean isNewOptInDateNotNull =
-                con.Email_Opt_In_DateTime__c != null &&
-                (isInsert ||
-                con.Email_Opt_In_DateTime__c != oldMap.get(con.Id).Email_Opt_In_DateTime__c);
+		for (SObject item : newItems) {
 
-            //add email opt out date when opt in -> opt out
-            if (hasOptedOutOfEmailUpdated && con.HasOptedOutOfEmail == true) {
-                con.Email_Opt_Out_DateTime__c = System.now();
-                //set Email opt in date time to today
-                //when Email_Opt_In_DateTime__c is not newly populated on insert or not update with a new value
-                //when HasOptedOutOfEmail is newly set to false or updated to false
-            } else if (
-                !isNewOptInDateNotNull &&
-                con.HasOptedOutOfEmail == false &&
-                (isInsert || hasOptedOutOfEmailUpdated)
-            ) {
-                con.Email_Opt_In_DateTime__c = System.now();
-            }
-        }
+			if(objectName == 'Contact'){
+				item = (Contact) item;
+				// fixed for issue on marketing field always updating
+				if (!runSetOptOutAndInDates.containsKey((Id) item.get('Id')) && item.get('RecordTypeId') == ContactsDAO.MC_PERSONA_RECORDTYPE_ID ){
+					runSetOptOutAndInDates.put((Id) item.get('Id'), false);
+				}
+				else if ( runSetOptOutAndInDates.containsKey((Id) item.get('Id')) && item.get('RecordTypeId') == ContactsDAO.MC_PERSONA_RECORDTYPE_ID && !runSetOptOutAndInDates.get((Id) item.get('Id'))){
+					continue;
+				}
+			}
+			else if(objectName == 'Lead'){
+				item = (Lead) item;
+			}
+
+			boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get('HasOptedOutOfEmail') != oldMap.get( (Id) item.get('Id') ).get('HasOptedOutOfEmail') );
+			boolean isEmailOptInDatetimeChanged = !isInsert &&  ( item.get('Email_Opt_In_DateTime__c') != oldMap.get( (Id) item.get('Id')).get('Email_Opt_In_DateTime__c') );
+			boolean isEmailOptOutDatetimeChanged = !isInsert && ( item.get('Email_Opt_Out_DateTime__c') != oldMap.get( (Id) item.get('Id')).get('Email_Opt_Out_DateTime__c') );
+
+			boolean conditionToSetDefaultOptInValue =  item.get('HasOptedOutOfEmail') == false && 
+														(
+															isHasOptedOutOfEmailChanged && !isEmailOptInDatetimeChanged
+														);
+			
+			// 
+			boolean conditionToSetDefaultOptOutValue =  item.get('HasOptedOutOfEmail') == true &&
+														 (
+														  isHasOptedOutOfEmailChanged && !isEmailOptOutDatetimeChanged
+														 );
+
+			if ( conditionToSetDefaultOptInValue ){
+				item.put('Email_Opt_In_DateTime__c', System.now());
+			}
+
+			else if ( conditionToSetDefaultOptOutValue ||
+					 ( isInsert &&  item.get('HasOptedOutOfEmail') == true && item.get('Email_Opt_Out_DateTime__c') == null ) 
+					){
+				item.put('Email_Opt_Out_DateTime__c', System.now());
+			}
+		}
     }
-	
 
 	public static void processMarketingConsent(List<Contact> newItems, Map<Id,Contact> oldMap){
 

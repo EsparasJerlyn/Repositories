@@ -24,9 +24,14 @@ public with sharing class Reopen_Closed_CaseTest {
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
         
-        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', numberOfRecords);
-        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
-
+        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', numberOfRecords);
+        for(Case caseRecord : internationalCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
+        }
+        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
+        for(Case caseRecord : domesticCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
+        }
         List<Case> caseList = new List<Case>();
         caseList.addAll(internationalCases);
         caseList.addAll(domesticCases);
@@ -67,7 +72,7 @@ public with sharing class Reopen_Closed_CaseTest {
             
             Test.stopTest();
             
-            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INTERNATIONALFS_RECTYPE_ID];
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID AND Case_Type__c =: CasesDAO.CASE_TYPE_INTERNATIONAL];
             
             Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }
@@ -96,7 +101,7 @@ public with sharing class Reopen_Closed_CaseTest {
             
             Test.stopTest();
             
-            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.DOMESTICFS_RECTYPE_ID];
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID AND Case_Type__c =: CasesDAO.CASE_TYPE_DOMESTIC];
             
             Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }

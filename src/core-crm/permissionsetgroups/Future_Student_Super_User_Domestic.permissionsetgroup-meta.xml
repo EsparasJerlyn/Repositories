@@ -8,6 +8,7 @@
     <permissionSets>Future_Student_Config</permissionSets>
     <permissionSets>Future_Student_Domestic_Email_Access</permissionSets>
     <permissionSets>Google_Integration_User</permissionSets>
+    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Knowledge_Management</permissionSets>
     <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
     <permissionSets>Manage_International_Tiers</permissionSets>

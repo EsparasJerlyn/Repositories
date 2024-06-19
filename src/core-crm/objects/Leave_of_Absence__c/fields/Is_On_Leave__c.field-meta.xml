@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_On_Leave__c</fullName>
+    <description>Indication of whether the leave of absence is active</description>
+    <externalId>false</externalId>
+    <formula>AND(Start_Date__c  &lt;=  TODAY() ,  End_Date__c   &gt;=  TODAY() )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is On Leave</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -9,6 +9,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | Feb 8, 2023           | DEPP-4866              | Created file                 |
+      | sebastianne.k.trias            | June 6, 2024          | DEPP-8474              | Add Opt in/out on lead       |
  */
 
  @isTest
@@ -123,6 +124,50 @@
 								'related marketing segmentation My_Secondary_Study_Level__c not equal to Short Courses and Professional Development');
 		}
 		
+	 }
+
+
+	 @isTest
+	 static void optOutLeadsTest(){
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+			List<Account> accList = TestDataFactory.createTestAccountRecords(1);
+			insert accList;
+			Test.StartTest();
+				List<Lead> leadList = TestDataFactory.createTestLeadRecords(1);
+				insert leadList;
+				for(Lead lead: leadList){
+					lead.HasOptedOutOfEmail = true;
+				}
+				update leadList;
+			Test.StopTest();
+			system.assertEquals(false, [SELECT Id, Email_Opt_Out_DateTime__c FROM Lead WHERE Email_Opt_Out_DateTime__c != null].isEmpty(), 'All leads should have Email_Opt_Out_DateTime__c Value');
+		}
+	 }
+
+	 @isTest
+	 static void optInLeadsTest(){
+		// User currentUser = TestDataFactory.createUserRecords(1, System.Label.QUTeX).iterator().next();
+		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+			List<Account> accList = TestDataFactory.createTestAccountRecords(1);
+			insert accList;
+			
+			
+			Test.StartTest();
+				List<Lead> leadList = TestDataFactory.createTestLeadRecords(1);
+				insert leadList;
+
+				for(Lead lead: leadList){
+					lead.HasOptedOutOfEmail = true;
+				}
+				update leadList;
+				List<Lead> leadUpdatedList = [SELECT Id, HasOptedOutOfEmail FROM Lead];
+				for(Lead lead: leadUpdatedList){
+					lead.HasOptedOutOfEmail = false;
+				}
+				update leadUpdatedList;
+			Test.StopTest();
+			system.assertEquals(false, [SELECT Id, Email_Opt_In_DateTime__c FROM Lead WHERE Email_Opt_In_DateTime__c != null].isEmpty(), 'All leads should have Email_Opt_In_DateTime__c Value');
+		}
 	 }
  
  

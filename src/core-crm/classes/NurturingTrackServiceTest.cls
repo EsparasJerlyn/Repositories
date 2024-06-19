@@ -17,7 +17,10 @@ public with sharing class NurturingTrackServiceTest {
 
     @TestSetup
     static void makeData(){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
     }
 
     @isTest
@@ -84,7 +87,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void populateCalculatedCadenceMultipleTest(){
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             String automatedCadence = 'International Application Submission - Direct Applicant (Automated)';
             String manualCadence = 'International Application Submission - Direct Applicant';
@@ -142,7 +145,7 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void populateCalculatedCadenceSingleTest(){
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             String automatedCadence = 'International Application Submission - Direct Applicant (Automated)';
             String manualCadence = null;
