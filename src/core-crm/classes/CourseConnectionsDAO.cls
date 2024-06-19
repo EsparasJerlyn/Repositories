@@ -17,7 +17,7 @@
  *    | gabriel.p.ventayen             | April 30, 2024        | DEPP-8041              | Added critera                                  |
  */
 
- public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
+public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
 
     public static final String ENROLLMENT_STATUS_DESIGNATED = 'Designated';
     public static final String ENROLLMENT_STATUS_FAILED = 'Failed';

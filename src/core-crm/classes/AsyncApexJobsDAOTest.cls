@@ -33,7 +33,7 @@ private class AsyncApexJobsDAOTest {
             System.assert(
                 new AsyncApexJobsDAO().getSObjectType() == AsyncApexJob.SObjectType,
                 'SObject is not AsyncApexJob'
-                );
+            );
         }
         Test.stopTest();
     }
