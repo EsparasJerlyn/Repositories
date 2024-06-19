@@ -463,10 +463,22 @@ public with sharing class ContactTriggerHandlerTest {
             List<Contact> contactListToUpdate = new List<Contact>();
             for (Contact record : contactList) { 
                 if(record.FirstName == 'Test Contact For Explore') {
-                    record.Email_Opt_In_DateTime__c = Date.today();
+                    record.HasOptedOutOfEmail = true;
                     contactListToUpdate.add(record);
                 }
             }
+            ContactsDAO.newInstance().updateRecords(contactListToUpdate, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Contact> contactListToUpdate2 = new List<Contact>();
+
+            for (Contact record : contactListToUpdate) { 
+                if(record.FirstName == 'Test Contact For Explore') {
+                    record.HasOptedOutOfEmail = false;
+                    record.Email_Opt_In_DateTime__c = Date.today();
+                    contactListToUpdate2.add(record);
+                }
+            }
+            MarketingConsentHelper.runSetOptOutAndInDates.clear();
             ContactsDAO.newInstance().updateRecords(contactListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
