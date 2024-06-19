@@ -23,6 +23,9 @@ public with sharing class LeadLeadScoreHelperTest {
             );
 
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,2);
+            for(Lead l : leadList){
+                l.HasOptedOutOfEmail = true;
+            }
             LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);    
             Test.stopTest();
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id}, AccessLevel.SYSTEM_MODE);
@@ -44,6 +47,7 @@ public with sharing class LeadLeadScoreHelperTest {
 
             List<Lead> leadListToUpdate = new List<Lead>();
             for(Lead leadRec : LeadsDAO.newInstance().getLeadsWithLimit(1)){
+                leadRec.HasOptedOutOfEmail = false;
                 leadRec.Email_Opt_In_DateTime__c = Date.today();
                 leadListToUpdate.add(leadRec);
             }
