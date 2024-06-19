@@ -41,6 +41,7 @@ public with sharing class ELECandidateProcessor {
                 eventCandidateKeyMap.put(eventCandidateKey, new ELECandidate(eventCandidate, contactId));
             }
         }
+        Logger.info('Event Candidate Map Size: ' + eventCandidateKeyMap.values().size());
 
         Map<String, Set<Id>> relatedRecordIdMap = new Map<String, Set<Id>>{
             'engagementListCriteriaId' => new Set<Id>{criteriaId},
@@ -52,13 +53,16 @@ public with sharing class ELECandidateProcessor {
             'leaveOfAbsenceIds' => leaveOfAbsenceIds
         };
 
-        for(Engagement_List_Event__c existingEvent : EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
+        List<Engagement_List_Event__c> existingEvents = EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE);
+        Logger.info('Existing Events : ' + existingEvents.size());
+        for(Engagement_List_Event__c existingEvent : existingEvents){
             EngagementListEventKey eventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
             if(eventCandidateKeyMap.containsKey(eventKey)){
                 result.add(new ELECandidateProcessResult(eventCandidateKeyMap.get(eventKey).getEvent(), ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED));
                 eventCandidateKeyMap.remove(eventKey);
             }
         }
+        Logger.info('Filtered Event Candidate Map Size: ' + eventCandidateKeyMap.size());
 
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         Map<Id, Case> openCaseMap = getCaseMap(contactIds, configId);
@@ -98,7 +102,7 @@ public with sharing class ELECandidateProcessor {
         };
 
         saveRecords(saveRecordParam);
-        
+        Logger.saveLog();
         return result;
     }
 
@@ -124,6 +128,7 @@ public with sharing class ELECandidateProcessor {
                 newEvents.add(event);
             }
     
+            Logger.info('Event Size: ' + newEvents.size());
             if(!newEvents.isEmpty()){
                 EngagementListEventsDAO.newInstance().insertRecords(newEvents, true, AccessLevel.SYSTEM_MODE);   
             }
