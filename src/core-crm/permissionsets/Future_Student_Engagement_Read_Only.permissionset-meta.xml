@@ -2439,6 +2439,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Leave_of_Absence__c.Is_On_Leave__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Leave_of_Absence__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6188,6 +6193,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Case.International_Future_Student_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

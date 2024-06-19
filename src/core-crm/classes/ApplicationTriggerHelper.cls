@@ -17,6 +17,7 @@
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added method to reset lead score of linked contact/lead        |
       | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Added logic in handling bulkAPI data when running queable job  |
       | roy.nino.s.regala              | Nov 03, 2023          | DEPP-7145              | Moved reusable methods for Lead Score Reset Logic              |
+      | sebastianne.k.trias            | June 1, 2024          | DEPP-8474              | Removed modify Opt in/out fields                               |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -27,7 +28,16 @@ public with sharing class ApplicationTriggerHelper {
     public static void createAddressesForMatchingQTACApplicant(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         Map<Id, hed__Application__c> qtacApplicationsMap = new Map<Id, hed__Application__c>();
         Set<Id> qtacApplicantIdSet = new Set<Id>();
+        boolean isUpdate = oldItems != null;
+        hed__Application__c oldApplication;
         for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
+
+            oldApplication = isUpdate?(hed__Application__c) oldItems.get(application.Id):null;
+            // evaluate application if address fields are allowed to be mapped
+            if(!isMapToContact(application,oldApplication)){
+                continue;
+            }
+
             if(ApplicationService.isContactMatchedQTACApplication(application, oldItems)) {
                 qtacApplicationsMap.put(application.Id, application);
                 qtacApplicantIdSet.add(application.hed__Applicant__c);
@@ -90,45 +100,21 @@ public with sharing class ApplicationTriggerHelper {
      * @param Map<Id, SObject> oldItems - An application id to replaced application record map
      */
     public static void updateRelatedRecords(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
-        // related cases by contact
-        Map<Id,List<Case>> caseMap = new Map<Id,List<Case>>();
-        // related interactions by contact
-        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = new Map<Id,List<Marketing_Interaction__c>>();
-        // related applications by contact
-        Map<Id,List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
         // update/upsert maps/list
         Map<Id, Contact> contactMapToUpdate = new Map<Id, Contact>();
         // related maps
         Map<Id, Contact> relatedContactMap = new Map<Id, Contact>(ApplicationService.getApplicantsFromApplications((List<hed__Application__c>) newItems.values()));
-        //collect contact ids
-        Set<Id> applicantIdsForMarketingOptOut = new Set<Id>();
-        
-        ApplicationService.collectApplicantIdsForMarketingOptOut((List<hed__Application__c>) newItems.values(),oldItems, applicantIdsForMarketingOptOut);
-
-        if(!applicantIdsForMarketingOptOut.isEmpty()){
-            caseMap = ContactService.mapExistingCasesToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
-            marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
-            applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
-        }
-        
-        // process
+        hed__Application__c oldApplication;
+        boolean isUpdate = oldItems != null;
         for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
-            if(application.hed__Applicant__c != null){
-                // initial steps...
-                Id contactId = application.hed__Applicant__c;
-
-                Boolean noCaseandInteractionRecord = !caseMap.containsKey(contactId) && !marketingInteractionMap.containsKey(contactId);
-                Boolean hasOneORZeroApp = !applicationMap.containsKey(contactId) || applicationMap.get(contactId).size() == 1;
-                Boolean isForDisableMarketing = noCaseandInteractionRecord && hasOneORZeroApp;
-
+            oldApplication = isUpdate?(hed__Application__c) oldItems.get(application.Id):null;
+            if(isMapToContact(application,oldApplication)){
                 Contact applicant = ApplicationService.getContactFromUpdateMap(contactMapToUpdate, application.hed__Applicant__c);
                 ApplicationService.RecordsToReferenceWrapper recordsToReference = new ApplicationService.RecordsToReferenceWrapper();
                 recordsToReference.existingContact = relatedContactMap.get(application.hed__Applicant__c);
                 recordsToReference.application = application;
-                recordsToReference.oldApplication = oldItems == null ? null : (hed__Application__c) oldItems.get(application.Id);
-                // field updates...
+                recordsToReference.oldApplication = oldApplication;
                 ApplicationService.mappedApplicationToContact(applicant, recordsToReference);
-                ApplicationService.mapMarketingFields(applicant, recordsToReference, isForDisableMarketing);
             }
         }
         // update
@@ -136,6 +122,60 @@ public with sharing class ApplicationTriggerHelper {
             ContactsDAO.newInstance().updateRecords(contactMapToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
         }
     }
+
+    /**
+     * Determines if the application should be mapped to a contact.
+     *
+     * @param application The current application being processed.
+     * @param oldApplication The previous version of the application (if it exists).
+     * @return true if the application should be mapped to a contact, false otherwise.
+     */
+    private static boolean isMapToContact(
+        hed__Application__c application,
+        hed__Application__c oldApplication
+    ) {
+        // Check if there is an old application, indicating an update
+        boolean isUpdate = oldApplication != null;
+
+        // Check if the application is of SAMS record type
+        boolean isSAMSRecType = (application.RecordTypeId ==
+        ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+        application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
+
+        // Check if the application is of QTAC record type
+        boolean isQTACRecType = application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+
+        // Determine if the application is a non-study link type (QTAC or SAMS)
+        boolean isNonStudyLink = isQTACRecType || isSAMSRecType;
+
+        // Check if the application is of StudyLink record type
+        boolean isStudylink = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+
+        // Determine if updates should be blocked for non-study link applications
+        boolean isBlockUpdateForNonStudyLink =
+            isUpdate &&
+            isNonStudyLink &&
+            oldApplication.Offer_Status__c != null;
+
+        // Determine if updates should be blocked for study link applications
+        boolean isBlockUpdateForStudyLink =
+            isUpdate &&
+            isStudylink &&
+            ApplicationsDAO.CONTACT_UPDATE_BLOCK_STUDYLINK_STATUS.contains(
+                oldApplication.Application_Status__c
+            );
+
+        // Combine the conditions for blocking updates from non-study link and study link applications
+        boolean isBlockUpdate = isBlockUpdateForNonStudyLink || isBlockUpdateForStudyLink;
+
+        // Check if the applicant has been updated
+        boolean isApplicantUpdated =
+            isUpdate && oldApplication.hed__Applicant__c != application.hed__Applicant__c;
+
+        // Determine if the application should be mapped to a contact
+        return application.hed__Applicant__c != null && (!isBlockUpdate || isApplicantUpdated);
+    }
+
 
     /**
      * @description reset the lead score of the linked contact/lead
@@ -233,7 +273,8 @@ public with sharing class ApplicationTriggerHelper {
         }
         
         if(!contactIds.isEmpty()){
-            if(System.isQueueable()){
+            Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();          
+            if(isAsync){
                 ContactPersonaFlagsService.updateContactApplicantFlag(contactIds);               
             }else{                
                 ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag'); 

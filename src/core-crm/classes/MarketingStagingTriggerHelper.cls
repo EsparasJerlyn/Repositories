@@ -94,14 +94,14 @@ public without sharing class MarketingStagingTriggerHelper{
         //get all matching contacts and leads
         contactMatches = new Map<Id,Contact>([
                             SELECT Id, QUT_Student_ID__c, Email,LeadSource, Lead_Source_Category__c,
-                            Mobile_No_Locale__c, BirthDate, ContactMobile_Locale__c
+                            Mobile_No_Locale__c, BirthDate, ContactMobile_Locale__c, HasOptedOutOfEmail, Email_Opt_In_DateTime__c
                             FROM Contact
                             WHERE (Email IN: emailMap.keySet()
                             OR QUT_Student_ID__c IN:studentIdMap.keySet())]);
 
         leadMatches = new Map<Id,Lead>([
                         SELECT Id, Email, Mobile_No_Locale__c, LastName, LeadSource, Lead_Source_Category__c,
-                        hed__Birth_Date__c, LeadMobile_Locale__c
+                        hed__Birth_Date__c, LeadMobile_Locale__c, HasOptedOutOfEmail, Email_Opt_In_DateTime__c
                         FROM Lead
                         WHERE (Email IN:emailMap.keySet())]);
 

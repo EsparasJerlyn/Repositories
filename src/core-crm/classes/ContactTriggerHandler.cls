@@ -38,6 +38,9 @@
       | kenneth.f.alsay                | December 27, 2023     |                        | removed unused variable                         |
       | mark.j.mahilum                 | February 29, 2024     | DEPP-7739              | Move up the method fastFieldUpdateAndValidation |
       |                                |                       |                        | on beforeUpdate trigger event                   |
+      | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Updated convertLead method to check transaction |
+      |                                |                       |                        | is running on async call                        |
+      | sebastianne.k.trias            | June 06, 2024         | DEPP-8474              | modify setOptOutAndInDates                      |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -56,7 +59,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    */
   public void beforeInsert(List<SObject> newItems) {
 
-    MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems, null);
+    MarketingConsentHelper.setOptOutAndInDates(newItems, null, 'Contact');
     ContactTriggerHelper.reparentAccount((List<Contact>)newItems);
     ContactImageHelper.validateContactImageFile((List<Contact>) newItems);
     // Call method to detect if emails used in contacts creation is already being used
@@ -83,11 +86,13 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     // Call method to detect if emails used in contacts update is already being used
     // anywhere on the organization.
-    MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
+    MarketingConsentHelper.setOptOutAndInDates(newItems.values(), oldItems, 'Contact');
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
+    ContactTriggerHelper.processContactMatchingOnContactTrigger((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
+    ContactTriggerHelper.processSystemKeyChangeOnContactTrigger((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
   }
 
   /**
@@ -109,6 +114,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.mapMarketingFields((List<Contact>)newMap.values(),null);
     ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), null);
     ContactTriggerHelper.createMarketingSegmentation(contactsWithNoSegmentations);
+    ContactTriggerHelper.processSystemKeyChangeOnContactTrigger((List<Contact>) newItems.values(), null);
   }
 
   /**
@@ -137,19 +143,27 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @param newMap - List of Contact.Trigger.new
    */
   private Set<Id> processLeadOnInsert(Map<Id, Contact> newMap){
-    Set<Id> contactsWitNewhMarketingSegmentations = new Set<Id>();
+      Set<Id> contactsWitNewhMarketingSegmentations = new Set<Id>();
 
-    if(!isRunning){
-      isRunning = true;
-      ContactTriggerHelper.createAccountContactRelationRecords(newMap.values(), null);
-      contactsWitNewhMarketingSegmentations.addAll(ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap));
+      if(!isRunning){
+          isRunning = true;
+          ContactTriggerHelper.createAccountContactRelationRecords(newMap.values(), null);
+          contactsWitNewhMarketingSegmentations.addAll(ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap));
+          
+          List<Id> contactIdList = new List<Id>();
+          contactIdList.addAll(newMap.keySet());
+          
+          Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
+          if(isAsync) {
+              //Current transaction is running asynchronously
+              ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
+          } else {
+              //Current transaction is not running asynchronously;
+              ContactWithMatchingLeadHelper.convertLeadOnAsync(contactIdList);
+          }
+      }
 
-      List<Id> contactIdList = new List<Id>();
-      contactIdList.addAll(newMap.keySet());
-      ContactWithMatchingLeadHelper.convertLeadOnInsert(contactIdList);
-    }
-
-    return contactsWitNewhMarketingSegmentations;
+      return contactsWitNewhMarketingSegmentations;
   }
 
   /**
@@ -173,7 +187,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
       List<Id> contactIdList = new List<Id>();
       contactIdList.addAll(newMap.keySet());
-      ContactWithMatchingLeadHelper.convertLeadonUpdate(contactIdList);
+      ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
     }
   }
 

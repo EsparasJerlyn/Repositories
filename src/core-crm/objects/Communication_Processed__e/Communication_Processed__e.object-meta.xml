@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Event published when the Communication Queue finish processing a Communication Queue record and the Status is Sent or Failed</description>
+    <eventType>HighVolume</eventType>
+    <label>Communication Processed</label>
+    <pluralLabel>Communications Processed</pluralLabel>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
+</CustomObject>

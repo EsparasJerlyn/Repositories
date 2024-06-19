@@ -8,7 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7060              | Created file                 |
-      |                                |                       |                        |                              |
+      | sebastianne.k.trias            | June 17, 2024         | DEPP-8474              | Removed Marketing OptIn      |
  */
 @isTest
 public with sharing class CaseMarketingHelperTest {
@@ -60,7 +60,7 @@ public with sharing class CaseMarketingHelperTest {
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
                         My_Primary_Study_Level__c = 'Undergraduate',
-                        Marketing_Opt_In__c = true
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                     )
                 );
             }
@@ -71,8 +71,6 @@ public with sharing class CaseMarketingHelperTest {
             Set<Id> contactIds = new Set<Id>();
             for(Contact con:ContactsDAO.getPersonContactsWithLimit(50)){
                 contactIds.add(con.Id);
-                System.assertEquals(false, con.HasOptedOutOfEmail,'HasOptedOutOfEmail did not match');
-                System.assertEquals(System.today(), date.newinstance(con.Email_Opt_In_DateTime__c.year(), con.Email_Opt_In_DateTime__c.month(), con.Email_Opt_In_DateTime__c.day()),'Email_Opt_In_DateTime__c did not match');
             }
 
             for(Marketing_Segmentation__c marseg: MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(contactIds,new Set<Id>(),AccessLevel.SYSTEM_MODE)){
@@ -102,7 +100,7 @@ public with sharing class CaseMarketingHelperTest {
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
                         My_Primary_Study_Level__c = 'Undergraduate',
-                        Marketing_Opt_In__c = true
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                     )
                 );
             }
@@ -113,8 +111,6 @@ public with sharing class CaseMarketingHelperTest {
             Set<Id> leadIds = new Set<Id>();
             for(Lead leadRecord:LeadsDAO.getLeadsWithLimit(50)){
                 leadIds.add(leadRecord.Id);
-                System.assertEquals(false, leadRecord.HasOptedOutOfEmail,'HasOptedOutOfEmail did not match');
-                System.assertEquals(System.today(), date.newinstance(leadRecord.Email_Opt_In_DateTime__c.year(), leadRecord.Email_Opt_In_DateTime__c.month(), leadRecord.Email_Opt_In_DateTime__c.day()),'Email_Opt_In_DateTime__c did not match');
             }
 
             for(Marketing_Segmentation__c marseg: MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>(),leadIds,AccessLevel.SYSTEM_MODE)){
@@ -158,7 +154,7 @@ public with sharing class CaseMarketingHelperTest {
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
                         My_Primary_Study_Level__c = 'Undergraduate',
-                        Marketing_Opt_In__c = true
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                     )
                 );
                 contactIds.add(contactMap.get('work' + i + EMAIL)?.Id);
@@ -171,7 +167,6 @@ public with sharing class CaseMarketingHelperTest {
             for(Contact con:ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds,AccessLevel.SYSTEM_MODE)){
                 iterationCaseCount++;
                 System.assertEquals(false, con.HasOptedOutOfEmail,'HasOptedOutOfEmail did not match');
-                System.assertEquals(System.today(), date.newinstance(con.Email_Opt_In_DateTime__c.year(), con.Email_Opt_In_DateTime__c.month(), con.Email_Opt_In_DateTime__c.day()),'Email_Opt_In_DateTime__c did not match');
                 System.assertEquals('con11223.Test@randomtest.com.'+iterationCaseCount, con.Email,'Primary Email did not match');
                 System.assertEquals('Australia (+61)', con.ContactMobile_Locale__c,'ContactMobile_Locale__c did not match');
                 System.assertEquals('3333444445555', con.Mobile_No_Locale__c,'Mobile_No_Locale__c did not match');

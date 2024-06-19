@@ -16,6 +16,7 @@
       |                           |                       | DEPP-6654    |                                                                     |  
       | nicole.genon              | Oct. 4, 2023          | DEPP-6821    | Added Citizenship_Status__c field mapping for QTAC matching         |
       | roy.nino.s.regala         | Feb, 23, 2024         | DEPP-7738    | optimized creation of data setup                                    |
+      | sebastianne.k.trias       | June 1, 2024          | DEPP-8474    | Removed modify Opt in/out fields                                    |
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -25,6 +26,22 @@ private class ApplicationTriggerHelperTest {
     private static final String BIRTHDAY = '2000-06-28';
     private static Integer recordsCount = 20;
     
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+    }
+    
     @testSetup
     static void testSetup() {
         Test.startTest();
@@ -32,7 +49,7 @@ private class ApplicationTriggerHelperTest {
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactory.loadEDATriggers();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -50,12 +67,11 @@ private class ApplicationTriggerHelperTest {
             List<Marketing_Interaction__c> marketingInteractionList = TestDataFactory.createMarketingInteractionRecords(newContacts[0].Id, 1, 'QTAC');
             MarketingInteractionsDAO.newInstance().insertRecords(marketingInteractionList, false, AccessLevel.SYSTEM_MODE);
         }
-        
     }
 
     @isTest
     private static void testApplicationInsertWithContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -75,7 +91,7 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testApplicationUpdateRemoveContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'SYSTEM_MODE');   
@@ -203,11 +219,11 @@ private class ApplicationTriggerHelperTest {
             ];
             System.assert(applicationsToUpdate[0].Is_Agent_Assisted__c == updatedContact.Is_Agent_Assisted__c, 'Is_Agent_Assisted__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Is_International_Applicant__c == updatedContact.Is_International_Applicant__c, 'Is_International_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Personal_Illness_Disability_Applicant__c == updatedContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Elite_Athlete_Applicant__c == updatedContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Education_Disruption_Applicant__c == updatedContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_First_In_Family_Applicant__c == updatedContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
-            System.assert(applicationsToUpdate[0].Is_Financial_Hardship_Applicant__c == updatedContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Personal_Illness_Disability_Applicant__c != updatedContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Elite_Athlete_Applicant__c != updatedContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Education_Disruption_Applicant__c != updatedContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_First_In_Family_Applicant__c != updatedContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Financial_Hardship_Applicant__c != updatedContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Name__c == updatedContact.Agency_Name__c, 'Agency_Name__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Country__c == updatedContact.Agency_Country__c, 'Agency_Country__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Email__c == updatedContact.Agency_Email__c, 'Agency_Email__c not updated correctly.');
@@ -247,7 +263,7 @@ private class ApplicationTriggerHelperTest {
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
-            ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
             Id contactId = contacts[0].Id;
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.STUDYLINK_RECTYPE_ID)
@@ -255,9 +271,10 @@ private class ApplicationTriggerHelperTest {
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
-            applications[0].hed__Applicant__c = contacts[0].Id;
+            applications[0].Application_Status__c = 'Accepted';
+            applications[0].Birthdate__c = null;
             
-            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
             Contact updatedContact = [
@@ -273,10 +290,163 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Citizenship_Status__c, updatedContact.hed__Citizenship_Status__c, 'hed__Citizenship_Status__c update failed.');
             System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
             System.assertEquals(applications[0].Country_of_Residency__c, updatedContact.Country_of_Residency__c, 'Country_of_Residency__c update failed.');
-            System.assertEquals(applications[0].Applicant_Onshore__c, updatedContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
+            System.assertEquals(false, updatedContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
         }
     }
     
+    @isTest
+    private static void testStudyLinkMatchingFailOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.STUDYLINK_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Application_Status__c = 'Accepted';
+            applications[0].Birthdate__c = null;
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            applications[0].Applicant_Onshore__c = true;
+            applications[0].Country_of_Residency__c = 'Residency Update';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals(applications[0].Indigenous_Status__c, updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
+            System.assertEquals(applications[0].Citizenship_Status__c, updatedContact.hed__Citizenship_Status__c, 'hed__Citizenship_Status__c update failed.');
+            System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
+            System.assertNotEquals(applications[0].Country_of_Residency__c, updatedContact.Country_of_Residency__c, 'Country_of_Residency__c should not be updated');
+            System.assertEquals(false, updatedContact.Applicant_Onshore__c, 'Applicant_Onshore__c update should fail.');
+        }
+    }
+
+    @isTest
+    private static void testStudyLinkMatchingSuccessOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.STUDYLINK_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Application_Status__c = 'Test';
+            applications[0].Birthdate__c = null;
+            
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            applications[0].Applicant_Onshore__c = true;
+            applications[0].Country_of_Residency__c = 'Residency Update';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals(applications[0].Indigenous_Status__c, updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
+            System.assertEquals(applications[0].Citizenship_Status__c, updatedContact.hed__Citizenship_Status__c, 'hed__Citizenship_Status__c update failed.');
+            System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
+            System.assertEquals(applications[0].Country_of_Residency__c, updatedContact.Country_of_Residency__c, 'Country_of_Residency__c update failed');
+        }
+    }
+
+    @isTest
+    private static void testSAMSMatchingFailOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Offer_Status__c = 'Offered';
+            applications[0].Birthdate__c = null;
+            applications[0].Is_International_Applicant__c = true;
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            applications[0].Is_International_Applicant__c = false;
+            applications[0].Indigenous_Status__c = 'Aboriginal';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c, Is_International_Applicant__c
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals('I prefer not to say', updatedContact.ATSI_Code__c, 'ATSI_Code__c update should fail.');
+            System.assertEquals(true, updatedContact.Is_International_Applicant__c, 'Is_International_Applicant__c update should fail.');
+        }
+    }
+
+    @isTest
+    private static void testSAMSMatchingSuccessOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Offer_Status__c = null;
+            applications[0].Birthdate__c = null;
+            applications[0].Is_International_Applicant__c = true;
+            
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            applications[0].Is_International_Applicant__c = false;
+            applications[0].Indigenous_Status__c = 'Aboriginal';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c, Is_International_Applicant__c
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals('Aboriginal', updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
+            System.assertEquals(false, updatedContact.Is_International_Applicant__c, 'Is_International_Applicant__c update failed.');
+        }
+    }
+
     @isTest
     private static void testSAMSLegacyMatching() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
@@ -341,6 +511,84 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
         }
     }
+
+    @isTest
+    private static void testQTACFailOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.QTAC_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Offer_Status__c = 'Offered';
+            applications[0].Birthdate__c = null;
+            applications[0].Postal_Address_Line1__c = 'Postal';
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            applications[0].Indigenous_Status__c = 'Aboriginal';
+            applications[0].Postal_Address_Line1__c = 'Postal 1';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                MailingStreet
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals('I prefer not to say', updatedContact.ATSI_Code__c, 'ATSI_Code__c update should fail.');
+            System.assertEquals('Postal', updatedContact.MailingStreet, 'MailingStreet update should fail.');
+        }
+    }
+
+    @isTest
+    private static void testQTACSuccessOnUpdate() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = new List<Contact>{
+                createTestContactForApplicationMatching()
+            };
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            Id contactId = contacts[0].Id;
+            List<hed__Application__c> applications = new List<hed__Application__c>{
+                createTestApplicationForContactMatching(ApplicationsDAO.QTAC_RECTYPE_ID)
+            };
+            applications[0].FirstName__c = null;
+            applications[0].LastName__c = null;
+            applications[0].Email__c = null;
+            applications[0].Offer_Status__c = null;
+            applications[0].Birthdate__c = null;
+            applications[0].Postal_Address_Line1__c = 'Postal';
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            applications[0].FirstName__c = contacts[0].FirstName;
+            applications[0].LastName__c = contacts[0].LastName;
+            applications[0].Email__c = contacts[0].Email;
+            applications[0].Indigenous_Status__c = 'Aboriginal';
+            applications[0].Postal_Address_Line1__c = 'Postal 1';
+            ApplicationsDAO.newInstance().updateRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            Contact updatedContact = [
+                SELECT Id, Birthdate, Mobile_No_Locale__c,
+                ATSI_Code__c, hed__Citizenship_Status__c,
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c, Is_International_Applicant__c,
+                MailingStreet
+                FROM Contact WHERE Id = :contactId 
+                WITH SYSTEM_MODE LIMIT 1];
+
+            System.assertEquals('Aboriginal', updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
+            System.assertEquals('Postal 1', updatedContact.MailingStreet, 'MailingStreet update failed.');
+        }
+    }
     
     @isTest
     private static void testQTACMatching() {
@@ -362,7 +610,7 @@ private class ApplicationTriggerHelperTest {
             Map<Id, SObject> newItems = new Map<Id, SObject>((List<Sobject>) applications);
             ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
             ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
-            Contact createdContact = retrieveQTACCreatedContact(contacts[0].Email);
+            Contact createdContact = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contacts[0].Id}, AccessLevel.SYSTEM_MODE)[0];
             Test.stopTest();
             System.assertEquals(applications[0].Indigenous_Status__c, createdContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
             System.assertEquals(applications[0].Birth_Country__c, createdContact.Birth_Country__c, 'Birth_Country__c update failed.');
@@ -377,6 +625,12 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].MiddleName__c, createdContact.MiddleName, 'MiddleName update failed.');
             System.assert(createdContact.OtherAddress != null, 'OtherAddress is blank. Update failed.');
             System.assertEquals(applications[0].Salutation__c, createdContact.Salutation, 'Salutation update failed.');
+            System.assertEquals(applications[0].Applicant_Onshore__c, createdContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
+            System.assert(applications[0].Is_Personal_Illness_Disability_Applicant__c == createdContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_Elite_Athlete_Applicant__c == createdContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_Education_Disruption_Applicant__c == createdContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_First_In_Family_Applicant__c == createdContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
+            System.assert(applications[0].Is_Financial_Hardship_Applicant__c == createdContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
         }
     }
 
@@ -435,29 +689,14 @@ private class ApplicationTriggerHelperTest {
             Email__c = contactToMatch.Email,
             BirthDate__c = System.today().addYears(-25),
             Mobile__c = '0987654321',
-            hed__Applicant__c = contactToMatch.Id
+            hed__Applicant__c = contactToMatch.Id,
+            Applicant_Onshore__c = true,
+            Is_Personal_Illness_Disability_Applicant__c = true,
+            Is_Elite_Athlete_Applicant__c = true,
+            Is_Education_Disruption_Applicant__c = true,
+            Is_First_In_Family_Applicant__c = true,
+            Is_Financial_Hardship_Applicant__c = true
         );
-    }
-
-    private static Contact retrieveQTACCreatedContact(String email) {
-        return [
-            SELECT Id, 
-            ATSI_Code__c,
-            Birth_Country__c,
-            BirthDate,
-            hed__Citizenship_Status__c,
-            Citizenship_Type__c,
-            Email,
-            FirstName,
-            Home_Language__c,
-            LastName,
-            MailingAddress,
-            MiddleName,
-            OtherAddress,
-            Salutation
-            FROM Contact WHERE Email = :email
-            WITH SYSTEM_MODE LIMIT 1
-        ];
     }
 
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String applicationStatus,String recordType) {

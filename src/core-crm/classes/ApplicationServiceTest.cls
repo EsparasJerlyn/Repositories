@@ -9,23 +9,40 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                |
+      | mark.j.mahilum            | May 06, 2024          | DEPP-7987    | Updated test class                          |
+      | sebastianne.k.trias       | June 1, 2024          | DEPP-8474    | Removed modify Opt in/out fields            |
 */
 @isTest
 private class ApplicationServiceTest {
     private static final String FIRSTNAME = 'TestfirstName';
     private static final String LASTNAME = 'Testlastname';
     private static final String EMAIL = 'testmail@mail.test';
-    private static final String BIRTHDAY = '2000-06-28';
     private static Integer recordsCount = 20;
     
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+    }
+
     @testSetup
     static void testSetup() {
-        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -42,7 +59,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertNewApplication() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -59,7 +76,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertMultipleContactMatch() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME;
@@ -93,15 +110,14 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailContactMatch() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newContacts[i].FirstName = FIRSTNAME + i;
                 newContacts[i].LastName = LASTNAME + i;
                 newContacts[i].Email = i + EMAIL;
             }            
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);           
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'Existing');
             
 			for (Integer i = 0; i < 3; i++) {
@@ -109,8 +125,7 @@ private class ApplicationServiceTest {
                 newApplications[i].LastName__c = LASTNAME;
                 newApplications[i].Email__c = i + EMAIL;
             }            
-            
-            
+                        
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -127,7 +142,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationBatchInsertEmailLeadMatch() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Lead> newLeads = createTestLeadRecords(0, 3);
 			for (Integer i = 0; i < 3; i++) {
                 newLeads[i].FirstName = FIRSTNAME + i;
@@ -161,7 +176,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationSAMBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
             
@@ -185,7 +200,7 @@ private class ApplicationServiceTest {
     
     @isTest
     private static void testApplicationQTACBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
                                                              
@@ -214,13 +229,13 @@ private class ApplicationServiceTest {
                 new hed__Application__c(
                     FirstName__c = FIRSTNAME + i,
                     LastName__c = i + LASTNAME,
-                    BirthDate__c = Date.valueOf(BIRTHDAY),
+                    BirthDate__c = System.Today().addYears(-17).addDays(i),
                     Email__c = 'work' + i + EMAIL,
                     Application_Status__c = applicationStatus,
                     RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
                     Indigenous_Status__c = 'Aboriginal',
                     Citizenship_Country__c = 'Australia',
-                    Mobile__c = '0400000000',
+                    Mobile__c = '0400000000' + i,
                     Citizenship_Status__c = 'Domestic'
                 )
             );
@@ -238,7 +253,7 @@ private class ApplicationServiceTest {
                 new Contact(
                     FirstName = FIRSTNAME + i,
                     LastName = i + LASTNAME,
-                    BirthDate = Date.valueOf(BIRTHDAY),
+                    BirthDate = System.Today().addYears(-17).addDays(i),
                     Email = i + EMAIL,
                     QUT_Learner_Email__c = 'learner' + i + EMAIL,
                     QUT_Staff_Email__c = 'staff' + i + EMAIL,

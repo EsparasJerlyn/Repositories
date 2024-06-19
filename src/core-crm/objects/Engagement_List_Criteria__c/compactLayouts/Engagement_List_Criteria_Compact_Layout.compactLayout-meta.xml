@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_List_Criteria_Compact_Layout</fullName>
+    <fields>RecordTypeId</fields>
+    <fields>Engagement_List_Criteria_Title__c</fields>
+    <fields>Cases_Created__c</fields>
+    <label>Engagement List Criteria Compact Layout</label>
+</CompactLayout>

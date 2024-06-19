@@ -183,7 +183,8 @@ public with sharing class NurturingTrackLeadServiceTest {
 
             Case caseRec = new Case (
                     Lead__c = leadList[0].Id,
-                    Category__c = 'Applying for a course'
+                    Category__c = 'Applying for a course',
+                    Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                 );
             CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.SYSTEM_MODE);
 
@@ -228,7 +229,8 @@ public with sharing class NurturingTrackLeadServiceTest {
 
             Case caseRec = new Case (
                     Lead__c = leadList[0].Id,
-                    Category__c = 'Applying for a course'
+                    Category__c = 'Applying for a course',
+                    Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC
                 );
 
             CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.SYSTEM_MODE);
@@ -440,7 +442,8 @@ public with sharing class NurturingTrackLeadServiceTest {
             List<Case> caseList = new List<Case>();
             caseList.add(new Case(
                 Category__c = 'Applying for a course',
-                Lead__c = leadList[0].Id
+                Lead__c = leadList[0].Id,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
             ));
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
