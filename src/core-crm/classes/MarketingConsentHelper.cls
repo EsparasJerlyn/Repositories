@@ -30,6 +30,7 @@ public without sharing class MarketingConsentHelper {
 			'optInDateTimeField' => 'SMS_Opt_In_DateTime__c',
 			'optOutDateTimeField' => 'SMS_Opt_Out_DateTime__c'
 		}
+		
 	};
 
 	public static void setOptOutAndInDates(List<SObject> newItems, Map<Id, SObject> oldMap, String objectName ) {
@@ -40,9 +41,7 @@ public without sharing class MarketingConsentHelper {
 
 		for (SObject item : newItems) {
 
-			
-
-			booleanParams.put('isInsert', isInsert); // to get if create or update
+			booleanParams.put('isInsert', isInsert);
 
 			if(objectName == 'Contact'){
 				item = (Contact) item;
@@ -51,10 +50,19 @@ public without sharing class MarketingConsentHelper {
 				item = (Lead) item;
 			}
 
-			if (!runSetOptOutAndInDates.containsKey((Id) item.get('Id'))){
-				runSetOptOutAndInDates.put((Id) item.get('Id'), false);
+			if( !isInsert && runSetOptOutAndInDates.containsKey((Id) item.get('Id'))){
+				continue;
+			}
+
+			else{
+				if( !isInsert && !runSetOptOutAndInDates.containsKey((Id) item.get('Id')) ){
+					runSetOptOutAndInDates.put((Id) item.get('Id'), false);
+				}
+				
 				for(Map<String,String> optOutFields : setOptOutAndInFields.values()){
-					// boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get(optOutFields.get('optedOutField')) != oldMap.get( (Id) item.get('Id') ).get(item.get(optOutFields.get('optedOutField'))) );
+					if( isInsert && item.get(optOutFields.get('optedOutField')) == false && item.get(optOutFields.get('optInDateTimeField')) == null ){
+						continue;
+					}
 					boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get(optOutFields.get('optedOutField')) != oldMap.get( (Id) item.get('Id') ).get(optOutFields.get('optedOutField')) );
 					booleanParams.put('isFieldOptOutOfEmailChanged', isHasOptedOutOfEmailChanged); // to get if hasoptedout is changed
 					booleanParams.put('optedOutOfEmailNewValue', (Boolean) item.get(optOutFields.get('optedOutField'))); // to get the new value of optedoutofemail field
@@ -70,9 +78,6 @@ public without sharing class MarketingConsentHelper {
 					item.put(optOutFields.get('optInDateTimeField'), validateOptOutAndInFields(booleanParams, dateTimeFieldsValue).get('optInValue'));
 					item.put(optOutFields.get('optOutDateTimeField'), validateOptOutAndInFields(booleanParams, dateTimeFieldsValue).get('optOutValue'));
 				}
-			}
-			else if ( runSetOptOutAndInDates.containsKey((Id) item.get('Id'))) {
-				continue;
 			}
 		}
     }
@@ -121,12 +126,14 @@ public without sharing class MarketingConsentHelper {
 
 		if( isInsert && optedOutOfEmailValue == false && newOptInValue != null ){
 			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = null;
 		}
 		else if( isInsert && optedOutOfEmailValue == true && newOptOutValue != null ){
+			emailOptInDateTimeValue = null;
 			emailOptOutDateTimeValue = newOptOutValue;
 		}
 
-		if( !isFieldOptOutOfEmailChanged ){
+		if( !isInsert && !isFieldOptOutOfEmailChanged ){
 			emailOptInDateTimeValue = oldOptInValue;
 			emailOptOutDateTimeValue = oldOptOutValue;
 		}
