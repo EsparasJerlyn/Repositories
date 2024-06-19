@@ -15,8 +15,10 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
 
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
@@ -47,10 +49,11 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
             );        
             MarketingInteractionsDAO.newInstance().insertRecords(marInteractionList, true, AccessLevel.SYSTEM_MODE);
 
-            List<Case> caseList = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Case', 3);
+            List<Case> caseList = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Case', 3);
             for(Case caseRec : caseList){
                 caseRec.Category__c = 'Course information';
                 caseRec.ContactId = contactList[0].Id;
+                caseRec.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
             }
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE); 
         }
@@ -58,7 +61,7 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
     @isTest
     private static void updateSubCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
             List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];
@@ -79,7 +82,7 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
     @isTest
     private static void updateCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
             List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];

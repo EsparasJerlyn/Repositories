@@ -18,14 +18,20 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
         
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
         
-        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', numberOfRecords);
-        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
-
+        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', numberOfRecords);
+        for(Case caseRecord : internationalCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
+        }
+        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
+        for(Case caseRecord : domesticCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
+        }
         List<Case> caseList = new List<Case>();
         caseList.addAll(internationalCases);
         caseList.addAll(domesticCases);
@@ -45,7 +51,7 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @IsTest
     static void reopenClosedInternationalCaseTest(){
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
             Test.startTest();
@@ -66,7 +72,7 @@ public with sharing class Reopen_Closed_CaseTest {
             
             Test.stopTest();
             
-            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INTERNATIONALFS_RECTYPE_ID];
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID AND Case_Type__c =: CasesDAO.CASE_TYPE_INTERNATIONAL];
             
             Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }
@@ -74,7 +80,7 @@ public with sharing class Reopen_Closed_CaseTest {
 
     @IsTest
     static void reopenClosedDomesticCaseTest(){
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
             Test.startTest();
@@ -95,7 +101,7 @@ public with sharing class Reopen_Closed_CaseTest {
             
             Test.stopTest();
             
-            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.DOMESTICFS_RECTYPE_ID];
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID AND Case_Type__c =: CasesDAO.CASE_TYPE_DOMESTIC];
             
             Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }

@@ -30,7 +30,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @testSetup
   public static void setUp() {
-    TestDataFactory.generateTestUsers();
+    TestDataFactoryUser.generateUserSystemAdministrator();
     // Create Custom Setting
     MC_Messaging_OTP_Setting__c setting = TestDataFactory.createOTPCustomSetting();
     insert setting;
@@ -42,7 +42,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void registerUserNoMatchTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
 
@@ -82,7 +82,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void registerUserExactMatchTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
 
@@ -131,7 +131,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void isUserExistTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
@@ -160,7 +160,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void updateContactTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       
@@ -206,7 +206,7 @@ public with sharing class RegistrationFormCtrlTest {
   
   @isTest
   static void updateContactNoEmailTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       TestDataFactory.loadEDATriggers();
@@ -254,7 +254,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void isEmailExistTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       
@@ -301,7 +301,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getCommunityUrlTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       WebStore testWebStore = new WebStore(
@@ -325,7 +325,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void sendRegistrationSMSOTPTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       Test.setMock(HttpCalloutMock.class, new ReqMockHttpResponse());
@@ -339,7 +339,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getUserMobileLocale(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       String uniqueID = GenerateUniqueId.getUUID();
@@ -360,7 +360,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void getMobileLocaleOptionsTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       List<RegistrationFormCtrl.MobileLocaleWrapper> mobLocaleOptionList = RegistrationFormCtrl.getMobileLocaleOptions();
@@ -374,7 +374,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void sendRegistrationEmailOTPTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       String sentOTP = RegistrationFormCtrl.sendRegistrationEmailOTP(
@@ -398,7 +398,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void loginExistingUserTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
@@ -437,7 +437,7 @@ public with sharing class RegistrationFormCtrlTest {
 
   @isTest
   static void loginCorporateUserTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       Profile p = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner'];
@@ -472,7 +472,7 @@ public with sharing class RegistrationFormCtrlTest {
   
   @isTest
   static void createAdministrativeAccountTest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       Id buyerGroup = [SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' LIMIT 1].Id;

@@ -6,9 +6,10 @@ public class LMSCourseEnrollmentBatchHandlerTest {
 
     @testSetup 
     static void setup() {
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest(); 
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
             insert bypass;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -39,7 +40,6 @@ public class LMSCourseEnrollmentBatchHandlerTest {
                 courseEnrollment.recordTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
             }
             insert courseConnections;
-            Test.stopTest();
         }
     }
 
@@ -47,7 +47,7 @@ public class LMSCourseEnrollmentBatchHandlerTest {
     @isTest
     static void testCourseEnrollmentLMSUpdate() 
     {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Contact contact = [SELECT Id, QUT_Identity_ID__c, QUT_Employee_ID__c, QUT_Student_ID__c  FROM Contact LIMIT 1];
             contact.QUT_Identity_ID__c = 'test';

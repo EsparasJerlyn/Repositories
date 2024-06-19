@@ -12,15 +12,18 @@
 public with sharing class Sprinklr_Case_Sync_Test {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Sys_Admin'});
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
     
     @isTest
     static void testSprinklrCaseNotMofifiedByIntegration() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.startTest();
             Contact contact = TestDataFactory.createTestContact(true, null);
             List<Case> sprinklrCases = TestDataFactory.createTestSprinklrCaseRecords(10, contact.Id);
+            for(Case cases : sprinklrCases){
+                cases.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
+            }
             CasesDAO.newInstance().insertRecords(sprinklrCases, false, AccessLevel.USER_MODE);
             Test.stopTest();
             for(Case sprinklrCase : sprinklrCases) {

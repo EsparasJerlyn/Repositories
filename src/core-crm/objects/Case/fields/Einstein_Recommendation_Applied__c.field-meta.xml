@@ -3,6 +3,7 @@
     <fullName>Einstein_Recommendation_Applied__c</fullName>
     <defaultValue>false</defaultValue>
     <description>This field is used to show and hide the LWC component for case classification</description>
+    <externalId>false</externalId>
     <label>Einstein Recommendation Applied</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

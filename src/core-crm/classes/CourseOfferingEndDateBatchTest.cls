@@ -18,8 +18,10 @@ public with sharing class CourseOfferingEndDateBatchTest {
 
     @testSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
 
@@ -72,7 +74,7 @@ public with sharing class CourseOfferingEndDateBatchTest {
 
     @isTest
     public static void testCourseOfferingEndDateBatch() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             Test.startTest();
 
             CourseOfferingEndDateBatch batch = new CourseOfferingEndDateBatch();

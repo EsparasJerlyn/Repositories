@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Processed</fullName>
+        <default>false</default>
+        <label>Processed</label>
+    </customValue>
+    <customValue>
+        <fullName>Insert</fullName>
+        <default>false</default>
+        <label>Insert</label>
+    </customValue>
+    <customValue>
+        <fullName>Update</fullName>
+        <default>false</default>
+        <label>Update</label>
+    </customValue>
+    <description>Indicating the record&apos;s state whether to be actioned with insert, update or processed</description>
+    <masterLabel>Batch Process</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -17,18 +17,18 @@ public with sharing class CaseEmailInternationalAck_FlowTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
     }
     
     @IsTest
     static void caseOriginWebsiteInternationalCaseTest(){
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
                 STR_EMAIL_TEMPLATE => 'FS International Email Template Test'
             }).iterator().next();
             insert template;
             
-            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', 1);           
+            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', 1);           
             List<Case> caseList = new List<Case>();
             caseList.addAll(internationalCases);
             
@@ -38,6 +38,7 @@ public with sharing class CaseEmailInternationalAck_FlowTest {
                 c.Category__c = 'Student life';
                 c.Status = 'Created';
                 c.SuppliedEmail = 'test333111CaseRec@mailinator.com';
+                c.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
             }
             
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);    

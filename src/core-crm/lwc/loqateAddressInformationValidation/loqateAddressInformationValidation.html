@@ -8,56 +8,62 @@
             </template>
 
             <template if:false={isLoading}>
-                <lightning-layout multiple-rows="true" class="slds-p-top_medium">
-                    <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
-                        <template if:true={multpleAddressType}>
-                            <lightning-combobox
-                                label={updAddSelectionLabel}
-                                data-id="selection"
-                                name="address"
-                                value={selectedAddressType}
-                                placeholder="Select Address"
-                                options={addressTypeOptions}
-                                onchange={handleChange}>
-                            </lightning-combobox>
-                        </template>
-                    </lightning-layout-item>
-                </lightning-layout>
+                <template if:true={hasAccess}>
+                    <lightning-layout multiple-rows="true" class="slds-p-top_medium">
+                        <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
+                            <template if:true={multpleAddressType}>
+                                <lightning-combobox
+                                    label={updAddSelectionLabel}
+                                    data-id="selection"
+                                    name="address"
+                                    value={selectedAddressType}
+                                    placeholder="Select Address"
+                                    options={addressTypeOptions}
+                                    onchange={handleChange}>
+                                </lightning-combobox>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
 
-                <lightning-layout multiple-rows="true" class="slds-p-top_small">
-                    <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
-                        <template if:false={unverified}>
-                            <c-search-address onfound={getLoqateAddress} countries={countrySelection} ></c-search-address>
-                        </template>
-                    </lightning-layout-item>
-                </lightning-layout>
+                    <lightning-layout multiple-rows="true" class="slds-p-top_small">
+                        <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
+                            <template if:false={unverified}>
+                                <c-search-address onfound={getLoqateAddress} countries={countrySelection} ></c-search-address>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
 
-                <lightning-layout multiple-rows="true" class="slds-p-top_small">
-                    <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
-                        <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick} class="custom-checkbox-label"></lightning-input>
-                        <template if:true={unverified}>
-                            <lightning-input-address
-                                street-label="Street"
-                                city-label="City"
-                                country-label="Country"
-                                province-label="State/Province"
-                                postal-code-label="Zip/Postal Code"
-                                onchange={handleChangeAddress}>
-                            </lightning-input-address>
-                        </template>
-                        <template if:true={multpleAddressType}>
-                            <div class="slds-p-top_small">
-                                <lightning-button variant="success" label={buttonLabel} title="Update" onclick={handleUpsert} disabled={buttonDisable}></lightning-button>
-                            </div>
-                        </template>
-                        <template if:true={noAddress}>
-                            <div class="slds-m-vertical_medium">
-                                <lightning-button variant="success" label={buttonLabel} title="Update" onclick={handleUpsert} disabled={buttonDisable}></lightning-button>
-                            </div>
-                        </template>
-                    </lightning-layout-item>
-                </lightning-layout>
-
+                    <lightning-layout multiple-rows="true" class="slds-p-top_small">
+                        <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
+                            <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick} class="custom-checkbox-label"></lightning-input>
+                            <template if:true={unverified}>
+                                <lightning-input-address
+                                    street-label="Street"
+                                    city-label="City"
+                                    country-label="Country"
+                                    province-label="State/Province"
+                                    postal-code-label="Zip/Postal Code"
+                                    onchange={handleChangeAddress}>
+                                </lightning-input-address>
+                            </template>
+                            <template if:true={multpleAddressType}>
+                                <div class="slds-p-top_small">
+                                    <lightning-button variant="success" label={buttonLabel} title="Update" onclick={handleUpsert} disabled={buttonDisable}></lightning-button>
+                                </div>
+                            </template>
+                            <template if:true={noAddress}>
+                                <div class="slds-m-vertical_medium">
+                                    <lightning-button variant="success" label={buttonLabel} title="Update" onclick={handleUpsert} disabled={buttonDisable}></lightning-button>
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <template if:true={showNoAddressRecorded}>
+                    <div style="text-align:center; font-size: 12pt; font-style:normal;"  >
+                        <p>No address recorded.</p>
+                    </div>
+                </template>
                 <template if:false={updating}>
                     <div class="slds-grid">
                         <template for:each={mapAddress} for:item="mapKey">
@@ -99,6 +105,7 @@
                         </template>
                     </div>
                 </template>
+
                 <template if:true={isUpdating}>
                     <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
                 </template>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Communication_Endpoint__c</fullName>
+    <description>Specify which email field of contact or lead  is used to send email to.</description>
+    <externalId>false</externalId>
+    <label>Communication Endpoint</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>WhoId</fullName>
+                <default>true</default>
+                <label>WhoId</label>
+            </value>
+            <value>
+                <fullName>Contact.Email</fullName>
+                <default>false</default>
+                <label>Contact.Email</label>
+            </value>
+            <value>
+                <fullName>Contact.QUT_Staff_Email__c</fullName>
+                <default>false</default>
+                <label>Contact.QUT_Staff_Email__c</label>
+            </value>
+            <value>
+                <fullName>Contact.QUT_Learner_Email__c</fullName>
+                <default>false</default>
+                <label>Contact.QUT_Learner_Email__c</label>
+            </value>
+            <value>
+                <fullName>Contact.Work_Email__c</fullName>
+                <default>false</default>
+                <label>Contact.Work_Email__c</label>
+            </value>
+            <value>
+                <fullName>Lead.Email</fullName>
+                <default>false</default>
+                <label>Lead.Email</label>
+            </value>
+            <value>
+                <fullName>Lead.Work_Email__c</fullName>
+                <default>false</default>
+                <label>Lead.Work_Email__c</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

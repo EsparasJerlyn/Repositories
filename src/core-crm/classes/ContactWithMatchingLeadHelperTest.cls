@@ -27,12 +27,13 @@ public with sharing class ContactWithMatchingLeadHelperTest {
 
     @testSetup 
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Sys_Admin'});
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
             makeData(NUM_RECORDS);
         }
-        Test.stopTest();
+        
     }
 
     private static void makeData(Integer recNum){
@@ -88,7 +89,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
 
     @isTest
     static void detectLeadDuplicatesAndConvertTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
         
@@ -148,7 +149,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
 
     @isTest
     static void detectLeadDuplicatesAndConvertWorkEmailMatchTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
 
@@ -204,7 +205,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
 
     @isTest
     static void updateSingleContactWithMarketingSegTest(){
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
 
@@ -251,4 +252,5 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             }
       }
     }
+    
 }

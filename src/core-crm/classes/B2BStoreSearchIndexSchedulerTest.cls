@@ -6,13 +6,13 @@ public class B2BStoreSearchIndexSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     public static void testHandleCCEStoreRequest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String method = GET_METHOD;
             Test.startTest();
@@ -24,7 +24,7 @@ public class B2BStoreSearchIndexSchedulerTest {
     
     @isTest
     public static void testHandleStudyStoreRequest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             String method = GET_METHOD;
             Test.startTest();
@@ -36,7 +36,7 @@ public class B2BStoreSearchIndexSchedulerTest {
 
     @isTest
     public static void testGetCCERequest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -48,7 +48,7 @@ public class B2BStoreSearchIndexSchedulerTest {
     
     @isTest
     public static void testGetStudyRequest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -60,7 +60,7 @@ public class B2BStoreSearchIndexSchedulerTest {
 
     @isTest
     public static void testPostCCERequest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
@@ -72,7 +72,7 @@ public class B2BStoreSearchIndexSchedulerTest {
     
     @isTest
     public static void testPostStudyRequest() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(POST_METHOD, false));
@@ -84,7 +84,7 @@ public class B2BStoreSearchIndexSchedulerTest {
 
     @isTest
     public static void testCCEScheduler() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -103,7 +103,7 @@ public class B2BStoreSearchIndexSchedulerTest {
    
     @isTest
     public static void testStudyScheduler() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, false));
@@ -121,7 +121,7 @@ public class B2BStoreSearchIndexSchedulerTest {
 
     @isTest
     public static void testCatchErr() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));
@@ -143,7 +143,7 @@ public class B2BStoreSearchIndexSchedulerTest {
     
     @isTest
     public static void testStudyCatchErr() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new SchedulerMockHttpResponse(GET_METHOD, true));

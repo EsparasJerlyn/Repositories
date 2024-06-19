@@ -17,12 +17,12 @@ private class CaseTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     private static void testCaseEmailMatchToContactEmail() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Email = '1testmail@mail.test';
@@ -35,6 +35,7 @@ private class CaseTriggerHandlerTest {
                     Subject = 'Test Case',
                     SuppliedEmail = '1testmail@mail.test',
                     Description = 'Test Case Description',
+                    Case_type__c = 'Domestic Future Student Enquiry',
                     Origin = 'Email'
                 )
             );
@@ -48,7 +49,7 @@ private class CaseTriggerHandlerTest {
 
     @isTest
     private static void testCaseMobileMatchToContactMobile() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].MobilePhone = '090909';
@@ -59,7 +60,8 @@ private class CaseTriggerHandlerTest {
                 new Case(  
                     Status = 'Created', 
                     SuppliedPhone = '090909',
-                    Origin = CasesDAO.ORIGIN_WHATSAPP
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);

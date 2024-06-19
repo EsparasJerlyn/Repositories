@@ -752,12 +752,28 @@
         <value>/consumer/dep/v1/learner/courseEnrolment</value>
     </labels>
     <labels>
+        <fullName>ESBSAMSRefreshStudent</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBSAMSRefreshStudent</shortDescription>
+        <value>/consumer/dep/v1/ESBSAMSRefreshStudent</value>
+    </labels>
+    <labels>
         <fullName>ESBSAMSRegisterLearner</fullName>
         <categories>Endpoint</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ESBSAMSRegisterLearner</shortDescription>
         <value>/consumer/dep/v1/registration/registerLearner</value>
+    </labels>
+    <labels>
+        <fullName>ESBEndpointSurveyContact</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointSurveyContact</shortDescription>
+        <value>/consumer/dep/v1/event/processSurveyDistribution</value>
     </labels>
     <labels>
         <fullName>RT_ProductRequest_Indiv_Coaching</fullName>
@@ -905,5 +921,27 @@
         <protected>false</protected>
         <shortDescription>Applicant Flag Batch Cron Expression</shortDescription>
         <value>0 0 0 ? * *</value>
+    </labels>
+    <labels>
+        <fullName>ELC_Evaluation_Monday_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ELC Evaluation Monday Cron Expression</shortDescription>
+        <value>0 0 7 ? * MON</value>
+    </labels>
+    <labels>
+        <fullName>ELC_Evaluation_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ELC Evaluation Cron Expression</shortDescription>
+        <value>0 0 7 ? * TUE-THU</value>
+    </labels>
+    <labels>
+        <fullName>ESBEndpointProcessAddress</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESBEndpointProcessAddress</shortDescription>
+        <value>/consumer/dep/v1/event/processAddress</value>
     </labels>
 </CustomLabels>

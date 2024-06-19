@@ -21,23 +21,37 @@ private class ApplicationTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             ApplicationsDAO.newInstance()
                 .insertRecords(
                     createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'New'),
                     false,
                     AccessLevel.SYSTEM_MODE
                 );
-            Test.stopTest();
         }
     }
     
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
@@ -54,7 +68,21 @@ private class ApplicationTriggerHandlerTest {
     
     @isTest
     private static void testApplicationBatchUpdateStatus() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+        
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<hed__Application__c> applicationsList = [SELECT Id FROM hed__Application__c LIMIT: recordsCount];
             
