@@ -239,17 +239,4 @@ export default class CaseContactDetails extends NavigationMixin(LightningElement
             },
         });
     }
-
-    handleContactClick(event) {
-        this[NavigationMixin.Navigate]({
-            type:'standard__objectPage',
-            attributes: {
-                objectApiName: 'Contact',
-                actionName: 'list'
-            },
-            state: {
-                filterName: 'Recent'
-            }
-        })
-    }
 }
