@@ -9,6 +9,9 @@
       "type": "ENABLE_EINSTEIN_CLASSIFICATION"
     },{
       "path": "src",
+      "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
+    },{
+      "path": "src",
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
       "type": "metadata",
