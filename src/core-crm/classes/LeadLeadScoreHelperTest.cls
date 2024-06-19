@@ -44,7 +44,7 @@ public with sharing class LeadLeadScoreHelperTest {
 
             List<Lead> leadListToUpdate = new List<Lead>();
             for(Lead leadRec : LeadsDAO.newInstance().getLeadsWithLimit(1)){
-                leadRec.Email_Opt_In_DateTime__c = Date.today();
+                leadRec.HasOptedOutOfEmail = true;
                 leadListToUpdate.add(leadRec);
             }
             LeadsDAO.newInstance().updateRecords(leadListToUpdate, true, AccessLevel.SYSTEM_MODE); 

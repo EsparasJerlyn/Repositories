@@ -48,7 +48,7 @@ public with sharing class ContactLeadScoreHelperTest {
             Test.startTest();
             List<Contact> contactListUpdate = new List<Contact>();
             for(Contact contactRec : ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
-                contactListUpdate.add(new Contact(Id = contactRec.Id, Email_Opt_In_DateTime__c = Date.today()));
+                contactListUpdate.add(new Contact(Id = contactRec.Id, HasOptedOutOfEmail = true));
             }
 
             ContactsDAO.newInstance().updateRecords(contactListUpdate, true, AccessLevel.USER_MODE); 

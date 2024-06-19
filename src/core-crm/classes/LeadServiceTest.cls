@@ -90,7 +90,7 @@ private class LeadServiceTest {
                         Id = ldList[i].Id,
                         Email = 'new' + i + EMAIL,
                         Work_Email__c = 'newwork' + i + EMAIL,
-                        Email_Opt_In_DateTime__c = Date.today()
+                        HasOptedOutOfEmail = true
                     )
                 );
             }
@@ -119,7 +119,7 @@ private class LeadServiceTest {
                         Id = ldList[i].Id,
                         Email = 'new' + i + EMAIL,
                         Work_Email__c = 'newwork' + i + EMAIL,
-                        Email_Opt_In_DateTime__c = Date.today()
+                        HasOptedOutOfEmail = true
                     )
                 );
             }
