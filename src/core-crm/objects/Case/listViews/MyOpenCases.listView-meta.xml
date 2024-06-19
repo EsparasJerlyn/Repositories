@@ -16,10 +16,16 @@
     </filters>
     <label>My Open Cases</label>
     <sharedTo>
+        <group>Development_Team</group>
         <group>Future_Students_Domestic</group>
         <group>Future_Students_International</group>
         <group>International_Recruitment</group>
-        <group>Development_Team</group>
+        <group>Student_Success_Manager</group>
+        <group>Student_Success_Outreach_Manager</group>
+        <group>Student_Success_Outreach_Staff</group>
+        <group>Student_Success_Staff</group>
+        <group>Student_Success_Student_Partner</group>
+        <group>Student_Success_Student_Volunteer</group>
         <group>System_Administrator</group>
         <group>System_Administrator_Modify_All_Data</group>
         <group>System_Administrator_Read_Only</group>

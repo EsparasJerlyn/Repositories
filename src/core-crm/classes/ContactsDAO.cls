@@ -30,6 +30,8 @@
  *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds         |
  *    | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Add Birthdate in getPersonContactsByEmailOrName           |
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | Added getPersonContactsByNameUsingSOSL method             |
+ *    | eccarius.munoz                 | April 29, 2024        | DEPP-8041              | Added getQueryLocatorByCriteria and findByCriteria        |
+ *    | eugene.andrew.abuan            | May 14, 2024          | DEPP-8485              | Added getContactByStudentId                               |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -67,6 +69,17 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final String ACCEPT_ADMIT_JOURNEY_STATUS = 'Accept-Admit';
     public static final String STUDY_JOURNEY_STATUS = 'Study';
 
+    public static final String ATSI_CODE_ABORIGINAL = 'Aboriginal';
+    public static final String ATSI_CODE_ISLANDER = 'Torres Strait Islander';
+    public static final String ATSI_CODE_ABORIGINAL_ISLANDER = 'Aboriginal and Torres Strait Islander';
+
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_YES = 'Yes';
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_NO = 'No';
+    public static final String LOW_SOCIO_ECONOMIC_STATUS_UNKNOWN = 'Unknown';
+    public static final String REGIONAL_REMOTE_YES = 'Yes';
+    public static final String REGIONAL_REMOTE_NO = 'No';
+    public static final String REGIONAL_REMOTE_UNKNOWN = 'Unknown';
+
     public static IContactsDAO newInstance() {
         return (IContactsDAO) ImplementationSelector.DAO.newInstance(Contact.SObjectType);
     }
@@ -100,6 +113,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Id,
                 FirstName,
                 LastName,
+                Matching_Firstname__c,
+                Matching_Lastname__c,
                 Birthdate,
                 Email,
                 QUT_Learner_Email__c,
@@ -115,7 +130,19 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Calculated_Cadence__c,
                 hed__Citizenship_Status__c,
                 HasOptedOutOfEmail,
-                Email_Opt_In_DateTime__c
+                Email_Opt_In_DateTime__c,
+                hed__Deceased__c,
+                QUT_Student_ID__c,
+                QUT_Employee_ID__c,
+                MailingState,
+                MailingCity,
+                MailingStreet,
+                MailingCountry,
+                OtherState,
+                OtherCity,
+                OtherStreet,
+                OtherCountry,
+                Phone
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -208,6 +235,62 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<Contact> getContactsByMatchingAttributes(
+        Map<String,Set<String>> fieldSetMap,
+        Set<Date> birthDateSet,
+        AccessLevel accessLevel
+    ) {
+
+        boolean setsAreEmpty = fieldSetMap.isEmpty() && birthDateSet.isEmpty();
+        Set<String> firstNameSet = fieldSetMap.get('firstName');
+        Set<String> lastNameSet = fieldSetMap.get('lastName');
+        Set<String> emailSet = fieldSetMap.get('email');
+        Set<String> mobilePhoneSet = fieldSetMap.get('mobilePhone');
+        Set<String> excludedIdsSet = fieldSetMap.get('excludedIds');
+
+        if(setsAreEmpty){
+            return new List<Contact>();
+        }
+
+        return Database.query(
+            'SELECT Id, FirstName, LastName, Birthdate, Matching_Firstname__c, Matching_Lastname__c, ' +
+            'Email, MobilePhone, QUT_Staff_Email__c, QUT_Learner_Email__c, Work_Email__c, ' +
+            'QUT_Student_ID__c, QUT_Employee_ID__c ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID '+
+            //Natural Key Matching
+            'AND ((Matching_Firstname__c IN :firstNameSet ' +
+            'AND Matching_Lastname__c IN :lastNameSet ' +
+            'AND Birthdate IN :birthDateSet) ' +
+            //Partial Key Matching OR First Name Stem
+            'OR (Matching_Lastname__c IN :lastNameSet ' +
+            'AND Birthdate IN :birthDateSet ' +
+            'AND (Email IN :emailSet ' +
+            'OR QUT_Staff_Email__c IN :emailSet ' +
+            'OR QUT_Learner_Email__c IN :emailSet ' +
+            'OR Work_Email__c IN :emailSet ' +
+            'OR MobilePhone IN :mobilePhoneSet)) ' +
+            //Maiden Name Matching
+            'OR (Matching_Firstname__c IN :firstNameSet ' +
+            'AND Birthdate IN :birthDateSet ' +
+            'AND (Email IN :emailSet ' +
+            'OR QUT_Staff_Email__c IN :emailSet ' +
+            'OR QUT_Learner_Email__c IN :emailSet ' +
+            'OR Work_Email__c IN :emailSet ' +
+            'OR MobilePhone IN :mobilePhoneSet)) ' +
+            //No DOB Matching
+            'OR (Matching_Firstname__c IN :firstNameSet ' +
+            'AND Matching_Lastname__c IN :lastNameSet ' +
+            'AND (Email IN :emailSet ' +
+            'OR QUT_Staff_Email__c IN :emailSet ' +
+            'OR QUT_Learner_Email__c IN :emailSet ' +
+            'OR Work_Email__c IN :emailSet ' +
+            'OR MobilePhone IN :mobilePhoneSet))) ' + 
+            'AND ID NOT IN: excludedIdsSet ',
+            accessLevel
         );
     }
 
@@ -333,16 +416,19 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
 
         return Database.query(
-            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
-            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
-            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
+            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, MiddleName, Salutation, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Birth_Country__c, Citizenship_Type__c, ' +
+            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, Home_Language__c, ' +
             'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
-            'SMS_Opt_In_DateTime__c, '+ 
+            'SMS_Opt_In_DateTime__c, QUT_Student_ID__c, QUT_Employee_ID__c, MailingAddress, OtherAddress, '+ 
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, Lead_Source_Category__c, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c, ' +
+            'Low_Socio_Economic_Status__c, Regional_Remote__c, Account.Is_Priority_Program__c, Account.RecordTypeId, ' +
+            'ATSI_Code__c, Citizenship_Country__c, Is_Agent_Assisted__c, Agency_Name__c, Agency_Email__c, Is_International_Applicant__c, Applicant_Onshore__c, ' + 
+            'Personal_Illness_Disability_Applicant__c, Elite_Athlete_Applicant__c, Education_Disruption_Applicant__c, Financial_Hardship_Applicant__c, First_In_Family_Applicant__c, QUT_Student__c '  +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
@@ -491,6 +577,76 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return contactList[0];
     }
 
+    public String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = '';
+        if(contactCriteria.getCitizenshipStatus() != null){
+            soql += 'AND hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ';
+        }
+        if(contactCriteria.getIsQUTStudent() != null){
+            soql += 'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ';
+        }
+        if(contactCriteria.getRecordType() != null){
+            soql += 'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ';
+        }
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND Id IN (' + contactIdString + ') ';
+        }
+
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+        
+        return soql;
+    }
+
+    public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
+    }
+
+    public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+              'FROM Contact WHERE Id IN (' + subQueryString + ')';
+        return Database.getQueryLocator(query);
+    }
+
+    public List<Contact> findByCriteria(
+        ContactsDAO.Criteria criteria, 
+        AccessLevel accessLevel
+    ){
+        if(criteria != null && !criteria.isEmpty()){
+            return Database.query(
+                ' SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+                ' FROM Contact ' + getWhereClauseByCriteria(criteria),
+                accessLevel
+            );
+        }
+        return new List<Contact>();
+    }  
+
+    public List<Contact> getContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    ){
+        if(studentIdList.isEmpty()){
+            return new List<Contact>();
+        }
+
+        return Database.query(
+            'SELECT Id, QUT_Student_ID__c, Name, MobilePhone, Email FROM Contact ' +
+            'Where RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
+            'AND QUT_Student__c = true ' +
+            'AND QUT_Student_Id__c in :studentIdList', 
+            accessLevel
+        );
+    }  
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
@@ -521,6 +677,52 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             firstName = strFirstName;
             lastName = strLastName;
             mobile = strMobile;
+        }
+    }
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for Contact.
+     */
+    public class Criteria {
+        private Boolean isQUTStudent;
+        private String recordType;
+        private Set<Id> contactIdSet; 
+        private String citizenshipStatus;
+
+        public Boolean getIsQUTStudent() {
+            return isQUTStudent;
+        }
+
+        public void setIsQUTStudent(Boolean isQUTStudent) {
+            this.isQUTStudent = isQUTStudent;
+        }
+
+        public String getRecordType() {
+            return recordType;
+        }
+
+        public void setRecordType(String recordType) {
+            this.recordType = recordType;
+        }
+
+        public Set<Id> getContactIdSet() {
+            return contactIdSet;
+        }
+
+        public void setContactIdSet(Set<Id> contactIdSet) {
+            this.contactIdSet = contactIdSet;
+        }
+
+        public String getCitizenshipStatus() {
+            return citizenshipStatus;
+        }
+
+        public void setCitizenshipStatus(String citizenshipStatus) {
+            this.citizenshipStatus = citizenshipStatus;
+        }
+
+        public Boolean isEmpty() {
+            return isQUTStudent == null && recordType == null && contactIdSet == null && citizenshipStatus == null;
         }
     }
     

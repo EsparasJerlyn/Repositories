@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>KDateOffset_Lower_Less_than_equal_Upper</fullName>
+    <active>true</active>
+    <description>Validates if Key Date Offset Lower Boundary is less than or equal Key Date Offset Upper Boundary</description>
+    <errorConditionFormula>AND( 
+NOT( ISNULL( Key_Date_Offset_Lower_Boundary__c ) ),
+  OR( 
+   ISNEW(), 
+   ISCHANGED( Key_Date_Offset_Lower_Boundary__c )
+  ),
+  Key_Date_Offset_Lower_Boundary__c &gt; Key_Date_Offset_Upper_Boundary__c
+)</errorConditionFormula>
+    <errorDisplayField>Key_Date_Offset_Lower_Boundary__c</errorDisplayField>
+    <errorMessage>The Key Date Upper Boundary must be greater than or equal the Key Date Lower Boundary</errorMessage>
+</ValidationRule>

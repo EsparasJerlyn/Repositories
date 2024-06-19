@@ -62,4 +62,17 @@ public inherited sharing class CommunicationQueuesDAOMock extends DmlBaseMock im
 
         return commsQueueList;
     }
+
+    public List<Communication_Queue__c> getComminicationQueueRecordsByIdSets(Set<Id> createdCommunicationsQueueIdSet, AccessLevel accessLevel){
+        List<Communication_Queue__c> commsQueueList = new List<Communication_Queue__c>();
+        for (Communication_Queue__c record : commsQueueMap.values()) {
+            if (createdCommunicationsQueueIdSet.contains(record.Id)) {
+                commsQueueList.add(record);
+            }
+        }
+
+        return commsQueueList;
+    }
+
+    
 }

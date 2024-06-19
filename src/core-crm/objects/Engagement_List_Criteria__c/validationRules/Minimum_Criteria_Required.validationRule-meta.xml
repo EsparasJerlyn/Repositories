@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Minimum_Criteria_Required</fullName>
+    <active>true</active>
+    <description>Ensure at least one of the following fields has a value before activating: Completed Cadence, Academic Status, Is On Leave Of Absence, Breach, Failed Assessment, Failed To Submit Assessment.</description>
+    <errorConditionFormula>AND (
+  RecordType.DeveloperName =&apos;Entry_Criteria&apos;,
+  ISPICKVAL(Status__c, &quot;Active&quot;),
+    AND( 
+    ISPICKVAL(Completed_Cadence__c,&quot;&quot;),
+    ISPICKVAL(Is_On_Leave_of_Absence__c,&quot;&quot;),
+    ISPICKVAL(Academic_Status__c,&quot;&quot;),
+    ISPICKVAL(Previous_Academic_Status__c,&quot;&quot;),
+    ISBLANK(Breach__c),
+    ISPICKVAL(Failed_Assessment__c, &quot;&quot;),
+    ISPICKVAL(Failed_To_Submit_Assessment__c, &quot;&quot;)
+  )
+)</errorConditionFormula>
+    <errorMessage>Ensure at least one of the following fields has a value before activating: Completed Cadence, Academic Status, Is On Leave Of Absence, Breach, Failed Assessment, Failed To Submit Assessment.</errorMessage>
+</ValidationRule>

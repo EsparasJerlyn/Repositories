@@ -16,6 +16,7 @@ public with sharing class OrgWideEmailAddressesDAO extends DmlBase implements IO
     public static final String ORG_WIDE_EMAIL_NO_REPLY = 'no-reply';
     public static final String ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES = 'Domestic Future Student Enquiries';
     public static final String ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES = 'International Future Student Enquiries';
+    public static final String ORG_WIDE_EMAIL_STUDENT_SUCCESS = 'Student Success';
 
     public Schema.SObjectType getSObjectType(){
 		return OrgWideEmailAddress.SObjectType;
