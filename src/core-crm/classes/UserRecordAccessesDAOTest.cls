@@ -12,13 +12,13 @@
 private class UserRecordAccessesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 UserRecordAccessesDAO.newInstance() != null,
                 'UserRecordAccessesDAO instance is null'
@@ -30,7 +30,7 @@ private class UserRecordAccessesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             System.assert(
                 new UserRecordAccessesDAO().getSObjectType() == UserRecordAccess.SObjectType,
                 'SObject is not UserRecordAccessesDAO'
@@ -42,7 +42,7 @@ private class UserRecordAccessesDAOTest {
     @isTest
     static void getUserRecordAccessesBySetRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<UserRecordAccess> userRecordAccessList = UserRecordAccessesDAO.newInstance()
                 .getUserRecordAccessesBySetRecordIds(new Set<Id>{});
             System.assert(userRecordAccessList.isEmpty(), 'userRecordAccessList is not empty');

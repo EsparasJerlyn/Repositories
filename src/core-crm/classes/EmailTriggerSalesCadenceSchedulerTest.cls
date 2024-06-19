@@ -15,13 +15,13 @@ public with sharing class EmailTriggerSalesCadenceSchedulerTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
     }
 
     @isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getSystemAdminUser()) {
+		System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             Test.StartTest();
             EmailTriggerSalesCadenceScheduler emailScheduler = new EmailTriggerSalesCadenceScheduler();
             String sch = '0 0 10 * * ?';

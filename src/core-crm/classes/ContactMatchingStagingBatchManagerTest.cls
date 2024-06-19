@@ -9,6 +9,23 @@
  */
 @isTest
 private class ContactMatchingStagingBatchManagerTest {
+
+    static {
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.CONTACT_MATCHING_STAGING_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+    }
+    
     @testSetup
     static void testSetup() {
         Test.startTest();
@@ -36,7 +53,7 @@ private class ContactMatchingStagingBatchManagerTest {
                 conMatchingStagings.add(
                     new Contact_Matching_Staging__c(
                         LastName__c = con.LastName,
-                        FirstName__c = con.FirstName,
+                        FirstName__c = null,
                         Email__c = con.Email,
                         QUT_Learner_Email__c = con.QUT_Learner_Email__c,
                         QUT_Staff_Email__c = con.QUT_Staff_Email__c,
@@ -59,7 +76,8 @@ private class ContactMatchingStagingBatchManagerTest {
             Test.stopTest();
             for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(50)) {
                 system.assertEquals(true, con.hed__Deceased__c, 'Contact should be deceased');
-                system.assertEquals(null, con.Work_Email__c, 'work email should be null');
+                system.assertEquals(null, con.FirstName, 'Contact fistname should be nullified');
+                system.assert(con.Work_Email__c != null, 'work email should not be nullified');
                 system.assertEquals('Test', con.MailingState, 'Mailing State should match');
                 system.assertEquals('Test', con.MailingCity, 'Mailing City should match');
                 system.assertEquals('Test', con.MailingStreet, 'Mailing Street should match');

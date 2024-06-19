@@ -12,13 +12,13 @@
 public with sharing class MarketingCourseApplicationsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-    } 
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(MarketingCourseApplicationsDAO.newInstance() != null, 'marketingCourseApplicationsdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class MarketingCourseApplicationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new MarketingCourseApplicationsDAO().getSObjectType() == Marketing_Course_Application__c.SObjectType,
                 'SObject is not Marketing_Course_Application__c'
@@ -38,7 +38,7 @@ public with sharing class MarketingCourseApplicationsDAOTest {
 
     @isTest
     static void getMrktngCourseAppsByLeadIdsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Marketing_Course_Application__c.SObjectType);
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
@@ -53,7 +53,7 @@ public with sharing class MarketingCourseApplicationsDAOTest {
 
     @isTest
     static void getMrktngCourseAppsByLeadIdsEmptyTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
                 .getMrktngCourseAppsByLeadIds(

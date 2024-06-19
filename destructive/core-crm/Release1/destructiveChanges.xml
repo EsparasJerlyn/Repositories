@@ -44,6 +44,10 @@
         <members>CustomHeaderDatatableCtrl</members>
         <members>CustomHeaderDatatableCtrlTest</members>
         <!--(End) DEPP-7005 -->
+        <!--(Start) DEPP-5906 -->
+        <members>AffiliationTriggerHelper</members>
+        <members>AffiliationTriggerHelperTest</members>
+        <!--(End) DEPP-5906 -->
         <name>ApexClass</name>
     </types>
     <types>

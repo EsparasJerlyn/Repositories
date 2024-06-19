@@ -16,7 +16,8 @@
 public class CodeGeneratorServiceTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' , 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
         opptyCodeAutoNum.International_Projects_Unit__c = 1;
@@ -69,7 +70,7 @@ public class CodeGeneratorServiceTest {
      */
     @isTest
     private static void createOpptyRCORecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity> newItems = TestDataFactory.createTestOpportunityRecords(100, 'RCO', OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateOpportunityCodeForOpportunityRecords(newItems);
@@ -89,7 +90,7 @@ public class CodeGeneratorServiceTest {
     
     @isTest
     private static void createOpptyINPORecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity> newItems = TestDataFactory.createTestOpportunityRecords(100, 'RCO', OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateOpportunityCodeForOpportunityRecords(newItems);
@@ -109,7 +110,7 @@ public class CodeGeneratorServiceTest {
 
 	@isTest
     private static void createOpptyRPORecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity> newItems = TestDataFactory.createTestOpportunityRecords(100, 'RCO', OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateOpportunityCodeForOpportunityRecords(newItems);
@@ -136,7 +137,7 @@ public class CodeGeneratorServiceTest {
      */
     @isTest
     private static void createOpptyOutcRPPORecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> newItems = TestDataFactory.createTestOpportunityOutcomeRecords(100, 'RPP', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
@@ -156,7 +157,7 @@ public class CodeGeneratorServiceTest {
 
     @isTest
     private static void createOpptyOutcINPRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> newItems = TestDataFactory.createTestOpportunityOutcomeRecords(100, 'INP', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
@@ -176,7 +177,7 @@ public class CodeGeneratorServiceTest {
 
     @isTest
     private static void createOpptyOutcRCPRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> newItems = TestDataFactory.createTestOpportunityOutcomeRecords(100, 'RCP', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
@@ -196,7 +197,7 @@ public class CodeGeneratorServiceTest {
 
     @isTest
     private static void createOpptyOutcRCCRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity_Outcome__c> newItems = TestDataFactory.createTestOpportunityOutcomeRecords(100, 'RCC', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
@@ -222,7 +223,7 @@ public class CodeGeneratorServiceTest {
      */
     @isTest
     private static void createEngagementRCERecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Engagement__c> newItems = TestDataFactory.createTestEngagementRecords(100, 'RCE', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateEngagementCodeForEngagementRecords(newItems);
@@ -242,7 +243,7 @@ public class CodeGeneratorServiceTest {
 
     @isTest
     private static void createEngagementRPERecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Engagement__c> newItems = TestDataFactory.createTestEngagementRecords(100, 'RPE', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateEngagementCodeForEngagementRecords(newItems);

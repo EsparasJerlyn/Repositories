@@ -16,13 +16,13 @@
 private class CartItemsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CartItemsDAO().getSObjectType() == CartItem.SObjectType,
                 'SObject is not CartItem'
@@ -34,7 +34,7 @@ private class CartItemsDAOTest {
     @isTest
     static void getCartItemsWithPricebookEntryByRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<CartItem> cartItemList = CartItemsDAO.newInstance()
                 .getCartItemsWithPricebookEntryByRecordIds(
                     new Set<String>(),
@@ -48,7 +48,7 @@ private class CartItemsDAOTest {
     @isTest
     static void getCartItemsByCartItemNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<CartItem> cartItemList = CartItemsDAO.newInstance()
                 .getCartItemsByCartItemName(
                     new Set<String>(),
@@ -62,7 +62,7 @@ private class CartItemsDAOTest {
     @isTest
     static void getCartItemsByWebCartIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<CartItem> cartItemList = CartItemsDAO.newInstance()
                 .getCartItemsByWebCartId(
                     new Set<Id>(),
@@ -76,7 +76,7 @@ private class CartItemsDAOTest {
     @isTest
     static void countCartItemsGroupByCourseOfferingEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByCourseOffering(
                     new Set<Id>(),
@@ -90,7 +90,7 @@ private class CartItemsDAOTest {
     @isTest
     static void countCartItemsGroupByCourseOfferingNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForCourseOffering = new MockIdGenerator(hed__Course_Offering__c.sObjectType);
             List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByCourseOffering(
@@ -105,7 +105,7 @@ private class CartItemsDAOTest {
     @isTest
     static void getCartItemsByWebCartIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForWebCart = new MockIdGenerator(WebCart.sObjectType);
             List<CartItem> cartItemList = CartItemsDAO.newInstance()
                 .getCartItemsByWebCartId(
@@ -120,7 +120,7 @@ private class CartItemsDAOTest {
     @isTest
     static void countCartItemsGroupByProgramOfferingEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByProgramOffering(
                     new Set<Id>(),
@@ -134,7 +134,7 @@ private class CartItemsDAOTest {
     @isTest
     static void countCartItemsGroupByProgramOfferingNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForProgramOffering = new MockIdGenerator(Program_Offering__c.sObjectType);
             List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByProgramOffering(

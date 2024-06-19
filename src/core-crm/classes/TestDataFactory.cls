@@ -651,7 +651,7 @@ public class TestDataFactory {
      */
     public static List<Product_Specification__c> retrieveCCEProductSpecifications() {
         List<Product_Specification__c> prodSpecList = [
-            SELECT Id, RecordTypeId
+            SELECT Id, RecordTypeId, Program_Name__c, Product_Specification_Name__c
             FROM Product_Specification__c
             WHERE RecordType.DeveloperName = 'CCE'
         ];
@@ -4422,11 +4422,11 @@ public class TestDataFactory {
 
     /**
      * @description Method for creating test Donation records
-    * @params
-    * numOfRecords - number of records to create
-    * recordTypeId - recordTypeId of the records to create
-    * @return donationList - List of Donation records created
-    */
+     * @params
+     * numOfRecords - number of records to create
+     * recordTypeId - recordTypeId of the records to create
+     * @return donationList - List of Donation records created
+     */
     public static List<Donation__c> createDonationRecordsWithRecordType (
         Integer numOfRecords,
         Id recordTypeId
