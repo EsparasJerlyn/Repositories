@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Indigenous_Status__c</fullName>
+    <description>The Australian indigenous status</description>
+    <externalId>false</externalId>
+    <label>Indigenous Status</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>ATSI_Code</valueSetName>
+    </valueSet>
+</CustomField>

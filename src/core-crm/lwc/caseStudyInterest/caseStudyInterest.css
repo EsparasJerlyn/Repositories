@@ -1,0 +1,7 @@
+div.header-with-bg {
+  background-color: var(--lwc-colorBackground);
+}
+.slds-dropdown__item a:focus {
+  outline: none;
+  background-color: #f3f2f2;
+}

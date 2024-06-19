@@ -16,13 +16,13 @@
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>
-        <accessLevel>Manage</accessLevel>
-        <sharedTo>VP_Business_Development</sharedTo>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>Industry_Engagement_Super_User</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>System_Administrator</sharedTo>
+        <sharedTo>VP_Business_Development</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>

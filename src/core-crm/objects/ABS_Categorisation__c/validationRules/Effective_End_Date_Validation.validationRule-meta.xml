@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Effective_End_Date_Validation</fullName>
+    <active>true</active>
+    <description>Select an effective end date greater than or equal to the effective start date.</description>
+    <errorConditionFormula>AND( 
+ NOT( ISNULL( Effective_End_Date__c ) ),
+ OR( 
+  ISNEW(), 
+  ISCHANGED( Effective_End_Date__c ) 
+ ),
+ Effective_End_Date__c &lt; Effective_Start_Date__c
+)</errorConditionFormula>
+    <errorDisplayField>Effective_End_Date__c</errorDisplayField>
+    <errorMessage>Select an effective end date greater than or equal to the effective start date.</errorMessage>
+</ValidationRule>

@@ -5,3 +5,6 @@
     margin-top: 20px;
     display: inline-block;
 }
+div.header-with-bg {
+    background-color: var(--lwc-colorBackground);
+  }

@@ -28,6 +28,17 @@ public inherited sharing class ActionCadenceStepTrackersDAOMock extends DmlBaseM
     public List<ActionCadenceStepTracker> getActionCadenceStepTrackerForEmail(
         List<String> recordIds,     
         AccessLevel accessLevel){
-        return (List<ActionCadenceStepTracker>)JSON.deserialize(ACST_MOCK_RECORD, List<ActionCadenceStepTracker>.class);
+            List<ActionCadenceStepTracker> acStepTrackerList = new List<ActionCadenceStepTracker>();
+            for(ActionCadenceStepTracker acStepTracker : actionCadenceStepMap.values()){
+                if(recordIds.contains(acStepTracker.Id)){
+                    acStepTrackerList.add(acStepTracker);
+                }
+            }
+            
+        if(acStepTrackerList.isEmpty()){
+            return (List<ActionCadenceStepTracker>)JSON.deserialize(ACST_MOCK_RECORD, List<ActionCadenceStepTracker>.class);
+        }
+
+        return acStepTrackerList;
     }
 }
