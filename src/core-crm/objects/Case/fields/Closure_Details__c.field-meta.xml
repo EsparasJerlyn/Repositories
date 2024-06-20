@@ -3,7 +3,7 @@
     <fullName>Closure_Details__c</fullName>
     <description>Summarises the case and the resolution for the enquirer.</description>
     <externalId>false</externalId>
-    <label>Closure Details</label>
+    <label>Summary</label>
     <length>32000</length>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
