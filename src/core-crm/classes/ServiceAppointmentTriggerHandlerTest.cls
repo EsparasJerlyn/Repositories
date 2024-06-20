@@ -10,6 +10,7 @@
       | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                      | 
       | nicole.genon                   | November 23, 2023     | DEPP-7259              | Added test classes                |
       | arsenio.jr.dayrit       	   | November 12, 2023     | DEPP-7357              | Update Test method                |
+      | sebastianne.k.trias            | June 20, 2024         | DEPP-8474              | Removed SA Opt In Functionality   |
  */
 @isTest
 public with sharing class ServiceAppointmentTriggerHandlerTest {
@@ -65,13 +66,12 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             serviceAppointmentList[0].Email = 'testContact@mailinator.com';
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
             serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
-            serviceAppointmentList[0].Marketing_Consent__c = true;
             serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
             serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
             serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
             ServiceAppointmentsDAO.newInstance().updateRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
 
-            List<Contact> updatedContact = [SELECT Id, Email, Email_Opt_In_DateTime__c,ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
+            List<Contact> updatedContact = [SELECT Id, Email, ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
             List<Marketing_Segmentation__c> updatedMarketingSeg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>{newContacts[0].Id}, new Set<Id>(), AccessLevel.SYSTEM_MODE);
             List<ServiceAppointment> serviceAppList = [SELECT Id,Email,Mobile_Locale__c,Mobile_No_Locale__c, My_Citizenship_Status__c, My_Country_Of_Citizenship__c, My_Country_Of_Residency__c FROM ServiceAppointment];
 
