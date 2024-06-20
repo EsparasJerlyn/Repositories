@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmbeddedServiceConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <areGuestUsersAllowed>false</areGuestUsersAllowed>
+    <branding>EmbeddedServiceConfig_BrandingSet_1900b7b92e0</branding>
+    <deploymentFeature>EmbeddedMessaging</deploymentFeature>
+    <deploymentType>Web</deploymentType>
+    <embeddedServiceCustomComponents>
+        <componentBundleType>LightningComponentBundle</componentBundleType>
+        <customComponent>samplePrechatComponent</customComponent>
+        <customComponentType>MIAW_Prechat</customComponentType>
+    </embeddedServiceCustomComponents>
+    <embeddedServiceCustomLabels>
+        <customLabel>EM_Container_Base_PrechatStateSubmitButton_04IBn0000019kiz_6478681</customLabel>
+        <labelKey>EM_Container_Base_PrechatStateSubmitButton</labelKey>
+    </embeddedServiceCustomLabels>
+    <embeddedServiceCustomLabels>
+        <customLabel>EM_PreChat_TermsAndConditions_04IBn0000019kiz_2832484</customLabel>
+        <labelKey>EM_PreChat_TermsAndConditions</labelKey>
+    </embeddedServiceCustomLabels>
+    <embeddedServiceMessagingChannel>
+        <isEnabled>true</isEnabled>
+        <messagingChannel>Messaging_For_In_App_And_Web_Poc</messagingChannel>
+        <shouldShowDeliveryReceipts>true</shouldShowDeliveryReceipts>
+        <shouldShowEmojiSelection>true</shouldShowEmojiSelection>
+        <shouldShowReadReceipts>true</shouldShowReadReceipts>
+        <shouldShowTypingIndicators>true</shouldShowTypingIndicators>
+        <shouldStartNewLineOnEnter>true</shouldStartNewLineOnEnter>
+    </embeddedServiceMessagingChannel>
+    <isEnabled>true</isEnabled>
+    <isTermsAndConditionsEnabled>true</isTermsAndConditionsEnabled>
+    <isTermsAndConditionsRequired>false</isTermsAndConditionsRequired>
+    <masterLabel>Messaging In App And Web Poc</masterLabel>
+    <shouldHideAuthDialog>false</shouldHideAuthDialog>
+    <site>ESW_Messaging_In_App_And_W_17171307246701</site>
+</EmbeddedServiceConfig>

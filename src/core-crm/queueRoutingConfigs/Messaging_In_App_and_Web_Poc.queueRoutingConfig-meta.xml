@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueueRoutingConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <capacityPercentage>10.0</capacityPercentage>
+    <capacityType>INHERITED</capacityType>
+    <isAttributeBased>false</isAttributeBased>
+    <label>Messaging In App and Web Poc</label>
+    <routingModel>LEAST_ACTIVE</routingModel>
+    <routingPriority>1</routingPriority>
+</QueueRoutingConfig>
