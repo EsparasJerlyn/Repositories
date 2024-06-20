@@ -28,6 +28,14 @@
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Assessment__c-Assessment Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
