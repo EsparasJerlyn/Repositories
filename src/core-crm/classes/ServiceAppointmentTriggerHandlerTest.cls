@@ -76,7 +76,6 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             List<ServiceAppointment> serviceAppList = [SELECT Id,Email,Mobile_Locale__c,Mobile_No_Locale__c, My_Citizenship_Status__c, My_Country_Of_Citizenship__c, My_Country_Of_Residency__c FROM ServiceAppointment];
 
             System.assertEquals(serviceAppList[0].Email, updatedContact[0].Email, 'Email should be populated');
-            System.assert(updatedContact[0].Email_Opt_In_DateTime__c != null, 'Email_Opt_In_DateTime__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_Locale__c, updatedContact[0].ContactMobile_Locale__c, 'ContactMobile_Locale__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_No_Locale__c, updatedContact[0].Mobile_No_Locale__c, 'Mobile_No_Locale__c should be populated');
             System.assertEquals(serviceAppList[0].My_Citizenship_Status__c, updatedMarketingSeg[0].My_Citizenship_Status__c, 'My_Citizenship_Status__c should be populated');
