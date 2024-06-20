@@ -11,12 +11,12 @@
       | keno.domienri.dico        | July 14, 2022         | DEPP-2699/DEPP-3420  | Added logic for CCE or OPE environment option|
       | jessel.bajao              | August 2, 2022        | DEPP-3476            | Added code to get current product category   |
       | mary.grace.li             | November 22, 2022     | DEPP-4693            | Added Selected account logic                 |
+      | julie.jane.alegre         | June 11, 2024         | DEPP-9208            | Remove import basePath                       |
 */
 
 import { LightningElement, api, wire } from "lwc";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import { NavigationMixin } from "lightning/navigation";
-import BasePath from '@salesforce/community/basePath';
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import { loadStyle } from "lightning/platformResourceLoader";
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
@@ -54,6 +54,7 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
 
   subscription;
   accountId;
+  basePath;
 
   @wire(MessageContext)
   messageContext;
@@ -65,12 +66,13 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
 
   // For CCE Product Details
   get isCCEPortal() {
-    return BasePath.toLowerCase().includes("cce");
+
+    return this.basePath ? this.basePath.toLowerCase().includes("cce"): '';
   }
 
   // For OPE Product Details
   get isOPEPortal() {
-    return BasePath.toLowerCase().includes("study");
+    return this.basePath ? this.basePath.toLowerCase().includes("study") : '';
   }
 
   // Navigate to the Single Product Page
@@ -112,6 +114,7 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
   connectedCallback() {
     // Get icons
     this.getIcons();
+    this.basePath = window.location.href;
   }
 
   // Get Icons from Static Resources
