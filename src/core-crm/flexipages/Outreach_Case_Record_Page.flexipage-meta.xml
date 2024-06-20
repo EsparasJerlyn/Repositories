@@ -783,9 +783,6 @@
                             <value>Completed_Cadence__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Engagement_List_Event_Time__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Key_Date__c</value>
                         </valueListItems>
                     </valueList>

@@ -4558,11 +4558,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Engagement_List_Event__c.Engagement_List_Event_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Engagement_List_Event__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
