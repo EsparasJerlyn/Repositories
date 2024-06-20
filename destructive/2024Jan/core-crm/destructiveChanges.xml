@@ -88,6 +88,9 @@
         <!-- (Start) DEPP-8764 -->
         <members>Engagement_List_Configuration__c.Instrument__c</members>
         <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-9315 -->
+        <members>Engagement_List_Event__c.Engagement_List_Event_Time__c</members>
+        <!--(End) DEPP-9315 -->
         <name>CustomField</name>
     </types>
     <types>
@@ -105,6 +108,11 @@
         <!--(Start) DEPP-9144-->
         <members>Case.Outreach_UAP_Held_Show_Cause</members>
         <!--(End) DEPP-9144-->
+        <!--(Start) DEPP-9325-->
+        <members>Case.Future_Student_Advisor_Assigned</members>
+        <members>Case.International_Enquiries_Assigned</members>
+        <members>Case.International_Enquiries_Pending_Closure</members>
+        <!--(End) DEPP-9325-->
         <name>ListView</name>
     </types>
     <types>
@@ -254,6 +262,12 @@
         <!--DEPP-8951-->
         <members>DigitalMarketing</members>
         <name>Reportfolder</name>
+    </types>
+    <types>
+        <!--DEPP-9324 (renamed component)-->
+        <members>deactivateCriteria</members>
+        <!--end DEPP-9324-->
+        <name>LightningComponentBundle</name>
     </types>
     <version>59.0</version> 
 </Package>
