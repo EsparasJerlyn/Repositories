@@ -99,7 +99,7 @@ public with sharing class ELECandidateProcessor {
         };
 
         saveRecords(saveRecordParam);
-        Logger.saveLog();
+
         return result;
     }
 
@@ -125,7 +125,7 @@ public with sharing class ELECandidateProcessor {
                 newEvents.add(event);
             }
     
-            Logger.info('Event Size: ' + newEvents.size());
+            Logger.info('Number of Events to insert: ' + newEvents.size());
             if(!newEvents.isEmpty()){
                 EngagementListEventsDAO.newInstance().insertRecords(newEvents, true, AccessLevel.SYSTEM_MODE);   
             }
