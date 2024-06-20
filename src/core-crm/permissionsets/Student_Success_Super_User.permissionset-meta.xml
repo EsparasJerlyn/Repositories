@@ -413,6 +413,11 @@
         <field>Engagement_List_Event__c.Program_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Qualtrics_Survey__c.Qualtrics_Survey_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Student Success Super User</label>
     <objectPermissions>
