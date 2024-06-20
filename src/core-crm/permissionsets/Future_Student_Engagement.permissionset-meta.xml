@@ -6131,9 +6131,9 @@
         <recordType>Application_Preference__c.StudyLink</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>    <recordTypeVisibilities>
-    <recordType>hed__Application__c.QTAC</recordType>
-    <visible>true</visible>
-</recordTypeVisibilities>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
         <visible>true</visible>
@@ -6202,7 +6202,7 @@
         <tab>hed__Program_Plan__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+     <tabSettings>
         <tab>hed__Course_Offering__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
