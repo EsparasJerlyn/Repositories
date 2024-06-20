@@ -41,7 +41,6 @@ public with sharing class ELECandidateProcessor {
                 eventCandidateKeyMap.put(eventCandidateKey, new ELECandidate(eventCandidate, contactId));
             }
         }
-        Logger.info('Event Candidate Map Size: ' + eventCandidateKeyMap.values().size());
 
         Map<String, Set<Id>> relatedRecordIdMap = new Map<String, Set<Id>>{
             'engagementListCriteriaId' => new Set<Id>{criteriaId},
@@ -54,7 +53,6 @@ public with sharing class ELECandidateProcessor {
         };
 
         List<Engagement_List_Event__c> existingEvents = EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE);
-        Logger.info('Existing Events : ' + existingEvents.size());
         for(Engagement_List_Event__c existingEvent : existingEvents){
             EngagementListEventKey eventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
             if(eventCandidateKeyMap.containsKey(eventKey)){
@@ -62,7 +60,6 @@ public with sharing class ELECandidateProcessor {
                 eventCandidateKeyMap.remove(eventKey);
             }
         }
-        Logger.info('Filtered Event Candidate Map Size: ' + eventCandidateKeyMap.size());
 
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         Map<Id, Case> openCaseMap = getCaseMap(contactIds, configId);
