@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <acwExtensionDuration>60</acwExtensionDuration>
+    <afterConvoWorkMaxTime>180</afterConvoWorkMaxTime>
+    <doesMinimizeWidgetOnAccept>true</doesMinimizeWidgetOnAccept>
+    <hasAcwExtensionEnabled>true</hasAcwExtensionEnabled>
+    <hasAfterConvoWorkTimer>true</hasAfterConvoWorkTimer>
+    <hasAutoAcceptEnabled>false</hasAutoAcceptEnabled>
+    <isInterruptible>false</isInterruptible>
+    <label>Phone</label>
+    <maxExtensions>1</maxExtensions>
+    <relatedEntityType>VoiceCall</relatedEntityType>
+</ServiceChannel>
