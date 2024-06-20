@@ -1048,8 +1048,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
+                <fieldItem>Record.Staff_Email_Opt_Out__c</fieldItem>
+                <identifier>RecordStaff_Email_Opt_Out_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1070,8 +1070,30 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Staff_Email_Opt_Out__c</fieldItem>
-                <identifier>RecordStaff_Email_Opt_Out_cField</identifier>
+                <fieldItem>Record.hed__SMS_Opt_Out__c</fieldItem>
+                <identifier>Recordhed_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace14</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace15</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e784d4f7-1c68-440d-b2cb-13d81aaa1a42</name>
@@ -1162,8 +1184,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
+                <fieldItem>Record.Staff_Email_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordStaff_Email_Opt_In_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1172,8 +1194,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
+                <fieldItem>Record.Staff_Email_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordStaff_Email_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1188,8 +1210,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Staff_Email_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordStaff_Email_Opt_In_DateTime_cField</identifier>
+                <fieldItem>Record.SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_In_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1198,8 +1220,34 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Staff_Email_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordStaff_Email_Opt_Out_DateTime_cField</identifier>
+                <fieldItem>Record.SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-fed2e217-e672-448e-b605-e09e58b161d8</name>
