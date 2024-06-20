@@ -3,6 +3,48 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>einsteinButton</componentName>
+                <identifier>c_einsteinButton</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$Permission.StandardPermission.EinsteinAgentUser}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>classificationType</name>
+                    <value>CaseClassification</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                    <value>Case Information</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
+                    <value>Case.Einstein_Recommendation_Action</value>
+                </componentInstanceProperties>
+                <componentName>runtime_service_predictions:einsteinFieldRecommendations</componentName>
+                <identifier>runtime_service_predictions_einsteinFieldRecommendations2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$Permission.StandardPermission.EinsteinAgentUser}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>caseContactDetails</componentName>
                 <identifier>c_caseContactDetails</identifier>
                 <visibilityRule>
