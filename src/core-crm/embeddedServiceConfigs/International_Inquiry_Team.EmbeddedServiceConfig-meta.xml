@@ -4,6 +4,8 @@
     <deploymentFeature>LiveAgent</deploymentFeature>
     <deploymentType>Web</deploymentType>
     <isEnabled>true</isEnabled>
+    <isTermsAndConditionsEnabled>false</isTermsAndConditionsEnabled>
+    <isTermsAndConditionsRequired>false</isTermsAndConditionsRequired>
     <masterLabel>International_Inquiry_Team</masterLabel>
     <shouldHideAuthDialog>false</shouldHideAuthDialog>
     <site>Study</site>
