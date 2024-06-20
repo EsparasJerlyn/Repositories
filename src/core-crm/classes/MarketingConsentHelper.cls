@@ -29,8 +29,12 @@ public without sharing class MarketingConsentHelper {
 			'optedOutField' => 'hed__SMS_Opt_Out__c',
 			'optInDateTimeField' => 'SMS_Opt_In_DateTime__c',
 			'optOutDateTimeField' => 'SMS_Opt_Out_DateTime__c'
+		},
+		'workSMSOptOut' => new Map<String,String>{
+			'optedOutField' => 'Work_SMS_Opt_Out__c',
+			'optInDateTimeField' => 'Work_SMS_Opt_In_DateTime__c',
+			'optOutDateTimeField' => 'Work_SMS_Opt_Out_DateTime__c'
 		}
-		
 	};
 
 	public static void setOptOutAndInDates(List<SObject> newItems, Map<Id, SObject> oldMap, String objectName ) {
