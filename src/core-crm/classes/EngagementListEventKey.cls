@@ -42,6 +42,24 @@ public with sharing class EngagementListEventKey {
         hasDomesticPhone = event.Has_Domestic_Phone__c;
     }
 
+    public Integer hashCode() {
+        return 
+            this.contactId.hashCode() ^ 
+            this.criteriaId.hashCode() ^
+            this.programEnrollmentId.hashCode() ^
+            this.completedCadenceId.hashCode() ^
+            this.courseConnectionId.hashCode() ^
+            this.courseConnectionAssessmentId.hashCode() ^
+            this.programEnrollmentBreachId.hashCode() ^
+            this.leaveOfAbsenceId.hashCode() ^
+            this.academicStatus.hashCode() ^
+            this.previousAcademicStatus.hashCode() ^
+            this.courseEnrollmentStatus.hashCode() ^
+            this.keyDate.hashCode() ^
+            this.programEnrollmentStatus.hashCode() ^
+            this.hasDomesticPhone.hashCode();
+    }
+
     public Boolean equals(Object obj) {
         if (obj instanceof EngagementListEventKey) {
             EngagementListEventKey key = (EngagementListEventKey)obj;
