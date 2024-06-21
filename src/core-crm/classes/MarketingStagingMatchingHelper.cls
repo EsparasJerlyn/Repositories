@@ -340,16 +340,19 @@ public without sharing class MarketingStagingMatchingHelper{
                                               (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) != null;
 
         Boolean conditionToSMSOptIn =  checkMarketingStagingSMSOptIn &&
-                                      MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
-                                      ( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == true || 
-                                       ( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false &&
-                                         MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).SMS_Opt_In_DateTime__c == null
-                                       ) 
-                                      );
+                                        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                                        MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == true || 
+                                        ( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) && 
+                                            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false &&
+                                            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).SMS_Opt_In_DateTime__c == null
+                                        )  
+                                        ) || !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)
+                                        );
 
         Boolean conditionToSMSOptOut = checkMarketingStagingSMSOptOut &&
-                                      MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
-                                      MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false;
+                                        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                                        MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false) || 
+                                        !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) );
 
         if( conditionToSMSOptIn ){
             obj.put('hed__SMS_Opt_Out__c', false);
