@@ -52,7 +52,7 @@
                 <componentName>potentialMatches</componentName>
                 <identifier>c_potentialMatches</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Contact.LastName}</leftValue>
                         <operator>EQUAL</operator>
@@ -60,6 +60,11 @@
                     <criteria>
                         <leftValue>{!Record.Lead__r.LastName}</leftValue>
                         <operator>EQUAL</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Student Success</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
