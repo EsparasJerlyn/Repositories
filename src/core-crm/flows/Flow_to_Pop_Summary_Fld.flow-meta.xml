@@ -12,9 +12,9 @@
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>Email : 
-{!Loop_Over_Emails.TextBody}
-</stringValue>
+                <stringValue>Email :
+                    {!Loop_Over_Emails.TextBody}
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -33,7 +33,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Error While Fetching the Email Message Records.Please Contact Admin.
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -49,7 +49,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>There are No emails associated with this case
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -145,6 +145,16 @@
     <start>
         <locationX>56</locationX>
         <locationY>0</locationY>
+        <capabilityTypes>
+            <name>PromptTemplateType://einstein_gpt__fieldCompletion</name>
+            <capabilityName>PromptTemplateType://einstein_gpt__fieldCompletion</capabilityName>
+            <inputs>
+                <name>RelatedEntity</name>
+                <capabilityInputName>RelatedEntity</capabilityInputName>
+                <dataType>SOBJECT://Case</dataType>
+                <isCollection>false</isCollection>
+            </inputs>
+        </capabilityTypes>
         <connector>
             <targetReference>Get_Email_Messages</targetReference>
         </connector>
