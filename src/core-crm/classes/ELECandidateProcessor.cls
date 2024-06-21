@@ -52,8 +52,7 @@ public with sharing class ELECandidateProcessor {
             'leaveOfAbsenceIds' => leaveOfAbsenceIds
         };
 
-        List<Engagement_List_Event__c> existingEvents = EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE);
-        for(Engagement_List_Event__c existingEvent : existingEvents){
+        for(Engagement_List_Event__c existingEvent : EngagementListEventsDAO.newInstance().getEngagementListEventsByRelatedRecordIds(relatedRecordIdMap, AccessLevel.SYSTEM_MODE)){
             EngagementListEventKey eventKey = generateKey(existingEvent, existingEvent.Case__r.ContactId, existingEvent.Engagement_List_Criteria__r.Id);
             if(eventCandidateKeyMap.containsKey(eventKey)){
                 result.add(new ELECandidateProcessResult(eventCandidateKeyMap.get(eventKey).getEvent(), ELECandidateProcessResult.Outcome.EVENT_NOT_CREATED));
@@ -99,7 +98,7 @@ public with sharing class ELECandidateProcessor {
         };
 
         saveRecords(saveRecordParam);
-
+        
         return result;
     }
 
@@ -125,7 +124,6 @@ public with sharing class ELECandidateProcessor {
                 newEvents.add(event);
             }
     
-            Logger.info('Number of Events to insert: ' + newEvents.size());
             if(!newEvents.isEmpty()){
                 EngagementListEventsDAO.newInstance().insertRecords(newEvents, true, AccessLevel.SYSTEM_MODE);   
             }
