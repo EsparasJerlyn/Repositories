@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | roy.nino.s.regala         | Aug 22,2023           | DEPP-5704    | Created file                                |
       | roy.nino.s.regala         | Oct 10,2023           | DEPP-5866    | Updated lead score logic                    |
+      | sebastianne.k.trias       | June 06, 2024         | DEPP-8474    | Modify method setOptOutAndInDates           |
 */
 @isTest
 private class FutureStudentJourneyStatusHelperTest { 
@@ -86,11 +87,20 @@ private class FutureStudentJourneyStatusHelperTest {
             List<Contact> contactListToUpdate = new List<Contact>();
             for (Contact record : contactList) { 
                 if(record.FirstName == 'Test Contact For Nurture') {
-                    record.Email_Opt_In_DateTime__c = Date.today();
+                    record.HasOptedOutOfEmail = true;
                     contactListToUpdate.add(record);
                 }
             }
             ContactsDAO.newInstance().updateRecords(contactListToUpdate, false, AccessLevel.SYSTEM_MODE);
+            List<Contact> contactListToUpdate2 = new List<Contact>();
+            for (Contact record : contactList) { 
+                if(record.FirstName == 'Test Contact For Nurture') {
+                    record.HasOptedOutOfEmail = false;
+                    contactListToUpdate2.add(record);
+                }
+            }
+            MarketingConsentHelper.runSetOptOutAndInDates.clear();
+            ContactsDAO.newInstance().updateRecords(contactListToUpdate2, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
             for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactListToUpdate[0].Id},AccessLevel.SYSTEM_MODE)) {  
