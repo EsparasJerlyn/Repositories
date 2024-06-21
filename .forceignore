@@ -28,3 +28,7 @@ Default_Navigation1.navigationMenu-meta.xml
 # DEPP-9194
 **/All_Domestic**
 **/All_International**
+
+# Temp stop deploying flows - unable to deploy
+**/flows/Flow_to_Pop_Action_Taken_Fld**
+**/flows/Flow_to_Pop_Summary_Fld**
