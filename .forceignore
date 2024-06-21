@@ -32,3 +32,6 @@ Default_Navigation1.navigationMenu-meta.xml
 # Temp stop deploying flows - unable to deploy
 **/flows/Flow_to_Pop_Action_Taken_Fld**
 **/flows/Flow_to_Pop_Summary_Fld**
+
+# DO NOT REMOVE THIS
+**/permissionsets/System_Administrator.**
