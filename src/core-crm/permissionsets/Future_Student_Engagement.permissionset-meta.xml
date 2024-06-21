@@ -366,7 +366,7 @@
         <editable>false</editable>
         <field>Application_Preference__c.Is_Active__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Application_Preference__c.Is_Current_Preference__c</field>
@@ -425,6 +425,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.AccountId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Action_Taken__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1141,7 +1146,7 @@
         <editable>true</editable>
         <field>Contact.Parent_Person_Lead__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Lead_Score_Detail__c</field>
@@ -4849,7 +4854,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Nurture_Track_Configuration__c.Status__c</field> 
+        <field>Nurture_Track_Configuration__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5736,7 +5741,7 @@
         <editable>false</editable>
         <field>hed__Application__c.Applicant_Onshore__c</field>
         <readable>true</readable>
-    </fieldPermissions>	
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Facility__c.Display_Name__c</field>
@@ -6122,7 +6127,7 @@
     <recordTypeVisibilities>
         <recordType>Account.Academic_Program</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>    
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Application_Preference__c.QTAC</recordType>
         <visible>true</visible>
