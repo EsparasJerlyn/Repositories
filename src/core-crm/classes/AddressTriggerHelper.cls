@@ -52,8 +52,8 @@ public with sharing class AddressTriggerHelper {
 
             Boolean isAddressValidationSuccess =  address.hed__Parent_Contact__c != null && 
                                                   address.hed__Address_Type__c != null && 
+                                                  address.Address_Integration_Status__c != oldItems.get(address.Id).Address_Integration_Status__c &&
                                                   address.Address_Integration_Status__c == AddressesDAO.INTEGRATION_STATUS_SUCCESS &&
-                                                  address.Validated__c != oldItems.get(address.Id).Validated__c &&
                                                   address.Validated__c == AddressesDAO.VALID_ADDRESS;
                 
             //if the address is successfully validated
