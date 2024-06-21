@@ -111,6 +111,36 @@
             <field>QTAC_Offer_Round__c</field>
             <table>Completed_Cadence__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact__c.Can_Nurture__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact__c.Calculated_Cadence__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact__c.Cadence_Application__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lead__c.Cadence_Application__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lead__c.Calculated_Cadence__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lead__c.Can_Nurture__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
         <masterLabel>Completed Cadences</masterLabel>
     </sections>
 </ReportType>
