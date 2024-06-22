@@ -42,6 +42,29 @@ public with sharing class EngagementListEventKey {
         hasDomesticPhone = event.Has_Domestic_Phone__c;
     }
 
+    public Integer hashCode() {
+
+        final Integer prime = 31;
+        Integer result = 1;
+
+        result = prime * result + (this.contactId != null ? this.contactId.hashCode() : 0);
+        result = prime * result + (this.criteriaId != null ? this.criteriaId.hashCode() : 0);
+        result = prime * result + (this.programEnrollmentId != null ? this.programEnrollmentId.hashCode() : 0);
+        result = prime * result + (this.completedCadenceId != null ? this.completedCadenceId.hashCode() : 0);
+        result = prime * result + (this.courseConnectionId != null ? this.courseConnectionId.hashCode() : 0);
+        result = prime * result + (this.courseConnectionAssessmentId != null ? this.courseConnectionAssessmentId.hashCode() : 0);
+        result = prime * result + (this.programEnrollmentBreachId != null ? this.programEnrollmentBreachId.hashCode() : 0);
+        result = prime * result + (this.leaveOfAbsenceId != null ? this.leaveOfAbsenceId.hashCode() : 0);
+        result = prime * result + (this.academicStatus != null ? this.academicStatus.hashCode() : 0);
+        result = prime * result + (this.previousAcademicStatus != null ? this.previousAcademicStatus.hashCode() : 0);
+        result = prime * result + (this.courseEnrollmentStatus != null ? this.courseEnrollmentStatus.hashCode() : 0);
+        result = prime * result + (this.keyDate != null ? this.keyDate.hashCode() : 0);
+        result = prime * result + (this.programEnrollmentStatus != null ? this.programEnrollmentStatus.hashCode() : 0);
+        result = prime * result + (this.hasDomesticPhone != null ? this.hasDomesticPhone.hashCode() : 0);
+        return result;
+        
+    }
+
     public Boolean equals(Object obj) {
         if (obj instanceof EngagementListEventKey) {
             EngagementListEventKey key = (EngagementListEventKey)obj;
