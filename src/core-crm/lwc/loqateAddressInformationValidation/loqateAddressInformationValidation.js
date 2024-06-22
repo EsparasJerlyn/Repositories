@@ -79,6 +79,7 @@ export default class LoqateAddressInformationValidation extends LightningElement
   addressSuffix = ADDRESS_SUFFIX;
   hasUnverifiedAddress = false;
   showNoAddressRecorded = false;
+  addressTypeList = [];
 
   //decides if user has access to this edit address
   get hasAccess(){
@@ -94,6 +95,9 @@ export default class LoqateAddressInformationValidation extends LightningElement
         this.lookupField = result.addressLookup;
         this.multpleAddressType =
           this.fieldApiMapping.length > 1 ? true : false;
+        this.addressTypeList = this.fieldApiMapping.map(key =>{
+          return key.type;
+        });
       })
       .catch((error) => {
         this.showToast(ERROR_TITLE, ERROR_MSG + error, ERROR_VARIANT);
@@ -109,7 +113,7 @@ export default class LoqateAddressInformationValidation extends LightningElement
   wiredHedAddress(result) {
     this.wiredAddresses = result;
     if (result.data) {
-      const tempData = result.data.filter(key => key.hed__Address_Type__c === 'Mailing' || key.hed__Address_Type__c === 'Other').map((key) => {
+      const tempData = result.data.filter(key => this.addressTypeList.includes(key.hed__Address_Type__c)).map((key) => {
           return {
             id: key.Id,
             type: key.hed__Address_Type__c,
