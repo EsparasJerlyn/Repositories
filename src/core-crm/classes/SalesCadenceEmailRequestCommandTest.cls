@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eccarius.munoz      	       | September 2, 2023     | DEPP-6138              | Created file                 |
-      | eccarius.munoz      	       | September 2, 2023     | DEPP-6138              | added method for domestic    |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------|
+      | eccarius.munoz      	       | September 2, 2023     | DEPP-6138              | Created file                      |
+      | eccarius.munoz      	       | September 2, 2023     | DEPP-6138              | added method for domestic         |
+      | sebastianne.k.trias            | June 06, 2024         | DEPP-8474              | Modify method setOptOutAndInDates |
  */
 
 @isTest
@@ -141,6 +142,11 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, AccessLevel.USER_MODE);
 
+            for(Contact con: contactList){
+                con.HasOptedOutOfEmail = true;
+            }
+
+            ContactsDAO.newInstance().updateRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
                 resultIds,                 
@@ -154,10 +160,12 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
                 AccessLevel.USER_MODE
             );
             Test.startTest();
-            contactList[0].Email_Opt_In_DateTime__c = Date.today();
-            contactList[1].Email_Opt_In_DateTime__c = Date.today();
-            contactList[0].QUT_Applicant__c = true;
-            contactList[1].QUT_Applicant__c = true;
+            for(Contact con : contactList){
+                con.Email_Opt_In_DateTime__c = Date.today();
+                con.HasOptedOutOfEmail = false;
+                con.QUT_Applicant__c = true;
+            }
+            MarketingConsentHelper.runSetOptOutAndInDates.clear();
             ContactsDAO.newInstance().updateRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
