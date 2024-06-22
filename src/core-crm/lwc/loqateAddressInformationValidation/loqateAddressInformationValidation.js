@@ -9,6 +9,8 @@
       |                           |                       |                      | Details Tab. Same functionality, changes are for UI only.   |
       |                           |                       |                      |                                                             | 
       | johanna.a.gibas           | May 12, 2023          | DEPP-5631            | Updated Section Title - for UI only.                        |
+      | julie.jane.alegre         | June 22, 2024         | DEPP-9490            | Update getHedAddress result data to filter the recent       |
+      |                           |                       |                      | Mailing and Other address                                   | 
  */
 import { LightningElement, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -107,21 +109,21 @@ export default class LoqateAddressInformationValidation extends LightningElement
   wiredHedAddress(result) {
     this.wiredAddresses = result;
     if (result.data) {
-      const tempData = result.data.map((key) => {
-        return {
-          id: key.Id,
-          type: key.hed__Address_Type__c,
-          city: key.hed__MailingCity__c,
-          state: key.hed__MailingState__c,
-          street: key.hed__MailingStreet2__c
-            ? key.hed__MailingStreet2__c
-            : "" + key.hed__MailingStreet__c
-            ? key.hed__MailingStreet__c
-            : "",
-          postalCode: key.hed__MailingPostalCode__c,
-          country: key.hed__MailingCountry__c,
-          valid: key.Validated__c ? key.Validated__c : NONE_STATUS
-        };
+      const tempData = result.data.filter(key => key.hed__Address_Type__c === 'Mailing' || key.hed__Address_Type__c === 'Other').map((key) => {
+          return {
+            id: key.Id,
+            type: key.hed__Address_Type__c,
+            city: key.hed__MailingCity__c,
+            state: key.hed__MailingState__c,
+            street: key.hed__MailingStreet2__c
+              ? key.hed__MailingStreet2__c
+              : "" + key.hed__MailingStreet__c
+              ? key.hed__MailingStreet__c
+              : "",
+            postalCode: key.hed__MailingPostalCode__c,
+            country: key.hed__MailingCountry__c,
+            valid: key.Validated__c ? key.Validated__c : NONE_STATUS
+          };          
       });
       this.mapAddress = tempData;
       this.showNoAddressRecorded = this.mapAddress.length === 0 && !this.hasAccess ? true : false;
