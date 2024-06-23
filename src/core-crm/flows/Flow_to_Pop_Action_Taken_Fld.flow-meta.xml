@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>60.0</apiVersion>
+    <apiVersion>61.0</apiVersion>
     <assignments>
         <description>Call Logged Prompt</description>
         <name>Call_Logged_Prompt</name>
@@ -12,9 +12,9 @@
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>Calls Logged - 
-{!Loop_Over_Task_Records.Description}{!Loop_Over_Task_Records.CreatedDate}
-</stringValue>
+                <stringValue>Calls Logged -
+                    {!Loop_Over_Task_Records.Description}{!Loop_Over_Task_Records.CreatedDate}
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -33,8 +33,8 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Key Case Updates:
-{!Loop_Over_Case_History.Field}{!Loop_Over_Case_History.OldValue}{!Loop_Over_Case_History.NewValue}{!Loop_Over_Case_History.CreatedDate}
-</stringValue>
+                    {!Loop_Over_Case_History.Field}{!Loop_Over_Case_History.OldValue}{!Loop_Over_Case_History.NewValue}{!Loop_Over_Case_History.CreatedDate}
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -69,10 +69,10 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Email Communication -
-{!Loop_Over_Task_Records.Description}
-{!Loop_Over_Task_Records.CreatedDate}
+                    {!Loop_Over_Task_Records.Description}
+                    {!Loop_Over_Task_Records.CreatedDate}
 
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -91,7 +91,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Error while Fetching Case Comment Records, Please Contact Admin.
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -107,7 +107,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Error while fetching the history records, please contact admin.
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -123,7 +123,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Error While Fetching Task Records, Please Contact admin.
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -139,7 +139,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>No Case History Present
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -158,7 +158,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>There are Task related to this Case
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -177,7 +177,7 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Case Comment Count: {!CaseCommentCount}
-</stringValue>
+                </stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -193,8 +193,8 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Email Count : {!EmailCount}
-Task Count : {!TaskCount}
-</stringValue>
+                    Task Count : {!TaskCount}
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -212,16 +212,16 @@ Task Count : {!TaskCount}
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>Tasks - 
-Description : {!Loop_Over_Task_Records.Description}
-Assigned To :
-{!Loop_Over_Task_Records.Owner:User.FirstName}
-Assigned To :
-{!Loop_Over_Task_Records.Owner:Group.Name}
-Status: {!Loop_Over_Task_Records.Status}
-{!Loop_Over_Task_Records.CreatedDate}
-Due Date :{!Loop_Over_Task_Records.ActivityDate}
-</stringValue>
+                <stringValue>Tasks -
+                    Description : {!Loop_Over_Task_Records.Description}
+                    Assigned To :
+                    {!Loop_Over_Task_Records.Owner:User.FirstName}
+                    Assigned To :
+                    {!Loop_Over_Task_Records.Owner:Group.Name}
+                    Status: {!Loop_Over_Task_Records.Status}
+                    {!Loop_Over_Task_Records.CreatedDate}
+                    Due Date :{!Loop_Over_Task_Records.ActivityDate}
+                </stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -530,6 +530,16 @@ Due Date :{!Loop_Over_Task_Records.ActivityDate}
     <start>
         <locationX>56</locationX>
         <locationY>0</locationY>
+        <capabilityTypes>
+            <name>PromptTemplateType://einstein_gpt__fieldCompletion</name>
+            <capabilityName>PromptTemplateType://einstein_gpt__fieldCompletion</capabilityName>
+            <inputs>
+                <name>RelatedEntity</name>
+                <capabilityInputName>RelatedEntity</capabilityInputName>
+                <dataType>SOBJECT://Case</dataType>
+                <isCollection>false</isCollection>
+            </inputs>
+        </capabilityTypes>
         <connector>
             <targetReference>Get_History_Records</targetReference>
         </connector>

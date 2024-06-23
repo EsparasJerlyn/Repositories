@@ -20,9 +20,6 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
-        <!--Start (replaced by) DEPP-8870-->
-        <members>Einstein_Case_Classification_User_QUT</members>
-        <!--End (replaced by) DEPP-8870-->
         <name>PermissionSet</name>
     </types>
     <version>59.0</version> 
