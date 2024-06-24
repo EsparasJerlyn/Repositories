@@ -33,16 +33,7 @@
         <displayOrder>0</displayOrder>
     </omniSupervisorConfigAction>
     <omniSupervisorConfigQueue>
-        <queue>Current_Student_Queue</queue>
-    </omniSupervisorConfigQueue>
-    <omniSupervisorConfigQueue>
-        <queue>Library_Queue</queue>
-    </omniSupervisorConfigQueue>
-    <omniSupervisorConfigQueue>
         <queue>Messaging_Queue</queue>
-    </omniSupervisorConfigQueue>
-    <omniSupervisorConfigQueue>
-        <queue>SMS_Messaging</queue>
     </omniSupervisorConfigQueue>
     <omniSupervisorConfigSkill>
         <skill>Chat</skill>
