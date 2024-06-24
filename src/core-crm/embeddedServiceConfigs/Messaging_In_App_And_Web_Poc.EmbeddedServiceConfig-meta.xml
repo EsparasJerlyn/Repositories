@@ -8,10 +8,6 @@
         <customLabel>EM_Container_Base_PrechatStateSubmitButton_04IBn0000019kiz_6478681</customLabel>
         <labelKey>EM_Container_Base_PrechatStateSubmitButton</labelKey>
     </embeddedServiceCustomLabels>
-    <embeddedServiceCustomLabels>
-        <customLabel>EM_PreChat_TermsAndConditions_04IBn0000019kiz_2832484</customLabel>
-        <labelKey>EM_PreChat_TermsAndConditions</labelKey>
-    </embeddedServiceCustomLabels>
     <embeddedServiceMessagingChannel>
         <isEnabled>true</isEnabled>
         <messagingChannel>Messaging_For_In_App_And_Web_Poc</messagingChannel>
