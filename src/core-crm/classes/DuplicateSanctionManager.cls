@@ -52,10 +52,6 @@ public inherited sharing class DuplicateSanctionManager {
             for(Contact_Alternate_ID__c conAltId: conAltIdRecords){
 
                 allQUTSudentIdsInDEP.add(conAltId.Contact_Alternate_Id__c);
-
-                if(conAltId.Alternate_Id_Status__c != ContactAlternateIdsDAO.ACTIVE_STATUS){
-                    continue;
-                }
                     
                 if(!conAltId.Contact_Alternate_IDs__r.isEmpty()){
                     
@@ -65,6 +61,11 @@ public inherited sharing class DuplicateSanctionManager {
                         Alternate_Id_Status__c = ContactAlternateIdsDAO.DUPLICATE_SANCTION_STATUS,
                         End_Date__c = System.today()
                     ));
+
+                    // skip activation of superseded alternate id if superseded id is sanctioned
+                    if(conAltId.Alternate_Id_Status__c != ContactAlternateIdsDAO.ACTIVE_STATUS){
+                        continue;
+                    }
 
                     // Update the superseded alternate ID to 'Active' and nullify the end date
                     conAltIdToUpdate.add(new Contact_Alternate_ID__c(
