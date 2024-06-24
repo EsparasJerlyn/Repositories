@@ -1,6 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { getFieldValue, getRecord } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import CONTACT_CASE_CONTACTID from '@salesforce/schema/Case.ContactId';
 import CONTACT_MARKETING_SEGMENTATION_ID from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.Id';
@@ -19,6 +20,7 @@ import LEAD_PRIMARY_STUDY_LEVEL from '@salesforce/schema/Case.Lead__r.Marketing_
 import LEAD_PRIMARY_BSA from '@salesforce/schema/Case.Lead__r.Marketing_Segmentation__r.My_Primary_BSA__c'; 
 import LEAD_PRIMARY_NSA from '@salesforce/schema/Case.Lead__r.Marketing_Segmentation__r.My_Primary_NSA__c'; 
 
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
 
 const fields = [
   CONTACT_CASE_CONTACTID,
@@ -109,6 +111,7 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
   }
 
   navigateToRecord() {
+    const logger = this.template.querySelector("c-logger");
     let mktgSegId;
     if (this.parentRecord === 'Contact') {
         mktgSegId = getFieldValue(this.caseRecord, CONTACT_MARKETING_SEGMENTATION_ID);
@@ -116,8 +119,10 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
         mktgSegId = getFieldValue(this.caseRecord, LEAD_MARKETING_SEGMENTATION_ID);
     }
 
-    if (!mktgSegId) {
-        console.error('Unable to retrieve Marketing Segmentation ID');
+    if (mktgSegId) {
+        logger.error('Unable to retrieve Marketing Segmentation ID');
+        logger.saveLog();
+        this.generateToast('Error.', LWC_Error_General, 'error');
         return;
     }
 
@@ -130,5 +135,14 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
         }
     });     
   }
+
+  generateToast(_title,_message,_variant){
+    const evt = new ShowToastEvent({
+        title: _title,
+        message: _message,
+        variant: _variant,
+    });
+    this.dispatchEvent(evt);
+}
 
 }
