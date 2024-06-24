@@ -37,7 +37,7 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
     public Schema.SObjectType getSObjectType() {
         return Account.SObjectType;
     }
-
+ 
     public List<Account> getAccountsBySetIds(Set<Id> accountIds) {
         return [ //NOPMD
             SELECT Id, Name
