@@ -11,7 +11,7 @@
  *    | mark.j.mahilum                 | June 1, 2023          | DEPP-5687              | Added getAccountBySetNamesWithLimit method                       |
  *    | ryan.j.a.dela.cruz             | June 5, 2023          | DEPP-5385              | Added getAccountIdByABN method                                   |
  *    | ryan.j.a.dela.cruz             | August 8, 2023        | DEPP-6521              | Updated getAccountIdByABN method, added space and length check   |
- */
+ */ 
 public inherited sharing class AccountsDAO extends DmlBase implements IAccountsDAO {
 
     public static final String ACCOUNT_NAME_START_QUT = 'Start QUT';
