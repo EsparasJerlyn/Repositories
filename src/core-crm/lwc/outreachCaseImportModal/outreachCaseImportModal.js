@@ -476,7 +476,6 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.loaded = true; 
 		})
 		.catch(error => {
-      console.log('Error:::  ', error);
 			if (logger) {
         logger.error(
           "Exception caught in method createOutreach in LWC outreachCaseImportModal: ",
