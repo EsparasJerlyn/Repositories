@@ -4,11 +4,6 @@
     <branding>EmbeddedServiceConfig_BrandingSet_1900b7b92e0</branding>
     <deploymentFeature>EmbeddedMessaging</deploymentFeature>
     <deploymentType>Web</deploymentType>
-    <embeddedServiceCustomComponents>
-        <componentBundleType>LightningComponentBundle</componentBundleType>
-        <customComponent>samplePrechatComponent</customComponent>
-        <customComponentType>MIAW_Prechat</customComponentType>
-    </embeddedServiceCustomComponents>
     <embeddedServiceCustomLabels>
         <customLabel>EM_Container_Base_PrechatStateSubmitButton_04IBn0000019kiz_6478681</customLabel>
         <labelKey>EM_Container_Base_PrechatStateSubmitButton</labelKey>
