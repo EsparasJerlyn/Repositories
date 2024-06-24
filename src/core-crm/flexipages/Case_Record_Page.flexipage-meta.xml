@@ -1566,7 +1566,7 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Id</value>
+                            <value>Name</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Appointment_Topic__c</value>

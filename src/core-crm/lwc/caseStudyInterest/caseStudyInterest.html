@@ -1,4 +1,5 @@
 <template>
+  <c-logger></c-logger>
   <article class="slds-card">
       <div class="slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small">
           <header class="slds-media slds-media_center slds-has-flexi-truncate">
@@ -17,6 +18,11 @@
                         </a>
                   </h2>
               </div>
+              <div class="slds-no-flex">
+                <lightning-button-menu alternative-text="Show menu" variant="border-filled" menu-alignment="auto" icon-size="small" onselect={handleMenuSelect}>
+                    <lightning-menu-item value="view" label="View"></lightning-menu-item>
+                </lightning-button-menu>
+            </div>
           </header>
       </div>
       <div class="slds-p-top_none slds-p-top_none slds-p-horizontal_x-small slds-p-bottom_medium">
