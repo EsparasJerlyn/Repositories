@@ -1,9 +1,9 @@
-import { LightningElement, api, wire, track } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-import { getFieldDisplayValue, getFieldValue, getRecord } from 'lightning/uiRecordApi';
-import { getObjectInfo } from "lightning/uiObjectInfoApi";
+import { getFieldValue, getRecord } from 'lightning/uiRecordApi';
 
 import CONTACT_CASE_CONTACTID from '@salesforce/schema/Case.ContactId';
+import CONTACT_MARKETING_SEGMENTATION_ID from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.Id';
 import CONTACT_CITIZENSHIP_STATUS from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.My_Citizenship_Status__c'; 
 import CONTACT_COUNTRY_OF_CITIZENSHIP from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.My_Country_Of_Citizenship__c'; 
 import CONTACT_COUNTRY_OF_RESIDENCY from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.My_Country_Of_Residency__c'; 
@@ -11,6 +11,7 @@ import CONTACT_PRIMARY_STUDY_LEVEL from '@salesforce/schema/Case.Contact.Marketi
 import CONTACT_PRIMARY_BSA from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.My_Primary_BSA__c'; 
 import CONTACT_PRIMARY_NSA from '@salesforce/schema/Case.Contact.Marketing_Segmentation__r.My_Primary_NSA__c'; 
 
+import LEAD_MARKETING_SEGMENTATION_ID from '@salesforce/schema/Case.Lead__r.Marketing_Segmentation__r.Id';
 import LEAD_CITIZENSHIP_STATUS from '@salesforce/schema/Case.Lead__r.Marketing_Segmentation__r.My_Citizenship_Status__c'; 
 import LEAD_COUNTRY_OF_CITIZENSHIP from '@salesforce/schema/Case.Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c'; 
 import LEAD_COUNTRY_OF_RESIDENCY from '@salesforce/schema/Case.Lead__r.Marketing_Segmentation__r.My_Country_Of_Residency__c'; 
@@ -27,6 +28,7 @@ const fields = [
   CONTACT_PRIMARY_STUDY_LEVEL,
   CONTACT_PRIMARY_BSA,
   CONTACT_PRIMARY_NSA, 
+  CONTACT_MARKETING_SEGMENTATION_ID
 ]
 
 export default class CaseStudyInterest extends NavigationMixin(LightningElement) {
@@ -35,7 +37,8 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
   @api parentRecord;
 
   caseRecord;
-  hasStudyInterest
+  hasStudyInterest;
+  hasCreateAccess;
 
   connectedCallback() {
     if (this.parentRecord !== 'Contact') {
@@ -44,7 +47,8 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
       LEAD_COUNTRY_OF_RESIDENCY,
       LEAD_PRIMARY_BSA,
       LEAD_PRIMARY_NSA,
-      LEAD_PRIMARY_STUDY_LEVEL)
+      LEAD_PRIMARY_STUDY_LEVEL,
+      LEAD_MARKETING_SEGMENTATION_ID)
     }
   }
 
@@ -96,14 +100,24 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
   }
 
   handleInterestClick() {
+    let mktgSegId;
+    if (this.parentRecord === 'Contact') {
+        mktgSegId = getFieldValue(this.caseRecord, CONTACT_MARKETING_SEGMENTATION_ID);
+    } else {
+        mktgSegId = getFieldValue(this.caseRecord, LEAD_MARKETING_SEGMENTATION_ID);
+    }
+
+    if (!mktgSegId) {
+        console.error('Unable to retrieve Marketing Segmentation ID');
+        return;
+    }
+
     this[NavigationMixin.Navigate]({
-        type:'standard__objectPage',
+        type:'standard__recordPage',
         attributes: {
+            recordId: mktgSegId,
             objectApiName: 'Marketing_Segmentation__c',
-            actionName: 'list'
-        },
-        state: {
-            filterName: 'Recent'
+            actionName: 'view'
         }
     })
   }
