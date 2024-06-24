@@ -78,13 +78,14 @@ public with sharing class ELECandidateProcessor {
 
         Map<Id, Case> outreachCaseMap = new Map<Id, Case>();
         Set<String> outreachKeySet = new Set<String>();
+        Id studentRetentionQueue = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
         for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){   
             Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
             Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
             String outreachKey = configId + '_' + eventCandidateContactId;
             if(!outreachKeySet.contains(outreachKey)){
                 outreachKeySet.add(outreachKey);
-                Case caseRecord = createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), eventCandidateContactId, outreachKey);
+                Case caseRecord = createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), studentRetentionQueue, outreachKey);
                 outreachCaseMap.put(eventCandidateContactId, caseRecord);
                 result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED, caseRecord));
             }
@@ -176,19 +177,19 @@ public with sharing class ELECandidateProcessor {
         return openCaseMap;
     }
 
-    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id contactId, String outreachKey){
+    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id studentRetentionQueue, String outreachKey){
         Case newCase = new Case(); 
         newCase.Outreach_Key__c = outreachKey;
         newCase.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
         newCase.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
         newCase.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
         newCase.Subject = engagementListConfig.Name;
-        newCase.OwnerId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
+        newCase.OwnerId = studentRetentionQueue;
         newCase.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
         newCase.Engagement_List_Configuration__c = engagementListConfig.Id;
         newCase.Status = CasesDAO.STATUS_CREATED;
         newCase.Priority = CasesDAO.PRIORITY_LOW;
-        newCase.ContactId = contactId;
+        newCase.ContactId = outreachKey.substringAfter('_');
 
         return newCase;
     }
