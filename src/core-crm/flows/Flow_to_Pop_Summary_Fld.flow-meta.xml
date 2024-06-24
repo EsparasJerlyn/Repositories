@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <description>Email Exist</description>
+        <name>Email_Exist_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Email Exist Prompt</label>
+        <locationX>138</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Email :
+                    {!Loop_Over_Emails.TextBody}
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Emails</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Error Fetching the Email Message Records</description>
+        <name>Error_Fetching_the_Email_Message_Records</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Error Fetching the Email Message Records</label>
+        <locationX>578</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Error While Fetching the Email Message Records.Please Contact Admin.
+                </stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>No Email Error Handling</description>
+        <name>No_Email_Error_Handling</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Email Error Handling</label>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There are No emails associated with this case
+                </stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>If Emails Exists</description>
+        <name>If_Emails_Exists</name>
+        <label>If Emails Exists</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>No_Email_Error_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Email_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AllIncomingEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_Emails</targetReference>
+            </connector>
+            <label>Email Exist</label>
+        </rules>
+    </decisions>
+    <description>Flow for Populating the Summary Field on the Case Object</description>
+    <environments>Default</environments>
+    <interviewLabel>Flow for Pop Summary Fld {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow to Pop Summary Fld</label>
+    <loops>
+        <description>Loop Over Emails</description>
+        <name>Loop_Over_Emails</name>
+        <label>Loop Over Emails</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <collectionReference>AllIncomingEmails</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Email_Exist_Prompt</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>PromptFlow</processType>
+    <recordLookups>
+        <description>Get Email Messages</description>
+        <name>Get_Email_Messages</name>
+        <label>Get Email Messages</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_Emails_Exists</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Fetching_the_Email_Message_Records</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.RelatedEntity.Id</elementReference>
+            </value>
+        </filters>
+        <object>EmailMessage</object>
+        <outputReference>AllIncomingEmails</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>TextBody</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <capabilityTypes>
+            <name>PromptTemplateType://einstein_gpt__fieldCompletion</name>
+            <capabilityName>PromptTemplateType://einstein_gpt__fieldCompletion</capabilityName>
+            <inputs>
+                <name>RelatedEntity</name>
+                <capabilityInputName>RelatedEntity</capabilityInputName>
+                <dataType>SOBJECT://Case</dataType>
+                <isCollection>false</isCollection>
+            </inputs>
+        </capabilityTypes>
+        <connector>
+            <targetReference>Get_Email_Messages</targetReference>
+        </connector>
+        <triggerType>Capability</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>All Incoming Emails</description>
+        <name>AllIncomingEmails</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>EmailMessage</objectType>
+    </variables>
+</Flow>
