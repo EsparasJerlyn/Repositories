@@ -119,7 +119,7 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
         mktgSegId = getFieldValue(this.caseRecord, LEAD_MARKETING_SEGMENTATION_ID);
     }
 
-    if (mktgSegId) {
+    if (!mktgSegId) {
         logger.error('Unable to retrieve Marketing Segmentation ID');
         logger.saveLog();
         this.generateToast('Error.', LWC_Error_General, 'error');
