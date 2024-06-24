@@ -38,7 +38,6 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
 
   caseRecord;
   hasStudyInterest;
-  hasCreateAccess;
 
   connectedCallback() {
     if (this.parentRecord !== 'Contact') {
@@ -100,6 +99,16 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
   }
 
   handleInterestClick() {
+    this.navigateToRecord();
+  }
+
+  handleMenuSelect(event) {
+    if(event.detail.value == 'view') {
+        this.navigateToRecord();
+    }
+  }
+
+  navigateToRecord() {
     let mktgSegId;
     if (this.parentRecord === 'Contact') {
         mktgSegId = getFieldValue(this.caseRecord, CONTACT_MARKETING_SEGMENTATION_ID);
@@ -119,7 +128,7 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
             objectApiName: 'Marketing_Segmentation__c',
             actionName: 'view'
         }
-    })
+    });     
   }
 
 }
