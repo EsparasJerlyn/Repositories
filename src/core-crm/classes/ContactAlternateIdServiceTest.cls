@@ -180,7 +180,7 @@ private class ContactAlternateIdServiceTest {
         }
 
         Set<Id> contactIdSet = new Map<Id,Contact>(contactRecords).keySet();
-        List<Contact_Alternate_ID__c> conAltIdList =  ContactAlternateIdsDAO.newInstance().getActiveContactAlternateIdsByContactIdSet(contactIdSet,AccessLevel.SYSTEM_MODE);
+        List<Contact_Alternate_ID__c> conAltIdList =  ContactAlternateIdsDAO.newInstance().getContactAlternateIdsByContactIdSet(contactIdSet,AccessLevel.SYSTEM_MODE);
 
         system.assertEquals(40,conAltIdList.size(), 'there should be 40 active contact alternate ids');
 

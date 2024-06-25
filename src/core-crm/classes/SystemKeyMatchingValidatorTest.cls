@@ -44,7 +44,7 @@ private class SystemKeyMatchingValidatorTest {
 
         ContactAlternateIdsDAO.newInstance().insertRecords(contactAlternateIds,true,AccessLevel.SYSTEM_MODE);
         Set<Id> contactIdSet = new Map<Id,Contact>(contactRecords).keySet();
-        Map<String,List<Contact>> conAltIdMapToContact = SystemKeyMatchingValidator.buildSystemKeyMatchingMap(ContactAlternateIdsDAO.newInstance().getActiveContactAlternateIdsByContactIdSet(contactIdSet,AccessLevel.SYSTEM_MODE));
+        Map<String,List<Contact>> conAltIdMapToContact = SystemKeyMatchingValidator.buildSystemKeyMatchingMap(ContactAlternateIdsDAO.newInstance().getContactAlternateIdsByContactIdSet(contactIdSet,AccessLevel.SYSTEM_MODE));
 
         for(String key: conAltIdMapToContact.keySet()){
             List<Contact> contactList = conAltIdMapToContact.get(key);
