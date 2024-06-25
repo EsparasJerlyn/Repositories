@@ -7,8 +7,9 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                                                        								|
  *    |---------------------------|-----------------------|--------------|------------------------------------------------------------------------------------------------------|
  *    | roy.nino.s.regala         | April 16, 2024        | DEPP-7984    | Created File
- */
+*/ 
 public inherited sharing class DuplicateSanctionManager {
+
     // Endpoint for calling the external service to refresh student data
     private static final String ENDPOINT_ESB_SAMS_REFRESH_STUDENT = System.Label.ESBSAMSRefreshStudent;
     // Error message for missing QUT student ID
@@ -168,23 +169,20 @@ public inherited sharing class DuplicateSanctionManager {
 
     /**
      * Validates the student sanctions by checking for missing QUT student IDs or missing student sanctions.
-     *
+     * 
      * @param studentSanctions The list of student sanctions to be validated.
      * @param loneQUTStudentIds The set of lone QUT student IDs.
      * @param allQUTSudentIdsInDEP The set of all QUT student IDs in DEP.
      */
-    private static void validateStudentSanctions(
-        List<Student_Sanction__c> studentSanctions,
-        Set<String> loneQUTStudentIds,
-        Set<String> allQUTSudentIdsInDEP
-    ) {
-        for (Student_Sanction__c studentSanction : studentSanctions) {
-            if (loneQUTStudentIds.contains(studentSanction.QUT_Student_ID__c)) {
+    private static void validateStudentSanctions(List<Student_Sanction__c> studentSanctions, Set<String> loneQUTStudentIds, Set<String> allQUTSudentIdsInDEP){
+        for(Student_Sanction__c studentSanction: studentSanctions){
+
+            if(loneQUTStudentIds.contains(studentSanction.QUT_Student_ID__c)){
                 // Log error for missing student sanction
                 Logger.error('Sanction Student Not Found', studentSanction.Id);
             }
 
-            if (!allQUTSudentIdsInDEP.contains(studentSanction.QUT_Student_ID__c)) {
+            if(!allQUTSudentIdsInDEP.contains(studentSanction.QUT_Student_ID__c)){
                 // Log error for missing QUT student ID
                 Logger.error('Missing QUT student Id', studentSanction.Id);
             }
@@ -193,21 +191,18 @@ public inherited sharing class DuplicateSanctionManager {
 
     /**
      * Updates the records including contact alternate IDs and contacts.
-     *
+     * 
      * @param conAltIdToUpdate The list of contact alternate IDs to update.
      * @param contactsToUpdate The list of contacts to update.
      */
-    private static void updateRecords(
-        List<Contact_Alternate_Id__c> conAltIdToUpdate,
-        List<Contact> contactsToUpdate
-    ) {
-        if (!conAltIdToUpdate.isEmpty()) {
+    private static void updateRecords(List<Contact_Alternate_Id__c> conAltIdToUpdate, List<Contact> contactsToUpdate){
+
+        if(!conAltIdToUpdate.isEmpty()){
             // Update contact alternate IDs
-            ContactAlternateIdsDAO.newInstance()
-                .updateRecords(conAltIdToUpdate, false, AccessLevel.USER_MODE);
+            ContactAlternateIdsDAO.newInstance().updateRecords(conAltIdToUpdate, false, AccessLevel.USER_MODE);
         }
 
-        if (!contactsToUpdate.isEmpty()) {
+        if(!contactsToUpdate.isEmpty()){
             // Update contacts
             ContactsDAO.newInstance().updateRecords(contactsToUpdate, false, AccessLevel.USER_MODE);
         }
@@ -215,55 +210,49 @@ public inherited sharing class DuplicateSanctionManager {
 
     /**
      * Performs the callout to the external service for refreshing student data.
-     *
+     * 
      * @param requestList The list of request bodies for the callout.
      */
     private static void doCallout(List<RequestBody> requestList) {
-        if (requestList.isEmpty()) {
+        if(requestList.isEmpty()){
             return;
         }
 
         HTTPResponse httpResponse;
 
-        try {
+        try{
             // Perform callout to refresh student data
             String endpoint = 'callout:ESB' + ENDPOINT_ESB_SAMS_REFRESH_STUDENT;
-            httpResponse = IntegrationCallOutCtrl.doCallout(
-                endpoint,
-                'POST',
-                JSON.serialize(requestList)
-            );
-            if (httpResponse.getStatusCode() != 200) {
+            httpResponse = IntegrationCallOutCtrl.doCallout(endpoint, 'POST', JSON.serialize(requestList));
+            if(httpResponse.getStatusCode() != 200){
                 // Log error if callout fails
-                Logger.error(httpResponse.getStatusCode() + ' status on Inserting Student Sanction')
-                    .setHttpResponseDetails(httpResponse);
+                Logger.error(httpResponse.getStatusCode() + ' status on Inserting Student Sanction').setHttpResponseDetails(httpResponse);
             }
-        } catch (Exception e) {
+
+        } catch(Exception e){
             // Log any callout exceptions
-            Logger.error('Callout Exception on Inserting Student Sanction ')
-                .setExceptionDetails(e)
-                .setHttpResponseDetails(httpResponse);
+            Logger.error('Callout Exception on Inserting Student Sanction ').setExceptionDetails(e).setHttpResponseDetails(httpResponse);
         }
     }
 
     /**
      * Inner class representing the request body for the callout.
      */
-    private class RequestBody {
+    private class RequestBody{
         // Contact ID for the callout
-        private String ContactID { get; set; }
+        private String ContactID {get; set; }
         // Student ID for the callout
-        private String StudentID { get; set; }
+        private String StudentID {get; set; }
 
         /**
          * Constructor to initialize the request body with contact ID and student ID.
-         *
+         * 
          * @param contactId The contact ID.
          * @param studentId The student ID.
          */
         private RequestBody(String contactId, String studentId) {
             this.ContactID = contactId;
-            this.StudentID = studentId;
+            this.StudentID = studentId;   
         }
     }
 }
