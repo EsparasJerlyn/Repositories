@@ -3,6 +3,7 @@
     <fullName>Program_Enrollment_Compact_Layout</fullName>
     <fields>hed__Account__c</fields>
     <fields>hed__Contact__c</fields>
+    <fields>Enrollment_Status__c</fields>
     <fields>Enrollment_Status_Date__c</fields>
     <fields>Commencement_Date__c</fields>
     <fields>Completion_Date__c</fields>
