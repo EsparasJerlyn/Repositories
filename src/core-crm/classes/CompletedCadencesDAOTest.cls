@@ -111,7 +111,7 @@ public with sharing class CompletedCadencesDAOTest {
             String expectedWhereClauseString = 'WHERE '
             + 'Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' '
             + 'AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' ' 
-            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate < ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom().addDays(1)) + ' ' 
             + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
             + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
@@ -159,7 +159,7 @@ public with sharing class CompletedCadencesDAOTest {
             String expectedQueryString = 'SELECT Contact__c FROM Completed_Cadence__c WHERE '
             + 'Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' '
             + 'AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' ' 
-            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate < ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom().addDays(1)) + ' ' 
             + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
             + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\'';
@@ -197,7 +197,7 @@ public with sharing class CompletedCadencesDAOTest {
             String expectedQueryString = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c WHERE '
             + 'Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' '
             + 'AND Completed_Cadence_Status__c = \'' + CompletedCadencesDAO.SUCCESSFUL_STATUS + '\' ' 
-            + 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' ' 
+            + 'AND LastModifiedDate < ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom().addDays(1)) + ' ' 
             + 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '
             + 'AND Contact__r.QUT_Student__c = ' + true + ' ' 
             + 'AND Contact__r.RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' '
