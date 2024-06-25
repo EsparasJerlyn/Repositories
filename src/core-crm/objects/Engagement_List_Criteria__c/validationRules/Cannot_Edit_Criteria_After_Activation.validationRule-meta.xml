@@ -23,7 +23,8 @@
     ISCHANGED(Key_Date__c),
     ISCHANGED(Key_Date_Offset_Lower_Boundary__c),
     ISCHANGED(Key_Date_Offset_Upper_Boundary__c), 
-    ISCHANGED(Is_On_Leave_of_Absence__c)    
+    ISCHANGED(Is_On_Leave_of_Absence__c),
+    ISCHANGED(Category_Type__c)
     )
 )</errorConditionFormula>
     <errorMessage>The criteria cannot be modified once it has been activated or deactivated.</errorMessage>

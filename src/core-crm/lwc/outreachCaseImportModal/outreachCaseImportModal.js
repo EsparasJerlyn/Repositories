@@ -343,7 +343,7 @@ export default class OutReachCaseImportModal extends LightningElement {
 		.catch(error => {
 			if (logger) {
         logger.error(
-          "Exception caught in method loadData in LWC outreachCaseImportModal: ",
+          "Exception caught in method validateStudents in LWC outreachCaseImportModal: ",
           JSON.stringify(error)
         );
       }
@@ -478,7 +478,7 @@ export default class OutReachCaseImportModal extends LightningElement {
 		.catch(error => {
 			if (logger) {
         logger.error(
-          "Exception caught in method loadData in LWC outreachCaseImportModal: ",
+          "Exception caught in method createOutreach in LWC outreachCaseImportModal: ",
           JSON.stringify(error)
         );
       }

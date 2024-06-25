@@ -15,8 +15,8 @@ const CARD_CLASS_NOCONFIG = "slds-card card-with-bg";
 const CARD_HEADER_CLASS_HASCONFIG = "slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small";
 const CARD_HEADER_CLASS_NOCONFIG = "slds-card__header slds-grid";
 export default class CaseEngagementListConfigDetails extends NavigationMixin(LightningElement) {
-    cardClass;
-    cardHeaderClass;
+    cardClass = CARD_CLASS_NOCONFIG;
+    cardHeaderClass = CARD_HEADER_CLASS_NOCONFIG;
     elconfObjectApiName = ELCONF;
     elconfRecordId;
     error;

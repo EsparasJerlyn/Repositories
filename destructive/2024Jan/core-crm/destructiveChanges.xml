@@ -139,8 +139,8 @@
         <name>EmailTemplate</name>
     </types>
     <!--DEPP-9125 End-->
-    <!--DEPP-8951 Start-->
     <types>
+        <!--DEPP-8951 Start-->
         <members>Sales_and_Marketing_Dashboards/AdoptationDashboard</members>
         <members>Sales_and_Marketing_Dashboards/Best_Practice_Leads_Dashboard</members>
         <members>Sales_and_Marketing_Dashboards/Best_Practices_Dashboard6</members>
@@ -148,9 +148,13 @@
         <members>Service_Dashboards/Service_Exec_Overview</members>
         <members>Service_Dashboards/Service_KPIs</members>
         <members>CRM_180925_HVS_Sample_Dashboard_Folder/CRM_180925_HVS_Sample_Dashboard</members>
+        <!--DEPP-8951 End-->
+        <!--DEPP-9497 Start-->
+        <members>StudentRetentionDashboards/Student_Success_Enquiry_Home_Page</members>
+        <!--DEPP-9497 End-->
         <name>Dashboard</name>
     </types>
-    <!--DEPP-8951 End-->
+    
     <types>
         <!-- (Start) DEPP-6995 -->
         <members>Country_Locale_Metadata__mdt.ar_SD</members>
