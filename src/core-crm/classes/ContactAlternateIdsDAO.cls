@@ -69,6 +69,27 @@ public inherited sharing class ContactAlternateIdsDAO extends DmlBase implements
         );
     }
 
+    public List<Contact_Alternate_ID__c> getContactAlternateIdsByContactIdSetAndStatus(
+        Set<Id> contactIdSet,
+        Set<String> alternateIdStatusSet,
+        AccessLevel accessLevel
+    ) {
+        if (contactIdSet.isEmpty()) {
+            return new List<Contact_Alternate_ID__c>();
+        }
+
+        return Database.query(
+            'SELECT Id, Contact_Alternate_Id__c, Contact__c ' +
+                'FROM Contact_Alternate_Id__c ' +
+                'WHERE Contact__c IN: contactIdSet ' +
+                'AND Alternate_Id_Type__c != null ' +
+                'AND Alternate_Id_Status__c IN: alternateIdStatusSet ' +
+                'AND Contact_Alternate_Id__c != null ' +
+                'ORDER BY CreatedDate DESC',
+            accessLevel
+        );
+    }
+
     public List<Contact_Alternate_ID__c> getActiveAndSupersededStudentAlternateIds(
         Set<String> qutStudentIds,
         AccessLevel accessLevel

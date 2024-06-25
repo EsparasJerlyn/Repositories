@@ -39,5 +39,5 @@ public inherited sharing class StudentSanctionsDAOMock extends DmlBaseMock imple
 
 		return studentSanctionList;
     }
-
+	
 }
