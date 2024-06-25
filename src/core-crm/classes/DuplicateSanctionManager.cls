@@ -50,6 +50,7 @@ public inherited sharing class DuplicateSanctionManager {
             List<Contact_Alternate_Id__c> conAltIdRecords = ContactAlternateIdsDAO.newInstance()
                 .getActiveAndSupersededStudentAlternateIds(qutStudentIds, AccessLevel.USER_MODE);
 
+            // get the latest superseded alternate id related to the contact sorted by createddate
             getLatestSupersededAlternateIds(alternateIdByContactMap, conAltIdRecords);
 
             // Process retrieved alternate IDs
@@ -57,7 +58,7 @@ public inherited sharing class DuplicateSanctionManager {
                 // collect superseded and active alternate ids
                 allQUTSudentIdsInDEP.add(conAltId.Contact_Alternate_Id__c);
 
-                // current altenrate id in the loop is an Active Contact Alternate Id
+                // current alternate id in the loop is an Active Contact Alternate Id
                 if (conAltId.Alternate_Id_Status__c == ContactAlternateIdsDAO.ACTIVE_STATUS) {
                     //if there are no superseded alternate ids
                     if (!alternateIdByContactMap.containsKey(conAltId.Contact__c)) {
