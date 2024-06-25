@@ -16,5 +16,5 @@ public interface IContactAlternateIdsDAO extends DmlInterface {
         Set<String> alternateIdStatusSet,
         AccessLevel accessLevel
     );
-     List<Contact_Alternate_ID__c> getActiveAndSupersededStudentAlternateIds(Set<String> qutStudentIds, AccessLevel accessLevel);
+     List<Contact_Alternate_ID__c> getStudentAlternateIdsByStudentIds(Set<String> qutStudentIds, AccessLevel accessLevel);
 }

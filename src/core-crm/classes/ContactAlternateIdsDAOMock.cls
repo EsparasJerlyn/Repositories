@@ -135,7 +135,7 @@ public inherited sharing class ContactAlternateIdsDAOMock extends DmlBaseMock im
 		return conaltIdList;
     }
 
-	public List<Contact_Alternate_ID__c> getActiveAndSupersededStudentAlternateIds(Set<String> qutStudentIds, AccessLevel accessLevel){
+	public List<Contact_Alternate_ID__c> getStudentAlternateIdsByStudentIds(Set<String> qutStudentIds, AccessLevel accessLevel){
 
 		List<Contact_Alternate_ID__c> conaltIdList = new List<Contact_Alternate_ID__c>();
 

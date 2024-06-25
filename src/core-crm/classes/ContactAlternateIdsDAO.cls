@@ -90,7 +90,7 @@ public inherited sharing class ContactAlternateIdsDAO extends DmlBase implements
         );
     }
 
-    public List<Contact_Alternate_ID__c> getActiveAndSupersededStudentAlternateIds(
+    public List<Contact_Alternate_ID__c> getStudentAlternateIdsByStudentIds(
         Set<String> qutStudentIds,
         AccessLevel accessLevel
     ) {
@@ -110,8 +110,7 @@ public inherited sharing class ContactAlternateIdsDAO extends DmlBase implements
                 'FROM Contact_Alternate_ID__c ' +
                 'WHERE Contact_Alternate_Id__c IN: qutStudentIds ' +
                 'AND Alternate_Id_Type__c =: STUDENT_ID_TYPE ' + 
-                'AND (Alternate_Id_Status__c =: SUPERSEDED_STATUS ' +
-                'OR Alternate_Id_Status__c =: ACTIVE_STATUS) ',
+                'AND Alternate_Id_Status__c != null ',
             accessLevel
         );
     }

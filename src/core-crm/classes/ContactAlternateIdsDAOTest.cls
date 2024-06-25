@@ -106,11 +106,11 @@ private class ContactAlternateIdsDAOTest {
     }
 
     @isTest
-    static void getActiveAndSupersededStudentAlternateIdsTest() {
+    static void getStudentAlternateIdsByStudentIdsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
-                .getActiveAndSupersededStudentAlternateIds(
+                .getStudentAlternateIdsByStudentIds(
                     new Set<String>{'test'},
                     AccessLevel.SYSTEM_MODE
                 );
@@ -120,11 +120,11 @@ private class ContactAlternateIdsDAOTest {
     }
 
     @isTest
-    static void getActiveAndSupersededStudentAlternateIdsTestEmpty() {
+    static void getStudentAlternateIdsByStudentIdsTestEmpty() {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
-                .getActiveAndSupersededStudentAlternateIds(
+                .getStudentAlternateIdsByStudentIds(
                     new Set<String>(),
                     AccessLevel.SYSTEM_MODE
                 );
