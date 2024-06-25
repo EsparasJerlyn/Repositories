@@ -38,5 +38,6 @@
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_Admin</permissionSets>
     <permissionSets>trailheadapp__Th_Badge_Admin</permissionSets>
+    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
