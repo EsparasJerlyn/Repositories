@@ -54,11 +54,19 @@ const fields = [
     CASE_RECORDTYPE_DEVELOPERNAME
 ];
 
+const CARD_CLASS_HASCONTACT = "slds-card";
+const CARD_CLASS_NOCONTACT = "slds-card card-with-bg";
+const CARD_HEADER_CLASS_HASCONTACT = "slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small";
+const CARD_HEADER_CLASS_NOCONTACT = "slds-card__header slds-grid";
+
 export default class CaseContactDetails extends NavigationMixin(LightningElement) {
     @api recordId;
 
+    cardClass = CARD_CLASS_NOCONTACT;
+    cardHeaderClass = CARD_HEADER_CLASS_NOCONTACT;
     caseRecord;
     caseContactUrl;
+    error;
     hasContact;
     isInbound;
     isLoading;
@@ -116,6 +124,12 @@ export default class CaseContactDetails extends NavigationMixin(LightningElement
                 this.hasContact = false;
                 this.caseContactUrl = '#';
             }
+            this.cardClass = this.hasContact ? CARD_CLASS_HASCONTACT : CARD_CLASS_NOCONTACT
+            this.cardHeaderClass = this.hasContact ? CARD_HEADER_CLASS_HASCONTACT : CARD_HEADER_CLASS_NOCONTACT;
+        }
+        else if(error) {
+            this.error = error;
+            this.caseRecord = undefined;
         }
         this.isLoading = false;
     }

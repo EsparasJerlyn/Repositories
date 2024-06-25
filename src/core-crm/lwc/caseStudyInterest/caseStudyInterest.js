@@ -31,15 +31,22 @@ const fields = [
   CONTACT_PRIMARY_BSA,
   CONTACT_PRIMARY_NSA, 
   CONTACT_MARKETING_SEGMENTATION_ID
-]
+];
+
+const CARD_CLASS_HASSTUDYINTEREST = "slds-card";
+const CARD_CLASS_NOSTUDYINTEREST = "slds-card card-with-bg";
+const CARD_HEADER_CLASS_HASSTUDYINTEREST = "slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small";
+const CARD_HEADER_CLASS_NOSTUDYINTEREST = "slds-card__header slds-grid";
 
 export default class CaseStudyInterest extends NavigationMixin(LightningElement) {
+  cardClass = CARD_CLASS_NOSTUDYINTEREST;
+  cardHeader = CARD_HEADER_CLASS_NOSTUDYINTEREST;
+  caseRecord;
+  error;
+  hasStudyInterest
 
   @api recordId;
   @api parentRecord;
-
-  caseRecord;
-  hasStudyInterest;
 
   connectedCallback() {
     if (this.parentRecord !== 'Contact') {
@@ -59,8 +66,11 @@ export default class CaseStudyInterest extends NavigationMixin(LightningElement)
       if (data) {
         this.hasStudyInterest= true;
         this.caseRecord = data;
+        this.cardClass = this.hasStudyInterest ? CARD_CLASS_HASSTUDYINTEREST : CARD_CLASS_NOSTUDYINTEREST
+        this.cardHeaderClass = this.hasStudyInterest ? CARD_HEADER_CLASS_HASSTUDYINTEREST : CARD_HEADER_CLASS_NOSTUDYINTEREST;
       }else {
-        console.log(error)
+        this.error = error;
+        this.caseRecord = undefined;
       }
     }
 
