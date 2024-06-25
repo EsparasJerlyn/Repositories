@@ -24,5 +24,6 @@
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
+    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
