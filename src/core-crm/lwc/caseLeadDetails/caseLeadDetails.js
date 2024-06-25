@@ -13,7 +13,6 @@ import CASE_LEAD_LEADSOURCE from "@salesforce/schema/Case.Lead__r.LeadSource";
 import CASE_LEAD_LEADSOURCECATEGORY from "@salesforce/schema/Case.Lead__r.Lead_Source_Category__c";
 import CASE_RECORDTYPE_DEVELOPERNAME from '@salesforce/schema/Case.RecordType.DeveloperName';
 
-
 const fields = [
   CASE_LEAD_NAME,
   CASE_LEAD_PRIMARY_EMAIL,
@@ -25,18 +24,25 @@ const fields = [
   CASE_LEAD_LEADSOURCE,
   CASE_LEAD_LEADSOURCECATEGORY,
   CASE_RECORDTYPE_DEVELOPERNAME
-]
+];
+
+const CARD_CLASS_HASLEAD = "slds-card";
+const CARD_CLASS_NOLEAD = "slds-card card-with-bg";
+const CARD_HEADER_CLASS_HASLEAD = "slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small";
+const CARD_HEADER_CLASS_NOLEAD = "slds-card__header slds-grid";
 
 export default class CaseLeadDetails extends NavigationMixin(LightningElement) {
-
-  @api recordId;
-
+  cardClass = CARD_CLASS_NOLEAD;
+  cardHeaderClass = CARD_HEADER_CLASS_NOLEAD;
   caseRecord;
+  error;
   isLoading;
   isInbound;
   isOutreach
   hasLead;
   caseLeadUrl;
+
+  @api recordId;
 
   @wire(getRecord, {recordId: '$recordId', fields})
   case({data, error}){
@@ -69,8 +75,11 @@ export default class CaseLeadDetails extends NavigationMixin(LightningElement) {
         this.hasLead = false;
         this.caseLeadUrl = '#';
     }
-    }else {
-      console.log(error)
+    this.cardClass = this.hasLead ? CARD_CLASS_HASLEAD : CARD_CLASS_NOLEAD
+    this.cardHeaderClass = this.hasLead ? CARD_HEADER_CLASS_HASLEAD : CARD_HEADER_CLASS_NOLEAD;
+    } else {
+      this.error = error;
+      this.caseRecord = undefined;
     }
   }
 

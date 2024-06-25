@@ -130,31 +130,34 @@ public without sharing class MarketingConsentHelper {
 
 		if( isInsert && optedOutOfEmailValue == false && newOptInValue != null ){
 			emailOptInDateTimeValue = newOptInValue;
-			emailOptOutDateTimeValue = null;
+			emailOptOutDateTimeValue = newOptOutValue;
 		}
 		else if( isInsert && optedOutOfEmailValue == true && newOptOutValue != null ){
-			emailOptInDateTimeValue = null;
+			emailOptInDateTimeValue = newOptInValue;
 			emailOptOutDateTimeValue = newOptOutValue;
 		}
 
 		if( !isInsert && !isFieldOptOutOfEmailChanged ){
-			emailOptInDateTimeValue = oldOptInValue;
-			emailOptOutDateTimeValue = oldOptOutValue;
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = newOptOutValue;
 		}
+
+		// changed to opt in
 		else if ( optedOutOfEmailValue == false && isFieldOptOutOfEmailChanged && isOptInDatetimeChanged ){
 			emailOptInDateTimeValue = newOptInValue;
-			emailOptOutDateTimeValue = oldOptOutValue;
+			emailOptOutDateTimeValue = newOptOutValue;
 		}
+		// changed to opt out
 		else if ( optedOutOfEmailValue == true && isFieldOptOutOfEmailChanged && isOptOutDatetimeChanged ){
-			emailOptInDateTimeValue = oldOptInValue;
+			emailOptInDateTimeValue = newOptInValue;
 			emailOptOutDateTimeValue = newOptOutValue;
 		}
 		else if( optedOutOfEmailValue == false && isFieldOptOutOfEmailChanged && !isOptInDatetimeChanged ){
 			emailOptInDateTimeValue = System.now();
-			emailOptOutDateTimeValue = oldOptOutValue;
+			emailOptOutDateTimeValue = newOptOutValue;
 		}
 		else if( optedOutOfEmailValue == true && isFieldOptOutOfEmailChanged && !isOptOutDatetimeChanged ){
-			emailOptInDateTimeValue = oldOptInValue;
+			emailOptInDateTimeValue = newOptInValue;
 			emailOptOutDateTimeValue = System.now();
 		}
 

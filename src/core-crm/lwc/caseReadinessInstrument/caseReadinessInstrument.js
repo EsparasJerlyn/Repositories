@@ -18,14 +18,22 @@ const fields = [
     CASE_QUALTRICS_COMPLETEDURL
 ];
 
-export default class CaseReadinessInstrument extends NavigationMixin(LightningElement) {
-    @api recordId;
+const CARD_CLASS_HASQUALTRICS = "slds-card";
+const CARD_CLASS_NOQUALTRICS = "slds-card card-with-bg";
+const CARD_HEADER_CLASS_HASQUALTRICS = "slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small";
+const CARD_HEADER_CLASS_NOQUALTRICS = "slds-card__header slds-grid";
 
+export default class CaseReadinessInstrument extends NavigationMixin(LightningElement) {
+    cardClass = CARD_CLASS_NOQUALTRICS;
+    cardHeaderClass = CARD_HEADER_CLASS_NOQUALTRICS;
     caseRecord;
     caseQualtricsUrl;
     caseQualtricsSurveyLink;
-    hasQualtrics;
+    error;
+    hasQualtrics = false;
     isLoading;
+
+    @api recordId;
 
     @wire(getRecord, { recordId: '$recordId', fields })
     case({ data, error }) {
@@ -43,12 +51,17 @@ export default class CaseReadinessInstrument extends NavigationMixin(LightningEl
                 }).then((url) => {
                     this.caseQualtricsUrl = url;
                 });
+            } else {
+                this.hasQualtrics = false;
             }
+            this.cardClass = this.hasQualtrics ? CARD_CLASS_HASQUALTRICS : CARD_CLASS_NOQUALTRICS
+            this.cardHeaderClass = this.hasQualtrics ? CARD_HEADER_CLASS_HASQUALTRICS : CARD_HEADER_CLASS_NOQUALTRICS;
             let completedUrl = getFieldValue(this.caseRecord, CASE_QUALTRICS_COMPLETEDURL);
             let inProgressUrl = getFieldValue(this.caseRecord, CASE_QUALTRICS_INPROGRESSURL); 
             this.caseQualtricsSurveyLink = this.caseQualtricsStatus == 'Complete' ? completedUrl : inProgressUrl;
         } else if(error) {
-            console.log(error);
+            this.error = error;
+            this.caseRecord = undefined;
         }
 
         this.isLoading = false;
