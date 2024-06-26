@@ -1548,6 +1548,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Description_Summary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Einstein_Recommendation_Applied__c</field>
         <readable>true</readable>
     </fieldPermissions>
