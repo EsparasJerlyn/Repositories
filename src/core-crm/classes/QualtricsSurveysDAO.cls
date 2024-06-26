@@ -11,6 +11,8 @@
 
  public inherited sharing class QualtricsSurveysDAO extends DmlBase implements IQualtricsSurveysDAO {
     
+    public static final String SURVEY_STATUS_SENT = 'Sent';
+
     public Schema.SObjectType getSObjectType() {
         return Qualtrics_Survey__c.SObjectType;
     }
