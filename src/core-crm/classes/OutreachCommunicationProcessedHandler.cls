@@ -77,12 +77,14 @@ public with sharing class OutreachCommunicationProcessedHandler  {
         List<Case> caseList = CasesDAO.newInstance().getCasesByIds(caseIds, AccessLevel.SYSTEM_MODE);
         List<Qualtrics_Survey__c> qualtricSurveyList = new List<Qualtrics_Survey__c>();
         for(Case caseRecord : caseList){
-            qualtricSurveyList.add(
-                new Qualtrics_Survey__c (
-                    Id = caseRecord.Qualtrics_Survey__c,
-                    Survey_Status__c = QualtricsSurveysDAO.SURVEY_STATUS_SENT
-                )
-            );
+            if(caseRecord.Qualtrics_Survey__c != null){
+                qualtricSurveyList.add(
+                    new Qualtrics_Survey__c (
+                        Id = caseRecord.Qualtrics_Survey__c,
+                        Survey_Status__c = QualtricsSurveysDAO.SURVEY_STATUS_SENT
+                    )
+                );
+            }
         }
 
         if(!qualtricSurveyList.isEmpty()){
