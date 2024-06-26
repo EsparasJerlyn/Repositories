@@ -78,7 +78,7 @@ This example shows routing to a defined Queue.</description>
         <name>RouteToQueueA</name>
         <label>Route to Queue A</label>
         <locationX>314</locationX>
-        <locationY>1556</locationY>
+        <locationY>1664</locationY>
         <actionName>routeWork</actionName>
         <actionType>routeWork</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -90,6 +90,9 @@ This example shows routing to a defined Queue.</description>
         </inputParameters>
         <inputParameters>
             <name>psrInteractionInfo</name>
+            <value>
+                <elementReference>Screen_Pop_for_Contact_and_Case.routingInteractionInfoList</elementReference>
+            </value>
         </inputParameters>
         <inputParameters>
             <name>serviceChannelId</name>
@@ -154,6 +157,27 @@ This example shows routing to a defined Queue.</description>
         <nameSegment>routeWork</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
+    <actionCalls>
+        <name>Screen_Pop_for_Contact_and_Case</name>
+        <label>Screen Pop for Contact and Case</label>
+        <locationX>314</locationX>
+        <locationY>1556</locationY>
+        <actionName>addScreenPop</actionName>
+        <actionType>addScreenPop</actionType>
+        <connector>
+            <targetReference>RouteToQueueA</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>screenPop</name>
+            <value>
+                <stringValue>[{&quot;id&quot;:&quot;ab92fba8&quot;,&quot;targetObjectId&quot;:&quot;{!f_ContactId}&quot;,&quot;isFocused&quot;:false},{&quot;id&quot;:&quot;8be9b3cc&quot;,&quot;targetObjectId&quot;:&quot;{!f_CaseId}&quot;,&quot;isFocused&quot;:false}]</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>addScreenPop</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
         <name>Assign_Current_Case_and_Contact_Id</name>
@@ -161,7 +185,7 @@ This example shows routing to a defined Queue.</description>
         <locationX>578</locationX>
         <locationY>890</locationY>
         <assignmentItems>
-            <assignToReference>input_record.CaseId</assignToReference>
+            <assignToReference>f_CaseId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_Current_Messaging_Session_Record.CaseId</elementReference>
@@ -468,7 +492,7 @@ This example shows routing to a defined Queue.</description>
         <inputAssignments>
             <field>Origin</field>
             <value>
-                <stringValue>Website</stringValue>
+                <elementReference>f_CaseOrigin</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -515,6 +539,13 @@ This example shows routing to a defined Queue.</description>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>f_Email</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Email</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -604,7 +635,7 @@ This example shows routing to a defined Queue.</description>
         <locationX>314</locationX>
         <locationY>1448</locationY>
         <connector>
-            <targetReference>RouteToQueueA</targetReference>
+            <targetReference>Screen_Pop_for_Contact_and_Case</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -686,6 +717,13 @@ This example shows routing to a defined Queue.</description>
     </variables>
     <variables>
         <name>f_CaseId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>f_CaseOrigin</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
