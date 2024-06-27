@@ -7,6 +7,8 @@
     <permissionSets>Future_Student_International_Email_Access</permissionSets>
     <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
     <permissionSets>Messaging_User_with_Licence</permissionSets>
+    <permissionSets>Permission_All_Object_and_FLAs_View_Create_Update_Delete</permissionSets>
+    <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Student_Success_Email_Access</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <status>Updated</status>

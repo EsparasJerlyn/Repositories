@@ -20,11 +20,10 @@ public inherited sharing class DuplicateSanctionManager {
     /**
      * Processes the given list of student sanctions by calling an external service to handle duplicates.
      * Updates related records and logs any errors encountered during the process.
-     * 
+     *
      * @param studentSanctions The list of student sanctions to be processed.
      */
-    public static void callOutESBSAMSRefreshStudent(List<Student_Sanction__c> studentSanctions){
-
+    public static void callOutESBSAMSRefreshStudent(List<Student_Sanction__c> studentSanctions) {
         // Set to store QUT student IDs from student sanctions
         Set<String> qutStudentIds = new Set<String>();
         // Lists to store records to be updated
@@ -35,56 +34,80 @@ public inherited sharing class DuplicateSanctionManager {
         // Sets to store lone QUT student IDs and all QUT student IDs in DEP
         Set<String> loneQUTStudentIds = new Set<String>();
         Set<String> allQUTSudentIdsInDEP = new Set<String>();
-        
+        // Map of latest suprseded alternate id related to a contact
+        Map<Id, Contact_Alternate_Id__c> alternateIdByContactMap = new Map<Id, Contact_Alternate_Id__c>();
+        Contact_Alternate_Id__c supersededAltId;
+
         // Extract QUT student IDs from student sanctions
-        for(Student_Sanction__c studentSanction: studentSanctions){
+        for (Student_Sanction__c studentSanction : studentSanctions) {
             qutStudentIds.add(studentSanction.QUT_Student_ID__c);
             // Mark the student sanction as processed
             studentSanction.Batch_Process__c = StudentSanctionsDAO.PROCESSED;
         }
 
-        try{
+        try {
             // Retrieve active and superseded student alternate IDs
             List<Contact_Alternate_Id__c> conAltIdRecords = ContactAlternateIdsDAO.newInstance()
                 .getActiveAndSupersededStudentAlternateIds(qutStudentIds, AccessLevel.USER_MODE);
 
-            // Process retrieved alternate IDs
-            for(Contact_Alternate_ID__c conAltId: conAltIdRecords){
+            // get the latest superseded alternate id related to the contact sorted by createddate
+            getLatestSupersededAlternateIds(alternateIdByContactMap, conAltIdRecords);
 
+            // Process retrieved alternate IDs
+            for (Contact_Alternate_ID__c conAltId : conAltIdRecords) {
+                // collect superseded and active alternate ids
                 allQUTSudentIdsInDEP.add(conAltId.Contact_Alternate_Id__c);
 
-                if(conAltId.Alternate_Id_Status__c != ContactAlternateIdsDAO.ACTIVE_STATUS){
-                    continue;
-                }
-                    
-                if(!conAltId.Contact_Alternate_IDs__r.isEmpty()){
-                    
-                    // Update status to 'Duplicate Sanction' for current alternate ID
-                    conAltIdToUpdate.add(new Contact_Alternate_ID__c(
-                        Id = conAltId.Id,
-                        Alternate_Id_Status__c = ContactAlternateIdsDAO.DUPLICATE_SANCTION_STATUS,
-                        End_Date__c = System.today()
-                    ));
+                // current alternate id in the loop is an Active Contact Alternate Id
+                if (conAltId.Alternate_Id_Status__c == ContactAlternateIdsDAO.ACTIVE_STATUS) {
+                    //if there are no superseded alternate ids
+                    if (!alternateIdByContactMap.containsKey(conAltId.Contact__c)) {
+                        // collect active alternate ids without superseded ids
+                        loneQUTStudentIds.add(conAltId.Contact_Alternate_Id__c);
+                        continue;
+                    }
+
+                    // get the latest superseded contact alternate id
+                    supersededAltId = alternateIdByContactMap.get(conAltId.Contact__c);
+
+                    // Update status to 'Duplicate Sanction' for current active contact alternate ID
+                    conAltIdToUpdate.add(
+                        new Contact_Alternate_ID__c(
+                            Id = conAltId.Id,
+                            Alternate_Id_Status__c = ContactAlternateIdsDAO.DUPLICATE_SANCTION_STATUS,
+                            End_Date__c = System.today()
+                        )
+                    );
 
                     // Update the superseded alternate ID to 'Active' and nullify the end date
-                    conAltIdToUpdate.add(new Contact_Alternate_ID__c(
-                        Id = conAltId.Contact_Alternate_IDs__r.get(0).Id,
-                        Alternate_Id_Status__c = ContactAlternateIdsDAO.ACTIVE_STATUS,
-                        End_Date__c = null
-                    ));
+                    conAltIdToUpdate.add(
+                        new Contact_Alternate_ID__c(
+                            Id = supersededAltId.Id,
+                            Alternate_Id_Status__c = ContactAlternateIdsDAO.ACTIVE_STATUS,
+                            End_Date__c = null
+                        )
+                    );
 
                     // Update the related contact's QUT student ID
-                    contactsToUpdate.add(new Contact(
-                        Id = conAltId.Contact__c,
-                        QUT_Student_ID__c = conAltId.Contact_Alternate_IDs__r.get(0).Contact_Alternate_ID__c
-                    ));
-                
-                    // Add request body for callout
-                    requestList.add(new RequestBody(conAltId.Contact__c, conAltId.Contact_Alternate_ID__c));
+                    contactsToUpdate.add(
+                        new Contact(
+                            Id = conAltId.Contact__c,
+                            QUT_Student_ID__c = supersededAltId.Contact_Alternate_ID__c
+                        )
+                    );
 
+                    // Add request body for callout
+                    requestList.add(
+                        new RequestBody(conAltId.Contact__c, conAltId.Contact_Alternate_ID__c)
+                    );
                 } else {
-                    // Add lone QUT student IDs
-                    loneQUTStudentIds.add(conAltId.Contact_Alternate_Id__c);
+                    // Update status to 'Duplicate Sanction' for current superseded alternate id
+                    conAltIdToUpdate.add(
+                        new Contact_Alternate_ID__c(
+                            Id = conAltId.Id,
+                            Alternate_Id_Status__c = ContactAlternateIdsDAO.DUPLICATE_SANCTION_STATUS
+                        )
+                    );
                 }
             }
 
@@ -94,18 +117,53 @@ public inherited sharing class DuplicateSanctionManager {
             doCallout(requestList);
             // Update records
             updateRecords(conAltIdToUpdate, contactsToUpdate);
-        } catch(Exception e){
+        } catch (Exception e) {
             // Log any exceptions encountered during the process
-            Logger.error('Exception caught in method execute in class DuplicateSanctionManager method callOutESBSAMSRefreshStudent.')
+            Logger.error(
+                    'Exception caught in method execute in class DuplicateSanctionManager method callOutESBSAMSRefreshStudent.'
+                )
                 .setExceptionDetails(e);
         } finally {
             // Update student sanctions and save log if necessary
-            if(!studentSanctions.isEmpty()){
-                StudentSanctionsDAO.newInstance().updateRecords(studentSanctions, false, AccessLevel.USER_MODE);
+            if (!studentSanctions.isEmpty()) {
+                StudentSanctionsDAO.newInstance()
+                    .updateRecords(studentSanctions, false, AccessLevel.USER_MODE);
             }
 
-            if(Logger.getBufferSize() > 0) {
+            if (Logger.getBufferSize() > 0) {
                 Logger.saveLog();
+            }
+        }
+    }
+
+    /**
+     * Retrieves the latest superseded alternate IDs for a list of contacts and maps them by contact ID.
+     *
+     * @param alternateIdByContactMap A map to store the latest superseded alternate IDs by contact ID.
+     * @param conAltIdRecords The list of Contact_Alternate_ID__c records to be processed.
+     */
+    private static void getLatestSupersededAlternateIds(
+        Map<Id, Contact_Alternate_ID__c> alternateIdByContactMap,
+        List<Contact_Alternate_ID__c> conAltIdRecords
+    ) {
+        Set<Id> contactIds = new Set<Id>();
+        // collect contact ids
+        for (Contact_Alternate_Id__c conAltId : conAltIdRecords) {
+            contactIds.add(conAltId.Contact__c);
+        }
+
+        // retrieve all superseded contact alternate ids related to the contact
+        List<Contact_Alternate_ID__c> supersededAlternateIds = ContactAlternateIdsDAO.newInstance()
+            .getContactAlternateIdsByContactIdSetAndStatus(
+                contactIds,
+                new Set<String>{ ContactAlternateIdsDAO.SUPERSEDED_STATUS },
+                AccessLevel.SYSTEM_MODE
+            );
+
+        // collect the latest(ordered by CreateDate) superseded alternate id related to the contact
+        for (Contact_Alternate_Id__c conAltId : supersededAlternateIds) {
+            if (!alternateIdByContactMap.containsKey(conAltId.Contact__c)) {
+                alternateIdByContactMap.put(conAltId.Contact__c, conAltId);
             }
         }
     }

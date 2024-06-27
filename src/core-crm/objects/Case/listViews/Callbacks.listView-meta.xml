@@ -40,7 +40,7 @@
         <group>System_Administrator</group>
         <group>System_Administrator_Modify_All_Data</group>
         <group>System_Administrator_Read_Only</group>
-        <role>Student_Success_Outreach_Manager</role>
-        <role>Student_Success_Outreach_Staff</role>
+        <group>Student_Success_Outreach_Manager</group>
+        <group>Student_Success_Outreach_Staff</group>
     </sharedTo>
 </ListView>

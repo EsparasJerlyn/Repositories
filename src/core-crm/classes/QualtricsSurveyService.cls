@@ -23,6 +23,7 @@ public with sharing class QualtricsSurveyService {
         for(Case caseRec : caseList){
             if(caseRec.Qualtrics_Survey__c == null){
                 Qualtrics_Survey__c qualtricsSurvey = new Qualtrics_Survey__c();
+                qualtricsSurvey.Qualtrics_Survey_Id__c = caseRec.Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c;
                 qualtricsSurveyMap.put(caseRec.Id,qualtricsSurvey);
             }
         }

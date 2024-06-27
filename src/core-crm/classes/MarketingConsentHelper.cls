@@ -19,48 +19,69 @@ public without sharing class MarketingConsentHelper {
 
 	public static Map<Id, Boolean> runSetOptOutAndInDates = new Map<Id, Boolean>();
 
+	private static final Map<String,Map<String,String>> setOptOutAndInFields = new Map<String,Map<String,String>>{
+		'hasOptOutEmail' => new Map<String,String>{
+			'optedOutField' => 'HasOptedOutOfEmail',
+			'optInDateTimeField' => 'Email_Opt_In_DateTime__c',
+			'optOutDateTimeField' => 'Email_Opt_Out_DateTime__c'
+		},
+		'smsOptOut' => new Map<String,String>{
+			'optedOutField' => 'hed__SMS_Opt_Out__c',
+			'optInDateTimeField' => 'SMS_Opt_In_DateTime__c',
+			'optOutDateTimeField' => 'SMS_Opt_Out_DateTime__c'
+		},
+		'workSMSOptOut' => new Map<String,String>{
+			'optedOutField' => 'Work_SMS_Opt_Out__c',
+			'optInDateTimeField' => 'Work_SMS_Opt_In_DateTime__c',
+			'optOutDateTimeField' => 'Work_SMS_Opt_Out_DateTime__c'
+		}
+	};
+
 	public static void setOptOutAndInDates(List<SObject> newItems, Map<Id, SObject> oldMap, String objectName ) {
-        Boolean isInsert = oldMap == null;
+		Boolean isInsert = oldMap == null;
+
+		Map<String, Boolean> booleanParams = new Map<String, Boolean>();
+		Map<String, Datetime> dateTimeFieldsValue = new Map<String, Datetime>();
 
 		for (SObject item : newItems) {
 
+			booleanParams.put('isInsert', isInsert);
+
 			if(objectName == 'Contact'){
 				item = (Contact) item;
-				// fixed for issue on marketing field always updating
-				if (!runSetOptOutAndInDates.containsKey((Id) item.get('Id')) && item.get('RecordTypeId') == ContactsDAO.MC_PERSONA_RECORDTYPE_ID ){
-					runSetOptOutAndInDates.put((Id) item.get('Id'), false);
-				}
-				else if ( runSetOptOutAndInDates.containsKey((Id) item.get('Id')) && item.get('RecordTypeId') == ContactsDAO.MC_PERSONA_RECORDTYPE_ID && !runSetOptOutAndInDates.get((Id) item.get('Id'))){
-					continue;
-				}
 			}
 			else if(objectName == 'Lead'){
 				item = (Lead) item;
 			}
 
-			boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get('HasOptedOutOfEmail') != oldMap.get( (Id) item.get('Id') ).get('HasOptedOutOfEmail') );
-			boolean isEmailOptInDatetimeChanged = !isInsert &&  ( item.get('Email_Opt_In_DateTime__c') != oldMap.get( (Id) item.get('Id')).get('Email_Opt_In_DateTime__c') );
-			boolean isEmailOptOutDatetimeChanged = !isInsert && ( item.get('Email_Opt_Out_DateTime__c') != oldMap.get( (Id) item.get('Id')).get('Email_Opt_Out_DateTime__c') );
-
-			boolean conditionToSetDefaultOptInValue =  item.get('HasOptedOutOfEmail') == false && 
-														(
-															isHasOptedOutOfEmailChanged && !isEmailOptInDatetimeChanged
-														);
-			
-			// 
-			boolean conditionToSetDefaultOptOutValue =  item.get('HasOptedOutOfEmail') == true &&
-														 (
-														  isHasOptedOutOfEmailChanged && !isEmailOptOutDatetimeChanged
-														 );
-
-			if ( conditionToSetDefaultOptInValue ){
-				item.put('Email_Opt_In_DateTime__c', System.now());
+			if( !isInsert && runSetOptOutAndInDates.containsKey((Id) item.get('Id'))){
+				continue;
 			}
 
-			else if ( conditionToSetDefaultOptOutValue ||
-					 ( isInsert &&  item.get('HasOptedOutOfEmail') == true && item.get('Email_Opt_Out_DateTime__c') == null ) 
-					){
-				item.put('Email_Opt_Out_DateTime__c', System.now());
+			else{
+				if( !isInsert && !runSetOptOutAndInDates.containsKey((Id) item.get('Id')) ){
+					runSetOptOutAndInDates.put((Id) item.get('Id'), false);
+				}
+				
+				for(Map<String,String> optOutFields : setOptOutAndInFields.values()){
+					if( isInsert && item.get(optOutFields.get('optedOutField')) == false && item.get(optOutFields.get('optInDateTimeField')) == null ){
+						continue;
+					}
+					boolean isHasOptedOutOfEmailChanged = !isInsert && ( item.get(optOutFields.get('optedOutField')) != oldMap.get( (Id) item.get('Id') ).get(optOutFields.get('optedOutField')) );
+					booleanParams.put('isFieldOptOutOfEmailChanged', isHasOptedOutOfEmailChanged); // to get if hasoptedout is changed
+					booleanParams.put('optedOutOfEmailNewValue', (Boolean) item.get(optOutFields.get('optedOutField'))); // to get the new value of optedoutofemail field
+	
+					dateTimeFieldsValue.put('newOptInValue', (Datetime) item.get(optOutFields.get('optInDateTimeField')) );
+					dateTimeFieldsValue.put('newOptOutValue', (Datetime) item.get(optOutFields.get('optOutDateTimeField')) );
+					
+					if(!isInsert){
+						dateTimeFieldsValue.put('oldOptInValue', (Datetime) oldMap.get( (Id) item.get('Id') ).get(optOutFields.get('optInDateTimeField')) );
+						dateTimeFieldsValue.put('oldOptOutValue', (Datetime) oldMap.get( (Id) item.get('Id') ).get(optOutFields.get('optOutDateTimeField')) );
+					}
+	
+					item.put(optOutFields.get('optInDateTimeField'), validateOptOutAndInFields(booleanParams, dateTimeFieldsValue).get('optInValue'));
+					item.put(optOutFields.get('optOutDateTimeField'), validateOptOutAndInFields(booleanParams, dateTimeFieldsValue).get('optOutValue'));
+				}
 			}
 		}
     }
@@ -84,6 +105,66 @@ public without sharing class MarketingConsentHelper {
 
 		upsertMarketingSegmentation(getExistingMarketingSegmentations(marketingSegMap,emailToContactMap),emailToContactMap);
 
+	}
+
+	private static Map<String, Datetime> validateOptOutAndInFields(
+		Map<String, Boolean> booleanParams,
+		Map<String, Datetime> datetimeValues
+	){
+		Map<String, Datetime> returnValues = new Map<String, Datetime>();
+		Boolean isInsert = booleanParams.get('isInsert');
+		Boolean isFieldOptOutOfEmailChanged = booleanParams.get('isFieldOptOutOfEmailChanged');
+		Boolean optedOutOfEmailValue = booleanParams.get('optedOutOfEmailNewValue');
+
+		Datetime newOptInValue = datetimeValues.get('newOptInValue');
+		Datetime oldOptInValue = datetimeValues.containsKey('oldOptInValue') ? datetimeValues.get('oldOptInValue') : null;
+
+		Datetime newOptOutValue = datetimeValues.get('newOptOutValue');
+		Datetime oldOptOutValue = datetimeValues.containsKey('oldOptOutValue') ? datetimeValues.get('oldOptOutValue') : null;
+
+		Boolean isOptInDatetimeChanged = !isInsert && newOptInValue != oldOptInValue;
+		Boolean isOptOutDatetimeChanged = !isInsert && newOptOutValue != oldOptOutValue;
+
+		Datetime emailOptInDateTimeValue = null;
+		Datetime emailOptOutDateTimeValue = null;
+
+		if( isInsert && optedOutOfEmailValue == false && newOptInValue != null ){
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = newOptOutValue;
+		}
+		else if( isInsert && optedOutOfEmailValue == true && newOptOutValue != null ){
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = newOptOutValue;
+		}
+
+		if( !isInsert && !isFieldOptOutOfEmailChanged ){
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = newOptOutValue;
+		}
+
+		// changed to opt in
+		else if ( optedOutOfEmailValue == false && isFieldOptOutOfEmailChanged && isOptInDatetimeChanged ){
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = newOptOutValue;
+		}
+		// changed to opt out
+		else if ( optedOutOfEmailValue == true && isFieldOptOutOfEmailChanged && isOptOutDatetimeChanged ){
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = newOptOutValue;
+		}
+		else if( optedOutOfEmailValue == false && isFieldOptOutOfEmailChanged && !isOptInDatetimeChanged ){
+			emailOptInDateTimeValue = System.now();
+			emailOptOutDateTimeValue = newOptOutValue;
+		}
+		else if( optedOutOfEmailValue == true && isFieldOptOutOfEmailChanged && !isOptOutDatetimeChanged ){
+			emailOptInDateTimeValue = newOptInValue;
+			emailOptOutDateTimeValue = System.now();
+		}
+
+		returnValues.put('optInValue', emailOptInDateTimeValue);
+		returnValues.put('optOutValue', emailOptOutDateTimeValue);
+
+		return returnValues;
 	}
 
 	private static Map<String, List<Marketing_Segmentation__c>> getExistingMarketingSegmentations(Map<String, List<Marketing_Segmentation__c>> marketingSegMap, Map<String, Contact> emailToContactMap ){
