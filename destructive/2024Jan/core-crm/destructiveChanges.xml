@@ -8,10 +8,10 @@
     </types>
     -->
 
-    <!-- Comment this out when 2nd PR is deployed, this is to change the data type 
-        from picklist to multiplicklist inorder to avoid the error of 
+    <!-- Comment this out when 2nd PR is deployed, this is to change the data type
+        from picklist to multiplicklist inorder to avoid the error of
         "Cannot change type due to exising data"
-        
+
         Update: Commenting out the Category type since we are deploying the 2nd PR
      -->
     <!-- <types>
@@ -34,7 +34,7 @@
     </types>
     <!-- <types> -->
       <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
-      <!-- This to track that the old Muting Permissionset has been removed. -->        
+      <!-- This to track that the old Muting Permissionset has been removed. -->
       <!-- <members>Future_Student_Agent_Muted</members>
         <members>Future_Student_Concierge_Muted</members>
         <members>Future_Student_Team_Leader_Muted</members> -->
@@ -157,7 +157,7 @@
         <!--DEPP-9497 End-->
         <name>Dashboard</name>
     </types>
-    
+
     <types>
         <!-- (Start) DEPP-6995 -->
         <members>Country_Locale_Metadata__mdt.ar_SD</members>
@@ -282,5 +282,11 @@
         <!--End (replaced by) DEPP-8870-->
         <name>PermissionSet</name>
     </types>
-    <version>59.0</version> 
+    <types>
+        <!--Description(we don't need this prompt now) DEPP-8867-->
+		<members>Prompt_to_populate_Resolution_Field_of_case_object</members>
+        <!--End-->
+		<name>GenAiPromptTemplate</name>
+	</types>
+    <version>59.0</version>
 </Package>
