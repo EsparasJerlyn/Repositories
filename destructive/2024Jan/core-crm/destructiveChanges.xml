@@ -113,6 +113,9 @@
         <members>Case.International_Enquiries_Assigned</members>
         <members>Case.International_Enquiries_Pending_Closure</members>
         <!--(End) DEPP-9325-->
+        <!--(Start) DEPP-9568-->
+        <members>hed__Course__c.DEP_Test_Data</members>
+        <!--(End) DEPP-9568-->
         <name>ListView</name>
     </types>
     <types>
