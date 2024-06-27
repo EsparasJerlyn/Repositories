@@ -295,5 +295,5 @@
         <!--End-->
         <name>GenAiPromptTemplate</name>
     </types>
-    <version>61.0</version>
+    <version>60.0</version>
 </Package>
