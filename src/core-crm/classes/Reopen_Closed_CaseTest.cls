@@ -18,35 +18,63 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @testSetup
     static void makeData(){
+        Test.startTest();
         TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
         TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        Test.stopTest();
+        
+        List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
+        insert relatedContacts;
+        
+        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', numberOfRecords);
+        for(Case caseRecord : internationalCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
+        }
+        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
+        for(Case caseRecord : domesticCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
+        }
+        List<Case> caseList = new List<Case>();
+        caseList.addAll(internationalCases);
+        caseList.addAll(domesticCases);
+        
+        for(Case c : caseList){
+            c.ContactId = relatedContacts[0].Id;
+            c.Origin = 'Email';
+            c.Priority = 'Low';
+            c.Category__c = 'Student life';
+            c.Status = 'Closed';
+            c.Closure_Code__c = 'Response Given';
+            c.Closure_Details__c = 'Test Closure Details.';
+        }
+        
+        CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
+
+        User userInternational = TestDataFactoryUser.selectUserFutureStudentAgentInternational;
+        User userDomestic = TestDataFactoryUser.selectUserFutureStudentAgentDomestic;
+        List<CaseShare> caseShareList = new List<CaseShare>();
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = userInternational.Id;
+            caseShare.CaseAccessLevel = 'Read'; // Or 'Edit' depending on the access level required
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = userDomestic.Id;
+            caseShare.CaseAccessLevel = 'Read'; // Or 'Edit' depending on the access level required
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        insert caseShareList;
     }
     
     @IsTest
     static void reopenClosedInternationalCaseTest(){
         System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
-            List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
-            insert relatedContacts;
-            
-            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', numberOfRecords);
-            for(Case caseRecord : internationalCases){
-                caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
-            }
-            List<Case> caseList = new List<Case>();
-            caseList.addAll(internationalCases);
-
-            for(Case c : caseList){
-                c.ContactId = relatedContacts[0].Id;
-                c.Origin = 'Email';
-                c.Priority = 'Low';
-                c.Category__c = 'Student life';
-                c.Status = 'Closed';
-                c.Closure_Code__c = 'Response Given';
-                c.Closure_Details__c = 'Test Closure Details.';
-            }
-            
-            CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.USER_MODE);
-
             List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
             Test.startTest();
@@ -76,28 +104,6 @@ public with sharing class Reopen_Closed_CaseTest {
     @IsTest
     static void reopenClosedDomesticCaseTest(){
         System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
-            List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
-            insert relatedContacts;
-            
-            List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
-            for(Case caseRecord : domesticCases){
-                caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
-            }
-            List<Case> caseList = new List<Case>();
-            caseList.addAll(domesticCases);
-
-            for(Case c : caseList){
-                c.ContactId = relatedContacts[0].Id;
-                c.Origin = 'Email';
-                c.Priority = 'Low';
-                c.Category__c = 'Student life';
-                c.Status = 'Closed';
-                c.Closure_Code__c = 'Response Given';
-                c.Closure_Details__c = 'Test Closure Details.';
-            }
-            
-            CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.USER_MODE);
-
             List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
             Test.startTest();
