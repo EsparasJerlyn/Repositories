@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionOverrides>
-        <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Assessment_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
-        <pageOrSobjectType>Assessment__c</pageOrSobjectType>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>Tab</actionName>
         <content>Student_Success_Enquiry_Home_Page</content>
         <formFactor>Large</formFactor>
@@ -50,14 +41,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Assessment_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Assessment__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Student Success</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Course_Unit_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
@@ -184,15 +167,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Engagement_List_Entry_Criteria_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
-        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Academic_Program_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
@@ -208,6 +182,141 @@
         <recordType>Account.Academic_Program</recordType>
         <type>Flexipage</type>
         <profile>Student Success</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Student Success</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Student Success</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Engagement_List_Entry_Criteria_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
+        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Outreach_Case_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Outreach</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Engagement_List_Criteria_Imported_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_List_Criteria__c</pageOrSobjectType>
+        <recordType>Engagement_List_Criteria__c.Imported</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Case</tabs>

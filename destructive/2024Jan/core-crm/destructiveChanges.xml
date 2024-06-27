@@ -88,6 +88,9 @@
         <!-- (Start) DEPP-8764 -->
         <members>Engagement_List_Configuration__c.Instrument__c</members>
         <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-9315 -->
+        <members>Engagement_List_Event__c.Engagement_List_Event_Time__c</members>
+        <!--(End) DEPP-9315 -->
         <name>CustomField</name>
     </types>
     <types>
@@ -105,6 +108,14 @@
         <!--(Start) DEPP-9144-->
         <members>Case.Outreach_UAP_Held_Show_Cause</members>
         <!--(End) DEPP-9144-->
+        <!--(Start) DEPP-9325-->
+        <members>Case.Future_Student_Advisor_Assigned</members>
+        <members>Case.International_Enquiries_Assigned</members>
+        <members>Case.International_Enquiries_Pending_Closure</members>
+        <!--(End) DEPP-9325-->
+        <!--(Start) DEPP-9568-->
+        <members>hed__Course__c.DEP_Test_Data</members>
+        <!--(End) DEPP-9568-->
         <name>ListView</name>
     </types>
     <types>
@@ -131,8 +142,8 @@
         <name>EmailTemplate</name>
     </types>
     <!--DEPP-9125 End-->
-    <!--DEPP-8951 Start-->
     <types>
+        <!--DEPP-8951 Start-->
         <members>Sales_and_Marketing_Dashboards/AdoptationDashboard</members>
         <members>Sales_and_Marketing_Dashboards/Best_Practice_Leads_Dashboard</members>
         <members>Sales_and_Marketing_Dashboards/Best_Practices_Dashboard6</members>
@@ -140,9 +151,13 @@
         <members>Service_Dashboards/Service_Exec_Overview</members>
         <members>Service_Dashboards/Service_KPIs</members>
         <members>CRM_180925_HVS_Sample_Dashboard_Folder/CRM_180925_HVS_Sample_Dashboard</members>
+        <!--DEPP-8951 End-->
+        <!--DEPP-9497 Start-->
+        <members>StudentRetentionDashboards/Student_Success_Enquiry_Home_Page</members>
+        <!--DEPP-9497 End-->
         <name>Dashboard</name>
     </types>
-    <!--DEPP-8951 End-->
+    
     <types>
         <!-- (Start) DEPP-6995 -->
         <members>Country_Locale_Metadata__mdt.ar_SD</members>

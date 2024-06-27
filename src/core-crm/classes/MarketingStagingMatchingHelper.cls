@@ -120,7 +120,10 @@ public without sharing class MarketingStagingMatchingHelper{
     private static final Set<String> MARKETING_STAGING_MARKETING_FIELDS = new Set<String>{
         'HasOptedOutOfEmail__c',
         'Email_OptIn_DateTime__c',
-        'Email_OptOut_DateTime__c'
+        'Email_OptOut_DateTime__c',
+        'SMS_Opt_Out__c',
+        'SMS_OptIn_DateTime__c',
+        'SMS_OptOut_DateTime__c'
     };
 
 
@@ -175,13 +178,13 @@ public without sharing class MarketingStagingMatchingHelper{
             }
         }
 
-        Boolean checkMarketingStagingOptOut = (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == true && 
+        Boolean checkMarketingStagingEmailOptOut = (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == true && 
                                               (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) != null;
 
-        Boolean checkMarketingStagingOptIn =  (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == false &&
+        Boolean checkMarketingStagingEmailOptIn =  (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == false &&
                                               (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) != null;
 
-        Boolean conditionToContactOptIn =  checkMarketingStagingOptIn &&
+        Boolean conditionToContactEmailOptIn =  checkMarketingStagingEmailOptIn &&
                                       MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
                                       ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).HasOptedOutOfEmail == true || 
                                        ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).HasOptedOutOfEmail == false &&
@@ -189,18 +192,49 @@ public without sharing class MarketingStagingMatchingHelper{
                                        ) 
                                       );
 
-        Boolean conditionToContactOptOut = checkMarketingStagingOptOut &&
+        Boolean conditionToContactEmailOptOut = checkMarketingStagingEmailOptOut &&
                                       MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
                                       MarketingStagingTriggerHelper.contactMatches.get(oldContactId).HasOptedOutOfEmail == false;
 
-        if( conditionToContactOptIn ){
+        if( conditionToContactEmailOptIn ){
             obj.put('HasOptedOutOfEmail', false);
             obj.put('Email_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) );
         }
 
-        else if( conditionToContactOptOut ){
+        else if( conditionToContactEmailOptOut ){
             obj.put('HasOptedOutOfEmail', true);
             obj.put('Email_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) );
+        }
+
+        // sms
+        Boolean checkMarketingStagingSMSOptOut = (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == true && 
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) != null;
+
+        Boolean checkMarketingStagingSMSOptIn =  (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == false &&
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) != null;
+
+        Boolean conditionToContactSMSOptIn =  checkMarketingStagingSMSOptIn &&
+                                      MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                                      ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).hed__SMS_Opt_Out__c == true || 
+                                       ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).hed__SMS_Opt_Out__c == false &&
+                                         MarketingStagingTriggerHelper.contactMatches.get(oldContactId).SMS_Opt_In_DateTime__c == null
+                                       ) 
+                                      );
+
+        Boolean conditionToContactSMSOptOut = checkMarketingStagingSMSOptOut &&
+                                      MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                                      MarketingStagingTriggerHelper.contactMatches.get(oldContactId).hed__SMS_Opt_Out__c == false;
+
+        if( conditionToContactSMSOptIn ){
+            obj.put('hed__SMS_Opt_Out__c', false);
+            obj.put('SMS_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) );
+            // obj.put('SMS_Opt_Out_DateTime__c', (Datetime) MarketingStagingTriggerHelper.contactMatches.get(oldContactId).SMS_Opt_Out_DateTime__c );
+        }
+
+        else if( conditionToContactSMSOptOut ){
+            obj.put('hed__SMS_Opt_Out__c', true);
+            // obj.put('SMS_Opt_In_DateTime__c', (Datetime) MarketingStagingTriggerHelper.contactMatches.get(oldContactId).SMS_Opt_In_DateTime__c );
+            obj.put('SMS_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) );
         }
         
         return obj;
@@ -267,13 +301,13 @@ public without sharing class MarketingStagingMatchingHelper{
             }
         }
 
-        Boolean checkMarketingStagingOptOut = (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == true && 
+        Boolean checkMarketingStagingEmailOptOut = (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == true && 
         (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) != null;
 
-        Boolean checkMarketingStagingOptIn =  (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == false &&
+        Boolean checkMarketingStagingEmailOptIn =  (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == false &&
         (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) != null;
 
-        Boolean conditionToOptIn =  checkMarketingStagingOptIn &&
+        Boolean conditionToEmailOptIn =  checkMarketingStagingEmailOptIn &&
         ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
           MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).HasOptedOutOfEmail == true || 
           ( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) && 
@@ -283,19 +317,51 @@ public without sharing class MarketingStagingMatchingHelper{
         ) || !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)
         );
 
-        Boolean conditionToOptOut = checkMarketingStagingOptOut &&
+        Boolean conditionToEmailOptOut = checkMarketingStagingEmailOptOut &&
         ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).HasOptedOutOfEmail == false) || 
            !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) );
 
-        if( conditionToOptIn ){
+        if( conditionToEmailOptIn ){
         obj.put('HasOptedOutOfEmail', false);
         obj.put('Email_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) );
         }
 
-        else if( conditionToOptOut ){
+        else if( conditionToEmailOptOut ){
         obj.put('HasOptedOutOfEmail', true);
         obj.put('Email_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) );
+        }
+
+        // sms
+        Boolean checkMarketingStagingSMSOptOut = (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == true && 
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) != null;
+
+        Boolean checkMarketingStagingSMSOptIn =  (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == false &&
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) != null;
+
+        Boolean conditionToSMSOptIn =  checkMarketingStagingSMSOptIn &&
+                                        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                                        MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == true || 
+                                        ( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) && 
+                                            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false &&
+                                            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).SMS_Opt_In_DateTime__c == null
+                                        )  
+                                        ) || !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)
+                                        );
+
+        Boolean conditionToSMSOptOut = checkMarketingStagingSMSOptOut &&
+                                        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                                        MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false) || 
+                                        !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) );
+
+        if( conditionToSMSOptIn ){
+            obj.put('hed__SMS_Opt_Out__c', false);
+            obj.put('SMS_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) );
+        }
+
+        else if( conditionToSMSOptOut ){
+            obj.put('hed__SMS_Opt_Out__c', true);
+            obj.put('SMS_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) );
         }
 
         return obj;

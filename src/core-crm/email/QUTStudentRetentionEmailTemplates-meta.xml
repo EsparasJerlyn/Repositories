@@ -6,6 +6,11 @@
         <sharedToType>Group</sharedToType>
     </folderShares>
     <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ESB_Integration_User</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
         <accessLevel>Manage</accessLevel>
         <sharedTo>Student_Success_Outreach_Manager</sharedTo>
         <sharedToType>Group</sharedToType>

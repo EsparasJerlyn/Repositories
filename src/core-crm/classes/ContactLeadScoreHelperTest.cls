@@ -27,6 +27,9 @@ public with sharing class ContactLeadScoreHelperTest {
 
             List<Contact> contactList = new List<Contact>();
             contactList.addAll(TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC));
+            for(Contact con : contactList){
+                con.HasOptedOutOfEmail = true;
+            }
             ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);    
             // Test.stopTest();
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
@@ -48,7 +51,7 @@ public with sharing class ContactLeadScoreHelperTest {
             Test.startTest();
             List<Contact> contactListUpdate = new List<Contact>();
             for(Contact contactRec : ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
-                contactListUpdate.add(new Contact(Id = contactRec.Id, Email_Opt_In_DateTime__c = Date.today()));
+                contactListUpdate.add(new Contact(Id = contactRec.Id, HasOptedOutOfEmail = false, Email_Opt_In_DateTime__c = Date.today()));
             }
 
             ContactsDAO.newInstance().updateRecords(contactListUpdate, true, AccessLevel.USER_MODE); 

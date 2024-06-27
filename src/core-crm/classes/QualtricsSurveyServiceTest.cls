@@ -23,10 +23,10 @@ private class QualtricsSurveyServiceTest {
     private static void enqueueQualtricsSurveyToProcessTest() {
         System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
             Test.startTest();
-
+            String qualtricInstrumentId = 'test';
             List<Engagement_List_Configuration__c> elcList = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c elcRec = new Engagement_List_Configuration__c();
-            elcRec.Qualtrics_Instrument_Id__c = 'test';
+            elcRec.Qualtrics_Instrument_Id__c = qualtricInstrumentId;
             elcRec.Qualtrics_Instrument_Name__c = 'test';
             elcList.add(elcRec);
             EngagementListConfigurationsDAO.newInstance().insertRecords(elcList, true, AccessLevel.USER_MODE);
@@ -45,6 +45,8 @@ private class QualtricsSurveyServiceTest {
             List<Case> caseListUpdated = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id},AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             System.assert(!String.isBlank(caseListUpdated[0].Qualtrics_Survey__c), ' No Qualtrics Survey record created.');
+            System.Assert.areEqual(qualtricInstrumentId, caseListUpdated[0].Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, 'Qualtrics Instrument must be populated.');
+            
         } 
     }
 
