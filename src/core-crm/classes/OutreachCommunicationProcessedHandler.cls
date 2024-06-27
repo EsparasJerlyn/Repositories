@@ -37,6 +37,8 @@ public with sharing class OutreachCommunicationProcessedHandler  {
         
         //update Case Initial Status
         updateCaseInitialStatus(caseIds);
+        updatedQualtricSurveyStatus(caseIds);
+        
     }
     
     /**
@@ -59,6 +61,34 @@ public with sharing class OutreachCommunicationProcessedHandler  {
                 )
             );
         }
-        CasesDAO.newInstance().updateRecords(updateCaseInitialStatus, false, AccessLevel.SYSTEM_MODE);             
+        CasesDAO.newInstance().updateRecords(updateCaseInitialStatus, false, AccessLevel.SYSTEM_MODE);         
+    }
+
+    /**
+     * @description update the case qualtric survey status = Sent
+     * @param Set<Id> caseIds the case Ids to be updated
+     */
+    private void updatedQualtricSurveyStatus(Set<Id> caseIds) {
+
+        if(caseIds.isEmpty()){
+            return;
+        }
+        
+        List<Case> caseList = CasesDAO.newInstance().getCasesByIds(caseIds, AccessLevel.SYSTEM_MODE);
+        List<Qualtrics_Survey__c> qualtricSurveyList = new List<Qualtrics_Survey__c>();
+        for(Case caseRecord : caseList){
+            if(caseRecord.Qualtrics_Survey__c != null){
+                qualtricSurveyList.add(
+                    new Qualtrics_Survey__c (
+                        Id = caseRecord.Qualtrics_Survey__c,
+                        Survey_Status__c = QualtricsSurveysDAO.SURVEY_STATUS_SENT
+                    )
+                );
+            }
+        }
+
+        if(!qualtricSurveyList.isEmpty()){
+            QualtricsSurveysDAO.newInstance().updateRecords(qualtricSurveyList, false, AccessLevel.SYSTEM_MODE); 
+        }
     }
 }

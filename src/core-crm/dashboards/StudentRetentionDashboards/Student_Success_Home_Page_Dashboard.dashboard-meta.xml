@@ -160,7 +160,7 @@
     <dashboardType>LoggedInUser</dashboardType>
     <isGridLayout>true</isGridLayout>
     <textColor>#000000</textColor>
-    <title>Student Success Enquiry Home Page</title>
+    <title>Student Success Home Page Dashboard</title>
     <titleColor>#000000</titleColor>
     <titleSize>12</titleSize>
 </Dashboard>

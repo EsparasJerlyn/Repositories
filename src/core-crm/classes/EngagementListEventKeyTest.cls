@@ -98,4 +98,23 @@ public with sharing class EngagementListEventKeyTest {
          
         Test.stopTest();
     }
+
+    @isTest
+    static void testHashCode() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Id contactId = new MockIdGenerator(Contact.SObjectType).getMockId();
+            Id criteriaId = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType).getMockId();
+
+            Engagement_List_Event__c eventCandidate = new Engagement_List_Event__c();
+            eventCandidate.Program_Enrollment_Status__c = 'Active';
+            eventCandidate.Has_Domestic_Phone__c = true;
+
+            EngagementListEventKey eventKey = new EngagementListEventKey(eventCandidate, contactId, criteriaId);
+            Integer hashCode = eventKey.hashCode();       
+            
+            System.assert(hashCode!=null, 'Hash code should not be null.');
+        }
+    }
 }

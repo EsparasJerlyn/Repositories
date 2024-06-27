@@ -21,6 +21,7 @@
       | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for outreach case.                                 |
       | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
+      | julie.jane.alegre              | June 25, 2024         | DEPP-9481              | Update whereClauseCheckerForCompletedCadenceCriteria             |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -141,7 +142,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.getStatus() + '\' ' ;
         }
         if(completedCadenceCriteria.getCompletedCadanceDateFrom() != null){
-            soql += 'AND LastModifiedDate <= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom()) + ' '; 
+            soql += 'AND LastModifiedDate < ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom().addDays(1)) + ' '; 
         }
         if(completedCadenceCriteria.getCompletedCadanceDateTo() != null){
             soql += 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '; 
