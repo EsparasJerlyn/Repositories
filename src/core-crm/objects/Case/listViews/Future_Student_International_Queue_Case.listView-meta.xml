@@ -13,7 +13,7 @@
     <queue>Future_Student_International_Queue</queue>
     <sharedTo>
         <group>Development_Team</group>
-        <group>Future_Students_Domestic</group>
+        <group>Future_Students_International</group>
         <group>System_Administrator</group>
         <group>System_Administrator_Modify_All_Data</group>
         <group>System_Administrator_Read_Only</group>
