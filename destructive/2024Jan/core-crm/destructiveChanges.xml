@@ -284,9 +284,9 @@
     </types>
     <types>
         <!--Description(we don't need this prompt now) DEPP-8867-->
-		<members>Prompt_to_populate_Resolution_Field_of_case_object</members>
+        <members>Prompt_to_populate_Resolution_Field_of_case_object</members>
         <!--End-->
-		<name>GenAiPromptTemplate</name>
-	</types>
-    <version>59.0</version>
+        <name>GenAiPromptTemplate</name>
+    </types>
+    <version>61.0</version>
 </Package>
