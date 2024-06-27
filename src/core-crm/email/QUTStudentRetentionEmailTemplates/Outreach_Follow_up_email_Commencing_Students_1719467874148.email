@@ -3,7 +3,7 @@
   <title></title>
   <meta content="text/html charset=UTF-8" />
  </head>
- <body style="height: auto; min-height: auto;">
+ <body aria-readonly="false" style="height: auto; min-height: auto;">
   <table align="center" border="0" cellpadding="0" cellspacing="0" width="646">
    <tbody>
     <tr>
