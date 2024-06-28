@@ -13,6 +13,7 @@
       | kenneth.f.alsay                | January 3, 2024       |                        | Fixed excessive param list                     |
       | mark.j.mahilum                 | March 06, 2024        | DEPP-8008              | Added fieldmapping for lead source and category|
       | eccarius.munoz                 | March 26, 2024        | DEPP-8008              | Added fieldmapping for studylink app source    |
+      | sebastianne.k.trias            | June 1, 2024          | DEPP-8474              | Add changes on opt in opt out fields           |
       
  */
 public without sharing class MarketingStagingMatchingHelper{
@@ -116,6 +117,15 @@ public without sharing class MarketingStagingMatchingHelper{
         'Marketing_Course_Application__c' => MARKETING_APPLICATION_FIELDS
     };
 
+    private static final Set<String> MARKETING_STAGING_MARKETING_FIELDS = new Set<String>{
+        'HasOptedOutOfEmail__c',
+        'Email_OptIn_DateTime__c',
+        'Email_OptOut_DateTime__c',
+        'SMS_Opt_Out__c',
+        'SMS_OptIn_DateTime__c',
+        'SMS_OptOut_DateTime__c'
+    };
+
 
 
     /**
@@ -155,17 +165,78 @@ public without sharing class MarketingStagingMatchingHelper{
                 MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Lead_Source_Category__c == null){
                 finalMaping.put('Lead_Source_Category__c','Lead_Source_Category__c');
             }
+
         }
 
         for(String fieldName: finalMaping.keySet()){
-            if(marketingStage.get(finalMaping.get(fieldName)) != null &&
-                ((  fieldName == 'Salutation' &&
-                    salutations.contains((String)marketingStage.get(finalMaping.get(fieldName)))) ||
+            if( marketingStage.get(finalMaping.get(fieldName)) != null &&
+                !MARKETING_STAGING_MARKETING_FIELDS.contains(finalMaping.get(fieldName)) &&
+                ( (  fieldName == 'Salutation' &&
+                    salutations.contains((String)marketingStage.get(finalMaping.get(fieldName))) ) ||
                     fieldName != 'Salutation')){
                 obj.put(fieldName,(marketingStage.get(finalMaping.get(fieldName))));
             }
         }
 
+        Boolean checkMarketingStagingEmailOptOut = (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == true && 
+                                              (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) != null;
+
+        Boolean checkMarketingStagingEmailOptIn =  (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == false &&
+                                              (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) != null;
+
+        Boolean conditionToContactEmailOptIn =  checkMarketingStagingEmailOptIn &&
+                                      MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                                      ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).HasOptedOutOfEmail == true || 
+                                       ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).HasOptedOutOfEmail == false &&
+                                         MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Email_Opt_In_DateTime__c == null
+                                       ) 
+                                      );
+
+        Boolean conditionToContactEmailOptOut = checkMarketingStagingEmailOptOut &&
+                                      MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                                      MarketingStagingTriggerHelper.contactMatches.get(oldContactId).HasOptedOutOfEmail == false;
+
+        if( conditionToContactEmailOptIn ){
+            obj.put('HasOptedOutOfEmail', false);
+            obj.put('Email_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) );
+        }
+
+        else if( conditionToContactEmailOptOut ){
+            obj.put('HasOptedOutOfEmail', true);
+            obj.put('Email_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) );
+        }
+
+        // sms
+        Boolean checkMarketingStagingSMSOptOut = (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == true && 
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) != null;
+
+        Boolean checkMarketingStagingSMSOptIn =  (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == false &&
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) != null;
+
+        Boolean conditionToContactSMSOptIn =  checkMarketingStagingSMSOptIn &&
+                                      MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                                      ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).hed__SMS_Opt_Out__c == true || 
+                                       ( MarketingStagingTriggerHelper.contactMatches.get(oldContactId).hed__SMS_Opt_Out__c == false &&
+                                         MarketingStagingTriggerHelper.contactMatches.get(oldContactId).SMS_Opt_In_DateTime__c == null
+                                       ) 
+                                      );
+
+        Boolean conditionToContactSMSOptOut = checkMarketingStagingSMSOptOut &&
+                                      MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                                      MarketingStagingTriggerHelper.contactMatches.get(oldContactId).hed__SMS_Opt_Out__c == false;
+
+        if( conditionToContactSMSOptIn ){
+            obj.put('hed__SMS_Opt_Out__c', false);
+            obj.put('SMS_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) );
+            // obj.put('SMS_Opt_Out_DateTime__c', (Datetime) MarketingStagingTriggerHelper.contactMatches.get(oldContactId).SMS_Opt_Out_DateTime__c );
+        }
+
+        else if( conditionToContactSMSOptOut ){
+            obj.put('hed__SMS_Opt_Out__c', true);
+            // obj.put('SMS_Opt_In_DateTime__c', (Datetime) MarketingStagingTriggerHelper.contactMatches.get(oldContactId).SMS_Opt_In_DateTime__c );
+            obj.put('SMS_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) );
+        }
+        
         return obj;
     }
 
@@ -222,11 +293,75 @@ public without sharing class MarketingStagingMatchingHelper{
 
         for(String fieldName: finalMaping.keySet()){
             if(marketingStage.get(finalMaping.get(fieldName)) != null && 
-            ((  fieldName == 'Salutation' && 
+                !MARKETING_STAGING_MARKETING_FIELDS.contains(finalMaping.get(fieldName)) &&
+              (( fieldName == 'Salutation' &&  
                 salutations.contains((String)marketingStage.get(finalMaping.get(fieldName)))) || 
                 fieldName != 'Salutation')){
                 obj.put(fieldName,(marketingStage.get(finalMaping.get(fieldName))));
             }
+        }
+
+        Boolean checkMarketingStagingEmailOptOut = (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == true && 
+        (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) != null;
+
+        Boolean checkMarketingStagingEmailOptIn =  (Boolean) marketingStage.get(finalMaping.get('HasOptedOutOfEmail')) == false &&
+        (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) != null;
+
+        Boolean conditionToEmailOptIn =  checkMarketingStagingEmailOptIn &&
+        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+          MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).HasOptedOutOfEmail == true || 
+          ( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) && 
+            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).HasOptedOutOfEmail == false &&
+            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Email_Opt_In_DateTime__c == null
+          )  
+        ) || !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)
+        );
+
+        Boolean conditionToEmailOptOut = checkMarketingStagingEmailOptOut &&
+        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+           MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).HasOptedOutOfEmail == false) || 
+           !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) );
+
+        if( conditionToEmailOptIn ){
+        obj.put('HasOptedOutOfEmail', false);
+        obj.put('Email_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_In_DateTime__c')) );
+        }
+
+        else if( conditionToEmailOptOut ){
+        obj.put('HasOptedOutOfEmail', true);
+        obj.put('Email_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('Email_Opt_Out_DateTime__c')) );
+        }
+
+        // sms
+        Boolean checkMarketingStagingSMSOptOut = (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == true && 
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) != null;
+
+        Boolean checkMarketingStagingSMSOptIn =  (Boolean) marketingStage.get(finalMaping.get('hed__SMS_Opt_Out__c')) == false &&
+                                              (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) != null;
+
+        Boolean conditionToSMSOptIn =  checkMarketingStagingSMSOptIn &&
+                                        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                                        MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == true || 
+                                        ( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) && 
+                                            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false &&
+                                            MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).SMS_Opt_In_DateTime__c == null
+                                        )  
+                                        ) || !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId)
+                                        );
+
+        Boolean conditionToSMSOptOut = checkMarketingStagingSMSOptOut &&
+                                        ( (MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
+                                        MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__SMS_Opt_Out__c == false) || 
+                                        !MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) );
+
+        if( conditionToSMSOptIn ){
+            obj.put('hed__SMS_Opt_Out__c', false);
+            obj.put('SMS_Opt_In_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_In_DateTime__c')) );
+        }
+
+        else if( conditionToSMSOptOut ){
+            obj.put('hed__SMS_Opt_Out__c', true);
+            obj.put('SMS_Opt_Out_DateTime__c', (Datetime) marketingStage.get(finalMaping.get('SMS_Opt_Out_DateTime__c')) );
         }
 
         return obj;
