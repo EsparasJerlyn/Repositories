@@ -1179,10 +1179,20 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordEmail_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Email_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordEmail_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1199,7 +1209,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Work_Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordWork_Email_Opt_In_DateTime_cField</identifier>
@@ -1209,54 +1219,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Work_Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordWork_Email_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-d38c5261-4855-49e0-abbc-dded8e4c46c7</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Email_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordEmail_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1273,7 +1239,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Learner_Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordLearner_Email_Opt_In_DateTime_cField</identifier>
@@ -1283,12 +1249,16 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Learner_Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordLearner_Email_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-d38c5261-4855-49e0-abbc-dded8e4c46c7</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -1303,7 +1273,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Staff_Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordStaff_Email_Opt_In_DateTime_cField</identifier>
@@ -1313,10 +1283,70 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Staff_Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordStaff_Email_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__SMS_Opt_Out__c</fieldItem>
+                <identifier>Recordhed_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-9d74d82f-5a12-48b5-8ffa-8ebbf2fb1e16</name>
