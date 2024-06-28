@@ -987,14 +987,16 @@
             </fieldInstance>
         </itemInstances>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Email_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordEmail_Opt_In_DateTime_cField</identifier>
-            </fieldInstance>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace3</identifier>
+            </componentInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
@@ -1007,68 +1009,16 @@
             </fieldInstance>
         </itemInstances>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_Email_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordWork_Email_Opt_In_DateTime_cField</identifier>
-            </fieldInstance>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace4</identifier>
+            </componentInstance>
         </itemInstances>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_Email_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordWork_Email_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-e784d4f7-1c68-440d-b2cb-13d81aaa1a42</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Email_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordEmail_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace5</identifier>
+            </componentInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
@@ -1081,24 +1031,16 @@
             </fieldInstance>
         </itemInstances>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Learner_Email_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordLearner_Email_Opt_In_DateTime_cField</identifier>
-            </fieldInstance>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace7</identifier>
+            </componentInstance>
         </itemInstances>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Learner_Email_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordLearner_Email_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace8</identifier>
+            </componentInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
@@ -1111,10 +1053,136 @@
             </fieldInstance>
         </itemInstances>
         <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__SMS_Opt_Out__c</fieldItem>
+                <identifier>Recordhed_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace14</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace15</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-e784d4f7-1c68-440d-b2cb-13d81aaa1a42</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Email_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordEmail_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Email_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordEmail_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_Email_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordWork_Email_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_Email_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordWork_Email_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Learner_Email_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordLearner_Email_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Learner_Email_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordLearner_Email_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Staff_Email_Opt_In_DateTime__c</fieldItem>
                 <identifier>RecordStaff_Email_Opt_In_DateTime_cField</identifier>
@@ -1124,10 +1192,62 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Staff_Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordStaff_Email_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-fed2e217-e672-448e-b605-e09e58b161d8</name>
