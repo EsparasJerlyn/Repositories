@@ -82,7 +82,36 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
     }
 
     public void finish(Database.BatchableContext bc) {
-        Logger.info('CHECK outreachCaseList: ' + outreachCaseList.size());
-        Logger.saveLog();
+        List<Outreach_Case__e> outreachCaseEvents = new List<Outreach_Case__e>();
+        for(OutreachCaseImportCtrl.OutreachCases outreacCaseWrapper : outreachCaseList){
+
+            outreachCaseEvents.add(
+                new Outreach_Case__e(
+                    Case_Id__c = outreacCaseWrapper.getCase().Id,
+                    Case_No__c = outreacCaseWrapper.getCase().CaseNumber,
+                    /* Case_No__c = outreacCaseWrapper.getCase().CaseNumber,
+                    Contact_Id__c = outreacCaseWrapper.getCase().ContactId,
+                    Contact_Name__c = outreacCaseWrapper.getCase().Contact.Name,
+                    Mobile__c = outreacCaseWrapper.getCase().Contact.MobilePhone,
+                    QUT_Learner_Email__c = outreacCaseWrapper.getCase().Contact.QUT_Learner_Email__c,
+                    QUT_Student_Id__c = outreacCaseWrapper.getCase().Contact.QUT_Student_Id__c, */
+                    Result__c = outreacCaseWrapper.getProcessResultCode()
+                )
+            );
+            
+        }
+        
+        if (!outreachCaseEvents.isEmpty()) {
+            try {
+                Logger.info('publishing outreachCaseEvents.... ' + JSON.serialize(outreachCaseEvents));
+                EventBus.publish(outreachCaseEvents);
+                Logger.info('Napublish naman');
+                Logger.saveLog();
+            } catch (Exception e) {
+                // prettier-ignore
+                NebulaLoggerService.logExceptionDetails('Exception caught in AdhocImportOutreachCaseBatch', e);
+            }
+        }
+
     }
 }

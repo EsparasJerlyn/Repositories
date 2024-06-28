@@ -1,8 +1,13 @@
 import { LightningElement,track,api,wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { subscribe, unsubscribe, onError } from "lightning/empApi";
 import listOfStudents from "@salesforce/apex/OutreachCaseImportCtrl.listOfStudents";
 import listOfCasesbyStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds";
 
-export default class OutReachCaseImportModal extends LightningElement {
+import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
+
+export default class OutReachCaseImportModal extends LightningElement { 
+
   tableColumns = [
     {
       label: 'Case',
@@ -78,6 +83,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   ];
   
   @api recordId;
+  @api channelName = "/event/Outreach_Case__e";
 
   @track modalOpen = true;
   @track isCreateButtonDisabled = true;
@@ -89,24 +95,23 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track studentsFound = 0;
   @track tempData = [];
   @track dataForCreateOutreach = [];
+  @track loaded = false;
+  @track title;
+  @track description;
 
   showTabset = false;
   showModal = false;
   fileName;
-  @track loaded = false;
   showCreateOutreach = true;
   showCaseCol = false;
   isCreateOutreach = false;
   exitModal = 'Cancel';
   studentTable = [];
   exclusionsTable = [];
-  @track title;
-  @track description;
-
+  subscription = {};
   existingCasesCount;
   caseCreatedCount;
   caseTableView = false;
-
 
   connectedCallback(){
     let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -431,6 +436,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
+    this.handleSubscribe();
     const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
@@ -441,7 +447,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.description = this.description ? this.description : '';
     const criteria = this.title + ',' + this.description;
     listOfCasesbyStudentIds({ 
-      QutStudentIds : studentIds,
+      qutStudentIds : studentIds,
       criteria : criteria,
       configurationId : this.recordId
      })
@@ -473,15 +479,18 @@ export default class OutReachCaseImportModal extends LightningElement {
 
       this.existingCasesCount = existingCase.length;
       this.caseCreatedCount = caseCreated.length;
-      this.loaded = true; 
+      
 		})
 		.catch(error => {
-			if (logger) {
+      this.loaded = false;
+      this.generateToast('Error.', LWC_Error_General, 'error');
+      console.log('ERROR::: ' +  JSON.stringify(error));
+      /* if (logger) {
         logger.error(
-          "Exception caught in method createOutreach in LWC outreachCaseImportModal: ",
-          JSON.stringify(error)
-        );
+          "Exception caught in method createOutreach in LWC outreachCaseImportModal: "
+        ).setError(error);
       }
+      logger.saveLog(); */
 		});
   }
 
@@ -529,4 +538,30 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.data = this.tempData;
     }       	
   }
+
+  generateToast(_title,_message,_variant){
+    const evt = new ShowToastEvent({
+        title: _title,
+        message: _message,
+        variant: _variant,
+    });
+    this.dispatchEvent(evt);
+  }  
+
+  handleSubscribe() {
+    const messageCallback = (response) => {
+      this.handleMessage(response);
+    };
+
+    subscribe(this.channelName, -1, messageCallback).then((response) => {
+      this.subscription = response;
+    });
+  }
+
+  handleMessage(response) {
+    let obj = JSON.parse(JSON.stringify(response));
+    console.log('OKI NAMAN.' + obj);
+    this.loaded = true; 
+  }
+
 }
