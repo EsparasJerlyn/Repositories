@@ -9,6 +9,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                |
+      | sebastianne.k.trias       | June 1, 2024          | DEPP-8474    | Removed modify Opt in/out fields            |
 */
 @isTest
 private class ApplicationServiceTest {

@@ -12,6 +12,7 @@
       | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added test methods for existing lead and contact matching |
       | arsenio.jr.dayrit              | December 12, 2023     | DEPP-7357              | Update Test method                                        |
       | kenneth.f.alsay                | December 27, 2023     | DEPP-7357              | Removed unused variable                                   |
+      | sebastianne.k.trias            | June 20, 2024         | DEPP-8474              | Removed SA Opt In Functionality                           |
  */
 @isTest
 public with sharing class ServiceAppointmentTriggerHelperTest {
@@ -102,18 +103,16 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             serviceAppointmentList[0].Email = 'testContact@mailinator.com';
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
             serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
-            serviceAppointmentList[0].Marketing_Consent__c = true;
             serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
             serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
             serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
             ServiceAppointmentsDAO.newInstance().updateRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
 
-            List<Contact> updatedContact = [SELECT Id, Email, Email_Opt_In_DateTime__c,ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
+            List<Contact> updatedContact = [SELECT Id, Email, ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
             List<Marketing_Segmentation__c> updatedMarketingSeg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>{newContacts[0].Id}, new Set<Id>(), AccessLevel.SYSTEM_MODE);
             List<ServiceAppointment> serviceAppList = [SELECT Id,Email,Mobile_Locale__c,Mobile_No_Locale__c, My_Citizenship_Status__c, My_Country_Of_Citizenship__c, My_Country_Of_Residency__c FROM ServiceAppointment];
             
             System.assertEquals(serviceAppList[0].Email, updatedContact[0].Email, 'Email should be populated');
-            System.assert(updatedContact[0].Email_Opt_In_DateTime__c != null, 'Email_Opt_In_DateTime__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_Locale__c, updatedContact[0].ContactMobile_Locale__c, 'ContactMobile_Locale__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_No_Locale__c, updatedContact[0].Mobile_No_Locale__c, 'Mobile_No_Locale__c should be populated');
             System.assertEquals(serviceAppList[0].My_Citizenship_Status__c, updatedMarketingSeg[0].My_Citizenship_Status__c, 'My_Citizenship_Status__c should be populated');
@@ -147,7 +146,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             serviceAppointmentList[0].Email = 'testLead@mailinator.com';
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
             serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
-            serviceAppointmentList[0].Marketing_Consent__c = true;
             serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
             serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
             serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
@@ -155,12 +153,11 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             Test.stopTest();
 
         
-            List<Lead> updatedLead = [SELECT Id, Email, Email_Opt_In_DateTime__c, LeadMobile_Locale__c, Mobile_No_Locale__c FROM Lead];
+            List<Lead> updatedLead = [SELECT Id, Email, LeadMobile_Locale__c, Mobile_No_Locale__c FROM Lead];
             List<Marketing_Segmentation__c> updatedMarketingSeg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>(), new Set<Id>{leadList[0].Id}, AccessLevel.SYSTEM_MODE);
             List<ServiceAppointment> serviceAppList = [SELECT Id,Email,Mobile_Locale__c,Mobile_No_Locale__c, My_Citizenship_Status__c, My_Country_Of_Citizenship__c, My_Country_Of_Residency__c FROM ServiceAppointment];
 
             System.assertEquals(serviceAppList[0].Email, updatedLead[0].Email, 'Email should be populated');
-            System.assert(updatedLead[0].Email_Opt_In_DateTime__c != null, 'Email_Opt_In_DateTime__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_Locale__c, updatedLead[0].LeadMobile_Locale__c, 'LeadMobile_Locale__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_No_Locale__c, updatedLead[0].Mobile_No_Locale__c, 'Mobile_No_Locale__c should be populated');
             System.assertEquals(serviceAppList[0].My_Citizenship_Status__c, updatedMarketingSeg[0].My_Citizenship_Status__c, 'My_Citizenship_Status__c should be populated');
@@ -249,7 +246,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             serviceAppointmentList[0].Contact__c = null;
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
             serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
-            serviceAppointmentList[0].Marketing_Consent__c = true;
             serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
             serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
             serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
@@ -278,7 +274,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             serviceAppointmentList[0].Email = '6testmail@mail.test';
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
             serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
-            serviceAppointmentList[0].Marketing_Consent__c = true;
             serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
             serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
             serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
