@@ -16,6 +16,7 @@
       |                           |                       | DEPP-6654    |                                                                     |  
       | nicole.genon              | Oct. 4, 2023          | DEPP-6821    | Added Citizenship_Status__c field mapping for QTAC matching         |
       | roy.nino.s.regala         | Feb, 23, 2024         | DEPP-7738    | optimized creation of data setup                                    |
+      | sebastianne.k.trias       | June 1, 2024          | DEPP-8474    | Removed modify Opt in/out fields                                    |
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -211,32 +212,6 @@ private class ApplicationTriggerHelperTest {
             System.assert(applicationsToUpdate[0].Agency_Name__c == updatedContact.Agency_Name__c, 'Agency_Name__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Country__c == updatedContact.Agency_Country__c, 'Agency_Country__c not updated correctly.');
             System.assert(applicationsToUpdate[0].Agency_Email__c == updatedContact.Agency_Email__c, 'Agency_Email__c not updated correctly.');
-        }
-    }
-
-    @isTest
-    private static void testStudyLinkMarketingFields(){
-        System.runAs(TestDataFactoryUser.selectUserQUTESB){
-            //get the contact created in the setup with a study link application
-            Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id; 
-            Contact con = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.SYSTEM_MODE)[0];
-            
-            System.assertEquals(false, con.HasOptedOutOfEmail, 'Marketing field should be false');
-            System.assertEquals(false, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
-            System.assertEquals(false, con.DoNotCall, 'Marketing field should be false');
-            System.assertEquals(true, con.Sync_to_MC__c, 'Marketing field should be true');
-            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
-            System.assert(con.Dont_Market_Reason__c == null, 'Marketing field Dont_Market_Reason__c should be empty');
-            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
-            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');  
         }
     }
 
