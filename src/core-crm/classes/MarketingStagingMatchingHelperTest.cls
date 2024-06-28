@@ -121,6 +121,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
                 staging.Admission_Period__c = '12345' + i;
                 staging.Course_Code__c = '1231' + i;
                 staging.Admission_Year__c = 2023;
+                staging.Email_OptIn_DateTime__c = system.today();
                 staging.Salutation__c = 'Mr';
                 stagingList.add(staging);
             }
@@ -136,6 +137,8 @@ public with sharing class MarketingStagingMatchingHelperTest{
                 staging.Preference_Number__c = 1;
                 staging.Application_Source__c = 'QTAC';
                 staging.Salutation__c = 'Mr';
+                staging.Email_OptOut_DateTime__c = system.today();
+                staging.HasOptedOutOfEmail__c = true;
                 stagingList.add(staging);
             }
 
@@ -200,6 +203,7 @@ public with sharing class MarketingStagingMatchingHelperTest{
                 staging.Admission_Period__c = '12345' + i;
                 staging.Course_Code__c = '1231' + i;
                 staging.Admission_Year__c = 2023;
+                staging.Email_OptIn_DateTime__c = system.today();
                 staging.Salutation__c = 'Mr';
                 stagingList.add(staging);
             }
@@ -217,6 +221,8 @@ public with sharing class MarketingStagingMatchingHelperTest{
                 staging.Course_Code__c = '1231' + i;
                 staging.Admission_Year__c = 2023;
                 staging.Salutation__c = 'Mr';
+                staging.Email_OptOut_DateTime__c = system.today();
+                staging.HasOptedOutOfEmail__c = true;
                 stagingList2.add(staging);
             }
 
