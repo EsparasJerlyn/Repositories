@@ -124,7 +124,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
+                    <value>Case.ContactId</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
@@ -229,7 +229,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Initial_Communication_Status__c</fieldItem>
                 <identifier>RecordInitial_Communication_Status_cField</identifier>
@@ -618,7 +618,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
+                    <value>Case.ContactId</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
