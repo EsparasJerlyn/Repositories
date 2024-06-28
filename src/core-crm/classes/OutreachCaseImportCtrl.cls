@@ -81,16 +81,16 @@ public with sharing class OutreachCaseImportCtrl {
     */
     public class OutreachCases {
         private String processResultCode;
-        private Case caseList;
+        private Case caseRec;
 
-        public OutreachCases(Case caseList, String processResultCode){
-            this.caseList = caseList;
+        public OutreachCases(Case caseRec, String processResultCode){
+            this.caseRec = caseRec;
             this.processResultCode = processResultCode;
         }
 
         @auraEnabled
         public Case getCase(){
-            return caseList;
+            return caseRec;
         }
 
         @auraEnabled

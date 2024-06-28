@@ -8,7 +8,10 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | June 28, 2024         | DEPP-9499              | Created file                 |
  */
-public with sharing class AdhocImportOutreachCaseBatch implements Database.Batchable<sObject> {
+public with sharing class AdhocImportOutreachCaseBatch implements Database.Batchable<sObject>, Database.Stateful {
+
+    private List<OutreachCaseImportCtrl.OutreachCases> outreachCaseList = new List<OutreachCaseImportCtrl.OutreachCases>();
+
     private List<String> qutStudentIds;
     private Engagement_List_Criteria__c engagementCriteria;
     private Id configurationId;
@@ -57,7 +60,7 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
             List<Case> caseList = CasesDAO.newInstance().getCasesByIdsImported(mapper.keySet(), AccessLevel.USER_MODE);
             List<Case> updatedCaseList = new List<Case>();
 
-            List<OutreachCaseImportCtrl.OutreachCases> outreachCaseList = new List<OutreachCaseImportCtrl.OutreachCases>();
+            
             for (Case caseRecord : caseList){
                 if (mapper.containsKey(caseRecord.Id)){
                     outreachCaseList.add(new OutreachCaseImportCtrl.OutreachCases(caseRecord, mapper.get(caseRecord.Id)));
@@ -79,6 +82,7 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
     }
 
     public void finish(Database.BatchableContext bc) {
-        Logger.info('TESTING DONE');
+        Logger.info('CHECK outreachCaseList: ' + outreachCaseList.size());
+        Logger.saveLog();
     }
 }
