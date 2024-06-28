@@ -90,13 +90,28 @@ private class LeadServiceTest {
                         Id = ldList[i].Id,
                         Email = 'new' + i + EMAIL,
                         Work_Email__c = 'newwork' + i + EMAIL,
-                        Email_Opt_In_DateTime__c = Date.today()
+                        HasOptedOutOfEmail = true
+                    )
+                );
+            }
+
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead> leadsToUpdate2 = new List<Lead>();
+            for (Integer i = 0; i < recordsCount; i++) {
+                leadsToUpdate2.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        HasOptedOutOfEmail = false
                     )
                 );
             }
             
             Test.startTest();
-            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            MarketingConsentHelper.runSetOptOutAndInDates.clear();
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate2, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             
             for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
@@ -119,13 +134,28 @@ private class LeadServiceTest {
                         Id = ldList[i].Id,
                         Email = 'new' + i + EMAIL,
                         Work_Email__c = 'newwork' + i + EMAIL,
-                        Email_Opt_In_DateTime__c = Date.today()
+                        HasOptedOutOfEmail = true
+                    )
+                );
+            }
+
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead> leadsToUpdate2 = new List<Lead>();
+            for (Integer i = 0; i < recordsCount; i++) {
+                leadsToUpdate2.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        HasOptedOutOfEmail = false
                     )
                 );
             }
             
             Test.startTest();
-            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            MarketingConsentHelper.runSetOptOutAndInDates.clear();
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate2, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             
             for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
