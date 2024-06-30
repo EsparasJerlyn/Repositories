@@ -141,7 +141,7 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
             
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, AccessLevel.USER_MODE);
-
+            
             for(Contact con: contactList){
                 con.HasOptedOutOfEmail = true;
             }
