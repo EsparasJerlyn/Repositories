@@ -9,7 +9,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | Feb 8, 2023           | DEPP-4866              | Created file                 |
-      | sebastianne.k.trias            | June 6, 2024          | DEPP-8474              | Add Opt in/out on lead       |
+      | sebastianne.k.trias            | June 6, 2024          | DEPP-8474              | Added OptIn/Out Leads        |
  */
 
  @isTest
@@ -151,7 +151,6 @@
 
 	 @isTest
 	 static void optInLeadsTest(){
-		// User currentUser = TestDataFactory.createUserRecords(1, System.Label.QUTeX).iterator().next();
 		System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
 			List<Account> accList = TestDataFactory.createTestAccountRecords(1);
 			insert accList;
