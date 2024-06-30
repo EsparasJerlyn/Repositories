@@ -1,5 +1,5 @@
-﻿DISPLAY NAME,OWEA EMAIL,EMAIL COMMITTED TO SOURCE CONTROL
-QUTeX,test-qutex@qut.edu.au,test-qutex@yopmail.com
-International Future Student Enquiries,testinternational@qut.edu.au,test-qut-international@yopmail.com
-Domestic Future Student Enquiries,testdomestic@qut.edu.au,test-qut-domestic@yopmail.com
-Student Success,test-success@qut.edu.au,test-qut-success@yopmail.com
+﻿DISPLAY NAME,OWEA EMAIL,EMAIL COMMITTED TO SOURCE CONTROL,ALLOWED PROFILES
+QUTeX,test-qutex@qut.edu.au,test-qutex@yopmail.com,All Profiles
+International Future Student Enquiries,testinternational@qut.edu.au,test-qut-international@yopmail.com,No Access
+Domestic Future Student Enquiries,testdomestic@qut.edu.au,test-qut-domestic@yopmail.com,No Access
+Student Success,test-success@qut.edu.au,test-qut-success@yopmail.com,No Access
