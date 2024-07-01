@@ -10,8 +10,8 @@
  */
 public with sharing class AdhocImportOutreachCaseBatch implements Database.Batchable<sObject>, Database.Stateful {
 
-    private List<String> newOutreachCaseIdsString = new List<String>();
-    private List<String> existingOutreachCaseIdsString = new List<String>();
+    private Set<String> newOutreachCaseIdsString = new Set<String>();
+    private Set<String> existingOutreachCaseIdsString = new Set<String>();
 
     private List<String> qutStudentIds;
     private Engagement_List_Criteria__c engagementCriteria;
@@ -24,7 +24,7 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {  
-        return ContactsDAO.newInstance().getQueryLocatorContactByStudentId(qutStudentIds, AccessLevel.USER_MODE);
+        return ContactsDAO.newInstance().getQueryLocatorContactByStudentId(qutStudentIds, AccessLevel.SYSTEM_MODE);
     } 
 
     public void execute(Database.BatchableContext bc, List<Contact> contacts){
@@ -40,14 +40,12 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
                 ingredientList.add(ingredient);
                 ingredientByContactMap.put(ingredientList, con);
             }
-
             Map<Id, List<Engagement_List_Event__c>> eventsByContactMap = new Map<Id, List<Engagement_List_Event__c>>();
             for(ELECandidateIngredient ingredient : ingredientList){
                 ELECandidateGenerator generator = new ELECandidateGenerator();
                 List<Engagement_List_Event__c> events = generator.generate(ingredient);
                 eventsByContactMap.put(ingredient.getContact().Id, events);
             }
-            
             ELECandidateProcessor processor = new ELECandidateProcessor();
             List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementCriteria);
             for (ELECandidateProcessResult result : processResult){
@@ -57,7 +55,6 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
                     existingOutreachCaseIdsString.add(result.getCase().Id);
                 }
             }
-            
         } catch (Exception e) {
             Logger.error(
                 'Exception caught in method finish in class AdhocImportOutreachCaseBatch.'
@@ -71,9 +68,16 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
     }
 
     public void finish(Database.BatchableContext bc) {
-        
-        String newCaseIdsString = String.join(newOutreachCaseIdsString, ','); 
-        String existingCaseIdsString = String.join(existingOutreachCaseIdsString, ','); 
+
+        String newCaseIdsString;
+        if(!newOutreachCaseIdsString.isEmpty()){
+            newCaseIdsString = String.join(new List<String>(newOutreachCaseIdsString), ','); 
+        }
+
+        String existingCaseIdsString;
+        if(!existingOutreachCaseIdsString.isEmpty()){
+            existingCaseIdsString = String.join(new List<String>(existingOutreachCaseIdsString), ','); 
+        }
 
         List<Outreach_Case__e> outreachCaseEvents = new List<Outreach_Case__e>();
         outreachCaseEvents.add(
