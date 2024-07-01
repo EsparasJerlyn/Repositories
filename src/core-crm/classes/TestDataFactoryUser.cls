@@ -1517,6 +1517,43 @@ public class TestDataFactoryUser {
     }
 
     /***********************************************
+    *  Student Success Outreach Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserStudentSuccessOutreachManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOStudentSuccessOutreachManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserStudentSuccessOutreachManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestStudentSuccessOutreachManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOStudentSuccessOutreachManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'StudentSuccessOutreachManager';
+            usr.profileName = 'Student Success';
+            usr.role = 'Student Success Outreach Manager';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = true;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+            usr.permissionsetNames = new Set<String>{'Student_Success_Base,Student_Success_Super_User'};
+            usr.permissionsetGroupNames = new Set<String>{'Student_Success_Outreach_Manager'};
+            usr.publicGroupNames = new Set<String>{'Student_Success_Outreach_Manager','Student Success Outreach Staff'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
     * PORTAL/EXPERIECE USERS
     ************************************************/
     /***********************************************
