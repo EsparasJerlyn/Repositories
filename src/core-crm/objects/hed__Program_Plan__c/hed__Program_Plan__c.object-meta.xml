@@ -170,6 +170,7 @@
     <pluralLabel>Program Plans</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <searchResultsAdditionalFields>hed__Account__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__Start_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__End_Date__c</searchResultsAdditionalFields>

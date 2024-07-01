@@ -79,6 +79,25 @@ private class ContactPersonaFlagsServiceTest {
     }
     
     @isTest
+    private static void testProgramEnrollmentWithContactChangedContact() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            List<Contact> newContacts = createTestContactRecords(0, 2);            
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
+            List<hed__Program_Enrollment__c> newProgramEnrollments = createTestProgramEnrollmentRecords(newContacts,'Admitted');
+            ProgramEnrollmentsDAO.newInstance().insertRecords(newProgramEnrollments, false, AccessLevel.USER_MODE);
+            for(hed__Program_Enrollment__c pe: newProgramEnrollments){
+                pe.hed__Contact__c = newContacts[1].Id;
+            } 
+            Test.startTest();
+            Database.SaveResult[] srList = Database.update(newProgramEnrollments);
+            Test.stopTest();
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not updated.');
+            }
+        }
+    }
+
+    @isTest
     private static void testProgramEnrollmentWithCourseConnection() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
@@ -301,7 +320,7 @@ private class ContactPersonaFlagsServiceTest {
             }
         }
     } 
-    
+
     @isTest
     private static void testContextualRolesWithAffiliation() {
         
