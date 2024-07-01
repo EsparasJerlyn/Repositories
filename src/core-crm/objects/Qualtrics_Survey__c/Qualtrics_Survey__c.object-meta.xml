@@ -168,7 +168,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Qualtrics Surveys</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
