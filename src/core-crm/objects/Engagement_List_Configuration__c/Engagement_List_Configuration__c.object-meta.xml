@@ -167,7 +167,9 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Engagement List Configurations</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

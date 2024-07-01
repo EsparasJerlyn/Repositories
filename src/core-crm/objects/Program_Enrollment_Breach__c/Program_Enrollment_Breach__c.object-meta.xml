@@ -168,7 +168,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Program Enrollment Breaches</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
