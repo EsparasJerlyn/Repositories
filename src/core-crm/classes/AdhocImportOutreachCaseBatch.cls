@@ -10,7 +10,8 @@
  */
 public with sharing class AdhocImportOutreachCaseBatch implements Database.Batchable<sObject>, Database.Stateful {
 
-    private List<String> outreachCaseIdString = new List<String>();
+    private List<String> newOutreachCaseIdsString = new List<String>();
+    private List<String> existingOutreachCaseIdsString = new List<String>();
 
     private List<String> qutStudentIds;
     private Engagement_List_Criteria__c engagementCriteria;
@@ -51,9 +52,10 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
             List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementCriteria);
             for (ELECandidateProcessResult result : processResult){
                 if(result.getResult() == ELECandidateProcessResult.Outcome.CASE_CREATED){
-                    outreachCaseIdString.add(result.getCase().Id);
+                    newOutreachCaseIdsString.add(result.getCase().Id);
+                }else if(result.getResult() == ELECandidateProcessResult.Outcome.EVENT_CREATED){
+                    existingOutreachCaseIdsString.add(result.getCase().Id);
                 }
-
             }
             
         } catch (Exception e) {
@@ -70,12 +72,14 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
 
     public void finish(Database.BatchableContext bc) {
         
-        String caseIdsString = String.join(outreachCaseIdString, ','); 
+        String newCaseIdsString = String.join(newOutreachCaseIdsString, ','); 
+        String existingCaseIdsString = String.join(existingOutreachCaseIdsString, ','); 
 
         List<Outreach_Case__e> outreachCaseEvents = new List<Outreach_Case__e>();
         outreachCaseEvents.add(
             new Outreach_Case__e(
-                Case_Id_String__c = caseIdsString
+                Existing_Outreach_Case_Ids__c = existingCaseIdsString,
+                New_Outreach_Case_Ids__c = newCaseIdsString
             )
         );
         
