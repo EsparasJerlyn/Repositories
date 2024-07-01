@@ -71,11 +71,14 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
   @api objectApiName;
   @track showModal = false;
   @track showTable = false;
+  @track numberOfCases = 0;
+
 
   data = [];
   rowOffset = 0;
   caseTable = [];
   dataForViewAll = [];
+  title = 'Cases'
 
   @wire(getRecord, { recordId: "$recordId", fields })
   engagementListConfiguration;
@@ -98,7 +101,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
             createdDate: item.CreatedDate
           }
         })
-  
+        
         const recordsToDisplay = [];
         if (caseData.length > 3) {
           for (let i = 0; i < 3; i++) {
@@ -108,9 +111,9 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
         }else{
           this.data = caseData;
         }
-        
+        this.numberOfCases = caseData.length;
         this.dataForViewAll = caseData;
-        this.showTable = recordsToDisplay.length > 5 ? false : true;
+        this.showTable = recordsToDisplay.length > 3 ? false : true;
       }
 
     }).catch((error) =>{
@@ -123,6 +126,10 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
 
     })
 	}
+
+  get caseTitle(){
+    return this.title + ' (' + this.numberOfCases + ')';
+  }
 
   get getStatus() {
     return getFieldValue(this.engagementListConfiguration.data, ENGAGEMENT_LIST_CONFIGURATION_FIELD) === 'Deactivated' ? true : false;
