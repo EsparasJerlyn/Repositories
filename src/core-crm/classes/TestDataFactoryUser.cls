@@ -1841,7 +1841,7 @@ public class TestDataFactoryUser {
 
     // Used in @testSetup to generate user in a test class
     public static void generateUserStudentSuccessReporting() {
-        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOStudentReporting}));
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOStudentSuccessReporting}));
     }
     
     // Used to get user already generated in test method
