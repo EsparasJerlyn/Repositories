@@ -97,7 +97,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, RecordTypeId,Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email, MobilePhone, ContactMobile_Validation__c, Work_Email__c, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c, Registered_Email__c, $$Name$RecordTypeId FROM Contact WHERE RecordType.DeveloperName = 'Person' AND Name IN ('Clint Barton','Bucky Barnes','Darcy Lewis','Edward Leeds')",
+            "query": "SELECT Id, RecordTypeId,Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email, MobilePhone, ContactMobile_Validation__c, Work_Email__c, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c, Registered_Email__c, $$Name$RecordTypeId FROM Contact WHERE RecordType.DeveloperName = 'Person' AND Name IN ('Clint Barton','Bucky Barnes','Darcy Lewis','Edward Leeds','Roger Test')",
             "operation": "Upsert",
             "externalId": "Name;RecordTypeId",
             "useCSVValuesMapping": true,
