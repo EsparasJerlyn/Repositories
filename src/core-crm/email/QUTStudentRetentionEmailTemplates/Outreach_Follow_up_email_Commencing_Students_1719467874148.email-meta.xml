@@ -3,7 +3,7 @@
     <available>true</available>
     <description>Follow up email to students after an outreach call.</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Outreach - Commencing Students - Follow up email</name>
+    <name>Outreach - Follow up email - Commencing Students</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Set yourself up for success</subject>

@@ -15,6 +15,8 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     public static final String ACADEMIC_STATUS_SHOW_CAUSE = 'Showcause';    
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
+    public static final String ENROLLMENT_STATUS_PASSED = 'Passed';
+    public static final String ENROLLMENT_STATUS_WITHDRAWN = 'Withdrawn';
     public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
 
     public static final String ENROLLMENT_STAGE_ADMITTED = 'Admitted';
@@ -46,12 +48,16 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     }
     
     public List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIds(Set<Id> contactIds, String accessLevel){
+        Set<String> enrollmentStatuses = new Set<String>{
+            ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED,
+            ProgramEnrollmentsDAO.ENROLLMENT_STATUS_PASSED,
+            ProgramEnrollmentsDAO.ENROLLMENT_STATUS_WITHDRAWN
+        };
         return Database.query(
             'SELECT Id, hed__Contact__c, Enrollment_Status__c ' +
             'FROM hed__Program_Enrollment__c ' +
             'WHERE hed__Contact__c IN :contactIds ' +
-            'AND Enrollment_Status__c = \'Admitted\' ' +
-            'AND hed__Contact__r.QUT_Student__c = FALSE ' +
+            'AND Enrollment_Status__c IN(' + DynamicQueryService.formatStringSetForWhereClause(enrollmentStatuses) + ') ' +
             'WITH ' + String.escapeSingleQuotes(accessLevel)
         );
     }
