@@ -10,7 +10,7 @@
  */
 public with sharing class AdhocImportOutreachCaseBatch implements Database.Batchable<sObject>, Database.Stateful {
 
-    private List<OutreachCaseImportCtrl.OutreachCases> outreachCaseList = new List<OutreachCaseImportCtrl.OutreachCases>();
+    private List<String> outreachCaseIdString = new List<String>();
 
     private List<String> qutStudentIds;
     private Engagement_List_Criteria__c engagementCriteria;
@@ -49,26 +49,13 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
             
             ELECandidateProcessor processor = new ELECandidateProcessor();
             List<ELECandidateProcessResult> processResult = processor.process(eventsByContactMap, engagementCriteria);
-
-            Map<Id, String> mapper = new Map<Id, String>();
             for (ELECandidateProcessResult result : processResult){
-                if (!mapper.containsKey(result.getCase().Id)) {
-                    mapper.put(result.getCase().Id, result.getResult().name());
+                if(result.getResult() == ELECandidateProcessResult.Outcome.CASE_CREATED){
+                    outreachCaseIdString.add(result.getCase().Id);
                 }
+
             }
             
-            List<Case> caseList = CasesDAO.newInstance().getCasesByIdsImported(mapper.keySet(), AccessLevel.USER_MODE);
-            List<Case> updatedCaseList = new List<Case>();
-
-            
-            for (Case caseRecord : caseList){
-                if (mapper.containsKey(caseRecord.Id)){
-                    outreachCaseList.add(new OutreachCaseImportCtrl.OutreachCases(caseRecord, mapper.get(caseRecord.Id)));
-                    caseRecord.Engagement_List_Configuration__c = configurationId;
-                    updatedCaseList.add(caseRecord);
-                }
-            } 
-
         } catch (Exception e) {
             Logger.error(
                 'Exception caught in method finish in class AdhocImportOutreachCaseBatch.'
@@ -82,36 +69,23 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
     }
 
     public void finish(Database.BatchableContext bc) {
-        List<Outreach_Case__e> outreachCaseEvents = new List<Outreach_Case__e>();
-        for(OutreachCaseImportCtrl.OutreachCases outreacCaseWrapper : outreachCaseList){
+        
+        String caseIdsString = String.join(outreachCaseIdString, ','); 
 
-            outreachCaseEvents.add(
-                new Outreach_Case__e(
-                    Case_Id__c = outreacCaseWrapper.getCase().Id,
-                    Case_No__c = outreacCaseWrapper.getCase().CaseNumber,
-                    /* Case_No__c = outreacCaseWrapper.getCase().CaseNumber,
-                    Contact_Id__c = outreacCaseWrapper.getCase().ContactId,
-                    Contact_Name__c = outreacCaseWrapper.getCase().Contact.Name,
-                    Mobile__c = outreacCaseWrapper.getCase().Contact.MobilePhone,
-                    QUT_Learner_Email__c = outreacCaseWrapper.getCase().Contact.QUT_Learner_Email__c,
-                    QUT_Student_Id__c = outreacCaseWrapper.getCase().Contact.QUT_Student_Id__c, */
-                    Result__c = outreacCaseWrapper.getProcessResultCode()
-                )
-            );
-            
-        }
+        List<Outreach_Case__e> outreachCaseEvents = new List<Outreach_Case__e>();
+        outreachCaseEvents.add(
+            new Outreach_Case__e(
+                Case_Id_String__c = caseIdsString
+            )
+        );
         
         if (!outreachCaseEvents.isEmpty()) {
             try {
-                Logger.info('publishing outreachCaseEvents.... ' + JSON.serialize(outreachCaseEvents));
                 EventBus.publish(outreachCaseEvents);
-                Logger.info('Napublish naman');
-                Logger.saveLog();
             } catch (Exception e) {
                 // prettier-ignore
                 NebulaLoggerService.logExceptionDetails('Exception caught in AdhocImportOutreachCaseBatch', e);
             }
         }
-
     }
 }
