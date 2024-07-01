@@ -21,6 +21,7 @@
  *    | mark.j.mahilum                 | Nov 11, 2023          | DEPP-7161              | Revise Matching logic to Contact   |
  *    | mark.j.mahilum                 | Nov 16, 2023          | DEPP-7120              | Refactor logic for application and |
  *    |                                |                       |                        | contact mapping                    |
+ *    | sebastianne.k.trias            | June 1, 2024          | DEPP-8474              | Removed modify Opt in/out fields   |
  */
 public with sharing class ApplicationService { //NOPMD
 
@@ -358,58 +359,6 @@ public with sharing class ApplicationService { //NOPMD
             );
         }
         return leadMapToUpdate.get(leadId);
-    }
-    
-     /**
-     * @description used to map the marketing fields to the contact record related to the application
-     * @param Contact applicantToUpdate - contact record update
-     * @param RecordsToReferenceWrapper recordsToReference - application trigger records 
-     * @param boolean isForDisableMarketing - tells the method if marketing is for email opt out
-     */
-    public static void mapMarketingFields(Contact applicantToUpdate, RecordsToReferenceWrapper recordsToReference, Boolean isForDisableMarketing){
-        Boolean isQTACApp = recordsToReference.application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-        Boolean isUpdate = recordsToReference.oldApplication != null;
-        Boolean isContactUpdated = isUpdate && recordsToReference.application.hed__Applicant__c != recordsToReference.oldApplication.hed__Applicant__c;
-        Boolean isActiveUpdated = isUpdate && recordsToReference.oldApplication.Is_Active__c != recordsToReference.application.Is_Active__c;
-        Boolean isQTACRelevantFieldsUpdated = isContactUpdated || isActiveUpdated;
-        Boolean isProcessingQTAC = isQTACApp && recordsToReference.application.Is_Active__c && (!isUpdate || isQTACRelevantFieldsUpdated);
-        Boolean isProcessingNonQTAC = !isQTACApp && (!isUpdate || isContactUpdated);
-
-        //opt in marketing if New Record is created for All recrod types expcept QTAC
-        Boolean isOptInMarketing = isProcessingQTAC || isProcessingNonQTAC;
-        //opt out marketing if QTAC is set is active to false  
-        //And isForDisableMarketing is true (Contact has no cases, no interaction and no other application)
-        Boolean isOptOutMarketing = isQTACApp && isForDisableMarketing && !recordsToReference.application.Is_Active__c && (!isUpdate || isQTACRelevantFieldsUpdated);
-
-        if(isOptInMarketing){
-            MarketingService.optInOrOutMarketing(applicantToUpdate,true);
-        }else if(isOptOutMarketing){
-            MarketingService.optInOrOutMarketing(applicantToUpdate,false);
-        }
-    }
-
-     /**
-     * @description used to map the marketing fields to the contact record related to the application
-     * @param List<hed__Application__c> newApps - trigger.new applications
-     * @param Map<Id,hed_-Application__c> oldItems - trigger.old applications
-     * @param set<Id> applicantIdsForMarketingOptOut - contact id for opt out
-     */
-    public static void collectApplicantIdsForMarketingOptOut(List<hed__Application__c> newApps, Map<Id, SObject> oldItems, Set<Id> applicantIdsForMarketingOptOut){
-
-        for(hed__Application__c application : newApps){
-            hed__Application__c oldApp = oldItems != null?(hed__Application__c)oldItems.get(application.Id):null;
-
-            Boolean isUpdate = oldApp != null;
-            Boolean isQTACApp = application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-            Boolean isActivedToFalse = application.Is_Active__c == false && (!isUpdate|| oldApp.Is_Active__c != application.Is_Active__c);
-            Boolean hasApplicant = application.hed__Applicant__c != null;
-            Boolean isContactUpdated = hasApplicant && (!isUpdate || application.hed__Applicant__c != oldApp.hed__Applicant__c);
-            Boolean contactIsForMarketingOptOut = application.Is_Active__c == false && hasApplicant && isQTACApp && (isActivedToFalse || isContactUpdated);
-
-            if(contactIsForMarketingOptOut){
-                applicantIdsForMarketingOptOut.add(application.hed__Applicant__c);
-            }
-        }
     }
     
     /**

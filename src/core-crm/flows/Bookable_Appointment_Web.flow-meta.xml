@@ -104,13 +104,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>ServiceAppointment.Marketing_Consent__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>By_submitting_this_form_you_understand_that_QUT_is_collecting_your_personal_info</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>ServiceAppointment.Phone</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -728,19 +721,8 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>By_submitting_this_form_you_understand_that_QUT_is_collecting_your_personal_info</name>
-            <dataType>Boolean</dataType>
-            <defaultValue>
-                <elementReference>By_submitting_this_form_you_understand_that_QUT_is_collecting_your_personal_info</elementReference>
-            </defaultValue>
-            <fieldText>By submitting this form, you understand that QUT is collecting your personal information.</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
             <name>Privacy_Collection_Text</name>
-            <fieldText>&lt;p&gt;Please refer to the &lt;a href=&quot;https://www.qut.edu.au/additional/privacy&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Privacy Collection Notice &lt;/a&gt;for more information.&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Please refer to the &lt;a href=&quot;https://www.qut.edu.au/additional/privacy&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Privacy Collection Notice &lt;/a&gt;for more information. By submitting this form, you understand that QUT is collecting your personal information.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
