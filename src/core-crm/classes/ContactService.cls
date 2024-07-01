@@ -14,7 +14,7 @@
       | sebastianne.k.trias            | June 1, 2024          | DEPP-8474              | Removed Modify Opt in/out fields |
  */
 
-public inherited sharing class ContactService {
+ public inherited sharing class ContactService {
     /**
      * @description Checks if the input work email in the flow exist across the organization.
      * @param emailInput -  the email that is needed to be check accross work email, email, qut staff, and qut learner
