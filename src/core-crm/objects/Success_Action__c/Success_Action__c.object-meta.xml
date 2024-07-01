@@ -168,7 +168,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Success Actions</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
