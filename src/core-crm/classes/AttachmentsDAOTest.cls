@@ -14,13 +14,14 @@
 public with sharing class AttachmentsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new AttachmentsDAO().getSObjectType() == Attachment.SObjectType,
                 'SObject is not Attachment'
@@ -31,7 +32,7 @@ public with sharing class AttachmentsDAOTest {
     @isTest
     static void findAttachmentsByNamesEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Attachment> attachmentList = AttachmentsDAO.newInstance()
             .findAttachmentsByNames(new Set<String>(), AccessLevel.USER_MODE);
             System.assert(attachmentList.isEmpty(), 'Attachment list should be empty.');
@@ -41,7 +42,7 @@ public with sharing class AttachmentsDAOTest {
     @isTest
     static void findAttachmentsByNamesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactListCreated = TestDataFactory.createTestContactRecords(1);
             contactListCreated[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
