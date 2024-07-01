@@ -65,7 +65,6 @@ public with sharing class AdhocImportOutreachCaseBatchTest {
 
             List<Case> outreachCaseList =  CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(configs[0].Id, AccessLevel.SYSTEM_MODE);
             List<Engagement_List_Event__c> eventList = EngagementListEventsDAO.newInstance().getEngagmentListEventByCaseId(new Set<Id>{outreachCaseList[0].Id}, AccessLevel.SYSTEM_MODE);
-            List<Case> outreachCaseList2 = [Select Id, CreatedBy.Name, CreatedById FROm Case];
             
             System.assertEquals(5, outreachCaseList.size(), 'No outreach cases created');
             System.assertEquals(outreachCaseList[0].Id, eventList[0].Case__c, 'No Engagement List Event created');
