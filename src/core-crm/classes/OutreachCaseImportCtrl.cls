@@ -20,6 +20,21 @@ public with sharing class OutreachCaseImportCtrl {
         List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, AccessLevel.USER_MODE);
         return caseList;
     }
+
+    /**
+    * @description Method to validate the Contact through the Student Id
+    * @param recordId - recordId of Engagement List Configuration
+    * @return List<Case> - List of Cases related to Engagement List Configurations
+    */
+    @AuraEnabled
+    public static List<Case> listOfCasesById(List<String> caseIds){
+        Set<Id> newCaseIds = new Set<Id>();
+        for (String id : caseIds) {
+            newCaseIds.add(id);
+        }
+        List<Case> caseList = CasesDAO.newInstance().getCasesByIdsImported(newCaseIds, AccessLevel.USER_MODE);
+        return caseList;
+    }
     
     /**
     * @description Method to validate the Contact through the Student Id
@@ -40,14 +55,12 @@ public with sharing class OutreachCaseImportCtrl {
     * @return List<OutreachCases> - List of Outreach Cases Created on import
     */
     @AuraEnabled
-    public static List<OutreachCases> listOfCasesbyStudentIds(List<String> qutStudentIds, String criteria, Id configurationId){
+    public static void listOfCasesbyStudentIds(List<String> qutStudentIds, String criteria, Id configurationId){
 
         Engagement_List_Criteria__c engagementCriteria = createEngagementListCriteria(criteria, configurationId);
-
         AdhocImportOutreachCaseBatch batch = new AdhocImportOutreachCaseBatch(qutStudentIds, engagementCriteria, configurationId);
         Database.executeBatch(batch);  
 
-        return new List<OutreachCases>(); 
     }
 
     /**
