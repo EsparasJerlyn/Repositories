@@ -168,7 +168,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Course Connection Assessments</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
