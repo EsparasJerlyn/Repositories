@@ -166,6 +166,14 @@ public without sharing class MarketingStagingMatchingHelper{
                 finalMaping.put('Lead_Source_Category__c','Lead_Source_Category__c');
             }
 
+            if ( MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) && MarketingStagingTriggerHelper.contactMatches.get(oldContactId).LeadSource != null){
+                finalMaping.remove('LeadSource');
+            }
+            
+            if ( MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) && MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Lead_Source_Category__c != null){
+                finalMaping.remove('Lead_Source_Category__c');
+            }
+
         }
 
         for(String fieldName: finalMaping.keySet()){
