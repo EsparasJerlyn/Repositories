@@ -14,14 +14,14 @@ public class AssignAccountsToESBFlowTest {
 
     @TestSetup
     static void makeData() {
+        TestDataFactoryUser.generateUserQUTESB();
         List<Account> accountList = TestDataFactory.createTestAccountRecordsWithRecordType(100, AccountsDAO.ACCT_BUSINESS_ORG_ID);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
     }   
     
     @isTest
     public static void updateOpportunityStagetoExecuted(){
-        User esbIntegrationUser = [SELECT Id FROM USER WHERE FirstName = 'ESB' AND LastName = 'Integration User' LIMIT 1];
-        System.runAs(esbIntegrationUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             Set<String> accountName = new Set<String>();
             for(Integer i=0; i<100 ; i++){
                 accountName.add('TestAccount' + i);
