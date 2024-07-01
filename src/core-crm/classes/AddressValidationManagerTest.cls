@@ -13,8 +13,8 @@ private class AddressValidationManagerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        TestDataFactoryUser.generateUserQUTESB();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
                 new ABS_Categorisation__c(
@@ -36,7 +36,7 @@ private class AddressValidationManagerTest {
        
     @isTest
     static void executeAddressValidationFirstAdmittedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
             for(Contact con: contactList){
@@ -85,7 +85,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void executeAddressValidationNotFirstAdmittedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(201, 'Fail', ''));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
             for(Contact con: contactList){
@@ -145,7 +145,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void executeAddressValidationOtherAddressTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
@@ -191,7 +191,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void executeAddressValidationOtherAddressCloneTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
@@ -243,7 +243,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void processValidateAddressOthersTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
             List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('SYSTEM_MODE');
