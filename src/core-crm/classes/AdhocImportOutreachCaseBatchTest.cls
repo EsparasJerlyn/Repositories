@@ -14,7 +14,6 @@ public with sharing class AdhocImportOutreachCaseBatchTest {
     static void setupMethod(){
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
-        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
         Test.stopTest();
 
         System.runAs(TestDataFactoryUser.selectUserQUTESB){
@@ -35,7 +34,7 @@ public with sharing class AdhocImportOutreachCaseBatchTest {
     }
     @isTest
     static void batchExecutionTest() {
-        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             //List of Contact studentIds
             List<String> studentIds = new List<String>{'0000001', '0000002', '0000003', '0000004','0000005'};
 
