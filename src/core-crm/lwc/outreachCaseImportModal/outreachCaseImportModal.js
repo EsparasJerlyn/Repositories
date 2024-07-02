@@ -1,8 +1,7 @@
-import { LightningElement,track,api,wire } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { subscribe, unsubscribe, onError } from "lightning/empApi";
+import { LightningElement,track,api } from 'lwc';
+import { subscribe, unsubscribe } from "lightning/empApi";
 import listOfStudents from "@salesforce/apex/OutreachCaseImportCtrl.listOfStudents";
-import listOfCasesbyStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds";
+import listOfCasesByStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesByStudentIds";
 import listOfCasesById from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesById";
 import Id from "@salesforce/user/Id";
 
@@ -113,8 +112,10 @@ export default class OutReachCaseImportModal extends LightningElement {
   existingCasesCount;
   caseCreatedCount;
   caseTableView = false;
-  fileUploadMessage = 'File upload in progress, this screen will update once the process has completed.';
+  fileUploadMessage = 'File upload in progress, this screen will update once the process has completed. Refreshing or closing this page will not affect the upload.';
+  errorOccuredMessage = 'An error has occurred and some cases may have been created successfully. Please re-upload the file to create any remaining cases. Duplicates will not be created.';
   userId = Id;
+  errorOccured = false;
 
   connectedCallback(){
     let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -181,6 +182,10 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   get isLoading() {
     return !this.loaded;
+  }
+
+  get isErrorOccured(){
+    return this.errorOccured;
   }
 
   handleFileUpload(event) {
@@ -397,7 +402,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleCreateOutreach() {
-    this.showSpinner = false;
     this.title = this.title ? this.title : '';
     const allValid = [
       ...this.template.querySelectorAll('lightning-input'),
@@ -407,6 +411,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     }, true);
 
     if (allValid) {
+      this.showSpinner = false;
       this.loaded = false;
       this.isCreateOutreach = true;
       let stundentColumns = ['Case', 'QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -447,7 +452,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
-    this.handleSubscribe();
     const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
@@ -457,12 +461,14 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.title = this.title ? this.title : '';
     this.description = this.description ? this.description : '';
     const criteria = this.title + ',' + this.description;
-    listOfCasesbyStudentIds({ 
+    listOfCasesByStudentIds({ 
       qutStudentIds : studentIds,
       criteria : criteria,
       configurationId : this.recordId
      })
-		.then((result) => {})
+		.then(() => {
+      this.handleSubscribe();
+    })
 		.catch(error => {
       this.loaded = false;
       if (logger) {
@@ -500,6 +506,11 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   handleSearch(event) {
     let searchKey = event.target.value;
+    this.searchKeyVal = searchKey;     	
+  }
+
+  handleCommitSearch(){
+    let searchKey = this.searchKeyVal;
     let searchString = searchKey.toUpperCase();
     let allRecords = this.tempData;
     let new_search_result = [];
@@ -516,20 +527,12 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.data = [];
     }else{
       this.data = this.tempData;
-    }       	
+    }   
   }
-
-  generateToast(_title,_message,_variant){
-    const evt = new ShowToastEvent({
-        title: _title,
-        message: _message,
-        variant: _variant,
-    });
-    this.dispatchEvent(evt);
-  }  
 
   handleSubscribe() {
     const messageCallback = (response) => {
+      this.errorOccured = response.data.payload.Has_Error__c;
       if (response.data.payload.CreatedById != this.userId) {
         return;
       }
@@ -585,13 +588,11 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.tempData = this.data; // For Search
     }).finally(() => {
       // Invoke unsubscribe method of empApi
-        unsubscribe(this.subscription, (response) => {
-            console.log('unsubscribe() response: ', JSON.stringify(response));
-            // Response is true for successful unsubscribe
-        });
+      unsubscribe(this.subscription, () => {});
+      this.loaded = true; 
+      this.showSpinner = true;
     });
-    this.loaded = true; 
-    this.showSpinner = true;
+    
   }
 
 }
