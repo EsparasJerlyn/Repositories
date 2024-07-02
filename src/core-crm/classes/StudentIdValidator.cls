@@ -63,7 +63,7 @@ public with sharing class StudentIdValidator {
             this.resultCode = resultCode;
             this.studentId = contact.QUT_Student_ID__c;
             this.fullName = contact.Name;
-            this.email = contact.Email;
+            this.email = contact.QUT_Learner_Email__c;
             this.mobilePhone = contact.MobilePhone;
             this.id = contact.Id;
         }
