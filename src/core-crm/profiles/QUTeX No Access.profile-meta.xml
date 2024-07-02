@@ -267,10 +267,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>BastiTestClass</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>BuyerGroupFlowTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
