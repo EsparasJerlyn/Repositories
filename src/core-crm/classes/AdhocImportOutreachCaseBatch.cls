@@ -39,7 +39,6 @@ public with sharing class AdhocImportOutreachCaseBatch implements Database.Batch
             ingredient.setContact(con);
             ingredientList.add(ingredient);
             ingredientByContactMap.put(ingredientList, con);
-            List<Contact> contactss = [SELECT Id FROM Contact];
         }
         
         Map<Id, List<Engagement_List_Event__c>> eventsByContactMap = new Map<Id, List<Engagement_List_Event__c>>();
