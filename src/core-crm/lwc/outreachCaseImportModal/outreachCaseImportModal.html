@@ -59,6 +59,9 @@
                 </div>
               </template>
               <div if:false={isLoading}>
+                <div if:true={isErrorOccured} class="slds-text-align_left slds-text-color_error">
+                  {errorOccuredMessage}
+                </div>
                 <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
                   <lightning-layout>
                     <lightning-layout-item flexibility="auto" padding="around-small">
@@ -85,6 +88,7 @@
                           type="search"
                           placeholder="search"
                           onchange={handleSearch}
+                          oncommit={handleCommitSearch}
                         ></lightning-input>
                       </div>
                     </div>
