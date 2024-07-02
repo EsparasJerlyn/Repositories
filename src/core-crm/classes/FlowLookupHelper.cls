@@ -10,7 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | ryan.j.a.dela.cruz             | June 7, 2023          | DEPP-5385              | Created file                                   |
  *    | ryan.j.a.dela.cruz             | October 19, 2023      | DEPP-6928/DEPP-6973    | Added fullName and email search                |
- *    | sebastianne.k.trias            | March 22, 2024        | DEPP-8185              | Added SOSL in buildSearchFieldString method    |
+ *    | sebastianne.k.trias            | March 22, 2024        | DEPP-8185              | Added SOSL in buildQueryString method          |
  */
 public inherited sharing class FlowLookupHelper {
     /**
@@ -176,6 +176,9 @@ public inherited sharing class FlowLookupHelper {
         String queryString = '';
         if (useSOSL)
         {
+            if(searchTerm != null && searchTerm.length() < 2){
+                return null;
+            }
             searchTerm = '*'+searchTerm+'*';
             queryString = 'FIND \'' +String.escapeSingleQuotes(searchTerm)+ '*\' IN NAME FIELDS RETURNING '+objectName+ '('+fieldsToReturn+'';
             if (!String.isBlank(whereClause) || !String.isBlank(searchFieldString)) {

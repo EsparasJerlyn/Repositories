@@ -412,6 +412,11 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       this.isLoading = true;
       const logger = this.template.querySelector("c-logger");
 
+      if( searchText.length < 2 && this.objectName == 'Contact'){
+        this.isLoading = false;
+        return;
+      }
+
       search({
         searchTerm: searchText,
         objectName: this.objectName,

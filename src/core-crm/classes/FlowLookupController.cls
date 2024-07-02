@@ -62,14 +62,15 @@ public inherited sharing class FlowLookupController {
                 searchTerm
             );
 
-            List<List<Contact>> soslResult = search.query(queryStringSOSL); 
-            
             List<String> contactIds = new List<String>();
-            
-            for(Contact con : soslResult[0]){
-                contactIds.add('\''+con.Id+'\'');
+
+            if(queryStringSOSL != null){
+                List<List<Contact>> soslResult = search.query(queryStringSOSL); 
+                for(Contact con : soslResult[0]){
+                    contactIds.add('\''+con.Id+'\'');
+                }
             }
-            
+
             if(!contactIds.isEmpty()){
                 searchFieldString += ' OR ID IN ('+String.join(contactIds,',')+')';
             }
