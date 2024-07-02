@@ -55,7 +55,7 @@ public with sharing class OutreachCaseImportCtrl {
     * @return List<OutreachCases> - List of Outreach Cases Created on import
     */
     @AuraEnabled
-    public static void listOfCasesbyStudentIds(List<String> qutStudentIds, String criteria, Id configurationId){
+    public static void listOfCasesByStudentIds(List<String> qutStudentIds, String criteria, Id configurationId){
 
         Engagement_List_Criteria__c engagementCriteria = createEngagementListCriteria(criteria, configurationId);
         AdhocImportOutreachCaseBatch batch = new AdhocImportOutreachCaseBatch(qutStudentIds, engagementCriteria, configurationId);

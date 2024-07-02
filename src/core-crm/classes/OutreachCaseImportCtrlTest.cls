@@ -112,7 +112,7 @@ private class OutreachCaseImportCtrlTest {
                 contactList.add(contact);
             }
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
-            OutreachCaseImportCtrl.listOfCasesbyStudentIds(studentIds, criteriaName, configs[0].Id);
+            OutreachCaseImportCtrl.listOfCasesByStudentIds(studentIds, criteriaName, configs[0].Id);
             Test.stopTest();
             List<Case> outreachCaseList =  CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(configs[0].Id, AccessLevel.SYSTEM_MODE);
             System.assertEquals(contactList.size(), outreachCaseList.size(), 'All contact records should have an outreach case record.');
@@ -149,7 +149,7 @@ private class OutreachCaseImportCtrlTest {
                 contactList.add(contact);
             }
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
-            OutreachCaseImportCtrl.listOfCasesbyStudentIds(studentIds, criteriaName, configs[0].Id);
+            OutreachCaseImportCtrl.listOfCasesByStudentIds(studentIds, criteriaName, configs[0].Id);
             List<Case> outreachCaseList =  CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(configs[0].Id, AccessLevel.SYSTEM_MODE);
             List<String> caseIds = new List<String>();
             for(Case caseRec: outreachCaseList){

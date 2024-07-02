@@ -1545,9 +1545,8 @@ public class TestDataFactoryUser {
             usr.userpermissionsflowuser = true;
             usr.userpermissionsserviceuser = true;
 
-            usr.permissionsetNames = new Set<String>{'Student_Success_Base,Student_Success_Super_User'};
             usr.permissionsetGroupNames = new Set<String>{'Student_Success_Outreach_Manager'};
-            usr.publicGroupNames = new Set<String>{'Student_Success_Outreach_Manager','Student Success Outreach Staff'};
+            usr.publicGroupNames = new Set<String>{'Student_Success_Outreach_Manager'};
 
             return usr;
         } set;

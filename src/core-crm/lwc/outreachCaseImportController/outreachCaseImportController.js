@@ -78,7 +78,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
   rowOffset = 0;
   caseTable = [];
   dataForViewAll = [];
-  title = 'Cases'
+  title = 'Cases';
 
   @wire(getRecord, { recordId: "$recordId", fields })
   engagementListConfiguration;
