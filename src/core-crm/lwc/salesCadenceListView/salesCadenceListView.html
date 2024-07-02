@@ -65,13 +65,16 @@
             class="slds-m-right_xx-small"
             tooltip="Refresh"
             onclick={handleRefreshData}></lightning-button-icon>
-          <lightning-input  
-            variant="label-hidden" 
-            type="search" 
-            onchange={handleFilter} 
-            oncommit={handleCommit}
-            placeholder="Search this list..."
-            class="slds-m-right_xx-small"></lightning-input>
+            <div class="tooltip">
+              <lightning-input  
+              variant="label-hidden" 
+              type="search" 
+              onchange={handleFilter} 
+              oncommit={handleCommit}
+              placeholder="Search this list..."
+              class="slds-m-right_xx-small"></lightning-input>
+              <span class="tooltiptext">Enhance your search results by typing multiple keywords separated by a semicolon (;)</span>
+            </div>
           <lightning-button
             class="slds-m-right_xx-small"
             label="Assign to me"
@@ -102,7 +105,7 @@
             columns={finalColumns}
             onloadmore={loadMoreData}
             enable-infinite-loading={enableInfiniteLoading}
-            load-more-offset="1"
+            load-more-offset="0"
             show-row-number-column
             sorted-by={sortBy}
             sorted-direction={sortDirection}
