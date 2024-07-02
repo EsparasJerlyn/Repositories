@@ -146,6 +146,9 @@
     <!--DEPP-9125 Start-->
     <types>
         <members>QUTStudentRetentionEmailTemplates/Outreach_Held_Show_Cause_Unsatisfactory_Academic_Performance_1716856187779</members>
+        <!--DEPP-9570 Start-->
+        <members>QUTStudentRetentionEmailTemplates/Outreach_Commencing_Students_Follow_up_email_1716871867327</members>
+        <!--DEPP-9570 End-->
         <name>EmailTemplate</name>
     </types>
     <!--DEPP-9125 End-->
