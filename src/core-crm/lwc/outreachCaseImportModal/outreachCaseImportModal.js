@@ -6,9 +6,6 @@ import listOfCasesbyStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.lis
 import listOfCasesById from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesById";
 import Id from "@salesforce/user/Id";
 
-
-import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
-
 export default class OutReachCaseImportModal extends LightningElement { 
 
   tableColumns = [
@@ -159,7 +156,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   get closeButtonDisabled() {
-    console.log('show spinner :: ', this.showSpinner);
     return !this.showSpinner ? true : false ;
   }
 
@@ -180,7 +176,6 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   get exclRowCount() {
-    console.log('this.exclusionData :: ', JSON.parse(JSON.stringify(this.exclusionData)));
     return this.exclusionData.length <= 0 ? 0 : this.exclusionData.length;
   }
 
@@ -240,7 +235,6 @@ export default class OutReachCaseImportModal extends LightningElement {
     // parse the first line containing the csv column headers
     const headers = lines[0].split(',');
     const rowCount = lines.length - 2;
-    console.log('rowCount : ',rowCount);
 
     this.validateCsvFile(headers, rowCount);
     if (this.errors.length > 0) {
@@ -300,13 +294,10 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   validateStudents(studentIds){
     const logger = this.template.querySelector("c-logger");
-    console.log('studentIds :: ', studentIds);
 
     listOfStudents({ studentIds: studentIds })
 		.then(result => {
       let allStudentsData = result;
-      console.log('result :: ', JSON.parse(JSON.stringify(result)));
-      console.log('allStudentsData :: ', JSON.parse(JSON.stringify(allStudentsData)));
       const exclData = [];
       const data = this.data;
       for (let i = 0; i < allStudentsData.length; i++) {
@@ -318,7 +309,6 @@ export default class OutReachCaseImportModal extends LightningElement {
             exclData.push(this.updateExclusiveData(result[i].studentId, 'Multiple students found with the same Student ID in DEP'));
           } 
           if (result[i].resultCode == 'INVALID') {
-            console.log('Invalid Result : ', result[i]);
             exclData.push(this.updateExclusiveData(result[i].studentId, 'Student ID was not found'));
           } 
         }
@@ -358,8 +348,6 @@ export default class OutReachCaseImportModal extends LightningElement {
         }
         return obj;
       });
-
-      console.log('data copy :: ', JSON.parse(JSON.stringify(this.dataCopy)));
 
       this.data = this.dataCopy;
       this.tempData = this.data; // for search
@@ -474,47 +462,15 @@ export default class OutReachCaseImportModal extends LightningElement {
       criteria : criteria,
       configurationId : this.recordId
      })
-		.then(result => {
-      // const caseData = result;
-      // const studentData = JSON.parse(JSON.stringify(data));
-      // const merged = studentData.map(t1 => {
-      //   const matchData = caseData.find((t2) => t2.case.ContactId === t1.contactId);
-      //   return !!matchData ? {
-      //     ...t1, 
-      //     caseId : matchData.case.Id, 
-      //     caseNumber : matchData.case.CaseNumber, 
-      //     result : matchData.processResultCode,
-      //     caseUrl : `/lightning/r/Case/${matchData.case.Id}/view`} : null          
-      // }).filter(Boolean);
-      // const caseCreated = [];
-      // const existingCase = [];
-      // this.data = merged;
-      // this.tempData = merged; // For Search
-
-      // for (let field in merged) {
-      //   if (String(merged[field].result) === String('CASE_CREATED')) {
-      //     caseCreated.push(merged[field]);
-      //   } else if (String(merged[field].result) === String('EVENT_CREATED')) {
-      //     existingCase.push(merged[field]);
-      //   }
-      // }
-      // this.caseTableView = true;
-
-      // this.existingCasesCount = existingCase.length;
-      // this.caseCreatedCount = caseCreated.length;
-      
-      
-		})
+		.then((result) => {})
 		.catch(error => {
       this.loaded = false;
-      this.generateToast('Error.', LWC_Error_General, 'error');
-      console.log('ERROR::: ' +  JSON.stringify(error));
-      /* if (logger) {
+      if (logger) {
         logger.error(
           "Exception caught in method createOutreach in LWC outreachCaseImportModal: "
         ).setError(error);
       }
-      logger.saveLog(); */
+      logger.saveLog();
 		});
   }
 
@@ -573,12 +529,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }  
 
   handleSubscribe() {
-    console.log('UserId : ', this.userId);
     const messageCallback = (response) => {
-      
-      console.log('messageCallback data :: ', JSON.parse(JSON.stringify(response.data)));
-      console.log('messageCallback payload :: ', JSON.parse(JSON.stringify(response.data.payload)));
-      console.log('response.data.CreatedById :: ', response.data.payload.CreatedById);
       if (response.data.payload.CreatedById != this.userId) {
         return;
       }
@@ -591,12 +542,9 @@ export default class OutReachCaseImportModal extends LightningElement {
 
       const caseCreated = !newOutreachCaseIds ? 0 : newOutreachCaseIds.split(',');
       const existingCase = !existingOutreachCaseIds ? 0 : existingOutreachCaseIds.split(',');
-      console.log('caseCreated : ', caseCreated);
-      console.log('existingCase : ', existingCase);
 
       this.existingCasesCount = existingCase != 0 ? existingCase.length : existingCase;
       this.caseCreatedCount = caseCreated != 0 ? caseCreated.length : caseCreated;
-      console.log('mergedCaseIds : ', mergedCaseIds);
       this.handleMessage(mergedCaseIds);
     };
 
@@ -606,32 +554,21 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleMessage(response) {
-    console.log('response:: ', response);
 
     let caseIdString = response;
     const splittedCaseIds = caseIdString.split(',');
-    console.log('splittedCaseIds:: ', splittedCaseIds);
-
-    // let obj = JSON.parse(JSON.stringify(response));
-    // console.log('Response.' + response.length);
-    // console.log('OKI NAMAN.' + JSON.stringify(obj));
-    // console.log('OKI NAMAN data.' + JSON.stringify(obj.data.payload));
-    // console.log('OKI NAMAN payload.' + JSON.parse(JSON.stringify(obj.data.payload)));
-
     const caseIds = [];
+
     splittedCaseIds.forEach( (data, i) => {
       if (data.length > 0) {
         caseIds[i] = data;
       }
     });
 
-    console.log('caseIds :: ', caseIds);
-
     listOfCasesById({
       caseIds: caseIds
     }).then(result => {
       this.caseTableView = true;
-      console.log('result :: ', result);
       const caseData = result.map(data => {
         return {
           caseNumber: data.CaseNumber,
