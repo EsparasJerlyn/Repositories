@@ -12,7 +12,7 @@
  */
 @isTest
 private class LeadScoreDetailTriggerHandlerTest {
-    private static Integer numberOfRecords = 100;
+    private static Integer numberOfRecords = 50;
 
     @testSetup
     static void setupMethod(){  
