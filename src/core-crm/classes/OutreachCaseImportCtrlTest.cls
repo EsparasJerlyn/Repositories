@@ -87,6 +87,8 @@ private class OutreachCaseImportCtrlTest {
     static void testListOfCasesbyStudentIds() {
 
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            String criteriaName = 'Test Criteria for Import';
             //Create Engagement List Configuration record
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -96,19 +98,6 @@ private class OutreachCaseImportCtrlTest {
             config.End_Date__c = Date.today().addDays(1);
             configs.add(config);
             EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
-
-            //Create Engagement List Criteria record
-            List<Engagement_List_Criteria__c> criteriaList = new List<Engagement_List_Criteria__c>();
-            Engagement_List_Criteria__c criteria = new Engagement_List_Criteria__c();
-            criteria.Engagement_List_Configuration__c = configs[0].Id;
-            criteria.RecordTypeId = EngagementListCriteriasDAO.RECORD_TYPE_ID_IMPORTED;
-            criteria.Engagement_List_Criteria_Title__c = 'Test Criteria';
-            criteriaList.add(criteria);
-            EngagementListCriteriasDAO.newInstance().insertRecords(criteriaList, true, AccessLevel.SYSTEM_MODE);
-            Engagement_List_Criteria__c criterias = EngagementListCriteriasDAO.newInstance()
-                .getEntryCriteriaById(
-                    criteriaList[0].Id,
-                    AccessLevel.SYSTEM_MODE);
             
             //Create Contact records
             List<Contact> contactList = new List<Contact>();
@@ -123,12 +112,52 @@ private class OutreachCaseImportCtrlTest {
                 contactList.add(contact);
             }
             ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
-
-            List<OutreachCaseImportCtrl.OutreachCases> outreachCaseList = new List<OutreachCaseImportCtrl.OutreachCases>();
-
-            outreachCaseList = OutreachCaseImportCtrl.listOfCasesbyStudentIds(studentIds, criterias.Engagement_List_Criteria_Title__c, configs[0].Id);
-            
+            OutreachCaseImportCtrl.listOfCasesByStudentIds(studentIds, criteriaName, configs[0].Id);
+            Test.stopTest();
+            List<Case> outreachCaseList =  CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(configs[0].Id, AccessLevel.SYSTEM_MODE);
             System.assertEquals(contactList.size(), outreachCaseList.size(), 'All contact records should have an outreach case record.');
+            
+        }
+    }
+
+    @IsTest
+    static void testListOfCasesById() {
+
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            String criteriaName = 'Test Criteria for Import';
+            //Create Engagement List Configuration record
+            List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
+            Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
+            config.Name = 'ELConfig Test';
+            config.Engagement_List_Configuration_Status__c = 'Active';
+            config.Start_Date__c = Date.today().addDays(-1);
+            config.End_Date__c = Date.today().addDays(1);
+            configs.add(config);
+            EngagementListConfigurationsDAO.newInstance().insertRecords(configs, true, AccessLevel.SYSTEM_MODE);
+            
+            //Create Contact records
+            List<Contact> contactList = new List<Contact>();
+            List<String> studentIds = new List<String>();
+            for(Integer i = 1; i <= 5; i++){
+                Contact contact =  new Contact();
+                contact.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                contact.QUT_Student__c = true;
+                contact.QUT_Student_ID__c = '000000' + i;
+                contact.LastName = 'Test User ' + i;
+                studentIds.add(contact.QUT_Student_ID__c);
+                contactList.add(contact);
+            }
+            ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.SYSTEM_MODE);
+            OutreachCaseImportCtrl.listOfCasesByStudentIds(studentIds, criteriaName, configs[0].Id);
+            List<Case> outreachCaseList =  CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(configs[0].Id, AccessLevel.SYSTEM_MODE);
+            List<String> caseIds = new List<String>();
+            for(Case caseRec: outreachCaseList){
+                caseIds.add(caseRec.Id);
+            }
+            List<Case> caseListById = OutreachCaseImportCtrl.listOfCasesById(caseIds);
+            Test.stopTest();
+            System.assertEquals(caseIds.size(), caseListById.size(), 'Not all case records are retrieved.');
             
         }
     }
