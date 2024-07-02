@@ -1,8 +1,12 @@
-import { LightningElement,track,api,wire } from 'lwc';
+import { LightningElement,track,api } from 'lwc';
+import { subscribe, unsubscribe } from "lightning/empApi";
 import listOfStudents from "@salesforce/apex/OutreachCaseImportCtrl.listOfStudents";
-import listOfCasesbyStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds";
+import listOfCasesByStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesByStudentIds";
+import listOfCasesById from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesById";
+import Id from "@salesforce/user/Id";
 
-export default class OutReachCaseImportModal extends LightningElement {
+export default class OutReachCaseImportModal extends LightningElement { 
+
   tableColumns = [
     {
       label: 'Case',
@@ -78,6 +82,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   ];
   
   @api recordId;
+  @api channelName = "/event/Outreach_Case__e";
 
   @track modalOpen = true;
   @track isCreateButtonDisabled = true;
@@ -89,24 +94,26 @@ export default class OutReachCaseImportModal extends LightningElement {
   @track studentsFound = 0;
   @track tempData = [];
   @track dataForCreateOutreach = [];
+  @track loaded = false;
+  @track title;
+  @track description;
+  @track showSpinner = true;
 
   showTabset = false;
   showModal = false;
   fileName;
-  @track loaded = false;
   showCreateOutreach = true;
   showCaseCol = false;
   isCreateOutreach = false;
   exitModal = 'Cancel';
   studentTable = [];
   exclusionsTable = [];
-  @track title;
-  @track description;
-
+  subscription = {};
   existingCasesCount;
   caseCreatedCount;
   caseTableView = false;
-
+  fileUploadMessage = 'File upload in progress, this screen will update once the process has completed. Refreshing or closing this page will not affect the upload.';
+  userId = Id;
 
   connectedCallback(){
     let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -145,6 +152,10 @@ export default class OutReachCaseImportModal extends LightningElement {
   
   get createButtonDisbaled() {
     return this.studentsFound == 0 ? true : false ;
+  }
+
+  get closeButtonDisabled() {
+    return !this.showSpinner ? true : false ;
   }
 
   get column2Name() {
@@ -282,21 +293,24 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   validateStudents(studentIds){
     const logger = this.template.querySelector("c-logger");
+
     listOfStudents({ studentIds: studentIds })
 		.then(result => {
       let allStudentsData = result;
       const exclData = [];
       const data = this.data;
       for (let i = 0; i < allStudentsData.length; i++) {
-        if (result[i].resultCode == 'VALID') {
-          data.push(allStudentsData[i]);
-        } 
-        if (result[i].resultCode == 'MULTIPLE_MATCH') {
-          exclData.push(this.updateExclusiveData(result[i].studentId, 'Multiple students found with the same Student ID in DEP'));
-        } 
-        if (result[i].resultCode == 'INVALID') {
-          exclData.push(this.updateExclusiveData(result[i].studentId, 'Student ID was not found'));
-        } 
+        if(result[i].studentId != null){
+          if (result[i].resultCode == 'VALID') {
+            data.push(allStudentsData[i]);
+          } 
+          if (result[i].resultCode == 'MULTIPLE_MATCH') {
+            exclData.push(this.updateExclusiveData(result[i].studentId, 'Multiple students found with the same Student ID in DEP'));
+          } 
+          if (result[i].resultCode == 'INVALID') {
+            exclData.push(this.updateExclusiveData(result[i].studentId, 'Student ID was not found'));
+          } 
+        }
       }
       const duplicates = [];
       studentIds.forEach((item, index) => {
@@ -324,7 +338,7 @@ export default class OutReachCaseImportModal extends LightningElement {
           rowId : `row-${index}`,
           studentId : data.studentId,
           fullName : data.fullName,
-          email : data.email,
+          email : data.email ? data.email : '',
           mobilePhone : data.mobilePhone ? data.mobilePhone : '',
           contactId : data.id
         }
@@ -382,6 +396,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleCreateOutreach() {
+    this.showSpinner = false;
     this.title = this.title ? this.title : '';
     const allValid = [
       ...this.template.querySelectorAll('lightning-input'),
@@ -431,6 +446,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
+    this.handleSubscribe();
     const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
@@ -440,48 +456,20 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.title = this.title ? this.title : '';
     this.description = this.description ? this.description : '';
     const criteria = this.title + ',' + this.description;
-    listOfCasesbyStudentIds({ 
-      QutStudentIds : studentIds,
+    listOfCasesByStudentIds({ 
+      qutStudentIds : studentIds,
       criteria : criteria,
       configurationId : this.recordId
      })
-		.then(result => {
-      const caseData = result;
-      const studentData = JSON.parse(JSON.stringify(data));
-      const merged = studentData.map(t1 => {
-        const matchData = caseData.find((t2) => t2.case.ContactId === t1.contactId);
-        return !!matchData ? {
-          ...t1, 
-          caseId : matchData.case.Id, 
-          caseNumber : matchData.case.CaseNumber, 
-          result : matchData.processResultCode,
-          caseUrl : `/lightning/r/Case/${matchData.case.Id}/view`} : null          
-      }).filter(Boolean);
-      const caseCreated = [];
-      const existingCase = [];
-      this.data = merged;
-      this.tempData = merged; // For Search
-
-      for (let field in merged) {
-        if (String(merged[field].result) === String('CASE_CREATED')) {
-          caseCreated.push(merged[field]);
-        } else if (String(merged[field].result) === String('EVENT_CREATED')) {
-          existingCase.push(merged[field]);
-        }
-      }
-      this.caseTableView = true;
-
-      this.existingCasesCount = existingCase.length;
-      this.caseCreatedCount = caseCreated.length;
-      this.loaded = true; 
-		})
+		.then(() => {})
 		.catch(error => {
-			if (logger) {
+      this.loaded = false;
+      if (logger) {
         logger.error(
-          "Exception caught in method createOutreach in LWC outreachCaseImportModal: ",
-          JSON.stringify(error)
-        );
+          "Exception caught in method createOutreach in LWC outreachCaseImportModal: "
+        ).setError(error);
       }
+      logger.saveLog();
 		});
   }
 
@@ -529,4 +517,68 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.data = this.tempData;
     }       	
   }
+
+  handleSubscribe() {
+    const messageCallback = (response) => {
+      if (response.data.payload.CreatedById != this.userId) {
+        return;
+      }
+      const newOutreachCaseIds = response.data.payload.New_Outreach_Case_Ids__c;
+      const existingOutreachCaseIds = response.data.payload.Existing_Outreach_Case_Ids__c;
+
+      const newId = !newOutreachCaseIds ? '' : newOutreachCaseIds;
+      const existingId = !existingOutreachCaseIds ? '' : existingOutreachCaseIds;
+      const mergedCaseIds = newId +','+ existingId;
+
+      const caseCreated = !newOutreachCaseIds ? 0 : newOutreachCaseIds.split(',');
+      const existingCase = !existingOutreachCaseIds ? 0 : existingOutreachCaseIds.split(',');
+
+      this.existingCasesCount = existingCase != 0 ? existingCase.length : existingCase;
+      this.caseCreatedCount = caseCreated != 0 ? caseCreated.length : caseCreated;
+      this.handleMessage(mergedCaseIds);
+    };
+
+    subscribe(this.channelName, -1, messageCallback).then((response) => {
+      this.subscription = response;
+    });
+  }
+
+  handleMessage(response) {
+
+    let caseIdString = response;
+    const splittedCaseIds = caseIdString.split(',');
+    const caseIds = [];
+
+    splittedCaseIds.forEach( (data, i) => {
+      if (data.length > 0) {
+        caseIds[i] = data;
+      }
+    });
+
+    listOfCasesById({
+      caseIds: caseIds
+    }).then(result => {
+      this.caseTableView = true;
+      const caseData = result.map(data => {
+        return {
+          caseNumber: data.CaseNumber,
+          caseUrl: `/lightning/r/Case/${data.Id}/view`,
+          studentId: data.Contact.QUT_Student_ID__c,
+          fullName: data.Contact.Name,
+          contactUrl: `/lightning/r/Contact/${data.ContactId}/view`,
+          email: data.Contact.QUT_Learner_Email__c ? data.Contact.QUT_Learner_Email__c : '',
+          mobilePhone: data.Contact.mobilePhone ? data.Contact.mobilePhone : ''
+        }
+      })
+      
+      this.data = caseData;
+      this.tempData = this.data; // For Search
+    }).finally(() => {
+      // Invoke unsubscribe method of empApi
+        unsubscribe(this.subscription, () => {});
+    });
+    this.loaded = true; 
+    this.showSpinner = true;
+  }
+
 }
