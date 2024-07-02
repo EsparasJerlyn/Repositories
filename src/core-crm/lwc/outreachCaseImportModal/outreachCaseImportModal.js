@@ -113,7 +113,10 @@ export default class OutReachCaseImportModal extends LightningElement {
   caseCreatedCount;
   caseTableView = false;
   fileUploadMessage = 'File upload in progress, this screen will update once the process has completed. Refreshing or closing this page will not affect the upload.';
+  errorOccuredMessage = 'An error has occurred and some cases may have been created successfully. Please re-upload the file to create any remaining cases. Duplicates will not be created.';
   userId = Id;
+  errorOccured = false;
+  tableLoading = false;
 
   connectedCallback(){
     let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -180,6 +183,10 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   get isLoading() {
     return !this.loaded;
+  }
+
+  get isErrorOccured(){
+    return this.errorOccured;
   }
 
   handleFileUpload(event) {
@@ -406,6 +413,7 @@ export default class OutReachCaseImportModal extends LightningElement {
     }, true);
 
     if (allValid) {
+      this.showSpinner = false;
       this.loaded = false;
       this.isCreateOutreach = true;
       let stundentColumns = ['Case', 'QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -446,7 +454,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
-    this.handleSubscribe();
+    this.tableLoading = true;
     const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
@@ -461,7 +469,9 @@ export default class OutReachCaseImportModal extends LightningElement {
       criteria : criteria,
       configurationId : this.recordId
      })
-		.then(() => {})
+		.then(() => {
+      this.handleSubscribe();
+    })
 		.catch(error => {
       this.loaded = false;
       if (logger) {
@@ -499,6 +509,12 @@ export default class OutReachCaseImportModal extends LightningElement {
 
   handleSearch(event) {
     let searchKey = event.target.value;
+    this.searchKeyVal = searchKey;     	
+    this.tableLoading = true;
+  }
+
+  handleCommitSearch(){
+    let searchKey = this.searchKeyVal;
     let searchString = searchKey.toUpperCase();
     let allRecords = this.tempData;
     let new_search_result = [];
@@ -515,11 +531,14 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.data = [];
     }else{
       this.data = this.tempData;
-    }       	
+    }   
+
+    this.tableLoading = false;
   }
 
   handleSubscribe() {
     const messageCallback = (response) => {
+      this.errorOccured = response.data.payload.Has_Error__c;
       if (response.data.payload.CreatedById != this.userId) {
         return;
       }
@@ -575,10 +594,12 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.tempData = this.data; // For Search
     }).finally(() => {
       // Invoke unsubscribe method of empApi
-        unsubscribe(this.subscription, () => {});
+      unsubscribe(this.subscription, () => {});
+      this.loaded = true; 
+      this.showSpinner = true;
+      this.tableLoading = false;
     });
-    this.loaded = true; 
-    this.showSpinner = true;
+    
   }
 
 }
