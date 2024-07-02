@@ -48,7 +48,8 @@
         <!--(End) DEPP-5906-->
         <!--Descrption (we don't need this flows now) DEPP-8867 -->
         <members>Flow_for_Populating_the_Resolution_Field_on_the_Case_Object</members>
-        <members>Flow_Population_on_Case_Action_Taken_Field</members>
+        <!--Below flow wont destroy out of certain sandboxes-->
+        <!--<members>Flow_Population_on_Case_Action_Taken_Field</members>-->
         <!--(End) DEPP-8867-->
         <name>Flow</name>
     </types>
