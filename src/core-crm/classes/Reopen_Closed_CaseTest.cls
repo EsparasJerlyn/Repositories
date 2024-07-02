@@ -57,7 +57,7 @@ public with sharing class Reopen_Closed_CaseTest {
             CaseShare caseShare = new CaseShare();
             caseShare.caseId = c.Id;
             caseShare.UserOrGroupId = userInternational.Id;
-            caseShare.CaseAccessLevel = 'Read'; // Or 'Edit' depending on the access level required
+            caseShare.CaseAccessLevel = 'Edit'; 
             caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
             caseShareList.add(caseShare);
         }
@@ -65,7 +65,7 @@ public with sharing class Reopen_Closed_CaseTest {
             CaseShare caseShare = new CaseShare();
             caseShare.caseId = c.Id;
             caseShare.UserOrGroupId = userDomestic.Id;
-            caseShare.CaseAccessLevel = 'Read'; // Or 'Edit' depending on the access level required
+            caseShare.CaseAccessLevel = 'Edit'; 
             caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
             caseShareList.add(caseShare);
         }

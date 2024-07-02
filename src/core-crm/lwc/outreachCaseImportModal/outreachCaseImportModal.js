@@ -402,6 +402,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   handleCreateOutreach() {
+    this.showSpinner = false;
     this.title = this.title ? this.title : '';
     const allValid = [
       ...this.template.querySelectorAll('lightning-input'),
@@ -452,6 +453,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
+    this.handleSubscribe();
     const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
