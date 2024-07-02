@@ -1,8 +1,7 @@
-import { LightningElement,track,api,wire } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { subscribe, unsubscribe, onError } from "lightning/empApi";
+import { LightningElement,track,api } from 'lwc';
+import { subscribe, unsubscribe } from "lightning/empApi";
 import listOfStudents from "@salesforce/apex/OutreachCaseImportCtrl.listOfStudents";
-import listOfCasesbyStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesbyStudentIds";
+import listOfCasesByStudentIds from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesByStudentIds";
 import listOfCasesById from "@salesforce/apex/OutreachCaseImportCtrl.listOfCasesById";
 import Id from "@salesforce/user/Id";
 
@@ -113,7 +112,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   existingCasesCount;
   caseCreatedCount;
   caseTableView = false;
-  fileUploadMessage = 'File upload in progress, this screen will update once the process has completed.';
+  fileUploadMessage = 'File upload in progress, this screen will update once the process has completed. Refreshing or closing this page will not affect the upload.';
   userId = Id;
 
   connectedCallback(){
@@ -457,12 +456,12 @@ export default class OutReachCaseImportModal extends LightningElement {
     this.title = this.title ? this.title : '';
     this.description = this.description ? this.description : '';
     const criteria = this.title + ',' + this.description;
-    listOfCasesbyStudentIds({ 
+    listOfCasesByStudentIds({ 
       qutStudentIds : studentIds,
       criteria : criteria,
       configurationId : this.recordId
      })
-		.then((result) => {})
+		.then(() => {})
 		.catch(error => {
       this.loaded = false;
       if (logger) {
@@ -518,15 +517,6 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.data = this.tempData;
     }       	
   }
-
-  generateToast(_title,_message,_variant){
-    const evt = new ShowToastEvent({
-        title: _title,
-        message: _message,
-        variant: _variant,
-    });
-    this.dispatchEvent(evt);
-  }  
 
   handleSubscribe() {
     const messageCallback = (response) => {
@@ -585,10 +575,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       this.tempData = this.data; // For Search
     }).finally(() => {
       // Invoke unsubscribe method of empApi
-        unsubscribe(this.subscription, (response) => {
-            console.log('unsubscribe() response: ', JSON.stringify(response));
-            // Response is true for successful unsubscribe
-        });
+        unsubscribe(this.subscription, () => {});
     });
     this.loaded = true; 
     this.showSpinner = true;
