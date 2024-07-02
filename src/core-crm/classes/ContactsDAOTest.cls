@@ -636,4 +636,20 @@ private class ContactsDAOTest {
             System.assert(contactList.isEmpty(), 'contactList should be empty.');
         }
     }
+
+    @isTest
+    static void getQueryLocatorContactByStudentIdTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            Test.startTest();
+            System.assert(
+                ContactsDAO.newInstance().getQueryLocatorContactByStudentId(
+                    new List<String>{},
+                    AccessLevel.USER_MODE
+                ) != null,
+                'contactList should be empty'
+            );
+            Test.stopTest();
+        }
+    }
+
 }
