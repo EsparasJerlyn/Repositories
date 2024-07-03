@@ -582,7 +582,7 @@ export default class OutReachCaseImportModal extends LightningElement {
           fullName: data.Contact.Name,
           contactUrl: `/lightning/r/Contact/${data.ContactId}/view`,
           email: data.Contact.QUT_Learner_Email__c ? data.Contact.QUT_Learner_Email__c : '',
-          mobilePhone: data.Contact.mobilePhone ? data.Contact.mobilePhone : ''
+          mobilePhone: data.Contact.MobilePhone ? data.Contact.MobilePhone : ''
         }
       })
       
