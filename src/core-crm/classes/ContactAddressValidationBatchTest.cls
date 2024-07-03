@@ -15,7 +15,7 @@ private class ContactAddressValidationBatchTest {
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
                 new ABS_Categorisation__c(
