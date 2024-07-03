@@ -17,8 +17,8 @@ public with sharing class CommunicationQueueEmailRequestComTest {
     
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
             EmailTemplate emailTemplate = new EmailTemplate();
             emailTemplate.Name = 'Test Email Temp';
@@ -38,7 +38,7 @@ public with sharing class CommunicationQueueEmailRequestComTest {
 
     @isTest
     private static void sendEmailToContactWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Integer i = 0; i < contactList.size(); i ++){
@@ -94,7 +94,7 @@ public with sharing class CommunicationQueueEmailRequestComTest {
     
     @isTest
     private static void sendEmailToLeadWithSentStatusTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             List<Lead> leadList = TestDataFactory.createLeadRecordsByLeadType(3,'Learner',false);              
             LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.SYSTEM_MODE);
@@ -146,7 +146,7 @@ public with sharing class CommunicationQueueEmailRequestComTest {
     
     @isTest
     private static void sendEmailWithWhatIdPopulatedTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {          
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {          
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Integer i = 0; i < contactList.size(); i ++){
