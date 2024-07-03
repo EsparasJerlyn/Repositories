@@ -12,17 +12,11 @@
  */
 @isTest
 public with sharing class Contact_Work_Email_Triggered_FlowTest {
-    
-    private static User currentUser = TestDataFactory.createUserRecords(
-        1,
-        'QUTeX'
-      )
-      .iterator()
-      .next(); 
 
     @testSetup
     static void testSetup() {
-        System.runAs(currentUser) {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
             contacts[0]
@@ -33,16 +27,9 @@ public with sharing class Contact_Work_Email_Triggered_FlowTest {
 
     @isTest
     private static void insertContact() {
-        User currUsr = [
-            SELECT Id
-            FROM User
-            WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-            LIMIT 1
-        ];
-
         List<Contact> cons = TestDataFactory.createTestContactRecords(1);
 
-        System.runAs(currUsr) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             cons[0].FirstName = 'Contact FN 4';
             cons[0].LastName = 'Contact LN 4';
