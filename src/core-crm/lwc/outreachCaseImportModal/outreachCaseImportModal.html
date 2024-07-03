@@ -44,19 +44,16 @@
                 </div>
               </div>
             </div>
-
             <div if:true={showTabset}>
-              <template if:true={isLoading}>
-                <div if:true={showSpinner} class="spinnerHolder">
-                  <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
-                    <span class="slds-assistive-text">Loading</span>
-                    <div class="slds-spinner__dot-a"></div>
-                    <div class="slds-spinner__dot-b"></div>
+              <template lwc:if={isLoading}>
+                <template lwc:if={showSpinner}>
+                  <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                  <div class="slds-text-align_center">
+                    {fileUploadMessage}
                   </div>
-                </div>
-                <div if:false={showSpinner} class="slds-text-align_center">
-                  {fileUploadMessage}
-                </div>
+                </template>
               </template>
               <div if:false={isLoading}>
                 <div if:true={isErrorOccured} class="slds-text-align_left slds-text-color_error">
@@ -104,6 +101,11 @@
                         show-row-number-column
                         suppress-bottom-bar
                       ></c-custom-datatable-columned>
+                      <template lwc:if={tableLoading}>
+                        <div class="slds-spinner_container table-spinner">
+                          <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                      </template>
                     </div>
                   </lightning-tab>
                   <lightning-tab label="Exclusions" title="Exclusions" onactive={handleExclusionsTab}>
@@ -118,6 +120,11 @@
                         show-row-number-column
                         suppress-bottom-bar
                       ></c-custom-datatable-columned>
+                      <template lwc:if={tableLoading}>
+                        <div class="slds-spinner_container table-spinner">
+                          <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                      </template>
                     </div>
                   </lightning-tab>
                 </lightning-tabset>

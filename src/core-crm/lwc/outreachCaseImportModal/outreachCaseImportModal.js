@@ -116,6 +116,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   errorOccuredMessage = 'An error has occurred and some cases may have been created successfully. Please re-upload the file to create any remaining cases. Duplicates will not be created.';
   userId = Id;
   errorOccured = false;
+  tableLoading = false;
 
   connectedCallback(){
     let stundentColumns = ['QUT Student ID', 'Full Name', 'QUT Learner Email', 'Mobile'];
@@ -453,7 +454,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   }
 
   createOutreach(outreachData) {
-    this.handleSubscribe();
+    this.tableLoading = true;
     const logger = this.template.querySelector("c-logger");
     const data = JSON.parse(JSON.stringify(outreachData));
     const studentIds = [];
@@ -509,6 +510,7 @@ export default class OutReachCaseImportModal extends LightningElement {
   handleSearch(event) {
     let searchKey = event.target.value;
     this.searchKeyVal = searchKey;     	
+    this.tableLoading = true;
   }
 
   handleCommitSearch(){
@@ -530,6 +532,8 @@ export default class OutReachCaseImportModal extends LightningElement {
     }else{
       this.data = this.tempData;
     }   
+
+    this.tableLoading = false;
   }
 
   handleSubscribe() {
@@ -593,6 +597,7 @@ export default class OutReachCaseImportModal extends LightningElement {
       unsubscribe(this.subscription, () => {});
       this.loaded = true; 
       this.showSpinner = true;
+      this.tableLoading = false;
     });
     
   }
