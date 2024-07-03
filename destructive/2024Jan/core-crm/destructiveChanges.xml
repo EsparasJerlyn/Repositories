@@ -51,6 +51,9 @@
         <!--Below flow wont destroy out of certain sandboxes-->
         <!--<members>Flow_Population_on_Case_Action_Taken_Field</members>-->
         <!--(End) DEPP-8867-->
+        <!--Start DEPP-9371 - rollback components -->
+        <members>Flow_To_Pop_DescSummary_Fld</members>
+        <!--End DEPP-9371 - rollback components -->
         <name>Flow</name>
     </types>
     <types>
@@ -300,5 +303,13 @@
         <name>GenAiPromptTemplate</name>
     </types>
     -->
+    <types>
+        <!--Start DEPP-9371 - rollback components -->
+        <members>Flow_To_Pop_DescSummary_FldTest</members>
+        <!--End DEPP-9371 - rollback components -->
+        <name>ApexClass</name>
+    </types>
+
+    
     <version>61.0</version>
 </Package>
