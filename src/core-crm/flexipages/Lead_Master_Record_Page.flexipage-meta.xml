@@ -511,6 +511,28 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.hed__SMS_Opt_Out__c</fieldItem>
+                <identifier>Recordhed_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
                 <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
             </fieldInstance>
@@ -591,6 +613,32 @@
             <componentInstance>
                 <componentName>flexipage:blankSpace</componentName>
                 <identifier>flexipage_blankSpace8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

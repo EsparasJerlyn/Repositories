@@ -785,7 +785,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ESBSAMSRefreshStudent</shortDescription>
-        <value>/consumer/dep/v1/ESBSAMSRefreshStudent</value>
+        <value>/consumer/dep/v1/event/processRefreshContact</value>
     </labels>
     <labels>
         <fullName>ESBSAMSRegisterLearner</fullName>
