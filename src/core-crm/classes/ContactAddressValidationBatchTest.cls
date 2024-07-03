@@ -13,7 +13,8 @@ private class ContactAddressValidationBatchTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB','QUT_Program_Administrator'});
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
@@ -36,7 +37,7 @@ private class ContactAddressValidationBatchTest {
     
     @isTest
     static void processEmptyAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 			            
             Test.startTest();
             ContactAddressValidationBatch batch = new ContactAddressValidationBatch(new Set<Id>{});
@@ -53,7 +54,7 @@ private class ContactAddressValidationBatchTest {
     
     @isTest
     static void processNotValidatedAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
@@ -95,7 +96,7 @@ private class ContactAddressValidationBatchTest {
     
     @isTest
     static void processContactWithFirstAdmittedAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
