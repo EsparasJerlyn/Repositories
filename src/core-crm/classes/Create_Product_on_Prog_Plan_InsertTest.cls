@@ -13,8 +13,6 @@
 */
 @isTest
 private class Create_Product_on_Prog_Plan_InsertTest {
-
-    private static final String QUTEX = System.Label.QUTeX;
     private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static Id opeProgramRequest = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
 
