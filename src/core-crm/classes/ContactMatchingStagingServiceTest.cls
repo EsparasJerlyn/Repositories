@@ -29,9 +29,7 @@ private class ContactMatchingStagingServiceTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_ESB' }
-        );
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
         List<Contact> contactRecords = TestDataFactory.createTestContactRecords(0, 1);
         Integer count = 0;
@@ -44,7 +42,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void systemKeyMatchingTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
@@ -103,7 +101,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void nonSystemKeyMatchingTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
@@ -160,7 +158,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void nonSystemKeyMatchingWithoutAdressTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
@@ -201,7 +199,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void noMatchTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             for (Contact con : ContactsDAO.newInstance().getPersonContactsWithLimit(1)) {
@@ -230,7 +228,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void createContactMatchingStagingTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = TestDataFactory.createContactMatchingStagings(
                 1
@@ -267,7 +265,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void noMatchTestWithError() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdSet = new Set<Id>();
@@ -314,7 +312,7 @@ private class ContactMatchingStagingServiceTest {
 
     @isTest
     static void withExistingAddressTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = new List<Contact_Matching_Staging__c>();
             Set<Id> contactIdsSet = new Set<Id>();
