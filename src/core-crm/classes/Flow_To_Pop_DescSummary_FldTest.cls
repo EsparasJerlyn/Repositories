@@ -20,7 +20,7 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
     static void futureStudentAgentInternationalCreatesCase() {
         // Add toggle to endable
         AI_Settings__c aiSettings = AI_Settings__c.getOrgDefaults();
-        if(aiSettings==null){
+        if(aiSettings.Id==null){
             AI_Settings__c insertAISettings = new AI_Settings__c(LLM_Requests_Active__c = true, SetupOwnerId = UserInfo.getOrganizationId());
             insert insertAISettings;
         }else{
@@ -49,7 +49,7 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
     static void futureStudentAgentDomesticCreatesCaseUpdateCase() {
         // Add toggle to endable
         AI_Settings__c aiSettings = AI_Settings__c.getOrgDefaults();
-        if(aiSettings==null){
+        if(aiSettings.Id==null){
             AI_Settings__c insertAISettings = new AI_Settings__c(LLM_Requests_Active__c = true, SetupOwnerId = UserInfo.getOrganizationId());
             insert insertAISettings;
         }else{
