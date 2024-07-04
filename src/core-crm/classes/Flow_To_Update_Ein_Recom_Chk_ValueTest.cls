@@ -22,6 +22,19 @@ public with sharing class Flow_To_Update_Ein_Recom_Chk_ValueTest {
             c.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
         }
         CasesDAO.newInstance().insertRecords(internationalCases, false, AccessLevel.SYSTEM_MODE);
+        List<Case> caseList = [Select Id, Subject, Description From Case WHERE RecordTypeId=:CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID Limit 100];
+        Id internationalFutureStudentAgentId = TestDataFactory.getInternationalFutureStudentAgent().Id;
+
+        List<CaseShare> caseShareList = new List<CaseShare>();
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = InternationalFutureStudentAgentId;
+            caseShare.CaseAccessLevel = 'Edit'; // 'Read' Or 'Edit' depending on the access level required
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        insert caseShareList;
     }
 
     @isTest
@@ -46,7 +59,7 @@ public with sharing class Flow_To_Update_Ein_Recom_Chk_ValueTest {
     static void UpdateEinsteinAppliedAutomatedUserChangesTest() {
         User us = [SELECT Id,Name FROM User where Name = 'Automated Process'];
         System.runAs(us) {
-            List<Case> casList = [Select Id, Subject, Description From Case Limit 100];
+            List<Case> casList = [Select Id, Subject, Description From Case WHERE RecordTypeId=:CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID Limit 100];
             for(Case cas : casList){
                 cas.Category__c = 'Applying for a course';
                 cas.Sub_Category__c = 'How to apply';
