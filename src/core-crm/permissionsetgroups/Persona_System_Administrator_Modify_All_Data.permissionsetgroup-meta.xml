@@ -4,6 +4,7 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona System Administrator - Modify All Data</label>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
+    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Enquiry_Management_Home_Page_Domestic</permissionSets>
     <permissionSets>Enquiry_Management_Home_Page_International</permissionSets>
     <permissionSets>FS_Configuration_Home_Page_Domestic</permissionSets>
@@ -27,5 +28,6 @@
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
+    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

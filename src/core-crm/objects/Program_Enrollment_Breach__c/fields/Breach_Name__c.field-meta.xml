@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Breach_Name__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Business assigned unique identifier</description>
+    <externalId>false</externalId>
+    <label>Breach Name</label>
+    <referenceTo>Breach__c</referenceTo>
+    <relationshipLabel>Program Enrollment Breaches</relationshipLabel>
+    <relationshipName>Program_Enrollment_Breaches</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

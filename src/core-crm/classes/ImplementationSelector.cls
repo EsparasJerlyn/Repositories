@@ -42,12 +42,19 @@
  *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                         |
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
+ *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
+ *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
+ *    | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Added object mapping for Assessment__c                        |
+ *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
+ *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
+ *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
  */
 public class ImplementationSelector { 
 
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(
         new Map<SObjectType, Type>{
+            ABS_Categorisation__c.SObjectType => ABSCategorisationsDAO.class,
             Account.SObjectType => AccountsDAO.class,
             Action__c.SObjectType => ActionsDAO.class,
             ActionCadenceTracker.SObjectType => ActionCadenceTrackersDAO.class,
@@ -56,8 +63,11 @@ public class ImplementationSelector {
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
             Asset.SObjectType => AssetsDAO.class,
+            Assessment__c.SObjectType => AssessmentsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             AsyncApexJob.SObjectType => AsyncApexJobsDAO.class,
+            Attachment.SObjectType => AttachmentsDAO.class,
+            Breach__c.SObjectType => BreachesDAO.class,
             BuyerGroup.SObjectType => BuyerGroupsDAO.class,
             BuyerGroupPriceBook.SObjectType => BuyerGroupPriceBooksDAO.class,
             CommerceEntitlementProduct.SObjectType => CommerceEntitlementProductsDAO.class,
@@ -78,13 +88,18 @@ public class ImplementationSelector {
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
+            Course_Connection_Assessment__c.SObjectType => CourseConnectionAssessmentsDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Engagement_List_Configuration__c.SobjectType => EngagementListConfigurationsDAO.class,
+            Engagement_List_Criteria__c.SobjectType => EngagementListCriteriasDAO.class,
+            Engagement_List_Event__c.SobjectType => EngagementListEventsDAO.class,
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
+            Group.SObjectType => GroupsDAO.class, 
             hed__Address__c.SObjectType => AddressesDAO.class,
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
@@ -102,6 +117,7 @@ public class ImplementationSelector {
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             LeadStatus.SObjectType => LeadStatusesDAO.class,
+            Leave_of_Absence__c.SObjectType => LeaveOfAbsencesDAO.class,
             LogEntry__c.SObjectType => LogEntriesDAO.class,
             Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
@@ -123,9 +139,11 @@ public class ImplementationSelector {
             ProductCategory.SObjectType => ProductCategoriesDAO.class,
             ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
             Product_Ledger__c.SObjectType => ProductLedgersDAO.class,
-            Profile.SObjectType => ProfilesDAO.class,            
+            Profile.SObjectType => ProfilesDAO.class,   
+            Program_Enrollment_Breach__c.SObjectType => ProgramEnrollmentBreachesDAO.class,            
             Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,           
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
+            Qualtrics_Survey__c.SObjectType => QualtricsSurveysDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,

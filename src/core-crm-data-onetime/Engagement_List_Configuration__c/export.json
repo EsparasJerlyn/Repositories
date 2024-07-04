@@ -1,0 +1,28 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Id, Name, Engagement_List_Configuration_Status__c, Start_Date__c, Max_Number_Of_Call_Attempts__c, Communication_Channel__c,Qualtrics_Instrument_Name__c, Qualtrics_Instrument_ID__c,Description__c, Purpose__c, Briefing_Notes__c,Email_Template__c  FROM Engagement_List_Configuration__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Engagement_List_Configuration__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Engagement_List_Configuration__c, Engagement_List_Criteria_Title__c,Status__c, Start_Date__c, Description__c, Completed_Cadence__c, Previous_Academic_Status__c, Academic_Status__c, Category_Type__c, Key_Date__c, Key_Date_Offset_Lower_Boundary__c, Key_Date_Offset_Upper_Boundary__c,RecordTypeId  FROM Engagement_List_Criteria__c",
+            "operation": "Upsert",
+            "externalId": "Engagement_List_Criteria_Title__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Engagement_List_Criteria__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT $$DeveloperName$SobjectType, Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Engagement_List_Criteria__c')",
+            "operation": "Upsert",
+            "externalId": "DeveloperName;SobjectType",
+            "useCSVValuesMapping": true,
+            "targetObject": "RecordType",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
