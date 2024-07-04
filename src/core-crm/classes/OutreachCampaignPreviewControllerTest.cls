@@ -9,8 +9,8 @@
 public class OutreachCampaignPreviewControllerTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Student_Success_Outreach_Manager'});
-        User userOutreachManager = TestDataFactory.getStudentSuccessOutreachManager();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
+        User userOutreachManager = TestDataFactoryUser.selectUserStudentSuccessOutreachManager;
         Date executionDateBase = Date.today();
         Date executionDateStart = executionDateBase - 30;
         Date executionDateEnd = executionDateBase + 30;
@@ -48,7 +48,7 @@ public class OutreachCampaignPreviewControllerTest {
     
     @isTest
     private static void testProcessPreview() {
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()){
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager){
         	Date executionDate = Date.today();
             String dateInput = executionDate.year() + '-' + executionDate.month() + '-' + executionDate.day();
             List<Engagement_List_Criteria__c> elcrits = [SELECT Id FROM Engagement_List_Criteria__c];
@@ -63,7 +63,7 @@ public class OutreachCampaignPreviewControllerTest {
     
     @isTest
     private static void testCancelPreview() {
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()){
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager){
         	Date executionDate = Date.today();
             String dateInput = executionDate.year() + '-' + executionDate.month() + '-' + executionDate.day();
             List<Engagement_List_Criteria__c> elcrits = [SELECT Id FROM Engagement_List_Criteria__c];

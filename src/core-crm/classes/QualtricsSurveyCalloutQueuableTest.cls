@@ -18,8 +18,9 @@ public class QualtricsSurveyCalloutQueuableTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager', 'QUT_ESB' });
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             Test.startTest();
 
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
@@ -58,7 +59,7 @@ public class QualtricsSurveyCalloutQueuableTest {
 
     @isTest
     private static void checkInProgressSurveyURL(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             // Bypass the trigger to call directly the Queueable method
             BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
             insert bypass;
