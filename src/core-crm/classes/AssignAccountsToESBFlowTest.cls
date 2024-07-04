@@ -21,6 +21,7 @@ public class AssignAccountsToESBFlowTest {
     
     @isTest
     public static void updateOpportunityStagetoExecuted(){
+        User esbIntegrationUser = [SELECT Id FROM USER WHERE FirstName = 'ESB' AND LastName = 'Integration User' LIMIT 1];
         System.runAs(TestDataFactoryUser.selectUserQUTESB){
             Set<String> accountName = new Set<String>();
             for(Integer i=0; i<100 ; i++){

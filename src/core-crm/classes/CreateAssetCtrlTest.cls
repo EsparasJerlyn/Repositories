@@ -52,7 +52,7 @@ public class CreateAssetCtrlTest {
     private static void getRelatedRecordsTest()
     {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
             Id prodSpecId = [SELECT Id FROM Product_Specification__c LIMIT 1]?.Id;
             Map<String,Id> hasId = CreateAssetCtrl.getRelatedRecords(prodReqId,prodSpecId);
