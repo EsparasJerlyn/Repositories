@@ -49,7 +49,7 @@
         <!--Descrption (we don't need this flows now) DEPP-8867 -->
         <members>Flow_for_Populating_the_Resolution_Field_on_the_Case_Object</members>
         <!--Below flow wont destroy out of certain sandboxes-->
-        <members>Flow_Population_on_Case_Action_Taken_Field</members>
+        <!--<members>Flow_Population_on_Case_Action_Taken_Field</members>-->
         <!--(End) DEPP-8867-->
         <!--Start DEPP-9371 - rollback components -->
         <members>Flow_To_Pop_DescSummary_Fld</members>
