@@ -15,13 +15,12 @@
 private class FinancialSplitCtrlTest {
 
     private static final String QUTEXPROD = System.Label.QUT_GSB;
-    private static final String QUTEX = System.Label.QUTeX;
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
     private static final String FS_COURSE_FIELD = 'Course__c';
-    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';
@@ -38,7 +37,7 @@ private class FinancialSplitCtrlTest {
 
     @isTest
     private static void getQutexIdTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account qutexAcc = [SELECT Id FROM Account LIMIT 1];
             Test.startTest();
             Id qutexId = FinancialSplitCtrl.getQutexId(QUTEXPROD);
@@ -49,7 +48,7 @@ private class FinancialSplitCtrlTest {
 
     @isTest
     private static void getParentIdTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
@@ -66,7 +65,7 @@ private class FinancialSplitCtrlTest {
 
     @isTest
     private static void getFinancialSplitsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
             List<Financial_Split__c> financialSplits = FinancialSplitCtrl.getFinancialSplits(FS_COURSE_FIELD,course?.Id);
@@ -77,7 +76,7 @@ private class FinancialSplitCtrlTest {
 
     @isTest
     private static void upsertFinancialSplitsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             List<Financial_Split__c> financialSplits = TestDataFactory.createTestFinancialSplitRecords(1,course?.Id);
             Test.startTest();
@@ -90,7 +89,7 @@ private class FinancialSplitCtrlTest {
     
 	@isTest
     private static void upsertFinancialSplitsWithRecordTypeTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             List<Financial_Split__c> financialSplits = TestDataFactory.createTestFinancialSplitRecords(1,course?.Id);
             Test.startTest();
