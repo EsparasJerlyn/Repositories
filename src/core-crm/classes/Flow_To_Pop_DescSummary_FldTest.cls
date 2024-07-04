@@ -18,6 +18,16 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
     
     @isTest(seeAllData= true)
     static void futureStudentAgentInternationalCreatesCase() {
+        // Add toggle to endable
+        AI_Settings__c aiSettings = AI_Settings__c.getOrgDefaults();
+        if(aiSettings==null){
+            AI_Settings__c insertAISettings = new AI_Settings__c(LLM_Requests_Active__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+            insert insertAISettings;
+        }else{
+            aiSettings.LLM_Requests_Active__c = true;
+            update aiSettings;
+        }
+
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent'});        
         System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', NO_OF_RECORDS);
@@ -37,6 +47,16 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
     
     @isTest(seeAllData=true)
     static void futureStudentAgentDomesticCreatesCaseUpdateCase() {
+        // Add toggle to endable
+        AI_Settings__c aiSettings = AI_Settings__c.getOrgDefaults();
+        if(aiSettings==null){
+            AI_Settings__c insertAISettings = new AI_Settings__c(LLM_Requests_Active__c = true, SetupOwnerId = UserInfo.getOrganizationId());
+            insert insertAISettings;
+        }else{
+            aiSettings.LLM_Requests_Active__c = true;
+            update aiSettings;
+        }
+
         TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent' }); 
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', NO_OF_RECORDS);
