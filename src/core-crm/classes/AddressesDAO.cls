@@ -14,10 +14,10 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
     public static final String NOT_VALID_ADDRESS = 'Not Valid';
     public static final String FIRST_ADMITTED_ADDRESS = 'First Admitted';
     public static final String OTHER_ADDRESS = 'Other';
-    public static final String OUTER_REGIONAL_AUSTRALIA = 'Outer Regional Australia';
-    public static final String INNER_REGIONAL_AUSTRALIA = 'Inner Regional Australia';
-    public static final String REMOTE = 'Remote';
-    public static final String VERY_REMOTE = 'Very Remote';
+    public static final String OUTER_REGIONAL_AUSTRALIA = 'OUTER REGIONAL AUSTRALIA';
+    public static final String INNER_REGIONAL_AUSTRALIA = 'INNER REGIONAL AUSTRALIA';
+    public static final String REMOTE = 'REMOTE AUSTRALIA';
+    public static final String VERY_REMOTE = 'VERY REMOTE AUSTRALIA';
     public static final String INTEGRATION_STATUS_SUCCESS = 'Success';
     public static final String INTEGRATION_STATUS_FAILED = 'Failed';
     public static final String INTEGRATION_STATUS_SENT = 'Sent';
