@@ -166,6 +166,10 @@
         <field>Product2.Who_Should_Participate__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Bookable_Appointment_Web</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Study Guest User</label>
     <license>B2BBuyerPsl</license>
