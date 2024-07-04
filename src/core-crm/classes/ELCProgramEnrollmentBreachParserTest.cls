@@ -12,12 +12,12 @@
 public with sharing class ELCProgramEnrollmentBreachParserTest {
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void parseProgEnrollBreachNameTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {    
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {    
 
             Breach__c breach = new Breach__c(
                 Name = 'Breach Test 01'
@@ -39,7 +39,7 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
 
     @isTest
     static void parseProgEnrollBreachHiddenCriteriaTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             ELCProgramEnrollmentBreachParser parser = new ELCProgramEnrollmentBreachParser(new Engagement_List_Criteria__c(), Date.today());
@@ -51,7 +51,7 @@ public with sharing class ELCProgramEnrollmentBreachParserTest {
 
     @isTest
     static void parseprocessKeyDateOffsetsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Date executionDate = Date.today();
             Date execDateLower = executionDate.addDays(-1);
             Date execDateUpper = executionDate.addDays(-10);
