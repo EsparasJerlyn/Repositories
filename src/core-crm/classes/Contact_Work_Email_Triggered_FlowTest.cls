@@ -19,7 +19,6 @@ public with sharing class Contact_Work_Email_Triggered_FlowTest {
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
-            Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
             contacts[0]
             .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
