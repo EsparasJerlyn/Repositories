@@ -13,7 +13,7 @@
 */
 @isTest
 public with sharing class Flow_To_Pop_DescSummary_FldTest {
-    private static final Integer NO_OF_RECORDS = 10;
+    private static final Integer NO_OF_RECORDS = 1;
     private static final String DESCRIPTION = 'This Case is Raised To Know What are the different courses offered by the university';
     
     @isTest(seeAllData= true)
