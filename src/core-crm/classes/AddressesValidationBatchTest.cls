@@ -142,7 +142,7 @@ public with sharing class AddressesValidationBatchTest {
 
     @isTest
     static void testUpdateAddressMailingFields() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.getESBIntegrationUser()) {
 
             BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
             insert bypass;
