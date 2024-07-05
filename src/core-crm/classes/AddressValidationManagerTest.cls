@@ -14,6 +14,7 @@ private class AddressValidationManagerTest {
     static void testSetup() {
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
@@ -31,7 +32,6 @@ private class AddressValidationManagerTest {
             
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisation, false, AccessLevel.USER_MODE);
         }
-        Test.stopTest();
     }
        
     @isTest

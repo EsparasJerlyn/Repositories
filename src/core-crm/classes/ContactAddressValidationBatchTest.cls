@@ -15,6 +15,7 @@ private class ContactAddressValidationBatchTest {
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
@@ -32,7 +33,6 @@ private class ContactAddressValidationBatchTest {
             
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisation, false, AccessLevel.USER_MODE);
         }
-        Test.stopTest();
     }
     
     @isTest

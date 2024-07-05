@@ -15,7 +15,9 @@ public with sharing class Contact_Work_Email_Triggered_FlowTest {
 
     @testSetup
     static void testSetup() {
+        Test.startTest();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);

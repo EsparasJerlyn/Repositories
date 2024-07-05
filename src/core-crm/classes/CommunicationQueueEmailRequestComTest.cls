@@ -17,7 +17,9 @@ public with sharing class CommunicationQueueEmailRequestComTest {
     
     @TestSetup
     static void setupData(){
+        Test.startTest();
         TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
             EmailTemplate emailTemplate = new EmailTemplate();
