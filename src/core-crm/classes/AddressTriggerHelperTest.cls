@@ -267,7 +267,7 @@ public with sharing class AddressTriggerHelperTest {
 
     @isTest
     static void testUpdateAddressMailingField() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
