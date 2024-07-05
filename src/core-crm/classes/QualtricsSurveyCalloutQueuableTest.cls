@@ -18,11 +18,12 @@ public class QualtricsSurveyCalloutQueuableTest {
 
     @testSetup
     static void testSetup() {
+        Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
-        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
-            Test.startTest();
+        Test.stopTest();
 
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             acc[0].RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             AccountsDAO.newInstance().insertRecords(acc, true, AccessLevel.SYSTEM_MODE);
@@ -52,9 +53,7 @@ public class QualtricsSurveyCalloutQueuableTest {
             caseList[0].Qualtrics_Survey__c = qualtricsSurveyList[0].Id;
             caseList[0].Case_Type__c = 'Student Success - Retention';
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
-
         }
-        Test.stopTest();
     }
 
     @isTest

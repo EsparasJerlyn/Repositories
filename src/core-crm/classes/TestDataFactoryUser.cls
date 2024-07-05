@@ -1646,7 +1646,7 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'StudentSuccessOutreachManager';
             usr.profileName = 'Student Success';
-            usr.role = 'Student Success';
+            usr.role = 'Student Success Outreach Manager';
             
             usr.userpermissionsmarketinguser = false;
             usr.userpermissionsknowledgeuser = true;
@@ -1681,7 +1681,7 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'StudentSuccessOutreachStaff';
             usr.profileName = 'Student Success';
-            usr.role = 'Student Success';
+            usr.role = 'Student Success Outreach Staff';
             
             usr.userpermissionsmarketinguser = false;
             usr.userpermissionsknowledgeuser = true;
@@ -1716,7 +1716,7 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'StudentSuccessManager';
             usr.profileName = 'Student Success';
-            usr.role = 'Student Success';
+            usr.role = 'Student Success Manager';
             
             usr.userpermissionsmarketinguser = false;
             usr.userpermissionsknowledgeuser = true;
@@ -1786,7 +1786,7 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'StudentSuccessStudentPartner';
             usr.profileName = 'Student Success';
-            usr.role = 'Student Success';
+            usr.role = 'Student Success Student Partner';
             
             usr.userpermissionsmarketinguser = false;
             usr.userpermissionsknowledgeuser = true;
@@ -1821,7 +1821,7 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'StudentSuccessStudentVolunteer';
             usr.profileName = 'Student Success';
-            usr.role = 'Student Success';
+            usr.role = 'Student Success Student Volunteer';
             
             usr.userpermissionsmarketinguser = false;
             usr.userpermissionsknowledgeuser = true;
@@ -1856,7 +1856,7 @@ public class TestDataFactoryUser {
             usr.FirstName = 'Test';
             usr.LastName = 'StudentSuccessReporting';
             usr.profileName = 'Student Success';
-            usr.role = 'Student Success';
+            usr.role = 'Student Success Reporting';
             
             usr.userpermissionsmarketinguser = false;
             usr.userpermissionsknowledgeuser = true;
