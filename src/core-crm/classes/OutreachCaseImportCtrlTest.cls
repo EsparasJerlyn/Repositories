@@ -59,8 +59,6 @@ private class OutreachCaseImportCtrlTest {
             System.assert(result.size() > 0, 'No case records retrieved.');
             System.assertEquals(result[0].Id, outreachCase.Id, 'Case record retrieved did not match.');
         }
-    
-        
     }
     
     

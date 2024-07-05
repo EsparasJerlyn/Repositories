@@ -9,7 +9,9 @@
 public class OutreachCampaignPreviewControllerTest {
 	@testSetup
     static void setup() {
+        Test.startTest();
         TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
+        Test.stopTest();
         User userOutreachManager = TestDataFactoryUser.selectUserStudentSuccessOutreachManager;
         Date executionDateBase = Date.today();
         Date executionDateStart = executionDateBase - 30;

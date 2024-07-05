@@ -44,7 +44,6 @@ public class OutreachCasePostCreationQueuableTest {
             Test.stopTest();
             List<Case> caseListUpdated = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id},AccessLevel.SYSTEM_MODE);
             System.assert(!String.isBlank(caseListUpdated[0].Qualtrics_Survey__c), ' No Qualtrics Survey record created.');
-            
         }
     }
 }

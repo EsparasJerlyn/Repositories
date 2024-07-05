@@ -15,11 +15,11 @@ public with sharing class ELCEvaluationSchedulerTest {
 
     @TestSetup
     static void setupMethod(){
+        Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {   
-            Test.startTest();
-
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
@@ -76,8 +76,6 @@ public with sharing class ELCEvaluationSchedulerTest {
             engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
             insert engagementListCriteria;
-
-            Test.stopTest();
         }
     }
     

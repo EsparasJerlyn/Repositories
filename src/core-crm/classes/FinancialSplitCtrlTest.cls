@@ -20,7 +20,9 @@ private class FinancialSplitCtrlTest {
     private static final String FS_COURSE_FIELD = 'Course__c';
 
     @testSetup static void setupMethod() {
+        Test.startTest();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';
