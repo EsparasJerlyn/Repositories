@@ -354,6 +354,12 @@ public with sharing class AddressValidationManager {
             List<Contact> contactsToUpdate = new List<Contact>();
             List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
             for(hed__Address__c address : addressMap.values()){
+                
+                if(contactMap.containsKey(address.hed__Parent_Contact__c) && !contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
+                    addressToUpdate.add(address);
+                    continue;
+                }
+                
                 address.ABS_Categorisation__c = absCategorisation.Id;
                 addressToUpdate.add(address);
 
