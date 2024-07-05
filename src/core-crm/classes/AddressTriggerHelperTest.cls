@@ -14,6 +14,7 @@ public with sharing class AddressTriggerHelperTest {
     static void testSetup() {
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisationList = new List<ABS_Categorisation__c>();
@@ -31,7 +32,6 @@ public with sharing class AddressTriggerHelperTest {
             );
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisationList, true, AccessLevel.SYSTEM_MODE);
         }
-        Test.stopTest();
     }
 
     @isTest
