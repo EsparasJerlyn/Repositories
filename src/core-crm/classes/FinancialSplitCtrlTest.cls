@@ -85,7 +85,7 @@ private class FinancialSplitCtrlTest {
             FinancialSplitCtrl.upsertFinancialSplits(financialSplits);
             Test.stopTest();
             List<Financial_Split__c> insertedFinancialSplits =  FinancialSplitsDAO.newInstance().getFinancialSplitsRecords(FS_COURSE_FIELD,course?.Id);
-            System.assertEquals(1, insertedFinancialSplits.size(),'Number of expected upserted financial splits did not match');
+            System.assertEquals(2, insertedFinancialSplits.size(),'Number of expected upserted financial splits did not match');
         }
     }
     
