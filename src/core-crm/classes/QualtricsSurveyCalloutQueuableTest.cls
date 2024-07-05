@@ -64,7 +64,7 @@ public class QualtricsSurveyCalloutQueuableTest {
             insert bypass;
             
             List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance().getQualitricsSurveysByOwnerId(
-                new Set<ID>{TestDataFactory.getStudentSuccessOutreachManager().Id}, AccessLevel.SYSTEM_MODE
+                new Set<ID>{TestDataFactoryUser.selectUserStudentSuccessOutreachManager.Id}, AccessLevel.SYSTEM_MODE
             );
 			
             for(Qualtrics_Survey__c qs : qualtricsSurveyList){
