@@ -67,6 +67,13 @@
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     },{
+      "path": "src/core-crm-data-onetime",
+      "pathRelative": "src/core-crm-data-onetime",
+      "package": "src/core-crm-data-onetime",
+      "type": "data-onetime",
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },{
       "path": "src/core-crm-data-onetime-alias ",
       "pathRelative": "src/core-crm-data-onetime-alias ",
       "package": "src/core-crm-data-onetime-alias ",
