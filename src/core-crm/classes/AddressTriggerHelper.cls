@@ -14,6 +14,8 @@ public with sharing class AddressTriggerHelper {
     public static void validateAddress(List<hed__Address__c> addressList){
 
         Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
+        Set<Id> addressIdSet = new Set<Id>();
+
         for(hed__Address__c address : addressList){
 
             if(
@@ -22,25 +24,17 @@ public with sharing class AddressTriggerHelper {
                 address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS
             ){
                 addressByContactMap.put(address.hed__Parent_Contact__c, address);
+                addressIdSet.add(address.Id);
             }
         }
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(addressByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
-        Map<Id, Contact> filteredContactMap = new Map<Id, Contact>();
-        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>();
-        for(hed__Address__c address : addressByContactMap.values()){
-            if(contactMap.containsKey(address.hed__Parent_Contact__c) && contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                addressMap.put(address.Id, address);
-                filteredContactMap.put(address.hed__Parent_Contact__c, contactMap.get(address.hed__Parent_Contact__c));
-            }
-        }
-
-        processValidation(addressMap, filteredContactMap);
+        processValidation(addressIdSet, contactMap);
     }
     
-    private static void processValidation (Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
-        if(!addressMap.isEmpty() && !contactMap.isEmpty()){
-            AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap, false);
+    private static void processValidation (Set<Id> addressIdSet, Map<Id, Contact> contactMap){
+        if(!addressIdSet.isEmpty() && !contactMap.isEmpty()){
+            AddressesValidationBatch batch = new AddressesValidationBatch(addressIdSet, contactMap, false);
             Database.executeBatch(batch);
         }
     }
@@ -94,20 +88,9 @@ public with sharing class AddressTriggerHelper {
     private static void processAddressFieldUpdateValidation(Map<Id, hed__Address__c> filteredAddressMap){
         
         Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(filteredAddressMap.keySet(), AccessLevel.SYSTEM_MODE));
-        Map<Id, Contact> filteredContactMap = new Map<Id, Contact>();
-        Set<Id> updatedMailingAddressIds = new Set<Id>();
-        for(hed__Address__c address : filteredAddressMap.values()){
-            if(contactMap.containsKey(address.hed__Parent_Contact__c) && contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                updatedMailingAddressIds.add(address.Id);
-                filteredContactMap.put(address.hed__Parent_Contact__c, contactMap.get(address.hed__Parent_Contact__c));
-            }
-        }
-
-        if(!updatedMailingAddressIds.isEmpty() && !filteredContactMap.isEmpty()){
-            AddressesValidationBatch batch = new AddressesValidationBatch(updatedMailingAddressIds, filteredContactMap, true);
+        if(!contactMap.isEmpty()){
+            AddressesValidationBatch batch = new AddressesValidationBatch(new Map<Id, hed__Address__c>(filteredaddressmap.values()).keySet(), contactMap, true);
             Database.executeBatch(batch);
         }
-
     }
-    
 }
