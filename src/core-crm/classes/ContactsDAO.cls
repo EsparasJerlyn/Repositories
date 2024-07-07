@@ -604,14 +604,14 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
     public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
         String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, QUT_Learner_Email__c, Name, MobilePhone ' + 
               'FROM Contact ' + getWhereClauseByCriteria(criteria);
         return Database.getQueryLocator(query);
     }
 
     public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   
         String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, QUT_Learner_Email__c, Name, MobilePhone ' + 
               'FROM Contact WHERE Id IN (' + subQueryString + ')';
         return Database.getQueryLocator(query);
     }
@@ -639,6 +639,19 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
 
         return Database.query(
+            'SELECT Id, QUT_Student_ID__c, Name, MobilePhone, Email, QUT_Learner_Email__c FROM Contact ' +
+            'Where RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
+            'AND QUT_Student__c = true ' +
+            'AND QUT_Student_Id__c in :studentIdList', 
+            accessLevel
+        );
+    }  
+
+    public Database.QueryLocator getQueryLocatorContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    ){
+        return Database.getQueryLocator(
             'SELECT Id, QUT_Student_ID__c, Name, MobilePhone, Email FROM Contact ' +
             'Where RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
             'AND QUT_Student__c = true ' +
