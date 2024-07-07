@@ -558,7 +558,7 @@ private class ContactsDAOTest {
             contactCriteria.setContactIdSet(new Set<Id>{contactId});
 
             Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorByCriteria(contactCriteria);
-            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone FROM Contact WHERE QUT_Student__c = ' + true +
+            String expectedWhereClause = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, QUT_Learner_Email__c, Name, MobilePhone FROM Contact WHERE QUT_Student__c = ' + true +
              ' AND RecordType.DeveloperName = \'' + ContactsDAO.PERSON_RECORDTYPE + '\' AND Id IN (\''+ contactId +'\')';
 
             Test.stopTest();
@@ -591,7 +591,7 @@ private class ContactsDAOTest {
                     contactCriteria
                 );
             //Expected query to build
-            String expectedquery = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+            String expectedquery = 'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, QUT_Learner_Email__c, Name, MobilePhone ' + 
                  'FROM Contact WHERE Id IN (' + subQueryString + ')';
 
             Database.QueryLocator contactQueryLocator = ContactsDAO.newInstance().getQueryLocatorBySubQuery(subQueryString); //update to string
