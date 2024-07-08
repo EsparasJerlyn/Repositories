@@ -14,10 +14,10 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
     public static final String NOT_VALID_ADDRESS = 'Not Valid';
     public static final String FIRST_ADMITTED_ADDRESS = 'First Admitted';
     public static final String OTHER_ADDRESS = 'Other';
-    public static final String OUTER_REGIONAL_AUSTRALIA = 'Outer Regional Australia';
-    public static final String INNER_REGIONAL_AUSTRALIA = 'Inner Regional Australia';
-    public static final String REMOTE = 'Remote';
-    public static final String VERY_REMOTE = 'Very Remote';
+    public static final String OUTER_REGIONAL_AUSTRALIA = 'OUTER REGIONAL AUSTRALIA';
+    public static final String INNER_REGIONAL_AUSTRALIA = 'INNER REGIONAL AUSTRALIA';
+    public static final String REMOTE = 'REMOTE AUSTRALIA';
+    public static final String VERY_REMOTE = 'VERY REMOTE AUSTRALIA';
     public static final String INTEGRATION_STATUS_SUCCESS = 'Success';
     public static final String INTEGRATION_STATUS_FAILED = 'Failed';
     public static final String INTEGRATION_STATUS_SENT = 'Sent';
@@ -60,7 +60,8 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
         return Database.query(
             'SELECT Id, hed__Parent_Contact__c, hed__Address_Type__c, Validated__c, LastModifiedDate, ABS_Categorisation__c, hed__Formula_MailingAddress__c, hed__MailingCity__c, Remoteness_Class__c, ' +
             'hed__MailingCountry__c, hed__MailingCounty__c, hed__MailingState__c, hed__MailingStreet__c, hed__Formula_MailingStreetAddress__c, hed__MailingStreet2__c, hed__MailingPostalCode__c, Meshblock_Id__c, ' +
-            'Socio_Economic_Percentile__c, Statistical_Area_1_Id__c, hed__Parent_Contact__r.Regional_Remote__c, hed__Parent_Contact__r.Low_Socio_Economic_Status__c, Address_Integration_Status__c, Is_First_Admission_Address__c ' +
+            'Socio_Economic_Percentile__c, Statistical_Area_1_Id__c, hed__Parent_Contact__r.Regional_Remote__c, hed__Parent_Contact__r.Low_Socio_Economic_Status__c, Address_Integration_Status__c, Is_First_Admission_Address__c, ' +
+            'GNAF_ID__c ' +
             'FROM hed__Address__c ' +
             'WHERE hed__Parent_Contact__c IN: contactIdsSet ' +
             'AND hed__Address_Type__c IN: addressTypes ' +
@@ -74,7 +75,8 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
             'SELECT Id, hed__Parent_Contact__c, hed__Address_Type__c, Validated__c, LastModifiedDate, ABS_Categorisation__c, Address_Integration_Status__c, ' + 
                 'hed__Formula_MailingAddress__c, hed__MailingCity__c, Remoteness_Class__c, hed__MailingCountry__c, hed__MailingCounty__c, Is_First_Admission_Address__c, ' +
                 'hed__MailingState__c, hed__MailingStreet__c, hed__Formula_MailingStreetAddress__c, hed__MailingStreet2__c, hed__MailingPostalCode__c, Meshblock_Id__c, ' +
-                'Socio_Economic_Percentile__c, Statistical_Area_1_Id__c, hed__Parent_Contact__r.Regional_Remote__c, hed__Parent_Contact__r.Low_Socio_Economic_Status__c ' +
+                'Socio_Economic_Percentile__c, Statistical_Area_1_Id__c, hed__Parent_Contact__r.Regional_Remote__c, hed__Parent_Contact__r.Low_Socio_Economic_Status__c, ' +
+                'GNAF_ID__c ' +
              'FROM hed__Address__c ' + 
             'WHERE Id IN : recordIds');
     }
@@ -84,7 +86,8 @@ public inherited sharing class AddressesDAO extends DmlBase implements IAddresse
             'SELECT Id, hed__Parent_Contact__c, hed__Address_Type__c, Validated__c, LastModifiedDate, ABS_Categorisation__c, Address_Integration_Status__c, ' + 
                 'hed__Formula_MailingAddress__c, hed__MailingCity__c, Remoteness_Class__c, hed__MailingCountry__c, hed__MailingCounty__c, Is_First_Admission_Address__c, ' +
                 'hed__MailingState__c, hed__MailingStreet__c, hed__Formula_MailingStreetAddress__c, hed__MailingStreet2__c, hed__MailingPostalCode__c, Meshblock_Id__c, ' +
-                'Socio_Economic_Percentile__c, Statistical_Area_1_Id__c, hed__Parent_Contact__r.Regional_Remote__c, hed__Parent_Contact__r.Low_Socio_Economic_Status__c ' +
+                'Socio_Economic_Percentile__c, Statistical_Area_1_Id__c, hed__Parent_Contact__r.Regional_Remote__c, hed__Parent_Contact__r.Low_Socio_Economic_Status__c, ' +
+                'GNAF_ID__c ' +
              'FROM hed__Address__c ' + 
             'WHERE Address_Integration_Status__c IN : status');
     }

@@ -140,4 +140,9 @@ public interface IContactsDAO extends DmlInterface {
         List<String> studentIdList,
         AccessLevel accessLevel
     );
+
+    Database.QueryLocator getQueryLocatorContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    );
 }
