@@ -5,6 +5,10 @@
     <label>Permission All Tabs Available and Visible</label>
     <license>Salesforce</license>
     <tabSettings>
+        <tab>Award_Recognition__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Application_Preference__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
