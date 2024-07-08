@@ -15,12 +15,12 @@ public class OutreachCasePostCreationQueuableTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager' });
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
     @isTest
     private static void testExecute() {
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             List<Engagement_List_Configuration__c> elcList = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c elcRec = new Engagement_List_Configuration__c();
             elcRec.Qualtrics_Instrument_Id__c = 'test';
@@ -44,7 +44,6 @@ public class OutreachCasePostCreationQueuableTest {
             Test.stopTest();
             List<Case> caseListUpdated = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id},AccessLevel.SYSTEM_MODE);
             System.assert(!String.isBlank(caseListUpdated[0].Qualtrics_Survey__c), ' No Qualtrics Survey record created.');
-            
         }
     }
 }

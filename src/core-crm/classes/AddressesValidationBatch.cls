@@ -32,19 +32,8 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
     public void execute(Database.BatchableContext bc, List<hed__Address__c> addressList){
         AddressValidationManager addressValidation;
         if(contactMap != null){
-            if(isUpdatedMailingAddress){
-                for(hed__Address__c address : addressList){
-                    address.Statistical_Area_1_Id__c = null;
-                    address.Meshblock_Id__c = null;                
-                    address.Socio_Economic_Percentile__c = null;
-                    address.Remoteness_Class__c = null;
-                    address.GNAF_Id__c = null;
-                    address.Validated__c = null;
-                    address.ABS_Categorisation__c = null;
-                }
-            }
-            addressValidation = new AddressValidationManager(addressList, contactMap);
-            addressValidation.processValidationForAddress();
+            addressValidation = new AddressValidationManager(addressList, contactMap, isUpdatedMailingAddress );
+            addressValidation.setAddressValuesToNull();
         }else{
             addressValidation = new AddressValidationManager(addressList);
             addressValidation.processValidateAddress();

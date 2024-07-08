@@ -12,13 +12,15 @@
  */
 @isTest
 public class DocuSignContentVersionTriggerHandlerTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX')
-        .iterator()
-        .next();
+    
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void insertContentVersion() {
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ContentVersion> contentVersionRecords = TestDataFactory.createTestContentVersionRecords(
                 1
             );
@@ -41,7 +43,7 @@ public class DocuSignContentVersionTriggerHandlerTest {
 
     @isTest
     private static void updatetContentVersion() {
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<ContentVersion> contentVersionRecords = TestDataFactory.createTestContentVersionRecords(
                 1
             );

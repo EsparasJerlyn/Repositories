@@ -14,13 +14,14 @@
 public with sharing class GroupsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new GroupsDAO().getSObjectType() == Group.SObjectType,
                 'SObject is not Group'
@@ -32,7 +33,7 @@ public with sharing class GroupsDAOTest {
     @isTest
     static void getQueueByNameEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Id expectedQueueId = GroupsDAO.newInstance()
             .getQueueByName(null);
             System.assertEquals(null,expectedQueueId,'expectedQueueId is not null');
@@ -43,7 +44,7 @@ public with sharing class GroupsDAOTest {
     @isTest
     static void getQueueByNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             String queueName = GroupsDAO.STUDENT_RETENTION_QUEUE;
             Id expectedQueueId = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name =: queueName WITH SYSTEM_MODE LIMIT 1]?.Id;
             Id actualQueueId = GroupsDAO.newInstance().getQueueByName(queueName);

@@ -40,26 +40,39 @@ public with sharing class ELCPreviewBatch implements Database.Batchable<sObject>
      * @return A Database.QueryLocator object to iterate over the contacts to be processed.
      */
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        Engagement_List_Criteria__c criteria  = new Engagement_List_Criteria__c(
-            Id = eLCParser.getEngagementListCriteria().Id,
-            Preview_Job_Id__c = bc.getJobId()
-        );
+        try{
 
-        EngagementListCriteriasDAO.newInstance()
-            .updateRecords(
-                new List<Engagement_List_Criteria__c>{ criteria },
-                true,
-                AccessLevel.USER_MODE
+            Engagement_List_Criteria__c criteria  = new Engagement_List_Criteria__c(
+                Id = eLCParser.getEngagementListCriteria().Id,
+                Preview_Job_Id__c = bc.getJobId()
             );
+    
+            EngagementListCriteriasDAO.newInstance()
+                .updateRecords(
+                    new List<Engagement_List_Criteria__c>{ criteria },
+                    true,
+                    AccessLevel.USER_MODE
+                );
+    
+            String contactQuery = OutreachCampaignService.getQueryLocatorBySubQueryString(eLCParser);
+    
+            // Check if contactQuery is initialized
+            if (contactQuery != null) {
+                return ContactsDAO.newInstance().getQueryLocatorBySubquery(contactQuery);
+            }
+            return ContactsDAO.newInstance()
+                .getQueryLocatorByCriteria(eLCParser.getELCContactParser().getContactCriteria());
 
-        String contactQuery = OutreachCampaignService.getQueryLocatorBySubQueryString(eLCParser);
-
-        // Check if contactQuery is initialized
-        if (contactQuery != null) {
-            return ContactsDAO.newInstance().getQueryLocatorBySubquery(contactQuery);
+        }catch(Exception e){
+            ELCPreviewResultHandler resultHandler = new ELCPreviewResultHandler(eLCParser.getEngagementListCriteria(),eLCParser.getExecutionDate());
+            //log exception error aginst the ELC
+            resultHandler.logErrors(bc.getJobId(),e);
+            //collect the error message
+            errorMessagesSet.add(e.getMessage());
+            //return an empty query locator, else 'First error: Start did not return a valid iterable object.' occurs
+            return Database.getQueryLocator('SELECT Id FROM Contact WHERE Id = null'); 
         }
-        return ContactsDAO.newInstance()
-            .getQueryLocatorByCriteria(eLCParser.getELCContactParser().getContactCriteria());
+        
     }
 
     /**
