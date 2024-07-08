@@ -14,7 +14,7 @@
 public with sharing class ELCMondayEvaluationSchedulerTest {
     @testSetup 
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.startTest();
         List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
         contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -78,7 +78,7 @@ public with sharing class ELCMondayEvaluationSchedulerTest {
 
     @isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getESBIntegrationUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             String cronExpression = Label.ELC_Evaluation_Monday_Cron_Expression;
             
             Test.startTest();

@@ -13,12 +13,16 @@
 */
 @isTest 
 public class LoqateMobileValidationSchedulerTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     static void testLoqateScheduler(){
         
-        System.runAs(currentUser){              
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){              
             String cronExpression = Label.Loqate_Mobile_Validation_Cron_Expression;
             
             Test.startTest();
