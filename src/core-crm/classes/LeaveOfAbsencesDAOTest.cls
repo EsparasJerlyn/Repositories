@@ -14,13 +14,14 @@
 public with sharing class LeaveOfAbsencesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new LeaveOfAbsencesDAO().getSObjectType() == Leave_of_Absence__c.SObjectType,
                 'SObject is not Leave_of_Absence__c'
@@ -32,7 +33,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -77,7 +78,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void getWhereClauseByNoCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
@@ -91,7 +92,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void getContactQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -136,7 +137,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void getQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -185,7 +186,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
     
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -246,7 +247,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void findByCriteriaNegativeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
     
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -306,7 +307,7 @@ public with sharing class LeaveOfAbsencesDAOTest {
     @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             LeaveOfAbsencesDAO.Criteria criteria = new LeaveOfAbsencesDAO.Criteria();
             System.assert(criteria.isEmpty(), 'Criteria should be empty.');
         }

@@ -17,12 +17,12 @@ private class QualtricsSurveyTriggerHandlerTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager' });
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
     @isTest
     private static void checkInProgressSurveyURLPositive(){
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
 
             List<Qualtrics_Survey__c> qualtricsSurveyList = TestDataFactory.createQualtricsSurveyRecord(100);
             QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyList, false, AccessLevel.SYSTEM_MODE);
@@ -43,7 +43,7 @@ private class QualtricsSurveyTriggerHandlerTest {
 
     @isTest
     private static void checkInProgressSurveyURLNegative(){
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
 
             List<Qualtrics_Survey__c> qualtricsSurveyList = TestDataFactory.createQualtricsSurveyRecord(100);
             for(Qualtrics_Survey__c qs : qualtricsSurveyList){

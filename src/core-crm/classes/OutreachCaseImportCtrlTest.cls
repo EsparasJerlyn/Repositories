@@ -13,13 +13,14 @@ private class OutreachCaseImportCtrlTest {
 
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB', 'QUT_Student_Success_Outreach_Manager' });
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
 
     @isTest
     static void testListOfCases() {
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             //Create Engagement List Configuration record
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -58,14 +59,12 @@ private class OutreachCaseImportCtrlTest {
             System.assert(result.size() > 0, 'No case records retrieved.');
             System.assertEquals(result[0].Id, outreachCase.Id, 'Case record retrieved did not match.');
         }
-    
-        
     }
     
     
     @IsTest
     static void testListOfStudents() {
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             List<String> studentIds = new List<String>{ '12345678', '87654321','12354688' };
 
             Test.startTest();
@@ -86,7 +85,7 @@ private class OutreachCaseImportCtrlTest {
     @IsTest
     static void testListOfCasesbyStudentIds() {
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             String criteriaName = 'Test Criteria for Import';
             //Create Engagement List Configuration record
@@ -123,7 +122,7 @@ private class OutreachCaseImportCtrlTest {
     @IsTest
     static void testListOfCasesById() {
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             String criteriaName = 'Test Criteria for Import';
             //Create Engagement List Configuration record

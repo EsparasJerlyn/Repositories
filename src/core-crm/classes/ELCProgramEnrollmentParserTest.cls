@@ -13,12 +13,12 @@ public with sharing class ELCProgramEnrollmentParserTest {
     
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void parseProgramEnrollmentAcademicStatusTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             
             Test.startTest();
             String academicStatus = 'Showcause';
@@ -37,7 +37,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
 
     @isTest
     static void parseProgramEnrollmentPreviousAcademicStatusTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             
             Test.startTest();
             String academicStatus = 'Showcause';
@@ -56,7 +56,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
 
     @isTest
     static void parseProgramEnrollmentCategoryTypeTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             Date executionDate = Date.today();
@@ -75,7 +75,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
 
     @isTest
     static void parseNoProgramEnrollmentCriteriaTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             ELCProgramEnrollmentParser parser = new ELCProgramEnrollmentParser(new Engagement_List_Criteria__c(), Date.today());
@@ -88,7 +88,7 @@ public with sharing class ELCProgramEnrollmentParserTest {
 
     @isTest
     static void parseprocessKeyDateOffsetsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Date executionDate = Date.today();
             Date execDateLower = executionDate.addDays(-1);
             Date execDateUpper = executionDate.addDays(-10);
