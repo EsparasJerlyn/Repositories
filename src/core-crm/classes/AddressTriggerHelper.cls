@@ -14,6 +14,8 @@ public with sharing class AddressTriggerHelper {
     public static void validateAddress(List<hed__Address__c> addressList){
 
         Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
+        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>(addressList);
+
         for(hed__Address__c address : addressList){
 
             if(
@@ -26,20 +28,21 @@ public with sharing class AddressTriggerHelper {
         }
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(addressByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
-        Map<Id, Contact> filteredContactMap = new Map<Id, Contact>();
-        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>();
-        for(hed__Address__c address : addressByContactMap.values()){
-            if(contactMap.containsKey(address.hed__Parent_Contact__c) && contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                addressMap.put(address.Id, address);
-                filteredContactMap.put(address.hed__Parent_Contact__c, contactMap.get(address.hed__Parent_Contact__c));
-            }
-        }
-
-        processValidation(addressMap, filteredContactMap);
+        processValidation(addressMap, contactMap);
     }
     
-    private static void processValidation (Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
-        if(!addressMap.isEmpty() && !contactMap.isEmpty()){
+    private static void processValidation ( Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
+
+        if(addressMap.isEmpty() || contactMap.isEmpty()){
+            return;
+        }
+
+        Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
+        
+        if(isAsyncProcess){
+            AddressValidationManager addressValidation = new AddressValidationManager(addressMap.values(), contactMap, false);
+            addressValidation.setAddressValuesToNull();
+        } else{
             AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap, false);
             Database.executeBatch(batch);
         }
@@ -78,36 +81,41 @@ public with sharing class AddressTriggerHelper {
                 filteredAddressMap.put(address.hed__Parent_Contact__c, address);
             }   
         }
-        
+        Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
+
         if(!addressIds.isEmpty()){
             // call the method to validate Address
-            AddressesValidationBatch batch = new AddressesValidationBatch(addressIds);
-            Database.executeBatch(batch);
-            
+            if (isAsyncProcess) {
+                //Current transaction is running asynchronously
+                AddressValidationManager addressValidation = new AddressValidationManager(addressList);
+                addressValidation.processValidateAddress();           
+             } else {
+                //Current transaction is not running asynchronously
+                AddressesValidationBatch batch = new AddressesValidationBatch(addressIds);
+                Database.executeBatch(batch);
+            }
+
         }
 
         if(!filteredAddressMap.isEmpty()){
-            processAddressFieldUpdateValidation(filteredAddressMap);
+            processAddressFieldUpdateValidation(filteredAddressMap , isAsyncProcess);
         }
     }    
 
-    private static void processAddressFieldUpdateValidation(Map<Id, hed__Address__c> filteredAddressMap){
+    private static void processAddressFieldUpdateValidation(Map<Id, hed__Address__c> filteredAddressMap , Boolean isAsyncProcess){
         
         Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(filteredAddressMap.keySet(), AccessLevel.SYSTEM_MODE));
-        Map<Id, Contact> filteredContactMap = new Map<Id, Contact>();
-        Set<Id> updatedMailingAddressIds = new Set<Id>();
-        for(hed__Address__c address : filteredAddressMap.values()){
-            if(contactMap.containsKey(address.hed__Parent_Contact__c) && contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                updatedMailingAddressIds.add(address.Id);
-                filteredContactMap.put(address.hed__Parent_Contact__c, contactMap.get(address.hed__Parent_Contact__c));
+        if(!contactMap.isEmpty()){
+            if(isAsyncProcess){
+                //Current transaction is running asynchronously
+                AddressValidationManager addressValidation = new AddressValidationManager(filteredAddressMap.values(), contactMap, true );
+                addressValidation.setAddressValuesToNull();
+            }else{
+                //Current transaction is not running asynchronously
+                AddressesValidationBatch batch = new AddressesValidationBatch(new Map<Id, hed__Address__c>(filteredaddressmap.values()).keySet(), contactMap, true);
+                Database.executeBatch(batch);
             }
-        }
 
-        if(!updatedMailingAddressIds.isEmpty() && !filteredContactMap.isEmpty()){
-            AddressesValidationBatch batch = new AddressesValidationBatch(updatedMailingAddressIds, filteredContactMap, true);
-            Database.executeBatch(batch);
         }
-
     }
-    
 }

@@ -11,14 +11,18 @@ public with sharing class AddressValidationManager {
     
     private List<hed__address__c> addresses;
     private Map<Id, Contact> contactMap;
+    private Boolean isUpdatedMailingAddress;
+
 
     public AddressValidationManager(List<hed__address__c> addresses) {
         this.addresses = addresses;
     }
 
-    public AddressValidationManager(List<hed__address__c> addresses, Map<Id, Contact> contactMap) {
+    public AddressValidationManager(List<hed__address__c> addresses, Map<Id, Contact> contactMap, Boolean isUpdatedMailingAddress) {
         this.addresses = addresses;
         this.contactMap = contactMap;
+        this.isUpdatedMailingAddress = isUpdatedMailingAddress;
+
     }
     
     /**
@@ -354,6 +358,12 @@ public with sharing class AddressValidationManager {
             List<Contact> contactsToUpdate = new List<Contact>();
             List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
             for(hed__Address__c address : addressMap.values()){
+                
+                if(contactMap.containsKey(address.hed__Parent_Contact__c) && !contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
+                    addressToUpdate.add(address);
+                    continue;
+                }
+                
                 address.ABS_Categorisation__c = absCategorisation.Id;
                 addressToUpdate.add(address);
 
@@ -405,5 +415,25 @@ public with sharing class AddressValidationManager {
             absCategorisation = absCateg;
         }
         return absCategorisation;
+    }
+
+    /**
+     * Retrieves sets the values of the Address to null
+     * @return void
+     */
+    public void setAddressValuesToNull(){
+        if(isUpdatedMailingAddress){
+            for(hed__Address__c address : addresses){
+                address.Statistical_Area_1_Id__c = null;
+                address.Meshblock_Id__c = null;                
+                address.Socio_Economic_Percentile__c = null;
+                address.Remoteness_Class__c = null;
+                address.GNAF_Id__c = null;
+                address.Validated__c = null;
+                address.ABS_Categorisation__c = null;
+            }
+        }
+        processValidationForAddress();
+
     }
 }
