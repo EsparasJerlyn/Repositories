@@ -13,8 +13,9 @@ private class AddressValidationManagerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
                 new ABS_Categorisation__c(
@@ -31,12 +32,11 @@ private class AddressValidationManagerTest {
             
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisation, false, AccessLevel.USER_MODE);
         }
-        Test.stopTest();
     }
        
     @isTest
     static void executeAddressValidationFirstAdmittedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
             for(Contact con: contactList){
@@ -85,7 +85,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void executeAddressValidationNotFirstAdmittedTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(201, 'Fail', ''));
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
             for(Contact con: contactList){
@@ -145,7 +145,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void executeAddressValidationOtherAddressTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
@@ -191,7 +191,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void executeAddressValidationOtherAddressCloneTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
@@ -243,7 +243,7 @@ private class AddressValidationManagerTest {
 
     @isTest
     static void processValidateAddressOthersTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
             List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('SYSTEM_MODE');
@@ -278,7 +278,7 @@ private class AddressValidationManagerTest {
                 hed__Address__c adddress = new hed__Address__c();
                 adddress.Id = add.Id;
                 adddress.Validated__c = AddressesDAO.VALID_ADDRESS;
-                adddress.Socio_Economic_Percentile__c = 80;
+                adddress.Socio_Economic_Percentile__c = 100;
                 adddress.Remoteness_Class__c = AddressesDAO.REMOTE;
                 adddress.Address_Integration_Status__c = AddressesDAO.INTEGRATION_STATUS_SUCCESS;
                 addressesToUpdate.add(adddress);
@@ -294,8 +294,8 @@ private class AddressValidationManagerTest {
             Map<Id, Contact> contactMap = new Map<Id, Contact>(contactList);
             List<Contact> contactsUpdated = ContactsDAO.newInstance().getPersonContactsBySetIds(contactMap.keySet(), AccessLevel.SYSTEM_MODE);            
             for(Contact contact: contactsUpdated){
-                System.Assert.areEqual(ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES, contact.Low_Socio_Economic_Status__c , 'Incorrect value for Low_Socio_Economic_Status__c.');
-                System.Assert.areEqual(ContactsDAO.REGIONAL_REMOTE_YES, contact.Regional_Remote__c , 'Incorrect value for Regional_Remote__c.');
+                System.Assert.areEqual(ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO, contact.Low_Socio_Economic_Status__c , 'Incorrect value for Low_Socio_Economic_Status__c.');
+                System.Assert.areEqual(ContactsDAO.REGIONAL_REMOTE_NO, contact.Regional_Remote__c , 'Incorrect value for Regional_Remote__c.');
             }
         }
     }

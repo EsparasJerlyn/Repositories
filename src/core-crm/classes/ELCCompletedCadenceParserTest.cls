@@ -13,12 +13,12 @@ public with sharing class ELCCompletedCadenceParserTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void parseCompletedCadenceTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             
             Test.startTest();
             String completedCadenceName = 'Domestic Accepted and Admitted';
@@ -36,7 +36,7 @@ public with sharing class ELCCompletedCadenceParserTest {
 
     @isTest
     static void parseNoCompletedCadenceCriteriaTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             ELCCompletedCadenceParser parser = new ELCCompletedCadenceParser(new Engagement_List_Criteria__c(), Date.today());
@@ -48,7 +48,7 @@ public with sharing class ELCCompletedCadenceParserTest {
 
     @isTest
     static void parseprocessKeyDateOffsetsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Date executionDate = Date.today();
             Date execDateLower = executionDate.addDays(-1);
             Date execDateUpper = executionDate.addDays(-10);
