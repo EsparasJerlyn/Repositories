@@ -16,12 +16,12 @@
 private class QualtricsSurveyServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager' });
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
     @isTest
     private static void enqueueQualtricsSurveyToProcessTest() {
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             Test.startTest();
             String qualtricInstrumentId = 'test';
             List<Engagement_List_Configuration__c> elcList = new List<Engagement_List_Configuration__c>();
@@ -119,7 +119,7 @@ private class QualtricsSurveyServiceTest {
         Boolean hasError = false;
         String errorMessage;
 
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()){
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager){
 
             ImplementationSelector.DAO.setMock(new QualtricsSurveysDAOMock());
 

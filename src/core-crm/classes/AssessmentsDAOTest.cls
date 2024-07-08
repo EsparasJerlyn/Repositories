@@ -12,13 +12,13 @@
 public with sharing class AssessmentsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager' });
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             System.assert(AssessmentsDAO.newInstance() != null, 'AssessmentsDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class AssessmentsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             System.assert(
                 new AssessmentsDAO().getSObjectType() == Assessment__c.SObjectType,
                 'SObject is not Assessment__c'

@@ -3,9 +3,10 @@
  * @see AddressValidationManager
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | mark.j.mahilum            | May 30, 2024          | DEPP-8956            | Created file                 |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                 |
+      |---------------------------|-----------------------|----------------------|--------------------------------|
+      | mark.j.mahilum            | May 30, 2024          | DEPP-8956            | Created file                   |
+      | eugene.andrew.abuan       | July 08, 2024         | DEPP-9798            | Added first admission to false |
  */
 public with sharing class AddressValidationManager {
     
@@ -122,6 +123,7 @@ public with sharing class AddressValidationManager {
      *    a. Update 'Other' address types with ABS categorisation and determine low socio-economic status.
      *       i. If the address is marked as first admission, clone it to create a new address of type 'First Admitted'.
      *       ii. Set the regional remote value for the contact.
+     *       iii. Update the 'First Admission Address' to false'
      *    b. Update 'First Admitted' address types by setting the regional remote value from the ABS categorisation.
      * 5. Updates contact records with the new low socio-economic and regional remote values.
      * 6. Updates and inserts address records accordingly.
@@ -157,7 +159,6 @@ public with sharing class AddressValidationManager {
                     when 'Other' {
                         //Address to update and associate ABS Categorisation 
                         address.ABS_Categorisation__c = absCategorisation[0].Id;
-                        addressToUpdate.add(address);
                         
                         // Determine and set low socio-economic status
                         String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation[0]);
@@ -177,7 +178,12 @@ public with sharing class AddressValidationManager {
                             String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);
                             con.Regional_Remote__c = regionalRemoteValue;
                             contactToUpdateMap.put(contactId,con);
+
+                            //Update the 'First Admission Address' to false
+                            address.Is_First_Admission_Address__c = false;
                         }
+                        addressToUpdate.add(address);
+
                     }
                     when 'First Admitted' {
                         //get regional Remote from ABS and Remoteness Class

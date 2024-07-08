@@ -16,13 +16,14 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new ProgramEnrollmentBreachesDAO().getSObjectType() == Program_Enrollment_Breach__c.SObjectType,
                 'SObject is not Program_Enrollment_Breach__c'
@@ -34,7 +35,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void getWhereClauseByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -80,7 +81,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void getWhereClauseByNoCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ContactsDAO.Criteria contactCriteria = new ContactsDAO.Criteria();
             ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria = new ProgramEnrollmentsDAO.Criteria();
             ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
@@ -94,7 +95,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void getContactQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -140,7 +141,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void getQueryByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
             Id contactId = mockIdGen.getMockId();
@@ -186,7 +187,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void findByCriteriaTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
@@ -251,7 +252,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void findByCriteriaNegativeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = false;
@@ -315,7 +316,7 @@ public with sharing class ProgramEnrollmentBreachesDAOTest {
     @isTest
     static void criteriaIsEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             ProgramEnrollmentBreachesDAO.Criteria criteria = new ProgramEnrollmentBreachesDAO.Criteria();
             System.assert(criteria.isEmpty(), 'Criteria should be empty.');
         }
