@@ -39,7 +39,7 @@ public inherited sharing class ELCPreviewResultHandler {
             List<Object> arguments = new List<Object>{
                 student.QUT_Student_Id__c != null ? student.QUT_Student_Id__c : '',
                 student.Name != null ? student.Name : '',
-                student.Email != null ? student.Email : '',
+                student.QUT_Learner_Email__c != null ? student.QUT_Learner_Email__c : '',
                 student.MobilePhone != null ? student.MobilePhone : ''
             };
 
@@ -147,7 +147,7 @@ public inherited sharing class ELCPreviewResultHandler {
      * @description Generates the final CSV from the temporary CSV attachments and updates the criteria with the attachment ID.
      */
     private void generateCSV() {
-        String finalCsvContent = 'Student ID,Full Name,Primary Email,Mobile\n'; // Header row
+        String finalCsvContent = 'Student ID,Full Name,QUT Learner Email,Mobile\n'; // Header row
 
         List<Attachment> tempAttachments = AttachmentsDAO.newInstance()
             .findAttachmentsByNames(
