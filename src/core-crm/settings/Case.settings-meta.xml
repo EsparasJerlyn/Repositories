@@ -32,6 +32,7 @@
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}</emailAddress>
+            <isPermsetControlled>true</isPermsetControlled>
             <routingName>Domestic Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
@@ -43,6 +44,7 @@
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE}</emailAddress>
+            <isPermsetControlled>true</isPermsetControlled>
             <routingName>International Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
