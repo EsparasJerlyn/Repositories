@@ -12,12 +12,12 @@
 public with sharing class ELCCourseConnectionParserTest {
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void parseCourseConnCourseGradeTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             
             Test.startTest();
             Date executionDate = Date.today();
@@ -34,7 +34,7 @@ public with sharing class ELCCourseConnectionParserTest {
 
     @isTest
     static void parseNoCourseConnCriteriaTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             ELCCourseConnectionParser parser = new ELCCourseConnectionParser(new Engagement_List_Criteria__c(), Date.today());

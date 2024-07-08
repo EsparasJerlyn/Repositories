@@ -14,13 +14,13 @@ public with sharing class EngagementListEventKeyTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void equalsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Id contactId = new MockIdGenerator(Contact.SObjectType).getMockId();
             Id criteriaId = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType).getMockId();
@@ -71,7 +71,7 @@ public with sharing class EngagementListEventKeyTest {
     @isTest
     static void notEqualsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Id contactId = new MockIdGenerator(Contact.SObjectType).getMockId();
             Id criteriaId = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType).getMockId();
@@ -102,7 +102,7 @@ public with sharing class EngagementListEventKeyTest {
     @isTest
     static void testHashCode() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Id contactId = new MockIdGenerator(Contact.SObjectType).getMockId();
             Id criteriaId = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType).getMockId();

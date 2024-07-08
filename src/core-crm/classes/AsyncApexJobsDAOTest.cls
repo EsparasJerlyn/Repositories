@@ -14,13 +14,13 @@
 private class AsyncApexJobsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(AsyncApexJobsDAO.newInstance() != null, 'AsyncApexJobsDAO instance is null');
         }
         Test.stopTest();
@@ -29,7 +29,7 @@ private class AsyncApexJobsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new AsyncApexJobsDAO().getSObjectType() == AsyncApexJob.SObjectType,
                 'SObject is not AsyncApexJob'
@@ -41,7 +41,7 @@ private class AsyncApexJobsDAOTest {
     @isTest
     static void findAsyncApexJobByIdEmptTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance()
             .findAsyncApexJobById(null, AccessLevel.SYSTEM_MODE);
             System.assertEquals(null,asyncApexJob,'asyncApexJob is not null');
@@ -52,7 +52,7 @@ private class AsyncApexJobsDAOTest {
     @isTest
     static void findAsyncApexJobByIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             AssetToCompleteBatch batch = new AssetToCompleteBatch();
             Database.executeBatch(batch);
@@ -69,7 +69,7 @@ private class AsyncApexJobsDAOTest {
 	@isTest
 	static void getRunningJobsByNameAndIdExemptionTest(){
 		Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(
 					new Set<String>{'TestBatch'},
@@ -85,7 +85,7 @@ private class AsyncApexJobsDAOTest {
 	@isTest
 	static void getRunningJobsByNameAndIdExemptionTestEmpty(){
 		Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(
 					new Set<String>(),
@@ -101,7 +101,7 @@ private class AsyncApexJobsDAOTest {
     @isTest
     static void findAsyncApexJobByApexNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             QualtricsSurveyCalloutQueuable executeQueueable = new QualtricsSurveyCalloutQueuable(new List<Qualtrics_Survey__c>() , 'checkInProgressSurveyURL');
             System.enqueueJob(executeQueueable);
@@ -115,7 +115,7 @@ private class AsyncApexJobsDAOTest {
     @isTest
     static void findAsyncApexJobByApexNameEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             AsyncApexJob asyncApexJob = AsyncApexJobsDAO.newInstance().findAsyncApexJobByApexName('test', AccessLevel.SYSTEM_MODE);
             System.assertEquals(null , asyncApexJob,'Async Job Should be null');
         }

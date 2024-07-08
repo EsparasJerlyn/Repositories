@@ -14,14 +14,14 @@ public with sharing class ELECandidateGeneratorTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         MockIdGenerator mockIdGen = new MockIdGenerator(Engagement_List_Criteria__c.SObjectType);
         engagementListCriteriaId = mockIdGen.getMockId();
     }
     
     @isTest
     static void generateEngagementListWithContactValuesOnlyTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {        
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {        
             // Contact contact = new Contact();
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
@@ -69,7 +69,7 @@ public with sharing class ELECandidateGeneratorTest {
     
     @isTest
     static void generateEngagementListWithContactAndCompletedCadenceValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String completedCadenceName = 'Domestic Accepted and Admitted';
@@ -141,7 +141,7 @@ public with sharing class ELECandidateGeneratorTest {
     
     @isTest
     static void generateEngagementListWithContactProgramEnrollmentValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String academicStatus = 'Showcause';
@@ -218,7 +218,7 @@ public with sharing class ELECandidateGeneratorTest {
     
     @isTest
     static void generateEngagementListWithCourseEnrollmentValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String academicStatus = 'Showcause';
@@ -304,7 +304,7 @@ public with sharing class ELECandidateGeneratorTest {
     
     @isTest
     static void generateEngagementListWithCourseAssessmentValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String academicStatus = 'Showcause';
@@ -396,7 +396,7 @@ public with sharing class ELECandidateGeneratorTest {
     
     @isTest
     static void generateEngagementListWithLeaveOfAbsenceValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String academicStatus = 'Showcause';
@@ -498,7 +498,7 @@ public with sharing class ELECandidateGeneratorTest {
     
     @isTest
     static void generateEngagementListWithProgramEnrollmentBreachTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String academicStatus = 'Showcause';

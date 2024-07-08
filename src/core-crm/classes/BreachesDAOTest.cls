@@ -13,13 +13,13 @@
 public with sharing class BreachesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(BreachesDAO.newInstance() != null, 'BreachesDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class BreachesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new BreachesDAO().getSObjectType() == Breach__c.SObjectType,
                 'SObject is not Breach__c'
