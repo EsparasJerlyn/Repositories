@@ -278,7 +278,7 @@ private class AddressValidationManagerTest {
                 hed__Address__c adddress = new hed__Address__c();
                 adddress.Id = add.Id;
                 adddress.Validated__c = AddressesDAO.VALID_ADDRESS;
-                adddress.Socio_Economic_Percentile__c = 80;
+                adddress.Socio_Economic_Percentile__c = 100;
                 adddress.Remoteness_Class__c = AddressesDAO.REMOTE;
                 adddress.Address_Integration_Status__c = AddressesDAO.INTEGRATION_STATUS_SUCCESS;
                 addressesToUpdate.add(adddress);
@@ -294,8 +294,8 @@ private class AddressValidationManagerTest {
             Map<Id, Contact> contactMap = new Map<Id, Contact>(contactList);
             List<Contact> contactsUpdated = ContactsDAO.newInstance().getPersonContactsBySetIds(contactMap.keySet(), AccessLevel.SYSTEM_MODE);            
             for(Contact contact: contactsUpdated){
-                System.Assert.areEqual(ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_YES, contact.Low_Socio_Economic_Status__c , 'Incorrect value for Low_Socio_Economic_Status__c.');
-                System.Assert.areEqual(ContactsDAO.REGIONAL_REMOTE_YES, contact.Regional_Remote__c , 'Incorrect value for Regional_Remote__c.');
+                System.Assert.areEqual(ContactsDAO.LOW_SOCIO_ECONOMIC_STATUS_NO, contact.Low_Socio_Economic_Status__c , 'Incorrect value for Low_Socio_Economic_Status__c.');
+                System.Assert.areEqual(ContactsDAO.REGIONAL_REMOTE_NO, contact.Regional_Remote__c , 'Incorrect value for Regional_Remote__c.');
             }
         }
     }
