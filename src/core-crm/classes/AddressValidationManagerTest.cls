@@ -299,4 +299,46 @@ private class AddressValidationManagerTest {
             }
         }
     }
+    @isTest
+    static void processValidateAddressOthersTestNotQUTStudent() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+
+            List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance().getLatestUpdatedActiveCategorisationRecord('SYSTEM_MODE');
+            
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);          
+            for(Contact con: contactList){
+                con.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                con.QUT_Student__c = false;
+            }         
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Address__c> addresses = new List<hed__Address__c>();
+            for (Integer i = 0; i < contactList.size(); i++) {
+                hed__Address__c add = new hed__Address__c();
+                add.hed__Parent_Contact__c = contactList[i].Id;                
+                add.hed__Address_Type__c = AddressesDAO.OTHER_ADDRESS;
+                add.hed__MailingCountry__c = 'Australia';
+                add.hed__MailingState__c = 'QLD';
+                add.hed__MailingCity__c = 'DALLARNIL';
+                add.hed__MailingPostalCode__c = '12345';
+                add.hed__MailingStreet__c = '1234 Test St';
+                add.hed__MailingStreet2__c = '4321 Tester Street';
+                add.Validated__c = AddressesDAO.NOT_VALID_ADDRESS;
+                add.Is_First_Admission_Address__c = true;            
+                addresses.add(add);
+            }
+            AddressesDAO.newInstance().insertRecords(addresses, false, AccessLevel.SYSTEM_MODE);
+            Map<Id, Contact> contactMap = new Map<Id, Contact>(contactList);
+            Test.startTest();
+        
+            AddressValidationManager addressValidation = new AddressValidationManager(addresses , contactMap, false);
+            addressValidation.processValidateAddress();       
+            Test.stopTest();
+
+
+            for(hed__address__c address : AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactMap.keySet(),new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){
+                System.Assert.areEqual(null, address.Address_Integration_Status__c , 'Integration Status should not be populated during insert');
+            }
+        }
+    }
 }
