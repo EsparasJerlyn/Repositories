@@ -394,9 +394,6 @@ public with sharing class AddressValidationManager {
                 }
             }
             
-            if(!contactsToUpdate.isEmpty()){
-                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
-            }
             // Updates the hed Address when Contact is QUT Student and will fire a Validation for the Integration Status
             if(!addressToUpdate.isEmpty()){
                 Map<Id, hed__Address__c> addressMap = new AddressValidation(addressToUpdate).validateAddresses();
@@ -406,6 +403,10 @@ public with sharing class AddressValidationManager {
             // Updates the hed Address when QUT Student is false
             if(!addressToUpdateNotQUTStudent.isEmpty()){
                 AddressesDAO.newInstance().updateRecords(addressToUpdateNotQUTStudent, true, AccessLevel.SYSTEM_MODE);
+            }
+
+            if(!contactsToUpdate.isEmpty()){
+                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
             }
 
         }catch(Exception e){
