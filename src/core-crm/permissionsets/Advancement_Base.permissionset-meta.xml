@@ -1790,6 +1790,26 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable> 
+        <field>Interest__c.External_Id__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable> 
+        <field>Interest__c.External_Key__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>         
+    <fieldPermissions>
+        <editable>true</editable> 
+        <field>Interest__c.Migration_Id__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable> 
+        <field>Interest__c.Migration_Key__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>                   
+    <fieldPermissions>
         <editable>true</editable>
         <field>List_Contributor__c.Account__c</field>
         <readable>true</readable>
