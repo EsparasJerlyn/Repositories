@@ -12,12 +12,12 @@
 public with sharing class ELECandidateIngredientTest {
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void populateELECandidateIngredientValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {                      
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {                      
             Test.startTest();
             //create breach record
             Breach__c breach = new Breach__c(

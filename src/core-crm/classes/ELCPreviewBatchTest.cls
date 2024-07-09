@@ -11,12 +11,12 @@
 private class ELCPreviewBatchTest {
     @TestSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void handleSuccessTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
             EmailTemplate emailTemplate = new EmailTemplate();
             emailTemplate.Name = 'Preview Generated Success Email';
@@ -79,7 +79,7 @@ private class ELCPreviewBatchTest {
 
     @isTest
     static void handleFailTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';
@@ -131,7 +131,7 @@ private class ELCPreviewBatchTest {
 
     @isTest
     static void eLCPreviewBatchWithErrorTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
             EmailTemplate emailTemplate = new EmailTemplate();

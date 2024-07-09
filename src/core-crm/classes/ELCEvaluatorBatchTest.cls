@@ -13,13 +13,14 @@ public with sharing class ELCEvaluatorBatchTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager', 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
     
     @isTest
     static void testBatchExecutionContactWithCompletedCadenceTest() {                 
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {  
             
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -87,7 +88,7 @@ public with sharing class ELCEvaluatorBatchTest {
     @isTest
     static void testBatchExecutionContactWithProgramEnrollmentTest() {                 
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {  
             
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -167,7 +168,7 @@ public with sharing class ELCEvaluatorBatchTest {
     @isTest
     static void testBatchExecutionContactWithLeaveOfAbsenceTest() {                 
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {  
             
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -257,7 +258,7 @@ public with sharing class ELCEvaluatorBatchTest {
     @isTest
     static void testBatchExecutionContactWithProgEnrollBreachTest() {                 
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {  
             
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -349,7 +350,7 @@ public with sharing class ELCEvaluatorBatchTest {
     @isTest
     static void testBatchExecutionContactWithCourseConnectionTest() {                 
         //Contact with Completed Cadence
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {  
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {  
             
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();

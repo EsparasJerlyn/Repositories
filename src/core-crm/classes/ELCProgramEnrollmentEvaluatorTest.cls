@@ -13,12 +13,13 @@ private class ELCProgramEnrollmentEvaluatorTest{
 
 	@TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager', 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
     @isTest
-    static void eLCProgramEnrollmentEvaluatorTest (){
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+    static void programEnrollmentEvaluatorTest (){
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             String academicStatus = 'Showcause';
@@ -40,7 +41,7 @@ private class ELCProgramEnrollmentEvaluatorTest{
 
     @isTest
     static void evaluateWithReturnTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;

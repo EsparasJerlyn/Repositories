@@ -13,9 +13,10 @@ public with sharing class AddressTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisationList = new List<ABS_Categorisation__c>();
             absCategorisationList.add(
                 new ABS_Categorisation__c(
@@ -31,12 +32,11 @@ public with sharing class AddressTriggerHelperTest {
             );
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisationList, true, AccessLevel.SYSTEM_MODE);
         }
-        Test.stopTest();
     }
 
     @isTest
     static void testAddressValidation() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
@@ -90,7 +90,7 @@ public with sharing class AddressTriggerHelperTest {
 
     @isTest
     static void testNotForValidationAddress() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
             
@@ -139,7 +139,7 @@ public with sharing class AddressTriggerHelperTest {
 
     @isTest
     static void testUpdateOtherAddressValidation() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
@@ -210,7 +210,7 @@ public with sharing class AddressTriggerHelperTest {
 
     @isTest
     static void testUpdateFirstAdmittedAddressValidation() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 
@@ -267,7 +267,7 @@ public with sharing class AddressTriggerHelperTest {
 
     @isTest
     static void testUpdateAddressMailingField() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.setMock(HTTPCalloutMock.class, new GenericHttpCalloutMock(200, 'Ok', ''));
 

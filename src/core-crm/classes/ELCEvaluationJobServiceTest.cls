@@ -16,7 +16,7 @@
  
      @TestSetup
      static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
 
         Test.startTest();
 
@@ -56,7 +56,7 @@
  
      @isTest
      static void prepareELCEvaluationJobsTest(){
-         System.runAs(TestDataFactory.getESBIntegrationUser()) {
+         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.StartTest();
             List<ELCEvaluationJob> elcEvaluationJobs = ELCEvaluationJobService.prepareELCEvaluationJobs(Date.today());
