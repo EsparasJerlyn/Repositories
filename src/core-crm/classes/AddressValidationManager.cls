@@ -7,6 +7,7 @@
       |---------------------------|-----------------------|----------------------|--------------------------------|
       | mark.j.mahilum            | May 30, 2024          | DEPP-8956            | Created file                   |
       | eugene.andrew.abuan       | July 08, 2024         | DEPP-9798            | Added first admission to false |
+      | eugene.andrew.abuan       | July 09, 2024         | DEPP-9818            | Added checking for QUT Student |
  */
 public with sharing class AddressValidationManager {
     
@@ -359,14 +360,14 @@ public with sharing class AddressValidationManager {
         try{ 
             ABS_Categorisation__c absCategorisation = getABSCategorisation();  
 
-            Map<Id, hed__Address__c> addressMap = new AddressValidation(addresses).validateAddresses();
 
             List<Contact> contactsToUpdate = new List<Contact>();
             List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
-            for(hed__Address__c address : addressMap.values()){
+            List<hed__Address__c> addressToUpdateNotQUTStudent = new List<hed__Address__c>();
+            for(hed__Address__c address : addresses){
                 
                 if(contactMap.containsKey(address.hed__Parent_Contact__c) && !contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                    addressToUpdate.add(address);
+                    addressToUpdateNotQUTStudent.add(address);
                     continue;
                 }
                 
@@ -393,12 +394,19 @@ public with sharing class AddressValidationManager {
                 }
             }
             
-            if(!contactsToUpdate.isEmpty()){
-                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            // Updates the hed Address when Contact is QUT Student and will fire a Validation for the Integration Status
+            if(!addressToUpdate.isEmpty()){
+                Map<Id, hed__Address__c> addressMap = new AddressValidation(addressToUpdate).validateAddresses();
+                AddressesDAO.newInstance().updateRecords(addressMap.values(), true, AccessLevel.SYSTEM_MODE);
             }
 
-            if(!addressToUpdate.isEmpty()){
-                AddressesDAO.newInstance().updateRecords(addressToUpdate, true, AccessLevel.SYSTEM_MODE);
+            // Updates the hed Address when QUT Student is false
+            if(!addressToUpdateNotQUTStudent.isEmpty()){
+                AddressesDAO.newInstance().updateRecords(addressToUpdateNotQUTStudent, true, AccessLevel.SYSTEM_MODE);
+            }
+
+            if(!contactsToUpdate.isEmpty()){
+                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
             }
 
         }catch(Exception e){
