@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccaius.munoz                  | October 03, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+      | sebastianne.k.trias            | July 09, 2024         | DEPP-9821              | Removed opt in functionalit  |
  */
 public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, AfterUpdate{
 
