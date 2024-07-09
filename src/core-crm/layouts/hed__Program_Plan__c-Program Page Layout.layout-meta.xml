@@ -3,8 +3,8 @@
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
+        <detailHeading>false</detailHeading>
+        <editHeading>false</editHeading>
         <label>Program Plan Summary</label>
         <layoutColumns>
             <layoutItems>
@@ -48,10 +48,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Implementation_Year__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Other_Owning_Faculty__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
