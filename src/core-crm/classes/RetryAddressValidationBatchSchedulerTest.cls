@@ -15,12 +15,12 @@ public with sharing class RetryAddressValidationBatchSchedulerTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getESBIntegrationUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             String cronExpression = '0 0 2 ? * *';
             
             Test.startTest();

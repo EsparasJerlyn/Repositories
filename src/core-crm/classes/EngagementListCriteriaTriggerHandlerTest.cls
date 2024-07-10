@@ -12,13 +12,13 @@ private class EngagementListCriteriaTriggerHandlerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void beforeUpdatetest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
             config.Name = 'ELConfig Test';

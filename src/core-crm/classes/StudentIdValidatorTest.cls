@@ -14,12 +14,12 @@ private with sharing class StudentIdValidatorTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void validateTest(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(4);
             List<String> studentIds = new List<String>{'12345' ,'67890', '54321' };

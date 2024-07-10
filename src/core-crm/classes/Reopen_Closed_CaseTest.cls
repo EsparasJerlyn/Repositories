@@ -69,7 +69,12 @@ public with sharing class Reopen_Closed_CaseTest {
             caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
             caseShareList.add(caseShare);
         }
-        insert caseShareList;
+        
+        Database.insert(
+            caseShareList,
+            false,
+            AccessLevel.USER_MODE
+        );
     }
     
     @IsTest

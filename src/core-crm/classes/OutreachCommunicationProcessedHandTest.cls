@@ -16,12 +16,12 @@ public class OutreachCommunicationProcessedHandTest {
     
     @testSetup
     static void setupTestData() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
 
     @isTest
     static void testAfterInsertCaseCommunicationStatusSent() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             // Create test Cases
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, '');          
             for(Integer i = 0; i < contactList.size(); i++){
@@ -81,7 +81,7 @@ public class OutreachCommunicationProcessedHandTest {
     
     @isTest
     static void testAfterInsertCaseCommunicationStatusFailed() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             // Create test Cases
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Integer i = 0; i < contactList.size(); i++){

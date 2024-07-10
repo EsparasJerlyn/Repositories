@@ -19,10 +19,6 @@
 @isTest
 private class CaseServiceTest {
 
-    @testSetup
-    static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager' });
-    }
 
     @isTest
     private static void testmapExistingContactMatchToCase() {//NOPMD Test method is mocked user not needed

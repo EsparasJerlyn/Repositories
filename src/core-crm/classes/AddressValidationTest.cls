@@ -15,13 +15,13 @@ private class AddressValidationTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void processValidAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
@@ -73,7 +73,7 @@ private class AddressValidationTest {
     
     @isTest
     static void processNotValidAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
@@ -120,7 +120,7 @@ private class AddressValidationTest {
     
     @isTest
     static void processThrowExceptionAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
@@ -186,7 +186,7 @@ private class AddressValidationTest {
 
     @isTest
     static void processFailedAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());

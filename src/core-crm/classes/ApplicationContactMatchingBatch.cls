@@ -11,7 +11,7 @@
  *    |---------------------------|-----------------------|--------------|------------------------------------------------------------------------------------------------------|
  *    | mark.j.mahilum            | April 30, 2024        | DEPP-7987    | Created file                                                                                         |
 */ 
-public inherited sharing class ApplicationContactMatchingBatch implements Database.Batchable<SObject>, Database.Stateful {
+public inherited sharing class ApplicationContactMatchingBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     // Variable to track the total number of application processed
     private Integer total = 0;
 
