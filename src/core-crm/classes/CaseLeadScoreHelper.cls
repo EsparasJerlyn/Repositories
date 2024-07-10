@@ -41,7 +41,8 @@
         Set<Id> leadIdSet = new Set<Id>();
         
         for(Case caseRec : newItems){   
-            if(isForProcessing(caseRec, oldItems)) {    
+            Boolean isValidRecordType = caseRec.RecordTypeId == CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID;
+            if(isValidRecordType && isForProcessing(caseRec, oldItems)) {    
                 setContactIds(caseRec, oldItems, contactIdSet);    
                 setLeadIds(caseRec, oldItems, leadIdSet);
             }

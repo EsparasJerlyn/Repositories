@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Course_Connection_Assessment_Compact_Layout</fullName>
+    <fields>Assessment_Name__c</fields>
+    <fields>Assessment_Grade__c</fields>
+    <fields>Course_Connection__c</fields>
+    <label>Course Connection Assessment Compact Layout</label>
+</CompactLayout>

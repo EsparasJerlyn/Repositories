@@ -38,6 +38,7 @@ private class AffiliationTriggerHandlerTest {
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
+            acc.Name = TestDataFactory.generateRandomString('test_Account');
             insert acc;
             
             List<Contact> newContacts = createTestContactRecords(0, 1);     
