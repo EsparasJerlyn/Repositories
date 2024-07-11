@@ -10,9 +10,9 @@
     <columns>OWNER_NAME</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>CASES.RECORDTYPE</field>
+        <field>Case_Type__c</field>
         <operation>equals</operation>
-        <value>Case.International_Future_Student_Enquiry</value>
+        <value>International Future Student Enquiry</value>
     </filters>
     <filters>
         <field>CASES.CLOSED</field>
@@ -26,8 +26,8 @@
     </filters>
     <label>International Online Enquiries</label>
     <sharedTo>
-        <group>Future_Students_International</group>
         <group>Development_Team</group>
+        <group>Future_Students_International</group>
         <group>System_Administrator</group>
         <group>System_Administrator_Modify_All_Data</group>
         <group>System_Administrator_Read_Only</group>

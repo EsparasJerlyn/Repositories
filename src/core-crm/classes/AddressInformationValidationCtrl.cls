@@ -8,6 +8,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | September 3, 2021     | DEP1-170,169,159,263 | Created file                 | 
       | sebastianne.k.trias       | February 5, 2024      | DEPP-7870            | Add a Metadata for OIE       | 
+      | julie.jane.alegre         | June 22, 2024         | DEPP-9490            | Update getHedAddress         |
  */
 public with sharing class AddressInformationValidationCtrl {
 
@@ -74,8 +75,17 @@ public with sharing class AddressInformationValidationCtrl {
             addressList = Database.Query('Select ' + String.escapeSingleQuotes(otherFields) + ' ' 
                                             +String.escapeSingleQuotes(addressFields)+ ' ' + String.escapeSingleQuotes(lookUpApiName) 
                                             +' FROM hed__address__c WHERE ' + String.escapeSingleQuotes(lookUpApiName) 
-                                            + '=: recordid AND hed__address_type__c != null');
-            return addressList;
+                                            + '=: recordid AND hed__address_type__c != null Order By LastModifiedDate DESC');
+            
+            Map<String, hed__Address__c> addressMap = new Map<String, hed__Address__c>();
+
+            for(hed__Address__c address: addressList){
+                if(!addressMap.containsKey(address.hed__address_type__c)){
+                    addressMap.put(address.hed__address_type__c,address);
+                }
+            }
+
+            return addressMap.values();
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
