@@ -23,8 +23,9 @@ private class ProgramEnrollmentTriggerHandlerTest {
     static void testSetup() {
         Test.startTest();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -38,7 +39,7 @@ private class ProgramEnrollmentTriggerHandlerTest {
     
     @isTest
     private static void testProgramEnrollmentWithContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -53,7 +54,7 @@ private class ProgramEnrollmentTriggerHandlerTest {
     
     @isTest
     private static void testProgramUpdateRemoveContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Program_Enrollment__c> existingProgramEnrollmentList = [SELECT Id FROM hed__Program_Enrollment__c WHERE hed__Contact__c =:contactId]; 
@@ -73,7 +74,7 @@ private class ProgramEnrollmentTriggerHandlerTest {
     
     @isTest
     private static void testProgramEnrollmentWithCourseConnection() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             

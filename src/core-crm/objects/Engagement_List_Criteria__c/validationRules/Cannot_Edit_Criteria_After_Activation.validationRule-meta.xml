@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_Edit_Criteria_After_Activation</fullName>
+    <active>true</active>
+    <description>The criteria cannot be modified once it has been activated or deactivated.</description>
+    <errorConditionFormula>AND (
+  RecordType.DeveloperName =&apos;Entry_Criteria&apos;,
+  OR( ISPICKVAL(Status__c, &apos;Active&apos;),
+      ISPICKVAL(Status__c, &apos;Deactivated&apos;)
+  ),
+  OR( 
+    ISCHANGED(Academic_Status__c),
+    ISCHANGED(Previous_Academic_Status__c),
+    ISCHANGED(Breach__c),
+    ISCHANGED(Citizenship_Status__c),
+    ISCHANGED(Completed_Cadence__c),
+    ISCHANGED(Course_Grade__c),
+    ISCHANGED(Equity_Scholarship_Bursary__c),
+    ISCHANGED(Failed_Assessment__c),
+    ISCHANGED(Failed_To_Submit_Assessment__c), 
+    ISCHANGED(Has_Domestic_Phone__c),
+    ISCHANGED(Assessment_Priority__c), 
+    ISCHANGED(Key_Date__c),
+    ISCHANGED(Key_Date_Offset_Lower_Boundary__c),
+    ISCHANGED(Key_Date_Offset_Upper_Boundary__c), 
+    ISCHANGED(Is_On_Leave_of_Absence__c),
+    ISCHANGED(Category_Type__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>The criteria cannot be modified once it has been activated or deactivated.</errorMessage>
+</ValidationRule>

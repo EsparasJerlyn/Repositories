@@ -13,6 +13,9 @@
       | ken.marvin.narido              | Oct  12,2023          | DEPP-6871              | changed the reference for the auto prio metadata |
       | mark.j.mahilum                 | Oct 30,2023           | DEPP-7051              | Updated case priority for whatsapp case origin   |
       | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Updated matchExistingContactOrLeadToCase         |
+      | eccarius.munoz                 | April 5, 2024         | DEPP-7533	            | Added handleOutreachCasePriority                 | 
+      | eccarius.munoz                 | June 2, 2024          | DEPP-8484	            | Added setOutreachKeyForClosedCase                | 
+      | eccarius.munoz                 | June 4, 2024          | DEPP-7533	            | Updated handling for outreach case medium prio   | 
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -344,6 +347,7 @@ public with sharing class CaseTriggerHelper {
 
         for (Case item : newCaseList) {
             Boolean isCaseForProcess =
+                item.RecordTypeId == CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID &&
                 item.Auto_Priority_Assignment__c == true &&
                 item.Status == 'Created' &&
                 item.Priority != 'High';
@@ -362,4 +366,114 @@ public with sharing class CaseTriggerHelper {
             System.enqueueJob(queueableCalls);
         }
     }
+
+    /**
+     * @description Handles case priority setup for outreac record type
+     * @param newItems - List of case record
+     */
+    public static void handleOutreachCasePriority(List<Case> newItems) {
+
+        //get all contacts from case
+        Map<Id, Case> caseByContactMap = new Map<Id, Case>();        
+        for(Case caseRecord : newItems){
+            if(caseRecord.RecordTypeId == CasesDAO.OUTREACH_RECTYPE_ID){
+                caseByContactMap.put(caseRecord.contactId, caseRecord);
+            }
+        }
+
+        if(!caseByContactMap.isEmpty()){
+            setOutreachCasePriority(caseByContactMap);
+        }        
+    }
+
+    /**
+     * @description Sets the case priority for outreach record type
+     * @param caseByContactMap - Map of Cases by Contact Ids
+     */
+    private static void setOutreachCasePriority(Map<Id, Case> caseByContactMap){
+        //get person contact details
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(caseByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
+        Set<Id> contactsWithPriorityCourses = getContacIdsWithPriorityCourse(caseByContactMap.keySet());
+
+        for(Case caseRecord : caseByContactMap.values()){
+
+            //set priority to low as default for case outreach
+            caseRecord.Priority = CasesDAO.PRIORITY_LOW;        
+
+            if(contactMap.containsKey(caseRecord.contactId)){
+
+                //validate record if for high priority
+                Boolean isCriteriaForHigh = 
+                    contactMap.get(caseRecord.contactId).Low_Socio_Economic_Status__c == 'Yes' ||
+                    contactMap.get(caseRecord.contactId).Regional_Remote__c == 'Yes' ||
+                    (
+                        contactMap.get(caseRecord.contactId).ATSI_Code__c == ContactsDAO.ATSI_CODE_ABORIGINAL || 
+                        contactMap.get(caseRecord.contactId).ATSI_Code__c == ContactsDAO.ATSI_CODE_ISLANDER || 
+                        contactMap.get(caseRecord.contactId).ATSI_Code__c == ContactsDAO.ATSI_CODE_ABORIGINAL_ISLANDER
+                    );
+                
+                //validate record if for medium priority
+                Boolean isCriteriaForMeidum = !isCriteriaForHigh && contactsWithPriorityCourses.contains(caseRecord.contactId);
+
+                //set Priority
+                if(isCriteriaForHigh){
+                    caseRecord.Priority = CasesDAO.PRIORITY_HIGH;
+                }else if(isCriteriaForMeidum){
+                    caseRecord.Priority = CasesDAO.PRIORITY_MEDIUM;
+                }
+            }
+        }
+    }
+
+    /**
+     * @description Retrieves Contact IDs with priority courses.
+     * @param contactIdSet - Set<Id> Contact IDs to check.
+     * @return Set<Id> - Set of Contact IDs with priority courses.
+     */
+    private static Set<Id> getContacIdsWithPriorityCourse(Set<Id> contactIdSet){
+
+        Set<Id> contactsWithPriorityCourses = new Set<Id>();
+
+        Map<String, Object> params = new Map<String, Object>{
+            'contactIdSet' => contactIdSet,
+            'academicProgramRecTypeId' => AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID,
+            'enrollmentStatusList' => new Set<String>{
+                ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED, 
+                ProgramEnrollmentsDAO.ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
+            }
+        };
+
+        List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getPriorityCourses(params, AccessLevel.SYSTEM_MODE);
+        for(hed__Program_Enrollment__c programEnrollment : programEnrollmentList){
+            contactsWithPriorityCourses.add(programEnrollment.hed__Contact__c);
+        }
+        
+        return contactsWithPriorityCourses;
+    }
+
+    /**
+     * @description Sets the Outreach Key for outreach record type only
+     * @param newItems - List of case record
+     */
+    public static void setOutreachKeyForClosedCase(List<Case> newItems, Map<Id, Case> oldItems) {
+
+        List<Case> casesToUpdate = new List<Case>();      
+        for(Case caseRecord : newItems){
+            if(
+                oldItems.get(caseRecord.Id).Status != caseRecord.Status &&
+                caseRecord.RecordTypeId == CasesDAO.OUTREACH_RECTYPE_ID && 
+                caseRecord.IsClosed
+            ){
+                Case caseToUpdate = new Case();
+                caseToUpdate.Id = caseRecord.Id;
+                caseToUpdate.Outreach_Key__c = caseRecord.Engagement_List_Configuration__c + '_' + caseRecord.ContactId + '_' + caseRecord.Id;
+                casesToUpdate.add(caseToUpdate);
+            }
+        }
+
+        if(!casesToUpdate.isEmpty()){
+            CasesDAO.newInstance().updateRecords(casesToUpdate, true, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
 }

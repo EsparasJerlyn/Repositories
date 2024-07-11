@@ -15,17 +15,15 @@ public with sharing class SetOfferingNameTest {
     private static final Id RT_UNI_DEPT = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
         .get('University_Department')
         .getRecordTypeId();
-    
-    private static User currentUser = TestDataFactory.createUserRecords(
-        1,
-        'QUTeX'
-    )
-        .iterator()
-        .next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
     
     @isTest
     private static void testOfferingName() {
-         System.runAs(currentUser) {
+         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
              Account acc = TestDataFactory.createTestAccount(false);
              acc.Organization_Unit_Level__c = '2';
              acc.recordTypeId = RT_UNI_DEPT;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actual_Start_Date_Is_Before_End_Date</fullName>
+    <active>true</active>
+    <description>This validation rule is triggered when the Actual Start Date field occurs after the Actual End Date field.</description>
+    <errorConditionFormula>AND(
+  OR(
+    ISNEW(),
+    ISCHANGED(Actual_Start_Date__c)
+  ),
+  Actual_Start_Date__c &gt; Actual_End_Date__c
+)</errorConditionFormula>
+    <errorDisplayField>Actual_Start_Date__c</errorDisplayField>
+    <errorMessage>The Actual Start Date must be before the Actual End Date.</errorMessage>
+</ValidationRule>

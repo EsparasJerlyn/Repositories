@@ -18,12 +18,16 @@ private class CompanyInformationValidationCtrlTest {
     private static final String ACCOUNT_MAPPING = '{"label": "ABN","apiName":"ABN__c","statusValidationField":"AccountABNEntity_Validation__c","loqateRequest":"name","loqateResponse":"status"}';
     private static final String STR_QUTEX = 'QUTeX';
     private static final String STR_COMPANY_MAPPING = 'Company_Mapping__c';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void getCompanyMappingTest(){
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             String mappingTest = CompanyInformationValidationCtrl.getMapping(ACCOUNT_API_NAME,STR_COMPANY_MAPPING);
             Loqate_Component__mdt loqate = (Loqate_Component__mdt) JSON.deserialize(mappingTest,Loqate_Component__mdt.class); 
             System.assertEquals(ACCOUNT_MAPPING, loqate.get(STR_COMPANY_MAPPING), 'Mapping did not match expected.');
@@ -34,7 +38,7 @@ private class CompanyInformationValidationCtrlTest {
     @isTest
     private static void validateCompanyTest(){
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             String companyValidateRequest = '[{"loqateRequest":"name","loqateResponse":"","locale":null,"statusValidationField":"","value":"54321"}]';
             String payloadResponseList = CompanyInformationValidationCtrl.validateCompany(companyValidateRequest);
