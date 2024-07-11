@@ -298,5 +298,12 @@
         <!--end DEPP-9324-->
         <name>LightningComponentBundle</name>
     </types>
+    <types>
+        <!-- (Start) DEPP-9821 -->
+        <members>MarketingInteractionTriggerHelper</members>
+        <members>MarketingInteractionTriggerHelperTest</members>
+        <name>ApexClass</name>
+        <!--(End) DEPP-9821 -->
+    </types>
     <version>59.0</version> 
 </Package>
