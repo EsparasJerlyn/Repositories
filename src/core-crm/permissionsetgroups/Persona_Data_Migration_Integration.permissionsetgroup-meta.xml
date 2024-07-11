@@ -14,6 +14,7 @@
     <permissionSets>Permission_Export_Reports</permissionSets>
     <permissionSets>Permission_Manage_Users_Internal_and_External</permissionSets>
     <permissionSets>Permission_Modify_All_Data</permissionSets>
+    <permissionSets>Permission_Monitor_Bulk_Data_Load_Jobs</permissionSets>
     <permissionSets>Permission_Query_All_Files_with_ViewAllData</permissionSets>
     <permissionSets>Permission_View_All_Data</permissionSets>
     <permissionSets>Permission_View_All_Users</permissionSets>

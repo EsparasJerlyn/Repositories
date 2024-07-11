@@ -35,7 +35,7 @@ const WARNING_TITLE = "Warning";
 const WARNING_VARIANT = "warning";
 const WARNING_MSG_SAME_LANG =
   "Source and target languages should be different.";
-const HEADER_TITLE = "TRANSLATE";
+const HEADER_TITLE = "Translate";
 const COPY_SUBJ_DESC_BTN_LABEL = "Copy Subject & Description";
 const COPY_TOPIC_DESC_BTN_LABEL = "Copy Topic & Description";
 const COPY_TRANS_BTN_LABEL = "Copy Translation";

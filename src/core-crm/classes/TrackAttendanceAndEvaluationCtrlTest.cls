@@ -13,7 +13,6 @@
 */
 @isTest
 public with sharing class TrackAttendanceAndEvaluationCtrlTest {
-   private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
    private static Map <String,Schema.RecordTypeInfo> courseConnectionRecordTypes = hed__Course_Enrollment__c.sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getRecordTypeInfosByName();
    private static Id shortCourseProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Short_Course').getRecordTypeId();
    private static Id studentRTId = courseConnectionRecordTypes.get('Student').getRecordTypeId();
@@ -22,7 +21,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
 
     @testSetup
     static void setupMethod(){
-
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Contact> contacts;
         contacts = TestDataFactory.createTestContactRecords(1);
         insert contacts;
@@ -92,7 +91,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
     {
 
         Test.startTest();
-         System.runAs(currentUser)
+         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
 
             List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords> getRecords = new List<TrackAttendanceAndEvaluationCtrl.CourseRelatedRecords>();
@@ -107,7 +106,7 @@ public with sharing class TrackAttendanceAndEvaluationCtrlTest {
     private static void upsertAttendanceRecord()
     {
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             List<hed__Attendance_Event__c> attedanceToUpdate = new List<hed__Attendance_Event__c>([SELECT Id FROM hed__Attendance_Event__c LIMIT 1]);
             attedanceToUpdate[0].Present__c = true;

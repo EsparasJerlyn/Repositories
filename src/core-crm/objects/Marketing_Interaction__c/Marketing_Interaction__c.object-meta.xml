@@ -168,7 +168,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Marketing Interactions</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

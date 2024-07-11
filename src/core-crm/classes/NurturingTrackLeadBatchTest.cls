@@ -21,6 +21,7 @@ public with sharing class NurturingTrackLeadBatchTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {            
@@ -91,7 +92,7 @@ public with sharing class NurturingTrackLeadBatchTest {
 
     @isTest
     private static void testManualInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             // create marketing segmentation
             Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');

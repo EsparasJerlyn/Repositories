@@ -132,6 +132,32 @@ public inherited sharing class DynamicQueryService {
         );
     }
 
+    public static String formatStringSetForWhereClause(Set<String> stringSet){
+        List<String> formattedStrings = new List<String>();
+        for(String stringValue : stringSet){
+            formattedStrings.add('\'' + stringValue + '\'');
+        }
+        return String.join(formattedStrings, ', ');
+    }
+
+    public static String formatStringSetForWhereClause(Set<Id> idSet){
+        Set<String> stringIdSet = (Set<String>)JSON.deserialize(JSON.serialize(idSet), Set<String>.class);
+        List<String> formattedStrings = new List<String>();
+        for(String stringValue : stringIdSet){
+            formattedStrings.add('\'' + stringValue + '\'');
+        }
+        return String.join(formattedStrings, ', ');
+    }
+
+    public static String convertDatetoDateString(Date varDate){
+        String strReturnDate =  DateTime.newInstance(varDate.year(), varDate.month(), varDate.day()).format('YYYY-MM-dd');
+        return strReturnDate;
+    }
+
+    public static String convertDatetoDateTimeGMTString(Date varDate){
+        return DateTime.newInstanceGmt(varDate.year(), varDate.month(), varDate.day()).format('YYYY-MM-dd\'T\'HH:mm:ssZ', 'GMT');
+    }
+
     public class FilterWrapper{
         public Set<Id> recordIds;
         public SObjectType sObjectType;
