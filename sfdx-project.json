@@ -1,32 +1,14 @@
 
 {
   "packageDirectories": [
-    {
+   {
       "path": "src",
-      "pathRelative": "src/core-crm-pre",
-      "package": "src/core-crm-pre",
-      "type": "metadata",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "destructive/2024Jan/core-crm-pre/destructiveChanges.xml"
-    },{
-      "path": "src",
-      "pathRelative": "src/src-env-specific-alias",
-      "package": "src/src-env-specific-alias",
-      "type": "metadata",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0",
-      "aliasfy": true
-    },{
-      "path": "src",
-      "pathRelative": "src/core-crm",
-      "package": "src/core-crm",
+      "pathRelative": "src/not-valid-package",
+      "package": "src/not-valid-package",
       "type": "metadata",
       "default": true,
       "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "destructive/2024Jan/core-crm/destructiveChanges.xml",
-      "destructiveChangePathPreviousRelease": "destructive/core-crm/Release1/destructiveChanges.xml"
+      "versionNumber": "1.0.0.0"
     },{
       "path": "src",
       "pathRelative": "src/core-crm-post",
@@ -68,7 +50,7 @@
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "59.0",
+  "sourceApiVersion": "61.0",
   "buildPackageFromTag":"",
   "plugins": {
     "sfdx-plugin-prettier": {
