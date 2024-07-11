@@ -22,6 +22,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
     public void afterInsert(Map<Id, SObject> newItems) {
         getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
         ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), null);
+        ProgramEnrollmentTriggerHelper.processAddressValidation((List<hed__Program_Enrollment__c>) newItems.values(), null);
     }
 
    /**
@@ -34,6 +35,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, Sobject> oldItems
     ) {
         getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
+        ProgramEnrollmentTriggerHelper.processAddressValidation((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
 
     /**
@@ -67,24 +69,34 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
     public static void getContactFromProgramEnrollment(List<hed__Program_Enrollment__c> newItems, Map<Id, hed__Program_Enrollment__c> oldItems) {
         
         Set<Id> contactIds = new Set<Id>();
-        Set<String> enrollmentStatuses = new Set<String>{'Admitted','Passed','Withdrawn'};     
-            
-            for (hed__Program_Enrollment__c pr : newItems) {
-                
-                if(String.isNotEmpty(pr.hed__Contact__c) && enrollmentStatuses.contains(pr.Enrollment_Status__c)){
-                    contactIds.add(pr.hed__Contact__c);
-                }
-                
-                if(oldItems != null && String.isEmpty(pr.hed__Contact__c)) {              
-                    hed__Program_Enrollment__c oldApp = oldItems.get(pr.Id);
-                    if(String.isNotEmpty(oldApp.hed__Contact__c)){
-                        contactIds.add(oldApp.hed__Contact__c); 
-                    }                 
-                }
+        Set<String> enrollmentStatuses = new Set<String>{
+            ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED,
+            ProgramEnrollmentsDAO.ENROLLMENT_STATUS_PASSED,
+            ProgramEnrollmentsDAO.ENROLLMENT_STATUS_WITHDRAWN
+        };     
+
+        for (hed__Program_Enrollment__c pr : newItems) {
+            //checks student enrollment status if admitted withdrawn or passed and updates student flag.
+            if(String.isNotEmpty(pr.hed__Contact__c) && enrollmentStatuses.contains(pr.Enrollment_Status__c)){ 
+                contactIds.add(pr.hed__Contact__c);
             }
+            //checks if ProgramEnrollment deletes the contact link.
+            if(oldItems != null && String.isEmpty(pr.hed__Contact__c)) {            
+                hed__Program_Enrollment__c oldApp = oldItems.get(pr.Id);
+                if(String.isNotEmpty(oldApp.hed__Contact__c)){
+                    contactIds.add(oldApp.hed__Contact__c); 
+                }                 
+            }
+            //checks if ProgramEnrollment changes it's contact.
+            if(oldItems != null && String.isNotEmpty(pr.hed__Contact__c)) {
+                if(String.isNotEmpty(pr.hed__Contact__c) && oldItems.get(pr.Id)?.hed__Contact__c != pr.hed__Contact__c){
+                    contactIds.add(oldItems.get(pr.Id).hed__Contact__c); 
+                }
+            } 
+        }
         
         if(!contactIds.isEmpty()){
             ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnStudentFlag');
-        }      
+        }     
     }
 }

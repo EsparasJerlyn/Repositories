@@ -15,13 +15,17 @@
 @isTest
 
 public with sharing class SetExternalIdHelperTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
+
     @isTest
     static void updateExternalIdTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -60,7 +64,7 @@ public with sharing class SetExternalIdHelperTest {
     }
 
     static void populatedExternalIdTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);

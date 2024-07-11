@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <autoResponseRule>
-        <fullName>Future Student Domestic Acknowledgement</fullName>
+        <fullName>Future Student Acknowledgement</fullName>
         <active>true</active>
         <ruleEntry>
             <formula>AND(
                 NOT(ISBLANK(SuppliedEmail)),
                 LOWER( SuppliedEmail ) !=&apos;askqut@qut.edu.au&apos;,
-                RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;,
+                RecordType.DeveloperName = &apos;Inbound_Enquiry&apos;,
+                ISPICKVAL(Case_Type__c, &apos;Domestic Future Student Enquiry&apos;),
                 ISPICKVAL(Origin, &apos;Email&apos;),
                 ISNEW()
                 )
@@ -22,7 +23,8 @@
             <formula>AND(
                 NOT(ISBLANK(SuppliedEmail)),
                 LOWER( SuppliedEmail ) !=&apos;askqut@qut.edu.au&apos;,
-                RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
+                RecordType.DeveloperName = &apos;Inbound_Enquiry&apos;,
+                ISPICKVAL(Case_Type__c, &apos;International Future Student Enquiry&apos;),
                 ISPICKVAL(Origin, &apos;Email&apos;),
                 ISNEW()
                )
