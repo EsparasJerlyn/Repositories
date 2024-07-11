@@ -4,9 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 24, 2024        | DEPP-7984              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------|
+      | roy.nino.s.regala              | April 24, 2024        | DEPP-7984              | Created file                             |
+      | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Created findAsyncApexJobById             |
+      | eugene.andrew.abuan            | May 29, 2024          | DEPP-8822              | Created findAsyncApexJobByApexName       |
  */
 @isTest
 public inherited sharing class AsyncApexJobsDAOMock extends DmlBaseMock implements IAsyncApexJobsDAO {
@@ -35,5 +37,25 @@ public inherited sharing class AsyncApexJobsDAOMock extends DmlBaseMock implemen
 
 		return asyncApexJobList;
 	}
+
+    public AsyncApexJob findAsyncApexJobById(Id previewJobId, AccessLevel accessLevel){
+        AsyncApexJob asyncApexJob = new AsyncApexJob();
+        for(AsyncApexJob record : asyncApexJobsMap.values()){
+            if(record.Id == previewJobId){
+                asyncApexJob = record;
+            }
+        }
+        return asyncApexJob;
+    }
+
+	public AsyncApexJob findAsyncApexJobByApexName(String apexName, AccessLevel accessLevel){
+        AsyncApexJob asyncApexJob = new AsyncApexJob();
+        for(AsyncApexJob record : asyncApexJobsMap.values()){
+            if(record.ApexClass.Name == apexName){
+                asyncApexJob = record;
+            }
+        }
+        return asyncApexJob;
+    }
 
 }

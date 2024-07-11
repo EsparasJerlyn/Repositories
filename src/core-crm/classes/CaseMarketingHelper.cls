@@ -31,6 +31,12 @@ public with sharing class CaseMarketingHelper { //NOPMD
 
         for (Case caseRecord : newItems) {
             //check if case is new linked to contact/lead
+            Boolean isForInboundEnquiry = caseRecord.RecordTypeId == CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID;
+
+            if(!isForInboundEnquiry){
+                continue;
+            }
+            
             Boolean isNewContactLinked =
                 caseRecord.ContactId != null &&
                 (isInsert || oldItems.get(caseRecord.Id).ContactId != caseRecord.ContactId);
@@ -38,6 +44,7 @@ public with sharing class CaseMarketingHelper { //NOPMD
                 caseRecord.Lead__c != null &&
                 (isInsert || oldItems.get(caseRecord.Id).Lead__c != caseRecord.Lead__c);
 
+                
             //map case marketing fields to new instance of marketing segmentation
             if (isNewContactLinked) {
                 mapMarketingSegmenationFields(

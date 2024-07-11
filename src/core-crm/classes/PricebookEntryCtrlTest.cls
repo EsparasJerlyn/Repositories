@@ -15,7 +15,6 @@
 private class PricebookEntryCtrlTest {
     private static String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static String PR_MODULE = System.Label.RT_ProductRequest_MODULE;
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeModuleReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_MODULE).getRecordTypeId();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
@@ -26,6 +25,7 @@ private class PricebookEntryCtrlTest {
     private static final Id ACTIVITY_COURSE_ID = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -91,7 +91,7 @@ private class PricebookEntryCtrlTest {
 
 
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             BuyerGroup buyerGroup = new BuyerGroup(Name='OPE BuyerGroup');
             insert buyerGroup;
@@ -111,7 +111,7 @@ private class PricebookEntryCtrlTest {
 
 
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
          PricebookEntryCtrl.ResponseWrapper getRecords = new PricebookEntryCtrl.ResponseWrapper();
          getRecords = PricebookEntryCtrl.getPricebookEntries(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:opeModuleReqId LIMIT 1].Id));
@@ -131,7 +131,7 @@ private class PricebookEntryCtrlTest {
 
 
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
          PricebookEntryCtrl.ResponseWrapper getRecords = new PricebookEntryCtrl.ResponseWrapper();
          getRecords = PricebookEntryCtrl.getPricebookEntries(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:opeProgProdReqId LIMIT 1].Id));
@@ -209,7 +209,7 @@ private class PricebookEntryCtrlTest {
             List<PriceBookEntry> newPriceBookEntry = new List<PriceBookEntry>();
             newPriceBookEntry.add(new PriceBookEntry(Product2Id = products[0].Id, PriceBook2Id = priceBook.Id, IsActive = true, UnitPrice = 300));
             
-            System.runAs(currentUser){
+            System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                 PricebookEntryCtrl.upsertPricebookEntries(newPriceBookEntry);
             }
             
