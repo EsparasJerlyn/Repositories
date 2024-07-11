@@ -155,4 +155,21 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
         return null;
     }
 
+    public Database.QueryLocator queryLocatorGetApplicationsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+        return null;
+    }
+    
+    public List<hed__Application__c> getApplicationsByBatchProcess(Set<String> batchProcessSet, AccessLevel accessLevel){
+        
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+        
+        for(hed__Application__c record: applicationMap.values()){
+            if(batchProcessSet.contains(record.Batch_Process__c)){
+                applicationList.add(record);
+            }
+        }
+        
+        return applicationList;
+    }
+
 }

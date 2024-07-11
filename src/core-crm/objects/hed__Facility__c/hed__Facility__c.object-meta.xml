@@ -171,6 +171,7 @@
     <searchLayouts>
         <customTabListAdditionalFields>hed__Facility_Type__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>hed__Capacity__c</customTabListAdditionalFields>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <lookupDialogsAdditionalFields>hed__Facility_Type__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>hed__Facility_Type__c</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>hed__Facility_Type__c</searchResultsAdditionalFields>

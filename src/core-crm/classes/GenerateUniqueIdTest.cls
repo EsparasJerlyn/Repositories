@@ -14,14 +14,17 @@
 
 @isTest
 public with sharing class GenerateUniqueIdTest {
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
 
     @isTest
     static void getUUIDTest() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             String externalId = GenerateUniqueId.getUUID();
             System.assert(externalId !=null ,  'External Id is empty');
         }
