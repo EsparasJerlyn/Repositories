@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outreach_Support_Discussed_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+	RecordType.DeveloperName = &apos;Outreach&apos;,
+	ISBLANK(Support_Discussed__c),
+	OR(
+		ISPICKVAL(Closure_Code__c,&apos;Successful - Phone&apos;),
+		ISPICKVAL(Closure_Code__c,&apos;Successful - Email&apos;),
+		ISPICKVAL(Closure_Code__c,&apos;Successful - Message&apos;)
+	)
+)</errorConditionFormula>
+    <errorDisplayField>Support_Discussed__c</errorDisplayField>
+    <errorMessage>Support Discussed is required when Closure Code is &apos;Successful&apos;.</errorMessage>
+</ValidationRule>

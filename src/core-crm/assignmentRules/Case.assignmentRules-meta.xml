@@ -6,12 +6,12 @@
         <ruleEntry>
             <assignedTo>Future_Student_International_Queue</assignedTo>
             <assignedToType>Queue</assignedToType>
-            <formula>RecordType.DeveloperName  = &apos;International_Future_Student_Enquiry&apos;</formula>
+            <formula>AND( ISNEW() , RecordType.DeveloperName  = &apos;Inbound_Enquiry&apos; , TEXT(Case_Type__c) = &apos;International Future Student Enquiry&apos; )</formula>
         </ruleEntry>
         <ruleEntry>
             <assignedTo>Future_Student_Domestic_Queue</assignedTo>
             <assignedToType>Queue</assignedToType>
-            <formula>RecordType.DeveloperName  = &apos;Domestic_Future_Student_Enquiry&apos;</formula>
+            <formula>AND( ISNEW() , RecordType.DeveloperName = &apos;Inbound_Enquiry&apos; , TEXT(Case_Type__c) = &apos;Domestic Future Student Enquiry&apos; )</formula>
         </ruleEntry>
     </assignmentRule>
 </AssignmentRules>

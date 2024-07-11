@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Student_Success_Do_Not_Call__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Flag for Student Success to indicate that the student should not be contacted in the future</description>
+    <externalId>false</externalId>
+    <label>Student Success Do Not Call</label>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

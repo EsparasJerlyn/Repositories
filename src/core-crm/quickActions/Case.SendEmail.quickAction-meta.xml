@@ -10,7 +10,21 @@
     </fieldOverrides>
     <fieldOverrides>
         <field>ValidatedFromAddress</field>
-        <formula>IF(Case.RecordType.DeveloperName = &quot;Domestic_Future_Student_Enquiry&quot; , &quot;testdomestic@qut.edu.au&quot;, &quot;testinternational@qut.edu.au&quot;)</formula>
+        <formula>IF(
+ AND(
+  Case.RecordType.DeveloperName = &quot;Inbound_Enquiry&quot;,
+  ISPICKVAL(Case.Case_Type__c, &quot;International Future Student Enquiry&quot;)
+ ), 
+ &quot;{CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE}&quot;,
+ IF(
+  AND( 
+   Case.RecordType.DeveloperName = &quot;Inbound_Enquiry&quot;, 
+   ISPICKVAL(Case.Case_Type__c, &quot;Domestic Future Student Enquiry&quot;)
+  ), 
+  &quot;{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}&quot;, 
+  IF( AND(Case.RecordType.DeveloperName = &quot;Outreach&quot;, ISPICKVAL(Case.Case_Type__c, &quot;Student Success - Retention&quot;)) , &quot;{CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS}&quot;, &quot;&quot;) 	
+ )
+)</formula>
     </fieldOverrides>
     <optionsCreateFeedItem>true</optionsCreateFeedItem>
     <quickActionLayout>

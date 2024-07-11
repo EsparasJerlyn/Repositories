@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SMS_Template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The SMS template to be used for SMS messages and communications</description>
+    <externalId>false</externalId>
+    <label>SMS Template</label>
+    <referenceTo>SMS_Template__c</referenceTo>
+    <relationshipLabel>Engagement List Configurations</relationshipLabel>
+    <relationshipName>Engagement_List_Configurations</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

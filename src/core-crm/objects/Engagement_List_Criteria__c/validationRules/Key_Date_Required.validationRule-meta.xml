@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Key_Date_Required</fullName>
+    <active>true</active>
+    <description>Key Date is required when Completed Cadence, Academic Status, Is On Leave Of Absence, Breach, Failed Assessment or Failed To Submit Assessment is set.</description>
+    <errorConditionFormula>AND (
+  RecordType.DeveloperName =&apos;Entry_Criteria&apos;,
+  ISPICKVAL(Key_Date__c, &quot;&quot;),
+    OR( 
+        NOT(ISPICKVAL(Completed_Cadence__c,&quot;&quot;)),
+        NOT(ISPICKVAL(Is_On_Leave_of_Absence__c,&quot;&quot;)),
+        NOT(ISPICKVAL(Academic_Status__c,&quot;&quot;)),
+        NOT(ISPICKVAL(Previous_Academic_Status__c,&quot;&quot;)),
+        NOT(ISBLANK(Breach__c)),
+        NOT(ISPICKVAL(Failed_Assessment__c, &quot;&quot;)),
+        NOT(ISPICKVAL(Failed_To_Submit_Assessment__c, &quot;&quot;))
+  )
+)</errorConditionFormula>
+    <errorDisplayField>Key_Date__c</errorDisplayField>
+    <errorMessage>Key Date is required when Completed Cadence, Academic Status, Is On Leave Of Absence, Breach, Failed Assessment or Failed To Submit Assessment is set.</errorMessage>
+</ValidationRule>
