@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The related assessment</description>
+    <externalId>false</externalId>
+    <label>Assessment Name</label>
+    <referenceTo>Assessment__c</referenceTo>
+    <relationshipLabel>Course Connection Assessments</relationshipLabel>
+    <relationshipName>Course_Connection_Assessments</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

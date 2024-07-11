@@ -1,0 +1,12 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Id,Name, Is_Active__c, Effective_Start_Date__c, Low_SES_Lower_Boundary__c, Low_SES_Upper_Boundary__c, Remoteness_Inner_Regional__c, Remoteness_Outer_Regional__c, Remoteness_Remote__c, Remoteness_Very_Remote__c FROM ABS_Categorisation__c",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ABS_Categorisation__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}

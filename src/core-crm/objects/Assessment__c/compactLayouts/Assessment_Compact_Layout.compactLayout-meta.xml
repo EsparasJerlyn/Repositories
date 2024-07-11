@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>Assessment_Priority__c</fields>
+    <fields>Sequence_Number__c</fields>
+    <label>Assessment Compact Layout</label>
+</CompactLayout>

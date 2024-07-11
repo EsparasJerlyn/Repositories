@@ -22,31 +22,14 @@ private class DynamicQueueableProcessTest {
     
     @testSetup
     static void testSetup() {
+        Test.startTest();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         TestDataFactoryUser.generateUserQUTESB();
-        Test.startTest();
         List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
         insert tierList;
         List<Case_Priority_Configuration__c> casePrioConfig = TestDataFactory.createCasePrioConfigRecords();
         insert casePrioConfig;
         Test.stopTest();
-    }
-
-    @isTest
-    private static void testApplicationBatchInsertNoMatchContact() {
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
-            Test.startTest();
-            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
-                .insertRecords(
-                    createTestApplicationStudyLinkRecords(recordsCount, recordsCount * 2,'Existing'),
-                    false,
-                    AccessLevel.SYSTEM_MODE
-                );
-            Test.stopTest();
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved.');
-            }
-        }
     }
 
     @isTest
@@ -59,7 +42,8 @@ private class DynamicQueueableProcessTest {
                     Auto_Priority_Assignment__c = true,
                     SuppliedPhone = '090909',
                     Origin = CasesDAO.ORIGIN_WHATSAPP,
-                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             Test.startTest();

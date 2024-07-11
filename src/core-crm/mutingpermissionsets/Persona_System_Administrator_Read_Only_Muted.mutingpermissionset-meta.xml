@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MutingPermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Edit_Contact_Address</name>
+    </customPermissions>
+    <label>Persona System Administrator - Read Only Muted</label>
+</MutingPermissionSet>
