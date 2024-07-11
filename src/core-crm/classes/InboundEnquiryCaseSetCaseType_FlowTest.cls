@@ -16,12 +16,13 @@ public with sharing class InboundEnquiryCaseSetCaseType_FlowTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
     }
     
     @IsTest
     static void domesticCaseTypeTest(){
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             
             List<Group> groupList = [SELECT Id, Name FROM Group WHERE  Type = 'Queue' and Name = 'Future Student Domestic Queue'];
             List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Domestic Case', 1);           
@@ -48,7 +49,7 @@ public with sharing class InboundEnquiryCaseSetCaseType_FlowTest {
 
     @IsTest
     static void internationalCaseTypeTest(){
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             
             List<Group> groupList = [SELECT Id, Name FROM Group WHERE  Type = 'Queue' and Name = 'Future Student International Queue'];
             List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', 1);           

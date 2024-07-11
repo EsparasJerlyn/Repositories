@@ -214,6 +214,9 @@
         <layout>Engagement_List_Event__c-Engagement List Event Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Expression_of_Interest__c-Expression of Interest Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -508,6 +511,13 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Success_Plan__c-Success Plan Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+        <recordType>Task.Standard</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Task-SMS Layout</layout>

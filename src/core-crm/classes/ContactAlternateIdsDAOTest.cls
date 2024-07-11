@@ -13,14 +13,14 @@ private class ContactAlternateIdsDAOTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void getContactAlternateIdsBySystemKeyIdSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
                 .getContactAlternateIdsBySystemKeyIdSet(
                     new Set<String>(),
@@ -34,7 +34,7 @@ private class ContactAlternateIdsDAOTest {
     @isTest
     static void getContactAlternateIdsByContactIdSetTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
                 .getContactAlternateIdsByContactIdSet(
                     new Set<Id>(),
@@ -48,7 +48,7 @@ private class ContactAlternateIdsDAOTest {
     @isTest
     static void getContactAlternateIdsBySystemKeyIdSetNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
                 .getContactAlternateIdsBySystemKeyIdSet(
                     new Set<String>{'123'},
@@ -62,7 +62,7 @@ private class ContactAlternateIdsDAOTest {
     @isTest
     static void getContactAlternateIdsByContactIdSetNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType); 
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
                 .getContactAlternateIdsByContactIdSet(
@@ -75,10 +75,40 @@ private class ContactAlternateIdsDAOTest {
     }
 
     @isTest
+    static void getContactAlternateIdsByContactIdSetAndStatusNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType); 
+            List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
+                .getContactAlternateIdsByContactIdSetAndStatus(
+                    new Set<Id>{contactMock.getMockId()},
+                    new Set<String>{ContactAlternateIdsDAO.ACTIVE_STATUS},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactAlternateIdsList.isEmpty(), 'contactAlternateIdsList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactAlternateIdsByContactIdSetAndStatusEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
+                .getContactAlternateIdsByContactIdSetAndStatus(
+                    new Set<Id>(),
+                    new Set<String>{ContactAlternateIdsDAO.ACTIVE_STATUS},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactAlternateIdsList.isEmpty(), 'contactAlternateIdsList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getActiveAndSupersededStudentAlternateIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType); 
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
                 .getActiveAndSupersededStudentAlternateIds(
                     new Set<String>{'test'},
@@ -92,8 +122,7 @@ private class ContactAlternateIdsDAOTest {
     @isTest
     static void getActiveAndSupersededStudentAlternateIdsTestEmpty() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType); 
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Alternate_ID__c> contactAlternateIdsList = ContactAlternateIdsDAO.newInstance()
                 .getActiveAndSupersededStudentAlternateIds(
                     new Set<String>(),
@@ -107,7 +136,7 @@ private class ContactAlternateIdsDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(ContactAlternateIdsDAO.newInstance() != null, 'ContactAlternateIdsDAO instance is null');
         }
         Test.stopTest();
@@ -116,7 +145,7 @@ private class ContactAlternateIdsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new ContactAlternateIdsDAO().getSObjectType() == Contact_Alternate_ID__c.SObjectType,
                 'SObject is not ContactAlternateIdsDAO'

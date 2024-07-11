@@ -12,12 +12,12 @@
 public with sharing class ELCEvaluatorTest {
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
     
     @isTest
     static void populateContactValuesOnlyTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {        
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {        
             // Contact contact = new Contact();
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
@@ -60,7 +60,7 @@ public with sharing class ELCEvaluatorTest {
     
     @isTest
     static void populateContactWithCompletedCadenceValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             String citizenshipStatus = ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
             String completedCadenceName = 'Domestic Accepted and Admitted';
@@ -124,7 +124,7 @@ public with sharing class ELCEvaluatorTest {
     
     @isTest
     static void populateNullValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             Test.startTest();            
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();

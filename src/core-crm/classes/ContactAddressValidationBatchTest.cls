@@ -13,8 +13,10 @@ private class ContactAddressValidationBatchTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB','QUT_Program_Administrator'});
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
                 new ABS_Categorisation__c(
@@ -31,12 +33,11 @@ private class ContactAddressValidationBatchTest {
             
             ABSCategorisationsDAO.newInstance().insertRecords(absCategorisation, false, AccessLevel.USER_MODE);
         }
-        Test.stopTest();
     }
     
     @isTest
     static void processEmptyAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 			            
             Test.startTest();
             ContactAddressValidationBatch batch = new ContactAddressValidationBatch(new Set<Id>{});
@@ -53,7 +54,7 @@ private class ContactAddressValidationBatchTest {
     
     @isTest
     static void processNotValidatedAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){
@@ -95,7 +96,7 @@ private class ContactAddressValidationBatchTest {
     
     @isTest
     static void processContactWithFirstAdmittedAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             
             List<Contact> contactList = TestDataFactory.createTestContactRecords(3, '');          
             for(Contact con: contactList){

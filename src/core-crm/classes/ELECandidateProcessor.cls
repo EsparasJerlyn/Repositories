@@ -62,13 +62,19 @@ public with sharing class ELECandidateProcessor {
 
         List<Engagement_List_Event__c> newEvents = new List<Engagement_List_Event__c>();
         Map<Id, Case> openCaseMap = getCaseMap(contactIds, configId);
+
+        ELECandidate candidate;
+        Case caseRecord;
+        Engagement_List_Event__c event;
+        Id eventCandidateContactId;
         for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){   
-            Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
-            Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
+            candidate = eventCandidateKeyMap.get(candidateKey);
+            eventCandidateContactId = candidate.getContactId();
+            event = candidate.getEvent();
             event.Engagement_List_Criteria__c = criteriaId;
 
             if(openCaseMap.containsKey(eventCandidateContactId)){
-                Case caseRecord = openCaseMap.get(eventCandidateContactId);
+                caseRecord = openCaseMap.get(eventCandidateContactId);
                 event.Case__c = caseRecord.Id;
                 newEvents.add(event);
                 result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.EVENT_CREATED, caseRecord));
@@ -76,15 +82,21 @@ public with sharing class ELECandidateProcessor {
             }
         }
 
+        Engagement_List_Configuration__c config = new Engagement_List_Configuration__c(Id = configId, Name = configName);
         Map<Id, Case> outreachCaseMap = new Map<Id, Case>();
         Set<String> outreachKeySet = new Set<String>();
+        Id studentRetentionQueue = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
         for(EngagementListEventKey candidateKey : eventCandidateKeyMap.keySet()){   
-            Id eventCandidateContactId = eventCandidateKeyMap.get(candidateKey).getContactId();
-            Engagement_List_Event__c event = eventCandidateKeyMap.get(candidateKey).getEvent();
-            String outreachKey = configId + '_' + eventCandidateContactId;
+            candidate = eventCandidateKeyMap.get(candidateKey);
+            eventCandidateContactId = candidate.getContactId();
+            event = candidate.getEvent();
+
+            List<String> parts = new List<String>{configId, eventCandidateContactId};
+            String outreachKey = String.join(parts, '_'); 
+
             if(!outreachKeySet.contains(outreachKey)){
                 outreachKeySet.add(outreachKey);
-                Case caseRecord = createCase(new Engagement_List_Configuration__c(Id = configId, Name = configName), eventCandidateContactId, outreachKey);
+                caseRecord = createCase(config, studentRetentionQueue, outreachKey);
                 outreachCaseMap.put(eventCandidateContactId, caseRecord);
                 result.add(new ELECandidateProcessResult(event, ELECandidateProcessResult.Outcome.CASE_CREATED, caseRecord));
             }
@@ -98,7 +110,7 @@ public with sharing class ELECandidateProcessor {
         };
 
         saveRecords(saveRecordParam);
-        
+
         return result;
     }
 
@@ -115,15 +127,19 @@ public with sharing class ELECandidateProcessor {
                 List<Case> caseList = CasesDAO.newInstance().getCasesByIdsImported(caseMap.keySet(), AccessLevel.SYSTEM_MODE);
                 checkOutreachCases(caseList); 
             }
-    
+
+            ELECandidate eLECandidate;
+            Id eventCandidateContactId;
+            Engagement_List_Event__c event;
             for(EngagementListEventKey eventKey : eventCandidateKeyMap.keySet()){
-                Id eventCandidateContactId = eventCandidateKeyMap.get(eventKey).getContactId();
-                Engagement_List_Event__c event = eventCandidateKeyMap.get(eventKey).getEvent();
+                eLECandidate = eventCandidateKeyMap.get(eventKey);
+                eventCandidateContactId = eLECandidate.getContactId();
+                event = eLECandidate.getEvent();                
                 event.Engagement_List_Criteria__c = criteria.Id;
                 event.Case__c = outreachCaseMap.get(eventCandidateContactId).Id;
                 newEvents.add(event);
             }
-    
+
             if(!newEvents.isEmpty()){
                 EngagementListEventsDAO.newInstance().insertRecords(newEvents, true, AccessLevel.SYSTEM_MODE);   
             }
@@ -176,19 +192,19 @@ public with sharing class ELECandidateProcessor {
         return openCaseMap;
     }
 
-    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id contactId, String outreachKey){
+    public Case createCase(Engagement_List_Configuration__c engagementListConfig, Id studentRetentionQueue, String outreachKey){
         Case newCase = new Case(); 
         newCase.Outreach_Key__c = outreachKey;
         newCase.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
         newCase.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
         newCase.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
         newCase.Subject = engagementListConfig.Name;
-        newCase.OwnerId = GroupsDAO.newInstance().getQueueByName(GroupsDAO.STUDENT_RETENTION_QUEUE);
+        newCase.OwnerId = studentRetentionQueue;
         newCase.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
         newCase.Engagement_List_Configuration__c = engagementListConfig.Id;
         newCase.Status = CasesDAO.STATUS_CREATED;
         newCase.Priority = CasesDAO.PRIORITY_LOW;
-        newCase.ContactId = contactId;
+        newCase.ContactId = outreachKey.substringAfter('_');
 
         return newCase;
     }

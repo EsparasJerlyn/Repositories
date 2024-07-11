@@ -347,6 +347,7 @@ public with sharing class CaseTriggerHelper {
 
         for (Case item : newCaseList) {
             Boolean isCaseForProcess =
+                item.RecordTypeId == CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID &&
                 item.Auto_Priority_Assignment__c == true &&
                 item.Status == 'Created' &&
                 item.Priority != 'High';

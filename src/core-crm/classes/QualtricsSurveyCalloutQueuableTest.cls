@@ -18,10 +18,12 @@ public class QualtricsSurveyCalloutQueuableTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Student_Success_Outreach_Manager', 'QUT_ESB' });
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
+        Test.stopTest();
 
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             List<Account> acc = TestDataFactory.createTestAccountRecords(1);
             acc[0].RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             AccountsDAO.newInstance().insertRecords(acc, true, AccessLevel.SYSTEM_MODE);
@@ -51,20 +53,18 @@ public class QualtricsSurveyCalloutQueuableTest {
             caseList[0].Qualtrics_Survey__c = qualtricsSurveyList[0].Id;
             caseList[0].Case_Type__c = 'Student Success - Retention';
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
-
         }
-        Test.stopTest();
     }
 
     @isTest
     private static void checkInProgressSurveyURL(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             // Bypass the trigger to call directly the Queueable method
             BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
             insert bypass;
             
             List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance().getQualitricsSurveysByOwnerId(
-                new Set<ID>{TestDataFactory.getStudentSuccessOutreachManager().Id}, AccessLevel.SYSTEM_MODE
+                new Set<ID>{TestDataFactoryUser.selectUserStudentSuccessOutreachManager.Id}, AccessLevel.SYSTEM_MODE
             );
 			
             for(Qualtrics_Survey__c qs : qualtricsSurveyList){

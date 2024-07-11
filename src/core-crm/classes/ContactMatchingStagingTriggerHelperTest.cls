@@ -12,7 +12,7 @@ private class ContactMatchingStagingTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
@@ -32,7 +32,7 @@ private class ContactMatchingStagingTriggerHelperTest {
                 AccessLevel.SYSTEM_MODE
             );
             
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact_Matching_Staging__c> conMatchingStagings = TestDataFactory.createContactMatchingStagings(
                 100
@@ -61,7 +61,7 @@ private class ContactMatchingStagingTriggerHelperTest {
 
     @isTest
     static void contactMatchingStagingError() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             ContactMatchingStagingTriggerHelper.executeContactMatchingBatch(null);
             Test.stopTest();

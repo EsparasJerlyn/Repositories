@@ -17,6 +17,10 @@ a.record-name:active {
 
 }
 
+article.card-with-bg {
+  background-color: var(--lwc-colorBackground);
+}
+
 div.header-with-bg {
   background-color: var(--lwc-colorBackground);
 }

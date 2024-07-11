@@ -18,8 +18,10 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @testSetup
     static void makeData(){
+        Test.startTest();
         TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
         TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        Test.stopTest();
         
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
@@ -35,7 +37,7 @@ public with sharing class Reopen_Closed_CaseTest {
         List<Case> caseList = new List<Case>();
         caseList.addAll(internationalCases);
         caseList.addAll(domesticCases);
-
+        
         for(Case c : caseList){
             c.ContactId = relatedContacts[0].Id;
             c.Origin = 'Email';
@@ -47,6 +49,32 @@ public with sharing class Reopen_Closed_CaseTest {
         }
         
         CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
+
+        User userInternational = TestDataFactoryUser.selectUserFutureStudentAgentInternational;
+        User userDomestic = TestDataFactoryUser.selectUserFutureStudentAgentDomestic;
+        List<CaseShare> caseShareList = new List<CaseShare>();
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = userInternational.Id;
+            caseShare.CaseAccessLevel = 'Edit'; 
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = userDomestic.Id;
+            caseShare.CaseAccessLevel = 'Edit'; 
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        
+        Database.insert(
+            caseShareList,
+            false,
+            AccessLevel.USER_MODE
+        );
     }
     
     @IsTest
