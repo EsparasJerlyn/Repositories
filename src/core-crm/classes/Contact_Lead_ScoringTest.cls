@@ -15,13 +15,15 @@
 @isTest
 public without sharing class Contact_Lead_ScoringTest {
 
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     public static void testInternationalLeadAlert() {
         List<Contact> contacts = new List<Contact>();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             contacts = TestDataFactory.createTestContactRecords(1);
             Database.SaveResult[] saveResultList = Database.insert(contacts);

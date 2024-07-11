@@ -40,6 +40,10 @@
         <!--(Start) DEPP-5906 -->
         <members>Case_Clear_Closure_FieldsFlowTest</members>
         <!--(End) DEPP-5906 -->
+        <!--(Start) DEPP-5906 -->
+        <members>AffiliationTriggerHelper</members>
+        <members>AffiliationTriggerHelperTest</members>
+        <!--(End) DEPP-5906 -->
         <name>ApexClass</name>
     </types>
     <types>

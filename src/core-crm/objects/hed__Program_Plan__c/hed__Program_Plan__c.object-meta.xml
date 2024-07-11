@@ -147,7 +147,7 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>hed__HEDA_Program_Plan_Compact_Layout</compactLayoutAssignment>
+    <compactLayoutAssignment>QUT_Program_Compact_Layout</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <deprecated>false</deprecated>
     <description>Links Courses to an Academic Program to create a path for students to follow. An Academic Program can list multiple Courses, and a Course can be associated with multiple Academic Programs.</description>
@@ -170,6 +170,7 @@
     <pluralLabel>Program Plans</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <searchResultsAdditionalFields>hed__Account__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__Start_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__End_Date__c</searchResultsAdditionalFields>
