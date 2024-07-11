@@ -38,6 +38,18 @@
         <closed>false</closed>
     </standardValue>
     <standardValue>
+        <fullName>Awaiting Mobile</fullName>
+        <default>false</default>
+        <label>Awaiting Mobile</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Callback</fullName>
+        <default>false</default>
+        <label>Callback</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
         <fullName>Responded</fullName>
         <default>false</default>
         <label>Responded</label>

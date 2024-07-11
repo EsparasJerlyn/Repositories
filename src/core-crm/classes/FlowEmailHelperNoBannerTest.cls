@@ -14,12 +14,15 @@
 private class FlowEmailHelperNoBannerTest {
     
     private static final String STR_EMAIL_TEMPLATE = 'Test Email Template';
-    private static final String QUTEX = System.Label.QUTeX;
-    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next(); 
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void sendCustomEmailTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
                 STR_EMAIL_TEMPLATE => 'Test Email Subject'
             }).iterator().next();

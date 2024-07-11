@@ -2,10 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Financial_Hardship_Applicant__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Recent Application by contact has flagged Financial Hardship applicant.</description>
+    <description>Indicator to mark if student has been flag for financial hardship</description>
     <externalId>false</externalId>
     <label>Financial Hardship Applicant</label>
-    <securityClassification>Official</securityClassification>
+    <securityClassification>Sensitive</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_Or_SMS_Template_Required</fullName>
+    <active>true</active>
+    <description>Email Template and/or SMS Template is required when Communication Channel is set.</description>
+    <errorConditionFormula>AND( 
+ NOT( ISNULL( TEXT(Communication_Channel__c )) ),
+ OR( 
+  ISNEW(), 
+  OR(ISCHANGED( Communication_Channel__c ),
+     ISCHANGED( Email_Template__c ),
+     ISCHANGED( SMS_Template__c ))
+ ),
+  OR(
+     AND(ISPICKVAL(Communication_Channel__c , &apos;Email&apos; ),
+         ISBLANK( Email_Template__c )),
+     AND(ISPICKVAL(Communication_Channel__c , &apos;SMS&apos; ),
+         ISBLANK(  SMS_Template__c )),
+     AND(ISPICKVAL(Communication_Channel__c , &apos;Email &amp; SMS&apos; ),
+         OR(ISBLANK( Email_Template__c ),
+         ISBLANK(  SMS_Template__c )))
+     )
+)</errorConditionFormula>
+    <errorMessage>Email Template and/or SMS Template is required when Communication Channel is set.</errorMessage>
+</ValidationRule>
