@@ -16,16 +16,18 @@ private class Create_Product_on_Course_InsertTest {
 
     private static final String QUTEX = System.Label.QUTeX;
     private static final String PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
-
-    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
     private static Id opeActivity = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
-
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
+
     @isTest
     private static void createProductOnCourseInsertTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.RecordTypeId = ACCT_UNIV_DEP_ID;
             acc.Organization_Unit_Level__c = '2';
