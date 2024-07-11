@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Future_Student_International_Queue_Case</fullName>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>NAME</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CASES.PRIORITY</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Queue</filterScope>
+    <label>Future Student International Queue</label>
+    <queue>Future_Student_International_Queue</queue>
+    <sharedTo>
+        <group>Development_Team</group>
+        <group>Future_Students_International</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
+    </sharedTo>
+</ListView>

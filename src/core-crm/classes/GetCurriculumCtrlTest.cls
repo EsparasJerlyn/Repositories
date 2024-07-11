@@ -16,13 +16,12 @@
 */
 @isTest
 public class GetCurriculumCtrlTest {
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
     private static final Integer NUMBER_OF_RECORDS = 100;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';
@@ -52,7 +51,7 @@ public class GetCurriculumCtrlTest {
     private static void getCoursesTest(){
         Test.startTest();
         Integer expectedResult = 100;
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
             GetCurriculumCtrl.ExistingCurriculumItems courseListToTest = GetCurriculumCtrl.getExistingCurriculumItems(prodReqId, true);
             System.assertEquals(expectedResult, courseListToTest.courses.size(), 'Course list did not match expected.');

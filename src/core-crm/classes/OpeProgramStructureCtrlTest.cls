@@ -18,11 +18,11 @@ public with sharing class OpeProgramStructureCtrlTest {
     private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
+
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -63,7 +63,7 @@ public with sharing class OpeProgramStructureCtrlTest {
     {
 
         Test.startTest();
-         System.runAs(currentUser)
+         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
          OpeProgramStructureCtrl.OpeProductRequestAndCourse getRecords = new OpeProgramStructureCtrl.OpeProductRequestAndCourse();
          getRecords = OpeProgramStructureCtrl.getProdReqAndCourse(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:opeProgProdReqId LIMIT 1].Id));
@@ -87,7 +87,7 @@ public with sharing class OpeProgramStructureCtrlTest {
         List<hed__Plan_Requirement__c> newPlanReqToUpsert = new List<hed__Plan_Requirement__c>();
 
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
          hed__Plan_Requirement__c newPlanRequirement = new hed__Plan_Requirement__c(
             hed__Sequence__c = 1,

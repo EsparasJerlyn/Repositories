@@ -17,6 +17,7 @@
  *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getPersonContactsByEmailOrName      |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSL    |
+ *    | julie.jane.alegre              | May 13, 2024        | DEPP-8490              | Update method getQueryLocatorBySubQueryTest|
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -137,6 +138,70 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
     
             if(isPersonRecordType && ((hasMatchingNames && hasMatchingBirthdate) || (hasMatchingNames && hasMatchingEmails) || hasNomitedIds)){
                 contactList.add(record);
+            }
+
+        }
+        return contactList;
+    }
+
+    public List<Contact> getContactsByMatchingAttributes(
+        Map<String,Set<String>> fieldSetMap,
+        Set<Date> birthDateSet,
+        AccessLevel accessLevel
+    ) {
+
+        String regexPattern = '[^a-zA-Z]';
+
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            Contact newContact = new Contact();
+
+            String firstNameFormula = record.FirstName != null?record.FirstName.replaceAll(regexPattern, ''):record.FirstName;
+            String lastNameFormula = record.LastName != null?record.LastName.replaceAll(regexPattern, ''):record.LastName;
+
+            boolean isPersonRecordType = record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID;
+            boolean hasMatchingFirstName = fieldSetMap.get('firstName').contains(firstNameFormula);
+            boolean hasMatchingLastName = fieldSetMap.get('lastName').contains(lastNameFormula);
+            boolean hasMatchingBirthdate = birthDateSet.contains(record.BirthDate);
+            boolean hasMatchingEmails = fieldSetMap.get('email').contains(record.Email) || fieldSetMap.get('email').contains(record.Work_Email__c) ||
+                                        fieldSetMap.get('email').contains(record.QUT_Learner_Email__c) || fieldSetMap.get('email').contains(record.QUT_Staff_Email__c);
+            boolean hasMatchingMobilePhones =  fieldSetMap.get('mobilePhone').contains(record.MobilePhone);
+            boolean hasMatchingEmailOrMobile = hasMatchingEmails || hasMatchingMobilePhones;
+            boolean isNaturalKeyMatch = hasMatchingFirstName && hasMatchingLastName && hasMatchingBirthdate;
+            boolean isPartialOrFirstNameStemMatch = hasMatchingLastName && hasMatchingBirthdate && hasMatchingEmailOrMobile;
+            boolean isMaidenNameMatch = hasMatchingFirstName && hasMatchingBirthdate && hasMatchingEmailOrMobile;
+            boolean noDOBMatch = hasMatchingFirstName && hasMatchingLastName && hasMatchingEmailOrMobile;
+            boolean hasMatch = isNaturalKeyMatch || isPartialOrFirstNameStemMatch || isMaidenNameMatch || noDOBMatch;
+            boolean isIdExcluded = fieldSetMap.get('excludedIds').contains(record.Id);
+    
+            
+            newContact = (Contact) JSON.deserialize(
+                            '{"attributes":{"type":"Contact"},"Id":"' +
+                            record.Id +
+                            '","FirstName":"' +
+                            record.FirstName +
+                            '","Matching_Firstname__c":"' +
+                            firstNameFormula +
+                            '","LastName":"' +
+                            record.LastName +
+                            '","Matching_Lastname__c":"' +
+                            lastNameFormula +
+                            '"}',
+                            Contact.class
+                        );
+            newContact.BirthDate = record.BirthDate;
+            newContact.Email = record.Email;
+            newContact.QUT_Staff_Email__c = record.QUT_Staff_Email__c;
+            newContact.QUT_Learner_Email__c = record.QUT_Learner_Email__c;
+            newContact.Work_Email__c = record.Work_Email__c;
+            newContact.RecordTypeId = record.RecordTypeId;
+            newContact.MobilePhone = record.MobilePhone;
+            newContact.QUT_Student_ID__c = record.QUT_Student_ID__c;
+            newContact.QUT_Employee_ID__c = record.QUT_Employee_ID__c;
+
+            //is person contact
+            if(isPersonRecordType && hasMatch && !isIdExcluded){
+                contactList.add(newContact);
             }
 
         }
@@ -348,5 +413,68 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             }
         }
         return contactList;
+    }
+
+    public String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
+              'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
+              'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' +
+              'AND Id IN (' + contactCriteria.getContactIdSet() + ') ';
+    }
+
+    public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
+        String query =
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
+    }
+
+    public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   //update to string
+        String query =
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+             'FROM Contact WHERE Id IN (' + subQueryString + ')';
+        return Database.getQueryLocator(query);
+    }
+
+    public List<Contact> findByCriteria(
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+
+        for (Contact record : contactsMap.values()) {
+            if(
+                record.hed__Citizenship_Status__c == contactCriteria.getCitizenshipStatus() &&
+                record.QUT_Student__c == contactCriteria.getIsQUTStudent() &&
+                record.RecordType.DeveloperName == contactCriteria.getRecordType() 
+            )
+            {
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel){
+        List<Contact> contactList = new List<Contact>();
+
+        for(Contact con : contactsMap.values()) {
+            if(studentIdList.contains(String.valueOf(con.Id))) {
+                contactList.add(con);
+            }
+        }
+        return contactList;  
+    }
+
+    public Database.QueryLocator getQueryLocatorContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    ){
+        return null;
     }
 }
