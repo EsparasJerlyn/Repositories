@@ -55,13 +55,15 @@ public with sharing class CaseLeadScoreHelperTest {
             }
             MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegToUpdate, true, AccessLevel.SYSTEM_MODE);
 
-            List<Case> caseListDomUG = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Case', 3);
+            List<Case> caseListDomUG = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Case', 3);
             for(Case caseRec : caseListDomUG){
                 caseRec.Lead__c = leadList[0].Id;
+                caseRec.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
             }
-            List<Case> caseListIntPG = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test Case Int', 3);
+            List<Case> caseListIntPG = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Case Int', 3);
             for(Case caseRec : caseListIntPG){
                 caseRec.Lead__c = leadList[1].Id;
+                caseRec.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
             }
             List<Case> caseList = new List<Case>();
             caseList.addAll(caseListDomUG);
@@ -76,9 +78,10 @@ public with sharing class CaseLeadScoreHelperTest {
             }
             MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegConToUpdate, true, AccessLevel.SYSTEM_MODE);
 
-            List<Case> caseConList = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Contact Case', 3);
+            List<Case> caseConList = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Contact Case', 3);
             for(Case caseRec : caseConList){
                 caseRec.ContactId = contactList[0].Id;
+                caseRec.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
             }
             CasesDAO.newInstance().insertRecords(caseConList, true, AccessLevel.SYSTEM_MODE);  
         //} 
