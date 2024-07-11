@@ -292,9 +292,15 @@ export default class ContactInformationValidation extends LightningElement {
   /**
    * hides spinner and shows toast when record edit form fails
    */
-  handleError() {
+  handleError(event) {
+    
+    if(event.detail && event.detail.output && event.detail.output.errors){
+      this.generateToast("Error.", event.detail.output.errors[0].message, "error");
+    }else{
+      this.generateToast("Error.", LWC_Error_General, "error");
+    }
     this.isLoading = false;
-    this.generateToast("Error.", LWC_Error_General, "error");
+    
   }
 
   /**
@@ -354,7 +360,11 @@ export default class ContactInformationValidation extends LightningElement {
         this.handleUpdateFields(fieldsToUpdate, true);
       })
       .catch((error) => {
-        this.generateToast("Error.", LWC_Error_General, "error");
+        if(error.detail && error.detail.output && error.detail.output.errors){
+          this.generateToast("Error.", error.detail.output.errors[0].message, "error");
+        }else{
+          this.generateToast("Error.", LWC_Error_General, "error");
+        }
         this.isLoading = false;
       });
   }

@@ -2180,6 +2180,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Program_Plan__c.Other_Owning_Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Program_Plan__c.Overviewv2__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -7,12 +7,29 @@
         <name>CustomField</name>
     </types>
     -->
+
+    <!-- Comment this out when 2nd PR is deployed, this is to change the data type 
+        from picklist to multiplicklist inorder to avoid the error of 
+        "Cannot change type due to exising data"
+        
+        Update: Commenting out the Category type since we are deploying the 2nd PR
+     -->
+    <!-- <types>
+        <members>Engagement_List_Criteria__c.Category_Type__c</members>
+        <name>CustomField</name>
+    </types> -->
     <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
         <!--End DEPP-6659-->
         <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
+        <!--Start DEPP-8075-->
+        <members>Student_Success_Configuration_UtilityBar</members>
+        <!--End DEPP-8075-->
+        <!--Start DEPP-7584-->
+        <members>Engagement_List_Criteria_Record_Page</members>
+        <!--End DEPP-7584-->
         <name>FlexiPage</name>
     </types>
     <!-- <types> -->
@@ -29,10 +46,14 @@
         <members>Case_Clear_Closure_Fields</members>
         <members>Case_Pending_Closure_to_Closed</members>
         <!--(End) DEPP-5906-->
+        <!--(Start) DEPP-6979-->
+        <members>Contact_Parent_Child_Syncing</members>
+        <!--(End) DEPP-6979-->
         <name>Flow</name>
     </types>
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
+        <members>Engagement_List_Criteria__c-Engagement List Criteria Layout</members><!--DEPP-7584-->
         <name>Layout</name>
     </types>
     <types>
@@ -44,6 +65,13 @@
         <members>Case.Priority_is_required</members>
         <!-- (End) DEPP-7673 -->
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <!--Start DEPP-7993-->
+        <members>Lightning_Scheduler_Administrator</members>
+        <!--End DEPP-7993-->
+        <name>PermissionSet</name>
+    </types>
     <!-- <types> -->
       <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
       <!-- This to track that the old permissionset has been removed. -->
@@ -54,7 +82,104 @@
       <!--(End) DEPP-7474 -->
       <!-- <name>PermissionSetGroup</name>
   </types> -->
+    <types>
+        <!--Start DEPP-7863-->
+        <members>Future_Student_Super_Agent_Domsetic</members>
+        <!--End DEPP-7863-->
+        <!--Start DEPP-7993-->
+        <members>Lightning_Scheduler_Administrator_PSG</members>
+        <members>Lightning_Scheduler_User_PSG</members>
+        <!--End DEPP-7993-->
+        <name>PermissionSetGroup</name>
     </types>
+    <types>
+        <!-- (Start) DEPP-8142 -->
+        <members>Contact.At_Risk_Rating__c</members>
+        <!--(End) DEPP-8142 -->
+        <!-- (Start) DEPP-7584 -->
+        <members>Engagement_List_Criteria__c.Engagement_List_Criteria_Type__c</members>
+        <members>Engagement_List_Criteria__c.Is_Active__c</members>
+        <members>Engagement_List_Criteria__c.Key_Date_Offset__c</members>
+        <!--(End) DEPP-7584 -->
+        <!-- (Start) DEPP-8764 -->
+        <members>Qualtrics_Survey__c.Case__c</members>
+        <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-8764 -->
+        <members>Engagement_List_Configuration__c.Instrument__c</members>
+        <!--(End) DEPP-8764 -->
+        <!-- (Start) DEPP-9315 -->
+        <members>Engagement_List_Event__c.Engagement_List_Event_Time__c</members>
+        <!--(End) DEPP-9315 -->
+        <name>CustomField</name>
+    </types>
+    <types>
+        <!--Start DEPP-8242-->
+        <members>Case_Domestic_Future_Student_Path</members>
+        <members>Case_International_Future_Student_Path</members>
+        <!--End DEPP-8242-->
+        <name>PathAssistant</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-8584-->
+        <members>Case.International_Online_Enquires</members>
+        <members>Case.Domestic_Online_Enquires</members>
+        <!--(End) DEPP-8584-->
+        <!--(Start) DEPP-9144-->
+        <members>Case.Outreach_UAP_Held_Show_Cause</members>
+        <!--(End) DEPP-9144-->
+        <!--(Start) DEPP-9325-->
+        <members>Case.Future_Student_Advisor_Assigned</members>
+        <members>Case.International_Enquiries_Assigned</members>
+        <members>Case.International_Enquiries_Pending_Closure</members>
+        <!--(End) DEPP-9325-->
+        <!--(Start) DEPP-9568-->
+        <members>hed__Course__c.DEP_Test_Data</members>
+        <!--(End) DEPP-9568-->
+        <name>ListView</name>
+    </types>
+    <types>
+        <!--DEPP-8075 Start-->
+        <members>Student_Success_Configuration</members>
+        <!-- DEPP-8075 End-->
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <!--DEPP-8242 Start-->
+        <members>Case.International Enquiry</members>
+        <!-- DEPP-8242 End-->
+        <name>BusinessProcess</name>
+    </types>
+    <types>
+        <!--DEPP-8542 Start-->
+        <members>Case.Future Student Domestic Acknowledgement</members>
+        <!--DEPP-8542 Start-->
+        <name>AutoResponseRule</name>
+    </types>
+    <!--DEPP-9125 Start-->
+    <types>
+        <members>QUTStudentRetentionEmailTemplates/Outreach_Held_Show_Cause_Unsatisfactory_Academic_Performance_1716856187779</members>
+        <!--DEPP-9570 Start-->
+        <members>QUTStudentRetentionEmailTemplates/Outreach_Commencing_Students_Follow_up_email_1716871867327</members>
+        <!--DEPP-9570 End-->
+        <name>EmailTemplate</name>
+    </types>
+    <!--DEPP-9125 End-->
+    <types>
+        <!--DEPP-8951 Start-->
+        <members>Sales_and_Marketing_Dashboards/AdoptationDashboard</members>
+        <members>Sales_and_Marketing_Dashboards/Best_Practice_Leads_Dashboard</members>
+        <members>Sales_and_Marketing_Dashboards/Best_Practices_Dashboard6</members>
+        <members>Service_Dashboards/Agent_Supervisor_Overview</members>
+        <members>Service_Dashboards/Service_Exec_Overview</members>
+        <members>Service_Dashboards/Service_KPIs</members>
+        <members>CRM_180925_HVS_Sample_Dashboard_Folder/CRM_180925_HVS_Sample_Dashboard</members>
+        <!--DEPP-8951 End-->
+        <!--DEPP-9497 Start-->
+        <members>StudentRetentionDashboards/Student_Success_Enquiry_Home_Page</members>
+        <!--DEPP-9497 End-->
+        <name>Dashboard</name>
+    </types>
+    
     <types>
         <!-- (Start) DEPP-6995 -->
         <members>Country_Locale_Metadata__mdt.ar_SD</members>
@@ -168,6 +293,16 @@
         <!--End DEPP-8810-->
         <name>PermissionSet</name>
     </types>
-     
+    <types>
+        <!--DEPP-8951-->
+        <members>DigitalMarketing</members>
+        <name>Reportfolder</name>
+    </types>
+    <types>
+        <!--DEPP-9324 (renamed component)-->
+        <members>deactivateCriteria</members>
+        <!--end DEPP-9324-->
+        <name>LightningComponentBundle</name>
+    </types>
     <version>59.0</version> 
 </Package>

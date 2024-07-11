@@ -13,12 +13,16 @@
 */
 @isTest
 public class CourseOfferingEndDateBatchSchedulerTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     static void testCourseOfferingEndDateScheduler(){
         
-        System.runAs(currentUser){              
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){              
             String cronExpression = Label.Course_Offering_End_Date_Cron_Expression;
             
             Test.startTest();

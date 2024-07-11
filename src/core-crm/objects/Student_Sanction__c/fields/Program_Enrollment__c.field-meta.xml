@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Enrollment__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The QUT Course the sanction is associated to</description>
+    <externalId>false</externalId>
+    <label>Program Enrollment</label>
+    <referenceTo>hed__Program_Enrollment__c</referenceTo>
+    <relationshipLabel>Student Sanctions</relationshipLabel>
+    <relationshipName>Student_Sanctions</relationshipName>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
