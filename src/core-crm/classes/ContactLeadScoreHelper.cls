@@ -10,6 +10,8 @@
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
   *    | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for contact                                    |
+  *    | mark.j.mahilum                 | May 06, 2024          | DEPP-7987              | Updated processLeadScoreCalculation to check   |
+  *    |                                |                       |                        | for all async call                             | 
   */
 public inherited sharing class ContactLeadScoreHelper{
 
@@ -40,7 +42,10 @@ public inherited sharing class ContactLeadScoreHelper{
         }
 
         if(!contactMap.isEmpty()){
-            if(System.isQueueable()){
+            
+            Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
+            
+            if(isAsync){
                 executeCalculation(contactMap);
             }else{      
                 QueueableCall executeQueueable = new QueueableCall(contactMap);

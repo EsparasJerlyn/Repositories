@@ -8,6 +8,7 @@
     <label>Address Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -37,6 +38,11 @@
                 <fullName>Lead</fullName>
                 <default>false</default>
                 <label>Lead</label>
+            </value>
+            <value>
+                <fullName>First Admitted</fullName>
+                <default>false</default>
+                <label>First Admitted</label>
             </value>
         </valueSetDefinition>
     </valueSet>

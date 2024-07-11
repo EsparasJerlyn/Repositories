@@ -14,24 +14,16 @@ public class DynamicQueueableProcess implements Queueable {
     private List<SObject> objectList;
     private String serviceClassName;
     private AccessLevel accessLevel;
-
-    public DynamicQueueableProcess(List<SObject> objectList,String serviceClassName) {
-        this.objectList = objectList;
-        this.serviceClassName = serviceClassName;
-    }
-
+    
     public DynamicQueueableProcess(List<SObject> objectList,String serviceClassName, AccessLevel accessLevel) {
         this.objectList = objectList;
         this.serviceClassName = serviceClassName;
         this.accessLevel = accessLevel;
     }
 
-    public void execute(QueueableContext context) {
-
-        if(serviceClassName =='ApplicationService'){
-            ApplicationService.enqueueApplicationToExecute((List<hed__Application__c>) objectList);
-        }
-        else if(serviceClassName =='CaseService'){
+    public void execute(QueueableContext context) { 
+        
+		if(serviceClassName =='CaseService'){
             CaseService.enqueueCasesToPrioritize((List<Case>)objectList,accessLevel);
         }
     }

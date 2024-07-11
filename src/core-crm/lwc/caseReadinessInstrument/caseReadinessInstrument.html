@@ -1,0 +1,103 @@
+<template>
+    <article class={cardClass}>
+        <div class={cardHeaderClass}>
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon 
+                    icon-name="standard:survey" 
+                    size="small" 
+                    alternative-text="Survey"
+                    ></lightning-icon>
+                    <span class="slds-assistive-text">readiness instrument</span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Readiness Instrument</span>
+                    </h2>
+                </div>
+                <template lwc:if={hasQualtrics}>
+                    <div class="slds-no-flex">
+                        <lightning-button-menu alternative-text="Show menu" variant="border-filled" menu-alignment="auto" icon-size="small" onselect={handleMenuSelect}>
+                            <lightning-menu-item value="view" label="View"></lightning-menu-item>
+                        </lightning-button-menu>
+                    </div>
+                </template>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner slds-p-horizontal_xx-small ">
+            <template lwc:if={isLoading}>
+                <div class="slds-spinner_container">
+                    <div role="status" class="slds-spinner slds-spinner_medium">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </template>
+            <template lwc:if={hasQualtrics}>
+                <table class="slds-table slds-table_fixed-layout slds-table_header-hidden">
+                    <thead class="slds-assistive-text">
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Field Name">Field Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Field Value">Field Value</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="slds-hint-parent">
+                            <th scope="row" colspan=2>
+                                <div class="slds-truncate">
+                                    <a href="#" class="record-name" onclick={handleClickHeader}>{caseQualtricsName}</a>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    Status
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseQualtricsStatus}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    Staff Assisted
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    <template lwc:if={caseQualtricsStaffAssisted}>
+                                        <input type="checkbox" checked disabled>
+                                    </template>
+                                    <template lwc:else>
+                                        <input type="checkbox" disabled>
+                                    </template>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    Survey Link
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    <lightning-formatted-url value={caseQualtricsSurveyLink} label="View Instrument (Survey) Link" target="_self"></lightning-formatted-url>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </template>
+        </div>
+    </article>
+</template>

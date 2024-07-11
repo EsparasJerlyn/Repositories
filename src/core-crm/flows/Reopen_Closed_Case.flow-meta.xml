@@ -9,7 +9,7 @@
         <defaultConnectorLabel>Others</defaultConnectorLabel>
         <rules>
             <name>Closed_Cases</name>
-            <conditionLogic>1 AND 2 AND (3 OR 4)</conditionLogic>
+            <conditionLogic>1 AND 2 AND 3 AND (4 OR 5)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Parent.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -28,14 +28,21 @@
                 <leftValueReference>$Record.Parent.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>International_Future_Student_Enquiry</stringValue>
+                    <stringValue>Inbound_Enquiry</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Parent.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>$Record.Parent.Case_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Domestic_Future_Student_Enquiry</stringValue>
+                    <stringValue>Domestic Future Student Enquiry</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Parent.Case_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Future Student Enquiry</stringValue>
                 </rightValue>
             </conditions>
             <connector>
