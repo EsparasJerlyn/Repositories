@@ -12,9 +12,14 @@
       | arsenio.jr.dayrit              | Sept 27,2023          | DEPP-6720              | Created file                                          |
       | roy.nino.s.regala              | Oct 5, 2023           | DEPP-6425              | updated to use DAO Mock                               |
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
+      | gabriel.p.ventayen             | April 22, 2024        | DEPP-8544	            | change rectype to inbound enquiry and add case type   | 
+      | gabriel.p.ventayen             | April 29, 2024        | DEPP-8614	            | add test testInsertEngagementListConfigurationCases   |
+      | eccarius.munoz                 | May 21, 2024          | DEPP-8484	            | removed insertEngagementListConfigurationCases        |
  */
 @isTest
 private class CaseServiceTest {
+
+
     @isTest
     private static void testmapExistingContactMatchToCase() {//NOPMD Test method is mocked user not needed
 
@@ -112,7 +117,8 @@ private class CaseServiceTest {
                 Auto_Priority_Assignment__c = true,
                 SuppliedPhone = '090909',
                 Origin = CasesDAO.ORIGIN_WHATSAPP,
-                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
             )
         );
 
@@ -130,4 +136,5 @@ private class CaseServiceTest {
             'Case was not updated'
         );
     }
+
 }

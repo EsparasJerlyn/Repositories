@@ -10,7 +10,8 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------------------------|
  *    | mark.j.mahilum                 | July 10,2023          | DEPP-5799	            | Created File                                                                         |
  *    | mark.j.mahilum                 | Aug 29.2023           | DEPP-6523              | Updated updateContactOnApplication to include removal of application link to contact |
- *    | mark.j.mahilum                 | Aug 31,2023           | DEPP-6455              | Updated multiple method name to describe the field in contact to be updated          | 
+ *    | mark.j.mahilum                 | Aug 31,2023           | DEPP-6455              | Updated multiple method name to describe the field in contact to be updated          |
+ *    | mark.j.mahilum                 | June 06, 2024         | DEPP-9212              | Updated to removed redundant code in the updateContactPartnerFlag method             |
  */
 public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not methods) can have a high amount of complexity and public methods
     /**
@@ -130,18 +131,63 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
         Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
         Set<Id> contactIdsToReEvaluateApplication = new Set<Id>();
         List<hed__Program_Enrollment__c> programEnrollmentsList =  ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIds(contactIds,'SYSTEM_MODE'); 
-
+        List<hed__Program_Enrollment__c> programEnrollmentsListByContacts =  ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE);
+        List<hed__Application__c> applicationListByContacts = ApplicationsDAO.newInstance().getApplicationsByContactIds(contactIds, 'SYSTEM_MODE');
         String newJourneyStatus = '';
+        Map<Id, Contact> updateContactWithoutProgEnrollmentMap = new Map<Id, Contact>();
+        Map<Id, hed__Program_Enrollment__c> mapContactIdProgramEnrollment = new Map<Id, hed__Program_Enrollment__c>();
+        Map<Id, hed__Application__c> mapContactIdApplication = new Map<Id, hed__Application__c>();
+        
 
-        for(hed__Program_Enrollment__c pe: programEnrollmentsList){
-
-            updateContactMap.put(
-                pe.hed__Contact__c,
-                new Contact(
-                    id = pe.hed__Contact__c,
-                    QUT_Student__c = true
-                )
+        //collect all student for update that has no program enrollments
+        for(hed__Program_Enrollment__c pe: programEnrollmentsListByContacts){
+            mapContactIdProgramEnrollment.put(
+                pe.hed__Contact__c, pe
             );
+        }
+
+        for(hed__Application__c ap: applicationListByContacts){
+            mapContactIdApplication.put(
+                ap.hed__Applicant__c, ap
+            );
+        }
+
+        for (Id contactId : contactIds) {
+            if(!mapContactIdProgramEnrollment.containsKey(contactId) && !mapContactIdApplication.containsKey(contactId)){
+                updateContactWithoutProgEnrollmentMap.put(
+                    contactId,
+                    new Contact(
+                        id = contactId,
+                        QUT_Student__c = false
+                    )
+                );
+            }
+        }
+
+        //collect all contact that is a student or withdrawn or passed
+        for(hed__Program_Enrollment__c pe: programEnrollmentsList){
+            if (pe.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED) {
+                updateContactMap.put(
+                    pe.hed__Contact__c,
+                    new Contact(
+                        id = pe.hed__Contact__c,
+                        QUT_Student__c = true
+                    )
+                );
+            } else if(
+                (pe.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STAGE_WITHDRAWN 
+                || pe.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_PASSED)
+                && !mapContactIdApplication.containsKey(pe.hed__Contact__c)
+            ) {
+                updateContactMap.put(
+                    pe.hed__Contact__c,
+                    new Contact(
+                        id = pe.hed__Contact__c,
+                        QUT_Student__c = false
+                    )
+                );
+            }
+            
         }
 
         //collect all contact ids that is no longer a student
@@ -205,6 +251,9 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
         if (!updateContactMap.values().isEmpty()) {
             updateContactRecord(updateContactMap.values());
         }
+        if (!updateContactWithoutProgEnrollmentMap.values().isEmpty()) {
+            updateContactRecord(updateContactWithoutProgEnrollmentMap.values());
+        }
     }
 
     /**
@@ -228,23 +277,6 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
                 )
             );             
         }
-
-        for (OpportunityContactRole ocr : [
-                                           SELECT Id, ContactId,role
-                                           FROM OpportunityContactRole
-                                           WHERE
-                                               role ='Client Decision-Maker'
-                                               AND ContactId IN :contactIds
-                                           WITH SYSTEM_MODE
-        ]) {
-            updateContactMap.put(
-                ocr.ContactId,
-                new Contact(
-                    id = ocr.ContactId,
-                    QUT_Partner__c = true
-                )
-            );
-        }         
         
         List<OpportunityContactRole> ocrList = OpportunityContactRolesDAO.newInstance().getOpportunityContactRoleByRoleContactIds(contactIds,new Set<String>{'Client Decision-Maker'},'SYSTEM_MODE');
 
