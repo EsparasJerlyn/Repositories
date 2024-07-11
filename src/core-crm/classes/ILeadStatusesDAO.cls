@@ -10,4 +10,4 @@
  */
 public interface ILeadStatusesDAO extends DmlInterface {
     LeadStatus getConvertedLeadStatus(AccessLevel accessLevel);
-}
+} 
