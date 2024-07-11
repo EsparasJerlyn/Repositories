@@ -221,6 +221,16 @@
                 <identifier>RecordEvaluation_Summary_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LMS_URL__c</fieldItem>
+                <identifier>RecordLMS_URL_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-27e14087-28ee-474c-8682-f6c8e8247a95</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -689,6 +699,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Evaluation_Summary__c</fieldItem>
                 <identifier>RecordEvaluation_Summary_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LMS_URL__c</fieldItem>
+                <identifier>RecordLMS_URL_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-59e5ce59-084e-45be-89ba-9a7d6cf4492d</name>

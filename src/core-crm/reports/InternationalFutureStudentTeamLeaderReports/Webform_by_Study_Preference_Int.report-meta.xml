@@ -26,11 +26,11 @@
     </columns>
     <filter>
         <criteriaItems>
-            <column>Case$RecordType</column>
+            <column>Case$Case_Type__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Case.International_Future_Student_Enquiry</value>
+            <value>International Future Student Enquiry</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Origin</column>

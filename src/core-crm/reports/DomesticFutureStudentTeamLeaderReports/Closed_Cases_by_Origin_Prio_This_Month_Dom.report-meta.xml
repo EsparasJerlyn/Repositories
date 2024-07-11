@@ -30,11 +30,11 @@
     </columns>
     <filter>
         <criteriaItems>
-            <column>RECORDTYPE</column>
+            <column>Case.Case_Type__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
-            <value>Case.Domestic_Future_Student_Enquiry</value>
+            <value>Domestic Future Student Enquiry</value>
         </criteriaItems>
         <criteriaItems>
             <column>CLOSED</column>

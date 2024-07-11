@@ -1,0 +1,9 @@
+.slds-card__header.slds-grid {
+   background: #f3f3f3;
+}
+
+.scroll-table {
+   height: 300px;
+   overflow-y: scroll;
+   overflow: hidden;
+}
