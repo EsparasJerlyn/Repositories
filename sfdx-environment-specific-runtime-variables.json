@@ -1,16 +1,18 @@
 {
   "files":[
-    "src/core-crm/settings/Case.settings-meta.xml",
+    "src/core-crm-post/settings/Case.settings-meta.xml",
     "src/core-crm/customMetadata/MySampleCustomMetadata.X1.md-meta.xml",
     "src/core-crm/autoResponseRules/Case.autoResponseRules-meta.xml",
     "src/core-crm/workflows/Opportunity.workflow-meta.xml",
     "src/core-crm/workflows/Questionnaire_Response_Summary__c.workflow-meta.xml",
+    "src/core-crm/quickActions/Case.SendEmail.quickAction-meta.xml",
     "src/core-crm/namedCredentials/GOOGLE.namedCredential-meta.xml"
   ],
   "env":{
     "prod":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "studyatqut@qut.edu.au",
       "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "qut.direct@qut.edu.au",
+      "CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS" : "success@qut.edu.au",
       "QUTEX_ORG_WIDE_EMAIL" : "qutex@qut.edu.au",
       "GOOGLE_NAMEDCRED_URL" : "https://translation.googleapis.com",
       "GOOGLE_NAMEDCRED_EXTCRED" : "GoogleTranslationAuth"
@@ -18,6 +20,7 @@
     "stagingfc":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "testdomestic@qut.edu.au",
       "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au",
+      "CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS" : "test-success@qut.edu.au",
       "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@qut.edu.au",
       "GOOGLE_NAMEDCRED_URL" : "https://dev.translation.googleapis.com",
       "GOOGLE_NAMEDCRED_EXTCRED" : "DEVGoogleTranslationAuth"
@@ -25,13 +28,15 @@
     "uat":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "testdomestic@qut.edu.au",
       "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au",
+      "CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS" : "test-success@qut.edu.au",
       "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@qut.edu.au",
       "GOOGLE_NAMEDCRED_URL" : "https://dev.translation.googleapis.com",
       "GOOGLE_NAMEDCRED_EXTCRED" : "DEVGoogleTranslationAuth"
     },
     "sit":{
-      "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "test-qut-domestic@yopmail.com",
-      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "test-qut-international@yopmail.com",
+      "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "testdomestic@qut.edu.au",
+      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au",
+      "CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS" : "test-success@qut.edu.au",
       "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@qut.edu.au",
       "GOOGLE_NAMEDCRED_URL" : "https://dev.translation.googleapis.com",
       "GOOGLE_NAMEDCRED_EXTCRED" : "DEVGoogleTranslationAuth"
@@ -39,6 +44,7 @@
     "default":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "test-qut-domestic@yopmail.com",
       "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "test-qut-international@yopmail.com",
+      "CASE_ROUTE_EMAIL_ADDRESS_STUDENT_SUCCESS" : "test-qut-success@yopmail.com",
       "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@yopmail.com",
       "GOOGLE_NAMEDCRED_URL" : "https://dev.translation.googleapis.com",
       "GOOGLE_NAMEDCRED_EXTCRED" : "DEVGoogleTranslationAuth"
