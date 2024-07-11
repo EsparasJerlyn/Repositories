@@ -17,8 +17,6 @@
 */
 @isTest
 private class Send_Email_Upon_Design_SubmissionTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-
     private static final string PS_PROGRAM_SPEC = System.Label.RT_ProductSpecification_OPEProgramSpecification;
     private static final Id PS_PROGRAM_SPEC_ID = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(PS_PROGRAM_SPEC).getRecordTypeId();
     private static final string PS_CCE_PROGRAM_SPEC = System.Label.RT_ProductSpecification_CCEProgramSpecification;
@@ -43,9 +41,14 @@ private class Send_Email_Upon_Design_SubmissionTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static Integer numberOfRecords = 100;
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
+    
     @isTest
     private static void emailActivityUponSubmissionTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(PS_PROGRAM_SPEC_ID, PR_ACTIVITY_ID, C_ACTIVITY_ID);
             List<hed__Course__c> courseToUpdate = new List<hed__Course__c>();
             List<hed__Course__c> courseRec = [SELECT id, Design_Form_Status__c FROM hed__Course__c LIMIT 100];
@@ -63,7 +66,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
 
     @isTest
     private static void emailShortCourseOwnerUponSubmissionTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(PS_PROGRAM_SPEC_ID, PR_SHORTCOURSE_ID, C_SHORTCOURSE_ID);
             List<hed__Course__c> courseToUpdate = new List<hed__Course__c>();
             List<hed__Course__c> courseRec = [SELECT id, Design_Form_Status__c FROM hed__Course__c LIMIT 100];
@@ -81,7 +84,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
 
     @isTest
     private static void emailIndivCoachingUponSubmissionTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(PS_CCE_PROGRAM_SPEC_ID, PR_INDIV_COACHING_ID, C_INDIV_COACHING_ID);
             List<hed__Course__c> courseToUpdate = new List<hed__Course__c>();
             List<hed__Course__c> courseRec = [SELECT id, Design_Form_Status__c FROM hed__Course__c LIMIT 100];
@@ -99,7 +102,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
 
     @isTest
     private static void emailModuleUponSubmissionTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createRecord(PS_PROGRAM_SPEC_ID, PR_MODULE_ID, C_MODULE_ID);
             List<hed__Course__c> courseToUpdate = new List<hed__Course__c>();
             List<hed__Course__c> courseRec = [SELECT id, Design_Form_Status__c FROM hed__Course__c LIMIT 100];
@@ -116,7 +119,7 @@ private class Send_Email_Upon_Design_SubmissionTest {
     }
 
     private static void createRecord(Id psRecordType, Id prRecordType, Id courseRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
 

@@ -63,12 +63,20 @@
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
- *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
+ *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
- *
- **/
+ *    | gabriel.p.ventayen        | April 29, 2024        | DEPP-8614           | added method createTestEngagementListConfiguration                      |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
+ *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
+ *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
+ *    | eugene.andrew.abuan       | May 24, 2024          | DEPP-8822           | Added method for Qualtrics Survey record creation                       |
 
+
+ **/
+    
 @isTest
 public class TestDataFactory {
     private static final String STR_QUALIFY = 'Qualify';
@@ -107,7 +115,8 @@ public class TestDataFactory {
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
-        'QUT_International_Future_Student_Agent'
+        'QUT_International_Future_Student_Agent',
+        'QUT_Student_Success_Outreach_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -312,6 +321,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numberOfRecords; i++) {
             newLeads.add(
                 new Lead(
+                    FirstName = 'TestFirstNameLead' + i,
                     LastName = 'TestLastNameLead' + i,
                     Email = i + EMAIL,
                     Work_Email__c = 'work' + i + EMAIL,
@@ -322,6 +332,23 @@ public class TestDataFactory {
             );
         }
         return newLeads;
+    }
+
+    /**
+     * @description Method for creating Leave Of Absences Record
+     * @param nLeaveOfAbsence - number of Course Connection to be created
+     * @return leaveOfAbsenceRecord - List of Course Connection Created
+     */
+    public static List<Leave_of_Absence__c> createLeaveOfAbsenceRecord(
+        Integer nLeaveOfAbsence
+    ) {
+        List<Leave_of_Absence__c> leaveOfAbsenceRecord = new List<Leave_of_Absence__c>();
+        for (Integer i = 0; i < nLeaveOfAbsence; i++) {
+            leaveOfAbsenceRecord.add(
+                new Leave_of_Absence__c()
+            );
+        }
+        return leaveOfAbsenceRecord;
     }
 
     /**
@@ -1268,6 +1295,40 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating test Program_Enrollment_Breach__c records
+     * @param numberOfRecordsToCreate - number of hed__Program_Enrollment__c records to be created
+     * @return programEnrollmentBreachList - list of Program_Enrollment_Breach__c created
+     */
+    public static List<Program_Enrollment_Breach__c> createTestProgramEnrollmentBreachRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            programEnrollmentBreachList.add(new Program_Enrollment_Breach__c());
+        }
+
+        return programEnrollmentBreachList;
+    }
+
+    /**
+     * @description Method for creating test Breach__c records
+     * @param numberOfRecordsToCreate - number of Breach__c records to be created
+     * @return BreachList - list of Breach__c created
+     */
+    public static List<Breach__c> createTestBreachRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<Breach__c> BreachList = new List<Breach__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            BreachList.add(new Breach__c());
+        }
+
+        return BreachList;
+    }
+
+    /**
      * @description Method for creating test Product2 with isActive status
      * @param numProducts - number of Product2 to be created
      * @return products - list of Product2 created
@@ -1391,6 +1452,28 @@ public class TestDataFactory {
         }
         return courseConnectionRecord;
     }
+
+    /**
+     * @description Method for creating Course Connection Assessment Record
+     * @param nCourseConnectionAssessment - number of Course Connection to be created
+     * @param courseConnectionId - Course Connection Id to be related to Course Connection Assessment
+     * @return courseConnectionAssessmentRecord - List of Course Connection Created
+     */
+    public static List<Course_Connection_Assessment__c> createTestCourseConnectionAssessmentRecord(
+        Integer nCourseConnectionAssessment,
+        Id courseConnectionId
+    ) {
+        List<Course_Connection_Assessment__c> courseConnectionAssessmentRecord = new List<Course_Connection_Assessment__c>();
+        for (Integer i = 0; i < nCourseConnectionAssessment; i++) {
+            courseConnectionAssessmentRecord.add(
+                new Course_Connection_Assessment__c(
+                    Course_Connection__c = courseConnectionId
+                )
+            );
+        }
+        return courseConnectionAssessmentRecord;
+    }
+
 
     /**
      * @description method to create test data for create Account
@@ -2295,6 +2378,21 @@ public class TestDataFactory {
         return sysAdmin;
     }
 
+    /**
+     * @description Method for creating Student Success Outreach Manager
+     * @param void
+     * @return studentSuccessOutreachManager - Student Success Outreach Manager User
+     */
+    public static User getStudentSuccessOutreachManager() {
+        User studentSuccessOutreachManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Student_Success_Outreach_Manager%'
+            LIMIT 1
+        ];
+        return studentSuccessOutreachManager;
+    }
+
     class TestUserGenerator {
         private Map<String, Id> groupMap;
         private Map<String, Id> profileMap;
@@ -3027,6 +3125,22 @@ public class TestDataFactory {
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            /** START - Creation of  Student Success Users : DEPP-8078 (Persona Guide for IT4) */
+            else if (name == 'QUT_Student_Success_Outreach_Manager') {
+                userName = 'QUT_Student_Success_Outreach_Manager';
+                profileName = 'Student Success';
+                roleName = 'Student Success Outreach Manager';
+                permSets = 'Student_Success_Base,Student_Success_Super_User';
+                publicGroups = 'Student Success Outreach Manager';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
                 isMarketingUser = false;
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
@@ -3813,70 +3927,83 @@ public class TestDataFactory {
     public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){
         List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Future_Student_Stage__c = 'Apply',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Enquiry_Category__c = 'My enrolment',
             Future_Student_Stage__c = 'Apply',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 1',
             Is_Active__c = true,
             Lead_Score__c = 120,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 2',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 3',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Future_Student_Stage__c = 'Offer',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Enquiry_Sub_Category__c = 'Student support;Welcome and orientation events',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(//this test data is always within range
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Date_From__c =  Date.newInstance(2023, 01, 01),
             Date_To__c = System.today().addDays(1),
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Untiered',
             Country_Tier_Subcategory__c = 'Restricted',
             Is_Active__c = true,
             Priority__c = 'High',
-            Enquiry_Category__c = 'Student life'
+            Enquiry_Category__c = 'Student Life',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Is_Active__c = true,
             Priority__c = 'High',
-            Enquiry_Category__c = 'Student life',
-            Lead_Source_Category__c = 'Partner Sourced'
+            Enquiry_Category__c = 'Student Life',
+            Lead_Source_Category__c = 'Partner Sourced',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         return casePrioConfigList;
     }
@@ -3929,6 +4056,23 @@ public class TestDataFactory {
         newWorkTypes.get(0).Name = 'International Phone Calls';
         newWorkTypes.get(1).Name = 'Domestic Phone Calls';
         return newWorkTypes;
+    }
+
+    /** @description Method for Assessment Records
+     * @param numberOfAssesmentRecords - number of Assessment Records to be created
+     * @return assessmentRecords - list of assessment records created
+     */
+    public static List<Assessment__c> createTestAssessmentRecords(Integer numberOfAssesmentRecords) {
+        List<Assessment__c> assessmentRecords = new List<Assessment__c>();
+        for (Integer i = 0; i < numberOfAssesmentRecords; i++) {
+            assessmentRecords.add(
+                new Assessment__c(
+                    Name = 'Test' + i,
+                    Assessment_Priority__c = 'High'
+                )
+            );
+        }
+        return assessmentRecords;
     }
 
     /** @description Method for creating test Contact Alternate Id record
@@ -4037,8 +4181,23 @@ public class TestDataFactory {
                 )
             );
         }
-
         return studentSanctionList;
+    }
+
+    /** @description Method for creating test Engagement List Configuration records
+     * @return listNewEngagementListConfiguration - list of Engagement List Configuration created
+     */
+    public static List<Engagement_List_Configuration__c> createTestEngagementListConfiguration() {
+        List<Engagement_List_Configuration__c> listNewEngagementListConfiguration = new List<Engagement_List_Configuration__c>();
+        for (Integer i = 0; i < 2; i++) {
+            listNewEngagementListConfiguration.add(
+                new Engagement_List_Configuration__c(
+                    Name = 'Test ELC 0' + i + ''
+                )
+            );
+        }
+        insert listNewEngagementListConfiguration;
+        return listNewEngagementListConfiguration;
     }
 
     /** @description Method for creating test contact matching staging records
@@ -4056,5 +4215,93 @@ public class TestDataFactory {
         }
 
         return contactMatchingStagingList;
+    }
+
+    public static Case createTestOutreachCaseRecord(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        Id contactId
+    ) {
+
+        Case caseRecord = new Case();
+        caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+        caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+        caseRecord.Subject = elConfig.Name;
+        caseRecord.ContactId = contactId;
+        caseRecord.OwnerId = ownerId;
+        caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+        caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+        caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+        caseRecord.Status = CasesDAO.STATUS_CREATED;
+        caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+        return caseRecord;
+    }
+
+    public static List<Case> createTestOutreachCaseRecords(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        List<Contact> contacts
+    ) {
+        List<Case> caseList = new List<Case>();
+        for(Contact contact : contacts){
+            Case caseRecord = new Case();
+            caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+            caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+            caseRecord.Subject = elConfig.Name;
+            caseRecord.ContactId = contact.Id;
+            caseRecord.OwnerId = ownerId;
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+            caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+            caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+            caseRecord.Status = CasesDAO.STATUS_CREATED;
+            caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+            caseList.add(caseRecord);
+        }
+        
+        return caseList;
+    }
+
+    /** @description Method for creating serialized records with nonwritable fields
+     * @return String serialized object
+     */
+    public static String getSObjectJSONString(SObjectJSONStringParam param) {
+        return '{"attributes":{"type":"' +
+        param.objectApiName +
+        '","url":"/services/data/v56.0/sobjects/' +
+        param.objectApiName +
+        '/' +
+        param.recordId +
+        '"},' +
+        '"Id":"' +
+        param.recordId +
+        '","Name":"' +
+        param.name +
+        '","CreatedDate":"' +
+        String.valueOf(param.createdDate) +
+        '","LastModifiedDate":"' +
+        String.valueOf(param.lastModifiedDate) +
+        '"}';
+    }
+
+    public class SObjectJSONStringParam{
+        public String objectApiName { get; set; }
+        public String recordId { get; set; }
+        public String name { get; set; }
+        public Date createdDate { get; set; }
+        public Date lastModifiedDate { get; set; }
+    }
+
+    /** @description Method for creating Qualtrics Survey Record
+     * @param numberOfQSRecords - number of Qualtrics Survey Record to be created
+     * @return qualtricsRecords - list of Qualtrics Survey Record created
+     */
+    public static List<Qualtrics_Survey__c> createQualtricsSurveyRecord(integer numberOfQSRecords) {
+        List<Qualtrics_Survey__c> qualtricsRecords = new List<Qualtrics_Survey__c>();
+        for (Integer i = 0; i < numberOfQSRecords; i++) {
+            qualtricsRecords.add(
+                new Qualtrics_Survey__c()
+            );
+        }
+        return qualtricsRecords;
     }
 }

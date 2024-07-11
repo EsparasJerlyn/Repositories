@@ -61,4 +61,41 @@ public with sharing class AddressesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getAddressesByContactIdsAndAddressTypeTest() {
+        Test.startTest();
+        MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            List<hed__Address__c> addressList = AddressesDAO.newInstance()
+                .getAddressesByContactIdsAndAddressType(new Set<Id>{ mockIdGen.getMockId() }, new Set<String>{AddressesDAO.OTHER_ADDRESS}, 'SYSTEM_MODE');
+            System.assert(addressList.isEmpty(), 'actionlist is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryLocatorByIdsTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            System.assert(
+                AddressesDAO.newInstance().getQueryLocatorByIds(new Set<Id>{ mockIdGen.getMockId() }) != null,
+                'Address queues retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getQueryLocatorByIntegrationStatusTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            Test.startTest();
+            System.assert(
+                AddressesDAO.newInstance().getQueryLocatorByIntegrationStatus(new Set<String>{AddressesDAO.INTEGRATION_STATUS_SENT, AddressesDAO.INTEGRATION_STATUS_FAILED, AddressesDAO.INTEGRATION_STATUS_RETRY}) != null,
+                'Address queues retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
 }

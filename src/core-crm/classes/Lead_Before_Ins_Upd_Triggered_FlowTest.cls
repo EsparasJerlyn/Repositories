@@ -14,8 +14,6 @@
 @isTest
 private class Lead_Before_Ins_Upd_Triggered_FlowTest {
     
-    private static final String STR_PROFILE = 'QUTeX';
-    private static User  currentUser = TestDataFactory.createUserRecords(1, STR_PROFILE).iterator().next();
     private static String validStr = 'Valid';
     private static String countryStr = 'Australia';
     private static String postalStr = '123';    
@@ -23,10 +21,15 @@ private class Lead_Before_Ins_Upd_Triggered_FlowTest {
     private static String stateStr = 'TestState';
     private static String companyCategoryStr = 'Corporate';
     private static Integer numberOfRecords = 100;
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
       
     @isTest 
     private static void insertUpdateLeadRecordTest(){  
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest(); 
 
             List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);  
