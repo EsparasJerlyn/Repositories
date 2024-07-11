@@ -18,19 +18,26 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @testSetup
     static void makeData(){
+        Test.startTest();
         TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
         TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        Test.stopTest();
         
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
         
-        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', numberOfRecords);
-        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
-
+        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', numberOfRecords);
+        for(Case caseRecord : internationalCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
+        }
+        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
+        for(Case caseRecord : domesticCases){
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
+        }
         List<Case> caseList = new List<Case>();
         caseList.addAll(internationalCases);
         caseList.addAll(domesticCases);
-
+        
         for(Case c : caseList){
             c.ContactId = relatedContacts[0].Id;
             c.Origin = 'Email';
@@ -42,6 +49,32 @@ public with sharing class Reopen_Closed_CaseTest {
         }
         
         CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
+
+        User userInternational = TestDataFactoryUser.selectUserFutureStudentAgentInternational;
+        User userDomestic = TestDataFactoryUser.selectUserFutureStudentAgentDomestic;
+        List<CaseShare> caseShareList = new List<CaseShare>();
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = userInternational.Id;
+            caseShare.CaseAccessLevel = 'Edit'; 
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        for(Case c : caseList){
+            CaseShare caseShare = new CaseShare();
+            caseShare.caseId = c.Id;
+            caseShare.UserOrGroupId = userDomestic.Id;
+            caseShare.CaseAccessLevel = 'Edit'; 
+            caseShare.RowCause = Schema.CaseShare.RowCause.Manual;
+            caseShareList.add(caseShare);
+        }
+        
+        Database.insert(
+            caseShareList,
+            false,
+            AccessLevel.USER_MODE
+        );
     }
     
     @IsTest
@@ -67,7 +100,7 @@ public with sharing class Reopen_Closed_CaseTest {
             
             Test.stopTest();
             
-            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INTERNATIONALFS_RECTYPE_ID];
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID AND Case_Type__c =: CasesDAO.CASE_TYPE_INTERNATIONAL];
             
             Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }
@@ -96,7 +129,7 @@ public with sharing class Reopen_Closed_CaseTest {
             
             Test.stopTest();
             
-            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.DOMESTICFS_RECTYPE_ID];
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID AND Case_Type__c =: CasesDAO.CASE_TYPE_DOMESTIC];
             
             Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }
