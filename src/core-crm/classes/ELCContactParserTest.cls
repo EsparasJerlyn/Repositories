@@ -13,12 +13,12 @@ public with sharing class ELCContactParserTest {
     
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void parseContactCriteriaTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             Engagement_List_Criteria__c engagementListCriteria = new Engagement_List_Criteria__c();
@@ -36,7 +36,7 @@ public with sharing class ELCContactParserTest {
 
     @isTest
     static void parseNoContactCriteriaTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             ELCContactParser parser = new ELCContactParser(new Engagement_List_Criteria__c(), Date.today());

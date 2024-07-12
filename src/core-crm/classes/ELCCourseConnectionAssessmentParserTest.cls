@@ -13,12 +13,12 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void parseCourseConnAssessmentFailedToSubmitTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {            
             
             Test.startTest();
             Date executionDate = Date.today();
@@ -35,7 +35,7 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
 
     @isTest
     static void parseCourseConnAssessmentPriorityTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             Date executionDate = Date.today();
@@ -51,7 +51,7 @@ public with sharing class ELCCourseConnectionAssessmentParserTest {
 
     @isTest
     static void parseprocessKeyDateOffsetsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Date executionDate = Date.today();
             Date execDateLower = executionDate.addDays(-1);
             Date execDateUpper = executionDate.addDays(-10);

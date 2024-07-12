@@ -3,22 +3,28 @@
  * @see AddressValidationManager
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | mark.j.mahilum            | May 30, 2024          | DEPP-8956            | Created file                 |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                 |
+      |---------------------------|-----------------------|----------------------|--------------------------------|
+      | mark.j.mahilum            | May 30, 2024          | DEPP-8956            | Created file                   |
+      | eugene.andrew.abuan       | July 08, 2024         | DEPP-9798            | Added first admission to false |
+      | eugene.andrew.abuan       | July 09, 2024         | DEPP-9818            | Added checking for QUT Student |
  */
 public with sharing class AddressValidationManager {
     
     private List<hed__address__c> addresses;
     private Map<Id, Contact> contactMap;
+    private Boolean isUpdatedMailingAddress;
+
 
     public AddressValidationManager(List<hed__address__c> addresses) {
         this.addresses = addresses;
     }
 
-    public AddressValidationManager(List<hed__address__c> addresses, Map<Id, Contact> contactMap) {
+    public AddressValidationManager(List<hed__address__c> addresses, Map<Id, Contact> contactMap, Boolean isUpdatedMailingAddress) {
         this.addresses = addresses;
         this.contactMap = contactMap;
+        this.isUpdatedMailingAddress = isUpdatedMailingAddress;
+
     }
     
     /**
@@ -118,6 +124,7 @@ public with sharing class AddressValidationManager {
      *    a. Update 'Other' address types with ABS categorisation and determine low socio-economic status.
      *       i. If the address is marked as first admission, clone it to create a new address of type 'First Admitted'.
      *       ii. Set the regional remote value for the contact.
+     *       iii. Update the 'First Admission Address' to false'
      *    b. Update 'First Admitted' address types by setting the regional remote value from the ABS categorisation.
      * 5. Updates contact records with the new low socio-economic and regional remote values.
      * 6. Updates and inserts address records accordingly.
@@ -153,7 +160,6 @@ public with sharing class AddressValidationManager {
                     when 'Other' {
                         //Address to update and associate ABS Categorisation 
                         address.ABS_Categorisation__c = absCategorisation[0].Id;
-                        addressToUpdate.add(address);
                         
                         // Determine and set low socio-economic status
                         String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation[0]);
@@ -173,7 +179,12 @@ public with sharing class AddressValidationManager {
                             String regionalRemoteValue = setRegionalRemoteValue(address, remotenessMap);
                             con.Regional_Remote__c = regionalRemoteValue;
                             contactToUpdateMap.put(contactId,con);
+
+                            //Update the 'First Admission Address' to false
+                            address.Is_First_Admission_Address__c = false;
                         }
+                        addressToUpdate.add(address);
+
                     }
                     when 'First Admitted' {
                         //get regional Remote from ABS and Remoteness Class
@@ -349,11 +360,17 @@ public with sharing class AddressValidationManager {
         try{ 
             ABS_Categorisation__c absCategorisation = getABSCategorisation();  
 
-            Map<Id, hed__Address__c> addressMap = new AddressValidation(addresses).validateAddresses();
 
             List<Contact> contactsToUpdate = new List<Contact>();
             List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
-            for(hed__Address__c address : addressMap.values()){
+            List<hed__Address__c> addressToUpdateNotQUTStudent = new List<hed__Address__c>();
+            for(hed__Address__c address : addresses){
+                
+                if(contactMap.containsKey(address.hed__Parent_Contact__c) && !contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
+                    addressToUpdateNotQUTStudent.add(address);
+                    continue;
+                }
+                
                 address.ABS_Categorisation__c = absCategorisation.Id;
                 addressToUpdate.add(address);
 
@@ -377,12 +394,19 @@ public with sharing class AddressValidationManager {
                 }
             }
             
-            if(!contactsToUpdate.isEmpty()){
-                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            // Updates the hed Address when Contact is QUT Student and will fire a Validation for the Integration Status
+            if(!addressToUpdate.isEmpty()){
+                Map<Id, hed__Address__c> addressMap = new AddressValidation(addressToUpdate).validateAddresses();
+                AddressesDAO.newInstance().updateRecords(addressMap.values(), true, AccessLevel.SYSTEM_MODE);
             }
 
-            if(!addressToUpdate.isEmpty()){
-                AddressesDAO.newInstance().updateRecords(addressToUpdate, true, AccessLevel.SYSTEM_MODE);
+            // Updates the hed Address when QUT Student is false
+            if(!addressToUpdateNotQUTStudent.isEmpty()){
+                AddressesDAO.newInstance().updateRecords(addressToUpdateNotQUTStudent, true, AccessLevel.SYSTEM_MODE);
+            }
+
+            if(!contactsToUpdate.isEmpty()){
+                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
             }
 
         }catch(Exception e){
@@ -405,5 +429,25 @@ public with sharing class AddressValidationManager {
             absCategorisation = absCateg;
         }
         return absCategorisation;
+    }
+
+    /**
+     * Retrieves sets the values of the Address to null
+     * @return void
+     */
+    public void setAddressValuesToNull(){
+        if(isUpdatedMailingAddress){
+            for(hed__Address__c address : addresses){
+                address.Statistical_Area_1_Id__c = null;
+                address.Meshblock_Id__c = null;                
+                address.Socio_Economic_Percentile__c = null;
+                address.Remoteness_Class__c = null;
+                address.GNAF_Id__c = null;
+                address.Validated__c = null;
+                address.ABS_Categorisation__c = null;
+            }
+        }
+        processValidationForAddress();
+
     }
 }

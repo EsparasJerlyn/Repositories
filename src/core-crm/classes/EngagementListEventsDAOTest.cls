@@ -15,12 +15,14 @@ public with sharing class EngagementListEventsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB', 'QUT_Student_Success_Outreach_Manager'});
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(EngagementListEventsDAO.newInstance() != null, 'EngagementListEventsDAO instance is null');
         }
         Test.stopTest();
@@ -29,7 +31,7 @@ public with sharing class EngagementListEventsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new EngagementListEventsDAO().getSObjectType() == Engagement_List_Event__c.SObjectType,
                 'SObject is not Engagement_List_Event__c'
@@ -41,7 +43,7 @@ public with sharing class EngagementListEventsDAOTest {
     @isTest
     static void getEngagementListEventsByRelatedRecordIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
@@ -114,7 +116,7 @@ public with sharing class EngagementListEventsDAOTest {
     @isTest
     static void getEngagmentListEventByCaseIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getStudentSuccessOutreachManager()) {
+        System.runAs(TestDataFactoryUser.selectUserStudentSuccessOutreachManager) {
             
             List<Case> caseList = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test', 1);
             caseList[0].Case_Type__c = 'Domestic Future Student Enquiry';

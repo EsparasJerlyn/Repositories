@@ -127,10 +127,10 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         String soql = '';
 
         if(programEnrollmentCriteria.getAcademicStatus() != null){
-            soql += 'AND Academic_Status__c = \'' + programEnrollmentCriteria.getAcademicStatus() + '\' ';
+            soql += 'AND Academic_Status__c = \'' + String.escapeSingleQuotes(programEnrollmentCriteria.getAcademicStatus()) + '\' ';
         }
         if(programEnrollmentCriteria.getPreviousAcademicStatus() != null){
-            soql += 'AND Previous_Academic_Status__c = \'' + programEnrollmentCriteria.getPreviousAcademicStatus() + '\' ';
+            soql += 'AND Previous_Academic_Status__c = \'' + String.escapeSingleQuotes(programEnrollmentCriteria.getPreviousAcademicStatus()) + '\' ';
         }
         if(programEnrollmentCriteria.getEnrollmentStage() != null){
             soql += 'AND Enrollment_Stage__c = \'' + programEnrollmentCriteria.getEnrollmentStage() + '\' ';

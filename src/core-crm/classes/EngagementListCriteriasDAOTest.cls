@@ -13,13 +13,13 @@
 public with sharing class EngagementListCriteriasDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{  'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(EngagementListCriteriasDAO.newInstance() != null, 'EngagementListCriteriasDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new EngagementListCriteriasDAO().getSObjectType() == Engagement_List_Criteria__c.SObjectType,
                 'SObject is not Engagement_List_Criteria__c'
@@ -40,7 +40,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     @isTest
     static void findActiveEntryCriteriaWithDatesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Engagement_List_Configuration__c> listELConfigs = new List<Engagement_List_Configuration__c>();
             for (Integer i=0; i<=3; i++){
                 Engagement_List_Configuration__c newELConfig = new Engagement_List_Configuration__c();
@@ -81,7 +81,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     @isTest
     static void findActiveEntryCriteriaWithNullDatesTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Engagement_List_Configuration__c> listELConfigs = new List<Engagement_List_Configuration__c>();
             for (Integer i=0; i<=3; i++){
                 Engagement_List_Configuration__c newELConfig = new Engagement_List_Configuration__c();
@@ -122,7 +122,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     @isTest
     static void findActiveEntryCriteriaEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Engagement_List_Configuration__c> listELConfigs = new List<Engagement_List_Configuration__c>();
             for (Integer i=0; i<=3; i++){
                 Engagement_List_Configuration__c newELConfig = new Engagement_List_Configuration__c();
@@ -163,7 +163,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     @isTest
     static void getEntryCriteriaByIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Engagement_List_Configuration__c> configs = new List<Engagement_List_Configuration__c>();
             Engagement_List_Configuration__c config = new Engagement_List_Configuration__c();
@@ -195,7 +195,7 @@ public with sharing class EngagementListCriteriasDAOTest {
     @isTest
     static void getEntryCriteriaByIdEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Engagement_List_Criteria__c elCrit = EngagementListCriteriasDAO.newInstance()
                 .getEntryCriteriaById(
                     null,

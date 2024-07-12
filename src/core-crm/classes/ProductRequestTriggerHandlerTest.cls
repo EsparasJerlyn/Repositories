@@ -18,8 +18,6 @@ private class ProductRequestTriggerHandlerTest {
     private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
     private static final String PR_NOT_PROCEEDING = System.Label.PL_ProductRequest_Not_Proceeding;
-
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static final Id C_ACTIVITY_ID = Schema.SObjectType.hed__Course__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
@@ -29,6 +27,7 @@ private class ProductRequestTriggerHandlerTest {
     private static final Date TODAY = date.today();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -75,7 +74,7 @@ private class ProductRequestTriggerHandlerTest {
     @isTest
     static void notProceedingPRTest() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Product_Request__c> prList = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 50];
             for(Product_Request__c pr: prList){
                 pr.Product_Request_Status__c = PR_NOT_PROCEEDING;
@@ -90,7 +89,7 @@ private class ProductRequestTriggerHandlerTest {
     @isTest
     static void completedPRTest() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Product_Request__c> prList = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 50];
             for(Product_Request__c pr: prList){
                 pr.Product_Request_Status__c = PR_COMPLETED;
@@ -104,7 +103,7 @@ private class ProductRequestTriggerHandlerTest {
     @isTest
     static void updateCourseTest() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             List<Product_Request__c> prList = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 50];
             for(Product_Request__c pr: prList){
@@ -122,7 +121,7 @@ private class ProductRequestTriggerHandlerTest {
     @isTest
     static void updateProgramTest() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             List<Product_Request__c> prList = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 50];
             for(Product_Request__c pr: prList){

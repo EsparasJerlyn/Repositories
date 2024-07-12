@@ -13,13 +13,13 @@
 public with sharing class QualtricsSurveysDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{  'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(QualtricsSurveysDAO.newInstance() != null, 'QualtricsSurveysDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class QualtricsSurveysDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new QualtricsSurveysDAO().getSObjectType() == Qualtrics_Survey__c.SObjectType,
                 'SObject is not Qualtrics_Survey__c'
@@ -40,7 +40,7 @@ public with sharing class QualtricsSurveysDAOTest {
     @isTest
     static void getQualitricsSurveysBySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             MockIdGenerator qualtricsSurveyId = new MockIdGenerator(Qualtrics_Survey__c.sObjectType);
             List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance()
                 .getQualitricsSurveysBySetIds(
@@ -55,7 +55,7 @@ public with sharing class QualtricsSurveysDAOTest {
     @isTest
     static void getQualitricsSurveysBySetIdsEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance()
                 .getQualitricsSurveysBySetIds(
                     new Set<Id>(),
@@ -71,13 +71,13 @@ public with sharing class QualtricsSurveysDAOTest {
     @isTest
     static void getQualitricsSurveysByOwnerIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Qualtrics_Survey__c> qualtricsSurveyRecord = TestDataFactory.createQualtricsSurveyRecord(1);
             QualtricsSurveysDAO.newInstance().insertRecords(qualtricsSurveyRecord, true, AccessLevel.SYSTEM_MODE);
             
             List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance()
                 .getQualitricsSurveysByOwnerId(
-                    new Set<Id>{TestDataFactory.getESBIntegrationUser().Id},
+                    new Set<Id>{TestDataFactoryUser.selectUserQUTESB.Id},
                     AccessLevel.USER_MODE
                 );
             System.assertEquals(qualtricsSurveyRecord[0].Id ,qualtricsSurveyList[0].Id , 'Qualtrics Survey should match.');
@@ -88,7 +88,7 @@ public with sharing class QualtricsSurveysDAOTest {
     @isTest
     static void getQualitricsSurveysByOwnerIdEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Qualtrics_Survey__c> qualtricsSurveyList = QualtricsSurveysDAO.newInstance()
                 .getQualitricsSurveysByOwnerId(
                     new Set<Id>(),

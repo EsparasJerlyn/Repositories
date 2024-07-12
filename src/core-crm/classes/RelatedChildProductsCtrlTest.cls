@@ -14,8 +14,6 @@
 @isTest
 private class RelatedChildProductsCtrlTest {
 
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
     private static final String PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static final String PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
@@ -24,6 +22,7 @@ private class RelatedChildProductsCtrlTest {
     private static final Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -59,7 +58,7 @@ private class RelatedChildProductsCtrlTest {
 
     @isTest
     private static void getRelatedChildProductsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id productRequestId = [SELECT Id FROM Product_Request__c WHERE RecordType.Name = :PR_PROGRAM]?.Id;
             Test.startTest();
             List<Related_Product_Request__c> relatedPRList = RelatedChildProductsCtrl.getRelatedChildProducts(productRequestId);

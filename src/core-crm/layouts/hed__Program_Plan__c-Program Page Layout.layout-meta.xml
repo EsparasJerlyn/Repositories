@@ -29,7 +29,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Collaboration_with_External_Organisation__c</field>
+                <field>Implementation_Year__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -47,11 +47,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Implementation_Year__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Other_Owning_Faculty__c</field>
+                <field>Collaboration_with_External_Organisation__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

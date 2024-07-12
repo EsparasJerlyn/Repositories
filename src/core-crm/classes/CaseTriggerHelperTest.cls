@@ -22,9 +22,9 @@ private class CaseTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Student_Success_Outreach_Manager'});
         Test.startTest();
         TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserStudentSuccessOutreachManager();
         Test.stopTest();
         System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);

@@ -12,13 +12,13 @@
 public with sharing class ABSCategorisationsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(ABSCategorisationsDAO.newInstance() != null, 'ABSCategorisationsDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class ABSCategorisationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new ABSCategorisationsDAO().getSObjectType() == ABS_Categorisation__c.SObjectType,
                 'SObject is not ABS_Categorisation__c'
@@ -39,7 +39,7 @@ public with sharing class ABSCategorisationsDAOTest {
     @isTest
     static void testEmptyLatestActiveABSCategorisation() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<ABS_Categorisation__c> absCategorisationList = ABSCategorisationsDAO.newInstance()
                 .getLatestUpdatedActiveCategorisationRecord(
                     'USER_MODE'
@@ -52,7 +52,7 @@ public with sharing class ABSCategorisationsDAOTest {
     @isTest
     static void testGetLatestActiveABSCategorisation() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {          
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {          
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
                 new ABS_Categorisation__c(
@@ -83,7 +83,7 @@ public with sharing class ABSCategorisationsDAOTest {
     @isTest
     static void testInActiveABSCategorisation() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {          
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {          
             List<ABS_Categorisation__c> absCategorisation = new List<ABS_Categorisation__c>();
             absCategorisation.add(
                 new ABS_Categorisation__c(
