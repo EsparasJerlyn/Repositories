@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Priority_Required</fullName>
+    <active>true</active>
+    <description>Assessment Priority is required when Failed Assessment or Failed to Submit Assessment is set.</description>
+    <errorConditionFormula>AND (
+    RecordType.DeveloperName =&apos;Entry_Criteria&apos;,
+    ISPICKVAL(Assessment_Priority__c, &quot;&quot;),
+      OR( NOT(ISPICKVAL(Failed_Assessment__c,&quot;&quot;)),
+          NOT(ISPICKVAL(Failed_To_Submit_Assessment__c, &quot;&quot;))
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Assessment_Priority__c</errorDisplayField>
+    <errorMessage>Assessment Priority is required when Failed Assessment or Failed to Submit Assessment is set.</errorMessage>
+</ValidationRule>

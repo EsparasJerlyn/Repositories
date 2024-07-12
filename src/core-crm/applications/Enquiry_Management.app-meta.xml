@@ -59,24 +59,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_QTAC_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.QTAC</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Application_QTAC_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.QTAC</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
@@ -92,24 +74,6 @@
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -131,24 +95,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Application_StudyLink_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
@@ -164,42 +110,6 @@
         <recordType>hed__Application__c.StudyLink</recordType>
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Application_StudyLink_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.StudyLink</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Application_StudyLink_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.StudyLink</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ApplicationPreference_QTAC_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
-        <recordType>Application_Preference__c.QTAC</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ApplicationPreference_QTAC_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
-        <recordType>Application_Preference__c.QTAC</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -239,24 +149,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ApplicationPreference_StudyLink_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
-        <recordType>Application_Preference__c.StudyLink</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ApplicationPreference_StudyLink_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
-        <recordType>Application_Preference__c.StudyLink</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Academic_Program_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
@@ -275,24 +167,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Academic_Program_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Academic_Program</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Academic_Program_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Academic_Program</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Future_Student_Appointment</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
@@ -308,56 +182,6 @@
         <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Future_Student_Appointment</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
-        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Future_Student_Appointment</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
-        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Future_Student_Appointment</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Future_Student_Appointment</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Future_Student_Appointment</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Future_Student_Appointment</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -505,93 +329,237 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Case_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Case_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Case_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Case_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <recordType>Account.Academic_Program</recordType>
         <type>Flexipage</type>
-        <profile>QUT Read Only</profile>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Academic_Program_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <recordType>Account.Academic_Program</recordType>
         <type>Flexipage</type>
-        <profile>QUT Read Only</profile>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Application_StudyLink_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
         <type>Flexipage</type>
-        <profile>Development Team Base</profile>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Application_StudyLink_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
         <type>Flexipage</type>
-        <profile>Development Team Base</profile>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Case_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <type>Flexipage</type>
-        <profile>Integration</profile>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page_University_Dept</content>
+        <content>Case_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.University_Department</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <type>Flexipage</type>
-        <profile>Integration</profile>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_Legacy_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+        <type>Flexipage</type>
+        <profile>Internal Base</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>

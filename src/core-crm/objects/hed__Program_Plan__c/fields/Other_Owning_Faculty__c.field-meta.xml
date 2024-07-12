@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Other_Owning_Faculty__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The program plan&apos;s second owning faculty for dual degrees</description>
+    <externalId>false</externalId>
+    <label>Other Owning Faculty</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <filterItems>
+            <field>Account.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>University Department</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>2</value>
+        </filterItems>
+        <filterItems>
+            <field>$Profile.Name</field>
+            <operation>contains</operation>
+            <value>Integration</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Program Plans (Other Owning Faculty)</relationshipLabel>
+    <relationshipName>Program_Plans1</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
