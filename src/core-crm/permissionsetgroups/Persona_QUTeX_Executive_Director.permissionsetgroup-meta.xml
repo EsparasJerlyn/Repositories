@@ -3,5 +3,6 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona QUTeX Executive Director</label>
     <permissionSets>Internal_User_Base</permissionSets>
+    <permissionSets>QUTeX_User_Email_Access</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
