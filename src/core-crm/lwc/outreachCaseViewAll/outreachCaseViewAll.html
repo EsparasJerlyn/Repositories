@@ -1,0 +1,35 @@
+<template>
+   <article class="slds-card">
+     <div class="slds-card__header slds-grid">
+       <header class="slds-media slds-media_center slds-has-flexi-truncate slds-p-horizontal_small slds-p-vertical_small">
+         <div class="slds-media__figure">
+           <span class="slds-icon_container slds-icon-standard-case" title="Case">
+             <svg class="slds-icon slds-icon_small" aria-hidden="true">
+               <use xlink:href="/_slds/icons/standard-sprite/svg/symbols.svg#case"></use>
+             </svg>
+             <span class="slds-assistive-text">case</span>
+           </span>
+         </div>
+         <div class="slds-media__body">
+           <h2 class="slds-card__header-title">
+             <a class="slds-card__header-link slds-truncate" title="Cases">
+               <span>Cases</span>
+             </a>
+           </h2>
+         </div>
+       </header>
+     </div>
+     <div class="slds-card__body slds-card__body_inner">
+         <c-custom-datatable-columned
+           key-field="id"
+           onload={addBlankRow}
+           data={data}
+           columns={caseTable}
+           draft-values={draftValues}
+           show-row-number-column
+           suppress-bottom-bar
+         ></c-custom-datatable-columned>
+     </div>
+   </article>
+ 
+ </template>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Key_Date_Offset_Required</fullName>
+    <active>true</active>
+    <description>Ensure at least one of the following fields has a value if Key Date is set: Key Date Offset Lower Boundary, Key Date Offset Upper Boundary.</description>
+    <errorConditionFormula>AND(
+  RecordType.DeveloperName =&apos;Entry_Criteria&apos;,
+  NOT(ISPICKVAL(Key_Date__c,&quot;&quot;)),
+  AND(
+    ISBLANK(Key_Date_Offset_Lower_Boundary__c),
+    ISBLANK(Key_Date_Offset_Upper_Boundary__c)
+  )
+)</errorConditionFormula>
+    <errorMessage>Ensure at least one of the following fields has a value if Key Date is set: Key Date Offset Lower Boundary, Key Date Offset Upper Boundary.</errorMessage>
+</ValidationRule>

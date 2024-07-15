@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Criteria_Is_Deactivated</fullName>
+    <active>true</active>
+    <description>When a criteria record is deactivated, its status can no longer be changed.</description>
+    <errorConditionFormula>AND(
+  ISCHANGED(Status__c),
+  ISPICKVAL(PRIORVALUE(Status__c),&quot;Deactivated&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>The criteria can no longer be deactivated.</errorMessage>
+</ValidationRule>
