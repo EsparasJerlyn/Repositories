@@ -134,12 +134,35 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 		//get the task related to the actionCadence of the targetIds          
         Map<Id,Task> mapTasks = getRelatedTaskMap(targetCadenceMap.keySet(),actionCadenceIds);
 
+        Map<String, String> trackerMap = new Map<String, String>();
+        for(ActionCadenceStepTracker tracker : [SELECT Id, ActionCadenceName, TargetId FROM ActionCadenceStepTracker WHERE TargetId IN :targetCadenceMap.keySet()]) {
+            trackerMap.put(
+                tracker.Id,
+                tracker.ActionCadenceName + tracker.TargetId
+            );
+        }
+        Map<String, Set<String>> trackerNameTargetToCommsQueueIdsMap = new Map<String, Set<String>>();
+        for(Communication_Queue__c commsQueue : [
+            SELECT Id, ActionCadenceStepTrackerId__c FROM Communication_Queue__c 
+            WHERE ActionCadenceStepTrackerId__c IN :trackerMap.keySet() 
+            AND (Due_Date__c > :Date.today() OR Status__c = 'Scheduled')
+        ]) {
+            String trackerNameTarget = trackerMap.get(commsQueue.ActionCadenceStepTrackerId__c);
+            Set<String> commsQueueIds = new Set<String>();
+            if(trackerNameTargetToCommsQueueIdsMap.containsKey(trackerNameTarget)) {
+                commsQueueIds = trackerNameTargetToCommsQueueIdsMap.get(trackerNameTarget);
+            }
+            commsQueueIds.add(commsQueue.Id);
+            trackerNameTargetToCommsQueueIdsMap.put(trackerNameTarget, commsQueueIds);
+        }
+
         List<Task> tasksToUpdateList = new List<Task>();
 		
         //get the unsuccessfull completed cadence of the targetIds and cadence name
         Map<String, Completed_Cadence__c> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);
             
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+        List<Communication_Queue__c> cancelledCommsQueues = new List<Communication_Queue__c>();
         
         for(String recId: targetCadenceMap.keySet()){
 
@@ -184,12 +207,30 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                     )
                 );
             }
+
+            if(
+                trackerNameTargetToCommsQueueIdsMap.containsKey(cadenceName + recId) &&
+                calculatedStatus == CompletedCadencesDAO.SUCCESSFUL_STATUS
+            ) {
+                for(String commsQueueId : trackerNameTargetToCommsQueueIdsMap.get(cadenceName + recId)) {
+                    cancelledCommsQueues.add(
+                        new Communication_Queue__c(
+                            Id = commsQueueId,
+                            Status__c = 'Cancelled'
+                        )
+                    );
+                }
+            }
         }
         
         if(!completedCadenceList.isEmpty()){
             CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }
         
+        if(!cancelledCommsQueues.isEmpty()) {
+            update cancelledCommsQueues;
+        }
+
         if(System.isBatch() || System.isFuture() || System.isQueueable()) {
             //The process is running asynchronously
             updateTasks(tasksToUpdateList, completedCadenceStatusMap);
