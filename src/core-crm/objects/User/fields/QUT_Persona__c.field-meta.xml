@@ -93,6 +93,11 @@
                 <label>QUTeX Program Administrator</label>
             </value>
             <value>
+                <fullName>QUTeX Reporting</fullName>
+                <default>false</default>
+                <label>QUTeX Reporting</label>
+            </value>
+            <value>
                 <fullName>Marketing Manager</fullName>
                 <default>false</default>
                 <label>Marketing Manager</label>
