@@ -187,7 +187,15 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
       List<Id> contactIdList = new List<Id>();
       contactIdList.addAll(newMap.keySet());
-      ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
+      Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
+      if(isAsync) {
+          //Current transaction is running asynchronously
+          ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
+      } else {
+          //Current transaction is not running asynchronously;
+          ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
+      }
+      
     }
   }
 
