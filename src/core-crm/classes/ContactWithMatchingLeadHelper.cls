@@ -55,6 +55,50 @@ public without sharing class ContactWithMatchingLeadHelper {
         'Mailing_Address_Country__c'
     };
 
+    public static void processLeadMatching(List<Contact> newItems, Map<Id, Contact> oldItems){
+
+        List<Id> contactIds = new List<Id>();
+        Map<Id, Contact> contactMap = new Map<Id, Contact>();
+        // handle both update and insert
+        for(Contact con: newItems){
+            boolean isInsert = oldItems == null;
+            boolean isOneOfEmailPopulated = con.Email != null || con.Work_Email__c != null;
+            boolean isOneOfEmailUpdated = !isInsert && (oldItems.get(con.Id).Email != con.Email || oldItems.get(con.Id).Work_Email__c != con.Work_Email__c);
+
+            if((isInsert || isOneOfEmailUpdated ) && isOneOfEmailPopulated && con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
+                contactIds.add(con.Id);
+                contactMap.put(con.Id,con);
+            }
+        }
+
+        if(contactIds.isEmpty()){
+            return;
+        }
+
+        Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
+        if(isAsync) {
+            //Current transaction is running asynchronously
+            convertLead(contactIds);
+            detectLeadDuplicates(contactMap);
+        } else {
+            //Current transaction is not running asynchronously;
+            convertLeadOnAsync(contactIds);
+            detectLeadDuplicatesAsync(contactIds);
+        }
+    }
+
+    
+    @Future
+    public static void convertLeadOnAsync(List<Id> contactIds){
+        convertLead(contactIds);
+    }
+
+    @Future
+    public static void detectLeadDuplicatesAsync(List<Id> contactIds){
+        Map<Id,Contact> newItems = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(contactIds), AccessLevel.USER_MODE));
+        detectLeadDuplicates(newItems);
+    }
+
     public static Set<Id> detectLeadDuplicates(Map<Id,Contact> newItems){
         Map<String, Contact> contactsMap = new Map<String, Contact>();
         Set<Id> contactIdSet = new Set<Id>();
@@ -274,15 +318,6 @@ public without sharing class ContactWithMatchingLeadHelper {
         }
 
         return contactWithNewMarketingSegmentations;
-    }
-
-    @Future
-    public static void convertLeadOnAsync(List<Id> newItems){
-        convertLead(newItems);
-    }
-    
-    public static void convertLeadOnSync(List<Id> newItems){
-        convertLead(newItems);
     }
 
     private static void convertLead(List<Id> newItems){
