@@ -81,7 +81,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "Select Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
+            "query": "Select Id, DeveloperName, SobjectType, Name, $$DeveloperName$SobjectType FROM RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c', 'Contact')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,
