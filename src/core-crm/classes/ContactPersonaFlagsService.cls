@@ -131,18 +131,63 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
         Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
         Set<Id> contactIdsToReEvaluateApplication = new Set<Id>();
         List<hed__Program_Enrollment__c> programEnrollmentsList =  ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIds(contactIds,'SYSTEM_MODE'); 
-
+        List<hed__Program_Enrollment__c> programEnrollmentsListByContacts =  ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE);
+        List<hed__Application__c> applicationListByContacts = ApplicationsDAO.newInstance().getApplicationsByContactIds(contactIds, 'SYSTEM_MODE');
         String newJourneyStatus = '';
+        Map<Id, Contact> updateContactWithoutProgEnrollmentMap = new Map<Id, Contact>();
+        Map<Id, hed__Program_Enrollment__c> mapContactIdProgramEnrollment = new Map<Id, hed__Program_Enrollment__c>();
+        Map<Id, hed__Application__c> mapContactIdApplication = new Map<Id, hed__Application__c>();
+        
 
-        for(hed__Program_Enrollment__c pe: programEnrollmentsList){
-
-            updateContactMap.put(
-                pe.hed__Contact__c,
-                new Contact(
-                    id = pe.hed__Contact__c,
-                    QUT_Student__c = true
-                )
+        //collect all student for update that has no program enrollments
+        for(hed__Program_Enrollment__c pe: programEnrollmentsListByContacts){
+            mapContactIdProgramEnrollment.put(
+                pe.hed__Contact__c, pe
             );
+        }
+
+        for(hed__Application__c ap: applicationListByContacts){
+            mapContactIdApplication.put(
+                ap.hed__Applicant__c, ap
+            );
+        }
+
+        for (Id contactId : contactIds) {
+            if(!mapContactIdProgramEnrollment.containsKey(contactId) && !mapContactIdApplication.containsKey(contactId)){
+                updateContactWithoutProgEnrollmentMap.put(
+                    contactId,
+                    new Contact(
+                        id = contactId,
+                        QUT_Student__c = false
+                    )
+                );
+            }
+        }
+
+        //collect all contact that is a student or withdrawn or passed
+        for(hed__Program_Enrollment__c pe: programEnrollmentsList){
+            if (pe.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED) {
+                updateContactMap.put(
+                    pe.hed__Contact__c,
+                    new Contact(
+                        id = pe.hed__Contact__c,
+                        QUT_Student__c = true
+                    )
+                );
+            } else if(
+                (pe.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STAGE_WITHDRAWN 
+                || pe.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_PASSED)
+                && !mapContactIdApplication.containsKey(pe.hed__Contact__c)
+            ) {
+                updateContactMap.put(
+                    pe.hed__Contact__c,
+                    new Contact(
+                        id = pe.hed__Contact__c,
+                        QUT_Student__c = false
+                    )
+                );
+            }
+            
         }
 
         //collect all contact ids that is no longer a student
@@ -205,6 +250,9 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
 
         if (!updateContactMap.values().isEmpty()) {
             updateContactRecord(updateContactMap.values());
+        }
+        if (!updateContactWithoutProgEnrollmentMap.values().isEmpty()) {
+            updateContactRecord(updateContactWithoutProgEnrollmentMap.values());
         }
     }
 

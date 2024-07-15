@@ -169,6 +169,7 @@
     <pluralLabel>Marketing Segmentations</pluralLabel>
     <searchLayouts>
         <excludedStandardButtons>New</excludedStandardButtons>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
