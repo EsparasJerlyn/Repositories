@@ -158,6 +158,8 @@ public with sharing class LeadService {
 
             if(leadWithPartnerSourcedCadenceForUpdateFlagToFalse){
                 lead.Can_Nurture__c = false;
+                lead.Calculated_Cadence__c = null;
+                lead.Cadence_Application__c = null;
             }
             else if (leadToPartnerSourcedForUpdateFlagToTrue){
                 lead.Can_Nurture__c = true;
