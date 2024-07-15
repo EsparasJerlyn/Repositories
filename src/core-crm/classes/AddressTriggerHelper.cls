@@ -73,8 +73,7 @@ public with sharing class AddressTriggerHelper {
                                                 address.hed__MailingCity__c != oldItems.get(address.Id).hed__MailingCity__c ||
                                                 address.hed__MailingPostalCode__c != oldItems.get(address.Id).hed__MailingPostalCode__c ||
                                                 address.hed__MailingState__c != oldItems.get(address.Id).hed__MailingState__c ||
-                                                address.hed__MailingCountry__c != oldItems.get(address.Id).hed__MailingCountry__c) &&
-                                                address.Validated__c != AddressesDAO.VALID_ADDRESS; 
+                                                address.hed__MailingCountry__c != oldItems.get(address.Id).hed__MailingCountry__c);
   
             //if the address mailing fields is/are updated                                    
             if(isMailingAddressUpdated){
