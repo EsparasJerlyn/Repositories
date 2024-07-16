@@ -142,6 +142,10 @@
   background-color: #012a4c;
 }
 
+.custom-input-container .slds-input {
+  text-align: center;
+} 
+
 /* Responsive design */
 @media only screen and (max-width: 764px) {
 
