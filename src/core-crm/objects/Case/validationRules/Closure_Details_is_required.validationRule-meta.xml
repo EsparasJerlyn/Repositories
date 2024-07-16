@@ -18,7 +18,7 @@
 	),
 	AND (
 		RecordType.DeveloperName = &apos;Outreach&apos;,
-		LEN(Closure_Details__c) &lt; 20,
+		LEN(Closure_Details__c) &lt; 10,
 		OR(
 			ISPICKVAL(Closure_Code__c,&apos;Successful - Phone&apos;),
 			ISPICKVAL(Closure_Code__c,&apos;Successful - Email&apos;),
@@ -27,5 +27,5 @@
 	)
 )</errorConditionFormula>
     <errorDisplayField>Closure_Details__c</errorDisplayField>
-    <errorMessage>Closure Details of at least 20 characters are required when Status is set to Closed</errorMessage>
+    <errorMessage>Closure Details requires sufficient information. Please include additional detail</errorMessage>
 </ValidationRule>
