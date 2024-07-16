@@ -18,15 +18,17 @@ public with sharing class OutreachCaseImportCtrl {
     @AuraEnabled
     public static List<CaseWrapper> listOfCases(String recordId){
         List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, AccessLevel.USER_MODE);
-        // Get the logged-in user's timezone
-        String userTimeZone = UserInfo.getTimeZone().getID();
+        Set<Id> userIds = new Set<Id>();
+        userIds.add(UserInfo.getUserId());
+        List<User> userList = UsersDAO.newInstance().getUsersById(userIds, AccessLevel.USER_MODE);
+        String targetTimezone = userList[0].TimeZoneSidKey;
+
         Map<Id, CaseWrapper> caseResult = new Map<Id, CaseWrapper>();
+        List<Case> newCaseList = new List<Case>();
         for(Case caseRec : caseList) {
-            // Convert the DateTime field to the user's timezone
-            DateTime originalDateTime = caseRec.CreatedDate;
-            DateTime convertedDateTime = DateTime.valueOf(originalDateTime.format('yyyy-MM-dd\'T\'HH:mm:ss\'Z\''));
-            convertedDateTime = convertedDateTime.addHours(TimeZone.getTimeZone(userTimeZone).getOffset(convertedDateTime) / (1000 * 60 * 60));
-            caseResult.put(caseRec.Id, new CaseWrapper(caseRec, String.valueOf(convertedDateTime)));
+            Datetime gmtDatetime = caseRec.CreatedDate;
+            String convertedDatetime = gmtDatetime.format('yyyy-MM-dd HH:mm:ss', targetTimezone);
+            caseResult.put(caseRec.Id, new CaseWrapper(caseRec, convertedDatetime));
         }
         return caseResult.values();
     }
