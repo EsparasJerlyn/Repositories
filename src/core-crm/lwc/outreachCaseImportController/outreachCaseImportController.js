@@ -90,15 +90,16 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
     }).then(result => {
       if (result.length > 0) {
         const caseData = result.map(item => {
+          let createdDate = new Date(item.caseCreatedDate);
           return {
-            caseNumber: item.CaseNumber,
-            caseUrl: `/lightning/r/Case/${item.Id}/view`,
-            contactName: item.Contact.Name,
-            contactUrl: `/lightning/r/Contact/${item.ContactId}/view`,
-            status: item.Status,
-            ownerName: item.Owner.Name,
-            ownerUrl: `/lightning/r/User/${item.OwnerId}/view`,
-            createdDate: item.CreatedDate
+            caseNumber: item.case.CaseNumber,
+            caseUrl: `/lightning/r/Case/${item.case.Id}/view`,
+            contactName: item.case.Contact.Name,
+            contactUrl: `/lightning/r/Contact/${item.case.ContactId}/view`,
+            status: item.case.Status,
+            ownerName: item.case.Owner.Name,
+            ownerUrl: `/lightning/r/User/${item.case.OwnerId}/view`,
+            createdDate: createdDate
           }
         })
         
