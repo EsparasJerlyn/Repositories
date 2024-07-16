@@ -16,9 +16,21 @@ public with sharing class OutreachCaseImportCtrl {
     * @return List<Case> - List of Cases related to Engagement List Configurations
     */
     @AuraEnabled
-    public static List<Case> listOfCases(String recordId){
+    public static List<CaseWrapper> listOfCases(String recordId){
         List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, AccessLevel.USER_MODE);
-        return caseList;
+        Set<Id> userIds = new Set<Id>();
+        userIds.add(UserInfo.getUserId());
+        List<User> userList = UsersDAO.newInstance().getUsersById(userIds, AccessLevel.USER_MODE);
+        String targetTimezone = userList[0].TimeZoneSidKey;
+
+        Map<Id, CaseWrapper> caseResult = new Map<Id, CaseWrapper>();
+        List<Case> newCaseList = new List<Case>();
+        for(Case caseRec : caseList) {
+            Datetime gmtDatetime = caseRec.CreatedDate;
+            String convertedDatetime = gmtDatetime.format('yyyy-MM-dd HH:mm:ss', targetTimezone);
+            caseResult.put(caseRec.Id, new CaseWrapper(caseRec, convertedDatetime));
+        }
+        return caseResult.values();
     }
 
     /**
@@ -109,6 +121,26 @@ public with sharing class OutreachCaseImportCtrl {
         @auraEnabled
         public String getProcessResultCode(){
             return processResultCode;
+        }
+    }
+
+    public class CaseWrapper {
+        private String caseCreatedDate;
+        private Case caseRec;
+
+        public CaseWrapper(Case caseRec, String caseCreatedDate){
+            this.caseRec = caseRec;
+            this.caseCreatedDate = caseCreatedDate;
+        }
+
+        @auraEnabled
+        public Case getCase(){
+            return caseRec;
+        }
+
+        @auraEnabled
+        public String getCaseCreatedDate(){
+            return caseCreatedDate;
         }
     }
 
