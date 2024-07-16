@@ -1,0 +1,242 @@
+:host {
+  display: block;
+}
+
+.slds-container_x-large {
+  margin: 0 auto;
+}
+
+.main-color-blue500 {
+  color: #0066b9;
+}
+
+.heading1 {
+  font-family: "ProximaNova-Bold";
+  font-size: var(--dt-size-heading1);
+  line-height: var(--dt-line-height-h1);
+  font-style: var(--text-normal);
+  font-weight: var(--text-weight-700);
+}
+
+.subHeader {
+  background: none;
+  font-family: "ProximaNova-Bold";
+  font-style: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #1c1c1c;
+  margin-bottom: 32px;
+}
+
+.video-p {
+  font-family: "ProximaNova";
+  font-size: var(--text-size-18);
+  font-weight: var(--text-weight-400);
+  line-height: 1.3125rem;
+  color: var(--greys-color-bodytext);
+  padding: 1rem 0 !important;
+}
+
+.section-content ul li {
+  font-family: "ProximaNova";
+  font-size: var(--text-size-18);
+  font-weight: var(--text-weight-400);
+  line-height: 1.3125rem;
+  color: var(--greys-color-bodytext);
+  padding: 0.1rem 0 !important;
+}
+
+.rightColumn {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  margin-left: 0px;
+  padding: 16px;
+}
+
+.custom-input-container {
+  position: relative;
+}
+
+.custom-span {
+  position: absolute;
+  left: 10px;
+  top: 67%;
+  transform: translateY(-50%);
+  z-index: 1; /* Ensure the symbol is on top */
+  font-size: 26px;
+}
+
+.custom-input {
+  padding-left: 40px;  /* Add padding to make room for the $ symbol */
+}
+
+.donation-amount {
+  margin-top: 2rem;
+}
+
+.donation-title {
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.predefined-amounts {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.section {
+  margin-top: 2rem;
+}
+
+.section-header {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.section-content {
+  margin-top: 1rem;
+}
+
+.button.pink {
+  border: 2px solid #c7026f;
+  background-color: #c7026f;
+  color: white !important;
+}
+
+.button.pink:hover {
+  border: 2px solid #950153;
+  background-color: #950153;
+  color: white !important;
+}
+
+.image-wrap {
+  text-align: center;
+  align-self: center;
+}
+
+.play-icon {
+  position: relative;
+  display: block;
+}
+
+.play-icon::before {
+  content: " ";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: calc(50% - 60px / 2);
+  left: calc(50% - 60px / 2);
+  border-radius: 50px;
+  opacity: 0.9;
+  z-index: 5;
+  background-color: #0066b9;
+  background-image: url("https://www.qut.edu.au/__data/assets/file/0010/719461/play-white.svg");
+  background-size: 80px;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 1px 0 #0066b9 inset, 0 0 1px 0 #0066b9;
+}
+
+.play-icon:hover::before {
+  box-shadow: 0 0 1px 0 #012a4c inset, 0 0 1px 0 #012a4c;
+  background-color: #012a4c;
+}
+
+/* Responsive design */
+@media only screen and (max-width: 764px) {
+
+  .slds-p-around_large {
+      padding: 1rem;
+  }
+
+  .slds-size_12-of-12 {
+      width: 100%;
+  }
+
+  .slds-large-size_9-of-12,
+  .slds-large-size_3-of-12 {
+      width: 100%;
+  }
+
+  .image-wrap {
+      width: 100%;
+      text-align: center;
+  }
+
+  .image-wrap img {
+      width: 100%;
+      height: auto;
+  }
+
+  .donation-amount {
+      margin-top: 2rem;
+      padding: 1rem;
+  }
+
+  .rightColumn {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    margin-left: 0px;
+    padding: 16px;
+  }
+
+}
+
+/* popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.close-popup:hover {
+  background: #d32f2f;
+}
+
+/* bullet */
+
+.box-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.box-content ul li {
+  padding-left: 0;
+  padding-bottom: 0.25rem;
+  margin-left: 3rem;
+}
+
+.box-content ul li::before {
+  content: "■";
+  margin-left: -1.5rem;
+  font-size: 13px;
+  position: absolute;
+  color: #a3c1d7;
+}

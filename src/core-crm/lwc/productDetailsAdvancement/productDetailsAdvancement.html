@@ -1,0 +1,120 @@
+<template>
+    <div class="slds-container_x-large">
+        <lightning-layout multiple-rows="true">
+            <!-- Header -->
+            <lightning-layout-item flexibility="auto" size="12">
+                <h1 class="main-color-blue500 heading1">{productDetails.Name}</h1>
+                <!-- <h1 class="main-color-blue500 heading1">Scholarships for students in financial need</h1> -->
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" size="12">
+                <h2 class="subHeader mt2">{productDetails.Description}</h2>
+                <!-- <h2 class="subHeader mt2">Support the Learning Potential Fund and help students to break free from the cycle of poverty, inspire self-belief and pave the way for a brighter future.</h2> -->
+            </lightning-layout-item>
+
+            <!-- Main Grid -->
+            <div class="slds-grid slds-gutters slds-wrap">
+                <!-- Left Column -->
+                <div class="slds-col slds-size_12-of-12 slds-large-size_9-of-12">
+                    <!-- Section 1 -->
+                    <div class="slds-grid slds-wrap slds-p-bottom_large slds-p-top_large">
+                        <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-p-right_large">
+                            <div class="text-content">
+                                <h3 class="section-header">The richest source of inspiration</h3>
+                                <p class="video-p">The Learning Potential Fund provides critical finances through scholarships and bursaries to students in need...</p>
+                                <p class="video-p">As the largest perpetual endowment fund of its scale in Australia, it has the potential to create opportunities for promising but financially disadvantaged students forever...</p>
+                                <p class="video-p">Since 1998, donors like you have provided more than 36,000 scholarships to talented students who have been accepted to study at university...</p>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12">
+                            <div class="video-content">
+                                <div class="image-wrap">
+                                    <a class="play-icon has-video-yes open-popup" href={productDetails.Section_1_Image_Video_URL__c} title="Play video - &quot;giving research thumbnail&quot;">
+                                        <img src="https://cms.qut.edu.au/__data/assets/image/0018/930024/giving-research-thumbnail.jpg" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div class="slds-grid slds-wrap slds-p-bottom_large slds-p-top_large">
+                        <template if:false={isMobile}>
+                            <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12">
+                                <div class="video-content">
+                                    <div class="image-wrap">
+                                        <a class="play-icon has-video-yes open-popup" href={productDetails.Section_2_Image_Video_URL__c} title="Play video - &quot;giving research thumbnail&quot;">
+                                            <img src="https://cms.qut.edu.au/__data/assets/image/0018/930024/giving-research-thumbnail.jpg" alt="" class="img-fluid">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-p-left_large">
+                            <div class="text-content">
+                                <h3 class="section-header">Your support makes a difference</h3>
+                                <p class="video-p">The Learning Potential Fund provides critical finances through scholarships and bursaries to students in need...</p>
+                                <p class="video-p">As the largest perpetual endowment fund of its scale in Australia, it has the potential to create opportunities for promising but financially disadvantaged students forever...</p>
+                                <p class="video-p">Since 1998, donors like you have provided more than 36,000 scholarships to talented students who have been accepted to study at university...</p>
+                            </div>
+                        </div>
+                        <template if:true={isMobile}>
+                            <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12">
+                                <div class="video-content">
+                                    <div class="image-wrap">
+                                        <a class="play-icon has-video-yes open-popup" href={productDetails.Section_2_Image_Video_URL__c} title="Play video - &quot;giving research thumbnail&quot;">
+                                            <img src="https://cms.qut.edu.au/__data/assets/image/0018/930024/giving-research-thumbnail.jpg" alt="" class="img-fluid">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Section 3 -->
+                    <div class="section">
+                        <h3 class="section-header">Your gift will help:</h3>
+                        <!-- <h3 class="section-header">{productDetails.Section_3_Heading__c}</h3> -->
+                        <div class="section-content box-content">
+                            <ul class="slds-list_dotted">
+                                <li>Support a fund that awards more than 1,500 annual scholarships</li>
+                                <li>Close the gap between the number of students needing help and the number of students we can currently assist</li>
+                                <li>Bring new ambition students complete a tertiary education</li>
+                                <li>Send hope and empowerment to those who need it most and deserve it most</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12">
+                    <div class="donation-amount slds-box rightColumn">
+                      <label for="donation-amount" class="donation-title">Your donation amount</label>
+                      <div class="predefined-amounts">
+                        <lightning-input type="checkbox" label="$25" name="donationAmount" value="25"></lightning-input>
+                        <lightning-input type="checkbox" label="$50" name="donationAmount" value="50"></lightning-input>
+                        <lightning-input type="checkbox" label="$100" name="donationAmount" value="100"></lightning-input>
+                        <lightning-input type="checkbox" label="$250" name="donationAmount" value="250"></lightning-input>
+                        <div class="slds-form-element__control custom-input-container">
+                          <span class="slds-form-element__addon custom-span">$</span>
+                          <lightning-input type="number" label="Other" name="donationAmount" value="" class="slds-align_absolute-center"></lightning-input>
+                        </div>
+                      </div>
+                      <div class="slds-grid slds-grid_vertical">
+                        <div class="slds-col slds-size_12-of-6 slds-large-size_12-of-12 slds-align_absolute-center">
+                            <a href="#" class="button pink">Donate now</a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </lightning-layout>
+    </div>
+
+    <div if:true={isPopupOpen} class="popup-overlay">
+        <div class="popup-content">
+          <iframe width="560" height="315" src="https://youtu.be/_T646vyRiNY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <button class="close-popup" onclick={closePopup}>Close video</button>
+        </div>
+    </div>
+
+</template>
