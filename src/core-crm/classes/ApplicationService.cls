@@ -400,7 +400,7 @@ public with sharing class ApplicationService { //NOPMD
     }
 
     public static Boolean isAddressFieldsPopulated(hed__Application__c application, Set<String> addressFields) {
-        //check if any address field is new or updated
+        //check if any address field is populated
         for(String addressField:addressFields){
             if(application.get(addressField) != null){
                return true;
