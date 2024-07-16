@@ -299,22 +299,22 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
         if(!contactsToUpdate.isEmpty()){
-            Database.update(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().updateRecords(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingInteractionsToUpdate.isEmpty()){
-            Database.update(marketingInteractionsToUpdate, false, AccessLevel.SYSTEM_MODE);
+            MarketingInteractionsDAO.newInstance().updateRecords(marketingInteractionsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingCourseAppsToUpdate.isEmpty()){
-            Database.update(marketingCourseAppsToUpdate, false, AccessLevel.SYSTEM_MODE);
+            MarketingCourseApplicationsDAO.newInstance().updateRecords(marketingCourseAppsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!applicationToUpdate.isEmpty()){
             ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingSegmentationToInsert.isEmpty()){
-            Database.insert(marketingSegmentationToInsert, false, AccessLevel.SYSTEM_MODE);
+            MarketingSegmentationsDAO.newInstance().insertRecords(marketingSegmentationToInsert, false, AccessLevel.SYSTEM_MODE);
         }   
         if(!marketingSegmentationToUpdate.isEmpty()){
-            Database.update(marketingSegmentationToUpdate, false, AccessLevel.SYSTEM_MODE);
+            MarketingSegmentationsDAO.newInstance().updateRecords(marketingSegmentationToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
 
         return contactWithNewMarketingSegmentations;
