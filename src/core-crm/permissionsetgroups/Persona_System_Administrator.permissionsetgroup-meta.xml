@@ -9,6 +9,7 @@
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
+    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
     <permissionSets>Permission_All_Flows</permissionSets>
     <permissionSets>Permission_All_Lightning_Apps</permissionSets>
@@ -41,9 +42,9 @@
     <permissionSets>force__EinsteinAgent</permissionSets>
     <permissionSets>force__EinsteinGPTPromptTemplateManager</permissionSets>
     <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
+    <permissionSets>force__EinsteinGPTWorkSummaries</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_Admin</permissionSets>
     <permissionSets>trailheadapp__Th_Badge_Admin</permissionSets>
-    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
