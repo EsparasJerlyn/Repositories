@@ -18,16 +18,12 @@ public with sharing class OutreachCaseImportCtrl {
     @AuraEnabled
     public static List<CaseWrapper> listOfCases(String recordId){
         List<Case> caseList = CasesDAO.newInstance().getCasesByEngagementListConfigurationIds(recordId, AccessLevel.USER_MODE);
-        Set<Id> userIds = new Set<Id>();
-        userIds.add(UserInfo.getUserId());
-        List<User> userList = UsersDAO.newInstance().getUsersById(userIds, AccessLevel.USER_MODE);
-        String targetTimezone = userList[0].TimeZoneSidKey;
+        String userTimeZone = UserInfo.getTimeZone().getID();
 
         Map<Id, CaseWrapper> caseResult = new Map<Id, CaseWrapper>();
-        List<Case> newCaseList = new List<Case>();
         for(Case caseRec : caseList) {
             Datetime gmtDatetime = caseRec.CreatedDate;
-            String convertedDatetime = gmtDatetime.format('yyyy-MM-dd HH:mm:ss', targetTimezone);
+            String convertedDatetime = gmtDatetime.format('dd/MM/yyyy', userTimeZone);
             caseResult.put(caseRec.Id, new CaseWrapper(caseRec, convertedDatetime));
         }
         return caseResult.values();
