@@ -23,7 +23,7 @@ public with sharing class OutreachCaseImportCtrl {
         Map<Id, CaseWrapper> caseResult = new Map<Id, CaseWrapper>();
         for(Case caseRec : caseList) {
             Datetime gmtDatetime = caseRec.CreatedDate;
-            String convertedDatetime = gmtDatetime.format('yyyy-MM-dd HH:mm:ss', userTimeZone);
+            String convertedDatetime = gmtDatetime.format('dd/MM/yyyy', userTimeZone);
             caseResult.put(caseRec.Id, new CaseWrapper(caseRec, convertedDatetime));
         }
         return caseResult.values();
