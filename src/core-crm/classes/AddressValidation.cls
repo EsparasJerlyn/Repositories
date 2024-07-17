@@ -36,6 +36,7 @@ public inherited sharing class AddressValidation {
                 validAddressList.add(address);
                 addressValidationRequest.add(new AddressValidationPayloadRequest(address.Id));                
             }
+            mapOfAddresses.put(address.Id,address); // store address to update initially, mostlikely, loqate fields are nullified
         }
 
         if(!addressValidationRequest.isEmpty()){
@@ -50,7 +51,7 @@ public inherited sharing class AddressValidation {
                 }
                 addressCopy.Id = address.Id;
                 addressCopy.Address_Integration_Status__c = integrationStatus;
-                mapOfAddresses.put(address.Id, addressCopy);
+                mapOfAddresses.put(address.Id, addressCopy); // add integration status update
             }
             
             return mapOfAddresses;     
