@@ -81,8 +81,10 @@ public inherited sharing class DuplicateSanctionBatch implements Database.Batcha
         
         // Check if there are no running jobs and there are remaining sanctions to be processed
         if (jobs.isEmpty() && !sanctionsToBeProcessed.isEmpty()) {
+            Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+                .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.STUDENT_SANCTION_BATCH);
             // Recursively execute the batch process for remaining sanctions
-            Database.executeBatch(new DuplicateSanctionBatch());
+            Database.executeBatch(new DuplicateSanctionBatch(), (Integer)cmsConfig.Size__c);
         }
 
         // Log the total number of student sanctions processed
