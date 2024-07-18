@@ -15,4 +15,9 @@ public interface IActionCadenceStepTrackersDAO extends DmlInterface {
         List<String> recordIds, 
         AccessLevel accessLevel
     );
+
+    List<ActionCadenceStepTracker> getCadenceStepTrackersByTargetId(
+        Set<String> targetIdsSet,
+        AccessLevel accessLevel
+    );
 }

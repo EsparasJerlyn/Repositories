@@ -30,5 +30,8 @@ public interface ICommunicationQueuesDAO extends DmlInterface{
         Set<Id> createdCommunicationsQueueIdSet, 
         AccessLevel accessLevel
     );
-         
+    List<Communication_Queue__c> getFutureScheduledCommsQueuesByCadenceStepTrackerIds(
+        Set<String> trackerIdSet,
+        AccessLevel accessLevel
+    ); 
 }

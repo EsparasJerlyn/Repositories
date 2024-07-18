@@ -33,4 +33,14 @@ public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implement
         'AND StepType IN: STEP_TYPE', accessLevel
     );
   }  
+
+  public List<ActionCadenceStepTracker> getCadenceStepTrackersByTargetId(
+    Set<String> targetIdsSet,
+    AccessLevel accessLevel
+  ) {
+    return Database.query(
+      'SELECT Id, ActionCadenceName, TargetId FROM ActionCadenceStepTracker WHERE TargetId IN :targetIdsSet', 
+      accessLevel
+    );
+  }
 }

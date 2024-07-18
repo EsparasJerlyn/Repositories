@@ -148,4 +148,14 @@ public with sharing class CommunicationQueuesDAOTest {
             );
         }
     }
+
+    @isTest
+    static void getFutureScheduledCommsQueuesByCadenceStepTrackerIdsTest() {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            Test.startTest();
+            System.assert(CommunicationQueuesDAO.newInstance().getFutureScheduledCommsQueuesByCadenceStepTrackerIds(new Set<String>(), AccessLevel.SYSTEM_MODE) != null,
+            'Communication queues list must be empty.');
+            Test.stopTest();
+        }
+    }
 }

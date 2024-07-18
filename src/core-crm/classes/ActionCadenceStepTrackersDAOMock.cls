@@ -41,4 +41,18 @@ public inherited sharing class ActionCadenceStepTrackersDAOMock extends DmlBaseM
 
         return acStepTrackerList;
     }
+
+    public List<ActionCadenceStepTracker> getCadenceStepTrackersByTargetId(
+        Set<String> targetIdsSet,
+        AccessLevel accessLevel
+    ) {
+        List<ActionCadenceStepTracker> cadenceStepTrackers = new List<ActionCadenceStepTracker>();
+        for(ActionCadenceStepTracker cadenceStepTracker : actionCadenceStepMap.values()) {
+            if(targetIdsSet.contains(cadenceStepTracker.TargetId)) {
+                cadenceStepTrackers.add(cadenceStepTracker);
+            }
+        }
+        
+        return cadenceStepTrackers;
+    }
 }
