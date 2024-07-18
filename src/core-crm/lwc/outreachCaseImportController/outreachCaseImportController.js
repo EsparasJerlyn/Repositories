@@ -59,11 +59,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
       fieldName: 'createdDate',
       editable: false,
       sortable: false,
-      type: "date-local",
-      typeAttributes:{
-        month: "2-digit",
-        day: "2-digit"
-      }
+      type: "text"
     }
   ];
 
@@ -90,7 +86,6 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
     }).then(result => {
       if (result.length > 0) {
         const caseData = result.map(item => {
-          let createdDate = new Date(item.caseCreatedDate);
           return {
             caseNumber: item.case.CaseNumber,
             caseUrl: `/lightning/r/Case/${item.case.Id}/view`,
@@ -99,7 +94,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
             status: item.case.Status,
             ownerName: item.case.Owner.Name,
             ownerUrl: `/lightning/r/User/${item.case.OwnerId}/view`,
-            createdDate: createdDate
+            createdDate: item.caseCreatedDate
           }
         })
         
