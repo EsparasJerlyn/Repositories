@@ -179,8 +179,9 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                 )
             );
 
-            processCancelledCommsQueues(trackerNameTargetToCommsQueueIdsMap, cadenceName + recId, cancelledCommsQueues);
-            
+            if(calculatedStatus == CompletedCadencesDAO.SUCCESSFUL_STATUS) {
+                processCancelledCommsQueues(trackerNameTargetToCommsQueueIdsMap, cadenceName + recId, cancelledCommsQueues);
+            }
         }
         
         if(!completedCadenceList.isEmpty()){
@@ -188,7 +189,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
         
         if(!cancelledCommsQueues.isEmpty()) {
-            CommunicationQueueDAO.newInstance.updateRecords(cancelledCommsQueues, false, AccessLevel.SYSTEM_MODE);
+            CommunicationQueuesDAO.newInstance.updateRecords(cancelledCommsQueues, false, AccessLevel.SYSTEM_MODE);
         }
 
         updateTasksSyncOrAsync(tasksToUpdateList, completedCadenceStatusMap);
@@ -215,7 +216,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             commsQueueIds.add(commsQueue.Id);
             trackerNameTargetToCommsQueueIdsMap.put(trackerNameTarget, commsQueueIds);
         }
-        return trackerNameTargetToCommsQueueIdsMaps;
+        return trackerNameTargetToCommsQueueIdsMap;
     }
 
     private static void processCancelledCommsQueues(
@@ -223,10 +224,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         String nameAndTarget,
         List<Communication_Queue__c> cancelledCommsQueues
     ) {
-        if(
-            trackerNameTargetToCommsQueueIdsMap.containsKey(nameAndTarget) &&
-            calculatedStatus == CompletedCadencesDAO.SUCCESSFUL_STATUS
-        ) {
+        if(trackerNameTargetToCommsQueueIdsMap.containsKey(nameAndTarget)) {
             for(String commsQueueId : trackerNameTargetToCommsQueueIdsMap.get(nameAndTarget)) {
                 cancelledCommsQueues.add(
                     new Communication_Queue__c(
