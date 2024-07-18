@@ -78,8 +78,10 @@ public inherited sharing class ContactMatchingStagingBatch implements Database.B
             );
 
         if (jobs.isEmpty() && !conMatchingStagingsToBeProcessed.isEmpty()) {
+            Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+            .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.CONTACT_MATCHING_STAGING_BATCH);
             // If no running jobs and records to be processed, start a new batch job
-            Database.executeBatch(new ContactMatchingStagingBatch());
+            Database.executeBatch(new ContactMatchingStagingBatch(), (Integer)cmsConfig.Size__c);
         }
 
         // Log the total number of Contact Matching Staging records processed
