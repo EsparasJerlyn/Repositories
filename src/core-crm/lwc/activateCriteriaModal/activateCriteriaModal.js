@@ -58,7 +58,7 @@ export default class activateCriteriaModal extends LightningElement {
                 this.showConfirmation = true;
             })
             .catch((error) => {
-                this.error = error.body.message;
+                this.error = error.body.output.errors[0].message;
                 this.showError = true;
             })
             .finally(() => {

@@ -28,6 +28,14 @@
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Assessment__c-Assessment Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -67,6 +75,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Engagement_List_Event__c-Engagement List Event Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Application__c-QTAC Application Layout</layout>
@@ -150,12 +161,23 @@
     <layoutAssignments>
         <layout>Success_Plan__c-Success Plan Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+        <recordType>Task.Standard</recordType>
+    </layoutAssignments>
     <tabVisibilities>
         <tab>standard-Account</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-Contact</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-home</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
 </Profile>

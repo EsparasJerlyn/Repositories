@@ -13,12 +13,12 @@ public with sharing class ELCParserTest {
 
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void setBodyValuesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             //create breach record
             Breach__c breach = new Breach__c(
                 Name = 'Breach Test 01'

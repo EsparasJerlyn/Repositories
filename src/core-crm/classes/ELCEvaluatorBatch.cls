@@ -79,7 +79,7 @@ public with sharing class ELCEvaluatorBatch implements Database.Batchable<sObjec
             execute(contacts);
         } catch (Exception e) {
             Logger.error(
-                'Exception caught in method finish in class ELCPreviewBatch. Job ID: ' + bc.getJobId() + '. Execution Date: ' + String.valueOf(Date.today())
+                'Exception caught in method finish in class ELCEvaluatorBatch. Job ID: ' + bc.getJobId() + '. Execution Date: ' + String.valueOf(Date.today())
                 , eLCParser.getEngagementListCriteria().Id
             )
             .setExceptionDetails(e);

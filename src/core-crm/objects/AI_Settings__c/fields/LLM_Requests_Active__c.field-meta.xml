@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LLM_Requests_Active__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Toggle to not proceed with an LLM request if testing (including apex unit testing) activity does not require to test feature. Limit of LLM requests on sandbox is 200.</description>
+    <label>LLM Requests Active</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

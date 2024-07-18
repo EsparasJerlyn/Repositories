@@ -1780,6 +1780,28 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.hed__SMS_Opt_Out__c</fieldItem>
+                <identifier>Recordhed_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
                 <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
             </fieldInstance>
@@ -1890,6 +1912,32 @@
             <componentInstance>
                 <componentName>flexipage:blankSpace</componentName>
                 <identifier>flexipage_blankSpace6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2313,7 +2361,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
@@ -2325,6 +2373,13 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList14</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.Inbound_Enquiry_Cases}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -2404,9 +2459,9 @@
                 <identifier>lst_dynamicRelatedList10</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Future Student Engagement</rightValue>
+                        <leftValue>{!$Permission.CustomPermission.Outreach_Cases}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

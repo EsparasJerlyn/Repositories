@@ -6,6 +6,16 @@
         <sharedToType>Group</sharedToType>
     </folderShares>
     <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Development_Team</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ESB_Integration_User</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
         <accessLevel>Manage</accessLevel>
         <sharedTo>Student_Success_Outreach_Manager</sharedTo>
         <sharedToType>Group</sharedToType>
@@ -13,6 +23,21 @@
     <folderShares>
         <accessLevel>View</accessLevel>
         <sharedTo>Student_Success_Outreach_Staff</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>System_Administrator</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>System_Administrator_Modify_All_Data</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>System_Administrator_Read_Only</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>
     <name>QUT Student Retention Email Templates</name>

@@ -15,11 +15,11 @@ public with sharing class ELCEvaluationSchedulerTest {
 
     @TestSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
 
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {   
-            Test.startTest();
-
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {   
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             contactList[0].QUT_Student__c = true;
@@ -76,15 +76,13 @@ public with sharing class ELCEvaluationSchedulerTest {
             engagementListCriteria.Key_Date_Offset_Lower_Boundary__c = -10;
             engagementListCriteria.Key_Date_Offset_Upper_Boundary__c = 10;
             insert engagementListCriteria;
-
-            Test.stopTest();
         }
     }
     
 
     @isTest
     static void schedulerTest(){
-		System.runAs(TestDataFactory.getESBIntegrationUser()) {
+		System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             String cronExpression = Label.ELC_Evaluation_Cron_Expression;
             
             Test.startTest();

@@ -1160,6 +1160,9 @@
                         <valueListItems>
                             <value>hed__Admission_Date__c</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Academic_Status__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1402,40 +1405,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
-                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-d38c5261-4855-49e0-abbc-dded8e4c46c7</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Learner_Email_Opt_Out__c</fieldItem>
                 <identifier>RecordLearner_Email_Opt_Out_cField</identifier>
             </fieldInstance>
@@ -1460,6 +1429,10 @@
                 <identifier>RecordLearner_Email_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-d38c5261-4855-49e0-abbc-dded8e4c46c7</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -1488,6 +1461,66 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Staff_Email_Opt_Out_DateTime__c</fieldItem>
                 <identifier>RecordStaff_Email_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__SMS_Opt_Out__c</fieldItem>
+                <identifier>Recordhed_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordSMS_Opt_Out_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_In_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_In_DateTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_SMS_Opt_Out_DateTime__c</fieldItem>
+                <identifier>RecordWork_SMS_Opt_Out_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-9d74d82f-5a12-48b5-8ffa-8ebbf2fb1e16</name>
@@ -1897,85 +1930,6 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CASES.RECORDTYPE|EQUALS|[&quot;Outreach&quot;]</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>3</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Contact.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.SUBJECT</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.PRIORITY</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>OWNER_NAME</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE_DATE_ONLY</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Outreach Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>CASES.LAST_UPDATE_DATE_ONLY</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Descending</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList10</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Future Student Engagement</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

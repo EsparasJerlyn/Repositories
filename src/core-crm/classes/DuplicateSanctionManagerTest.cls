@@ -29,7 +29,7 @@ private class DuplicateSanctionManagerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
         List<Contact_Alternate_Id__c> conAltIdList = new List<Contact_Alternate_Id__c>();
         List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
@@ -47,7 +47,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processMissingQUTStudentIdTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
             StudentSanctionsDAO.newInstance().insertRecords(studentSanctionList,true,AccessLevel.USER_MODE);
@@ -72,7 +72,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processSanctionStudentNotFoundTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
             Integer count = 0;
@@ -102,7 +102,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processDuplicateSanctionSuccessTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
@@ -148,6 +148,65 @@ private class DuplicateSanctionManagerTest {
                                 AccessLevel.USER_MODE
                             ).isEmpty(),
                             'The superseded contact alternate ids should be active and be retrieved'
+                        );
+        }
+    }
+
+    @isTest
+    static void processDuplicateSanctionSupersededTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+            Set<Id> contactIds = new Set<Id>();
+            List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
+            Set<String> systemKeyIds = new Set<String>();
+            Integer count = 0;
+            Map<Id,Contact_Alternate_ID__c> newConAltIds = new Map<Id,Contact_Alternate_ID__c>();
+            List<Contact_Alternate_ID__c> conAlIdToUpdate = new List<Contact_Alternate_ID__c>();
+
+            for(Contact con: ContactsDAO.newInstance().getPersonContactsWithLimit(100)){
+                systemKeyIds.add(String.valueOf(con.Id).subString(0,10)); 
+                newConAltIds.put(con.Id,new Contact_Alternate_ID__c(
+                    Contact__c = con.Id,
+                    Alternate_Id_Type__c = 'QUT Student ID',
+                    Alternate_Id_Status__c = 'Active',
+                    Start_Date__c = System.Today(),
+                    Contact_Alternate_Id__c = String.valueOf(con.Id).subString(0,9)
+                ));
+                count ++;
+            }
+            
+            ContactAlternateIdsDAO.newInstance().insertRecords(newConAltIds.values(),true,AccessLevel.USER_MODE);
+
+            count = 0;
+            for(Contact_Alternate_ID__c conAlId: ContactAlternateIdsDAO.newInstance()
+                                                .getContactAlternateIdsBySystemKeyIdSet(
+                                                    systemKeyIds,
+                                                    AccessLevel.USER_MODE
+                                                )){
+                studentSanctionList[count].QUT_Student_ID__c = String.valueOf(conAlId.Contact__c).subString(0,10);
+                conAlIdToUpdate.add(new Contact_Alternate_ID__c(
+                    Id = conAlId.Id,
+                    Alternate_Id_Status__c = 'Superseded',
+                    Succeeding_Id__c = newConAltIds.get(conAlId.Contact__c).Id
+                ));
+                contactIds.add(conAlId.Contact__c);
+                count ++;
+            }
+
+            
+
+            ContactAlternateIdsDAO.newInstance().updateRecords(conAlIdToUpdate,true,AccessLevel.USER_MODE);
+            StudentSanctionsDAO.newInstance().insertRecords(studentSanctionList,true,AccessLevel.USER_MODE);
+            Test.stopTest(); 
+
+            System.assert(!ContactAlternateIdsDAO.newInstance()
+                            .getContactAlternateIdsByContactIdSetAndStatus(
+                                contactIds,
+                                new Set<String>{'Duplicate Sanction'},
+                                AccessLevel.USER_MODE
+                            ).isEmpty(),
+                            'The superseded contact alternate ids should be sanctioned and be retrieved'
                         );
         }
     }

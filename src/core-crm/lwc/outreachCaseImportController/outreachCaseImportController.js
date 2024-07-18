@@ -59,11 +59,7 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
       fieldName: 'createdDate',
       editable: false,
       sortable: false,
-      type: "date-local",
-      typeAttributes:{
-        month: "2-digit",
-        day: "2-digit"
-      }
+      type: "text"
     }
   ];
 
@@ -71,11 +67,14 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
   @api objectApiName;
   @track showModal = false;
   @track showTable = false;
+  @track numberOfCases = 0;
+
 
   data = [];
   rowOffset = 0;
   caseTable = [];
   dataForViewAll = [];
+  title = 'Cases';
 
   @wire(getRecord, { recordId: "$recordId", fields })
   engagementListConfiguration;
@@ -88,17 +87,17 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
       if (result.length > 0) {
         const caseData = result.map(item => {
           return {
-            caseNumber: item.CaseNumber,
-            caseUrl: `/lightning/r/Case/${item.Id}/view`,
-            contactName: item.Contact.Name,
-            contactUrl: `/lightning/r/Contact/${item.ContactId}/view`,
-            status: item.Status,
-            ownerName: item.Owner.Name,
-            ownerUrl: `/lightning/r/User/${item.OwnerId}/view`,
-            createdDate: item.CreatedDate
+            caseNumber: item.case.CaseNumber,
+            caseUrl: `/lightning/r/Case/${item.case.Id}/view`,
+            contactName: item.case.Contact.Name,
+            contactUrl: `/lightning/r/Contact/${item.case.ContactId}/view`,
+            status: item.case.Status,
+            ownerName: item.case.Owner.Name,
+            ownerUrl: `/lightning/r/User/${item.case.OwnerId}/view`,
+            createdDate: item.caseCreatedDate
           }
         })
-  
+        
         const recordsToDisplay = [];
         if (caseData.length > 3) {
           for (let i = 0; i < 3; i++) {
@@ -108,9 +107,9 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
         }else{
           this.data = caseData;
         }
-        
+        this.numberOfCases = caseData.length;
         this.dataForViewAll = caseData;
-        this.showTable = recordsToDisplay.length > 5 ? false : true;
+        this.showTable = recordsToDisplay.length > 3 ? false : true;
       }
 
     }).catch((error) =>{
@@ -123,6 +122,10 @@ export default class OutreachCaseImportController extends NavigationMixin(Lightn
 
     })
 	}
+
+  get caseTitle(){
+    return this.title + ' (' + this.numberOfCases + ')';
+  }
 
   get getStatus() {
     return getFieldValue(this.engagementListConfiguration.data, ENGAGEMENT_LIST_CONFIGURATION_FIELD) === 'Deactivated' ? true : false;

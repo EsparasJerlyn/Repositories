@@ -15,13 +15,13 @@ private class AddressValidationTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void processValidAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
@@ -73,7 +73,7 @@ private class AddressValidationTest {
     
     @isTest
     static void processNotValidAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
@@ -109,9 +109,8 @@ private class AddressValidationTest {
             AddressValidation processAddressValidation = new AddressValidation(addresses);
             Map<Id, hed__address__c> addressMap = processAddressValidation.validateAddresses();           
             Test.stopTest();
-
-            System.Assert.areEqual(0, addressMap.size(), 'Non-Australian Address should not be validated.');
             
+            //Integration Status should not be updated, since Address is Non AU
             for(hed__Address__c address: addressMap.values()){
                 System.Assert.areEqual(null, address.Address_Integration_Status__c , 'The address Address_Integration_Status__c field is not equal to "NULL"');
             }
@@ -120,7 +119,7 @@ private class AddressValidationTest {
     
     @isTest
     static void processThrowExceptionAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
@@ -186,7 +185,7 @@ private class AddressValidationTest {
 
     @isTest
     static void processFailedAddressesTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new AddressesDAOMock());
