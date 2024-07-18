@@ -569,7 +569,7 @@ public class TestDataFactoryUser {
 
             
             usr.publicGroupNames = new Set<String>{'OPE_Product_Design','CCE_Product_Design','Program_Administrator'};
-            usr.permissionsetNames = new Set<String>{'QUTeX_Base','QUTeX_CCE','QUTeX_Leader','Product_Administration','DocuSign_Generator','DocuSign_Negotiator','DocuSign_Sender','DocuSign_User','Permission_API_Enabled'};
+            usr.permissionsetNames = new Set<String>{'QUTeX_Base','QUTeX_CCE','QUTeX_Leader','Product_Administration','DocuSign_Generator','DocuSign_Negotiator','DocuSign_Sender','DocuSign_User','Permission_API_Enabled','QUTeX_User_Email_Access'};
 
             return usr;
         } set;
