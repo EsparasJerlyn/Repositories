@@ -101,7 +101,7 @@
         <nameSegment>Logger</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>61.0</apiVersion>
+    <apiVersion>60.0</apiVersion>
     <assignments>
         <name>Assign_New_Contact_Values</name>
         <label>Assign New Contact Values</label>
