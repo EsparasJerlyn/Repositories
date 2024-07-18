@@ -80,7 +80,7 @@ public inherited sharing class CommunicationQueuesDAOMock extends DmlBaseMock im
     ) {
         List<Communication_Queue__c> commsQueues = new List<Communication_Queue__c>();
         for(Communication_Queue__c commsQueue : commsQueueMap.values()) {
-            if(trackerIdSet.contains(commsQueue.ActionCadenceStepTracker__c)) {
+            if(trackerIdSet.contains(commsQueue.ActionCadenceStepTrackerId__c)) {
                 commsQueues.add(commsQueue);
             }
         }

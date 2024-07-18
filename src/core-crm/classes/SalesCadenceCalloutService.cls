@@ -189,7 +189,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
         
         if(!cancelledCommsQueues.isEmpty()) {
-            CommunicationQueuesDAO.newInstance.updateRecords(cancelledCommsQueues, false, AccessLevel.SYSTEM_MODE);
+            CommunicationQueuesDAO.newInstance().updateRecords(cancelledCommsQueues, false, AccessLevel.SYSTEM_MODE);
         }
 
         updateTasksSyncOrAsync(tasksToUpdateList, completedCadenceStatusMap);
