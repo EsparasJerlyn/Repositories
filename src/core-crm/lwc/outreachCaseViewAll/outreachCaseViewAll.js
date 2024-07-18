@@ -55,11 +55,7 @@ export default class OutreachCaseViewAll extends LightningElement {
         fieldName: 'createdDate',
         editable: false,
         sortable: false,
-        type: "date-local",
-        typeAttributes:{
-          month: "2-digit",
-          day: "2-digit"
-        }
+        type: "text"
       }
    ];
   
@@ -99,7 +95,7 @@ export default class OutreachCaseViewAll extends LightningElement {
          if (c__objectId) {
                this.objectName = c__objectName;
          }
-
+         
          if (c__data) {
             this.data = c__data;
          }
