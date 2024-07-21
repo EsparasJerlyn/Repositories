@@ -14,13 +14,13 @@
 @isTest
 private class SendQuestionnaireResponseEmailFlowTest{
 
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup
     static void makeData(){
         TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String,String>{
             'Send Application Response Email' => 'Test Email Subject'}).iterator().next();
         insert template;
@@ -34,6 +34,8 @@ private class SendQuestionnaireResponseEmailFlowTest{
 
         Study_Store_URL_Settings__c studyStore = new Study_Store_URL_Settings__c(Name='QUTeX', Study_Store_Link__c = 'https://studystorelinktest.com/');
         insert studyStore;
+
+        final User currentUser = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
 
         System.runAs(currentUser){
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
