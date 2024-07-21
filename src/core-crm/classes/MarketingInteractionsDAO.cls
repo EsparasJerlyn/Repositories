@@ -49,6 +49,11 @@ public inherited sharing class MarketingInteractionsDAO extends DmlBase implemen
         Set<Id> recordIds,
         AccessLevel accessLevel
     ) {
+
+        if(recordIds.isEmpty()){
+            return new List<Marketing_Interaction__c>();
+        }
+        
         return Database.query(
             'SELECT Id, Event_Type__c, Lead_Source_Category__c, Has_Attended__c, Contact__c, Lead__c, Event_Date__c, Interaction_DateTime__c, Lead_Source__c, Match_My_Skill_Completion__c, Lead_Score_Reset__c ' +
               'FROM Marketing_Interaction__c ' +
