@@ -102,6 +102,9 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
         Set<String> trackerIdSet,
         AccessLevel accessLevel
     ) {
+        if(trackerIdSet.isEmpty() || trackerIdSet == null || accessLevel == null) {
+            return new List<Communication_Queue__c>();
+        }
         Date dateToday = Date.today();
         return Database.query(
             'SELECT Id, ActionCadenceStepTrackerId__c FROM Communication_Queue__c ' +

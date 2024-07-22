@@ -38,6 +38,9 @@ public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implement
     Set<String> targetIdsSet,
     AccessLevel accessLevel
   ) {
+    if(targetIdsSet.isEmpty() || targetIdsSet == null || accessLevel == null) {
+      return new List<ActionCadenceStepTracker>();
+    }
     return Database.query(
       'SELECT Id, ActionCadenceName, TargetId FROM ActionCadenceStepTracker WHERE TargetId IN :targetIdsSet', 
       accessLevel
