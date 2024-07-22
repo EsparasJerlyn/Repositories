@@ -1,0 +1,39 @@
+<!DOCTYPE html> 
+<html> 
+<script src=/study/lightning/lightning.out.js></script> 
+<script>
+  const communityEndPoint = 'https://' + location.hostname + '/study';
+
+  // Get the current URL
+  const currentUrl = new URL(window.location.href);
+  // Get the value of the 'recordId' parameter
+  var recordId = currentUrl.searchParams.get("recordId");
+
+  $Lightning.use("runtime_appointmentbooking:lightningOutGuest", // name of the Lightning app 
+    function() {
+      $Lightning.createComponent(
+        "lightning:flow"
+        , { }
+        , "lightningLocator" 
+        , function(cmp) {
+			var inputVariables = [
+              {
+                name: "recordId",
+                type: "String",
+                value: recordId,
+              },
+            ];
+          cmp.startFlow('Bookable_Appointment_Update', inputVariables); 
+        }
+      ); 
+    }
+    , communityEndPoint
+  ); 
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+<div id="lightningLocator">
+</div>
+
+</html>
