@@ -25,6 +25,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Communication_Queue__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Course_Connection_Assessment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
