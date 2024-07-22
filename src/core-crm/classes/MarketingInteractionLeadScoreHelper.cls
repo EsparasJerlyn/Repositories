@@ -51,7 +51,7 @@ public with sharing class MarketingInteractionLeadScoreHelper {
          * Determines wether to run async or sync
          */
         if(!contactMap.isEmpty() || !leadMap.isEmpty()){
-            if(System.isQueueable() || System.isFuture() || System.isBatch()){
+            if(System.isQueueable() || System.isFuture() || System.isScheduled() || System.isQueueable();){
                 executeCalculation(contactMap.keySet(), leadMap.keySet());
             }else{      
                 //Will update to use LeadScoreQueueableCall after updating all the Lead Score helper classes.          
