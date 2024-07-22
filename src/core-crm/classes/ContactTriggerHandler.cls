@@ -102,19 +102,17 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   public void afterInsert(Map<Id, SObject> newItems) {
     Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
-    Set<Id> contactsWithNewMarketingSegmentations = processLeadOnInsert(newMap);    
     ContactTriggerHelper.createLeadScoreDetailRecord(newMap.values());
-
-    Set<Id> contactsWithNoSegmentations = newMap.keySet();
-    contactsWithNoSegmentations.removeAll(contactsWithNewMarketingSegmentations);
-    
+    ContactTriggerHelper.createAccountContactRelationRecords(newMap.values(), null);
+  
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());
     ContactTriggerHelper.mapMarketingFields((List<Contact>)newMap.values(),null);
     ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), null);
-    ContactTriggerHelper.createMarketingSegmentation(contactsWithNoSegmentations);
+    ContactTriggerHelper.createMarketingSegmentation(newMap.keySet());
     ContactTriggerHelper.processSystemKeyChangeOnContactTrigger((List<Contact>) newItems.values(), null);
+    ContactWithMatchingLeadHelper.processLeadMatching((List<Contact>) newItems.values(), null);
   }
 
   /**
@@ -129,66 +127,13 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
     Map<Id, Contact> oldMap = (Map<Id,Contact>) oldItems;
     ContactImageHelper.generateContactImageFile(newMap.values(), oldMap);
-    processLeadOnUpdate(newMap, oldMap);
     processWelcomeEmail(newMap, oldMap);
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     ContactTriggerHelper.getContactCalculatedCadence((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.mapMarketingFields((List<Contact>)newItems.values(),(Map<Id, Contact>) oldItems);
     ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
-  }
-
-  /**
-   * @description Process Lead on insert
-   * @param newMap - List of Contact.Trigger.new
-   */
-  private Set<Id> processLeadOnInsert(Map<Id, Contact> newMap){
-      Set<Id> contactsWitNewhMarketingSegmentations = new Set<Id>();
-
-      if(!isRunning){
-          isRunning = true;
-          ContactTriggerHelper.createAccountContactRelationRecords(newMap.values(), null);
-          contactsWitNewhMarketingSegmentations.addAll(ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap));
-          
-          List<Id> contactIdList = new List<Id>();
-          contactIdList.addAll(newMap.keySet());
-          
-          Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
-          if(isAsync) {
-              //Current transaction is running asynchronously
-              ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
-          } else {
-              //Current transaction is not running asynchronously;
-              ContactWithMatchingLeadHelper.convertLeadOnAsync(contactIdList);
-          }
-      }
-
-      return contactsWitNewhMarketingSegmentations;
-  }
-
-  /**
-   * @description Process Lead duplicates and convert lead
-   * @param newMap - List of Contact.Trigger.new
-   * @param oldMap - List of Contact.Trigger.old
-   */
-  private void processLeadOnUpdate(Map<Id, Contact> newMap, Map<Id, Contact> oldMap){
-    Boolean hasChanges = false;
-
-    for(Id key : newMap.keySet()){
-      if(oldMap.get(key).Email != newMap.get(key).Email || oldMap.get(key).Work_Email__c != newMap.get(key).Work_Email__c){
-        hasChanges = true;
-        break;
-      }
-    }
-    if(!isRunning && hasChanges){
-      isRunning = true;
-      
-      ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap);
-
-      List<Id> contactIdList = new List<Id>();
-      contactIdList.addAll(newMap.keySet());
-      ContactWithMatchingLeadHelper.convertLeadOnSync(contactIdList);
-    }
+    ContactWithMatchingLeadHelper.processLeadMatching((List<Contact>) newItems.values(), oldMap);
   }
 
   /**
