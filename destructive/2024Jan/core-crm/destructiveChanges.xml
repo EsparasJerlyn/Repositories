@@ -177,6 +177,9 @@
         <!--DEPP-9497 Start-->
         <members>StudentRetentionDashboards/Student_Success_Enquiry_Home_Page</members>
         <!--DEPP-9497 End-->
+        <!--DEPP-7969 Start-->
+        <members>DomesticFutureStudentTeamLeaderDashboards/Nurture_Tracks_by_Faculty_and_Offer_Round_Domestic</members>
+        <!--DEPP-7969 End-->
         <name>Dashboard</name>
     </types>
     
