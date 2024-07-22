@@ -13,46 +13,33 @@ public with sharing class AddressTriggerHelper {
     
     public static void validateAddress(List<hed__Address__c> addressList){
 
-        Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
-        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>();
-
+        List<Address_Change_Event__e> addressChangeEvents = new List<Address_Change_Event__e>();
         for(hed__Address__c address : addressList){
-
-            if(
-                address.hed__Parent_Contact__c != null && 
-                address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS
-            ){
-                addressByContactMap.put(address.hed__Parent_Contact__c, address);
-                addressMap.put(address.Id, address); //collect other addresses to a map
+            if(address.hed__Parent_Contact__c != null){
+                addressChangeEvents.add(
+                    new Address_Change_Event__e(
+                        Address_Id__c = address.Id, 
+                        Address_Type__c = address.hed__Address_Type__c,
+                        Change_Type__c = 'Insert'
+                    )
+                );
             }
         }
 
-        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(addressByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
-        processValidation(addressMap, contactMap); // validate other addresses
-    }
-    
-    private static void processValidation ( Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
-
-        if(addressMap.isEmpty() || contactMap.isEmpty()){
-            return;
+        try {
+            EventBus.publish(addressChangeEvents);
+        } catch (Exception e) {
+            // prettier-ignore
+            NebulaLoggerService.logExceptionDetails('Exception caught in validateAddress method.', e);
         }
-
-        Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
         
-        if(isAsyncProcess){
-            AddressValidationManager addressValidation = new AddressValidationManager(addressMap.values(), contactMap, false);
-            addressValidation.processValidationForAddress();
-        } else{
-            AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap, false);
-            Database.executeBatch(batch);
-        }
     }
 
     public static void processValidateAddress(List<hed__Address__c> addressList, Map<Id, hed__Address__c> oldItems){  
 
         Set<Id> addressIds = new Set<Id>();
-        Map<Id, hed__Address__c> filteredAddressMap = new Map<Id, hed__Address__c>();
         List<hed__Address__c> successAddressList = new List<hed__Address__c>();
+        List<Address_Change_Event__e> addressChangeEvents = new List<Address_Change_Event__e>();
         
         for(hed__Address__c address : addressList){
 
@@ -70,8 +57,7 @@ public with sharing class AddressTriggerHelper {
                 successAddressList.add(address);
             }
 
-            Boolean isMailingAddressUpdated =   address.hed__Parent_Contact__c != null &&           
-                                                address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS &&                                 
+            Boolean isMailingAddressUpdated =   address.hed__Parent_Contact__c != null &&                             
                                                 (address.hed__MailingStreet__c != oldItems.get(address.Id).hed__MailingStreet__c ||
                                                 address.hed__MailingCity__c != oldItems.get(address.Id).hed__MailingCity__c ||
                                                 address.hed__MailingPostalCode__c != oldItems.get(address.Id).hed__MailingPostalCode__c ||
@@ -80,7 +66,13 @@ public with sharing class AddressTriggerHelper {
   
             //if the address mailing fields is/are updated                                    
             if(isMailingAddressUpdated){
-                filteredAddressMap.put(address.hed__Parent_Contact__c, address);
+                addressChangeEvents.add(
+                    new Address_Change_Event__e(
+                        Address_Id__c = address.Id, 
+                        Address_Type__c = address.hed__Address_Type__c,
+                        Change_Type__c = 'Update'
+                    )
+                );
             }   
         }
         Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
@@ -99,25 +91,14 @@ public with sharing class AddressTriggerHelper {
 
         }
 
-        if(!filteredAddressMap.isEmpty()){
-            processAddressFieldUpdateValidation(filteredAddressMap , isAsyncProcess);
+        if(!addressChangeEvents.isEmpty()){
+            try {
+                EventBus.publish(addressChangeEvents);
+            } catch (Exception e) {
+                // prettier-ignore
+                NebulaLoggerService.logExceptionDetails('Exception caught in processValidateAddress method.', e);
+            }
         }
     }    
 
-    private static void processAddressFieldUpdateValidation(Map<Id, hed__Address__c> filteredAddressMap , Boolean isAsyncProcess){
-        
-        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(filteredAddressMap.keySet(), AccessLevel.SYSTEM_MODE));
-        if(!contactMap.isEmpty()){
-            if(isAsyncProcess){
-                //Current transaction is running asynchronously
-                AddressValidationManager addressValidation = new AddressValidationManager(filteredAddressMap.values(), contactMap, true );
-                addressValidation.processValidationForAddress();
-            }else{
-                //Current transaction is not running asynchronously
-                AddressesValidationBatch batch = new AddressesValidationBatch(new Map<Id, hed__Address__c>(filteredaddressmap.values()).keySet(), contactMap, true);
-                Database.executeBatch(batch);
-            }
-
-        }
-    }
 }
