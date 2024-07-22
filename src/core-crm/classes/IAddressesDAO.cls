@@ -23,4 +23,9 @@ public interface IAddressesDAO extends DmlInterface {
     Database.QueryLocator getQueryLocatorByIds(Set<Id> recordIds);
 
     Database.QueryLocator getQueryLocatorByIntegrationStatus(Set<String> status);
+
+    List<hed__Address__c> getAddressesByIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
 }
