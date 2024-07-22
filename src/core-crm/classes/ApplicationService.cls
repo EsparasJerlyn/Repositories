@@ -341,9 +341,15 @@ public with sharing class ApplicationService { //NOPMD
      * @return hed__Address__c
      */
     public static hed__Address__c fillAddressLines(hed__Address__c address, hed__Application__c application, String addressType) {
+        address.hed__Address_Type__c = null;
+        if(!isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get(addressType))){
+            return address;
+        }
+
         Map<String, String> typeToFieldMap = new Map<String, String>();
         typeToFieldMap.put('Mailing', 'Postal');
         typeToFieldMap.put('Other', 'Residential');
+
         String field = typeToFieldMap.get(addressType);
         address.hed__Address_Type__c = addressType;
         address.hed__MailingStreet__c = getAddressLineFromApplication(application, field + '_Address_Line1__c');
@@ -391,6 +397,16 @@ public with sharing class ApplicationService { //NOPMD
             application.hed__Applicant__c != null &&
             application.hed__Applicant__c != (Id) oldItems.get(application.Id).get('hed__Applicant__c');
         return isQTAC && (isContactMatched || isContactChanged);
+    }
+
+    public static Boolean isAddressFieldsPopulated(hed__Application__c application, Set<String> addressFields) {
+        //check if any address field is populated
+        for(String addressField:addressFields){
+            if(application.get(addressField) != null){
+               return true;
+            }
+        }
+        return false;
     }
     
     public class RecordsToReferenceWrapper {
