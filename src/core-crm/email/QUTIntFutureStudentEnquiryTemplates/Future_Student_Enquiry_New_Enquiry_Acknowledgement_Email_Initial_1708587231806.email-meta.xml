@@ -3,8 +3,9 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>[Future Student Enquiry] - New Enquiry Acknowledgement Email Initial</name>
+    <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Thank you for your enquiry to QUT! We will be in touch shortly.</subject>
+    <subject>We&apos;ve got your enquiry!</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

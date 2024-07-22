@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Edit_Contact_Address</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Inbound_Enquiry_Cases</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Outreach_Cases</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Callbacks_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_Commencing_Students_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_Other_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_At_Risk_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Held_Show_Cause_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Outreach_UAP_Probation_List_View</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Student_Success_Enquiry_Home_Page_Student_Retention_Dashboard</name>
+    </customPermissions>
+    <description>Permission All Custom Permission</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Permission All Custom Permission</label>
+    <license>Salesforce</license>
+</PermissionSet>
