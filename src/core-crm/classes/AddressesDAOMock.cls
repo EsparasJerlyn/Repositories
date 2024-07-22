@@ -53,4 +53,16 @@ public inherited sharing class AddressesDAOMock extends DmlBaseMock implements I
         return null;
     }
 
+    public List<hed__Address__c> getAddressesByIds(Set<Id> recordIds, AccessLevel accessLevel){
+        List<hed__Address__c> addressList = new List<hed__Address__c>();
+
+        for(hed__Address__c address: addressesMap.values()){
+            if(recordIds.contains(address.Id)){
+                addressList.add(address);
+            }
+        }
+
+        return addressList;
+    }    
+
 }
