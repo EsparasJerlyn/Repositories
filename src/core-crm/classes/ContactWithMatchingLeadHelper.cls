@@ -95,7 +95,7 @@ public without sharing class ContactWithMatchingLeadHelper {
 
     @Future
     public static void detectLeadDuplicatesAsync(List<Id> contactIds){
-        Map<Id,Contact> newItems = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(contactIds), AccessLevel.USER_MODE));
+        Map<Id,Contact> newItems = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(contactIds), AccessLevel.SYSTEM_MODE));
         detectLeadDuplicates(newItems);
     }
 
