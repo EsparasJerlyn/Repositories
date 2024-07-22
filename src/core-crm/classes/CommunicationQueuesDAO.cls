@@ -102,10 +102,11 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
         Set<String> trackerIdSet,
         AccessLevel accessLevel
     ) {
+        Date dateToday = Date.today();
         return Database.query(
             'SELECT Id, ActionCadenceStepTrackerId__c FROM Communication_Queue__c ' +
             'WHERE ActionCadenceStepTrackerId__c IN :trackerIdSet ' +
-            'AND (Due_Date__c > :Date.today() OR Status__c = :STATUS_SCHEDULED)',
+            'AND (Due_Date__c > :dateToday OR Status__c = :STATUS_SCHEDULED)',
             accessLevel
         );
     }
