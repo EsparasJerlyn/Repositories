@@ -13,6 +13,8 @@ public with sharing class AddressesDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserSysAdminIntegration();
+        
     }
 
     @isTest
@@ -97,5 +99,17 @@ public with sharing class AddressesDAOTest {
             );
             Test.stopTest();
         }
+    }
+
+    @isTest
+    static void getAddressesByIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserSysAdminIntegration) {
+            MockIdGenerator mockIdGen = new MockIdGenerator(hed__Address__c.SObjectType);
+            List<hed__Address__c> addressList = AddressesDAO.newInstance()
+                .getAddressesByIds(new Set<Id>{mockIdGen.getMockId()}, AccessLevel.USER_MODE);
+            System.assert(addressList.isEmpty(), 'addressList is not empty');
+        }
+        Test.stopTest();
     }
 }
