@@ -1,0 +1,9 @@
+<aura:component
+  implements="flexipage:availableForAllPageTypes,lightning:actionOverride,force:lightningQuickAction,force:appHostable,force:hasRecordId,lightning:isUrlAddressable"
+  access="global">
+  <!-- Declare the attribute to hold the flowApiName -->
+  <aura:attribute name="flowApiName" type="String" default="New_Contact" />
+
+  <!-- Call the flowContainer Aura component and pass the flowApiName -->
+  <c:flowContainer flowApiName="{!v.flowApiName}" />
+</aura:component>
