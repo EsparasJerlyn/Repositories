@@ -341,11 +341,8 @@ public with sharing class ApplicationService { //NOPMD
      * @return hed__Address__c
      */
     public static hed__Address__c fillAddressLines(hed__Address__c address, hed__Application__c application, String addressType) {
-        address.hed__Address_Type__c = null;
-        if(!isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get(addressType))){
-            return address;
-        }
-
+        address.hed__Address_Type__c = addressType;
+        
         Map<String, String> typeToFieldMap = new Map<String, String>();
         typeToFieldMap.put('Mailing', 'Postal');
         typeToFieldMap.put('Other', 'Residential');
