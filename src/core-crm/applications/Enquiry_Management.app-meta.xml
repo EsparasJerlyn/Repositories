@@ -37,7 +37,7 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
-    <label>Enquiry Management</label>
+    <label>Future Student Contact Centre</label>
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
