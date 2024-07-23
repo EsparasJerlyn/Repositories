@@ -186,6 +186,7 @@ private class ContactTriggerHelperTest {
             for (Contact record : contactList) {
                 if (record.FirstName == 'Test Contact For Nurture') {
                     record.Email_Opt_In_DateTime__c = Date.today();
+                    record.Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
                     record.hed__Citizenship_Status__c = 'International';
                     contactListToUpdate.add(record);
                 }
