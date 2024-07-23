@@ -24,6 +24,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
      * Lead Constants
      */
+    public static final String AU_LOCALE = 'Australia (+61)';
     public static final String CCE_CORPORATE_PARTNER = 'CCE Corporate Partner'; 
     public static final String QUALIFIED_STATUS = 'Qualified';
     public static final String NEW_STATUS = 'New';

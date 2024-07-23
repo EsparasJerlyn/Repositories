@@ -524,6 +524,9 @@ public inherited sharing class ApplicationServiceHelper {
         contact.hed__Citizenship_Status__c = application.Citizenship_Status__c;
         contact.Citizenship_Country__c = application.Citizenship_Country__c;
         contact.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+        if(application.Mobile__c != null){
+            contact.ContactMobile_Locale__c = ContactsDAO.AU_LOCALE;
+        }
         return contact;
     }
 
@@ -556,6 +559,10 @@ public inherited sharing class ApplicationServiceHelper {
 
         lead.put('Company', 'Learner');
         lead.put('Lead_Type__c', 'Learner');
+
+        if(app.get('Mobile__c') != null){
+            lead.put('LeadMobile_Locale__c',LeadsDAO.AU_LOCALE);
+        }
 
         return lead;
     }
