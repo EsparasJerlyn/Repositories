@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Member__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>A Contact who has met the criteria to be included in the list.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Contact who has met criteria for inclusion in the list.</inlineHelpText>
+    <label>List Member</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>List Members</relationshipLabel>
+    <relationshipName>List_Members</relationshipName>
+    <required>true</required>
+    <trackHistory>true</trackHistory> 
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField> 

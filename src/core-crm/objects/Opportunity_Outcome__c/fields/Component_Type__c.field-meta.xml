@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Component_Type__c</fullName>
+    <description>Identifies the different specific outcome of the Corporate Partnership agreement.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select the type of outcome that has been agreed in the contract.</inlineHelpText>
+    <label>Component Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>CPE</fullName>
+                <default>false</default>
+                <label>CPE</label>
+            </value>
+            <value>
+                <fullName>Sponsorship</fullName>
+                <default>false</default>
+                <label>Sponsorship</label>
+            </value>
+            <value>
+                <fullName>Research</fullName>
+                <default>false</default>
+                <label>Research</label>
+            </value>
+            <value>
+                <fullName>WIL Scholarship</fullName>
+                <default>false</default>
+                <label>WIL Scholarship</label>
+            </value>
+            <value>
+                <fullName>WIL (Non-Scholarship)</fullName>
+                <default>false</default>
+                <label>WIL (Non-Scholarship)</label> 
+            </value>
+            <value>
+                <fullName>Venue</fullName>
+                <default>false</default>
+                <label>Venue</label>
+            </value>
+            <value>
+                <fullName>Facilities</fullName>
+                <default>false</default>
+                <label>Facilities</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

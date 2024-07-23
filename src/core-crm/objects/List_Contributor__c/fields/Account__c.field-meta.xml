@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Contributing QUT Organisation Unit.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Contributing QUT Organisation Unit. This is not necessarily the Contributor&apos;s QUT team.</inlineHelpText>
+    <label>List Contributor Team</label>
+    <lookupFilter> 
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>University Department</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>2</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>3</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>List Contributors</relationshipLabel>
+    <relationshipName>List_Contributors</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

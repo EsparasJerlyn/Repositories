@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AE_Identify_Stage_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Alumni_Engagement&apos;,
+ISCHANGED( Stage__c),
+ISPICKVAL( PRIORVALUE( Stage__c) , &apos;Identify&apos;),
+NOT( ISPICKVAL( Stage__c, &apos;Engage&apos;) ),
+NOT( ISPICKVAL( Stage__c , &apos;Closed&apos;) ) )</errorConditionFormula>
+    <errorDisplayField>Stage__c</errorDisplayField>
+    <errorMessage>You can only progress to the next stage which is Engage or mark the Opportunity as Closed.</errorMessage>
+</ValidationRule>

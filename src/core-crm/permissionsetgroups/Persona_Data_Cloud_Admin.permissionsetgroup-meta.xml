@@ -21,6 +21,7 @@
     <permissionSets>Permission_View_All_Users</permissionSets>
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
+    <permissionSets>PowerBI_External_Credential</permissionSets>
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

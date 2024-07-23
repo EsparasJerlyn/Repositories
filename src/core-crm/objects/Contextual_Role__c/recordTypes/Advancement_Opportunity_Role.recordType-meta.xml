@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advancement_Opportunity_Role</fullName>
+    <active>true</active>
+    <description>Create a participant’s role in an Advancement Opportunity.</description>
+    <label>Advancement Opportunity Role</label>
+    <picklistValues>
+        <picklist>Contextual_Role_Group__c</picklist>
+        <values>
+            <fullName>Contributors</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Contextual_Role__c</picklist>
+        <values>
+            <fullName>Assistant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Co-ordinator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Primary Contact</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

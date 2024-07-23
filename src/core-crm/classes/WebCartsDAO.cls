@@ -1,5 +1,5 @@
 /**
- * @description DAO Class for WebCart Object. Contains soql and constants related to the WebCart object.
+ * @description DAO Class for WebCart Object. Contains SOQL and Constants related to the WebCart object.
  * @author Accenture
  *
  * @history

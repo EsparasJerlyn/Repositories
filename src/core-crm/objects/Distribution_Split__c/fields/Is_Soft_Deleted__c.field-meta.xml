@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Soft_Deleted__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if the record is hidden from users in the DEP UI.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates if the record is hidden from users in the DEP UI.</inlineHelpText>
+    <label>Is Soft Deleted</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

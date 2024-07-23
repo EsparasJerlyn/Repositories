@@ -13,7 +13,7 @@ public inherited sharing class ProgramOfferingsDAO extends DmlBase implements IP
     public Schema.SObjectType getSObjectType()
 	{
 		return Program_Offering__c.SObjectType;
-	}
+	} 
 
     public static IProgramOfferingsDAO newInstance()
 	{

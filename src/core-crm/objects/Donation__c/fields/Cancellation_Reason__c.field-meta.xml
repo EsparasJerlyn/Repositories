@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancellation_Reason__c</fullName>
+    <description>The reason the donation record was moved into the ‘Cancelled’ Stage.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The reason the donation record was moved into the ‘Cancelled’ Stage.</inlineHelpText>
+    <label>Cancellation Reason</label>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Designation Discontinued</fullName>
+                <default>false</default>
+                <label>Designation Discontinued</label>
+            </value>
+            <value>
+                <fullName>Donor Requested Cancellation</fullName>
+                <default>false</default>
+                <label>Donor Requested Cancellation</label>
+            </value>
+            <value>
+                <fullName>Variation</fullName>
+                <default>false</default>
+                <label>Variation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

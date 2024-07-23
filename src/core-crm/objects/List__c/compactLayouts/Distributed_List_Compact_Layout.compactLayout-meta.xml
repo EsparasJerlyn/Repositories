@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributed_List_Compact_Layout</fullName>
+    <fields>List_Name__c</fields>
+    <fields>Requestor_Name__c</fields>
+    <fields>OwnerId</fields>
+    <label>Distributed List Compact Layout</label>
+</CompactLayout> 

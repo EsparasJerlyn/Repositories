@@ -1,12 +1,12 @@
 /**
- * @description DAO Class for Pricebook Object. Contains soql and constants related to the Pricebook object.
+ * @description DAO Class for Pricebook Object. Contains SOQL and Constants related to the Pricebook object.
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
  */
 public inherited sharing class PricebooksDAO extends DmlBase implements IPricebooksDAO {
 

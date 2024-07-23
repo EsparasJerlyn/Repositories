@@ -67,11 +67,10 @@ public with sharing class ServiceAppointmentServiceTest {
             }
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
-
             ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(serviceAppList);
 
             Test.stopTest();
-            
+
             System.assert(serviceAppList.get(0).Id != null, 'Email is sent to the user');
 
             List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id},FIELDS,AccessLevel.SYSTEM_MODE);
@@ -204,8 +203,6 @@ public with sharing class ServiceAppointmentServiceTest {
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
-            //ImplementationSelector.DAO.setMock(new ServiceAppointmentsDAOMock());
-            
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
             for(ServiceAppointment ap : serviceAppList){
@@ -220,15 +217,13 @@ public with sharing class ServiceAppointmentServiceTest {
             }
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
-
             ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(serviceAppList);
 
             Test.stopTest();
-            
-            System.assert(serviceAppList.get(0).Id != null, 'Email is sent to the user');
 
             List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id},FIELDS,AccessLevel.SYSTEM_MODE);
 
+            System.assert(serviceAppList.get(0).Id != null, 'Email is sent to the user');
             System.assert(insertedAppointment.get(0).Appointment_Email__c == null, 'Appointment Email is null. Email is not sent to the user.');
         }
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReadyForUse_Status_Validation</fullName>
+    <active>true</active>
+    <description>Ensures that the user can only progress to the next status and cannot back to define status.</description>
+    <errorConditionFormula>AND(
+ISCHANGED(Status__c),
+ISPICKVAL(PRIORVALUE(Status__c),&quot;Ready For Use&quot;),
+AND(ISPICKVAL( Status__c, &apos;Define&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>You cannot move the status back to define.</errorMessage>
+</ValidationRule>

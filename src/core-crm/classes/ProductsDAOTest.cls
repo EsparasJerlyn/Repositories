@@ -6,13 +6,18 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseIdTest
+      | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationIdTest & getProductByDesignationIdNotEmptyTest
+      | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references
       | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPageTest  |
  */
+
 @isTest
 public with sharing class ProductsDAOTest {
     @testSetup
     static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
@@ -71,6 +76,39 @@ public with sharing class ProductsDAOTest {
     }
 
     @isTest
+    static void getProductByDesignationIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductByDesignationId(
+                        new Set<Id>(),
+                        AccessLevel.USER_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getProductByDesignationIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            MockIdGenerator builderForDesigntation = new MockIdGenerator(Designation__c.sObjectType);
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductByDesignationId(
+                        new Set<Id>{builderForDesigntation.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                        .isEmpty(),
+                    'product retrieved is not empty'
+                );
+            }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getProductsOnPageTest() {
         Test.startTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
@@ -86,5 +124,4 @@ public with sharing class ProductsDAOTest {
         }
         Test.stopTest();
     }
-
 }

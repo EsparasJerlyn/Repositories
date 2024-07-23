@@ -16,7 +16,7 @@ public inherited sharing class ProgramOfferingsDAOMock extends DmlBaseMock imple
     public Schema.SObjectType getSObjectType()
 	{
 		return Program_Offering__c.SObjectType;
-	}
+	} 
  
 	public ProgramOfferingsDAOMock() {
 		super(new Map<Id, Program_Offering__c>(), Schema.Program_Offering__c.SObjectType);

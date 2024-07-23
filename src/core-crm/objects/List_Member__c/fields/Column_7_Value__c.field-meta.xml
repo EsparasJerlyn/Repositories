@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Column_7_Value__c</fullName>
+    <description>The value for custom column 7.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The value for custom column 7.</inlineHelpText>
+    <label>Column 7 Value</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField> 

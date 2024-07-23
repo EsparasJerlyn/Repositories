@@ -1,0 +1,90 @@
+<template>
+    <div class="slds-m-top_small slds-m-bottom_medium">
+        <lightning-button
+            label="Add List Member"
+            title="Add List Member"
+            icon-name="utility:add"
+            object-api-name={objectApiName}
+            onclick={handleShowAddListMember}
+            variant="brand-outline"
+            disabled={isDisabledButton}
+            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+        </lightning-button>
+
+        <lightning-button
+            label="Add From Existing List"
+            title="Add From Existing List"
+            variant="brand-outline"
+            disabled={isDisabledAddFromExistingListButton}
+            onclick={handleAddFromExistingListModal}
+            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+        </lightning-button>
+
+        <lightning-button
+            label="Import from CSV"
+            title="Import from CSV"
+            variant="brand-outline"
+            disabled={isDisabledButton}
+            onclick={handleImporCSV}
+            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+        </lightning-button>
+
+        <lightning-button
+        label="Download CSV"
+        title="Download CSV"
+        variant="brand-outline"
+        onclick={handleDownloadCSV}
+        disabled={isDownloadCSVDisabled}
+        class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+        </lightning-button>
+
+        <lightning-button
+            label="Bulk Change Status"
+            title="Bulk Change Status"
+            variant="brand-outline"
+            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small"
+            onclick={handleStatusClick}
+            disabled={isDisabledBulkStatusChangeButton}>
+        </lightning-button>
+
+        <c-list-member-status-modal
+            is-show-modal={isShowModalListMemberStatus}
+            onsetshowmodal={handlerShowModalListMemberStatus}
+            items-selected={itemsSelectedListMemberStatus}
+            onhandlerefresh={reloadListMembersTable}
+            engage-tab={engageTab}
+        ></c-list-member-status-modal>
+
+        <template if:true={_listId}>
+            <c-list-member-import-modal
+                list-id={_listId}
+                onreloadlistmemberstable={reloadListMembersTable}
+                is-show-modal={isShowImportCSVModal}
+                table-columns={tableColumns}
+                record-data={recordData}
+                object-api-name={objectApiName}
+                onchangeshowimportmodal={changeShowImportCSVModal}
+            ></c-list-member-import-modal>
+        </template>
+
+        <c-add-from-existing-list
+            list-id={_listId}
+            user-info={userInfo}
+            record-data={recordData}
+            table-columns={tableColumns}
+            is-show-modal={isAddFromExistingListModal}
+            onreloadlistmemberstable={reloadListMembersTable}
+            onhandleshowmodalexistinglist={handleShowModalExistingList}
+            onrecordlistmemberhaserror={handleRecordListMemberHasError}
+        ></c-add-from-existing-list>
+
+        <c-list-member-add-modal
+          onreloadlistmemberstable={reloadListMembersTable}
+          table-columns={tableColumns}
+          list-id={_listId}
+          is-show-modal={isShowAddListMemberModal}
+          onclosemodal={handleCloseAddListMember}
+          object-api-name={objectApiName}>
+        </c-list-member-add-modal>
+    </div>
+</template>

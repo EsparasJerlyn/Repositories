@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Designation__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>Giving to Cause Designation</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Active’ indicates that the Giving Cause is not available on QUT Givings webpage for public to donate. However, the system will continue to process recurring donations for the cause.&lt;/li&gt;&lt;li&gt;An active designation may be also available to Staff for internal giving.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Active</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Archive’ indicates that the Giving Cause has been discontinued and none of the donation records are active for receiving the donations.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Archived</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Define’ indicates that you have identified a giving cause to be published on QUT Giving Website or Staff Connect &lt;/li&gt;&lt;li&gt;Use ‘Notes’ to record relevant information to help you manage the important Information like approvals etc. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;Record the documents that have been created with links to where they are stored under the &amp;#39;Documents’ tab.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Define</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Published’ indicates that the Giving Cause is available on QUT Givings webpage for public to donate.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Published</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Giving_To_Cause</recordTypeName>
+</PathAssistant>

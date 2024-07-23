@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EFS_Funds_Closing_Balance_is_Required</fullName>
+    <active>true</active>
+    <description>Checks if the Funds Retained Closing Balance field is blank when a Finance Summary with Record Type Endowment Fund Summary is created or updated.</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISNEW(),
+  ISCHANGED( Funds_Retained_Closing_Balance__c )
+ ),
+ RecordType.DeveloperName = &apos;Endowment_Fund_Summary&apos;,
+ OR(
+  ISNULL( Funds_Retained_Closing_Balance__c ),
+  ISBLANK( Funds_Retained_Closing_Balance__c )
+ ) 
+)</errorConditionFormula>
+    <errorDisplayField>Funds_Retained_Closing_Balance__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cause_Total_Amount_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName =&quot;Cause&quot;,
+OR( ISNEW(), ISCHANGED(Total_Amount__c)),
+ISBLANK(Opportunity__c),
+ISBLANK(Total_Amount__c)
+)</errorConditionFormula>
+    <errorDisplayField>Total_Amount__c</errorDisplayField>
+    <errorMessage>Please enter some valid input. Input is not optional.</errorMessage>
+</ValidationRule>

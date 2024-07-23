@@ -6,6 +6,7 @@
     <label>Contextual Role</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -19,6 +20,11 @@
                 <label>Academic</label>
             </value>
             <value>
+                <fullName>Assistant</fullName>
+                <default>false</default>
+                <label>Assistant</label>
+            </value>
+            <value>
                 <fullName>Board Chairman</fullName>
                 <default>false</default>
                 <label>Board Chairman</label>
@@ -27,6 +33,11 @@
                 <fullName>Board Vice-Chairman</fullName>
                 <default>false</default>
                 <label>Board Vice-Chairman</label>
+            </value>
+            <value>
+                <fullName>Branding Manager</fullName>
+                <default>false</default>
+                <label>Branding Manager</label>
             </value>
             <value>
                 <fullName>Chief Investigator</fullName>
@@ -38,6 +49,11 @@
                 <default>false</default>
                 <label>Co-Investigator</label>
             </value>
+            <value>
+                <fullName>Co-ordinator</fullName>
+                <default>false</default>
+                <label>Co-ordinator</label>
+            </value>            
             <value>
                 <fullName>Faculty</fullName>
                 <default>false</default>
@@ -87,6 +103,11 @@
                 <fullName>Partner Contact</fullName>
                 <default>false</default>
                 <label>Partner Contact</label>
+            </value>
+            <value>
+                <fullName>Primary Contact</fullName>
+                <default>false</default>
+                <label>Primary Contact</label>
             </value>
             <value>
                 <fullName>Primary Partner Contact</fullName>
@@ -144,6 +165,10 @@
             <valueName>Academic</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Assistant</valueName>
+        </valueSettings>        
+        <valueSettings>
             <controllingFieldValue>Board of Directors</controllingFieldValue>
             <valueName>Board Chairman</valueName>
         </valueSettings>
@@ -158,6 +183,10 @@
         <valueSettings>
             <controllingFieldValue>Contributors</controllingFieldValue>
             <valueName>Co-Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Co-ordinator</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Contributors</controllingFieldValue>
@@ -205,8 +234,16 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Partners</controllingFieldValue>
+            <valueName>Branding Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Partners</controllingFieldValue>
             <valueName>Partner Contact</valueName>
         </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Primary Contact</valueName>
+        </valueSettings>        
         <valueSettings>
             <controllingFieldValue>Partners</controllingFieldValue>
             <valueName>Primary Partner Contact</valueName>

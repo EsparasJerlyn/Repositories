@@ -1,0 +1,17 @@
+<template>
+  <div if:true={hasLookupId}>
+    <c-dynamic-data-table
+        icon={icon}
+        parent-record={parentRecord}
+        related-record={relatedRecord}
+        related-field={siblingLookupField}
+        record-id={lookupId}
+        related-list-label={relatedListLabel}
+        related-list-fields={relatedListFields}
+        related-list-filters={relatedListFilters}
+        sort-order={sortOrder}
+        sort-field={sortField}
+        object-api-name={objectApiName}>
+    </c-dynamic-data-table>
+  </div>
+</template>

@@ -14,7 +14,7 @@ public with sharing class ProductCategoryProductsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
-    }
+    } 
 
     @isTest
     static void getProductCategoryProductByProdCatalogIdAndProdCategoryIdTest() {

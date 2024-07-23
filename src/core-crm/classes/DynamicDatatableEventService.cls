@@ -13,6 +13,15 @@
  *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6141              | Added Relationship Manager     |
  *    | ryan.j.a.dela.cruz             | August 10, 2023       | DEPP-6335              | Added Risk                     |
  *    | eugene.andrew.abuan            | August 14, 2023       | DEPP-6331              | Added IP Relationship Mngmnt   |
+ *    | kenneth.f.alsay                | February 28, 2024     | DEPP-7883              | Added Plan Activity            |
+ *    | eugene.andrew.abuan            | March 12, 2024        | DEPP-7917              | Added Stewardship__c in Oppty, |
+ *    |                                |                       |                        | Documents, and Plan Activity   |
+ *    | kenneth.f.alsay                | April 22, 2024        | DEPP-8432              | Added Designation__c as Parent |
+ *    |                                |                       |                        | Field for Finance Summary      |
+ *    | kenneth.f.alsay                | May 17, 2024          | DEPP-8789              | Added Stewardship__c           |
+ *    | jerlyn.esparas                 | June 04, 2024         | DEPP-8966              | Added hed__Affiliation__c      |
+ 
+ * 
 
  */
 public with sharing class DynamicDatatableEventService {
@@ -28,11 +37,15 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Contextual Role'
         },
         Document__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c,IP_Management__c,Opportunity__c,Opportunity_Outcome__c',
+            'ParentFields' => 'Engagement__c,IP_Management__c,Opportunity__c,Opportunity_Outcome__c,Stewardship__c,Designation__c,Donation__c',
             'ObjectLabel' => 'Document'
         },
+        Donation__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity__c,From_Designation__c,Account__c',
+            'ObjectLabel' => 'Donation'
+        },
         Finance_Summary__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity_Outcome__c',
+            'ParentFields' => 'Opportunity_Outcome__c,Designation__c',
             'ObjectLabel' => 'Finance Summary'
         },
         Financial_Split__c.SObjectType => new Map<String, String>{
@@ -48,24 +61,36 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Milestone'
         },
         Opportunity.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c',
+            'ParentFields' => 'Engagement__c,Stewardship__c,Contact__c,AccountId',
             'ObjectLabel' => 'Opportunity'
         },
         Opportunity_Outcome__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity__c',
             'ObjectLabel' => 'Opportunity Outcome'
         },
+        Plan_Activity__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity__c,Stewardship__c',
+            'ObjectLabel' => 'Plan Activity'
+        },
         Relationship_Manager__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Account__c,Contact__c',
+            'ParentFields' => 'Contact__c,Account__c',
             'ObjectLabel' => 'Relationship Manager'
         },
         Risk__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Risk'
         },
+        Stewardship__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Contact__c,Account__c',
+            'ObjectLabel' => 'Stewardship'
+        },
         Expense__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Expense'
+        },
+        hed__Affiliation__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'hed__Account__c',
+            'ObjectLabel' => 'Affiliation'
         }
     };
 
@@ -105,8 +130,6 @@ public with sharing class DynamicDatatableEventService {
                             Parent_Id__c = (String) newRecord.get(parentField)
                         )
                     );
-
-                    break;
                 }
             }
             //should only contain 1 event because of break
