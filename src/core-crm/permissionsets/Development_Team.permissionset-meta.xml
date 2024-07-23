@@ -746,6 +746,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Total_Engagement_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Work_Email_Opt_In_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>

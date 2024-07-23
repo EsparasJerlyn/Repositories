@@ -202,17 +202,16 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
                 ap.SchedEndTime = DateTime.Now().AddDays(3);
                 ap.WorkTypeId = workTypeIds.get(0).Id;
                 ap.description = 'This is an inquiry on QUT student enrolment.';
-                ap.Status = 'Scheduled';
                 ap.Appointment_Topic__c = 'My enrolment';
             }
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE);
-            serviceAppointment.get(0).Status = 'Cancelled';
-            serviceAppointment.get(1).SchedStartTime = DateTime.Now().AddDays(2);
-
-            Database.SaveResult[] srList = Database.update(serviceAppointment);
+            List<ServiceAppointment> serviceAppointments = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList[0].Id, serviceAppList[1].Id}, FIELDS, AccessLevel.SYSTEM_MODE);
+            serviceAppointments[0].Status = 'Cancelled';
+            serviceAppointments[1].SchedStartTime = DateTime.now().addDays(2);
+            
+            Database.SaveResult[] srList = Database.update(serviceAppointments);
             
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record was not updated.');

@@ -58,6 +58,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Branding Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Chief Investigator</fullName>
             <default>false</default>
         </values>

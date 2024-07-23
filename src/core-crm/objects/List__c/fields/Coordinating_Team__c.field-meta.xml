@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coordinating_Team__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The QUT team responsible for compiling the list.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The QUT team responsible for compiling the list.</inlineHelpText>
+    <label>Coordinating Team</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3 OR 4) AND 5</booleanFilter>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>University Department</value>
+        </filterItems> 
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>2</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>3</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>4</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Lists</relationshipLabel>
+    <relationshipName>Lists</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

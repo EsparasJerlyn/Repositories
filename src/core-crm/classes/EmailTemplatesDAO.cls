@@ -6,9 +6,9 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eccarius.munoz                 | August 31, 2023       | DEPP-6138              | Created file                 |
-      |                                |                       |                        |                              |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | eccarius.munoz                 | August 31, 2023       | DEPP-6138              | Created file                 |
+ *    |                                |                       |                        |                              |
  */
 public without sharing class EmailTemplatesDAO extends DmlBase implements IEmailTemplatesDAO{
 

@@ -1,5 +1,5 @@
 /**
- * @description DAO Class for CartItem Object. Contains soql and constants related to the CartItem object.
+ * @description DAO Class for CartItem Object. Contains SOQL and Constants related to the CartItem object.
  * @author Accenture
  *
  * @history

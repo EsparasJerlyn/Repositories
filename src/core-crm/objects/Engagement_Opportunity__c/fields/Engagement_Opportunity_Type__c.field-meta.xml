@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_Opportunity_Type__c</fullName>
+    <description>Identifies the different focal points of a corporate engagement.</description>
+    <externalId>false</externalId>
+    <label>Engagement Opportunity Type</label>
+    <required>true</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet> 
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Scholarship</fullName>
+                <default>false</default>
+                <label>Scholarship</label>
+            </value>
+            <value>
+                <fullName>Sponsorship</fullName>
+                <default>false</default>
+                <label>Sponsorship</label>
+            </value>
+            <value>
+                <fullName>Work Integrated Learning (WIL)</fullName>
+                <default>false</default>
+                <label>Work Integrated Learning (WIL)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

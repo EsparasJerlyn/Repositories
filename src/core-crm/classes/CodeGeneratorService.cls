@@ -12,6 +12,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file
+      | kenneth.f.alsay                | November 6, 2023      | DEPP-7000              | Updated generateCodeForOpportunityOutcomeRecords to exclude
+      |                                |                       |                        | record types not in recordTypeToCodePartsMap 
  */
 public with sharing class CodeGeneratorService {
     /** 
@@ -56,12 +58,14 @@ public with sharing class CodeGeneratorService {
         recordTypeToCodePartsMap.put(OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID, new CodeParts('RCP', opptyOutCodeAutoNum.Research_Commercialisation_Project__c));
         recordTypeToCodePartsMap.put(OpportunityOutcomesDAO.STARTUP_RECTYPE_ID, new CodeParts('RCC', opptyOutCodeAutoNum.Start_Up__c));
         for(Opportunity_Outcome__c newItem : newItems) {
-            String codePrefix = recordTypeToCodePartsMap.get(newItem.RecordTypeId).prefix;
-            Integer autoNumber = Integer.valueOf(recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber);
-            String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
-            newItem.Code__c = codePrefix + ':' + codeNumber;
-            autoNumber++;
-            recordTypeToCodePartsMap.put(newItem.RecordTypeId, new CodeParts(codePrefix, autoNumber));
+            if(recordTypeToCodePartsMap.containsKey(newItem.RecordTypeId)) {
+                String codePrefix = recordTypeToCodePartsMap.get(newItem.RecordTypeId).prefix;
+                Integer autoNumber = Integer.valueOf(recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber);
+                String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
+                newItem.Code__c = codePrefix + ':' + codeNumber;
+                autoNumber++;
+                recordTypeToCodePartsMap.put(newItem.RecordTypeId, new CodeParts(codePrefix, autoNumber));
+            }
         }
         opptyOutCodeAutoNum.Research_Partnership_Project__c = recordTypeToCodePartsMap.get(OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID).autoNumber;
         opptyOutCodeAutoNum.IPU_Project__c = recordTypeToCodePartsMap.get(OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID).autoNumber;

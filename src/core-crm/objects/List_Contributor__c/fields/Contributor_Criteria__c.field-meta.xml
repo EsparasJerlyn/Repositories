@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contributor_Criteria__c</fullName>
+    <description>The individual contributor&apos;s criteria or rationale for including the Contact in the list.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The individual contributor&apos;s criteria or rationale for including the Contact in the list.</inlineHelpText>
+    <label>Contributor Criteria</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type> 
+    <unique>false</unique>
+</CustomField>

@@ -16,7 +16,7 @@ public inherited sharing class LeadStatusesDAOMock extends DmlBaseMock implement
     public Schema.SObjectType getSObjectType()
 	{
 		return LeadStatus.SObjectType;
-	}
+	} 
 
 	public LeadStatusesDAOMock() {
 		super(new Map<Id, LeadStatus>(), Schema.LeadStatus.SObjectType);

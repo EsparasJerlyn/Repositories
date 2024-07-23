@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Summary__c</fullName>
+    <description>Description providing the business context of the engagement.</description>
+    <externalId>false</externalId>
+    <label>Summary</label>
+    <length>500</length>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField> 

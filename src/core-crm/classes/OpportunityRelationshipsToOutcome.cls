@@ -100,33 +100,34 @@ public with sharing class OpportunityRelationshipsToOutcome {
             }
         }
         
-        // Retrieve Opportunity records based on the collected IDs and populate the map
-        oppMap.putAll(OpportunitiesDAO.newInstance().getRecordsBySetIds(opportunityIds));
-        
-        // Retrieve the ESB Integration User
-        List<User> esbIntegrationUser = [ // NO PMD
+        if(opportunityIds.size()>0){
+            // Retrieve Opportunity records based on the collected IDs and populate the map
+            oppMap.putAll(OpportunitiesDAO.newInstance().getRecordsBySetIds(opportunityIds));
+                    // Retrieve the ESB Integration User
+            List<User> esbIntegrationUser = [ // NO PMD
             SELECT Id
             FROM User
             WHERE FirstName = 'ESB' AND LastName = 'Integration User'
             WITH USER_MODE
             LIMIT 1
-        ];
-        esbIntegrationUserId = esbIntegrationUser[0].Id;
-        
-        // Copy Financial_Split__c records from Opportunities to Opportunity_Outcome__c records
-        copyFinancialSplits(newItems, oppMap, oppOutIdToOppIdMap);
-        
-        // Copy Contextual_Role__c records from Opportunities to Opportunity_Outcome__c records
-        copyContextualRoles(newItems, oppMap, esbIntegrationUser);
-        
-        // Link Pure_Project__c records to Opportunity_Outcome__c records
-        linkPureProjects(newItems, oppMap, esbIntegrationUser);
-        
-        // Copy IP_Management_Relationship__c records from Opportunities to Opportunity_Outcome__c records
-        copyIPManagementRelationships(newItems, oppMap, esbIntegrationUser);
+            ];
+            esbIntegrationUserId = esbIntegrationUser[0].Id;
+            
+            // Copy Financial_Split__c records from Opportunities to Opportunity_Outcome__c records
+            copyFinancialSplits(newItems, oppMap, oppOutIdToOppIdMap);
+            
+            // Copy Contextual_Role__c records from Opportunities to Opportunity_Outcome__c records
+            copyContextualRoles(newItems, oppMap, esbIntegrationUser);
+            
+            // Link Pure_Project__c records to Opportunity_Outcome__c records
+            linkPureProjects(newItems, oppMap, esbIntegrationUser);
+            
+            // Copy IP_Management_Relationship__c records from Opportunities to Opportunity_Outcome__c records
+            copyIPManagementRelationships(newItems, oppMap, esbIntegrationUser);
+        }
     }
     
-    /**
+/**
 * Copies Financial_Split__c records from Opportunities to Opportunity_Outcome__c records.
 *
 * @param newItems             A list of Opportunity_Outcome__c records to copy relationships to.

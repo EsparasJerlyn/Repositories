@@ -57,7 +57,9 @@
  *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base             |
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
+ *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
  *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                  |
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
@@ -65,6 +67,8 @@
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
  *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
+ *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,             |
+                                                                                  QUT_Corporate_Engagement_Manager users and Engagement Opportunity records
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *    | gabriel.p.ventayen        | April 29, 2024        | DEPP-8614           | added method createTestEngagementListConfiguration                      |
  *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
@@ -115,6 +119,10 @@ public class TestDataFactory {
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
+        'QUT_Corporate_Partnership_Manager',
+        'Alumni_Engagement_Manager',
+        'QUT_Alumni_Engagement_Manager',
+        'QUT_Corporate_Engagement_Manager',
         'QUT_International_Future_Student_Agent',
         'QUT_Student_Success_Outreach_Manager'
     };
@@ -1959,7 +1967,91 @@ public class TestDataFactory {
         }
         return docsList;
     }
+    /**
+     * @description Method for creating test List records
+     * @return listRecords - Lists created
+     */
+    public static List<List__c> createListRecords(
+        Integer numOfList
+    ) {
+        List<List__c> listRecords = new List<List__c>();
 
+        for (Integer i = 0; i < numOfList; i++) {
+            listRecords.add(
+                new List__c(
+                   List_Name__c = 'New List ' + i,
+                   Stage__c = 'New'
+                )
+            );
+        }
+        return listRecords;
+    }
+    
+    /**
+     * @description Method for creating test List Contributor records
+     * @return listContributorRecords - Lists created
+     */
+    public static List<List_Contributor__c> createListContributorRecords(
+        Integer numOfList,
+        Id listParentId
+    ) {
+        List<List_Contributor__c> listContributors = new List<List_Contributor__c>();
+
+        for (Integer i = 0; i < numOfList; i++) {
+            listContributors.add(
+                new List_Contributor__c(
+                   List__c = listParentId,
+                   Task_Status__c = 'Assigned'
+                )
+            );
+        }
+        return listContributors;
+    }
+    /**
+     * @description Method for creating test List Member records
+     * @return listMemberRecords - List Members created
+     */
+    public static List<List_Member__c> createListMemberRecords(
+        Integer numOfList,
+        Id listId,
+        Id listMemberId
+    ) {
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+
+        for (Integer i = 0; i < numOfList; i++) {
+            listMemberRecords.add(
+                new List_Member__c(
+                   List__c = listId,
+                   Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
+                   List_Member__c = listMemberId
+                )
+            );
+        }
+        return listMemberRecords;
+    }
+    /**
+     * @description Method for creating test List Member records
+     * with multiple list records
+     * @return listMemberRecords - List Members created
+     */
+    public static List<List_Member__c> createListMemberBatchRecords(
+        Integer numOfList,
+        List<List__c> listrecords,
+        Id listMemberId
+    ) {
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+
+        for (Integer i = 0; i < numOfList; i++) {
+            listMemberRecords.add(
+                new List_Member__c(
+                   List__c = listrecords[i].Id,
+                   Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
+                   List_Member__c = listMemberId
+                )
+            );
+        }
+        return listMemberRecords;
+    } 
     /**
      * @description Method for creating Communication Schedule
      * @param nCommSched - number of Communication Schedule to be created
@@ -2376,8 +2468,66 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return sysAdmin;
+    }    
+    /**
+    * @description Method for getting Corporate Partnerships Manager
+    * @param void
+    * @return Corporate Partnerships Manager
+    */
+   public static User getCorporatePartnershipsManager() {
+       User sysAdmin = [
+           SELECT Id
+           FROM User
+           WHERE Username LIKE 'QUT_Corporate_Partnership_Manager%'
+           LIMIT 1
+       ];
+       return sysAdmin;
+   }
+
+   /**
+    * @description Method for getting Corporate Partnerships Manager
+    * @param void
+    * @return Corporate Partnerships Manager
+    */
+    public static User getAlumniEngagementManager() {
+        User sysUser = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'Alumni_Engagement_Manager%'
+            LIMIT 1
+        ];
+        return sysUser;
     }
 
+    /**
+    * @description Method for creating Alumni Engagement Manager
+    * @param void
+    * @return alumniEngagementManager - Alumni Engagement Manager
+    */
+   public static User getQUTAlumniEngagementManager() {
+       User alumniEngagementManager = [
+           SELECT Id
+           FROM User
+           WHERE Username LIKE 'QUT_Alumni_Engagement_Manager%'
+           LIMIT 1
+       ];
+       return alumniEngagementManager;
+   }
+
+   /**
+    * @description Method for creating Corporate Engagement Manager
+    * @param void
+    * @return corporateEngagementManager - Corporate Engagement Manager
+    */
+   public static User getCorporateEngagementManager() {
+       User corporateEngagementManager = [
+           SELECT Id
+           FROM User
+           WHERE Username LIKE 'QUT_Corporate_Engagement_Manager%'
+           LIMIT 1
+       ];
+       return corporateEngagementManager;
+   }
     /**
      * @description Method for creating Student Success Outreach Manager
      * @param void
@@ -3020,7 +3170,7 @@ public class TestDataFactory {
                 userName = 'QUT_IE_Partnership_Manager';
                 profileName = 'Industry Engagement';
                 roleName = 'Partnership Manager';
-                permSets = 'Business_Development_Base';
+                permSets = 'Office_of_Industry_Engagement_Base';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3034,7 +3184,7 @@ public class TestDataFactory {
                 userName = 'QUT_Operations_Manager';
                 profileName = 'Industry Engagement';
                 roleName = 'Operations Manager';
-                permSets = 'Business_Development_Base';
+                permSets = 'Office_of_Industry_Engagement_Base';
                 publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3065,6 +3215,34 @@ public class TestDataFactory {
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access,                Einstein_Service_AI_User,Google_Integration_User,Internal_User_Base,Knowledge_User';
                 //,force__CopilotSalesforceUser,force__EinsteinAgent,force__EinsteinGPTPromptTemplateUser,force__HighVelocitySalesUserIncluded,spr_sf__Sprinklr_User
                 publicGroups = 'Future Students - International';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            /** START - Creation of  Alumni and Corporate Engagement Manager Users */
+            else if (name == 'QUT_Alumni_Engagement_Manager') {
+                userName = 'QUT_Alumni_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Alumni Engagement';
+                permSets = 'Alumni_Corporate_Partnership_Base';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if (name == 'QUT_Corporate_Engagement_Manager') {
+                userName = 'QUT_Corporate_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Engagement';
+                permSets = 'Alumni_Corporate_Partnership_Base';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
@@ -3122,6 +3300,80 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            /**Start of Creation of ISR - International Student Recruitment Users */
+            else if (name == 'QUT_ISR_Communications_Manager') {
+                userName = 'QUT_ISR_Communications_Manager';
+                profileName = 'International Student Recruitment';
+                roleName = 'International Super User';
+                permSets = 'Enquiry_Management_Base,Email_Template_Management,Manage_Reports_and_Dashboards,Live_Chat_Supervisor';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'QUT_ISR_Student_Enquiries_Communications_Officer') {
+                userName = 'QUT_ISR_Student_Enquiries_Communications_Officer';
+                profileName = 'International Student Recruitment';
+                roleName = 'International Super User';
+                permSets = 'Enquiry_Management_Base,Email_Template_Management,Run_Reports_and_Dashboards,Live_Chat_Agent';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'QUT_ISR_Student_Adviser') {
+                userName = 'QUT_ISR_Student_Adviser';
+                profileName = 'International Student Recruitment';
+                roleName = 'International User';
+                permSets = 'Enquiry_Management_Base,Run_Reports_and_Dashboards,Live_Chat_Agent';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            else if (name == 'QUT_Corporate_Partnership_Manager') {
+                userName = 'QUT_Corporate_Partnership_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Partnerships';
+                permSets = 'Alumni_Corporate_Partnership_Base';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            else if (name == 'Alumni_Engagement_Manager') {
+                userName = 'Alumni_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Partnerships';
+                permSets = 'Alumni_Corporate_Partnership_Base';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -4059,6 +4311,20 @@ public class TestDataFactory {
         return newWorkTypes;
     }
 
+    /**
+     * @description Method for creating test Engagement Opportunity records
+     * @param numEngagementOpp - number of Engagement Opportunity to be created
+     * @return engagementOpp - list of Engagement Opportunity created
+     */
+    public static List<Engagement_Opportunity__c> createTestEngagementOpportunityRecords(Integer numEngagementOpp) {
+        List<Engagement_Opportunity__c> engagementOpp = new List<Engagement_Opportunity__c>();
+
+        for (Integer i = 0; i < numEngagementOpp; i++) {
+            engagementOpp.add(new Engagement_Opportunity__c(Engagement_Opportunity_Type__c = 'Event', Score_Category__c = 'Research', Engagement_Opportunity_Name__c = i + 'Test Engagement Opp', Score_Subcategory__c = 'Adjunct Professors', Stage__c = 'New'));
+        }
+
+        return engagementOpp;
+    }
     /** @description Method for Assessment Records
      * @param numberOfAssesmentRecords - number of Assessment Records to be created
      * @return assessmentRecords - list of assessment records created

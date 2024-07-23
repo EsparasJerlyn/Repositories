@@ -1670,6 +1670,11 @@
         <editable>true</editable>
         <field>Contact.Education_Disruption_Applicant__c</field>
         <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Total_Engagement_Score__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

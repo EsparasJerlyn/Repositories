@@ -1,0 +1,81 @@
+Score_Category__c,Score_Subcategory__c,Is_Active__c,Score__c
+Communications/Promotion,Alumni Profile / Interview,FALSE,1
+Communications/Promotion,QUT News Story,FALSE,1
+Communications/Promotion,QUT Promotion - Testimonial (written),FALSE,1
+Communications/Promotion,QUT Promotion - Testimonial (video),FALSE,1
+Communications/Promotion,QUT Promotion - Advertising,FALSE,1
+Communications/Promotion,Marketing - Other,FALSE,1
+Communications/Promotion,Guest Editor,FALSE,1
+Communications/Promotion,Content Writer/ Thought Leadership article,FALSE,1
+Communications/Promotion,Story Idea / Tip-Offs,FALSE,1
+Teaching and Learning,Guest Lecturer (in class),FALSE,1
+Teaching and Learning,Guest Speaker/ Panelist/ Judge/ MC for student event or award,FALSE,1
+Teaching and Learning,Mentor/ Career Talks,FALSE,1
+Teaching and Learning,WIL / Internships/ Placements and other T&L projects,FALSE,1
+Teaching and Learning,Masterclass,FALSE,1
+Teaching and Learning,Clinic Supervisor,FALSE,1
+Teaching and Learning,Site Visit,FALSE,1
+Teaching and Learning,Study Tour,FALSE,1
+Teaching and Learning,Tutor,FALSE,1
+Research,PhD Supervisor (External),FALSE,1
+Research,PhD Project Provider (External),FALSE,1
+Research,Research Industry Placement,FALSE,1
+Research,Research Partner,FALSE,1
+Research,Client of QUT Consultancy or Commercial Research Services,FALSE,1
+Research,PhD Industry Project Funder,FALSE,1
+Return to Study,Course Enquiry (any including short courses),FALSE,1
+Return to Study,Course Enrolment (any including short courses),FALSE,1
+Return to Study,Course Completion (any including short courses),FALSE,1
+Return to Study,Course Participant - Customised programs (domestic & global),FALSE,1
+Governance and Strategy,Governance Committee - University/Faculty,FALSE,1
+Governance and Strategy,Advisory Committee,FALSE,1
+Governance and Strategy,Industry Committee,FALSE,1
+Governance and Strategy,Curriculum Panelist/ Reviewer,FALSE,1
+Governance and Strategy,Industry Round Table,FALSE,1
+Philanthropic,Donor - Regular (under $100k),FALSE,1
+Philanthropic,Donor - Principal (over $100k),FALSE,10
+Philanthropic,Donor - Scholarship,FALSE,1
+Philanthropic,Donor - Research,FALSE,1
+Philanthropic,Donor - Student Other,FALSE,1
+Philanthropic,Donor - In Kind,FALSE,1
+Philanthropic,Partner/Host - Philanthropic Activity / Donor Activation,FALSE,1
+Philanthropic,Giving Ambassador - Encouraging Others,FALSE,1
+Lifelong Connection (Alumnus),Event Attendee (internal event or invited guest for external event),FALSE,1
+Lifelong Connection (Alumnus),"Benefit user (e.g. Library, Gym)",FALSE,1
+Lifelong Connection (Alumnus),Sports Participant,FALSE,1
+Lifelong Connection (Alumnus),Survey or Research Participant (self-identified),FALSE,1
+Lifelong Connection (Alumnus),Newsletter / Mailing List Subscriber (any QUT),FALSE,1
+Lifelong Connection (Alumnus),Reunion Organiser / Lead,FALSE,1
+Lifelong Connection (Alumnus),Chapter / Group / Network Organiser,FALSE,1
+Lifelong Connection (Alumnus),Business Directory Entry,FALSE,1
+Lifelong Connection (Alumnus),Entered a Competition,FALSE,1
+Lifelong Connection (Student),Student Award or Prize Recipient (QUT),FALSE,1
+Lifelong Connection (Student),Scholarship Recipient (QUT),FALSE,1
+Lifelong Connection (Student),Scholarship Recipient (External),FALSE,1
+Lifelong Connection (Student),Student Program Participant,FALSE,1
+Lifelong Connection (Student),Student Ambassador,FALSE,1
+Lifelong Connection (Student),Student Leader / Volunteer,FALSE,1
+Lifelong Connection (Student),High School Student Participant in QUT Event/Program,FALSE,1
+Lifelong Connection (Student),High School Student Recipient of QUT Prize,FALSE,1
+Thought Leadership/Expertise,Guest Speaker/ Panellist /Judge/ MC for QUT Hosted or Partner Event,FALSE,1
+Thought Leadership/Expertise,Alumni In Residence,FALSE,10
+Thought Leadership/Expertise,Alumni Advisor,FALSE,1
+Thought Leadership/Expertise,Artwork in QUT Art Museum,FALSE,1
+Thought Leadership/Expertise,Outstanding Alumni Award Recipient/Finalist,FALSE,1
+Thought Leadership/Expertise,External Award Recipient/Finalist,FALSE,1
+Thought Leadership/Expertise,Workshop Provider,FALSE,1
+Thought Leadership/Expertise,Adjunct Professors,FALSE,1
+Thought Leadership/Expertise,Emeritus Professors,FALSE,1
+Thought Leadership/Expertise,QUT TEDx Speaker,FALSE,1
+Thought Leadership/Expertise,QUT Expertise for Industry (staff on external industry committees),FALSE,1
+Corporate and Commercial Connection,Corporate Partner,FALSE,1
+Corporate and Commercial Connection,Research Partner,FALSE,1
+Corporate and Commercial Connection,Project or Event Partner,FALSE,1
+Corporate and Commercial Connection,Film Production on Campus,FALSE,1
+Corporate and Commercial Connection,Venue Hire/Use,FALSE,1
+Corporate and Commercial Connection,Vendor/Supplier,FALSE,1
+Corporate and Commercial Connection,Aid and Development Project Partner,FALSE,1
+Corporate and Commercial Connection,Business Referral,FALSE,1
+Corporate and Commercial Connection,Customised Education Partner,FALSE,1
+Corporate and Commercial Connection,Client of QUT Consultancy or Commercial Research Services,FALSE,1
+Corporate and Commercial Connection,QUT Partner Sponsorship (outwards),FALSE,1

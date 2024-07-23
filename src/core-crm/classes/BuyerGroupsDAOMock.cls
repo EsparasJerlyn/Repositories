@@ -15,7 +15,7 @@ public inherited sharing class BuyerGroupsDAOMock extends DmlBaseMock implements
 
     public Schema.SObjectType getSObjectType() {
         return BuyerGroup.SObjectType;
-    }
+    } 
 
     public BuyerGroupsDAOMock() {
         super(new Map<Id, BuyerGroup>(), Schema.BuyerGroup.SObjectType);

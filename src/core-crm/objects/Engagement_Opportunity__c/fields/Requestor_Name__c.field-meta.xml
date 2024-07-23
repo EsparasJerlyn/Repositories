@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requestor_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The QUT staff member requesting the contact list.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The QUT staff member requesting the contact list.</inlineHelpText>
+    <label>Requestor Name</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Contact.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Person</value>
+        </filterItems>
+        <filterItems>
+            <field>Contact.QUT_Employee_ID__c</field>
+            <operation>notEqual</operation>
+            <value></value> 
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Engagement Opportunities</relationshipLabel>
+    <relationshipName>Engagement_Opportunities</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

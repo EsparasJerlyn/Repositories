@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be added to users that are part of Corporate Events</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Corporate Events</label>
+    <mutingPermissionSets>Corporate_Events_Muted</mutingPermissionSets>
+    <permissionSets>Alumni_Corporate_Partnership_Base</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
