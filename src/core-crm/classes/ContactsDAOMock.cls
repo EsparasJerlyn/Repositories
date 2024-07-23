@@ -16,6 +16,7 @@
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added method for getContactByCaseMobile   |
  *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getPersonContactsByEmailOrName      |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
+ *    | nicole.genon                   | Feb 06, 2024        | DEPP-7003              | Added method getAllPersonContacts         |
  *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSL    |
  *    | julie.jane.alegre              | May 13, 2024        | DEPP-8490              | Update method getQueryLocatorBySubQueryTest|
  */
@@ -262,6 +263,19 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         return contactList;
     }
 
+    public List<Contact> getAlumniPersonContactsBySetIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if (recordIds.contains(record.Id)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
     public List<Contact> getContactByCaseMobile(
         Set<String> caseMobile,
         AccessLevel accessLevel
@@ -397,6 +411,41 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         for (Contact record : contactsMap.values()) {
             if (recordIds.contains(record.Parent_Person_Lead__c)){
                 contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getPersonContactsWithMatchingEmailsPosition(
+        String filterString,
+        Integer queryLimit,
+        AccessLevel accessLevel
+    ){
+        List<Contact> contactList = new List<Contact>();
+        if(!String.isEmpty(filterString)){
+            for (Contact record : contactsMap.values()) {
+                Boolean hasMatchingEmail = (record.Email != null && 
+                            record.Email.contains(filterString)) || 
+                            (record.QUT_Learner_Email__c != null && 
+                            record.QUT_Learner_Email__c.contains(filterString)) || 
+                            (record.QUT_Staff_Email__c != null && 
+                            record.QUT_Staff_Email__c.contains(filterString)) || 
+                            (record.Work_Email__c != null && 
+                            record.Work_Email__c.contains(filterString)) || 
+                            (record.hed__UniversityEmail__c != null && 
+                            record.hed__UniversityEmail__c.contains(filterString));
+                Boolean hasMatchingName = (record.Name != null && record.Name.contains(filterString)) || 
+                            (record.Salutation != null && record.Salutation.contains(filterString)) || 
+                            (record.FirstName != null && record.FirstName.contains(filterString)) || 
+                            (record.MiddleName != null && record.MiddleName.contains(filterString)) || 
+                            (record.LastName != null && record.LastName.contains(filterString)) ||
+                            (record.Suffix != null && record.Suffix.contains(filterString));
+                Boolean hasMatchingPosition = (record.Position__c != null && 
+                            record.Position__c.contains(filterString));
+
+                if (hasMatchingEmail || hasMatchingName || hasMatchingPosition){
+                    contactList.add(record);
+                }
             }
         }
         return contactList;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outcome_QUT_Coordinator__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The QUT staff member who is coordinating the specific outcome described in the partnership agreement.</description>
+    <externalId>false</externalId>
+    <label>Outcome QUT Coordinator</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Contact.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Person</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Opportunity Outcomes</relationshipLabel>
+    <relationshipName>Opportunity_Outcomes</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
+ 

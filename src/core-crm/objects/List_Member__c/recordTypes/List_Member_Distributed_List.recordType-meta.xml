@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Member_Distributed_List</fullName>
+    <active>true</active>
+    <description>Individual contact included on the list that meets the list criteria and have been qualified for inclusion</description>
+    <label>List Member Distributed List</label>
+    <picklistValues>
+        <picklist>List_Member_Status__c</picklist>
+        <values>
+            <fullName>Disqualified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Applicable</fullName>
+            <default>false</default> 
+        </values>
+        <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Qualified</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

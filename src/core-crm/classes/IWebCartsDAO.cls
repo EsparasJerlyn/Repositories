@@ -1,5 +1,5 @@
 /**
- * @description Interface for WebCart DAO
+ * @description Interface for WebCarts DAO
  * @author Accenture
  *
  * @history

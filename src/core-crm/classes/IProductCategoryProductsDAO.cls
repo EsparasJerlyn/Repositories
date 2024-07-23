@@ -14,5 +14,5 @@ public interface IProductCategoryProductsDAO extends DmlInterface {
         Set<Id> prodCatalogIdSet,
         Set<Id> prodCategIdSet,
         AccessLevel accessLevel
-    ); 
+    );  
 }

@@ -15,7 +15,7 @@ public inherited sharing class ProductCategoryProductsDAOMock extends DmlBaseMoc
 
     public Schema.SObjectType getSObjectType() {
         return ProductCategoryProduct.SObjectType;
-    }
+    } 
 
     public ProductCategoryProductsDAOMock() {
         super(new Map<Id, ProductCategoryProduct>(), Schema.ProductCategoryProduct.SObjectType);

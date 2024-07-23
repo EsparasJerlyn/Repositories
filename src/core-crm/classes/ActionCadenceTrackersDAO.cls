@@ -51,3 +51,4 @@ public inherited sharing class ActionCadenceTrackersDAO extends DmlBase implemen
         );
     }
 }
+

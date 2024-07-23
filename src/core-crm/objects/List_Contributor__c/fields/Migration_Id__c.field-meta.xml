@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Migration_Id__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>Used for data migration data movement framework</description>
+    <externalId>true</externalId>
+    <label>Migration ID</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique> 
+</CustomField>

@@ -6,7 +6,7 @@
     <label>Pure CLMS Contract Status</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

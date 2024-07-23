@@ -1,7 +1,7 @@
 /**
  * @description Selects which SObject DAO to implement
  * @author Accenture
- *
+ * 
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                |
@@ -27,6 +27,7 @@
  *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
+ *    | carl.alvin.cabiles             | September 15, 2023    | DEPP-6510              | Added Object mapping for List and List Member obj             |
  *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj        |
  *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Added Object mapping for Course Offering, term, & course obj  |
  *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj         |
@@ -36,6 +37,7 @@
  *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object           |
  *    | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Added object mapping for SMS Template Object                  |
  *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Added Object mapping for Service Appointment object           |
+ *    | carl.alvin.cabiles             | December 13, 2023     | DEPP-7186              | Added Object mapping for List Contributor object              |
  *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
  *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
  *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Added Object mapping for Program_Offering__c obj              |
@@ -93,6 +95,7 @@ public class ImplementationSelector {
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Engagement_Opportunity__c.SObjectType => EngagementOpportunitiesDAO.class,
             Engagement_List_Configuration__c.SobjectType => EngagementListConfigurationsDAO.class,
             Engagement_List_Criteria__c.SobjectType => EngagementListCriteriasDAO.class,
             Engagement_List_Event__c.SobjectType => EngagementListEventsDAO.class,
@@ -118,6 +121,7 @@ public class ImplementationSelector {
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             LeadStatus.SObjectType => LeadStatusesDAO.class,
             Leave_of_Absence__c.SObjectType => LeaveOfAbsencesDAO.class,
+            LogEntry__c.SObjectType => LogEntriesDAO.class,
             LogEntry__c.SObjectType => LogEntriesDAO.class,
             Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
@@ -149,13 +153,17 @@ public class ImplementationSelector {
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,
             SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
             Student_Sanction__c.SObjectType => StudentSanctionsDAO.class,
+            Student_Sanction__c.SObjectType => StudentSanctionsDAO.class,
             Task.SObjectType => TasksDAO.class,
             User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
             UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
             Expense__c.SObjectType => ExpensesDAO.class,
+            List_Member__c.SObjectType => ListMembersDAO.class,
+            List__c.SObjectType => ListsDAO.class,
             WebCart.SObjectType => WebCartsDAO.class,
             WebStore.SOBjectType => WebStoresDAO.class,
+            List_Contributor__c.SObjectType => ListContributorsDAO.class,
             WorkType.SOBjectType => WorkTypesDAO.class
         }
     );  
@@ -170,6 +178,7 @@ public class ImplementationSelector {
         /**
          * Constructs a simple DAO Factory
          **/
+
         // prettier-ignore
         public DAOFactory() {} //NOPMD
         /**

@@ -16,7 +16,7 @@ public inherited sharing class MarketingCourseApplicationsDAOMock extends DmlBas
     public Schema.SObjectType getSObjectType()
 	{
 		return Marketing_Course_Application__c.SObjectType;
-	}
+	} 
 
 	public MarketingCourseApplicationsDAOMock() {
 		super(new Map<Id, Marketing_Course_Application__c>(), Schema.Marketing_Course_Application__c.SObjectType);

@@ -1,0 +1,78 @@
+<template>
+  <lightning-record-edit-form
+    object-api-name={passedObjectApiName}
+    record-id={passedRecordId}
+    onsuccess={handleSuccess}
+    onerror={handleError}
+    onsubmit={handleSubmit}
+  >
+    <div class="slds-grid slds-p-top_x-small">
+      <div
+        class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-vertical_x-small"
+      >
+        <template for:each={column1FieldList} for:item="column1Field">
+          <template lwc:if={showEditField}>
+            <div key={column1Field.name} class="slds-grid">
+              <div
+                class="slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal"
+              >
+                <lightning-output-field field-name={column1Field.name}>
+                  <template lwc:if={column1Field.editable}>
+                    <lightning-button-icon
+                      class="slds-float_right"
+                      icon-name="utility:edit"
+                      variant="bare"
+                      onclick={handleEdit}
+                    >
+                    </lightning-button-icon>
+                  </template>
+                </lightning-output-field>
+              </div>
+            </div>
+          </template>
+          <template lwc:else>
+            <div key={column1Field.name} class="slds-grid">
+              <div class="slds-col slds-size_1-of-1">
+                <lightning-input-field field-name={column1Field.name}>
+                </lightning-input-field>
+              </div>
+            </div>
+          </template>
+        </template>
+      </div>
+      <div
+        class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-vertical_x-small"
+      >
+        <template for:each={column2FieldList} for:item="column2Field">
+          <template lwc:if={showEditField}>
+            <div key={column2Field.name} class="slds-grid">
+              <div
+                class="slds-col slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal"
+              >
+                <lightning-output-field field-name={column2Field.name}>
+                  <template lwc:if={column2Field.editable}>
+                    <lightning-button-icon
+                      class="slds-float_right"
+                      icon-name="utility:edit"
+                      variant="bare"
+                      onclick={handleEdit}
+                    >
+                    </lightning-button-icon>
+                  </template>
+                </lightning-output-field>
+              </div>
+            </div>
+          </template>
+          <template lwc:else>
+            <div key={column2Field.name} class="slds-grid">
+              <div class="slds-col slds-size_1-of-1">
+                <lightning-input-field field-name={column2Field.name}>
+                </lightning-input-field>
+              </div>
+            </div>
+          </template>
+        </template>
+      </div>
+    </div>
+  </lightning-record-edit-form>
+</template>

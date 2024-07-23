@@ -1,0 +1,7 @@
+c-dynamic-record-edit-form lightning-formatted-text {
+    width: auto !important;
+}
+
+c-dynamic-record-edit-form .slds-input[readonly] {
+    --slds-c-input-spacing-horizontal-start: unset;
+}

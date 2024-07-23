@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>List__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>Distributed List</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Closed’ indicates the list is no longer active or available for future distribution&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Closed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Distribute’ indicates, the list is ready for distribution with the wider QUT team&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Distribute</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;In Progress&amp;#39; indicates list member identification is in progress&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>In Progress</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘New’ indicates that you have identified a new list with a specific criteria.&lt;/li&gt;&lt;li&gt;Complete the ‘List Summary’ section under the ‘Details’ tab by updating the data fields.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Qualification’ indicates, the identified list members are being qualified for final distribution&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Qualification</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Distributed_List</recordTypeName>
+</PathAssistant>

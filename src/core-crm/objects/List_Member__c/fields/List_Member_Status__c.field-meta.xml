@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Member_Status__c</fullName>
+    <description>Indicates whether the prospective Contact has been qualified to move to the next Engagement stage.
+
+Users can select ‘Not Applicable’ to mark a Contact who is not proceeding to the next stage but has not been officially ‘qualified’. For example, where a Contact has been mistakenly added to the list.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates whether the prospective Contact has been qualified to move to the next Engagement stage.</inlineHelpText>
+    <label>List Member Status</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type> 
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Qualified</fullName>
+                <default>false</default>
+                <label>Qualified</label>
+            </value>
+            <value>
+                <fullName>Disqualified</fullName>
+                <default>false</default>
+                <label>Disqualified</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>Not Applicable</fullName>
+                <default>false</default>
+                <label>Not Applicable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

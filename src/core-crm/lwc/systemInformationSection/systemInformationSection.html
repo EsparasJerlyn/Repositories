@@ -1,0 +1,50 @@
+<template>
+  <div class="slds-grid slds-p-top_x-small">
+    <div
+      class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-vertical_x-small">
+      <div class="slds-grid">
+        <div
+          class="slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal">
+          <div class="slds-form-element__label">
+            <span>{label.createdBy}</span>
+          </div>
+          <div class="slds-form-element__control">
+            <span class="slds-form-element__static slds-grow">
+              <div class="slds-shrink-none slds-grid slds-show_inline-block">
+                <span
+                  class="record-avatar-container slds-avatar slds-avatar_x-small slds-avatar--circle icon slds-m-right_xx-small slds-avatar_profile-image-small"
+                  style="background-color: #1b96ff"></span
+                ><a href={createByUrl}>{createdByName}</a>
+              </div>
+              <span>, </span>
+              <span>{createdDate}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-vertical_x-small">
+      <div class="slds-grid">
+        <div
+          class="slds-col slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal">
+          <div class="slds-form-element__label">
+            <span>{label.lastModifiedBy}</span>
+          </div>
+          <div class="slds-form-element__control">
+            <span class="slds-form-element__static slds-grow">
+              <div class="slds-shrink-none slds-grid slds-show_inline-block">
+                <span
+                  class="record-avatar-container slds-avatar slds-avatar_x-small slds-avatar--circle icon slds-m-right_xx-small slds-avatar_profile-image-small"
+                  style="background-color: #1b96ff"></span>
+                <a href={modifiedByUrl}>{lastModifiedByName}</a>
+              </div>
+              <span>, </span>
+              <span>{lastModifiedDate}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
