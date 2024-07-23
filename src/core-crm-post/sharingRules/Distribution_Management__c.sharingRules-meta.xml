@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>ADV_Advancement_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Distribution Management records to Advancement Managers with Read/Write access</description>
+        <label>ADV Advancement Manager Share</label>
+        <sharedTo>
+            <group>Advancement_Manager</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Advancement</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ADV_Advancement_Operations_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Distribution Management records to Advancement Operations Manager with Read/Write access</description>
+        <label>ADV Advancement Operations Manager Share</label>
+        <sharedTo>
+            <group>Advancement_Operations_Manager</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Advancement</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ADV_Fundraiser_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Distribution Management records to Fundraiser with Read/Write access</description>
+        <label>ADV Fundraiser Share</label>
+        <sharedTo>
+            <group>Fundraiser</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Advancement</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ADV_Fundraising_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Distribution Management records to Fundraising Managers with Read/Write access</description>
+        <label>ADV Fundraising Manager Share</label>
+        <sharedTo>
+            <group>Fundraising_Manager</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Advancement</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

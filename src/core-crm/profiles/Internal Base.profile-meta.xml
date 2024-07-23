@@ -672,6 +672,14 @@
         <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Opportunity-Industry Engagement Layout</layout>
         <recordType>Opportunity.Commercialisation</recordType>
     </layoutAssignments>
@@ -702,5 +710,13 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>SMS_Template__c-SMS Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout> 
+        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
     </layoutAssignments>
 </Profile>

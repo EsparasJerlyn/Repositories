@@ -1,0 +1,95 @@
+<template>
+    <c-logger></c-logger>
+    <div class="slds-p-bottom_medium">
+        <div class="slds-clearfix box-card-with-border">
+            <div class="slds-clearfix">
+                <div class="slds-float_left slds-p-top_xx-small">
+                    <p class="slds-p-top_xxx-small"><b>Distribution Management</b></p>
+                </div>
+                <template lwc:if={statusNotArchived}>
+                    <div class="slds-float_right">
+                        <lightning-button
+                            label="New"
+                            class="slds-m-left_x-small"
+                            onclick={handleDistributionManagementModal}
+                            disabled={disableDistribMngmntButton}
+                        ></lightning-button>
+                    </div>
+                </template>
+            </div>
+
+            <template lwc:if={checkLoading}>
+            </template>
+            <template lwc:else>
+                <template lwc:if={isDataEmpty}>
+                    <div class="box-full-width-center spinner-padding slds-p-top_medium slds-p-bottom_medium">
+                        <b>No Distribution Management Found. Add by selecting 'New' button</b>
+                    </div>
+                </template>
+            </template>
+        </div>
+        <div class="box-distribution-list">
+            <template if:true={data}>
+                <template for:each={data} for:item="obj">
+                    <article key={obj.Id} class="slds-card">
+                        <p class="slds-float_left slds-p-right_small"><b>{obj.Name}</b></p>
+                        <template lwc:if={statusNotArchived}>
+                            <lightning-button-menu alternative-text="View More" icon-size="x-small" class="slds-m-left_xx-small">
+                                <lightning-menu-item disabled={obj.isEditActionDisabled} value="edit" label="Edit" data-id={obj.Id} onclick={handleEditButton}></lightning-menu-item>
+                            </lightning-button-menu>
+                        </template>
+
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-p-horizontal_xx-small slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    <p class="slds-p-bottom_xx-small slds-border_bottom">
+                                        <span class="inline-block slds-p-horizontal_xx-small slds-col slds-size_5-of-12">
+                                            Start Date
+                                        </span>
+                                        {obj.Start_Date__c}
+                                    </p>
+                                </div>
+                                <div class="slds-p-horizontal_xx-small slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    <p class="slds-p-bottom_xx-small slds-border_bottom">
+                                        <span class="inline-block slds-p-horizontal_xx-small slds-col slds-size_5-of-12">
+                                            End Date
+                                        </span>
+                                        {obj.End_Date__c}</p>
+                                </div>
+                                <div class="slds-p-horizontal_xx-small slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    <p class="slds-p-bottom_xx-small slds-border_bottom">
+                                        <span class="inline-block slds-p-horizontal_xx-small slds-col slds-size_5-of-12">Status</span>
+                                        {obj.Status__c}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="slds-p-top_x-small slds-p-bottom_x-small">Distribution Split</p>
+                        <lightning-datatable
+                            class="slds-max-medium-table_stacked"
+                            key-field="Id"
+                            columns={columns}
+                            data={obj.distributionSplit}
+                            hide-checkbox-column="true">
+                        </lightning-datatable>
+                    </article>
+                </template>
+            </template>
+            <template lwc:if={checkLoading}>
+                <div class="slds-p-top_large slds-p-bottom_large">
+                    <div class="box-full-width-center slds-show_inline-block slds-spinner_inline">
+                        <lightning-spinner variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <template lwc:if={isShowDistributionModal}>
+        <c-distribution-management-modal
+            designation-record-id={recordId}
+            dbmanagement={dbmanagement}
+            onclosedistributionmodal={handleCloseDistributionManagementModal}
+            ongetdistributionmanagementandsplit={getDistributionManagementAndSplit}
+            object-api-name={objectApiName}>
+        </c-distribution-management-modal>
+    </template>
+</template>

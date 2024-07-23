@@ -1,7 +1,7 @@
 /**
  * @description Selects which SObject DAO to implement
  * @author Accenture
- * 
+ *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                |
@@ -50,9 +50,17 @@
  *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
  *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
  *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
+ *    | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Added object mapping for Plan_Activity object                        |
+ *    | nicole.genon                   | March 7, 2023         | DEPP-7922              | Added object mapping for Stewardship__c Object                       |
+ *    | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Added object mapping for Donation_Cause_Code_Auto_Number__c object   |
+ *    | kenneth.f.alsay                | April 8, 2024         | DEPP-8399              | Added object mapping for Distribution_Management__c object           |
+ *    | ryan.j.a.dela.cruz             | April 12, 2024        | DEPP-8342              | Added object mapping for Designation__c object                       |
+ *    | neil.s.h.lesidan               | April 11, 2024        | DEPP-8392              | Added object mapping for Distribution_Split__c object                |
+ *    |                                |                       |                        | Added object mapping for Finance_GL_Account__c object                |
+ *    | nicole.genon                   | April 23, 2024        | DEPP-8498              | Added object mapping for Donation_Asset__c object object             |
+ *    |                                |                       |                        |                                                                      |
  */
-public class ImplementationSelector { 
-
+public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(
         new Map<SObjectType, Type>{
@@ -63,7 +71,7 @@ public class ImplementationSelector {
             ActionCadenceStepTracker.SObjectType => ActionCadenceStepTrackersDAO.class,
             Adhoc_Communication__c.SObjectType => AdhocCommunicationsDAO.class,
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
-            Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
+            Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class,
             Asset.SObjectType => AssetsDAO.class,
             Assessment__c.SObjectType => AssessmentsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
@@ -90,8 +98,17 @@ public class ImplementationSelector {
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
+            Designation__c.SObjectType => DesignationsDAO.class,
+            Designation_Code_Auto_Number__c.SObjectType => DesignationCodeAutoNumbersDAO.class,
+            Distribution_Management__c.SObjectType => DistributionManagementsDAO.class,
+            Distribution_Split__c.SObjectType => DistributionSplitsDAO.class,
+            Finance_GL_Account__c.SObjectType => FinanceGLAccountsDAO.class,
             Course_Connection_Assessment__c.SObjectType => CourseConnectionAssessmentsDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
+            Donation__c.SObjectType => DonationsDAO.class,
+            Donation_Asset__c.SObjectType => DonationAssetsDAO.class,
+            Donation_Cause_Code_Auto_Number__c.SObjectType => DonationCauseCodeAutoNumbersDAO.class,
+            Donation_Cause__c.SObjectType => DonationCausesDAO.class,
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
@@ -117,11 +134,10 @@ public class ImplementationSelector {
             IP_Management__c.SObjectType => IPManagementsDAO.class,
             IP_Management_Relationship__c.SObjectType => IPManagementRelationshipsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
-            Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
+            Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class,
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             LeadStatus.SObjectType => LeadStatusesDAO.class,
             Leave_of_Absence__c.SObjectType => LeaveOfAbsencesDAO.class,
-            LogEntry__c.SObjectType => LogEntriesDAO.class,
             LogEntry__c.SObjectType => LogEntriesDAO.class,
             Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
@@ -136,10 +152,11 @@ public class ImplementationSelector {
             OrgWideEmailAddress.SobjectType => OrgWideEmailAddressesDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Package_Component__c.SObjectType => PackageComponentDAO.class,
+            Plan_Activity__c.SObjectType => PlanActivitiesDAO.class,
             Pricebook2.SObjectType => PricebooksDAO.class,
             PricebookEntry.SObjectType => PricebookEntriesDAO.class,
             Product2.SObjectType => ProductsDAO.class,
-            Profile.SObjectType => ProfilesDAO.class,           
+            Profile.SObjectType => ProfilesDAO.class,
             ProductCategory.SObjectType => ProductCategoriesDAO.class,
             ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
             Product_Ledger__c.SObjectType => ProductLedgersDAO.class,
@@ -152,7 +169,7 @@ public class ImplementationSelector {
             Risk__c.SObjectType => RisksDAO.class,
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,
             SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
-            Student_Sanction__c.SObjectType => StudentSanctionsDAO.class,
+            Stewardship__c.SObjectType => StewardshipsDAO.class,
             Student_Sanction__c.SObjectType => StudentSanctionsDAO.class,
             Task.SObjectType => TasksDAO.class,
             User.SObjectType => UsersDAO.class,
@@ -222,7 +239,7 @@ public class ImplementationSelector {
     }
 
     /**
-     * Exception representing a developer coding error, not intended for end user eyes 
+     * Exception representing a developer coding error, not intended for end user eyes
      **/
     public class DeveloperException extends Exception {
     }

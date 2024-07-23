@@ -285,6 +285,17 @@
         <recordType>Finance_Summary__c.Dividend_Summary</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-QUTeX Opportunity Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Finance_Summary__c-Finance Summary - QUT Finance System Page Layout</layout>
         <recordType>Finance_Summary__c.QUT_Finance_System</recordType>
     </layoutAssignments>

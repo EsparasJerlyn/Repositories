@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+ *    | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                                    |
+ *    | ryan.j.a.dela.cruz             | April 30, 2024        | N/A - ST FIX           | Added accessLevel param for getListRecords      |
  */
 @isTest
 public with sharing class ListsDAOTest {
@@ -29,7 +30,7 @@ public with sharing class ListsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
             List<List__c> listRecords = ListsDAO.newInstance()
-                .getListRecords(1);
+                .getListRecords(1, AccessLevel.USER_MODE);
             System.assert(listRecords.isEmpty(), 'listRecords is not empty');
         }
         Test.stopTest();
@@ -52,7 +53,10 @@ public with sharing class ListsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
             List<List__c> listRecList = ListsDAO.newInstance()
-                .getListRecordsByRelatedEngagementOpportunitySetIds(new Set<Id>(), AccessLevel.SYSTEM_MODE);
+                .getListRecordsByRelatedEngagementOpportunitySetIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
             System.assert(listRecList.isEmpty(), 'listRecList is not empty');
         }
         Test.stopTest();

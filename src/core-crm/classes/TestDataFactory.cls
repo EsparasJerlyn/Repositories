@@ -77,8 +77,15 @@
  *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
  *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
  *    | eugene.andrew.abuan       | May 24, 2024          | DEPP-8822           | Added method for Qualtrics Survey record creation                       |
-
-
+ *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
+ *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
+ *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
+ *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                |
+ *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation         |
+ *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                          |
+ *    |                           |                       |                     | Added method createTestDistributionSplitRecords                         |
+ *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                 |
+ *    | kenneth.f.alsay           | April 23, 2024        | DEPP-8528           | Added method createDonationRecordsWithRecordType                        |
  **/
     
 @isTest
@@ -124,6 +131,8 @@ public class TestDataFactory {
         'QUT_Alumni_Engagement_Manager',
         'QUT_Corporate_Engagement_Manager',
         'QUT_International_Future_Student_Agent',
+        'QUT_Advancement_Manager',
+        'QUT_Donor_Engagement_Manager',
         'QUT_Student_Success_Outreach_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2023,7 +2032,7 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listId,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member__c = listMemberId
+                   List_Member__c = listMemberId 
                 )
             );
         }
@@ -2046,7 +2055,7 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listrecords[i].Id,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member__c = listMemberId
+                   List_Member__c = listMemberId 
                 )
             );
         }
@@ -2409,6 +2418,36 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return futureStudentAgent;
+    }
+
+    /**
+     * @description Method for creating Advancement Manager
+     * @param void
+     * @return advancementManager - Advancement Manager
+     */
+    public static User getAdvancementManager() {
+        User advancementManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Advancement_Manager%'
+            LIMIT 1
+        ];
+        return advancementManager;
+    }
+
+    /**
+     * @description Method for creating Donor Engagement Manager
+     * @param void
+     * @return DonorEngagementManager - Donor Engagement Manager
+     */
+    public static User getDonorEngagementManager() {
+        User advancementManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Donor_Engagement_Manager%'
+            LIMIT 1
+        ];
+        return advancementManager;
     }
 
     /**
@@ -3223,6 +3262,34 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            }else if(name == 'QUT_Advancement_Manager'){
+                userName = 'QUT_Advancement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Advancement Manager';
+                permSets = 'Advancement_Base';
+                publicGroups = 'Advancement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if(name == 'QUT_Donor_Engagement_Manager'){
+                userName = 'QUT_Donor_Engagement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Donor Engagement Manager';
+                permSets = 'Advancement_Base';
+                publicGroups = 'Donor Engagement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
             /** START - Creation of  Alumni and Corporate Engagement Manager Users */
             else if (name == 'QUT_Alumni_Engagement_Manager') {
@@ -3735,6 +3802,59 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating test Financeial GL Account records
+     * @return financeGlAccts - List of Finance GL Account created
+     */
+    public static List<Finance_GL_Account__c> createTestFinanceGLAccountRecords(
+        Integer numFinanceGlAccts,
+        Boolean isActive
+    ) {
+        List<Finance_GL_Account__c> financeGlAccts = new List<Finance_GL_Account__c>();
+
+        for (Integer i = 0; i < numFinanceGlAccts; i++) {
+            financeGlAccts.add(
+                new Finance_GL_Account__c(
+                    Name = 'Test' + i,
+                    Account_Code__c = 1230 + i,
+                    Activity_Code__c = 10 + i,
+                    Campus_Code__c = 1 + i,
+                    Entity_Code__c = 1 + i,
+                    GL_Account_Code__c = String.valueOf(123450 + i),
+                    Project_Code__c = 1230 + i,
+                    Responsibility_Centre_Code__c =  123450 + i,
+                    Type_Code__c = 1 + i,
+                    Is_Active__c = isActive
+                )
+            );
+        }
+        return financeGlAccts;
+    }
+
+    /**
+     * @description Method for creating test Distribution Split records
+     * @return distributionSplits - List of Finance GL Account created
+     */
+    public static List<Distribution_Split__c> createTestDistributionSplitRecords(
+        Integer numDistributionSplits,
+        Id distributionManagementId,
+        Id financeGlAcct
+    ) {
+        List<Distribution_Split__c> distributionSplits = new List<Distribution_Split__c>();
+
+        for (Integer i = 0; i < numDistributionSplits; i++) {
+            distributionSplits.add(
+                new Distribution_Split__c(
+                    Distribution_Management__c = distributionManagementId,
+                    Finance_GL_Account__c = financeGlAcct,
+                    Participating_Group__c = 'Test' + i,
+                    Percentage_Split__c = 10 + i
+                )
+            );
+        }
+        return distributionSplits;
+    }
+
+    /**
      * @description Method for creating test Relationship Manager records
      * @return relationshipManagers - List of  Relationship Managers created
      */
@@ -3849,6 +3969,59 @@ public class TestDataFactory {
         }
         return packageComponentList;
     }
+
+    
+    /**
+     * @description Method for creating test Plan Activity records
+     * @params
+     * numOfPlanActivites - number of records to create
+     * oppOd - Id of the Opportunity the Plan Activity record will be related to
+     * @return planActivities - List of Plan Activity records created
+     */
+    public static List<Plan_Activity__c> createPlanActivityRecords(
+        Integer numOfPlanActivities,
+        Id opptyId
+    ) {
+        List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
+        for (Integer i = 0; i < numOfPlanActivities; i++) {
+            planActivities.add(
+                new Plan_Activity__c(
+                    Status__c = 'Pending',
+                    Outcome__c = 'Test Outcome',
+                    Contact_Channel__c = 'Email',
+                    Description__c = 'Test Description'
+                )
+            );
+        }
+        return planActivities;
+    }
+
+    /**
+     * @description Method for creating test Plan Activity records
+     * @params
+     * numOfPlanActivites - number of records to create
+     * stewardshipId - Id of the stewardship the Plan Activity record will be related to
+     * @return planActivities - List of Plan Activity records created
+     */
+    public static List<Plan_Activity__c> createPlanActivityRecordsWithStewardship(
+        Integer numOfPlanActivities,
+        Id stewardshipId
+    ) {
+        List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
+        for (Integer i = 0; i < numOfPlanActivities; i++) {
+            planActivities.add(
+                new Plan_Activity__c(
+                    Status__c = 'Pending',
+                    Outcome__c = 'Test Outcome ' + i,
+                    Contact_Channel__c = 'Email',
+                    Description__c = 'Test Description',
+                    Stewardship__c = stewardshipId
+                )
+            );
+        }
+        return planActivities;
+    }
+
     /**
      * @description Method for creating test Lead Score Configuration records
      * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
@@ -4324,6 +4497,191 @@ public class TestDataFactory {
         }
 
         return engagementOpp;
+    }
+
+    /**
+     * @description Method for creating test Stewardship records
+     * @params
+     * numOfRecords - number of records to create
+     * @return stewardshipList - List of Stewardship records created
+     */
+    public static List<Stewardship__c> createStewardshipRecords(
+        Id recordTypeId,
+        Integer numOfRecords
+    ) {
+        List<Stewardship__c> stewardshipList = new List<Stewardship__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            stewardshipList.add(
+                new Stewardship__c(
+                    Stage__c = 'Active',
+                    Start_Date__c = System.today() + 30,
+                    Completion_Summary__c = 'Test',
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return stewardshipList;
+    }
+
+    /**
+     * @description Method for creating test Distribution Management records
+     * @params
+     * numOfRecords - number of records to create
+     * status - status of the records to create
+     * @return distributionManagementList - List of Distribution Management records created
+     */
+    public static List<Distribution_Management__c> createDistributionManagementRecords(
+        Integer numOfRecords,
+        String status
+    ) {
+        List<Distribution_Management__c> distributionManagementList = new List<Distribution_Management__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            distributionManagementList.add(
+                new Distribution_Management__c(
+                    Status__c = status,
+                    Start_Date__c = System.Today()
+                )
+            );
+        }
+        return distributionManagementList;
+    }
+
+    /**
+     * @description Method for creating test Donation records
+     * @params
+     * numOfRecords - number of records to create
+     * recordTypeId - recordTypeId of the records to create
+     * @return donationList - List of Donation records created
+     */
+    public static List<Donation__c> createDonationRecordsWithRecordType (
+        Integer numOfRecords,
+        Id recordTypeId
+    ) {
+        List<Donation__c> donationList = new List<Donation__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationList.add(
+                new Donation__c(
+                    RecordTypeId = recordTypeId,
+                    Stage__c = 'Proposed',
+                    Donation_Type__c = 'Influenced Revenue',
+                    Donation_Comment__c = 'Test Donation'
+                )
+            );
+        }
+        return donationList;
+    }
+
+    /**
+     * @description Method for creating test Donation Causes records
+     * @params
+     * numOfRecords - number of records to create
+     * @return donationCauseList - List of Donation Cause records created
+     */
+    public static List<Donation_Cause__c> createDonationCauseRecords(
+        Integer numOfRecords
+    ) {
+        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationCauseList.add(
+                new Donation_Cause__c(
+                    Activation_Start_Date__c = System.Today(),
+                    Name = 'Test Donation' + i,
+                    Donation_Cause_Description__c = 'Test'
+                )
+            );
+        }
+        return donationCauseList;
+    }
+
+    /**
+     * @description Method for creating test Designation records
+     * @params
+     * numOfRecords - number of records to create
+     * @return designationList - List of Designation records created
+     */
+    public static List<Designation__c> createDesignationRecords(
+        Integer numOfRecords,
+        Id recordTypeId
+    ) {
+        List<Designation__c> designationList = new List<Designation__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            designationList.add(
+                new Designation__c(
+                    Activation_Start_Date__c = System.Today(),
+                    Name = 'Test Designation ' + i,
+                    Description__c = 'Test',
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return designationList;
+    }
+
+    /**
+     * @description Method for creating test Donation records
+     * @params
+     * numOfRecords - number of records to create
+     * @return donationList - List of Donation records created
+     */
+    public static List<Donation__c> createDonationRecordsWithOpportunity (
+        Integer numOfRecords,
+        Id opportunityId
+    ) {
+        List<Donation__c> donationCauseList = new List<Donation__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationCauseList.add(
+                new Donation__c(
+                    Donation_Type__c = 'Influenced Revenue',
+                    Stage__c = 'Proposed',
+                    Opportunity__c = opportunityId
+                )
+            );
+        }
+        return donationCauseList;
+    }
+
+    /**
+     * @description Method for creating test Distribution Management records
+     * @params
+     * numOfRecords - number of records to create
+     * @return dMList - List of Distribution Management records created
+     */
+    public static List<Distribution_Management__c> createDistributionManagementRecordsWithDesignation(
+        Integer numOfRecords,
+        Id designationId
+    ) {
+        List<Distribution_Management__c> dMList = new List<Distribution_Management__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            dMList.add(
+                new Distribution_Management__c(
+                    Designation__c = designationId,
+                    Start_Date__c = System.Today(),
+                    Status__c = 'Ready For Use'
+                )
+            );
+        }
+        return dMList;
+    }
+
+    /**
+     * @description Method for creating test Donation Asset records
+     * @params
+     * numOfRecords - number of records to create
+     * @return donationAssetList - List of Donation Assets records created
+     */
+    public static List<Donation_Asset__c> createDonationAssetRecords(
+        Integer numOfRecords
+    ) {
+        List<Donation_Asset__c> donationAssetList = new List<Donation_Asset__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationAssetList.add(
+                new Donation_Asset__c(
+                    Asset_Name_Title__c = 'Test Donation',
+                    Asset_Type__c = 'Art'
+                )
+            );
+        }
+        return donationAssetList;
     }
     /** @description Method for Assessment Records
      * @param numberOfAssesmentRecords - number of Assessment Records to be created

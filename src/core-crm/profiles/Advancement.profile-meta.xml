@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
+    <applicationVisibilities>
+        <application>Advancement</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Advancement Account Relationship Manager</layout> 
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Advancement Contact Relationship Manager</layout> 
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Designation__c-Endowment Designation Layout</layout> 
+        <recordType>Designation__c.Endowment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Designation__c-Giving To Cause Designation Layout</layout> 
+        <recordType>Designation__c.Giving_To_Cause</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document - Advancement Page Layout</layout>
+        <recordType>Document__c.Advancement</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Standard</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Cause</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Endowment_Funds_Transfer</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Endowment_Instalment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Endowment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Gift_In_Kind</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Pledge_Designation_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Pledge_Instalment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Pledge</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Donation__c-Advancement Donations Layout</layout>
+        <recordType>Donation__c.Staff_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Endowment Designation Layout</layout> 
+        <recordType>Finance_Summary__c.Endowment_Fund_Summary</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Plan_Activity__c-Plan Activity Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout> 
+        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+    </layoutAssignments>
+</Profile>

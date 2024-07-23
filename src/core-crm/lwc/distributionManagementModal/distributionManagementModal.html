@@ -1,0 +1,92 @@
+<template>
+    <c-logger></c-logger>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{modalTitle} Designation Management</h1>
+            </div>
+            <lightning-messages></lightning-messages>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-accordion active-section-name= "distributionManagement" allow-multiple-sections-open>
+                    <lightning-accordion-section name="distributionManagement" label="Distribution Management Summary" class="accordion-section">
+
+                        <div class="slds-grid slds-gutters">
+                                <lightning-input
+                                    label="Start Date"
+                                    type="Date"
+                                    value={distribManagment.Start_Date__c}
+                                    data-name="Start_Date__c"
+                                    disabled={isStartDateEditable}
+                                    onchange={handleChange}
+                                    required="true"
+                                    message-when-value-missing="Start Date is a mandatory field"
+                                    class="inputstartDate slds-col slds-size_1-of-3">
+                                </lightning-input>
+                                <lightning-input
+                                    label="End Date"
+                                    type="Date"
+                                    value={distribManagment.End_Date__c}
+                                    data-name="End_Date__c"
+                                    disabled={isEndDateEditable}
+                                    onchange={handleChange}
+                                    class="inputendDate slds-col slds-size_1-of-3">
+                                </lightning-input>
+                                <lightning-combobox
+                                    label="Status"
+                                    value={distribManagment.Status__c}
+                                    data-name="Status__c"
+                                    options={status}
+                                    required="true"
+                                    onchange={handleChange}
+                                    class= "inputStatus slds-col slds-size_1-of-3">
+                                </lightning-combobox>
+                            </div>
+
+                        <div class="slds-grid slds-gutters slds-p-bottom_medium slds-p-top_x-large slds-p-left_large">
+                            <p class ="slds-text-heading_small">Distribution Split</p>
+                        </div>
+                            <div if:true={showPercentError} class="slds-text-color_destructive slds-text-align_center slds-p-top-small slds-text-heading_small">
+                                <p><strong>Please ensure the percentage split adds up to 100%</strong></p>
+                                <p class="slds-text-body_small slds-p-bottom_medium ">(Current total: {total}%)</p>
+                        </div>
+                        <div class="slds-col slds-p-left" >
+                            <template lwc:if={isShowTable}>
+                                <c-custom-datatable-columned
+                                    key-field="id"
+                                    onload={addBlankRow}
+                                    data={distributionSplitData}
+                                    columns={distributionSplitColumns}
+                                    onrowaction={handleDeleteRow}
+                                    oncellchange={handleCellChange}
+                                    onlookupselect={handleItemSelect}
+                                    draft-values={draftValues}
+                                    errors={datatableErrors}
+                                    hide-checkbox-column
+                                    show-row-number-column
+                                    suppress-bottom-bar
+                                ></c-custom-datatable-columned>
+                            </template>
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+
+                <lightning-button
+                    variant="brand-outline"
+                    label="Add Row"
+                    title="Add Row"
+                    icon-name="utility:add"
+                    onclick={handleAddRowButton}
+                    disabled={disableAddButton}
+                    class="slds-float_right">
+                </lightning-button>
+            </div>
+
+            <footer class="slds-modal__footer slds-grid slds-grid_align-center">
+                <lightning-button class="slds-m-right_x-small" disabled={disabledCancelSave} variant="neutral" label="Cancel" onclick={handleCloseDistributionModal}></lightning-button>
+                <lightning-button variant="brand" label="Save" disabled={disabledCancelSave} onclick={handleSave} ></lightning-button>
+            </footer>
+        </div>
+    </section>
+
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

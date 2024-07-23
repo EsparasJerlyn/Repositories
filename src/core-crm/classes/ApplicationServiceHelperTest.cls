@@ -14,6 +14,7 @@
 */
 @isTest
 private class ApplicationServiceHelperTest {
+    
     private static final String FIRSTNAME = 'TestfirstName';
     private static final String LASTNAME = 'Testlastname';
     private static final String EMAIL = 'testmail@mail.test';
@@ -42,7 +43,7 @@ private class ApplicationServiceHelperTest {
         TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
-
+    
     @isTest
     private static void testApplicationBatchInsertNoMatchContact() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {

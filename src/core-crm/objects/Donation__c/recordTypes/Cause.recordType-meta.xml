@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cause</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Cause_Compact_Layout</compactLayoutAssignment>
+    <description>Create a Donation record to be managed via the Giving Portal.</description>
+    <label>Cause</label>
+    <picklistValues>
+        <picklist>Cancellation_Reason__c</picklist>
+        <values>
+            <fullName>Designation Discontinued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor Requested Cancellation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Variation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Frequency__c</picklist>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fortnightly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Type__c</picklist>
+        <values>
+            <fullName>One-Off Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recurring Payment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed - Part Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proposed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

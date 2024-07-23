@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Matching_Code__c</fullName>
+    <description>Unique Identifier used for transaction matching purposes. Business user cannot create or edit this field. Database field only.</description>
+    <externalId>false</externalId>
+    <label>Matching Code</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Giving_To_Cause</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Giving_to_Cause_Compact_Layout</compactLayoutAssignment>
+    <description>Create a Designation for a QUT Giving Cause.</description>
+    <label>Giving To Cause</label>
+    <picklistValues>
+        <picklist>Archived_Reason__c</picklist>
+        <values>
+            <fullName>Designation Discontinued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Giving_Category__c</picklist>
+        <values>
+            <fullName>Support Community</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Support Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Support Students</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Is_For_Private_Giving__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Is_For_Public_Giving__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Is_For_Staff_Giving__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Archived</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Define</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Published</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

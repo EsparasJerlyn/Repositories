@@ -15,6 +15,7 @@
  *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | added percent value change                                                |
  *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | fix url issue                                                             |
  *    | roy.nino.s.regala              | Aug 25, 2023          | DEPP-6348              | made class in system mode and added user access checker to look up fields |
+ *    | roy.nino.s.regala              | Feb 28, 2023          | DEPP-8155              | enable locking of edit button of related list by parent field             |
  */
 
 public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many public methods, 
@@ -108,7 +109,8 @@ public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many pu
             parametersMap,
             AccessLevel.SYSTEM_MODE
         );
-        finalWrapper.hasVisibility = true;
+        finalWrapper.hasAcessByUser = true;
+        finalWrapper.hasAccessByParent = true;
 
         //get user record access data
         finalWrapper.userAccessTable =  UserRecordAccessesDAO.newInstance().getUserRecordAccessesBySetRecordIds(lookupIds);
@@ -123,7 +125,8 @@ public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many pu
                     .Name
             )
         ) {
-            finalWrapper.hasVisibility = getVisiblityCheckResult(tableWrapperParams);
+            finalWrapper.hasAcessByUser = getVisiblityCheckResult(tableWrapperParams).get('User');
+            finalWrapper.hasAccessByParent = getVisiblityCheckResult(tableWrapperParams).get('Parent');
         }
 
         return finalWrapper;
@@ -165,7 +168,13 @@ public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many pu
      *
      * @return DataTableResponse   contains the table columns,rows and record count.
      */
-    private static boolean getVisiblityCheckResult(Map<String, String> paramsMap) {
+    private static Map<String,Boolean> getVisiblityCheckResult(Map<String, String> paramsMap) {
+
+        Map<String,Boolean> getAccessCheckResultMap = new Map<String,Boolean>{
+            'Parent' => true,
+            'User' => true
+        };
+
         List<SObject> parentResult = new List<SObject>();
         List<SObject> userResult = new List<SObject>();
         boolean checkParentVisibility = false;
@@ -188,14 +197,16 @@ public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many pu
             checkUserVisibility = true;
         }
 
-        if (
-            (checkParentVisibility == true && parentResult.isEmpty()) ||
-            (checkUserVisibility == true && userResult.isEmpty())
-        ) {
-            return false; //dont give visibility
-        } else {
-            return true; //give visibility
+        if(checkParentVisibility == true && parentResult.isEmpty()){
+            getAccessCheckResultMap.put('Parent',false);
         }
+
+        if(checkUserVisibility == true && userResult.isEmpty()){
+            getAccessCheckResultMap.put('User',false);
+        }
+
+        return getAccessCheckResultMap;
+       
     }
 
     /**
@@ -308,6 +319,8 @@ public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many pu
         @AuraEnabled
         public Integer recordCount { get; set; }
         @AuraEnabled
-        public boolean hasVisibility { get; set; }
+        public boolean hasAcessByUser { get; set; }
+        @AuraEnabled
+        public boolean hasAccessByParent { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Endowment_Instalment_Compact_Layout</fullName>
+    <fields>RecordTypeId</fields>
+    <fields>Name</fields>
+    <fields>Contact__c</fields>
+    <fields>Account__c</fields>
+    <fields>OwnerId</fields>
+    <fields>Instalment_Number__c</fields>
+    <label>Endowment Instalment Compact Layout</label>
+</CompactLayout>

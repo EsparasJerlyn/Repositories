@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>ADV_Advancement_Operations_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to Advancement Operations Manager</description>
+        <label>ADV Advancement Operations Manager Share</label>
+        <sharedTo>
+            <group>Advancement_Operations_Manager</group>
+        </sharedTo>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Advancement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Donation__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Designation__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ADV_Donor_Engagement_Manager_Share_Parent_Stewardship</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to Donor Engagement Manager when under Stewardship</description>
+        <label>ADV Donor Engagement Manager Share - Parent Stewardship</label>
+        <sharedTo>
+            <group>Donor_Engagement_Manager</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Stewardship__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ADV_Fundraiser_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to Fundraiser</description>
+        <label>ADV Fundraiser Share</label>
+        <sharedTo>
+            <group>Fundraiser</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Advancement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Donation__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ADV_Fundraising_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to Fundraising Manager</description>
+        <label>ADV Fundraising Manager Share</label>
+        <sharedTo>
+            <group>Fundraising_Manager</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Advancement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Donation__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>All_Advancement_Share_Parent_Opportunity</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to all Advancement persona when under Opportunity</description>
+        <label>All Advancement Share - Parent Opportunity</label>
+        <sharedTo>
+            <group>Advancement</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Opportunity__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DV_Advancement_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to Advancement Manager</description>
+        <label>DV Advancement Manager Share</label>
+        <sharedTo>
+            <group>Advancement_Manager</group>
+        </sharedTo>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Advancement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Donation__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Designation__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>IE_Operations_Manager_Share</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Document records to Operations Manager with Read/Write access when under
