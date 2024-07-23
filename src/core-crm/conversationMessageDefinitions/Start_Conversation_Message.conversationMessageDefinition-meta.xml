@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConversationMessageDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <constants>
+        <constantType>Title</constantType>
+        <primitiveValues>
+            <textValue>Hi,
+I&apos;m quickly going through your message. I will be assisting you in a moment.</textValue>
+            <type>Text</type>
+        </primitiveValues>
+    </constants>
+    <description>Auto response message to let the end user know that their messaging session was accepted by an agent.</description>
+    <label>Start Conversation Message</label>
+    <language>en_US</language>
+    <messageLayouts>
+        <formatType>Text</formatType>
+        <layoutItems>
+            <collectionType>None</collectionType>
+            <name>text</name>
+            <primitiveValues>
+                <formulaTemplate>Thank you for waiting. How can I help you?</formulaTemplate>
+                <type>FormulaTemplate</type>
+            </primitiveValues>
+        </layoutItems>
+        <messageType>StaticContent</messageType>
+    </messageLayouts>
+    <type>AutoResponse</type>
+</ConversationMessageDefinition>
