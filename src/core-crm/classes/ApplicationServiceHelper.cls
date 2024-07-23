@@ -560,7 +560,7 @@ public inherited sharing class ApplicationServiceHelper {
         lead.put('Company', 'Learner');
         lead.put('Lead_Type__c', 'Learner');
 
-        if(app.get(Mobile__c) != null){
+        if(app.get('Mobile__c') != null){
             lead.put('LeadMobile_Locale__c',LeadsDAO.AU_LOCALE);
         }
 
