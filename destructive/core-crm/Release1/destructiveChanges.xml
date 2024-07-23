@@ -496,14 +496,6 @@
         <!-- (End) DEPP-6331 -->
         <name>WebLink</name>
     </types>
-
-     <types>
-        <!--(Start) DEPP-6473 -->
-        <members>Business_Development_Base</members>
-        <!--(End) DEPP-6473 -->
-        <name>PermissionSet</name>
-    </types>
-
     <types>
         <!--(Start) DEPP-6135 -->
         <members>hed__Application__c.SAMS</members>
