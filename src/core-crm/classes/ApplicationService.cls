@@ -297,6 +297,7 @@ public with sharing class ApplicationService { //NOPMD
                     //Update the mobile field when the SAMS Legacy criteria is satisfied
                     if(isSAMSLegacyRecType && isContactMobileToUpdate) {//NOPMD
                         applicant.put(targetField, application.get(sourceField));
+                        applicant.put('ContactMobile_Locale__c',ContactsDAO.AU_LOCALE);
                     }                    
                     continue;
                 }
