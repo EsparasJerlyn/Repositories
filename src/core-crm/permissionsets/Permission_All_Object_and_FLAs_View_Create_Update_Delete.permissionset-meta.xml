@@ -448,11 +448,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Activity.Completed_Cadence__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Adhoc_Communication__c.Course_Offering__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -14189,6 +14184,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Cadence_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    </fieldPermissions>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Completed_Cadence__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
