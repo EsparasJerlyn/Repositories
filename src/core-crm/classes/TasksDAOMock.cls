@@ -50,4 +50,20 @@ public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITask
         }
         return taskList;
     }
+
+
+    public List<Task> getTaskByCompeltedCadence(
+        Set<Id> completedCadenceIdSet
+    ) {
+        List<Task> taskList = new List<Task>();
+        for (Task ts : taskMap.values()) {
+            if (
+                completedCadenceIdSet.contains(ts.ActionCadenceStepTrackerId)
+            ) {
+                taskList.add(ts);
+            }
+        }
+        return taskList;
+    }
+
 }

@@ -76,4 +76,16 @@ public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
             FOR UPDATE
         ];
     }
+
+    public List<Task> getTaskByCompeltedCadence(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Completed_Cadence__c, Status  ' +
+            'FROM Task ' +
+            'WHERE Completed_Cadence__c IN: completedCadenceIdSet ',
+            accessLevel        
+        );
+    }
 }
