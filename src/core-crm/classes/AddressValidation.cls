@@ -29,12 +29,14 @@ public inherited sharing class AddressValidation {
 
         List<hed__address__c> validAddressList = new List<hed__address__c> ();   
         List<AddressValidationPayloadRequest> addressValidationRequest = new List<AddressValidationPayloadRequest>();
+        hed__Address__c addressCopy;
 
         for(hed__address__c address: addresses){        
             if(AddressesDAO.MAILING_COUNTRY_AU.contains(address.hed__MailingCountry__c)){
                 validAddressList.add(address);
                 addressValidationRequest.add(new AddressValidationPayloadRequest(address.Id));                
             }
+            mapOfAddresses.put(address.Id,address); // store address to update initially, mostlikely, loqate fields are nullified
         }
 
         if(!addressValidationRequest.isEmpty()){
@@ -42,12 +44,14 @@ public inherited sharing class AddressValidation {
             Boolean isCalloutSuccess = addressValidationRequest(addressValidationRequest);
 
             for(hed__address__c address: validAddressList){
+                addressCopy = address.clone();
                 String integrationStatus = isCalloutSuccess ? AddressesDAO.INTEGRATION_STATUS_SENT : AddressesDAO.INTEGRATION_STATUS_RETRY;
                 if(String.isNotBlank(address.Address_Integration_Status__c) && address.Address_Integration_Status__c == AddressesDAO.INTEGRATION_STATUS_RETRY){
                     integrationStatus = AddressesDAO.INTEGRATION_STATUS_FAILED;
                 }
-                address.Address_Integration_Status__c = integrationStatus;
-                mapOfAddresses.put(address.Id, address);
+                addressCopy.Id = address.Id;
+                addressCopy.Address_Integration_Status__c = integrationStatus;
+                mapOfAddresses.put(address.Id, addressCopy); // add integration status update
             }
             
             return mapOfAddresses;     

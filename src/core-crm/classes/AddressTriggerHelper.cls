@@ -14,21 +14,21 @@ public with sharing class AddressTriggerHelper {
     public static void validateAddress(List<hed__Address__c> addressList){
 
         Map<Id, hed__Address__c> addressByContactMap = new Map<Id, hed__Address__c>();
-        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>(addressList);
+        Map<Id, hed__Address__c> addressMap = new Map<Id, hed__Address__c>();
 
         for(hed__Address__c address : addressList){
 
             if(
                 address.hed__Parent_Contact__c != null && 
-                address.hed__Address_Type__c != null && 
                 address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS
             ){
                 addressByContactMap.put(address.hed__Parent_Contact__c, address);
+                addressMap.put(address.Id, address); //collect other addresses to a map
             }
         }
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(addressByContactMap.keySet(), AccessLevel.SYSTEM_MODE));
-        processValidation(addressMap, contactMap);
+        processValidation(addressMap, contactMap); // validate other addresses
     }
     
     private static void processValidation ( Map<Id, hed__Address__c> addressMap, Map<Id, Contact> contactMap){
@@ -41,7 +41,7 @@ public with sharing class AddressTriggerHelper {
         
         if(isAsyncProcess){
             AddressValidationManager addressValidation = new AddressValidationManager(addressMap.values(), contactMap, false);
-            addressValidation.setAddressValuesToNull();
+            addressValidation.processValidationForAddress();
         } else{
             AddressesValidationBatch batch = new AddressesValidationBatch(addressMap.keySet(), contactMap, false);
             Database.executeBatch(batch);
@@ -52,11 +52,14 @@ public with sharing class AddressTriggerHelper {
 
         Set<Id> addressIds = new Set<Id>();
         Map<Id, hed__Address__c> filteredAddressMap = new Map<Id, hed__Address__c>();
+        List<hed__Address__c> successAddressList = new List<hed__Address__c>();
         
         for(hed__Address__c address : addressList){
 
             Boolean isAddressValidationSuccess =  address.hed__Parent_Contact__c != null && 
-                                                  address.hed__Address_Type__c != null && 
+                                                  // collect other and first admitted address types
+                                                  (address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS || 
+                                                  address.hed__Address_Type__c == AddressesDAO.FIRST_ADMITTED_ADDRESS) &&
                                                   address.Address_Integration_Status__c != oldItems.get(address.Id).Address_Integration_Status__c &&
                                                   address.Address_Integration_Status__c == AddressesDAO.INTEGRATION_STATUS_SUCCESS &&
                                                   address.Validated__c == AddressesDAO.VALID_ADDRESS;
@@ -64,17 +67,16 @@ public with sharing class AddressTriggerHelper {
             //if the address is successfully validated
             if (isAddressValidationSuccess) {
                 addressIds.add(address.Id);
+                successAddressList.add(address);
             }
 
-            Boolean isMailingAddressUpdated =   address.hed__Parent_Contact__c != null &&     
-                                                address.hed__Address_Type__c != null &&           
+            Boolean isMailingAddressUpdated =   address.hed__Parent_Contact__c != null &&           
                                                 address.hed__Address_Type__c == AddressesDAO.OTHER_ADDRESS &&                                 
                                                 (address.hed__MailingStreet__c != oldItems.get(address.Id).hed__MailingStreet__c ||
                                                 address.hed__MailingCity__c != oldItems.get(address.Id).hed__MailingCity__c ||
                                                 address.hed__MailingPostalCode__c != oldItems.get(address.Id).hed__MailingPostalCode__c ||
                                                 address.hed__MailingState__c != oldItems.get(address.Id).hed__MailingState__c ||
-                                                address.hed__MailingCountry__c != oldItems.get(address.Id).hed__MailingCountry__c) &&
-                                                address.Validated__c != AddressesDAO.VALID_ADDRESS; 
+                                                address.hed__MailingCountry__c != oldItems.get(address.Id).hed__MailingCountry__c);
   
             //if the address mailing fields is/are updated                                    
             if(isMailingAddressUpdated){
@@ -87,7 +89,7 @@ public with sharing class AddressTriggerHelper {
             // call the method to validate Address
             if (isAsyncProcess) {
                 //Current transaction is running asynchronously
-                AddressValidationManager addressValidation = new AddressValidationManager(addressList);
+                AddressValidationManager addressValidation = new AddressValidationManager(successAddressList);
                 addressValidation.processValidateAddress();           
              } else {
                 //Current transaction is not running asynchronously
@@ -109,7 +111,7 @@ public with sharing class AddressTriggerHelper {
             if(isAsyncProcess){
                 //Current transaction is running asynchronously
                 AddressValidationManager addressValidation = new AddressValidationManager(filteredAddressMap.values(), contactMap, true );
-                addressValidation.setAddressValuesToNull();
+                addressValidation.processValidationForAddress();
             }else{
                 //Current transaction is not running asynchronously
                 AddressesValidationBatch batch = new AddressesValidationBatch(new Map<Id, hed__Address__c>(filteredaddressmap.values()).keySet(), contactMap, true);

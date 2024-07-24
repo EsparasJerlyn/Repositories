@@ -2385,9 +2385,9 @@
                 <identifier>lst_dynamicRelatedList14</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Student Success</rightValue>
+                        <leftValue>{!$Permission.CustomPermission.Inbound_Enquiry_Cases}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2469,9 +2469,9 @@
                 <identifier>lst_dynamicRelatedList10</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Future Student Engagement</rightValue>
+                        <leftValue>{!$Permission.CustomPermission.Outreach_Cases}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

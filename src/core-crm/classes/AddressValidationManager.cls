@@ -147,6 +147,7 @@ public with sharing class AddressValidationManager {
         Map<Id,Contact> contactToUpdateMap = new Map<Id,Contact>();
         List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
         List<hed__Address__c> addressToInsert = new List<hed__Address__c>();
+        hed__Address__c addressCopy;
         
         try {
         
@@ -154,12 +155,13 @@ public with sharing class AddressValidationManager {
                 
                 Id contactId = address.hed__Parent_Contact__c;
                 Contact con = contactToUpdateMap.containsKey(contactId)? contactToUpdateMap.get(contactId) : new Contact(Id = contactId);
-                
+                addressCopy = address.clone();
                 switch on address.hed__Address_Type__c {
                     
                     when 'Other' {
                         //Address to update and associate ABS Categorisation 
-                        address.ABS_Categorisation__c = absCategorisation[0].Id;
+                        addressCopy.Id = address.Id;
+                        addressCopy.ABS_Categorisation__c = absCategorisation[0].Id;
                         
                         // Determine and set low socio-economic status
                         String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation[0]);
@@ -181,9 +183,9 @@ public with sharing class AddressValidationManager {
                             contactToUpdateMap.put(contactId,con);
 
                             //Update the 'First Admission Address' to false
-                            address.Is_First_Admission_Address__c = false;
+                            addressCopy.Is_First_Admission_Address__c = false;
                         }
-                        addressToUpdate.add(address);
+                        addressToUpdate.add(addressCopy);
 
                     }
                     when 'First Admitted' {
@@ -364,15 +366,20 @@ public with sharing class AddressValidationManager {
             List<Contact> contactsToUpdate = new List<Contact>();
             List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
             List<hed__Address__c> addressToUpdateNotQUTStudent = new List<hed__Address__c>();
+            hed__Address__c addressCopy;
             for(hed__Address__c address : addresses){
-                
+                addressCopy = address.clone();
+                addressCopy.Id = address.Id;
+                setAddressValuesToNull(addressCopy);
+
                 if(contactMap.containsKey(address.hed__Parent_Contact__c) && !contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                    addressToUpdateNotQUTStudent.add(address);
+                    addressToUpdateNotQUTStudent.add(addressCopy);
                     continue;
                 }
-                
-                address.ABS_Categorisation__c = absCategorisation.Id;
-                addressToUpdate.add(address);
+
+                addressCopy.ABS_Categorisation__c = absCategorisation.Id;
+
+                addressToUpdate.add(addressCopy);
 
                 Id contactId = address.hed__Parent_Contact__c;
                 String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation);
@@ -435,19 +442,15 @@ public with sharing class AddressValidationManager {
      * Retrieves sets the values of the Address to null
      * @return void
      */
-    public void setAddressValuesToNull(){
+    public void setAddressValuesToNull(hed__Address__c address){
         if(isUpdatedMailingAddress){
-            for(hed__Address__c address : addresses){
-                address.Statistical_Area_1_Id__c = null;
-                address.Meshblock_Id__c = null;                
-                address.Socio_Economic_Percentile__c = null;
-                address.Remoteness_Class__c = null;
-                address.GNAF_Id__c = null;
-                address.Validated__c = null;
-                address.ABS_Categorisation__c = null;
-            }
+            address.Statistical_Area_1_Id__c = null;
+            address.Meshblock_Id__c = null;                
+            address.Socio_Economic_Percentile__c = null;
+            address.Remoteness_Class__c = null;
+            address.GNAF_Id__c = null;
+            address.Validated__c = null;
+            address.ABS_Categorisation__c = null;
         }
-        processValidationForAddress();
-
     }
 }

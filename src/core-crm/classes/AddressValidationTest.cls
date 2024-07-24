@@ -109,9 +109,8 @@ private class AddressValidationTest {
             AddressValidation processAddressValidation = new AddressValidation(addresses);
             Map<Id, hed__address__c> addressMap = processAddressValidation.validateAddresses();           
             Test.stopTest();
-
-            System.Assert.areEqual(0, addressMap.size(), 'Non-Australian Address should not be validated.');
             
+            //Integration Status should not be updated, since Address is Non AU
             for(hed__Address__c address: addressMap.values()){
                 System.Assert.areEqual(null, address.Address_Integration_Status__c , 'The address Address_Integration_Status__c field is not equal to "NULL"');
             }
