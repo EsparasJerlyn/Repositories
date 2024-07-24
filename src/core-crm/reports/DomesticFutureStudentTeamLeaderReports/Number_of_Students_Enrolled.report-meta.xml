@@ -7,10 +7,7 @@
         <field>hed__Application__c.hed__Applicant__c</field>
     </columns>
     <columns>
-        <field>hed__Application__c.LastName__c</field>
-    </columns>
-    <columns>
-        <field>hed__Application__c.Applied_Program__c</field>
+        <field>FK_$hed__Program_Enrollment__c.hed__Account__c</field>
     </columns>
     <columns>
         <field>FK_$hed__Program_Enrollment__c.Enrollment_Status__c</field>
