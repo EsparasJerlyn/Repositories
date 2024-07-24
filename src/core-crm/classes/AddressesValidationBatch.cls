@@ -33,7 +33,7 @@ public with sharing class AddressesValidationBatch implements Database.Batchable
         AddressValidationManager addressValidation;
         if(contactMap != null){
             addressValidation = new AddressValidationManager(addressList, contactMap, isUpdatedMailingAddress );
-            addressValidation.setAddressValuesToNull();
+            addressValidation.processValidationForAddress();
         }else{
             addressValidation = new AddressValidationManager(addressList);
             addressValidation.processValidateAddress();

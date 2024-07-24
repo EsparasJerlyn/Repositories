@@ -1,0 +1,47 @@
+<html>
+ <head>
+  <title></title>
+ </head>
+ <body style="height: auto; min-height: auto;">
+  <div align="center">
+   <table border="0" cellpadding="0" cellspacing="0" style="width:484.5pt;border-collapse:collapse;">
+    <tbody>
+     <tr style="height:165.6pt">
+      <td colspan="6" style="width:442.75pt; padding:0cm 5.4pt 0cm 5.4pt; height:165.6pt"><p class="MsoNormal" style="margin-left: 40px;">&nbsp;</p> <p class="MsoNormal" style="margin-left: 20px;"><span style="font-size:14px;"><img alt="qut_img" class="qutImg" src="{[devName:qut_img]}" style="max-width: 1330.0445312499999px" title="qut_img" /><span style="font-family:&quot;Arial&quot;,sans-serif; color:black">&nbsp;</span></span><br /> &nbsp;</p> <p class="MsoNormal" style="margin: 0cm; font-size: 11.5pt;font-family:Arial, sans-serif"><span style="font-size:14px;">Hi {{{Case.SuppliedName}}},&nbsp;<br /> <br /> Thank you for contacting QUT - the university for the real world.<br /> <br /> We have received your enquiry and are excited to help you with your questions about studying at QUT.<br /> <br /> Your enquiry case reference number is: {{{Case.CaseNumber}}}.&nbsp;<br /> <br /> Our International Future Student team will respond within 3 business days.&nbsp;<br /> <br /> We understand that each enquiry is unique, and we are committed to providing you with the information you need.<br /> <br /> We look forward to chatting with you soon.<br /> <br /> Kind regards,<br /> QUT International Future Students</span><br /> &nbsp;</p></td>
+     </tr>
+     <tr style="height:2.0cm">
+      <td colspan="6" style="width:442.75pt; background:#124C7B; padding:0cm 5.4pt 0cm 5.4pt; height:2.0cm" width="590"><p align="center" class="MsoNormal" style="text-align:center; line-height:15.0pt"><span style="font-size:14px;"><a href="" style="color:white; text-decoration:none;"><br /> <span style="font-family:&quot;Arial&quot;,sans-serif; color:white;">Phone: +61 7 3138 8339</span> </a><br /> <a href="" style="color:white; text-decoration:none;"><span style="font-family:&quot;Arial&quot;,sans-serif; color:white;">Chat on WhatsApp: +61 449 533 240</span></a></span></p> <p align="center" class="MsoNormal" style="text-align:center; line-height:15.0pt"><span style="font-size:14px;"><b><span style="font-family:&quot;Arial&quot;,sans-serif; color:white">&nbsp;</span></b><span style="font-family:&quot;Arial&quot;,sans-serif; color:white">QUT International | Queensland University of Technology (QUT)</span><br /> <span style="font-family:&quot;Arial&quot;,sans-serif; color:white">Gardens Point Campus | GPO Box 2434, Brisbane QLD 4001 Australia</span><br /> <a href="http://www.qut.edu.au/international" style="color: #0563C1"><span style="font-family:&quot;Arial&quot;,sans-serif; color:white">http://www.qut.edu.au/international</span></a></span><br /> <br /> <span style="font-size:11px;"><span style="font-family:&quot;Arial&quot;,sans-serif; color:white">TEQSA&nbsp;</span><a href="https://www.teqsa.gov.au/national-register/provider/queensland-university-technology" style="color: #0563C1"><span style="font-family:&quot;Arial&quot;,sans-serif; color:white">PRV12079</span></a><span style="font-family:&quot;Arial&quot;,sans-serif; color:white">&nbsp; | CRICOS No. 00213J&nbsp;</span><span style="font-family:&quot;Arial&quot;,sans-serif; color:black">&nbsp;</span></span><br /> &nbsp;</p></td>
+     </tr>
+     <tr style="height:2.0cm">
+      <td colspan="6" style="width:442.75pt; background:#0066B9; padding:0cm 5.4pt 0cm 5.4pt; height:2.0cm" width="590"><p align="center" style="text-align:center; line-height:15.0pt"><a href="https://www.linkedin.com/school/queensland-university-of-technology/" style="text-decoration:none; cursor:pointer"><img alt="linkedIn" class="socialmedia" height="18" src="{[devName:linkedIn]}" title="linkedIn" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.facebook.com/QUTBrisbane" style="text-decoration:none; cursor:pointer"> <img alt="fb" class="socialmedia" height="18" src="{[devName:fb]}" title="fb" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.instagram.com/qutrealworld/?hl=en" style="text-decoration:none; cursor:pointer"> <img alt="instagram" class="socialmedia" height="18" src="{[devName:instagram]}" title="instagram" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.youtube.com/user/TheQUTube" style="text-decoration:none; cursor:pointer"> <img alt="youtube" class="socialmedia" height="18" src="{[devName:youtube]}" title="youtube" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.qut.edu.au/__data/assets/image/0011/840692/quti-wechat-qr.jpg" style="text-decoration:none; cursor:pointer"> <img alt="wechat" class="socialmedia" height="18" src="{[devName:wechat]}" title="wechat" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.tiktok.com/@qutrealworld" style="text-decoration:none; cursor:pointer"> <img alt="tiktok" class="socialmedia" height="18" src="{[devName:tiktok]}" title="tiktok" width="18" /> </a></p></td>
+     </tr>
+     <tr style="height:4.0pt">
+      <td colspan="6" style="width:442.75pt; padding:0cm 5.4pt 0cm 5.4pt; height:4.0pt" valign="top" width="590"><p align="center" style="text-align:center; line-height:15.0pt;"><span style=""><i style=""><span style="font-size:10.0pt; font-family:&quot;Calibri&quot;,sans-serif; color:black; padding-top: 2pt">You are receiving this communication because you have submitted an enquiry to QUT.</span></i></span><br />{{{Case.Thread_Token}}}</p></td>
+     </tr>
+     <tr>
+      <td style="width:52.4pt;padding:0;">&nbsp;</td>
+      <td style="width:18pt;padding:0;">&nbsp;</td>
+      <td style="width:122.9pt;padding:0;">&nbsp;</td>
+      <td style="width:236.85pt;padding:0;">&nbsp;</td>
+      <td style="width:18pt;padding:0;">&nbsp;</td>
+      <td style="width:33.35pt;padding:0;">&nbsp;</td>
+     </tr>
+     <tr height="0">
+      <td style="border-style:none;" width="70">&nbsp;</td>
+      <td style="border-style:none;" width="24">&nbsp;</td>
+      <td style="border-style:none;" width="164">&nbsp;</td>
+      <td style="border-style:none;" width="316">&nbsp;</td>
+      <td style="border-style:none;" width="24">&nbsp;</td>
+      <td style="border-style:none;" width="44">&nbsp;</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+  <div id="" style="left: 769.227px; top: 937.953px;">
+   &nbsp;
+  </div>
+  <div id="" style="left: 769.227px; top: 937.953px;">
+   &nbsp;
+  </div>
+ </body>
+</html>
