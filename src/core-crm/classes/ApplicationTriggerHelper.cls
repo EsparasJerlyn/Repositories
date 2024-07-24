@@ -87,13 +87,15 @@ public with sharing class ApplicationTriggerHelper {
                 }
                 contactTypeToAddressMap.put((String) applicant.Id + address.hed__Address_Type__c, address);
             }
-            if(!hasMailing) {
+            // added checking to only create address records if application addresses are populated
+            if(!hasMailing && ApplicationService.isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get('Mailing'))) {
                 contactTypeToAddressMap.put(
                     (String) applicant.Id + 'Mailing',
                     ApplicationService.fillAddressLines(new hed__Address__c(), application, 'Mailing')
                 );
             }
-            if(!hasOther) {
+            // added checking to only create address records if application addresses are populated
+            if(!hasOther && ApplicationService.isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get('Other'))){
                 contactTypeToAddressMap.put(
                     (String) applicant.Id + 'Other',
                     ApplicationService.fillAddressLines(new hed__Address__c(), application, 'Other')
