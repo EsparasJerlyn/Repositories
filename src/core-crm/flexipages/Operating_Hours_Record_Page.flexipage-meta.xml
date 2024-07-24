@@ -4,19 +4,16 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsConfiguration</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsInNative</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -64,7 +61,7 @@
                 <identifier>RecordTimeZoneField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-36d1daae-ca66-47d2-b6e6-545c6f42947e</name>
+        <name>Facet-c58a176f-f2ed-4840-a4a1-44ffb8e08262</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -72,13 +69,13 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-36d1daae-ca66-47d2-b6e6-545c6f42947e</value>
+                    <value>Facet-c58a176f-f2ed-4840-a4a1-44ffb8e08262</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
                 <identifier>flexipage_column</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-2bd2d598-2bf3-48e2-911c-cbc3d71acf73</name>
+        <name>Facet-e9c7ffce-2087-4c49-9ff1-029caf0821a5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -92,7 +89,7 @@
                 <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-72ea8c20-6b47-4250-b810-1f36159f3922</name>
+        <name>Facet-dff972b8-a1e9-45bb-adc5-0d4be98feccb</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -106,7 +103,7 @@
                 <identifier>RecordLastModifiedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-da7a9e1f-013a-4460-a0d0-28d77e2024b4</name>
+        <name>Facet-8fac41ce-0ab5-4ce8-92b6-b2397c7af198</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -114,23 +111,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-72ea8c20-6b47-4250-b810-1f36159f3922</value>
+                    <value>Facet-dff972b8-a1e9-45bb-adc5-0d4be98feccb</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
+                <identifier>flexipage_column2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-da7a9e1f-013a-4460-a0d0-28d77e2024b4</value>
+                    <value>Facet-8fac41ce-0ab5-4ce8-92b6-b2397c7af198</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column4</identifier>
+                <identifier>flexipage_column3</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-15289c36-e6b4-4b6f-9ae3-e39286988398</name>
+        <name>Facet-3e9a7a27-ec58-4559-a002-06f586b4a967</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -138,7 +135,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-2bd2d598-2bf3-48e2-911c-cbc3d71acf73</value>
+                    <value>Facet-e9c7ffce-2087-4c49-9ff1-029caf0821a5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>horizontalAlignment</name>
@@ -156,7 +153,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-15289c36-e6b4-4b6f-9ae3-e39286988398</value>
+                    <value>Facet-3e9a7a27-ec58-4559-a002-06f586b4a967</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>horizontalAlignment</name>
@@ -179,6 +176,14 @@
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
                     <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
                 <identifier>force_relatedListContainer</identifier>
@@ -240,7 +245,7 @@
     <masterLabel>Operating Hours Record Page</masterLabel>
     <sobjectType>OperatingHours</sobjectType>
     <template>
-        <name>flexipage:recordHomeSingleColTemplateDesktop</name>
+        <name>flexipage:recordHomeSimpleViewTemplate</name>
     </template>
     <type>RecordPage</type>
 </FlexiPage>
