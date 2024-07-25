@@ -35,7 +35,7 @@
                 <header>Total Offers</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Total_Offers</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Total_Offers_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -72,7 +72,7 @@
                 <header>Total Number of Calls</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Total_Number_of_Calls</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Total_Number_of_Calls_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -109,7 +109,7 @@
                 <header>Number of Students Enrolled</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Number_of_Students_Enrolled</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Number_of_Students_Enrolled_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -146,7 +146,7 @@
                 <header>Total Offer Calls</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Total_Offer_Calls</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Total_Offer_Calls_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -183,7 +183,7 @@
                 <header>Successful Offer Calls</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Successful_Offer_Calls</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Successful_Offer_Calls_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -220,7 +220,7 @@
                 <header>Unsuccessful Offer Calls</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Unsuccessful_Offer_Calls</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Unsuccessful_Offer_Calls_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
