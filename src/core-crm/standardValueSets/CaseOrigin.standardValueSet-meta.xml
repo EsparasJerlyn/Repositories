@@ -61,4 +61,9 @@
         <default>false</default>
         <label>Engagement List</label>
     </standardValue>
+    <standardValue>
+        <fullName>Walk-In</fullName>
+        <default>false</default>
+        <label>Walk-In</label>
+    </standardValue>
 </StandardValueSet>

@@ -2344,6 +2344,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Walk-In</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>WeChat</fullName>
             <default>false</default>
         </values>
