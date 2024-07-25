@@ -25,7 +25,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>hed__Application__c.Applications__r$QTAC_Offer_Round__c</groupingColumn>
+                <groupingColumn>hed__Application__c$Related_QTAC_Application__c.QTAC_Offer_Round__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -99,7 +99,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>hed__Application__c.Applications__r$QTAC_Offer_Round__c</groupingColumn>
+                <groupingColumn>hed__Application__c$Related_QTAC_Application__c.QTAC_Offer_Round__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -395,6 +395,8 @@
     </dashboardGridLayout>
     <dashboardType>LoggedInUser</dashboardType>
     <isGridLayout>true</isGridLayout>
+    <owner>cicd.integration@qut.edu.au.dep</owner>
+    <runningUser>ventayen.system.administrator@qut.edu.au.dep</runningUser>
     <textColor>#000000</textColor>
     <title>Domestic Nurturing Dashboard</title>
     <titleColor>#000000</titleColor>
