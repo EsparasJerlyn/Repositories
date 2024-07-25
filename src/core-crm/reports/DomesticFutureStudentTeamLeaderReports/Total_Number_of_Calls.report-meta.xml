@@ -55,9 +55,9 @@
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>true</showSubTotals>
+    <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Activity$ActivityDate</dateColumn>
+        <dateColumn>Activity$CreatedDate</dateColumn>
         <endDate>2024-02-29</endDate>
         <interval>INTERVAL_CUSTOM</interval>
         <startDate>2023-10-01</startDate>
