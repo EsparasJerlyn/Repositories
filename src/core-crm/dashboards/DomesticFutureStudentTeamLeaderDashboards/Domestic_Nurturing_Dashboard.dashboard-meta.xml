@@ -395,8 +395,6 @@
     </dashboardGridLayout>
     <dashboardType>LoggedInUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <owner>cicd.integration@qut.edu.au.dep</owner>
-    <runningUser>ventayen.system.administrator@qut.edu.au.dep</runningUser>
     <textColor>#000000</textColor>
     <title>Domestic Nurturing Dashboard</title>
     <titleColor>#000000</titleColor>
