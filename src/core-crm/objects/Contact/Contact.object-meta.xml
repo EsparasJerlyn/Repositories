@@ -362,6 +362,7 @@
         <excludedStandardButtons>SendListEmailAction</excludedStandardButtons>
         <excludedStandardButtons>MassCreateMyList</excludedStandardButtons>
         <excludedStandardButtons>PrintableListView</excludedStandardButtons>
+        <listViewButtons>CreateContact</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Preferred_Full_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Preferred_Given_Name__c</lookupDialogsAdditionalFields>
