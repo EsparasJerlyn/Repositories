@@ -68,6 +68,14 @@ public with sharing class ApplicationTriggerHelper {
             Boolean hasOther = false;
             Contact applicant = (Contact) contactsMap.get(application.hed__Applicant__c);
             for(hed__Address__c address : applicant.hed__Addresses__r) {
+
+                // skip process if address type is not other or mailing
+                // or address fields for specific type is not populated
+                if( !ApplicationsDAO.ADDRESS_FIELDS.containsKey(address.hed__Address_Type__c) || 
+                    !ApplicationService.isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get(address.hed__Address_Type__c))){
+                    continue;
+                }
+
                 address = ApplicationService.fillAddressLines(address, application, address.hed__Address_Type__c);
                 switch on address.hed__Address_Type__c {
                     when 'Mailing' { 
@@ -79,13 +87,15 @@ public with sharing class ApplicationTriggerHelper {
                 }
                 contactTypeToAddressMap.put((String) applicant.Id + address.hed__Address_Type__c, address);
             }
-            if(!hasMailing) {
+            // added checking to only create address records if application addresses are populated
+            if(!hasMailing && ApplicationService.isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get('Mailing'))) {
                 contactTypeToAddressMap.put(
                     (String) applicant.Id + 'Mailing',
                     ApplicationService.fillAddressLines(new hed__Address__c(), application, 'Mailing')
                 );
             }
-            if(!hasOther) {
+            // added checking to only create address records if application addresses are populated
+            if(!hasOther && ApplicationService.isAddressFieldsPopulated(application, ApplicationsDAO.ADDRESS_FIELDS.get('Other'))){
                 contactTypeToAddressMap.put(
                     (String) applicant.Id + 'Other',
                     ApplicationService.fillAddressLines(new hed__Address__c(), application, 'Other')
