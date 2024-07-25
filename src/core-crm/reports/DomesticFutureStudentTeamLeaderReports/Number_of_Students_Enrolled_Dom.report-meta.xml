@@ -28,7 +28,7 @@
             <value>Domestic</value>
         </criteriaItems>
         <criteriaItems>
-            <column>hed__Application__c.Applications__r$Name</column>
+            <column>hed__Application__c$Related_QTAC_Application__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>notEqual</operator>
@@ -38,7 +38,7 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>hed__Application__c.Applications__r$QTAC_Offer_Round__c</field>
+        <field>hed__Application__c$Related_QTAC_Application__c.QTAC_Offer_Round__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>Number of Students Enrolled</name>
