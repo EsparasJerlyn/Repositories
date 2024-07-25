@@ -5,6 +5,7 @@
     <label>Persona System Administrator - Read Only</label>
     <mutingPermissionSets>Persona_System_Administrator_Read_Only_Muted</mutingPermissionSets>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
+    <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
@@ -22,5 +23,8 @@
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
     <permissionSets>Permission_All_Custom_Permission</permissionSets>
+    <permissionSets>force__CopilotSalesforceUser</permissionSets>
+    <permissionSets>force__EinsteinAgent</permissionSets>
+    <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

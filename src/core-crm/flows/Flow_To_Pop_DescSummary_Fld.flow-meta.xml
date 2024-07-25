@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Prompt To get the short summary of the description</description>
+        <name>Prompt_To_get_the_short_summary_of_the_desc</name>
+        <label>Prompt To get the short summary of the desc</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <actionName>Prompt_to_populate_Description_Summary</actionName>
+        <actionType>generatePromptResponse</actionType>
+        <connector>
+            <targetReference>Update_Case</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>Input:Case</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Prompt_to_populate_Description_Summary</nameSegment>
+        <outputParameters>
+            <assignToReference>shortSummary</assignToReference>
+            <name>promptResponse</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>61.0</apiVersion>
+    <customErrors>
+        <description>Error Occured While Updating Case Record</description>
+        <name>Update_Error</name>
+        <label>Update Error</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <customErrorMessages>
+            <errorMessage>Error Occured While Updating Case Record</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>Decision To Call Prompt</description>
+        <name>Decision_To_Call_Prompt</name>
+        <label>Decision To Call Prompt</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Call_Prompt</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.AI_Settings__c.LLM_Requests_Active__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Prompt_To_get_the_short_summary_of_the_desc</targetReference>
+            </connector>
+            <label>Call Prompt</label>
+        </rules>
+    </decisions>
+    <description>Flow To Auto Populate the DescriptionSummary Field of the Case Object</description>
+    <environments>Default</environments>
+    <interviewLabel>Flow To Pop DescSummary Fld {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow To Pop DescSummary Fld</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update Case Record with Short Summary of Description</description>
+        <name>Update_Case</name>
+        <label>Update Case</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <faultConnector>
+            <targetReference>Update_Error</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Description_Summary__c</field>
+            <value>
+                <elementReference>shortSummary</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Decision_To_Call_Prompt</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Description</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Description</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Short Summary of the Description</description>
+        <name>shortSummary</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
