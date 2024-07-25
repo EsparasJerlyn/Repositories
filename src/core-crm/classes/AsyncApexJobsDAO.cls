@@ -12,7 +12,8 @@
  */
 public inherited sharing class AsyncApexJobsDAO extends DmlBase implements IAsyncApexJobsDAO{
 
-	 public static final Set<String> JOB_FINISHED_STATUS = new Set<String>{
+    public static final String EMAIL_TRIGGER_SALES_CADENCE_BATCH = 'EmailTriggerSalesCadenceBatch';
+	public static final Set<String> JOB_FINISHED_STATUS = new Set<String>{
         'Completed',
         'Aborted',
         'Failed'
