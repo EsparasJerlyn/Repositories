@@ -21,33 +21,54 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
 
     public void execute() {
         		
-        if(stopSendingSMS()){
-            Logger.info('SalesCadenceSMSRequest Stop SMS Sending ');
-            return;
-        }
+        // if(stopSendingSMS()){
+        //     Logger.info('SalesCadenceSMSRequest Stop SMS Sending ');
+        //     return;
+        // }
         
         Set<Id> failedCommsQueueIds = new Set<Id>();
+        Map<String, Id> messageKeyMap = new Map<String, Id>();
+        String messageKey;
+
         
+        List<MCTransactionalMessagingService.SMSRecipient> recipientList = new List<MCTransactionalMessagingService.SMSRecipient>();
+        MCTransactionalMessagingService.Content content = new MCTransactionalMessagingService.Content('%%messageOverride%%');
+        MCTransactionalMessagingService.SMSRequest requestPayload;
+
+        Map<String,String> attributes;
+
         for(Communication_Queue__c commsQueue : communicationQueueList){
-            Map<String, Object> flowParameters = new Map<String, Object>();
-            flowParameters.put('CommunicationQueueRecordId',commsQueue.Id);
-            flowParameters.put('MessagingChannel',getCommsQueueConfig().SMS_Messaging_Channel__c);
-            flowParameters.put('MobilePhoneNumber',commsQueue.Mobile__c);
-            flowParameters.put('RecipientRecordID',commsQueue.WhoId__c);
-            
-            String flowResult = callFlow('Communication_Queue_Send_SMS',flowParameters);
-            
-            if(flowResult =='Success'){
-                Logger.info('Sucess FlowResult ' + flowResult);
-            }else{
-                Logger.info('Failed FlowResult ' + flowResult);
-                failedCommsQueueIds.add(commsQueue.Id);
+            // create message key - Communication Queue Id + Retry Count
+            messageKey = commsQueue.Id  + (commsQueue.Retry_Count__c != null?String.valueOf(commsQueue.Retry_Count__c):'0');
+            // create a map to relate Communication Queue and Message Key
+            messageKeyMap.put(messageKey,commsQueue.Id);
+            attributes = new Map<String,String>{
+                'messageOverride' => commsQueue.Message__c
+            };
+
+            recipientList.add(new MCTransactionalMessagingService.SMSRecipient(commsQueue.Mobile__c, messageKey, attributes));
+        }
+        
+        requestPayload = new MCTransactionalMessagingService.SMSRequest('TestDefinitionKey',recipientList,content);
+        system.debug('requestPayload' + JSON.serializePretty(requestPayload));
+
+        MCTransactionalMessagingService.SMSResponse smsResponse = MCTransactionalMessagingService.sendSMS('/messaging/v1/sms/messages/',requestPayload);
+
+        system.debug('smsResponse' + JSON.serializePretty(smsResponse));
+        if(smsResponse.errorcode != 0 ){
+            failedCommsQueueIds.addAll(messageKeyMap.values());
+        }
+
+        for(MCTransactionalMessagingService.SMSMessageResponse smsMessageResponse: smsResponse.responses){
+            system.debug('smsMessageResponse' + JSON.serializePretty(smsMessageResponse));
+            if(smsMessageResponse.errorcode != null && messageKeyMap.containsKey(smsMessageResponse.messageKey)){
+                failedCommsQueueIds.add(messageKeyMap.get(smsMessageResponse.messageKey));
             }
         }
 
         List<Communication_Queue__c> commsQueueListToUpdate = setupCommunicationQueueListToUpdate(communicationQueueList, failedCommsQueueIds);
         CommunicationQueuesDAO.newInstance().updateRecords(commsQueueListToUpdate, false, AccessLevel.SYSTEM_MODE);
-        createTaskRecords(commsQueueListToUpdate);
+        //createTaskRecords(commsQueueListToUpdate);
 
     }    
     
