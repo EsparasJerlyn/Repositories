@@ -38,11 +38,23 @@
     <picklistValues>
         <picklist>Case_Type__c</picklist>
         <values>
+            <fullName>Current Student Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Domestic Future Student Enquiry</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>International Future Student Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Staff Enquiry</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2341,6 +2353,10 @@
         </values>
         <values>
             <fullName>Twitter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk-In</fullName>
             <default>false</default>
         </values>
         <values>
