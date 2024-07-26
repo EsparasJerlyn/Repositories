@@ -90,48 +90,60 @@
             <dataCategory>
                 <dataCategory>
                     <dataCategory>
-                        <label>Faculty of Health Enquiry Management</label>
-                        <name>Faculty_of_Health_Enquiry_Management</name>
+                        <label>FOH Enquiry Management</label>
+                        <name>FOH_Enquiry_Management</name>
                     </dataCategory>
                     <dataCategory>
-                        <label>Faculty of Health Configurations</label>
-                        <name>Faculty_of_Health_Configurations</name>
+                        <label>FOH Configurations</label>
+                        <name>FOH_Configurations</name>
                     </dataCategory>
                     <label>Faculty of Health</label>
                     <name>Faculty_of_Health</name>
                 </dataCategory>
                 <dataCategory>
                     <dataCategory>
-                        <label>Faculty of Science Enquiry Management</label>
-                        <name>Faculty_of_Science_Enquiry_Management</name>
+                        <label>FOS Enquiry Management</label>
+                        <name>FOS_Enquiry_Management</name>
                     </dataCategory>
                     <dataCategory>
-                        <label>Faculty of Science Configurations</label>
-                        <name>Faculty_of_Science_Configurations</name>
+                        <label>FOS Configurations</label>
+                        <name>FOS_Configurations</name>
                     </dataCategory>
                     <label>Faculty of Science</label>
                     <name>Faculty_of_Science</name>
                 </dataCategory>
                 <dataCategory>
                     <dataCategory>
-                        <label>Faculty of Engineering Enquiry Managemen</label>
-                        <name>Faculty_of_Engineering_Enquiry_Managemen</name>
+                        <label>FOE Enquiry Management</label>
+                        <name>FOE_Enquiry_Management</name>
                     </dataCategory>
                     <dataCategory>
-                        <label>Faculty of Engineering Configurations</label>
-                        <name>Faculty_of_Engineering_Configurations</name>
+                        <label>FOE Configurations</label>
+                        <name>FOE_Configurations</name>
                     </dataCategory>
                     <label>Faculty of Engineering</label>
                     <name>Faculty_of_Engineering</name>
                 </dataCategory>
                 <dataCategory>
                     <dataCategory>
-                        <label>Faculty of Business and Law Enquiry Mana</label>
-                        <name>Faculty_of_Business_and_Law_Enquiry_Mana</name>
+                        <label>CIESJ Enquiry Management</label>
+                        <name>CIESJ_Enquiry_Management</name>
                     </dataCategory>
                     <dataCategory>
-                        <label>Faculty of Business and Law Configuratio</label>
-                        <name>Faculty_of_Business_and_Law_Configuratio</name>
+                        <label>CIESJ Configurations</label>
+                        <name>CIESJ_Configurations</name>
+                    </dataCategory>
+                    <label>Faculty of CIESJ</label>
+                    <name>Faculty_of_CIESJ</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>FBL Enquiry Management</label>
+                        <name>FBL_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>FBL Configurations</label>
+                        <name>FBL_Configurations</name>
                     </dataCategory>
                     <label>Faculty of Business and Law</label>
                     <name>Faculty_of_Business_and_Law</name>
