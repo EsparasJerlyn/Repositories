@@ -299,7 +299,11 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     ) {
         if(!emails.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Email, Work_Email__c ' +
+                'SELECT Id, Email, Work_Email__c, ' +
+                '(SELECT Id, Contact__c FROM Marketing_Interactions__r), ' +
+                '(SELECT Id, Contact__c FROM Marketing_Course_Applications__r), ' +
+                '(SELECT Id, hed__Applicant__c FROM Applications__r), ' +
+                '(SELECT Id, Parent_Person_Contact__c FROM Contacts__r) ' +
                 'FROM Lead ' +
                 'WHERE (Email IN :emails OR Work_Email__c IN :emails) ' +
                 'AND Lead_Type__c = :LEARNER_LEAD_TYPE',
