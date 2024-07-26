@@ -22,7 +22,7 @@ public with sharing class CompletedCadenceTriggerHandler implements Disableable,
         
         // Call the instance method of the helper class
         helper.fastFieldUpdateAndValidation(
-            (List<Completed_Cadence__C>) newItems.values(),
+            (Map<Id,Completed_Cadence__c>) newItems,
             (Map<Id, Completed_Cadence__c>) oldItems
         );
     }
