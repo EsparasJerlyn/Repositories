@@ -35,6 +35,110 @@
                 <label>Domestic Future Students</label>
                 <name>Domestic_Future_Students</name>
             </dataCategory>
+            <dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>HiQ Enquiry Management</label>
+                        <name>HiQ_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>HiQ Configuration</label>
+                        <name>HiQ_Configuration</name>
+                    </dataCategory>
+                    <label>HiQ Contact Centre</label>
+                    <name>HiQ_Contact_Centre</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>Library Enquiry Management</label>
+                        <name>Library_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>Library Configuration</label>
+                        <name>Library_Configuration</name>
+                    </dataCategory>
+                    <label>Library</label>
+                    <name>Library</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>College Enquiry Management</label>
+                        <name>College_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>College Configuration</label>
+                        <name>College_Configuration</name>
+                    </dataCategory>
+                    <label>College</label>
+                    <name>College</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>Student Admin Enquiry Management</label>
+                        <name>Student_Admin_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>Student Admin Configuration</label>
+                        <name>Student_Admin_Configuration</name>
+                    </dataCategory>
+                    <label>Student Admin</label>
+                    <name>Student_Admin</name>
+                </dataCategory>
+                <label>Current Student Engagement</label>
+                <name>Current_Student_Engagement</name>
+            </dataCategory>
+            <dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Health Enquiry Management</label>
+                        <name>Faculty_of_Health_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Health Configurations</label>
+                        <name>Faculty_of_Health_Configurations</name>
+                    </dataCategory>
+                    <label>Faculty of Health</label>
+                    <name>Faculty_of_Health</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Science Enquiry Management</label>
+                        <name>Faculty_of_Science_Enquiry_Management</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Science Configurations</label>
+                        <name>Faculty_of_Science_Configurations</name>
+                    </dataCategory>
+                    <label>Faculty of Science</label>
+                    <name>Faculty_of_Science</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Engineering Enquiry Managemen</label>
+                        <name>Faculty_of_Engineering_Enquiry_Managemen</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Engineering Configurations</label>
+                        <name>Faculty_of_Engineering_Configurations</name>
+                    </dataCategory>
+                    <label>Faculty of Engineering</label>
+                    <name>Faculty_of_Engineering</name>
+                </dataCategory>
+                <dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Business and Law Enquiry Mana</label>
+                        <name>Faculty_of_Business_and_Law_Enquiry_Mana</name>
+                    </dataCategory>
+                    <dataCategory>
+                        <label>Faculty of Business and Law Configuratio</label>
+                        <name>Faculty_of_Business_and_Law_Configuratio</name>
+                    </dataCategory>
+                    <label>Faculty of Business and Law</label>
+                    <name>Faculty_of_Business_and_Law</name>
+                </dataCategory>
+                <label>Faculties</label>
+                <name>Faculties</name>
+            </dataCategory>
             <label>Future Student Engagement</label>
             <name>Future_Student_Engagement</name>
         </dataCategory>
@@ -43,7 +147,7 @@
     </dataCategory>
     <label>QUT All</label>
     <objectUsage>
-        <object>SvcCatalogItemDef</object>
         <object>KnowledgeArticleVersion</object>
+        <object>SvcCatalogItemDef</object>
     </objectUsage>
 </DataCategoryGroup>
