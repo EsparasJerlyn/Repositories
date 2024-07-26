@@ -17,10 +17,16 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
     public static final String ENROLLMENT_STATUS_PASSED = 'Passed';
     public static final String ENROLLMENT_STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String ENROLLMENT_STATUS_EARLY_WITHDRAWN = 'Early Withdrawn';
     public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
 
     public static final String ENROLLMENT_STAGE_ADMITTED = 'Admitted';
     public static final String ENROLLMENT_STAGE_WITHDRAWN = 'Withdrawn';
+
+    public static final Set<String> ENROLLMENT_STATUSES_WITHDRAWN = new Set<String>{
+        ENROLLMENT_STATUS_WITHDRAWN,
+        ENROLLMENT_STATUS_EARLY_WITHDRAWN
+    };
 
     public static final Set<String> ENROLLMENT_STATUS = new Set<String>{
         'Early Withdrawn',

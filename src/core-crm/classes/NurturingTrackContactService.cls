@@ -1209,21 +1209,21 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String methodName,
         Set<Id> contactHasApplicationForExit
     ) {
-        Boolean isProgramEnrollmentAdmitted = app.Program_Enrollment__r?.Enrollment_Status__c =='Admitted';
-        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
-        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        Boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+        Boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
         Boolean hasCalculatedCadence =
-                (app.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED) ||
-                (app.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL);
-        if (methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT) {
-            if (
-                (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                (isProgramEnrollmentAdmitted ||
-                app.Offer_Status__c == 'Deferred') &&
-                hasCalculatedCadence
-            ) {
-                contactHasApplicationForExit.add(app.hed__Applicant__c);
-            }
+            (app.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED) ||
+            (app.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL);
+        Boolean isProgramEnrollmentAdmitted = app.Program_Enrollment__r?.Enrollment_Status__c =='Admitted';
+        Boolean isDeferredDeclined = app.Offer_Status__c == 'Deferred' || app.Offer_Status__c == 'Declined';
+        Boolean isWithdrawn = app.Application_Status__c == ApplicationsDAO.STATUS_WITHDRAWN;
+        Boolean isExiting = (
+            (isSAMSLegacyRecType || isSAMSCiRecType) &&
+            hasCalculatedCadence &&
+            (isProgramEnrollmentAdmitted || isDeferredDeclined || isWithdrawn)
+        );
+        if (methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT && isExiting) {
+            contactHasApplicationForExit.add(app.hed__Applicant__c);
         }
     }
 
@@ -2086,12 +2086,16 @@ public with sharing class NurturingTrackContactService { //NOPMD
             boolean isSAMSLegacyRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
             boolean isSAMSCiRecType = application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
             boolean isContactIdWithAcceptedAndAdmittedCadence = contactIdWithAcceptedAndAdmittedCadence.contains(application.hed__Applicant__c);
-            if (
+            boolean isProgramEnrollmentWithdrawn = ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_WITHDRAWN.contains(application.Program_Enrollment__r.Enrollment_Status__c);
+            boolean isExiting = (
                 domesticExitContactMap.containsKey(application.hed__Applicant__c) &&
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                isContactIdWithAcceptedAndAdmittedCadence &&
-                offerStatus.contains(application.Offer_Status__c)
-            ) {
+                isContactIdWithAcceptedAndAdmittedCadence && (           
+                    offerStatus.contains(application.Offer_Status__c) ||
+                    isProgramEnrollmentWithdrawn
+                )
+            );
+            if (isExiting) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
                     new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
