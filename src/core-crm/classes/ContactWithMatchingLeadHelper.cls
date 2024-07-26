@@ -110,6 +110,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         Map<Id, Marketing_Segmentation__c> marketingSegmentationToUpdate = new Map<Id, Marketing_Segmentation__c>();
         Map<Id, Marketing_Course_Application__c> marketingCourseAppsToUpdate = new Map<Id, Marketing_Course_Application__c>();
         Set<Id> leadIdsSet = new  Set<Id>();
+        Marketing_Segmentation__c marSegToUpdate;
 
         //group contacts by email or work email
         contactsByEmailMap = groupContactsByEmail(newItems.values());
@@ -154,7 +155,8 @@ public without sharing class ContactWithMatchingLeadHelper {
                 applicationToUpdate.put(app.Id, app);
             }
 
-            mapMarketingSegmenations(marketingSegmentationsMap, lead.Id, matchingContactId);
+            marSegToUpdate = mapMarketingSegmenations(marketingSegmentationsMap, lead.Id, matchingContactId);
+            marketingSegmentationToUpdate.put(marSegToUpdate.Id, marSegToUpdate);
         }
 
         ContactsDAO.newInstance().updateRecords(contactsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
@@ -195,25 +197,24 @@ public without sharing class ContactWithMatchingLeadHelper {
         return marketingSegmentationsMap;
     }
 
-    private static Map<Id, Marketing_Segmentation__c> mapMarketingSegmenations(Map<Id, Marketing_Segmentation__c> marketingSegmentationsMap, Id leadId, Id contactId){
-        Map<Id, Marketing_Segmentation__c> marketingSegmentationToUpdate = new Map<Id, Marketing_Segmentation__c>();
+    private static Marketing_Segmentation__c mapMarketingSegmenations(Map<Id, Marketing_Segmentation__c> marketingSegmentationsMap, Id leadId, Id contactId){
+        Marketing_Segmentation__c mktSegTemp = new Marketing_Segmentation__c();
         // only proceed if lead and contact has existing marketing segmentations
         if(marketingSegmentationsMap.containsKey(leadId) && marketingSegmentationsMap.containsKey(contactId)){
             // Assumption is contact will always have a marketing segmentaton record
             // Update the contact's marketing segmenation using the current lead's marketing segmentation in the loop
             Marketing_Segmentation__c msFromContact = marketingSegmentationsMap.get(contactId);
             Marketing_Segmentation__c msFromLead = marketingSegmentationsMap.get(leadId);
-            Marketing_Segmentation__c mktSegTemp = new Marketing_Segmentation__c();
+            
             mktSegTemp.put('Id', msFromContact.Id);                        
             for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
                 if(msFromContact.get(fieldName) == null && msFromLead.get(fieldName) != null){    
                     mktSegTemp.put(fieldName, msFromLead.get(fieldName));
                 }
             }
-            marketingSegmentationToUpdate.put(mktSegTemp.Id, mktSegTemp);
         }
 
-        return marketingSegmentationToUpdate;
+        return mktSegTemp;
     }
 
     private static void convertLead(List<Id> newItems){

@@ -373,6 +373,7 @@ public inherited sharing class ApplicationServiceHelper {
 
         Map<String, Lead> mapOfLeads = new Map<String, Lead>();
         List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
+        Map<String, Lead> leadsToUpsert = new Map<String,Lead>();
 
         for (
             Lead lead : LeadsDAO.newInstance()
@@ -393,12 +394,12 @@ public inherited sharing class ApplicationServiceHelper {
                     applicationToUpdate.add(app);
                     Lead updateLead = updateLeadFromApplication(app);
                     updateLead.Id = mapOfLeads.get(uniqueKey).Id;
-                    mapOfLeads.put(uniqueKey,updateLead);
+                    leadsToUpsert.put(updateLead.Id,updateLead);
                 }
             } else {
                 for (hed__Application__c app : mapOfApplicationToLeadKeys.get(uniqueKey)) {
                     Lead lead = createLeadFromApplication(app);
-                    mapOfLeads.put(lead.email, lead);
+                    leadsToUpsert.put(app.Id, lead);
                 }
             }
         }
@@ -409,7 +410,7 @@ public inherited sharing class ApplicationServiceHelper {
         }
 
         //create lead and link to the application record
-        createLeadAndUpdateApplicationLead(mapOfLeads.values(), mapOfApplicationToLeadKeys);
+        createLeadAndUpdateApplicationLead(leadsToUpsert.values(), mapOfApplicationToLeadKeys);
     }
 
     /**
