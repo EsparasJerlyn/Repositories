@@ -1433,12 +1433,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
             Set<String> completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
-            Set<String> currentProgEnrollmentIds = new Set<String>();
-            Boolean currentRemoved = contactIdToCurrentProgEnrollmentIdsMap.get(application.hed__Applicant__c) != null ? //NOPMD
-                currentProgEnrollmentIds.remove(application.Program_Enrollment__c) : false;
-            Set<String> admittedProgEnrollmentIds = new Set<String>();
-            Boolean admittedRemoved = contactIdToAdmittedProgEnrollmentIdsMap.get(application.hed__Applicant__c) != null ? //NOPMD
-                admittedProgEnrollmentIds.remove(application.Program_Enrollment__c) : false;
+            Set<String> currentProgEnrollmentIds = contactIdToCurrentProgEnrollmentIdsMap.get(application.hed__Applicant__c);
+            currentProgEnrollmentIds?.remove(application.Program_Enrollment__c);
+            currentProgEnrollmentIds = currentProgEnrollmentIds == null ? new Set<String>() : currentProgEnrollmentIds;
+            Set<String> admittedProgEnrollmentIds = contactIdToAdmittedProgEnrollmentIdsMap.get(application.hed__Applicant__c);
+            admittedProgEnrollmentIds?.remove(application.Program_Enrollment__c);
+            admittedProgEnrollmentIds = admittedProgEnrollmentIds == null ? new Set<String>() : admittedProgEnrollmentIds;
 
             Boolean isDomesticContact = domesticEntryContactMap.containsKey(application.hed__Applicant__c);
             Boolean hasApplicationDate = application.hed__Application_Date__c != null;
@@ -1454,28 +1454,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
             // make sure that there are no completed cadence against any succeeding cadence
             //this should return true if one of the succeeding cadence is already in completedCadencesCopy
             Boolean isNotBacktrackingCadence = !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_FIRST_OFFER);
-            // boolean isApplicationProgramUnderGrad = applicationProgramUnderGrad.contains(application.Id);
-            // boolean isValidRecordType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
-            // boolean isValidAdmissionProcess =   application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER &&
-            //                                     application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
-            // boolean isContactWithNoCurrentOrNoProgramEnrollmentAtAll = application.Related_QTAC_Application__c != null && !contactWithProgramEnrollments.contains(application.hed__Applicant__c);
-
-
-            // boolean isContactWithProgramEnrollmentNotAdmittedORWithQtact = (application.Related_QTAC_Application__c != null || 
-            //                                                                 isContactWithNoCurrentOrNoProgramEnrollmentAtAll) ||
-            //                                                                (application.Related_QTAC_Application__c == null &&
-            //                                                                contactWithNoCurrentAdmittedProgramEnrollmentMap.containsKey(application.hed__Applicant__c));
-
-            // boolean isAppForEntry = isValidRecordType &&
-            //                         domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
-            //                         application.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
-            //                         isValidAdmissionProcess &&
-            //                         application.hed__Application_Date__c != null &&
-            //                         isContactWithProgramEnrollmentNotAdmittedORWithQtact &&
-            //                         //make sure that there are no completed cadence against any succeeding cadence
-            //                         //this should return true if one of the succeeding cadence is already in completedCadencesCopy
-            //                         !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_FIRST_OFFER) &&
-            //                         isApplicationProgramUnderGrad;
             Boolean isEntering = (
                 isDomesticContact &&
                 hasApplicationDate &&
