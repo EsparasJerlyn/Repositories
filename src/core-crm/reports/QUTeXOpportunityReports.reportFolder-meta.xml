@@ -16,6 +16,11 @@
         <sharedToType>Group</sharedToType>
     </folderShares>
     <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>QUTeX_Reporting</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
         <accessLevel>Manage</accessLevel>
         <sharedTo>System_Administrator</sharedTo>
         <sharedToType>Group</sharedToType>

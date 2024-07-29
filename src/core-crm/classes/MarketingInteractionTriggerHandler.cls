@@ -9,17 +9,9 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccaius.munoz                  | October 03, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+      | sebastianne.k.trias            | July 09, 2024         | DEPP-9821              | Removed opt in functionalit  |
  */
-public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, BeforeInsert{
-
-     /**
-   * @description call method to display error when Image count on Contact.Contact_Image__c is > 1
-   * @param newItems - List of Contact.Trigger.new
-   */
-    public void beforeInsert(List<SObject> newItems) {
-        MarketingInteractionTriggerHelper.mapMarketingFields((List<Marketing_Interaction__c>)newItems);
-    }
+public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, AfterUpdate{
 
     /**
     * @description after insert
