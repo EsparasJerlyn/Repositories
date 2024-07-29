@@ -20,6 +20,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
     public static final String STATUS_SENT = System.Label.PL_CommsQueue_Sent;
     public static final String STATUS_FAILED = System.Label.PL_CommsQueue_Failed;
     public static final String STATUS_RETRY = System.Label.PL_CommsQueue_Retry;
+    public static final String STATUS_CANCELLED = System.Label.PL_CommsQueue_Cancelled;
     public static final String BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS = 'Domestic No Answer SMS';
     public static final String BUSINESS_PROCESS_OUTREACH = 'Outreach Initial Email';
     public static final String TYPE_EMAIL = 'Email';
@@ -94,6 +95,22 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
             'SELECT Id, Type__c, Due_Date__c, Business_Process__c, WhoId__c, WhatId__c, Template_Id__c, Sender__c, Status__c, Communication_Endpoint__c ' + 
             'FROM Communication_Queue__c ' + 
             'WHERE Id IN: createdCommunicationsQueueIdSet', accessLevel
+        );
+    }
+
+    public List<Communication_Queue__c> getFutureScheduledCommsQueuesByCadenceStepTrackerIds(
+        Set<String> trackerIdSet,
+        AccessLevel accessLevel
+    ) {
+        if(trackerIdSet.isEmpty() || trackerIdSet == null || accessLevel == null) {
+            return new List<Communication_Queue__c>();
+        }
+        Date dateToday = Date.today();
+        return Database.query(
+            'SELECT Id, ActionCadenceStepTrackerId__c FROM Communication_Queue__c ' +
+            'WHERE ActionCadenceStepTrackerId__c IN :trackerIdSet ' +
+            'AND (Due_Date__c > :dateToday OR Status__c = :STATUS_SCHEDULED)',
+            accessLevel
         );
     }
 }
