@@ -170,7 +170,7 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
         
         for(Id targetId: targetIds){
             if(contactMap.containsKey(targetId)){
-                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);                
+                String mobilePhoneNumber = contactMap.get(targetId).MobilePhone;                
                 //Trim the mobilePhoneNumber string to remove leading and trailing whitespace
                 //check if max character for mobile number exceeded
                 Boolean isExceeded = (mobilePhoneNumber.trim().length() > 13);
@@ -179,7 +179,7 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
                 }
             }
             if(leadMap.containsKey(targetId)){
-                String mobilePhoneNumber = '+' + String.valueOf(leadMap.get(targetId).MobilePhone);                
+                String mobilePhoneNumber = leadMap.get(targetId).MobilePhone;                
                 //Trim the mobilePhoneNumber string to remove leading and trailing whitespace
                 //check if max character for mobile number exceeded
                 Boolean isExceeded = (mobilePhoneNumber.trim().length() > 13);
