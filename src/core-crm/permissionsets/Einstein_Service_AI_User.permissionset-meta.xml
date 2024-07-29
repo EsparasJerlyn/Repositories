@@ -35,8 +35,8 @@
         <object>GenAiPromptTemplate</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <userPermissions>
+    <!-- <userPermissions>
         <enabled>true</enabled>
         <name>EinsteinArticleRecUser</name>
-    </userPermissions>
+    </userPermissions> -->
 </PermissionSet>
