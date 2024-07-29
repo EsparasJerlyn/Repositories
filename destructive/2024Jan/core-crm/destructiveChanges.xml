@@ -325,7 +325,7 @@
         <!--(End) DEPP-9267-->
         <name>Queue</name>
     </types>
-    </types>
+    <types>
         <!-- (Start) DEPP-9821 -->
         <members>MarketingInteractionTriggerHelper</members>
         <members>MarketingInteractionTriggerHelperTest</members>
