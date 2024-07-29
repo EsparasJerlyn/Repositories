@@ -972,4 +972,11 @@
         <shortDescription>ESBEndpointProcessAddress</shortDescription>
         <value>/consumer/dep/v1/event/processAddress</value>
     </labels>
+    <labels>
+        <fullName>Case_Inbound_Enquiry_Record_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case Inbound Enquiry Record Type</shortDescription>
+        <value>Inbound Enquiry</value>
+    </labels>
 </CustomLabels>
