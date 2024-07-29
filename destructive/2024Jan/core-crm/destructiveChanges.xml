@@ -382,6 +382,10 @@
         <members>CustomHeaderDatatableCtrl</members>
         <members>CustomHeaderDatatableCtrlTest</members>
         <!--(End) DEPP-7005 -->
+        <!-- (Start) DEPP-9821 -->
+        <members>MarketingInteractionTriggerHelper</members>
+        <members>MarketingInteractionTriggerHelperTest</members>
+        <!--(End) DEPP-9821 -->
         <name>ApexClass</name>
     </types>
     <version>59.0</version> 
