@@ -2,11 +2,6 @@
 <ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>charvi.gaur@qut.edu.au.dep</sharedTo>
-        <sharedToType>User</sharedToType>
-    </folderShares>
-    <folderShares>
-        <accessLevel>Manage</accessLevel>
         <sharedTo>QUTeX_Super_User</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
