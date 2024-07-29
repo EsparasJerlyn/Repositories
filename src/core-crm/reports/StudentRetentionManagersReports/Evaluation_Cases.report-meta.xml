@@ -13,7 +13,7 @@
         <field>Case.Case_Type__c</field>
     </columns>
     <columns>
-        <field>Case.hed__Category__c</field>
+        <field>Case.Category__c</field>
     </columns>
     <columns>
         <field>CLOSED</field>
