@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                    |
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Created file                                      |
+      | roy.nino.s.regala              | July 25, 2024         | DEPP-8551              | Updated SMS to MC Transactional Messaging API     |
  */
 public with sharing class SalesCadenceSMSRequestCommand implements IRequestCommand{
     
@@ -66,8 +67,7 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
         );
 
         // bulk mc messaging
-        MCTransactionalMessagingService.SMSResponse smsResponse = MCTransactionalMessagingService.sendSMS(
-            '/messaging/v1/sms/messages/',
+        MCTransactionalMessagingService.SMSResponse smsResponse = MCTransactionalMessagingService.sendBulkSMS(
             requestPayload
         );
 
@@ -103,6 +103,7 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
 
         CommunicationQueuesDAO.newInstance()
             .updateRecords(commsQueueListToUpdate, false, AccessLevel.SYSTEM_MODE);
+            
         createTaskRecords(commsQueueListToUpdate);
     }
     

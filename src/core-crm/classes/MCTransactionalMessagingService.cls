@@ -12,16 +12,17 @@
       | roy.nino.s.regala              | July 25, 2024         | DEPP-8551              | Created file                                      |
  */
 public with sharing class MCTransactionalMessagingService {
-    public static SMSResponse sendSMS(String endPoint, SMSRequest requestPayload) {
-        try {
-            HttpRequest request = new HttpRequest();
-            request.setEndpoint('callout:MCTransactionalMessaging' + endPoint);
-            request.setMethod('POST');
-            request.setHeader('Content-Type', 'application/json');
-            request.setBody(JSON.serialize(requestPayload));
 
-            Http http = new Http();
-            HttpResponse res = http.send(request);
+    public static final String BULK_SMS_ENDPOINT = '/messaging/v1/sms/messages/';
+    public static final String MC_SMS_NAMEDCREDENTIAL = 'MCTransactionalMessaging';
+
+    public static SMSResponse sendBulkSMS(SMSRequest requestPayload) {
+        try {
+            HttpResponse res = IntegrationCallOutCtrl.doCallout(
+                'callout:'+ MC_SMS_NAMEDCREDENTIAL + BULK_SMS_ENDPOINT,
+                'POST',
+                JSON.serialize(requestPayload)
+            );
 
             if (res.getStatusCode() >= 200 && res.getStatusCode() <= 204) {
                 return (SMSResponse) JSON.deserialize(res.getBody(), SMSResponse.class);
