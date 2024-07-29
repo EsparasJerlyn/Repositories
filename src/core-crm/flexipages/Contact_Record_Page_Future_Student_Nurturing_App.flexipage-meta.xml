@@ -706,16 +706,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.IsStaff_Active__c</fieldItem>
-                <identifier>RecordIsStaff_Active_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.hed__Deceased__c</fieldItem>
                 <identifier>Recordhed_Deceased_cField</identifier>
             </fieldInstance>
