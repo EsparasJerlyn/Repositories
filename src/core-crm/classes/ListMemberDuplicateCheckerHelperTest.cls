@@ -14,8 +14,11 @@
 public with sharing class ListMemberDuplicateCheckerHelperTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Alumni_Engagement_Manager' });
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
+        Test.stopTest();
+        
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             List<List__c> newListRecords = TestDataFactory.createListRecords(1);
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);
             ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
@@ -38,7 +41,7 @@ public with sharing class ListMemberDuplicateCheckerHelperTest {
             .getListRecords(1, AccessLevel.USER_MODE)
             .iterator()
             .next();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             List<List_Member__c> newListMemberRecords = TestDataFactory.createListMemberRecords(
                 10,
                 listRec.Id,
@@ -57,7 +60,7 @@ public with sharing class ListMemberDuplicateCheckerHelperTest {
     @isTest
     static void detectDuplicateListMembersTestonUpdate() {
         Contact con = ContactsDAO.getPersonContactsWithLimit(1).iterator().next();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             List__c listRec = ListsDAO.newInstance()
                 .getListRecords(1, AccessLevel.USER_MODE)
                 .iterator()

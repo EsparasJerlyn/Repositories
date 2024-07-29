@@ -1923,6 +1923,137 @@ public class TestDataFactoryUser {
         } set;
     }
 
+    /***********************************************
+    * IT3.1 USERS
+    ************************************************/
+
+    /***********************************************
+    * Alumni Engagement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserAlumniEngagementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOAlumniEngagementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserAlumniEngagementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestAlumniEngagementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOAlumniEngagementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'AlumniEngagementManager';
+            usr.Persona = 'Alumni Engagement Manager';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Alumni_Engagement';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = true;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+
+            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * Corporate Partnerships Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserCorporatePartnershipsManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOCorporatePartnershipsManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserCorporatePartnershipsManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestCorporatePartnershipsManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOCorporatePartnershipsManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'CorporatePartnershipsManager';
+            usr.Persona = 'Corporate Partnerships Manager';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Corporate_Partnerships';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+
+            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * Corporate Engagement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserCorporateEngagementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOCorporateEngagementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserCorporateEngagementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestCorporateEngagementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOCorporateEngagementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'CorporateEngagementManager';
+            usr.Persona = 'Corporate Engagement Manager';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Corporate_Engagement';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = true;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+
+            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+
+            return usr;
+        } set;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private static void getPortalSysAdminUser() {
         portalSysAdmin = [
             SELECT Id, UserRoleId

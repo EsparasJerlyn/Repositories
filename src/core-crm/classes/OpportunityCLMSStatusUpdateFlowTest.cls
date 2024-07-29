@@ -12,10 +12,14 @@
 @isTest
 public class OpportunityCLMSStatusUpdateFlowTest {
 
-    @testSetup static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Corporate_Partnership_Manager'});
+    @testSetup 
+    static void setupMethod(){
+        Test.startTest();
+        TestDataFactoryUser.generateUserCorporatePartnershipsManager();
+        Test.stopTest();
+
         Id corporateOppId = OpportunitiesDAO.CORPORATEPARTNERSHIP_RECTYPE_ID;
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
             List<Opportunity> corpPartnershipOpp = TestDataFactory.createOpportunityRecords(200, 'Opportunity', 'Contract');
             for(Opportunity opp : corpPartnershipOpp){
             	opp.RecordTypeId = corporateOppId;
@@ -28,7 +32,7 @@ public class OpportunityCLMSStatusUpdateFlowTest {
         
     @isTest
     static void testCLMSUpdate(){
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
         	Test.startTest();
             List<Opportunity> oppList = [SELECT Id, CLMS_Contract_ID__c, CLMS_Contract_Status__c, StageName, Name FROM Opportunity];
             for(Opportunity opp : oppList){
