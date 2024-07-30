@@ -32,9 +32,9 @@
         <closed>false</closed>
     </standardValue>
     <standardValue>
-        <fullName>Awaiting Response</fullName>
+        <fullName>Awaiting Information</fullName>
         <default>false</default>
-        <label>Awaiting Response</label>
+        <label>Awaiting Information</label>
         <closed>false</closed>
     </standardValue>
     <standardValue>
@@ -50,15 +50,15 @@
         <closed>false</closed>
     </standardValue>
     <standardValue>
-        <fullName>Responded</fullName>
-        <default>false</default>
-        <label>Responded</label>
-        <closed>false</closed>
-    </standardValue>
-    <standardValue>
         <fullName>Escalated</fullName>
         <default>false</default>
         <label>Escalated</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Responded</fullName>
+        <default>false</default>
+        <label>Responded</label>
         <closed>false</closed>
     </standardValue>
     <standardValue>
@@ -72,5 +72,11 @@
         <default>false</default>
         <label>Closed</label>
         <closed>true</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Re-opened</fullName>
+        <default>false</default>
+        <label>Re-opened</label>
+        <closed>false</closed>
     </standardValue>
 </StandardValueSet>
