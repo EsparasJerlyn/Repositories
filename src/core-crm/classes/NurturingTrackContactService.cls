@@ -1440,30 +1440,24 @@ public with sharing class NurturingTrackContactService { //NOPMD
             admittedProgEnrollmentIds?.remove(application.Program_Enrollment__c);
             admittedProgEnrollmentIds = admittedProgEnrollmentIds == null ? new Set<String>() : admittedProgEnrollmentIds;
 
-            Boolean isDomesticContact = domesticEntryContactMap.containsKey(application.hed__Applicant__c);
-            Boolean hasApplicationDate = application.hed__Application_Date__c != null;
-            Boolean isValidAdmissionProcess = (
-                application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER &&
-                application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC
-            );
-            Boolean isProgramPlanUndergraduate = applicationProgramUnderGrad.contains(application.Id);
-            Boolean isOfferStatusOffered = application.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED;
-            Boolean hasRelatedQTAC = application.Related_QTAC_Application__c != null;
-            Boolean hasNoCurrentProgEnrollment = currentProgEnrollmentIds.isEmpty();
-            Boolean hasNoAdmittedProgEnrollment = admittedProgEnrollmentIds.isEmpty();
             // make sure that there are no completed cadence against any succeeding cadence
             //this should return true if one of the succeeding cadence is already in completedCadencesCopy
             Boolean isNotBacktrackingCadence = !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_FIRST_OFFER);
             Boolean isEntering = (
-                isDomesticContact &&
-                hasApplicationDate &&
-                isValidAdmissionProcess &&
-                isProgramPlanUndergraduate &&
-                isOfferStatusOffered && (
-                    ( hasRelatedQTAC && hasNoCurrentProgEnrollment ) ||
-                    hasNoAdmittedProgEnrollment
-                ) &&
-                isNotBacktrackingCadence
+                isNotBacktrackingCadence &&
+                domesticEntryContactMap.containsKey(application.hed__Applicant__c) && 
+                ( // is legacy/cia...
+                    (application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID) && 
+                    ( //... that has received offer, not deferred, and no response
+                        application.hed__Application_Date__c != null && // hasApplicationDate
+                        !ApplicationsDAO.INVALID_ADMISSION_PROCESSES.contains(application.Admission_Process__c) && // isValidAdmissionProcess
+                        applicationProgramUnderGrad.contains(application.Id) && // isProgramPlanUndergraduate
+                        application.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED // isOfferStatusOffered
+                    )
+                ) && ( // is legacy/cia with no current/admitted program enrollments respectively
+                    (application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID && application.Related_QTAC_Application__c != null && currentProgEnrollmentIds.isEmpty()) ||
+                    (application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID && admittedProgEnrollmentIds.isEmpty())
+                )
             );
 
             if(isEntering) {
