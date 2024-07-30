@@ -13,6 +13,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Award_Recognition__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
+    <tabSettings>
         <tab>Assessment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -85,6 +89,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Giving_Interest__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
+    <tabSettings>
         <tab>IP_Management_Relationship__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -96,6 +104,10 @@
         <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Interest__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
     <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
