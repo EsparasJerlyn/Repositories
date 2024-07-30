@@ -1,0 +1,37 @@
+<template>
+    <p class="heading3">Company details</p>
+    <div class="slds-grid slds-gutters slds-wrap slds-m-top_small">
+        <div class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1">
+            <div class="slds-form-element">
+                <label for="accountName" class="label-text">Account Name</label>
+                <span class="required-text">*</span><br />
+                <div class="slds-form-element__control">
+                    <input type="text" id="accountName" placeholder="Placeholder text…" required class={requiredInputClass.title} value={accountName} onchange={handleAccountNameChange} />
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1">
+            <div class="slds-form-element">
+                <label for="abn" class="label-text">ABN</label>
+                <span class="required-text">*</span><br />
+                <div class="slds-form-element__control">
+                    <input type="text" id="abn" placeholder="Placeholder text…" required class={requiredInputClass.title} value={abn} onchange={handleABNChange} />
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-align_absolute-center">
+            <button type="submit" class="slds-button slds-button_brand footer-button btnContinue btnCustom" onclick={handleValidateABN}>
+                Validate ABN
+            </button>
+        </div>
+        <div class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1">
+            <div class="slds-form-element">
+                <label for="entityName" class="label-text">Entity / Company Name</label>
+                <span class="required-text"></span><br />
+                <div class="slds-form-element__control">
+                    <input type="text" id="entityName" placeholder="Placeholder text…" required class={requiredInputClass.title} value={entityName} onchange={handleEntityNameChange} />
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

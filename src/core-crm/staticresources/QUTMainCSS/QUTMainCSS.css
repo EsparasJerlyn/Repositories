@@ -1749,3 +1749,62 @@ span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity {
       }
 	
 }
+
+/* Custom CSS for Individual and Organisation Registration Form */
+
+c-registration-individual-and-organisation .slds-tabs_default__item.slds-is-active .slds-tabs_default__link {
+  color: #fff !important;
+}
+
+c-registration-individual-and-organisation .slds-tabs_default__item.slds-is-active {
+  background-color: var(--main-color-blue500)!important;
+}
+
+c-registration-individual-and-organisation .slds-tabs_default__item {
+  width: 50%;
+  text-align:center;
+}
+
+c-registration-individual-and-organisation .slds-tabs_default__item.slds-tabs_default__overflow-button {
+  display: none;
+}
+
+c-search-address .slds-input-has-icon_right .slds-input {
+  width: 99.50%;
+}
+
+c-custom-loqate-address .customInputAddress {
+  width: 99.50%;
+}
+
+.custom-checkbox-label .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+  font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol') !important;
+  font-size: 12px !important;
+}
+
+c-registration-individual-and-organisation .slds-tabs_default__item.slds-is-active .slds-tabs_default__link {
+  color: #fff !important;
+  height: 3rem;
+  width: auto;
+  border-radius: 0;
+  font-family: "ProximaNova-Bold";
+  font-weight: var(--text-weight-700);
+  font-size: var(--text-size-18);
+  line-height: 1.3125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+c-registration-individual-and-organisation .slds-tabs_default__link, .slds-tabs--default__link {
+  height: 3rem;
+  width: auto;
+  border-radius: 0;
+  font-family: "ProximaNova-Bold";
+  font-weight: var(--text-weight-700);
+  font-size: var(--text-size-18);
+  line-height: 1.3125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

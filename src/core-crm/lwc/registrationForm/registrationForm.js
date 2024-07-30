@@ -25,6 +25,9 @@
       | julie.jane.alegre         | August 15, 2022       | DEPP-3568            | Added Contact Duplication Handling    |
       | keno.domienri.dico        | September 23, 2022    | DEPP-4367            | birthdate validation                  |
       | julie.jane.alegre         | September 22, 2023    | DEPP-4762            | Added Position & Company Name fields  |
+      | nicole.genon              | July 11, 2024         | DEPP-9136            | Added Preferred Name & Title fields,  |
+      |                           |                       |                      | isPortalGiving(), classContainer(),   |
+      |                           |                       |                      | classMainContainer(), classWrapper()  |                          
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -64,9 +67,15 @@ const QUT_LOGIN_TEXT = "Previously told us about you? Continue here.";
 const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
 const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
+const QUT_PRIVACY_POLICY_GIVING ="QUT Privacy Policy";
 const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
 const INFO_CONSENT = "Yes, I would like to receive information from QUT about short courses and professional education.";
+const TALK_QUT = "I would like to talk to someone about other ways I can give to QUT.";
+const INFO_CONSENT_GIVING = "I would like to receive more information about giving to QUT.";
+const QUT_PRIVACY_COLLECTION_NOTICE =" Privacy Collection Notice.";
 export default class RegistrationForm extends LightningElement {
+  title = null;
+  preferredName = null;
   firstName = null;
   lastName = null;
   mobile = null;
@@ -79,6 +88,7 @@ export default class RegistrationForm extends LightningElement {
   dietaryReq = null;
   accessReq = null;
   checkbox;
+  talkQutCheckBox;
   linkedInSSOUrl;
   experienceSSOUrl;
   linkedInLogo;
@@ -95,6 +105,7 @@ export default class RegistrationForm extends LightningElement {
   @track locale = null;
   @track paramURLDefaults;
 
+  hasErrorTitle = false;
   hasErrorFN = false;
   hasErrorLN = false;
   hasErrorEmail = false;
@@ -136,12 +147,17 @@ export default class RegistrationForm extends LightningElement {
   uniqueEmailValid = true;
   updatingUniqueEmail = false;
   isOptIn = true;
+  isGivingToCauses = false;
 
   workEmail;
   personalEmail;
 
   @api startURL;
   @api recordId;
+  @api isModal;
+  @api portalName;
+  // Show Content For Organisation Tab Only
+  @api showOrganisationContent;
 
   @track header;
   @track subHeader;
@@ -150,6 +166,8 @@ export default class RegistrationForm extends LightningElement {
   @track requiredField;
   @track privacyPolicy;
   @track acknowledge;
+  @track privacyPolicyGiving;
+  @track privacyCollection;
 
 
 
@@ -163,7 +181,11 @@ export default class RegistrationForm extends LightningElement {
     privacyPolicy: QUT_PRIVACY_POLICY,
     acknowledge: ACKNOWLDGE,
     contactDetail: QUTeX_Contact_Detail,
-    infoConsent: INFO_CONSENT
+    infoConsent: INFO_CONSENT,
+    talkQut: TALK_QUT,
+    infoConsentGiving: INFO_CONSENT_GIVING,
+    privacyCollection: QUT_PRIVACY_COLLECTION_NOTICE,
+    privacyPolicyGiving: QUT_PRIVACY_POLICY_GIVING
   };
 
   /*
@@ -202,13 +224,33 @@ export default class RegistrationForm extends LightningElement {
         ? true
         : false;
   }
+
+  get isPortalGiving() {
+    return this.portalName === 'Giving to Causes' ? true : false;
+  }
+
+  get classContainer() {
+    return this.isModal === true ? 'modal-content text px3 pt2' : '';
+  }
+
+  get classMainContainer() {
+    return this.isModal === true ? 'modal' : '';
+  }
+
+  get classWrapper() {
+    return this.isModal === true ? 'wrapper' : '';
+  }
+
+
   /*
    * Sets the Attribute on Load of the Registration Modal
    */
   connectedCallback() {
     this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
     this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";
+    this.isGivingToCauses = this.portalName === 'Giving to Causes' ? true : false;
 
+    this.requiredDisplayData.title = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.firstName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.lastName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
@@ -221,6 +263,7 @@ export default class RegistrationForm extends LightningElement {
     this.requiredDisplayData.year = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.checkbox = HIDE_ERROR_MESSAGE_ATTRIBUTE;
 
+    this.requiredInputClass.title = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.firstName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.lastName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
@@ -304,6 +347,13 @@ export default class RegistrationForm extends LightningElement {
    */
   handleRegister(event) {
     event.preventDefault();
+    // const submitEvent = new CustomEvent('submit', {
+    //   detail: { title:  this.title}
+    // });
+    // // Fire the custom event
+    // this.dispatchEvent(submitEvent);
+
+
     this.executeLogin = false;
     this.mobile = this.mobile ? this.mobile.replace(/^0+/, "") : "";
 
@@ -312,12 +362,20 @@ export default class RegistrationForm extends LightningElement {
     } else {
       this.mobileFull = '';
     }
-    this.dietaryReq = this.template.querySelector(
+
+    if(!this.isGivingToCauses){
+      this.dietaryReq = this.template.querySelector(
       "textarea[name=dietaryReq]"
-    ).value;
-    this.accessReq = this.template.querySelector(
-      "textarea[name=accessReq]"
-    ).value;
+      ).value;
+      this.accessReq = this.template.querySelector(
+        "textarea[name=accessReq]"
+      ).value;
+    }else{
+      this.preferredName = this.template.querySelector(
+        "input[name=preferredName]"
+        ).value;
+    }
+    
     this.checkInputIsEmpty();
     if (
       this.firstName &&
@@ -590,6 +648,16 @@ export default class RegistrationForm extends LightningElement {
    * Checks Input of the fields if null/empty and sets error message
    */
   checkInputIsEmpty() {
+    if (!this.title && this.isGivingToCauses) {
+      this.hasErrorTitle = !this.title;
+      this.requiredDisplayData.title = SHOW_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.title = SHOW_ERROR_BOARDER_ATTRIBUTE;
+    } else {
+      this.hasErrorTitle = false;
+      this.requiredDisplayData.title = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.title = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    }
+
     if (!this.firstName) {
       this.hasErrorFN = !this.firstName;
       this.requiredDisplayData.firstName = SHOW_ERROR_MESSAGE_ATTRIBUTE;
@@ -621,24 +689,26 @@ export default class RegistrationForm extends LightningElement {
       this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
-    if (!this.position) {
-      this.hasErrorPosition = !this.position;
-      this.requiredDisplayData.position = SHOW_ERROR_MESSAGE_ATTRIBUTE;
-      this.requiredInputClass.position = SHOW_ERROR_BOARDER_ATTRIBUTE;
-    } else {
-      this.hasErrorPosition = false;
-      this.requiredDisplayData.position = HIDE_ERROR_MESSAGE_ATTRIBUTE;
-      this.requiredInputClass.position = HIDE_ERROR_BOARDER_ATTRIBUTE;
-    }
-
-    if (!this.companyName) {
-      this.hasErrorCompName = !this.companyName;
-      this.requiredDisplayData.companyName = SHOW_ERROR_MESSAGE_ATTRIBUTE;
-      this.requiredInputClass.companyName = SHOW_ERROR_BOARDER_ATTRIBUTE;
-    } else {
-      this.hasErrorCompName = false;
-      this.requiredDisplayData.companyName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
-      this.requiredInputClass.companyName = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    if(!this.isGivingToCauses){
+      if (!this.position) {
+        this.hasErrorPosition = !this.position;
+        this.requiredDisplayData.position = SHOW_ERROR_MESSAGE_ATTRIBUTE;
+        this.requiredInputClass.position = SHOW_ERROR_BOARDER_ATTRIBUTE;
+      } else {
+        this.hasErrorPosition = false;
+        this.requiredDisplayData.position = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+        this.requiredInputClass.position = HIDE_ERROR_BOARDER_ATTRIBUTE;
+      }
+  
+      if (!this.companyName) {
+        this.hasErrorCompName = !this.companyName;
+        this.requiredDisplayData.companyName = SHOW_ERROR_MESSAGE_ATTRIBUTE;
+        this.requiredInputClass.companyName = SHOW_ERROR_BOARDER_ATTRIBUTE;
+      } else {
+        this.hasErrorCompName = false;
+        this.requiredDisplayData.companyName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+        this.requiredInputClass.companyName = HIDE_ERROR_BOARDER_ATTRIBUTE;
+      }
     }
 
     if (!this.locale) {
@@ -704,6 +774,20 @@ export default class RegistrationForm extends LightningElement {
       this.requiredInputClass.checkbox = "slds-checkbox_faux check-box cursor";
       this.requiredDisplayData.checkbox = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     }
+  }
+
+  /*
+   * Sets the title via event
+   */
+  handleTitleChange(event) {
+    this.title = event.target.value.trim();
+  }
+
+  /*
+   * Sets the preferredName via event
+   */
+  handlePreferredNameChange(event) {
+    this.preferredName = event.target.value.trim();
   }
 
   /*
@@ -845,6 +929,14 @@ export default class RegistrationForm extends LightningElement {
 
   handleCheckBox(event) {
     this.checkbox = event.target.checked;
+  }
+
+  handleTalkQutCheckBox(event) {
+    this.talkQutCheckBox = event.target.checked;
+  }
+
+  handleInfoConsentGivingCheckBox(event){
+    this.isOptIn = event.target.checked;
   }
 
   handleSelectedOption(event) {

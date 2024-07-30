@@ -6,4 +6,10 @@
         <target>lightningCommunity__Page</target>
         <target>lightningCommunity__Default</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="isModal" label="Is Modal" type="Boolean" description="Way to display the component" default="true"/>
+            <property name="portalName" label="Portal Name" type="String" description="Give a Portal Name to Identify which portal came from." default=""/>
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

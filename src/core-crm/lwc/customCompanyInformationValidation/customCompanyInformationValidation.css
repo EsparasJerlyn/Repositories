@@ -1,10 +1,10 @@
 .heading {
-  font-style: normal;
-  font-family: "ProximaNova-Bold";
-  font-weight: 700;
-  font-size: 44px;
-  color: #0066b9;
-  margin: 32px 0px;
+    font-style: normal;
+    font-family: "ProximaNova-Bold";
+    font-weight: 700;
+    font-size: 44px;
+    color: #0066b9;
+    margin: 32px 0px;
 }
 
 .heading2 {
@@ -293,7 +293,7 @@ input[type="number"] {
 }
 
 .reg-error-style ul.error-list li{
-   list-style: outside;
+    list-style: outside;
 }
     
 /*end*/
@@ -312,7 +312,7 @@ input[type="number"] {
 }
 
 .reg-line-style ul.line-list li{
-   list-style: outside;
+    list-style: outside;
 }
 
 .input-wrapper {
@@ -362,5 +362,6 @@ input[type="number"] {
 .btnCustom {
   height: 2rem!important;
   min-width: 75%!important;
+  font-size: 13px;
 }
 /*end*/
