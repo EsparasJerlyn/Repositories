@@ -134,8 +134,8 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
                 subCategList.add(setUpSubCategory('Entry requirements & university study pathways', conf.Id, 10));
                 subCategList.add(setUpSubCategory('Fees, costs and scholarships', conf.Id, 5));
                 subCategList.add(setUpSubCategory('Course information', conf.Id, 5));
-                subCategList.add(setUpSubCategory('My application and offer', conf.Id, 5));
-                subCategList.add(setUpSubCategory('My enrolment', conf.Id, 5));
+                subCategList.add(setUpSubCategory('Course application & offers', conf.Id, 5));
+                subCategList.add(setUpSubCategory('Preparing to Study', conf.Id, 5));
                 subCategList.add(setUpSubCategory('Student Life', conf.Id, 5));
             }
             else if(conf.Name == 'Primary BSA'){
