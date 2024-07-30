@@ -44,6 +44,14 @@ parameters:
   - Main-2023-10
   - Full Deployment
 
+- name: BATCH_CI_JOB 
+  displayName: BATCH Deployments
+  type: string
+  default: true
+  values:
+  - true
+  - false
+
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
   displayName: Create or Update Test Users
   type: string
