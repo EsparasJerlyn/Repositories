@@ -95,6 +95,8 @@ stages:
           - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
           - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
           - template: yml/templates/ado-check-build-queue.yml@SFDX-PIPELINES
+            parameters:
+              BATCH_CI_JOB: "${{ parameters.BATCH_CI_JOB }}"
           - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
             parameters:
               validateOrDeploy: "Deploy"
