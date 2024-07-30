@@ -29,14 +29,14 @@
                 <label>Applying for a course</label>
             </value>
             <value>
-                <fullName>My application and offer</fullName>
+                <fullName>Course application & offers</fullName>
                 <default>false</default>
-                <label>My application and offer</label>
+                <label>Course application & offers</label>
             </value>
             <value>
-                <fullName>My enrolment</fullName>
+                <fullName>Preparing to Study</fullName>
                 <default>false</default>
-                <label>My enrolment</label>
+                <label>Preparing to Study</label>
             </value>
             <value>
                 <fullName>Fees, costs and scholarships</fullName>

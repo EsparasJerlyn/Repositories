@@ -3937,7 +3937,7 @@ public class TestDataFactory {
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
             Case_Record_Type__c = 'Inbound Enquiry',
-            Enquiry_Category__c = 'My enrolment',
+            Enquiry_Category__c = 'Preparing to Study',
             Future_Student_Stage__c = 'Apply',
             Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
