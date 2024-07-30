@@ -33,6 +33,7 @@ export default class FlowWorkEmailField extends LightningElement {
   isException = false;
   timer;
   _label = 'Work Email';
+  _requiredFieldErrorMessage = REQUIRED_FIELD_ERROR_MESSAGE;
 
   @api
   get label() {
@@ -40,6 +41,14 @@ export default class FlowWorkEmailField extends LightningElement {
   }
   set label(value) {
     this._label = value || 'Work Email';
+  }
+
+  @api
+  get requiredFieldErrorMessage() {
+    return this._requiredFieldErrorMessage;
+  }
+  set requiredFieldErrorMessage(value) {
+    this._requiredFieldErrorMessage = value || REQUIRED_FIELD_ERROR_MESSAGE;
   }
 
   connectedCallback() {
@@ -182,7 +191,7 @@ export default class FlowWorkEmailField extends LightningElement {
     if (!this.workEmail) {
       return {
         isValid: false,
-        errorMessage: REQUIRED_FIELD_ERROR_MESSAGE
+        errorMessage: this._requiredFieldErrorMessage
       };
     } else if (!this.validateEmail(this.workEmail)) {
       return {

@@ -2650,6 +2650,12 @@
                     <stringValue>Primary Email</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>requiredFieldErrorMessage</name>
+                <value>
+                    <stringValue>Mandatory Field.</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
