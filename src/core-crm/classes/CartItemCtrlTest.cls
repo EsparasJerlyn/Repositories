@@ -7,6 +7,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | john.m.tambasen           | May 11, 2022          | DEPP-2060            | Created file                 |
       | roy.nino.s.regala         | June 30, 2022         | DEPP-3157            | test class for creating questionnaires|
+      | kenneth.f.alsay           | June 21, 2024         | DEPP-9221            | Updated OPE Catalogue to QUT Experience |
  */
 @isTest
 public with sharing class CartItemCtrlTest {
@@ -52,7 +53,7 @@ public with sharing class CartItemCtrlTest {
       insert contact1;
           
       //Create user
-      Profile portalProfile = [select Id from Profile where Name = 'OPE Catalogue' limit 1];
+      Profile portalProfile = [select Id from Profile where Name = 'QUT Experience' limit 1];
       User user1 = new User(
         Username = System.now().millisecond() + 'jm2@test.com',
         ContactId = contact1.Id,

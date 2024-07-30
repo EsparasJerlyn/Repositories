@@ -4,11 +4,5 @@
         <members>DummyClassAsINeedSomethingInThisFile</members>
         <name>ApexClass</name>
     </types>
-    <types>
-        <!--Start DEPP-8290-->
-        <members>Document__c.All_Advancement_Share</members>
-        <!--Start DEPP-8290-->
-        <name>SharingCriteriaRule</name>
-    </types>
     <version>61.0</version> 
 </Package>

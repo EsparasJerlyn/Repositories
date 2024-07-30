@@ -96,6 +96,10 @@
         <enabled>true</enabled>
         <name>Communication_Queue_Configuration__mdt</name>
     </customMetadataTypeAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Inbound_Enquiry_Cases</name>
+    </customPermissions>
     <description>Give access for Future Student Engagement activities.</description>
     <fieldPermissions>
         <editable>true</editable>

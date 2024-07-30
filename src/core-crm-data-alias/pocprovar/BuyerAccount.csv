@@ -2,3 +2,4 @@ Id,Name,BuyerId,BuyerStatus,IsActive,CommerceType,Buyer.Name
 0bj9n00000000PpAAI,Central Perc Co.,0019n000001yOeoAAE,Pending,true,Buyer,Central Perc Co.
 0bj9n00000000PqAAI,United BC Corp,0019n000001yOenAAE,Active,true,Buyer,United BC Corp
 0bj9n00000000PrAAI,Accenture,0019n000001yOepAAE,Pending,true,Buyer,Test Corporation
+0bj9n00000000PsAAI,Giving to Causes Buyer Account,0019r000002WIS5AAL,Active,true,Buyer,Giving to Causes

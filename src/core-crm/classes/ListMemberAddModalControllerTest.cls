@@ -12,12 +12,18 @@
 */
 @isTest
 public with sharing class ListMemberAddModalControllerTest {
+    @testSetup
+    static void testSetup() {
+        Test.startTest();
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
+        Test.stopTest();
+    }
+
     @isTest
     static void getDefaultListContributorTest(){
         ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
 
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Alumni_Engagement_Manager'});
-        User alumniUser = TestDataFactory.getQUTAlumniEngagementManager();
+        User alumniUser = TestDataFactoryUser.selectUserAlumniEngagementManager;
         List<List__c> newListRecords = TestDataFactory.createListRecords(1);
         ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
 
@@ -57,8 +63,7 @@ public with sharing class ListMemberAddModalControllerTest {
     static void getRelatedListContributorTest(){
         ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
 
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Alumni_Engagement_Manager'});
-        User alumniUser = TestDataFactory.getQUTAlumniEngagementManager();
+        User alumniUser = TestDataFactoryUser.selectUserAlumniEngagementManager;
         List<List__c> newListRecords = TestDataFactory.createListRecords(1);
         ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
 

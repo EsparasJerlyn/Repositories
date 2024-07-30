@@ -951,6 +951,20 @@
         <value>0 0 0 ? * *</value>
     </labels>
     <labels>
+        <fullName>QUTex_Privacy_Policy_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Privacy Policy URL</shortDescription>
+        <value>https://www.qut.edu.au/additional/privacy</value>
+    </labels>
+    <labels>
+        <fullName>QUTex_Privacy_Collection_Notice_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Privacy Collection Notice URL</shortDescription>
+        <value>https://www.qut.edu.au/additional/privacy/privacy-collection-notice</value>
+    </labels>    
+    <labels>  
         <fullName>ELC_Evaluation_Monday_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>

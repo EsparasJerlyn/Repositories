@@ -1,2 +1,3 @@
-Id,Name,Description
-0ZI9r0000000EkXGAU,OPE BuyerGroup,''
+Id,Name,Description,Role
+0ZI9r0000000EkXGAU,OPE BuyerGroup,'',
+0ZI9r0000000EkXGAV,Giving to Causes Buyer Group,Buyer Group to be used in Giving to Causes store,Account Based

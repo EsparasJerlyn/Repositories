@@ -7,10 +7,11 @@
  * 
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | May 30, 2022          | DEPP-870               | Created file                 | 
-      |                                |                       |                        |                              | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------|
+      | eugene.andrew.abuan            | May 30, 2022          | DEPP-870               | Created file                             | 
+      | kenneth.f.alsay                | June 21, 2024         | DEPP-9221              | Renamed OPE Catalogue to QUT Experience  |
+      |                                |                       |                        |                                          |
  */
 
 public without sharing class StudySSORegHandler implements Auth.RegistrationHandler  {
@@ -31,9 +32,9 @@ public without sharing class StudySSORegHandler implements Auth.RegistrationHand
         Integer randomInt = Integer.valueOf(math.rint(math.random() * 1000000));
         String uniqueName = orgId + dateString + randomInt;
 
-        Account a =  [SELECT Id, Name FROM Account WHERE Name ='OPE Catalogue'];
+        Account a =  [SELECT Id, Name FROM Account WHERE Name ='QUT Experience'];
 
-        //Link Contact to OPE Catalogue
+        //Link Contact to QUT Experience
 		List<Contact> contacts = [SELECT Id, QUT_Student_Username__c, Registered_Email__c  FROM Contact WHERE QUT_Student_Username__c =: data.username LIMIT 1];
         for (Contact con : contacts){
             con.AccountId = a.Id;
@@ -43,7 +44,7 @@ public without sharing class StudySSORegHandler implements Auth.RegistrationHand
         
         Contact c = [SELECT Id, QUT_Student_Username__c  FROM Contact WHERE QUT_Student_Username__c =: data.username LIMIT 1];
 		User u = new User();
-		Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+		Profile p = [SELECT Id FROM Profile WHERE Name = 'QUT Experience'];
 		u.Username = data.username;
 		u.Email = data.email;
 		u.LastName = data.lastName;

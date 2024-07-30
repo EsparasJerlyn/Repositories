@@ -54,10 +54,10 @@ private class OutreachCaseImportCtrlTest {
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);
 
             Test.startTest();
-            List<Case> result = OutreachCaseImportCtrl.listOfCases(configs[0].Id);
+            List<OutreachCaseImportCtrl.CaseWrapper> result = OutreachCaseImportCtrl.listOfCases(configs[0].Id);
             Test.stopTest();
             System.assert(result.size() > 0, 'No case records retrieved.');
-            System.assertEquals(result[0].Id, outreachCase.Id, 'Case record retrieved did not match.');
+            System.assertEquals(result[0].getCase().Id, outreachCase.Id, 'Case record retrieved did not match.');
         }
     }
     

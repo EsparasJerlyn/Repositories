@@ -134,7 +134,7 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'QUT Experience'];
       Contact c = new Contact(LastName = 'Testing');
       insert c;
       User u = new User(
@@ -401,7 +401,7 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'QUT Experience'];
       Contact c = new Contact(LastName = 'Testing');
       insert c;
       User u = new User(

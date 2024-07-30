@@ -40,10 +40,6 @@
         <!--(Start) DEPP-5906 -->
         <members>Case_Clear_Closure_FieldsFlowTest</members>
         <!--(End) DEPP-5906 -->
-        <!--(Start) DEPP-7005 -->
-        <members>CustomHeaderDatatableCtrl</members>
-        <members>CustomHeaderDatatableCtrlTest</members>
-        <!--(End) DEPP-7005 -->
         <!--(Start) DEPP-5906 -->
         <members>AffiliationTriggerHelper</members>
         <members>AffiliationTriggerHelperTest</members>
@@ -198,15 +194,6 @@
         <members>Contact.QLD_School_Name__c</members>
         <members>Contact.Year_of_Arrival__c</members>
         <!-- End DEPP-6482-->
-        <!-- Start DEPP-6621-->
-        <members>Engagement_Opportunity__c.Requester_Name__c</members>
-        <!-- End DEPP-6621-->
-        <!-- Start DEPP-7000-->
-        <members>Opportunity_Outcome__c.Outcome_Total_Value__c</members>
-        <!-- End DEPP-7000-->
-        <!--Start DEPP-7104-->
-        <members>Opportunity_Outcome__c.Outcome_Type__c</members>
-        <!--End DEPP-7104-->
         <!-- Start DEPP-7143-->
         <members>International_Tier__c.Tier_Priority__c</members>
         <!-- End DEPP-7143-->
@@ -496,14 +483,6 @@
         <!-- (End) DEPP-6331 -->
         <name>WebLink</name>
     </types>
-
-     <types>
-        <!--(Start) DEPP-6473 -->
-        <members>Business_Development_Base</members>
-        <!--(End) DEPP-6473 -->
-        <name>PermissionSet</name>
-    </types>
-
     <types>
         <!--(Start) DEPP-6135 -->
         <members>hed__Application__c.SAMS</members>

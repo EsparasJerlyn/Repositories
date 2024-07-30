@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be added to Integration users that are part of Alumni Engagement</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Alumni PowerBI Integration</label>
+    <permissionSets>Alumni_Corporate_Partnership_Base</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
