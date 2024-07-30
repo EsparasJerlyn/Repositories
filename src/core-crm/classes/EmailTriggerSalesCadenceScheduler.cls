@@ -16,7 +16,13 @@ public with sharing class EmailTriggerSalesCadenceScheduler implements Schedulab
     * @description Method for calling EmailTriggerSalesCadenceBatch
     */
     public void execute (SchedulableContext context){
-        EmailTriggerSalesCadenceBatch batch = new EmailTriggerSalesCadenceBatch();
-		Database.executeBatch(batch);
+        Set<String> jobNames = new Set<String>();
+        jobNames.add(AsyncApexJobsDAO.EMAIL_TRIGGER_SALES_CADENCE_BATCH);
+
+        List<AsyncApexJob> runningJobs = AsyncApexJobsDAO.newInstance().getRunningJobsByNameAndIdExemption(jobNames, new Set<Id>(), AccessLevel.USER_MODE);
+        if(runningJobs.isEmpty()) {
+            EmailTriggerSalesCadenceBatch batch = new EmailTriggerSalesCadenceBatch();
+            Database.executeBatch(batch);
+        }
     }
 }
