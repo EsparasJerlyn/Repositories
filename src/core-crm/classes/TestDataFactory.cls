@@ -86,6 +86,7 @@
  *    |                           |                       |                     | Added method createTestDistributionSplitRecords                         |
  *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                 |
  *    | kenneth.f.alsay           | April 23, 2024        | DEPP-8528           | Added method createDonationRecordsWithRecordType                        |
+ *    | kenneth.f.alsay           | June 21, 2024         | DEPP-9221           | Updated OPE Catalogue to QUT Experience                                 |
  **/
     
 @isTest
@@ -138,7 +139,7 @@ public class TestDataFactory {
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
         'QUT_Corporate_Partner_User',
-        'QUT_OPE_Catalogue'
+        'QUT_QUT_Experience'
     };
     private static User portalSysAdmin;
 
@@ -3497,9 +3498,9 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
-            } else if (name == 'QUT_OPE_Catalogue') {
-                userName = 'QUT_OPE_Catalogue';
-                profileName = 'OPE Catalogue';
+            } else if (name == 'QUT_QUT_Experience') {
+                userName = 'QUT_QUT_Experience';
+                profileName = 'QUT_Experience';
                 roleName = 'OPECatalogueCustomerUser';
                 permSets = 'OPE_Catalogue';
                 publicGroups = '';

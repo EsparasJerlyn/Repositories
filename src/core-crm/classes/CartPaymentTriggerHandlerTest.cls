@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | roy.nino.s.regala              | June 27, 2022         | DEPP-3252              | Created file                               |
+      | kenneth.f.alsay                | June 21, 2024         | DEPP-9221              | Updated OPE Catalogue to QUT Experience    |
  */
 @isTest
 public with sharing class CartPaymentTriggerHandlerTest {
@@ -55,7 +56,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
             //Create user
             User portalUser = TestDataFactory.createPortalUserRecords(
                 1,
-                'OPE Catalogue',
+                'QUT Experience',
                 contact1.Id
                 )
                 .iterator()
@@ -128,7 +129,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
         final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
-                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    WHERE Profile.Name = 'QUT Experience' 
                                     AND Email = 'testPortaluser@mailinator.com' 
                                     AND IsActive = TRUE 
                                     LIMIT 1];
@@ -180,7 +181,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
         final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
-                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    WHERE Profile.Name = 'QUT Experience' 
                                     AND Email = 'testPortaluser@mailinator.com' 
                                     AND IsActive = TRUE 
                                     LIMIT 1];
@@ -232,7 +233,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
         final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
-                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    WHERE Profile.Name = 'QUT Experience' 
                                     AND Email = 'testPortaluser@mailinator.com' 
                                     AND IsActive = TRUE 
                                     LIMIT 1];
@@ -285,7 +286,7 @@ public with sharing class CartPaymentTriggerHandlerTest {
         final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             User portalUser = [     SELECT Id FROM User 
-                                    WHERE Profile.Name = 'OPE Catalogue' 
+                                    WHERE Profile.Name = 'QUT Experience' 
                                     AND Email = 'testPortaluser@mailinator.com' 
                                     AND IsActive = TRUE 
                                     LIMIT 1];

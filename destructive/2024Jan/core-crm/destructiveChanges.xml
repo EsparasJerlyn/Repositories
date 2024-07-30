@@ -101,6 +101,9 @@
         <!--(Start) DEPP-6979-->
         <members>Contact_Parent_Child_Syncing</members>
         <!--(End) DEPP-6979-->
+        <!--(Start) DEPP-9221-->
+        <members>OPE_and_CCE_Username_Format</members>
+        <!--(End) DEPP-9221-->
         <!--(Start) DEPP-8189-->
         <members>New_Stewardship_From_Contact</members>
         <!--(End) DEPP-8189-->
@@ -153,6 +156,14 @@
         <members>Fundraising</members>
         <!--(End) DEPP-8114-->
         <name>PermissionSetGroup</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-9221 - Renamed to QUT Experience -->
+        <!-- Existing users using profile needs to be updated first
+        <members>OPE Catalogue</members>
+        -->
+        <!--(End) DEPP-9221-->
+        <name>Profile</name>
     </types>
     <types>
         <!--(Start) DEPP-8543 -->
@@ -385,6 +396,9 @@
         <members>CustomHeaderDatatableCtrl</members>
         <members>CustomHeaderDatatableCtrlTest</members>
         <!--(End) DEPP-7005 -->
+        <!--(Start) DEPP-9321 -->
+        <members>OPE_and_CCE_Username_FormatTest</members>
+        <!--(End) DEPP-9321 -->
         <!-- (Start) DEPP-9821 -->
         <members>MarketingInteractionTriggerHelper</members>
         <members>MarketingInteractionTriggerHelperTest</members>

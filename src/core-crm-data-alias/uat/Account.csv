@@ -6,7 +6,7 @@ Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer,RecordTypeId,Organizati
 0019n000001yOepAAE,Test Corporation,FALSE,FALSE,Outbound Enquiry,TRUE,0128q0000004JlWAAU,'',0058q000000Hs5bAAC,CICD Integration User
 0019r000002lVbzAAE,Participating School 2,false,false,,false,0128q0000004JlaAAE,3,0058q000000Hs5bAAC,CICD Integration User
 0019r000002lVc0AAE,Participating School 1,false,false,,false,0128q0000004JlaAAE,3,0058q000000Hs5bAAC,CICD Integration User
-0019r000002uJDKAA2,OPE Catalogue,true,false,Outbound Enquiry,true,0128q0000004JlWAAU,'',0058q000000HwJvAAK,Anthony Ducat-Ernst
+0019r000002uJDKAA2,QUT Experience,true,false,Outbound Enquiry,true,0128q0000004JlWAAU,'',0058q000000HwJvAAK,Anthony Ducat-Ernst
 0019h000001wVUIAA2,Owning Faculty 1,false,false,,false,0128q0000004JlaAAE,2,0058q000000Hs5bAAC,CICD Integration User
 0019h000001wVSgAAM,Owning Faculty 2,false,false,,false,0128q0000004JlaAAE,2,0058q000000Hs5bAAC,CICD Integration User
 0019r000002WIS5AAL,Giving to Causes,false,false,,true,0128q0000004JlWAAU,'',0058q000000Hs5bAAC,CICD Integration User

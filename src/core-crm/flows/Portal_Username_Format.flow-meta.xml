@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <description>Sets the username for OPE, CCE and Giving Portal Users</description>
+    <environments>Default</environments>
+    <interviewLabel>Portal Username Format {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Portal Username Format</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Append_QUT_to_username</name>
+        <label>Append QUT to username</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>Username</field>
+            <value>
+                <stringValue>{!$Record.Email}.qut</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Append_QUT_to_username</targetReference>
+        </connector>
+        <filterFormula>OR(
+   {!$Record.Profile.Name} = &apos;Giving Experience&apos;,
+   {!$Record.Profile.Name} = &apos;Corporate Partner&apos;,
+   {!$Record.Profile.Name} = &apos;QUT Experience&apos;
+)</filterFormula>
+        <object>User</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

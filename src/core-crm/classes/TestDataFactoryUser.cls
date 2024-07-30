@@ -7,6 +7,7 @@
  *    | Developer                 | Date                  | JIRA                | Change Summary                           |
  *    |---------------------------|-----------------------|---------------------|------------------------------------------|
  *    | julie.jane.alegre         | April 16, 2024        | DEPP-8016           | Created file                             |
+ *    | kenneth.f.alsay           | June 21, 2024         | DEPP-9221           | Updated OPE Catalogue to QUT Experience  |
  **/
 @isTest
 
@@ -1871,7 +1872,7 @@ public class TestDataFactoryUser {
     }
 
     /***********************************************
-    *  QUT OPE Catalogue User
+    *  QUT OPE Catalogue/QUT Experience User
     ************************************************/
 
     // Used in @testSetup to generate user in a test class
@@ -1906,7 +1907,7 @@ public class TestDataFactoryUser {
         
             usr.FirstName = 'Test';
             usr.LastName = 'QUTOPECatalogueUser';
-            usr.profileName = 'OPE Catalogue';
+            usr.profileName = 'QUT Experience';
             usr.contactId = con.Id;
             
 
