@@ -79,7 +79,7 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
 
         Logger.saveLog();
 
-        // if over all request failed
+        // if overall request failed
         if (smsResponse.responses.isEmpty()) {
             failedCommsQueueIds.addAll(messageKeyMap.values());
         }
