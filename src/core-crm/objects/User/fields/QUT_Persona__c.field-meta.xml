@@ -43,6 +43,11 @@
                 <label>Student Services Admin</label>
             </value>
             <value>
+                <fullName>QUTeX Reporting</fullName>
+                <default>false</default>
+                <label>QUTeX Reporting</label>
+            </value>
+            <value>
                 <fullName>QUTeX Executive Director</fullName>
                 <default>false</default>
                 <label>QUTeX Executive Director</label>

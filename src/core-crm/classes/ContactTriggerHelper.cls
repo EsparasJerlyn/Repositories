@@ -70,6 +70,8 @@ public without sharing class ContactTriggerHelper {
             updateRegisteredEmail(con, oldItems);
             //updates sync to mc field
             updateSyncToMCField(con, oldItems);
+            //updates fields dependent to Can_Nurture__c
+            updateCanNurtureDependentFields(con, oldItems);
 
             //if contact is person on insert/update Persona Type is Personal
             con.Persona_Type__c = 'Personal';
@@ -1277,6 +1279,13 @@ public without sharing class ContactTriggerHelper {
                     'Contact update failed to prevent duplicate contact creation'
                 );
             }
+        }
+    }
+
+    private static void updateCanNurtureDependentFields(Contact con, Map<Id, Contact> oldItems) {
+        if(con.Can_Nurture__c == false && (oldItems == null || oldItems.get(con.Id).Can_Nurture__c != con.Can_Nurture__c)) {
+            con.Calculated_Cadence__c = null;
+            con.Cadence_Application__c = null;
         }
     }
 }
