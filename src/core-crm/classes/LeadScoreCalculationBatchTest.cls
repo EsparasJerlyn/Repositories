@@ -250,8 +250,8 @@ public with sharing class LeadScoreCalculationBatchTest {
             'Entry requirements & study pathways',
             'Fees, costs and scholarships',
             'Course information',
-            'My application and offer',
-            'My enrolment',
+            'Course application & offers',
+            'Preparing to Study',
             'Student Life'
         };
     }

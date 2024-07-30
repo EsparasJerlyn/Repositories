@@ -69,9 +69,9 @@
                 <label>Careers and outcomes</label>
             </value>
             <value>
-                <fullName>Accreditation</fullName>
+                <fullName>Professional Recognition & Registration</fullName>
                 <default>false</default>
-                <label>Accreditation</label>
+                <label>Professional Recognition & Registration</label>
             </value>
             <value>
                 <fullName>Course overview</fullName>
@@ -129,29 +129,24 @@
                 <label>Application documentation</label>
             </value>
             <value>
-                <fullName>How to enroll into a unit</fullName>
+                <fullName>Enrol into my Units</fullName>
                 <default>false</default>
-                <label>How to enroll into a unit</label>
+                <label>Enrol into my Units</label>
             </value>
             <value>
-                <fullName>How to register for a class</fullName>
+                <fullName>Timetable Preferencing</fullName>
                 <default>false</default>
-                <label>How to register for a class</label>
+                <label>Timetable Preferencing</label>
             </value>
             <value>
-                <fullName>Classes and timetables</fullName>
+                <fullName>Timetable Changes</fullName>
                 <default>false</default>
-                <label>Classes and timetables</label>
+                <label>Timetable Changes</label>
             </value>
             <value>
-                <fullName>Scholarships</fullName>
+                <fullName>Financial help & support</fullName>
                 <default>false</default>
-                <label>Scholarships</label>
-            </value>
-            <value>
-                <fullName>Government loans</fullName>
-                <default>false</default>
-                <label>Government loans</label>
+                <label>Financial help & support</label>
             </value>
             <value>
                 <fullName>Tuition fees</fullName>
@@ -189,19 +184,14 @@
                 <label>Campus and transport</label>
             </value>
             <value>
-                <fullName>Accommodation</fullName>
-                <default>false</default>
-                <label>Accommodation</label>
-            </value>
-            <value>
                 <fullName>Sport and clubs</fullName>
                 <default>false</default>
                 <label>Sport and clubs</label>
             </value>
             <value>
-                <fullName>Moving to Brisbane</fullName>
+                <fullName>Accommodation & Living in Brisbane</fullName>
                 <default>false</default>
-                <label>Moving to Brisbane</label>
+                <label>Accommodation & Living in Brisbane</label>
             </value>
         </valueSetDefinition>
     </valueSet>

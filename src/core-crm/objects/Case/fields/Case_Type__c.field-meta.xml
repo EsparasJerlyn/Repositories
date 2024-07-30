@@ -29,6 +29,21 @@
                 <default>false</default>
                 <label>Student Success - Retention</label>
             </value>
+            <value>
+                <fullName>Current Student Enquiry</fullName>
+                <default>false</default>
+                <label>Current Student Enquiry</label>
+            </value>
+            <value>
+                <fullName>Staff Enquiry</fullName>
+                <default>false</default>
+                <label>Staff Enquiry</label>
+            </value>
+            <value>
+                <fullName>Public Enquiry</fullName>
+                <default>false</default>
+                <label>Public Enquiry</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
-</CustomField>
+</CustomField> 
