@@ -1603,6 +1603,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Last_Queue_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Lead_Score_Reset__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1709,6 +1714,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Related_Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Sensitive_Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
