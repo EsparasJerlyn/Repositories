@@ -92,8 +92,8 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_SUB_CATEGORY_ENTRY_REQ_STUDY_PATH = 'Entry requirements & study pathways';
     public static final String CONFIG_SUB_CATEGORY_FEES_COST_SCHOLARSHIP = 'Fees, costs and scholarships';
     public static final String CONFIG_SUB_CATEGORY_COURSE_INFO = 'Course information';
-    public static final String CONFIG_SUB_CATEGORY_MY_APP_AND_OFFER = 'My application and offer';
-    public static final String CONFIG_SUB_CATEGORY_MY_ENROLLMENT = 'My enrolment';
+    public static final String CONFIG_SUB_CATEGORY_COURSE_APPLICATION_AND_OFFERS = 'Course application & offers';
+    public static final String CONFIG_SUB_CATEGORY_PREPARING_TO_STUDY = 'Preparing to Study';
     public static final String CONFIG_SUB_CATEGORY_STUDY_LIFE = 'Student life';
     //CONFIG_CATEGORY_DOWNLOADED_PDF
     public static final String CONFIG_SUB_CATEGORY_COURSE_PAGE_PDF = 'Course Page PDF';

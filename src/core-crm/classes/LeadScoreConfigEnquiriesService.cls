@@ -77,10 +77,10 @@ public with sharing class LeadScoreConfigEnquiriesService {
         else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_INFO){ 
             enquiryScore = enquiryScore + leadScoreConfigEnquiries.getCourseInformation();
         }
-        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_APP_AND_OFFER){ 
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_APPLICATION_AND_OFFERS){ 
             enquiryScore = enquiryScore + leadScoreConfigEnquiries.getMyApplicationAndOffer();
         }
-        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_ENROLLMENT){ 
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_PREPARING_TO_STUDY){ 
             enquiryScore = enquiryScore + leadScoreConfigEnquiries.getMyEnrollment();
         }
         else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_STUDY_LIFE){ 
@@ -111,10 +111,10 @@ public with sharing class LeadScoreConfigEnquiriesService {
         else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_INFO){
             leadScoreConfigEnquiries.setCourseInformation(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_APP_AND_OFFER){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_APPLICATION_AND_OFFERS){
             leadScoreConfigEnquiries.setMyApplicationAndOffer(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_ENROLLMENT){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_PREPARING_TO_STUDY){
             leadScoreConfigEnquiries.setMyEnrollment(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
         else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_STUDY_LIFE){

@@ -43,11 +43,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>My application and offer</fullName>
+            <fullName>Course application & offers</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>My enrolment</fullName>
+            <fullName>Preparing to Study</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2328,11 +2328,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Accommodation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Accreditation</fullName>
+            <fullName>Professional Recognition & Registration</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2376,7 +2372,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Classes and timetables</fullName>
+            <fullName>Timetable Changes</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2404,23 +2400,19 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Government loans</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>How to apply</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>How to enroll into a unit</fullName>
+            <fullName>Enrol into my Units</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>How to register for a class</fullName>
+            <fullName>Timetable Preferencing</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Moving to Brisbane</fullName>
+            <fullName>Accommodation & Living in Brisbane</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2440,7 +2432,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Scholarships</fullName>
+            <fullName>Financial help & support</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2461,10 +2453,6 @@
         </values>
         <values>
             <fullName>Tuition fees</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome and orientation events</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2535,10 +2523,6 @@
         </values>
         <values>
             <fullName>Progression</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Scholarships</fullName>
             <default>false</default>
         </values>
         <values>

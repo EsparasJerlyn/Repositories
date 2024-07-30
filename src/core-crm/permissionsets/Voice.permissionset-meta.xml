@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grant permission to presence statuses required for Voice. Please use in conjunction with Permission Set Contact_Center_Agent_Partner_Telephony_QUT</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Voice</label>
+</PermissionSet>

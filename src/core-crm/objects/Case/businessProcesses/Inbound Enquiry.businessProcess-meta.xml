@@ -7,7 +7,7 @@
         <default>false</default>
     </values>
     <values>
-        <fullName>Awaiting Response</fullName>
+        <fullName>Awaiting Information</fullName>
         <default>false</default>
     </values>
     <values>
@@ -20,6 +20,14 @@
     </values>
     <values>
         <fullName>Escalated</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>In Progress</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Re-opened</fullName>
         <default>false</default>
     </values>
     <values>

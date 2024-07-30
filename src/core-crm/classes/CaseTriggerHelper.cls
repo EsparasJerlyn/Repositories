@@ -15,7 +15,8 @@
       | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Updated matchExistingContactOrLeadToCase         |
       | eccarius.munoz                 | April 5, 2024         | DEPP-7533	            | Added handleOutreachCasePriority                 | 
       | eccarius.munoz                 | June 2, 2024          | DEPP-8484	            | Added setOutreachKeyForClosedCase                | 
-      | eccarius.munoz                 | June 4, 2024          | DEPP-7533	            | Updated handling for outreach case medium prio   | 
+      | eccarius.munoz                 | June 4, 2024          | DEPP-7533	            | Updated handling for outreach case medium prio   |
+      | arsenio.jr.dayrit              | July 26,2024          | DEPP-9973              | added method for updating case Last Queue Name   |
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -473,6 +474,30 @@ public with sharing class CaseTriggerHelper {
 
         if(!casesToUpdate.isEmpty()){
             CasesDAO.newInstance().updateRecords(casesToUpdate, true, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /**
+     * @description Sets the last queue name on inbound enquiry record type only
+     * @param newItems - List of case record
+     */
+    public static void setLastQueueNameForInboundCases(List<Case> newItems, Map<Id, Case> oldItems) {
+        boolean ifUpdate = oldItems != null;
+        Map<Id,String> queueMap = new Map<Id,String>();
+        List<Group> queues = [SELECT Id, Name FROM Group WHERE Type = 'Queue' WITH USER_MODE];
+        for(Group queue : queues){
+            queueMap.put(queue.Id,queue.Name);
+        }
+        for(Case caseRecord : newItems){
+            if(
+                ifUpdate &&
+                oldItems.get(caseRecord.Id).OwnerId != caseRecord.OwnerId &&
+                queueMap.containsKey(caseRecord.OwnerId) &&
+                caseRecord.RecordTypeId == CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID
+            )
+            {
+                caseRecord.Last_Queue_Name__c = queueMap.get(caseRecord.OwnerId);
+            }
         }
     }
 
