@@ -138,18 +138,6 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
     }
     
     /**
-     * call flow and get the return value
-     */    
-    private static String callFlow(String flowName, Map <String, Object> flowParameters) {
-        if(Test.isRunningTest()){
-            return '';
-        }
-		Flow.Interview smsFlow = Flow.Interview.createInterview(flowName, flowParameters);
-        smsFlow.start();
-        return (String) smsFlow?.getVariableValue('FlowResult');
-    }
-    
-    /**
      * check if SMS needs to be stop sending
      */     
     private static Boolean stopSendingSMS() {        
