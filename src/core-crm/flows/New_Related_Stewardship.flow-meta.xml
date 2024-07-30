@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
+        <name>Detail_Page_Navigation_of_Individual_Stewardship</name>
+        <label>Detail Page Navigation of Individual Stewardship</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <actionName>c:detailPageNavigation</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>Create_Stewardship_Records</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>c:detailPageNavigation</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Do_Contact_Matching</name>
         <label>Do Contact Matching</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>998</locationY>
         <actionName>ContactMatchingService</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Is_Contact_Match_Found</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
             <name>email</name>
@@ -46,17 +68,16 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
-        <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1370</locationX>
-        <locationY>2114</locationY>
+        <locationX>314</locationX>
+        <locationY>782</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Save_Log</targetReference>
         </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>faultMessage</name>
             <value>
@@ -66,7 +87,7 @@
         <inputParameters>
             <name>flowName</name>
             <value>
-                <stringValue>New Stewardship</stringValue>
+                <stringValue>New Stewardship From Contact</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -78,7 +99,7 @@
         <inputParameters>
             <name>message</name>
             <value>
-                <stringValue>Error in New Stewardship Screen Flow</stringValue>
+                <stringValue>Error in New Stewardship From Contact Screen Flow</stringValue>
             </value>
         </inputParameters>
         <nameSegment>FlowLogEntry</nameSegment>
@@ -88,14 +109,14 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1370</locationX>
-        <locationY>2222</locationY>
+        <locationX>314</locationX>
+        <locationY>890</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Error</targetReference>
         </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <nameSegment>Logger</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
@@ -103,13 +124,13 @@
     <assignments>
         <name>Assign_Account_Display_Text</name>
         <label>Assign Account Display Text</label>
-        <locationX>644</locationX>
+        <locationX>1040</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccount</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>AccountLookup.selectedRecordOutput.Name</elementReference>
+                <elementReference>Get_Parent_Account_Record.Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -120,7 +141,7 @@
         <description>Assigns the Selected Contact via Lookup to the Record Variable.</description>
         <name>Assign_Contact_for_Stewardship_Organisation_Giving</name>
         <label>Assign Contact for Stewardship Organisation Giving</label>
-        <locationX>842</locationX>
+        <locationX>1370</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.Id</assignToReference>
@@ -136,7 +157,7 @@
     <assignments>
         <name>Assign_Contact_Values</name>
         <label>Assign Contact Values</label>
-        <locationX>578</locationX>
+        <locationX>842</locationX>
         <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.FirstName</assignToReference>
@@ -185,25 +206,9 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Contact_Values_for_Individual_Stewardship_Record</name>
-        <label>Assign Contact Values for Individual Stewardship Record</label>
-        <locationX>50</locationX>
-        <locationY>674</locationY>
-        <assignmentItems>
-            <assignToReference>ContactToCreate.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ContactLookupIndividualGiving.selectedRecordIdOutput</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Collect_Stewardship_Details</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>1106</locationX>
+        <locationX>1700</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -216,20 +221,13 @@
             <targetReference>Check_User_Role</targetReference>
         </connector>
     </assignments>
-    <constants>
-        <name>DefaultRecordTypeSelected</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Individual Stewardship</stringValue>
-        </value>
-    </constants>
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>1106</locationX>
+        <locationX>1700</locationX>
         <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>Dont_Have_Access_Screen</targetReference>
+            <targetReference>No_Access_Screen</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -243,7 +241,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Record</targetReference>
+                <targetReference>Get_Stewardship_Record_Type</targetReference>
             </connector>
             <label>User Has Access</label>
         </rules>
@@ -251,7 +249,7 @@
     <decisions>
         <name>Is_Contact_Match_Found</name>
         <label>Is Contact Match Found</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>1106</locationY>
         <defaultConnector>
             <targetReference>Get_Person_Recordtype</targetReference>
@@ -276,7 +274,7 @@
     <decisions>
         <name>Is_Create_Contact_Selected</name>
         <label>Is Create Contact Selected?</label>
-        <locationX>644</locationX>
+        <locationX>1040</locationX>
         <locationY>890</locationY>
         <defaultConnector>
             <targetReference>Assign_Contact_for_Stewardship_Organisation_Giving</targetReference>
@@ -301,21 +299,28 @@
     <decisions>
         <name>What_RecordType_is_Selected</name>
         <label>What RecordType is Selected?</label>
-        <locationX>578</locationX>
+        <locationX>974</locationX>
         <locationY>458</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Individual_Stewardship</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <leftValueReference>Get_Stewardship_Record_Type.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Individual Stewardship</stringValue>
+                    <stringValue>Individual_Stewardship</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Contact</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Select_Existing_Contact</targetReference>
+                <targetReference>Collect_Individual_Stewardship_Details</targetReference>
             </connector>
             <label>Is Individual Stewardship</label>
         </rules>
@@ -323,19 +328,25 @@
             <name>Is_Organisation_Stewardship</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <leftValueReference>Get_Stewardship_Record_Type.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Organisation Stewardship</stringValue>
+                    <stringValue>Organisation_Stewardship</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Account</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Collect_Account_Details</targetReference>
+                <targetReference>Get_Parent_Account_Record</targetReference>
             </connector>
             <label>Is Organisation Stewardship</label>
         </rules>
     </decisions>
-    <description>Screen flow to create New Stewardship Record</description>
     <dynamicChoiceSets>
         <name>MobileLocalePicklist</name>
         <dataType>Picklist</dataType>
@@ -344,48 +355,9 @@
         <picklistField>ContactMobile_Locale__c</picklistField>
         <picklistObject>Contact</picklistObject>
     </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>StewardshipRecordtype</name>
-        <dataType>String</dataType>
-        <displayField>Name</displayField>
-        <filterLogic>(1 OR 2) AND 3</filterLogic>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Individual Stewardship</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Organisation Stewardship</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>SobjectType</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Stewardship__c</stringValue>
-            </value>
-        </filters>
-        <object>RecordType</object>
-        <outputAssignments>
-            <assignToReference>SelectedRecordTypeId</assignToReference>
-            <field>Id</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>SelectedRecordTypeName</assignToReference>
-            <field>Name</field>
-        </outputAssignments>
-        <sortField>Name</sortField>
-        <sortOrder>Asc</sortOrder>
-        <valueField>Name</valueField>
-    </dynamicChoiceSets>
     <environments>Default</environments>
-    <interviewLabel>New Stewardship {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>New Stewardship</label>
+    <interviewLabel>New Related Stewardship {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>New Related Stewardship</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -408,7 +380,7 @@
     <recordCreates>
         <name>Create_Contact_Record</name>
         <label>Create Contact Record</label>
-        <locationX>578</locationX>
+        <locationX>842</locationX>
         <locationY>1430</locationY>
         <connector>
             <targetReference>Check_Contact_Affiliation</targetReference>
@@ -416,23 +388,79 @@
         <inputReference>ContactToCreate</inputReference>
     </recordCreates>
     <recordCreates>
-        <name>Create_Stewardship_Record</name>
-        <label>Create Stewardship Record</label>
-        <locationX>578</locationX>
-        <locationY>2006</locationY>
+        <name>Create_Organisation_Stewardship_Records</name>
+        <label>Create Organisation Stewardship Records</label>
+        <locationX>1040</locationX>
+        <locationY>1922</locationY>
         <assignRecordIdToReference>StewardshipRecordId</assignRecordIdToReference>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputAssignments>
             <field>Account__c</field>
             <value>
-                <elementReference>AccountLookup.selectedRecordIdOutput</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Close_Date__c</field>
+            <value>
+                <elementReference>Close_Date_Input_Organisation_Stewardship</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Contact__c</field>
+            <value>
+                <elementReference>ContactToCreate.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Manager__c</field>
+            <value>
+                <elementReference>ManagerLookupOrganisationStewardship.selectedRecordIdOutput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Objective__c</field>
+            <value>
+                <elementReference>Objective_Input_Organisation_Stewardship</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>RecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Start_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Stewardship__c</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Stewardship_Records</name>
+        <label>Create Stewardship Records</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <connector>
+            <targetReference>Detail_Page_Navigation_of_Individual_Stewardship</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>Close_Date__c</field>
             <value>
@@ -442,7 +470,7 @@
         <inputAssignments>
             <field>Contact__c</field>
             <value>
-                <elementReference>ContactToCreate.Id</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -460,7 +488,7 @@
         <inputAssignments>
             <field>RecordTypeId</field>
             <value>
-                <elementReference>SelectedRecordTypeId</elementReference>
+                <elementReference>RecordTypeId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -472,15 +500,37 @@
         <inputAssignments>
             <field>Start_Date__c</field>
             <value>
-                <elementReference>Start_Date_Input</elementReference>
+                <elementReference>$Flow.CurrentDate</elementReference>
             </value>
         </inputAssignments>
         <object>Stewardship__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordLookups>
+        <name>Get_Parent_Account_Record</name>
+        <label>Get Parent Account Record</label>
+        <locationX>1040</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Account_Display_Text</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Get_Person_Recordtype</name>
         <label>Get Person Recordtype</label>
-        <locationX>578</locationX>
+        <locationX>842</locationX>
         <locationY>1214</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -507,78 +557,42 @@
             <field>Id</field>
         </outputAssignments>
     </recordLookups>
-    <screens>
-        <name>Collect_Account_Details</name>
-        <label>Collect Account Details</label>
-        <locationX>644</locationX>
-        <locationY>566</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
+    <recordLookups>
+        <name>Get_Stewardship_Record_Type</name>
+        <label>Get Stewardship Record Type</label>
+        <locationX>974</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Account_Display_Text</targetReference>
+            <targetReference>What_RecordType_is_Selected</targetReference>
         </connector>
-        <fields>
-            <name>AccountTextHeader</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Account&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>AccountLookup</name>
-            <dataTypeMappings>
-                <typeName>T</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <extensionName>c:flowLookup</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>identifier</name>
-                <value>
-                    <stringValue>StewardshipAccountLookupIdentifier</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>label</name>
-                <value>
-                    <stringValue>Existing Account</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>messageWhenValueMissing</name>
-                <value>
-                    <stringValue>Complete this field.</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>required</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>whereClause</name>
-                <value>
-                    <stringValue>RecordType.Name = &apos;Business Organization&apos;</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>objectName</name>
-                <value>
-                    <stringValue>Account</stringValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RecordTypeId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Stewardship__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>644</locationX>
+        <locationX>1040</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -601,9 +615,9 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>disabled</name>
+                <name>identifier</name>
                 <value>
-                    <booleanValue>true</booleanValue>
+                    <stringValue>StewardshipAccountLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -619,27 +633,15 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>required</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
                 <name>placeholder</name>
                 <value>
-                    <elementReference>AccountLookup.selectedRecordOutput.Name</elementReference>
+                    <elementReference>Get_Parent_Account_Record.Name</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>rightIconName</name>
                 <value>
                     <stringValue>utility:close</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>identifier</name>
-                <value>
-                    <stringValue>StewardshipAccountLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -708,15 +710,15 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>whereClause</name>
-                <value>
-                    <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
                 <name>required</name>
                 <value>
                     <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>whereClause</name>
+                <value>
+                    <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -739,7 +741,7 @@
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -835,15 +837,15 @@
             <extensionName>flowruntime:phone</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
-                <name>pattern</name>
-                <value>
-                    <stringValue>^(\+)?(?:[0-9] ?(?:-)?){3,14}[0-9]$</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
                 <name>label</name>
                 <value>
                     <stringValue>Mobile</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pattern</name>
+                <value>
+                    <stringValue>^(\+)?(?:[0-9] ?(?:-)?){3,14}[0-9]$</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -871,7 +873,7 @@
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
-                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Please accept the affiliation condition in order to progress.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</errorMessage>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(255, 0, 0);&quot;&gt;Please accept the affiliation condition in order to progress.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                 <formulaExpression>IF({!Affiliation_Checkbox}=TRUE,TRUE,FALSE)</formulaExpression>
             </validationRule>
         </fields>
@@ -880,22 +882,23 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Collect_Stewardship_Details</name>
-        <label>Collect Stewardship Details</label>
-        <locationX>578</locationX>
-        <locationY>1898</locationY>
+        <name>Collect_Individual_Stewardship_Details</name>
+        <label>Collect Individual Stewardship Details</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
+        <backButtonLabel>Previous</backButtonLabel>
         <connector>
-            <targetReference>Create_Stewardship_Record</targetReference>
+            <targetReference>Create_Stewardship_Records</targetReference>
         </connector>
         <fields>
-            <name>Stewardship_Summary</name>
+            <name>Stewardship_Summary1</name>
             <fieldText>Stewardship Summary</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Stewardship_Summary_Column1</name>
+                <name>Stewardship_Summary1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Start_Date_Input</name>
@@ -923,27 +926,9 @@
                         </value>
                     </inputParameters>
                     <inputParameters>
-                        <name>fieldsToDisplay</name>
+                        <name>whereClause</name>
                         <value>
-                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>fieldsToSearch</name>
-                        <value>
-                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>identifier</name>
-                        <value>
-                            <stringValue>StewardshipManagerLookupIndentifier</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>label</name>
-                        <value>
-                            <stringValue>Manager</stringValue>
+                            <stringValue>QUT_Staff__c = true</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -953,15 +938,33 @@
                         </value>
                     </inputParameters>
                     <inputParameters>
-                        <name>whereClause</name>
-                        <value>
-                            <stringValue>QUT_Staff__c = true</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field.</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Manager</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>identifier</name>
+                        <value>
+                            <stringValue>StewardshipManagerLookupIndentifier</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -977,7 +980,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>Stewardship_Summary_Column2</name>
+                <name>Stewardship_Summary1_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Close_Date_Input</name>
@@ -1010,9 +1013,140 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Collect_Organisation_Stewardship_Information</name>
+        <label>Collect Organisation Stewardship Information</label>
+        <locationX>1040</locationX>
+        <locationY>1814</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Previous</backButtonLabel>
+        <connector>
+            <targetReference>Create_Organisation_Stewardship_Records</targetReference>
+        </connector>
+        <fields>
+            <name>Stewardship_Summary</name>
+            <fieldText>Stewardship Summary</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Stewardship_Summary_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Start_Date_Input_Organisation_Stewardship</name>
+                    <dataType>Date</dataType>
+                    <defaultValue>
+                        <elementReference>$Flow.CurrentDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Start Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>ManagerLookupOrganisationStewardship</name>
+                    <dataTypeMappings>
+                        <typeName>T</typeName>
+                        <typeValue>Contact</typeValue>
+                    </dataTypeMappings>
+                    <extensionName>c:flowLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>objectName</name>
+                        <value>
+                            <stringValue>Contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>QUT_Staff__c = true</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageWhenValueMissing</name>
+                        <value>
+                            <stringValue>Mandatory Field.</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Manager</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>identifier</name>
+                        <value>
+                            <stringValue>StewardshipManagerLookupIndentifier</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Stewardship_Summary_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Close_Date_Input_Organisation_Stewardship</name>
+                    <dataType>Date</dataType>
+                    <fieldText>Close Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Objective_Input_Organisation_Stewardship</name>
+                    <fieldText>Objective</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Contact_Match_Error_Screen</name>
         <label>Contact_Match_Error_Screen</label>
-        <locationX>314</locationX>
+        <locationX>578</locationX>
         <locationY>1214</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
@@ -1026,141 +1160,39 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Dont_Have_Access_Screen</name>
-        <label>Dont Have Access Screen</label>
-        <locationX>1634</locationX>
-        <locationY>350</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>ErrorNoAccess</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(234, 0, 30);&quot;&gt;Please be advise that you do not have permission to create Engagement. If you have concern, contact your administrator.&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <nextOrFinishButtonLabel>Close</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>1370</locationX>
-        <locationY>2330</locationY>
-        <allowBack>false</allowBack>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
+        <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
+        <allowPause>true</allowPause>
         <fields>
             <name>FaultMessage</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Record</name>
-        <label>Record Type Selection</label>
-        <locationX>578</locationX>
-        <locationY>350</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>What_RecordType_is_Selected</targetReference>
-        </connector>
-        <fields>
-            <name>Select_a_record_type</name>
-            <choiceReferences>StewardshipRecordtype</choiceReferences>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>DefaultRecordTypeSelected</elementReference>
-            </defaultValue>
-            <fieldText>Select a record type</fieldText>
-            <fieldType>RadioButtons</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Select_Existing_Contact</name>
-        <label>Select Existing Contact</label>
-        <locationX>50</locationX>
-        <locationY>566</locationY>
+        <name>No_Access_Screen</name>
+        <label>No Access Screen</label>
+        <locationX>2426</locationX>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Assign_Contact_Values_for_Individual_Stewardship_Record</targetReference>
-        </connector>
+        <allowPause>true</allowPause>
         <fields>
-            <name>ContactHeader</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Contact&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <name>NoAccessMessage</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(234, 0, 30);&quot;&gt;Please be advise that you do not have permission to create Stewardship. If you have concern, contact your administrator.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
-        <fields>
-            <name>ContactLookupIndividualGiving</name>
-            <dataTypeMappings>
-                <typeName>T</typeName>
-                <typeValue>Contact</typeValue>
-            </dataTypeMappings>
-            <extensionName>c:flowLookup</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>objectName</name>
-                <value>
-                    <stringValue>Contact</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>messageWhenValueMissing</name>
-                <value>
-                    <stringValue>Complete this field.</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>label</name>
-                <value>
-                    <stringValue>Existing Contact</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>placeholder</name>
-                <value>
-                    <stringValue>Search Contacts...</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>whereClause</name>
-                <value>
-                    <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>fieldsToDisplay</name>
-                <value>
-                    <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>fieldsToSearch</name>
-                <value>
-                    <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>980</locationX>
+        <locationX>1574</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
@@ -1170,16 +1202,16 @@
     <subflows>
         <name>Check_Contact_Affiliation</name>
         <label>Check Contact Affiliation</label>
-        <locationX>644</locationX>
+        <locationX>1040</locationX>
         <locationY>1706</locationY>
         <connector>
-            <targetReference>Collect_Stewardship_Details</targetReference>
+            <targetReference>Collect_Organisation_Stewardship_Information</targetReference>
         </connector>
         <flowName>Check_Contact_Affiliation</flowName>
         <inputAssignments>
             <name>AccountId</name>
             <value>
-                <elementReference>AccountLookup.selectedRecordIdOutput</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1198,8 +1230,8 @@
     <subflows>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>578</locationX>
-        <locationY>2114</locationY>
+        <locationX>1040</locationX>
+        <locationY>2030</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
@@ -1217,6 +1249,20 @@
         <objectType>Contact</objectType>
     </variables>
     <variables>
+        <name>DynamicDataTableInput</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>MobileValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>modalTitle</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1224,21 +1270,28 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>ParentId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ParentObjectApiName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>SelectedAccount</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>SelectedRecordTypeId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>SelectedRecordTypeName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

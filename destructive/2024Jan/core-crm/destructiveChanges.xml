@@ -101,6 +101,9 @@
         <!--(Start) DEPP-6979-->
         <members>Contact_Parent_Child_Syncing</members>
         <!--(End) DEPP-6979-->
+        <!--(Start) DEPP-8189-->
+        <members>New_Stewardship_From_Contact</members>
+        <!--(End) DEPP-8189-->
         <name>Flow</name>
     </types>
     <types>
