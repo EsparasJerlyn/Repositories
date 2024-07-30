@@ -6,7 +6,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | May 29, 2024          | DEPP-8954              | Created file                 |
+      | mark.j.mahilum          test        | May 29, 2024          | DEPP-8954              | Created file                 |
  */
 @isTest
 public inherited sharing class ABSCategorisationsDAOMock extends DmlBaseMock implements IABSCategorisationsDAO {
