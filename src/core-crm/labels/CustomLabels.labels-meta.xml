@@ -937,6 +937,14 @@
         <value>Retry Scheduled</value>
     </labels>
     <labels>
+        <fullName>PL_CommsQueue_Cancelled</fullName>
+        <categories>Picklist,CommunicationQueue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_CommsQueue_Cancelled</shortDescription>
+        <value>Cancelled</value>
+    </labels>
+    <labels>
         <fullName>Recalculate_Lead_Score_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>

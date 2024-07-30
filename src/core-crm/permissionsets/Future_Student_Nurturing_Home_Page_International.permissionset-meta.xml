@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Future_Student_Nurturing_Home_Page_International</name>
+    </customPermissions>
+    <description>Future Student Nurturing Home Page - International</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Future Student Nurturing Home Page - International</label>
+</PermissionSet>

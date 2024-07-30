@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Object - Operating Hours - View All Records - CRU - FLA Read and Edit</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Object - Operating Hours - View All Records - CRU - FLA Read and Edit</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>OperatingHours</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>standard-OperatingHours</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

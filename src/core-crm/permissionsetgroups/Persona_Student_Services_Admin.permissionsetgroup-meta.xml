@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be added to Student Services Admin users</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Persona Student Services Admin</label>
+    <permissionSets>Custom_Application_Enquiry_Management</permissionSets>
+    <permissionSets>Custom_Application_Future_Student_Configuration</permissionSets>
+    <permissionSets>Custom_Application_Future_Student_Nurturing</permissionSets>
+    <permissionSets>Enquiry_Management_Home_Page_Domestic</permissionSets>
+    <permissionSets>Enquiry_Management_Home_Page_International</permissionSets>
+    <permissionSets>FS_Configuration_Home_Page_Domestic</permissionSets>
+    <permissionSets>FS_Configuration_Home_Page_International</permissionSets>
+    <permissionSets>Future_Student_Domestic_Email_Access</permissionSets>
+    <permissionSets>Future_Student_Engagement</permissionSets>
+    <permissionSets>Future_Student_International_Email_Access</permissionSets>
+    <permissionSets>Future_Student_Nurturing_Home_Page_Domestic</permissionSets>
+    <permissionSets>Future_Student_Nurturing_Home_Page_International</permissionSets>
+    <permissionSets>Google_Integration_User</permissionSets>
+    <permissionSets>Knowledge_User</permissionSets>
+    <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
+    <permissionSets>Object_ActionCadence_All_Records_CRUD_FLA</permissionSets>
+    <permissionSets>Object_Case_Priority_Configuration_View_All_Records_CRU_FLA_Read_and_Edi</permissionSets>
+    <permissionSets>Object_International_Tier_View_All_Records_CRU_FLA_Read_and_Edit</permissionSets>
+    <permissionSets>Object_Knowledge_View_All_Records_CRU_FLA_Read_and_Edit</permissionSets>
+    <permissionSets>Object_Lead_Score_Configuration_View_All_Records_CRU_FLA_Read_and_Edit</permissionSets>
+    <permissionSets>Object_Nurture_Track_Configuration_View_All_Records_CRU_FLA_Read_and_Edi</permissionSets>
+    <permissionSets>Object_Operating_Hours_View_All_Records_CRU_FLA_Read_and_Edit</permissionSets>
+    <permissionSets>Object_SMS_Template_View_All_Records_CRU_FLA_Read_and_Edit</permissionSets>
+    <permissionSets>Object_Service_Resources_View_All_Records_CRU_FLA_Read_and_Edit</permissionSets>
+    <permissionSets>Permission_API_Enabled</permissionSets>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
+    <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
+    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
+    <permissionSets>spr_sf__Sprinklr_User</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
