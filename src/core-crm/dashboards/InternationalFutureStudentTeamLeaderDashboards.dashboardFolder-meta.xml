@@ -35,5 +35,10 @@
         <sharedTo>System_Administrator_Read_Only</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>
+    <folderShares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>Student_Services_Admin</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
     <name>International FS Team Leader Dashboards</name>
 </DashboardFolder>

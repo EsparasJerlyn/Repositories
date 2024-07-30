@@ -5,6 +5,12 @@
     <label>Persona System Administrator</label>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
     <permissionSets>Einstein_Service_AI_User</permissionSets>
+    <permissionSets>Enquiry_Management_Home_Page_Domestic</permissionSets>
+    <permissionSets>Enquiry_Management_Home_Page_International</permissionSets>
+    <permissionSets>FS_Configuration_Home_Page_Domestic</permissionSets>
+    <permissionSets>FS_Configuration_Home_Page_International</permissionSets>
+    <permissionSets>Future_Student_Nurturing_Home_Page_Domestic</permissionSets>
+    <permissionSets>Future_Student_Nurturing_Home_Page_International</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>

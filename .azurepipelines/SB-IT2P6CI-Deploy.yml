@@ -1,0 +1,101 @@
+name: "IT2P6CI Deploy (Triggered on creation of PR)"
+
+resources:
+  repositories:
+    - repository: SFDX-PIPELINES
+      type: bitbucket
+      endpoint: Bitbucket_QUT
+      name: qutdev/sfdx-pipelines
+      ref: main ## PRODUCTION pipeline branch
+      # ref: feature/DEPP-7471-sfpipelinestest ## DEV pipeline branch (used for pipeline development)
+
+#Custom Variables
+variables:
+  - group: SALESFORCE_CICD #ALWAYS LEAVE THIS IN
+  - group: SALESFORCE_KEYSTORE #ALWAYS LEAVE THIS IN
+  - group: IT2P6CI # SANDBOX CREDS TO DEPLOY TO
+
+# Build pull requests so we can test them
+pr:
+  autoCancel: true
+  drafts: false
+  branches:
+    include:
+      - $(BRANCH_LISTENED)
+
+parameters:
+
+- name: TEST_LEVEL
+  displayName: Test Level
+  type: string
+  default: RunSpecifiedTests
+  values:
+  #- RunLocalTests
+  - RunSpecifiedTests
+  - NoTestRun
+
+- name: BUILD_PACKAGE_FROM
+  displayName: Build Package From
+  type: string
+  default: Default Behaviour
+  values:
+  - Default Behaviour
+  - Diff from main
+  - Main-2023-12
+  - Main-2023-11
+  - Main-2023-10
+  - Full Deployment
+
+- name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
+  displayName: Create or Update Test Users
+  type: string
+  default: "No"
+  values:
+  - "Yes"
+  - "No"
+
+
+stages:
+  - stage: PiplineJob
+    displayName: "Validate"
+    lockBehavior: runLatest
+    jobs:
+      - job : PiplineJob
+        timeoutInMinutes: 600
+        
+        ##### Microsoft Hosted Agents with ACR IMAGE ############
+        pool:
+          vmImage: "ubuntu-latest"
+        container: 
+          image: "$(ACR_CONTAINER_IMAGE)"
+          endpoint: QUT-PRD-ARG-DEP-ACR
+
+        steps:
+          - checkout: SELF
+            persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
+          - checkout: SFDX-PIPELINES
+            persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
+          - task: DownloadSecureFile@1
+            name: jwtKeyfile
+            inputs:
+              secureFile: "server.key"
+          - template: yml/templates/sfdx-init.yml@SFDX-PIPELINES
+          - template: yml/templates/sfdx-login.yml@SFDX-PIPELINES
+          - template: yml/templates/sfdx-checkout-branch.yml@SFDX-PIPELINES
+          - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
+            parameters:
+              BUILD_PACKAGE_FROM: "${{ parameters.BUILD_PACKAGE_FROM }}"
+          - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
+          - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
+          - template: yml/templates/ado-check-build-queue.yml@SFDX-PIPELINES
+          - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
+            parameters:
+              validateOrDeploy: "Deploy"
+              TEST_LEVEL: "${{ parameters.TEST_LEVEL }}"
+          - template: yml/templates/sfdx-deploy-test-users.yml@SFDX-PIPELINES
+            parameters:
+              INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers: "${{ parameters.INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers }}" 
+          - template: yml/templates/sfdx-delete-records.yml@SFDX-PIPELINES
+            parameters:
+              NO_OF_DAYS_TO_KEEP: "0" # CI=0, ST=7, SIT=14
+          - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES
