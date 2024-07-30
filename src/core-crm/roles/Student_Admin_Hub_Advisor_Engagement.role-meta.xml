@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>None</contactAccessLevel>
+    <description>Student Admin Hub Advisor Engagement</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>Student Admin Hub Advisor Engagement</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>Student_Admin_Team_Leader_Engagement</parentRole>
+</Role>
