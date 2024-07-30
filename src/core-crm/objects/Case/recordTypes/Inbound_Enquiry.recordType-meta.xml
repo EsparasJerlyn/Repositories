@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Inbound_Enquiry</fullName>
+    <fullName>Inbound_Enquiry</fullName> 
     <active>true</active>
     <businessProcess>Inbound Enquiry</businessProcess>
     <label>Inbound Enquiry</label>
@@ -38,6 +38,10 @@
     <picklistValues>
         <picklist>Case_Type__c</picklist>
         <values>
+            <fullName>Current Student Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Domestic Future Student Enquiry</fullName>
             <default>false</default>
         </values>
@@ -45,11 +49,23 @@
             <fullName>International Future Student Enquiry</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Public Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Staff Enquiry</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Category__c</picklist>
         <values>
             <fullName>Applying for a course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course application %26 offers</fullName>
             <default>false</default>
         </values>
         <values>
@@ -65,11 +81,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>My application and offer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>My enrolment</fullName>
+            <fullName>Preparing to Study</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2344,6 +2356,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Walk-In</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>WeChat</fullName>
             <default>false</default>
         </values>
@@ -2412,11 +2428,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Accommodation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Accreditation</fullName>
+            <fullName>Accommodation %26 Living in Brisbane</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2460,10 +2472,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Classes and timetables</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Commonwealth supported place</fullName>
             <default>false</default>
         </values>
@@ -2480,6 +2488,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Enrol into my Units</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Entry requirements</fullName>
             <default>false</default>
         </values>
@@ -2488,23 +2500,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Government loans</fullName>
+            <fullName>Financial help %26 support</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>How to apply</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>How to enroll into a unit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>How to register for a class</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Moving to Brisbane</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2528,7 +2528,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Scholarships</fullName>
+            <fullName>Professional Recognition %26 Registration</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2541,6 +2541,14 @@
         </values>
         <values>
             <fullName>Student support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Timetable Changes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Timetable Preferencing</fullName>
             <default>false</default>
         </values>
         <values>

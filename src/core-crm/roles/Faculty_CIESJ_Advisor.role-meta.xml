@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>None</contactAccessLevel>
+    <description>Faculty CIESJ Advisor</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>Faculty CIESJ Advisor</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>Faculty_CIESJ_Team_Leader</parentRole>
+</Role>

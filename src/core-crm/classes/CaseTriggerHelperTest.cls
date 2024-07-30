@@ -231,6 +231,41 @@ private class CaseTriggerHelperTest {
     }
 
     @isTest
+    private static void testSetLastQueueNameForInboundCases(){
+        
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
+            
+            List<Case> cases = new List<Case>();
+            cases.add(
+                new Case(
+                    Status = 'Created',
+                    Origin = CasesDAO.ORIGIN_EMAIL,
+                    Priority = 'Low',
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
+                )
+            );
+            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+
+            List<Group> groupList = [SELECT Id, Name FROM Group WHERE  Type = 'Queue' and Name = 'Future Student Domestic Queue'];
+
+            Test.startTest();
+            List<Case> caseListToUpdate = new List<Case>();
+            for(Case caseRecord : cases){
+                caseListToUpdate.add(new Case(
+                    Id = caseRecord.Id,
+                    OwnerId = groupList[0].Id
+                ));
+            }
+            CasesDAO.newInstance().updateRecords(caseListToUpdate, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            List<Case> caseList = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id}, AccessLevel.SYSTEM_MODE);
+            System.assertEquals('Future Student Domestic Queue', caseList[0].Last_Queue_Name__c, 'Case Last Queue Name should be updated.');
+        }
+    }
+
+    @isTest
     private static void testHandleAutoPriorityAssignedCaseWithLeadSourceCategory(){
         
         System.runAs(TestDataFactoryUser.selectUserQUTESB){

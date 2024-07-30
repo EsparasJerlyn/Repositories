@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Lead__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The lead that is related to the voice call</description>
+    <label>Related Lead</label>
+    <referenceTo>Lead</referenceTo>
+    <relationshipLabel>Messaging Sessions</relationshipLabel>
+    <relationshipName>Messaging_Sessions</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>

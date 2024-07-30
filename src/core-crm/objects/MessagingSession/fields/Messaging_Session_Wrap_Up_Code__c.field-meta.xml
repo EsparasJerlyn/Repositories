@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Messaging_Session_Wrap_Up_Code__c</fullName>
+    <description>Captures the outcome of the voice call</description>
+    <label>Messaging Session Wrap Up Code</label>
+    <required>true</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Enquiry</fullName>
+                <default>false</default>
+                <label>New Enquiry</label>
+            </value>
+            <value>
+                <fullName>Existing Enquiry</fullName>
+                <default>false</default>
+                <label>Existing Enquiry</label>
+            </value>
+            <value>
+                <fullName>Transferred Chat</fullName>
+                <default>false</default>
+                <label>Transferred Chat</label>
+            </value>
+            <value>
+                <fullName>Escalation Transfer</fullName>
+                <default>false</default>
+                <label>Escalation Transfer</label>
+            </value>
+            <value>
+                <fullName>Invalid Enquiry</fullName>
+                <default>false</default>
+                <label>Invalid Enquiry</label>
+            </value>
+            <value>
+                <fullName>SPAM</fullName>
+                <default>false</default>
+                <label>SPAM</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
