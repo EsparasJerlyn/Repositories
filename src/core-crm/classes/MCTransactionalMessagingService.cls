@@ -14,9 +14,14 @@
 public with sharing class MCTransactionalMessagingService {
 
     public static final String BULK_SMS_ENDPOINT = '/messaging/v1/sms/messages/';
-    public static final String MC_SMS_NAMEDCREDENTIAL = 'MCTransactionalMessaging';
+    public static final String MC_SMS_NAMEDCREDENTIAL = 'MCTransactionalMessaging'; 
 
     public static SMSResponse sendBulkSMS(SMSRequest requestPayload) {
+
+        // instantiate response
+        SMSResponse reponse = new SMSResponse();
+        reponse.responses = new List<SMSMessageResponse>();
+
         try {
             HttpResponse res = IntegrationCallOutCtrl.doCallout(
                 'callout:'+ MC_SMS_NAMEDCREDENTIAL + BULK_SMS_ENDPOINT,
@@ -27,21 +32,14 @@ public with sharing class MCTransactionalMessagingService {
             if (res.getStatusCode() >= 200 && res.getStatusCode() <= 204) {
                 return (SMSResponse) JSON.deserialize(res.getBody(), SMSResponse.class);
             } else {
-                SMSResponse errorResponse = new SMSResponse();
-                errorResponse.errorcode = res.getStatusCode();
-                errorResponse.message = res.getStatus();
-                errorResponse.responses = new List<SMSMessageResponse>();
-                return errorResponse;
+                reponse.errorcode = res.getStatusCode();
+                reponse.message = res.getStatus();
+                return reponse;
             }
         } catch (Exception e) {
-            NebulaLoggerService.logExceptionDetails(
-                'Callout Exception caught in method sendSMS in Apex class MCTransactionalMessagingService.',
-                e
-            );
-            SMSResponse errorResponse = new SMSResponse();
-            errorResponse.message = e.getMessage();
-            errorResponse.responses = new List<SMSMessageResponse>();
-            return errorResponse;
+            NebulaLoggerService.logExceptionDetails('Callout Exception caught in method sendSMS in Apex class MCTransactionalMessagingService.',e);
+            reponse.message = e.getMessage();
+            return reponse;
         }
     }
 
