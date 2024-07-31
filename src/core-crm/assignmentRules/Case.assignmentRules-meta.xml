@@ -4,6 +4,9 @@
         <fullName>CreateEnquiry</fullName>
         <active>true</active>
         <ruleEntry>
+            <formula>NOT( ISNEW() )</formula>
+        </ruleEntry>
+        <ruleEntry>
             <assignedTo>Future_Student_International_Queue</assignedTo>
             <assignedToType>Queue</assignedToType>
             <formula>AND( ISNEW() , RecordType.DeveloperName  = &apos;Inbound_Enquiry&apos; , TEXT(Case_Type__c) = &apos;International Future Student Enquiry&apos; )</formula>
