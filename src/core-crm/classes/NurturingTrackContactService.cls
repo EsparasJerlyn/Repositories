@@ -2771,9 +2771,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<String, Set<String>> contactIdToCurrentProgEnrollmentIdsMap = new Map<String, Set<String>>();
         for(hed__Program_Enrollment__c programEnrollment : programEnrollments) {
             if(
-                !ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_NONCURRENT.contains(programEnrollment.Enrollment_Status__c) &&
+                ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_NONCURRENT.contains(programEnrollment.Enrollment_Status__c) &&
                 programEnrollment.Enrollment_Status_Date__c != null &&
-                !DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)
+                DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)
             ) {
                 Set<String> programEnrollmentIds = contactIdToCurrentProgEnrollmentIdsMap.get(programEnrollment.hed__Contact__c);
                 programEnrollmentIds = programEnrollmentIds == null ? new Set<String>() : programEnrollmentIds;
@@ -2788,9 +2788,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<String, Set<String>> contactIdToAdmittedProgEnrollmentIdsMap = new Map<String, Set<String>>();
         for(hed__Program_Enrollment__c programEnrollment : programEnrollments) {
             if(
-                !ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_ADMITTED.contains(programEnrollment.Enrollment_Status__c) &&
-                programEnrollment.Enrollment_Status_Date__c != null &&
-                !DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)
+                ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_ADMITTED.contains(programEnrollment.Enrollment_Status__c) &&
+                programEnrollment.hed__Admission_Date__c != null &&
+                DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)
             ) {
                 Set<String> programEnrollmentIds = contactIdToAdmittedProgEnrollmentIdsMap.get(programEnrollment.hed__Contact__c);
                 programEnrollmentIds = programEnrollmentIds == null ? new Set<String>() : programEnrollmentIds;
