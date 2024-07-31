@@ -53,7 +53,8 @@ public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITask
 
 
     public List<Task> getTaskByCompeltedCadence(
-        Set<Id> completedCadenceIdSet
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
     ) {
         List<Task> taskList = new List<Task>();
         for (Task ts : taskMap.values()) {
