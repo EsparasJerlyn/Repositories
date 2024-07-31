@@ -22,7 +22,6 @@
     <masterLabel>ESW_QUT_Library_Chat_1722307536096</masterLabel>
     <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
-    <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <siteAdmin>sysadmin.integration@qut.edu.au.dep</siteAdmin>
     <siteGuestRecordDefaultOwner>sysadmin.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>
     <siteIframeWhiteListUrls>
