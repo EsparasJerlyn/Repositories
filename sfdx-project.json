@@ -16,8 +16,7 @@
       "package": "src/core-crm-data-ai",
       "type": "data-alias-deploy",
       "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0",
-      "aliasfy": true
+      "versionNumber": "1.0.0.0"
     },{
       "apexPathRelative": "sfdx-pipelines/utils/apex/einstein/enable-llm-requests.apex",
       "type": "RUN_APEX_SCRIPT"
