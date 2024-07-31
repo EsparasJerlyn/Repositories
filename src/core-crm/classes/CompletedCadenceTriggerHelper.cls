@@ -50,8 +50,7 @@ public with sharing class CompletedCadenceTriggerHelper {
                     }
             }
             
-            List<Task> tasksToUpdate = TasksDAO.newInstance().getTaskByCompeltedCadence(completedCadenceIdSet, AccessLevel.USER_MODE);
-
+            List<Task> tasksToUpdate = TasksDAO.newInstance().getTaskByCompeltedCadence(completedCadenceIdSet, AccessLevel.SYSTEM_MODE);
 
             Map<Id, Integer> taskCountMap = new Map<Id, Integer>();
     
