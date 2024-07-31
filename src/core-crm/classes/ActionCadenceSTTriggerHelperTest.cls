@@ -13,7 +13,7 @@
  *    | roy.nino.s.regala              | May 29, 2024          | DEPP-8722              | converted to unit test and mock the class  |
  */
 @isTest
-private class ActionCadenceSTTriggerHelperTest {
+private class ActionCadenceSTTriggerHelperTest { 
     
     @isTest
     @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
