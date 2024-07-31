@@ -33,12 +33,6 @@
         <!--Start DEPP-6271-->
         <members>Document__c.Document_End_Date__c</members>
         <!-- End DEPP-6271 -->
-        <!-- Start DEPP-6960-->
-        <members>List__c.Requester_Name__c</members>
-        <!-- End DEPP-6960-->
-        <!-- Start DEPP-7306-->
-        <members>List_Contributor__c.Contact__c</members>
-        <!-- End DEPP-7306-->
         <name>CustomField</name>
     </types>
     <types>

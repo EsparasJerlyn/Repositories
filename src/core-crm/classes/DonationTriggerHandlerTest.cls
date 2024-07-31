@@ -12,9 +12,11 @@
 public with sharing class DonationTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        Test.startTest();
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
 
-        System.runAs(testDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
             accountRecord[0].Organization_Unit_Level__c ='2';
             accountRecord[0].End_Date__c = null;
@@ -49,7 +51,7 @@ public with sharing class DonationTriggerHandlerTest {
 
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        System.runAs(testDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
             
             List<Donation_Asset__c> donationAssetRecords = TestDataFactory.createDonationAssetRecords(1);

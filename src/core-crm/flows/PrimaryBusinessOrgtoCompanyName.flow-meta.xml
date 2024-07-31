@@ -4,8 +4,8 @@
     <assignments>
         <name>Assign_Company_Name_0_0</name>
         <label>Assign Company Name</label>
-        <locationX>264</locationX>
-        <locationY>431</locationY>
+        <locationX>308</locationX>
+        <locationY>395</locationY>
         <assignmentItems>
             <assignToReference>$Record.Company_Name__c</assignToReference>
             <operator>Assign</operator>
@@ -15,27 +15,28 @@
         </assignmentItems>
     </assignments>
     <decisions>
-        <name>Not_OPE_Catalogue</name>
-        <label>Not OPE Catalogue?</label>
+        <name>Not_QUT_Experience</name>
+        <label>Not QUT Experience?</label>
         <locationX>176</locationX>
-        <locationY>311</locationY>
+        <locationY>287</locationY>
         <defaultConnector>
             <targetReference>Assign_Company_Name_0_0</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Not_Catalogue</name>
+            <name>Not_QUTExperience</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.hed__Primary_Organization__r.Name</leftValueReference>
                 <operator>Contains</operator>
                 <rightValue>
-                    <stringValue>OPE Catalogue</stringValue>
+                    <stringValue>QUT Experience</stringValue>
                 </rightValue>
             </conditions>
-            <label>Not  Catalogue</label>
+            <label>Not QUT Experience</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>Primary Business Org to Company Name {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Primary Business Org to Company Name</label>
     <processMetadataValues>
@@ -61,7 +62,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Not_OPE_Catalogue</targetReference>
+            <targetReference>Not_QUT_Experience</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>

@@ -15,12 +15,12 @@
 public with sharing class ListsCtrlTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Alumni_Engagement_Manager' });
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
     }
 
     @isTest
     static void testListRecordIdByEngagementOpportunityId_NullEngagementOpportunityId() {
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             Test.startTest();
             // Test case 1: When engagementOpportunityIdString is null
             System.assertEquals(
@@ -34,7 +34,7 @@ public with sharing class ListsCtrlTest {
 
     @isTest
     static void testListRecordIdByEngagementOpportunityId_EmptyEngagementOpportunityId() {
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             Test.startTest();
             // Test case 2: When engagementOpportunityIdString is empty
             System.assertEquals(
@@ -48,7 +48,7 @@ public with sharing class ListsCtrlTest {
 
     @isTest
     static void testListRecordIdByEngagementOpportunityId_ValidWithRelatedRecord() {
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             Test.startTest();
             // Test case 3: When engagementOpportunityIdString is valid with related list record exists
             List<Engagement_Opportunity__c> engagementOppList = TestDataFactory.createTestEngagementOpportunityRecords(

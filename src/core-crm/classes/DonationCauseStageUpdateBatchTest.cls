@@ -18,13 +18,13 @@ private class DonationCauseStageUpdateBatchTest {
     @testSetup
     static void setupDate() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
         Test.stopTest();
     }
 
     @isTest
     private static void forPublishedBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 1
             );
@@ -54,7 +54,7 @@ private class DonationCauseStageUpdateBatchTest {
 
     @isTest
     private static void forActiveBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 1
             );
@@ -89,7 +89,7 @@ private class DonationCauseStageUpdateBatchTest {
 
     @isTest
     private static void forArchivedBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 1
             );

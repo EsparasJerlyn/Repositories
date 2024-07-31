@@ -38,7 +38,7 @@ private class ProductLedgerTriggerHelperTest{
             }
             insert accounts;
     
-            Account act = new Account(Name = 'OPE Catalogue');
+            Account act = new Account(Name = 'QUT Experience');
             insert act;
     
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);

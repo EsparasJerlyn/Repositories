@@ -11,6 +11,7 @@
             <property name="label" label="Label" type="String" default="Work Email" role="inputOnly"></property>
             <property name="workEmail" label="Value" type="String" role="outputOnly"></property>
             <property name="required" label="Required" type="Boolean" default="false" role="inputOnly"></property>
+            <property name="requiredFieldErrorMessage" label="Required Field Error Message" type="String" default="Complete this field." role="inputOnly"></property>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

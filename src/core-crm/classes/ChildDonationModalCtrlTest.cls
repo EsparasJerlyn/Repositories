@@ -20,8 +20,11 @@
 private class ChildDonationModalCtrlTest {
     @testSetup
     static void setupData() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationRecords = TestDataFactory.createDesignationRecords(1, DesignationsDAO.ENDOWNMENT_RECTYPE_ID);
             designationRecords[0].Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
             DesignationsDAO.newInstance().insertRecords(designationRecords, false, AccessLevel.USER_MODE);
@@ -52,7 +55,7 @@ private class ChildDonationModalCtrlTest {
 
     @isTest
     private static void getDonationsByRecordTypeEndowmentInstalmentParentIdTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Donation__c donationParentRecord = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(
                 new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE
             ).iterator().next();
@@ -73,7 +76,7 @@ private class ChildDonationModalCtrlTest {
 
     @isTest
     private static void getDonationsByRecordTypePledgeInstalmentParentIdTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation__c> donationParentRecords = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(
                 new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE
             );
@@ -105,7 +108,7 @@ private class ChildDonationModalCtrlTest {
 
     @isTest
     private static void getDonationsByRecordTypePledgeParentIdTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation__c> donationParentRecords = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(
                 new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE
             );
@@ -137,7 +140,7 @@ private class ChildDonationModalCtrlTest {
 
     @isTest
     private static void upsertDonationChildEndowmentInstalmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Donation__c donationParentRecord = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(
                 new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE
             ).iterator().next();
@@ -156,7 +159,7 @@ private class ChildDonationModalCtrlTest {
 
     @isTest
     private static void upsertDonationChildPledgeInstalmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation__c> donationParentRecords = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(
                 new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE
             );
@@ -186,7 +189,7 @@ private class ChildDonationModalCtrlTest {
 
     @isTest
     private static void upsertDonationChildPledgeTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation__c> donationParentRecords = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(
                 new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE
             );

@@ -12,12 +12,12 @@
 public with sharing class StewardshipTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactoryUser.generateUserDonorEngagementManager();
     }
     
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        System.runAs(testDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Stewardship__c> stewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,1);
             
             Test.startTest();

@@ -890,13 +890,15 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionType</name>
-                    <value>Default</value>
+                    <value>Screen Flow</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionTypeLabel</name>
+                    <value>New</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
+                    <value>New_Related_Stewardship</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numberOfRows</name>
@@ -936,7 +938,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showNewButton</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortField</name>
@@ -951,6 +953,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
+                    <value>(UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable7</identifier>

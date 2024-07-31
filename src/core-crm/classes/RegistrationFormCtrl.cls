@@ -176,7 +176,7 @@ public without sharing class RegistrationFormCtrl {
       userList = [
         SELECT Id, Name, MobilePhone, Username, ContactId
         FROM User
-        WHERE ContactId = :contactId AND Profile.Name = 'OPE Catalogue'
+        WHERE ContactId = :contactId AND Profile.Name = 'QUT Experience'
         LIMIT 1
       ];
       return userList;
@@ -546,8 +546,8 @@ public without sharing class RegistrationFormCtrl {
     String invalidChar = '[^0-9]';
     datetime myDate = datetime.now();
     String retURL;
-    String userName = registrationData.contactRecord.Registered_Email__c + '.ope';
-    Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
+    String userName = registrationData.contactRecord.Registered_Email__c + '.qut';
+    Profile p = [SELECT Id FROM Profile WHERE Name = 'QUT Experience' WITH SYSTEM_MODE];
 
     //Create User
     User u = new User();

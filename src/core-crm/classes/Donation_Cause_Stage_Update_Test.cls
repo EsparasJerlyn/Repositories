@@ -17,7 +17,8 @@ private class Donation_Cause_Stage_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager'  });
+        TestDataFactoryUser.generateUserAdvancementManager();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
 
         Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         donationCauseCodeAutoNum.Donation_Cause__c = 1;
@@ -32,7 +33,7 @@ private class Donation_Cause_Stage_Update_Test {
 
     @isTest
     private static void forPublishedBatchTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );
@@ -70,7 +71,7 @@ private class Donation_Cause_Stage_Update_Test {
     
     @isTest
     private static void forNotPublishedBatchTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );
@@ -109,7 +110,7 @@ private class Donation_Cause_Stage_Update_Test {
 
     @isTest
     private static void forActiveBatchTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );
@@ -145,7 +146,7 @@ private class Donation_Cause_Stage_Update_Test {
 
     @isTest
     private static void forNotActiveBatchTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );
@@ -182,7 +183,7 @@ private class Donation_Cause_Stage_Update_Test {
 
     @isTest
     private static void forArchivedBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );

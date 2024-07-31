@@ -16,13 +16,13 @@
 public with sharing class ListMembersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Alumni_Engagement_Manager'});
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
     } 
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             System.assert(ListMembersDAO.newInstance() != null, 'ListMembersDAO instance is null');
         }
         Test.stopTest();
@@ -31,7 +31,7 @@ public with sharing class ListMembersDAOTest {
     @isTest
     static void getexistingListMembersWithMatchingList() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
             List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance()
                 .getexistingListMembersWithMatchingList(new Set<Id>(),new Set<Id>(),'SYSTEM_MODE');
             System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty');
@@ -42,7 +42,7 @@ public with sharing class ListMembersDAOTest {
     @isTest
     static void getListMembersByStatus() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
             List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance()
                 .getListMembersByStatus(100, AccessLevel.SYSTEM_MODE, '');
             System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty');
@@ -53,7 +53,7 @@ public with sharing class ListMembersDAOTest {
     @isTest
     static void getListMembersByListIdAndStatus() {
         Test.startTest();  
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
             List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance()
                 .getListMembersByListIdAndStatus(new Set<Id>(), 'Qualified', AccessLevel.SYSTEM_MODE);
             System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty'); 
@@ -64,7 +64,7 @@ public with sharing class ListMembersDAOTest {
     @isTest
     static void getListMembersByActivityStatus() {
         Test.startTest();  
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
             List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance()
                 .getListMembersByActivityStatus(100, 'Accepted', AccessLevel.SYSTEM_MODE);
             System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty'); 
@@ -84,7 +84,7 @@ public with sharing class ListMembersDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
             System.assert(
                 new ListMembersDAO().getSObjectType() == List_Member__c.SObjectType,
                 'SObject is not List_Member__c'

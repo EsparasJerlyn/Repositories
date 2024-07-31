@@ -14,9 +14,10 @@ public class DonationStageUpdatedToCompletedFlowTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
         
-        System.runAs(testDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Create Account record
             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
             accountRecord[0].Organization_Unit_Level__c ='2';
@@ -81,13 +82,11 @@ public class DonationStageUpdatedToCompletedFlowTest {
             }
             DonationsDAO.newInstance().insertRecords(pledgeDonationList, false, AccessLevel.USER_MODE);
         }
-        
-        Test.stopTest();
     }
     
     @isTest
     private static void parentEndowmentStageUpdateTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Get Endowment Donation record
             List<Donation__c> endowmentDonationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
             
@@ -127,7 +126,7 @@ public class DonationStageUpdatedToCompletedFlowTest {
     
     @isTest
     private static void parentPledgeStageUpdateTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Get Endowment Donation record
             List<Donation__c> pledgeParentList = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
             

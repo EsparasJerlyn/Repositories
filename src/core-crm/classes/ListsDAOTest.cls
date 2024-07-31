@@ -13,13 +13,13 @@
 public with sharing class ListsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Alumni_Engagement_Manager' });
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             System.assert(ListsDAO.newInstance() != null, 'ListsDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class ListsDAOTest {
     @isTest
     static void getListRecords() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             List<List__c> listRecords = ListsDAO.newInstance()
                 .getListRecords(1, AccessLevel.USER_MODE);
             System.assert(listRecords.isEmpty(), 'listRecords is not empty');
@@ -39,7 +39,7 @@ public with sharing class ListsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             System.assert(
                 new ListsDAO().getSObjectType() == List__c.SObjectType,
                 'SObject is not List__c'
@@ -51,7 +51,7 @@ public with sharing class ListsDAOTest {
     @isTest
     static void getListRecordsByRelatedEngagementOpportunitySetIdsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             List<List__c> listRecList = ListsDAO.newInstance()
                 .getListRecordsByRelatedEngagementOpportunitySetIds(
                     new Set<Id>(),
@@ -65,7 +65,7 @@ public with sharing class ListsDAOTest {
     @isTest
     static void getListByRecordIdNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             List<List__c> newListRecords = TestDataFactory.createListRecords(1);
             ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.SYSTEM_MODE);
 

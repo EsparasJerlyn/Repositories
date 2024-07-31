@@ -24,8 +24,11 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @testSetup
     static void makeData() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(
                 1,
                 AccountsDAO.ACCT_UNIV_DEP_ID
@@ -140,7 +143,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithActivePrimaryContact() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID },
@@ -165,7 +168,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithInActivePrimaryContact() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Opportunity> oppRecordsToUpdate = new List<Opportunity>();
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
@@ -216,7 +219,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     static void opportunityWithPendingPlanActivityStatusTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppRecordsToUpdate = new List<Opportunity>();
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID },
@@ -253,7 +256,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithProposedDonations() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID },
@@ -276,7 +279,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithNoAcceptedOrCompletedDonations() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID },
                 AccessLevel.USER_MODE
@@ -315,7 +318,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithAcceptedOrCompletedDonations() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID },
                 AccessLevel.USER_MODE
@@ -354,7 +357,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkOrganisationStageUpdateWithProposedDonations() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Opportunity> oppRecordsToUpdate = new List<Opportunity>();
             List<Opportunity> orgOppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
@@ -384,7 +387,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkOrganisationStageUpdateNoAcceptedOrCompletedDonations() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppRecordsList = new List<Opportunity>();
             List<Opportunity> orgOppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID },
@@ -435,7 +438,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void checkOrganisationStageUpdateSuccessful() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppRecordsList = new List<Opportunity>();
             List<Opportunity> orgOppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID },
@@ -487,7 +490,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void opportunityWithDonationsNotDeclinedTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID },
                 AccessLevel.USER_MODE
@@ -525,7 +528,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @isTest
     private static void opportunityWithDonationsDeclinedTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(
                 new Set<Id>{ OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID },
                 AccessLevel.USER_MODE

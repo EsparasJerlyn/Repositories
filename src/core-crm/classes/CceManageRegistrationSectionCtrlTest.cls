@@ -75,7 +75,7 @@ public with sharing class CceManageRegistrationSectionCtrlTest {
             //Create user
             User portalUser = TestDataFactory.createPortalUserRecords(
                 1,
-                'OPE Catalogue',
+                'QUT Experience',
                 contact1.Id
                 )
                 .iterator()

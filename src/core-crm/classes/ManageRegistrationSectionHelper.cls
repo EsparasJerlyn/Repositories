@@ -589,7 +589,7 @@ public without sharing class ManageRegistrationSectionHelper{
                Profile profile = [
                     SELECT Id 
                     FROM Profile 
-                    WHERE Name = 'OPE Catalogue' 
+                    WHERE Name = 'QUT Experience' 
                     LIMIT 1];
 
                User commerceUser = new User();
@@ -671,7 +671,7 @@ public without sharing class ManageRegistrationSectionHelper{
      @future
      private static void assignOPEPermSet(Id userId){
           List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
-          List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
+          List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label = 'QUT Experience' WITH SECURITY_ENFORCED LIMIT 1];
           List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId WITH SECURITY_ENFORCED];
           if(userPermSetAssignments.isEmpty()){
               for(PermissionSet perm: permsets){

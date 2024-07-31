@@ -7,6 +7,7 @@
  *    | Developer                 | Date                  | JIRA                | Change Summary                           |
  *    |---------------------------|-----------------------|---------------------|------------------------------------------|
  *    | julie.jane.alegre         | April 16, 2024        | DEPP-8016           | Created file                             |
+ *    | kenneth.f.alsay           | June 21, 2024         | DEPP-9221           | Updated OPE Catalogue to QUT Experience  |
  **/
 @isTest
 
@@ -1871,7 +1872,7 @@ public class TestDataFactoryUser {
     }
 
     /***********************************************
-    *  QUT OPE Catalogue User
+    *  QUT OPE Catalogue/QUT Experience User
     ************************************************/
 
     // Used in @testSetup to generate user in a test class
@@ -1906,7 +1907,7 @@ public class TestDataFactoryUser {
         
             usr.FirstName = 'Test';
             usr.LastName = 'QUTOPECatalogueUser';
-            usr.profileName = 'OPE Catalogue';
+            usr.profileName = 'QUT Experience';
             usr.contactId = con.Id;
             
 
@@ -1920,6 +1921,200 @@ public class TestDataFactoryUser {
 
             return usr;
             
+        } set;
+    }
+
+    /***********************************************
+    * IT3.1 USERS
+    ************************************************/
+
+    /***********************************************
+    * Alumni Engagement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserAlumniEngagementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOAlumniEngagementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserAlumniEngagementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestAlumniEngagementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOAlumniEngagementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'AlumniEngagementManager';
+            usr.Persona = 'Alumni Engagement Manager';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Alumni_Engagement';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = true;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+
+            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * Corporate Partnerships Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserCorporatePartnershipsManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOCorporatePartnershipsManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserCorporatePartnershipsManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestCorporatePartnershipsManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOCorporatePartnershipsManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'CorporatePartnershipsManager';
+            usr.Persona = 'Corporate Partnerships Manager';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Corporate_Partnerships';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+
+            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * Corporate Engagement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserCorporateEngagementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOCorporateEngagementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserCorporateEngagementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestCorporateEngagementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOCorporateEngagementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'CorporateEngagementManager';
+            usr.Persona = 'Corporate Engagement Manager';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Corporate_Engagement';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = true;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = true;
+
+
+            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * IT3.2 USERS
+    ************************************************/
+    /***********************************************
+    * Donor Engagement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserDonorEngagementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTODonorEngagementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserDonorEngagementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestDonorEngagementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTODonorEngagementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'DonorEngagementManager';
+            usr.Persona = 'Donor Engagement Manager';
+            usr.profileName = 'Advancement';
+            usr.role = 'Donor_Engagement_Manager';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = false;
+
+
+            usr.permissionsetNames = new Set<String>{'Advancement_Base'};
+            usr.publicGroupNames = new Set<String>{'Donor_Engagement_Manager'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * Advancement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserAdvancementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOAdvancementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserAdvancementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestAdvancementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOAdvancementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'AdvancementManager';
+            usr.Persona = 'Advancement Manager';
+            usr.profileName = 'Advancement';
+            usr.role = 'Advancement_Manager';
+
+            
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = false;
+
+
+            usr.permissionsetNames = new Set<String>{'Advancement_Base'};
+            usr.publicGroupNames = new Set<String>{'Advancement_Manager'};
+
+            return usr;
         } set;
     }
 

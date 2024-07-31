@@ -14,13 +14,14 @@
 @isTest
 private class DistributionManagementModalCtrlTest {
 
-    @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+    @testSetup 
+    static void setupMethod() {
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
 
     @isTest
     private static void insertDistributionManagementTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
 
         Test.startTest();
         List<Designation__c> designationRecords = TestDataFactory.createDesignationRecords(
@@ -60,7 +61,7 @@ private class DistributionManagementModalCtrlTest {
 
     @isTest
     private static void upsertDistributionManagementTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
 
             Test.startTest();
             List<Designation__c> designation = TestDataFactory.createDesignationRecords(

@@ -12,13 +12,13 @@
 public with sharing class FinanceGLAccountsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(FinanceGLAccountsDAO.newInstance() != null, 'FinanceGLAccountsDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class FinanceGLAccountsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(
                 new FinanceGLAccountsDAO().getSObjectType() == Finance_GL_Account__c.SObjectType,
                 'SObject is not Finance_GL_Account__c'
@@ -39,7 +39,7 @@ public with sharing class FinanceGLAccountsDAOTest {
     @isTest
     static void getFinanceGLAccountBySetNamesWithLimitTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Finance_GL_Account__c> financeGlAccountList = FinanceGLAccountsDAO.newInstance()
                 .getFinanceGLAccountBySetNamesWithLimit(new Set<String>(), 1);
             System.assert(financeGlAccountList.isEmpty(), 'financeGlAccountList is not empty');

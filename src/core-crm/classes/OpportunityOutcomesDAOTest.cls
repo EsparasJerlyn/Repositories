@@ -15,7 +15,7 @@
 private class OpportunityOutcomesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Corporate_Partnership_Manager' });
+        TestDataFactoryUser.generateUserCorporatePartnershipsManager();
         TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
@@ -117,7 +117,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getActiveCorporateOutcomes() {
         Test.startTest();
-        System.runAs(TestDataFactory.getCorporatePartnershipsManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getActiveCorporateOutcomes(AccessLevel.USER_MODE);
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
