@@ -76,7 +76,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         return [//NOPMD
             SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, Lead_Source_Category__c, 
             Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c, MobilePhone, IsConverted,
-            Email_Opt_In_DateTime__c, LeadSource, LastName
+            Email_Opt_In_DateTime__c, LeadSource, LastName, Marketing_Segmentation__r.My_Primary_Study_Level__c
             FROM Lead
             WITH SYSTEM_MODE//Only used in test class to verify record insert/update
             LIMIT :recordsCount
