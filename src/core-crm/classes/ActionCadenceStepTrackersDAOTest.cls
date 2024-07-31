@@ -41,5 +41,15 @@ public with sharing class ActionCadenceStepTrackersDAOTest {
         }
     }
    
-    
+    @isTest
+    static void getCadenceStepTrackersByTargetIdTest() {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            Test.startTest();
+            System.assert(
+                ActionCadenceStepTrackersDAO.newInstance().getCadenceStepTrackersByTargetId(new Set<String>(), AccessLevel.SYSTEM_MODE) != null,
+                'ActionCadenceStepTracker is not empty.'
+            );
+            Test.stopTest();
+        }
+    }
 }

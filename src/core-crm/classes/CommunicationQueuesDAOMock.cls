@@ -74,5 +74,16 @@ public inherited sharing class CommunicationQueuesDAOMock extends DmlBaseMock im
         return commsQueueList;
     }
 
-    
+    public List<Communication_Queue__c> getFutureScheduledCommsQueuesByCadenceStepTrackerIds(
+        Set<String> trackerIdSet,
+        AccessLevel accessLevel
+    ) {
+        List<Communication_Queue__c> commsQueues = new List<Communication_Queue__c>();
+        for(Communication_Queue__c commsQueue : commsQueueMap.values()) {
+            if(trackerIdSet.contains(commsQueue.ActionCadenceStepTrackerId__c)) {
+                commsQueues.add(commsQueue);
+            }
+        }
+        return commsQueues;
+    }
 }

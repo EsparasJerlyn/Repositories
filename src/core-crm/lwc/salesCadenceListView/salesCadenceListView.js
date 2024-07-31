@@ -467,6 +467,10 @@ export default class SalesCadenceListView extends LightningElement {
       : false;
   }
 
+  get showNoRecordsFound() {
+    return this.recordCount == 0 && this.filterArray.length > 0;
+  }
+
   get hasRecords() {
     return this.finalDataList.length > 0 ? true : false;
   }
