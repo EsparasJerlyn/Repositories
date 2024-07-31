@@ -19,9 +19,8 @@
       "versionNumber": "1.0.0.0",
       "aliasfy": true
     },{
-      "pathRelative": "sfdx-pipelines/utils/apex/einstein/enable-llm-requests.apex",
-      "type": "RUN_APEX_SCRIPT",
-      "aliasfy": true
+      "apexPathRelative": "sfdx-pipelines/utils/apex/einstein/enable-llm-requests.apex",
+      "type": "RUN_APEX_SCRIPT"
     },{
       "path": "src",
       "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
