@@ -54,6 +54,13 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.Case_Inbound_Enquiry_Record_Type</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Prompt_To_get_the_short_summary_of_the_desc</targetReference>
             </connector>
