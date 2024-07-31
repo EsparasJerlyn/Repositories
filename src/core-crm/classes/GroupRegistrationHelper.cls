@@ -160,7 +160,7 @@ public without sharing class GroupRegistrationHelper {
     @future
     private static void assignOPEPermSet(List<Id> userIds){
         List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
-        PermissionSet permset = [SELECT Id FROM PermissionSet WHERE Label = 'QUT Experience' WITH SECURITY_ENFORCED LIMIT 1];
+        PermissionSet permset = [SELECT Id FROM PermissionSet WHERE Label = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
         List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id, AssigneeId FROM PermissionSetAssignment WHERE PermissionSetId =: permset.Id AND AssigneeId IN : userIds WITH SECURITY_ENFORCED];
         Map<Id,Id> permsetAssgnmntMap = new Map<Id,Id>();
         for(PermissionSetAssignment permsetAssgnmnt : userPermSetAssignments){

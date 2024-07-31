@@ -149,7 +149,7 @@ public without sharing class CCECorporateUserCtrl {
             emailToUse = contact.Work_Email__c;
         }else{
             profile = [SELECT Id FROM Profile WHERE Name = 'QUT Experience' WITH SECURITY_ENFORCED LIMIT 1];
-            permsetLabelList = new List<String>{'QUT Experience'};
+            permsetLabelList = new List<String>{'OPE Catalogue'};
             username = contact.Registered_Email__c + '.ope';
             emailToUse = contact.Registered_Email__c;
         }
