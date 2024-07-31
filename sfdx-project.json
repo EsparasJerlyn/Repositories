@@ -9,6 +9,9 @@
       "type": "ENABLE_EINSTEIN_CLASSIFICATION"
     },{
       "path": "src",
+      "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
+    },{
+      "path": "src",
       "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
     },{
       "path": "src",
