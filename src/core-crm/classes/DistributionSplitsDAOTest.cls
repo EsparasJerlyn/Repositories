@@ -13,13 +13,13 @@ public with sharing class DistributionSplitsDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(DistributionSplitsDAO.newInstance() != null, 'DistributionSplitsDAO instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class DistributionSplitsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(
                 new DistributionSplitsDAO().getSObjectType() == Distribution_Split__c.SObjectType,
                 'SObject is not Distribution Split'
@@ -55,7 +55,7 @@ public with sharing class DistributionSplitsDAOTest {
         List<Distribution_Split__c> distributionSplitRecords = TestDataFactory.createTestDistributionSplitRecords(1, distributionManagementRecords[0].Id, financeGLAccountRecords[0].Id);
         DistributionSplitsDAO.newInstance().insertRecords(distributionSplitRecords, false, AccessLevel.USER_MODE);
 
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Distribution_Split__c> distributionSplitList = DistributionSplitsDAO.newInstance()
                 .getDistributionSplitByDistributionManagement(new Set<Id>{distributionManagementRecords[0].Id}, AccessLevel.USER_MODE);
             System.assert(!distributionSplitList.isEmpty(), 'distributionSplitList is empty');

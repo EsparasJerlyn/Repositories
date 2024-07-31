@@ -18,7 +18,8 @@ private class DistributionManagementStatusUpdateTest {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
 
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
 
@@ -27,20 +28,17 @@ private class DistributionManagementStatusUpdateTest {
         new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum},
         false,AccessLevel.USER_MODE);
         
-        System.runAs(TestDataFactory.getAdvancementManager()) {
-
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
 
             DesignationsDAO.newInstance()
-                    .insertRecords(designationList, false, AccessLevel.USER_MODE);
+                    .insertRecords(designationList, false, AccessLevel.USER_MODE);      
         }
-        
-        Test.stopTest();
     }
 
     @isTest
     private static void forActiveStatusOnCreateTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = DesignationsDAO.newInstance()
             .getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Distribution_Management__c> dMList = TestDataFactory.createDistributionManagementRecordsWithDesignation(
@@ -71,7 +69,7 @@ private class DistributionManagementStatusUpdateTest {
 
     @isTest
     private static void forActiveStatusOnUpdateTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = DesignationsDAO.newInstance()
             .getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Distribution_Management__c> newDmList = TestDataFactory.createDistributionManagementRecordsWithDesignation(
@@ -125,7 +123,7 @@ private class DistributionManagementStatusUpdateTest {
     
     @isTest
     private static void forInactiveStatusOnCreateTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = DesignationsDAO.newInstance()
             .getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Distribution_Management__c> dMList = TestDataFactory.createDistributionManagementRecordsWithDesignation(100, designationList[0].Id);
@@ -159,7 +157,7 @@ private class DistributionManagementStatusUpdateTest {
     
     @isTest
     private static void forInactiveStatusOnUpdateTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = DesignationsDAO.newInstance()
             .getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Distribution_Management__c> dMList = TestDataFactory.createDistributionManagementRecordsWithDesignation(1, designationList[0].Id);

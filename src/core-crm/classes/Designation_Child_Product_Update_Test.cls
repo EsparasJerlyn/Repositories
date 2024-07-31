@@ -17,7 +17,7 @@ private class Designation_Child_Product_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactoryUser.generateUserDonorEngagementManager();
 
         Designation_Code_Auto_Number__c designationCodeAutoNum = designationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         designationCodeAutoNum.Giving_To_Cause__c = 1;
@@ -32,7 +32,7 @@ private class Designation_Child_Product_Update_Test {
 
     @isTest
     private static void forAvailableOnCartTrueAndFalseTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID

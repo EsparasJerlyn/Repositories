@@ -14,12 +14,12 @@
 public with sharing class DistributionManagementsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
 
     @isTest
     private static void queryLocatorGetDistributionMgtsForStatusUpdate(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             System.assert(DistributionManagementsDAO.newInstance().queryLocatorGetDistributionMgtsForStatusUpdate() != null, 'SOQL should not be null');
         }
     }
@@ -27,7 +27,7 @@ public with sharing class DistributionManagementsDAOTest {
     @isTest
     static void getDistributionManagementByDesignationIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(
                 DistributionManagementsDAO.newInstance()
                     .getDistributionManagementByDesignationId(
@@ -43,7 +43,7 @@ public with sharing class DistributionManagementsDAOTest {
     @isTest
     static void getDistributionManagementByDesignationIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             MockIdGenerator builderForDistributionManagement = new MockIdGenerator(Distribution_Management__c.sObjectType);
             System.assert(
                 DistributionManagementsDAO.newInstance()
@@ -59,7 +59,7 @@ public with sharing class DistributionManagementsDAOTest {
 
     @isTest
     private static void getDistributionManagementsBySetRecordIdsTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Distribution_Management__c.SObjectType);
             List<Distribution_Management__c> distributionManagementList = DistributionManagementsDAO.newInstance()
@@ -74,7 +74,7 @@ public with sharing class DistributionManagementsDAOTest {
 
     @isTest
     private static void getDistributionManagementsBySetRecordIdsEmptyTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Distribution_Management__c> distributionManagementList = DistributionManagementsDAO.newInstance()
                 .getDistributionManagementsBySetRecordIds(
@@ -89,7 +89,7 @@ public with sharing class DistributionManagementsDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(DistributionManagementsDAO.newInstance() != null, 'DistributionManagementsDAO instance is null');
         }
         Test.stopTest();
@@ -97,7 +97,7 @@ public with sharing class DistributionManagementsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(
                 new DistributionManagementsDAO().getSObjectType() == Distribution_Management__c.SObjectType,
                 'SObject is not Distribution_Management__c'

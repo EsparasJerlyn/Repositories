@@ -13,8 +13,12 @@
 public with sharing class PlanActivitiesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager','QUT_Donor_Engagement_Manager' });
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserAdvancementManager();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Stewardship__c> stewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,1);
             StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.USER_MODE);
 
@@ -25,7 +29,7 @@ public with sharing class PlanActivitiesDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(PlanActivitiesDAO.newInstance() != null, 'PlanActivitiesDAO instance is null');
         }
         Test.stopTest();
@@ -33,7 +37,7 @@ public with sharing class PlanActivitiesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(
                 new PlanActivitiesDAO().getSObjectType() == Plan_Activity__c.SObjectType,
                 'SObject is not Plan_Activity__c'
@@ -45,7 +49,7 @@ public with sharing class PlanActivitiesDAOTest {
     @isTest
     static void getPlanActivityRecordsWithStewardshipIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
                 .getPlanActivityRecordsWithStewardshipIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
@@ -56,7 +60,7 @@ public with sharing class PlanActivitiesDAOTest {
     @isTest
     static void getPlanActivityRecordsWithStewardshipIdsNotEmpty() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             MockIdGenerator stewardshipMock = new MockIdGenerator(Stewardship__c.SObjectType);
             List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
                 .getPlanActivityRecordsWithStewardshipIds(
@@ -71,7 +75,7 @@ public with sharing class PlanActivitiesDAOTest {
     @isTest
     static void getPlanActivityRecordsWithOpportunityIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
                 .getPlanActivityRecordsWithOpportunityIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
@@ -82,7 +86,7 @@ public with sharing class PlanActivitiesDAOTest {
     @isTest
     static void getPlanActivityRecordsWithOpportunityIdsNotEmpty() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             MockIdGenerator opportunityMock = new MockIdGenerator(Opportunity.SObjectType);
             List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
                 .getPlanActivityRecordsWithOpportunityIds(

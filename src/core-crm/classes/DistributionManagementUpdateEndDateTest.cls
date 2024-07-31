@@ -16,12 +16,12 @@ private class DistributionManagementUpdateEndDateTest {
 
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
 
     @isTest
     private static void checkOnCreateActiveDistribManagementEndDate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
 
             Test.startTest();
             List<Distribution_Management__c> distribManagementRecord = TestDataFactory.createDistributionManagementRecords(
@@ -57,7 +57,7 @@ private class DistributionManagementUpdateEndDateTest {
 
     @isTest
     private static void checkOnUpdateActiveDistribManagementEndDate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
 
             Test.startTest();
             List<Distribution_Management__c> distribManagementRecord = TestDataFactory.createDistributionManagementRecords(

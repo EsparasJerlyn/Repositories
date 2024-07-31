@@ -14,8 +14,11 @@
 public with sharing class StewardshipUpdateCustomValidationTest {
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Donor_Engagement_Manager'});
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Stewardship__c> stewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,1);
             StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.USER_MODE);
 
@@ -26,7 +29,7 @@ public with sharing class StewardshipUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithPendingPlanActivity() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             Test.startTest();
             List<Stewardship__c> stewardshipRecords = StewardshipsDAO.getStewardshipByRecordTypeIds(new Set<Id>{StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID},AccessLevel.USER_MODE);
 
@@ -41,7 +44,7 @@ public with sharing class StewardshipUpdateCustomValidationTest {
 
     @isTest
     private static void checkStageUpdateWithNoPendingPlanActivity() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             Test.startTest();
             List<Plan_Activity__c> updatePlanActivityList = new List<Plan_Activity__c>();
             List<Stewardship__c> stewardshipRecords = StewardshipsDAO.getStewardshipByRecordTypeIds(new Set<Id>{StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID},AccessLevel.USER_MODE);

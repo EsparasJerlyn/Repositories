@@ -16,7 +16,7 @@ private class Donation_Cause_Create_Child_Product_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactoryUser.generateUserDonorEngagementManager();
         Test.stopTest();
 
         Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
@@ -30,7 +30,7 @@ private class Donation_Cause_Create_Child_Product_Test {
 
     @isTest
     private static void forPublicGivingOnUpdate() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );
@@ -61,7 +61,7 @@ private class Donation_Cause_Create_Child_Product_Test {
     
     @isTest
     private static void forPublicGivingOnInsert (){
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );

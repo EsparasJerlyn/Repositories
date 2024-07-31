@@ -2039,21 +2039,84 @@ public class TestDataFactoryUser {
         } set;
     }
 
+    /***********************************************
+    * IT3.2 USERS
+    ************************************************/
+    /***********************************************
+    * Donor Engagement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserDonorEngagementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTODonorEngagementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserDonorEngagementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestDonorEngagementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTODonorEngagementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'DonorEngagementManager';
+            usr.Persona = 'Donor Engagement Manager';
+            usr.profileName = 'Advancement';
+            usr.role = 'Donor_Engagement_Manager';
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = false;
 
 
+            usr.permissionsetNames = new Set<String>{'Advancement_Base'};
+            usr.publicGroupNames = new Set<String>{'Donor_Engagement_Manager'};
+
+            return usr;
+        } set;
+    }
+
+    /***********************************************
+    * Advancement Manager
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserAdvancementManager() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOAdvancementManager}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserAdvancementManager {
+        get {return [SELECT Id FROM User WHERE Email = 'TestAdvancementManager@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOAdvancementManager {
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+            usr.FirstName = 'Test';
+            usr.LastName = 'AdvancementManager';
+            usr.Persona = 'Advancement Manager';
+            usr.profileName = 'Advancement';
+            usr.role = 'Advancement_Manager';
+
+            
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = true;
+            usr.userpermissionsserviceuser = false;
 
 
+            usr.permissionsetNames = new Set<String>{'Advancement_Base'};
+            usr.publicGroupNames = new Set<String>{'Advancement_Manager'};
 
-
-
-
-
-
-
-
-
-
-
+            return usr;
+        } set;
+    }
 
     private static void getPortalSysAdminUser() {
         portalSysAdmin = [
