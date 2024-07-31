@@ -6,7 +6,7 @@
     <communityRoles/>
     <description>Site for Messaging for Web deployment: QUT_Contact_Centre_Chat.</description>
     <disableReputationRecordConversations>true</disableReputationRecordConversations>
-    <emailSenderAddress>arsenio.dayrit@qut.edu.au</emailSenderAddress>
+    <emailSenderAddress>qutex@qut.edu.au</emailSenderAddress>
     <emailSenderName>ESW_QUT_Contact_Centre_Cha_1722304308777</emailSenderName>
     <embeddedLoginEnabled>false</embeddedLoginEnabled>
     <enableApexCDNCaching>true</enableApexCDNCaching>
