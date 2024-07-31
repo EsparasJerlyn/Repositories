@@ -21,20 +21,21 @@ private class DonationsDAOTest {
     @testSetup
     static void testSetup () {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Sys_Admin', 'QUT_Advancement_Manager'}
+            new List<String>{ 'QUT_Sys_Admin'}
         );
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
 
     @isTest
     private static void queryLocatorGetDonationsForStageUpdateTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             System.assert(DonationsDAO.newInstance().queryLocatorGetDonationsForStageUpdate() != null, 'SOQL should not be null');
         }
     }
 
     @isTest
     private static void getDonationsByOpportunityIdsTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
             List<Donation__c> donationList = DonationsDAO.newInstance()
@@ -49,7 +50,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsByOpportunityIdsEmptyTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsByOpportunityIds(
@@ -63,7 +64,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationAssetsByDonationIdTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
             List<Donation__c> donationList = DonationsDAO.newInstance()
@@ -78,7 +79,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationAssetsByDonationIdEmptyTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationAssetsByDonationId(
@@ -92,7 +93,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsBySetRecordIdsTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
             List<Donation__c> donationList = DonationsDAO.newInstance()
@@ -107,7 +108,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsBySetRecordIdsEmptyTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsBySetRecordIds(
@@ -121,7 +122,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsBySetDonationParentIdsTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Donation__c.SObjectType);
             List<Donation__c> donationList = DonationsDAO.newInstance()
@@ -136,7 +137,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsBySetDonationParentIdsEmptyTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsBySetDonationParentIds(
@@ -150,7 +151,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsBySetRecordTypeIdsTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Recordtype.getSObjectType());
             List<Donation__c> donationList = DonationsDAO.newInstance()
@@ -165,7 +166,7 @@ private class DonationsDAOTest {
 
     @isTest
     private static void getDonationsBySetRecordTypeIdsEmptyTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsBySetRecordTypeIds(
@@ -200,7 +201,7 @@ private class DonationsDAOTest {
 
     @isTest
     static void getDonationsByParentIdRecordTypeTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Donation__c> donationList = DonationsDAO.newInstance()
                 .getDonationsByParentIdRecordType(

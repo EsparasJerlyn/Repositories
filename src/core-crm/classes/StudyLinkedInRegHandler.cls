@@ -32,7 +32,7 @@ public without sharing class StudyLinkedInRegHandler implements Auth.Registratio
         String uniqueName = orgId + dateString + randomInt;
 
         //Query OPE Account 
-        Account a =  [SELECT Id, Name FROM Account WHERE Name ='OPE Catalogue'];
+        Account a =  [SELECT Id, Name FROM Account WHERE Name ='QUT Experience'];
 
         //Create Contact
         Contact c= new Contact();
@@ -45,7 +45,7 @@ public without sharing class StudyLinkedInRegHandler implements Auth.Registratio
         
         //Create User
         User u = new User();
-        Profile p = [SELECT id FROM profile WHERE name = 'OPE Catalogue'];
+        Profile p = [SELECT id FROM profile WHERE name = 'QUT Experience'];
         u.Username = data.email;
 		u.Email = data.email;
         u.LastName = data.lastName;

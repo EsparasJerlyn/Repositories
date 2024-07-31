@@ -184,7 +184,7 @@ public with sharing class ManageRegistrationSectionCtrlTest{
                 }
                insert accounts;
 
-               Account act = new Account(Name = 'OPE Catalogue');
+               Account act = new Account(Name = 'QUT Experiencee');
                insert act;
 
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);

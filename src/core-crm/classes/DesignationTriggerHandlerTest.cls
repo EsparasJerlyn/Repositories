@@ -15,7 +15,7 @@
 public with sharing class DesignationTriggerHandlerTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         designationCodeAutoNum.Giving_To_Cause__c = 1;
         designationCodeAutoNum.Endowment__c = 1;
@@ -29,7 +29,7 @@ public with sharing class DesignationTriggerHandlerTest {
     
     @isTest
     private static void createDesignationCodeGivingToCauseTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(100, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
 
@@ -55,7 +55,7 @@ public with sharing class DesignationTriggerHandlerTest {
 
     @isTest
     private static void createDesignationCodeEndowmentTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(100, DesignationsDAO.ENDOWNMENT_RECTYPE_ID);
             for(Designation__c d : designationList){

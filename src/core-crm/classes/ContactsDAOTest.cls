@@ -26,9 +26,7 @@
 private class ContactsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(
-            new List<String>{'QUT_Alumni_Engagement_Manager' }
-        );
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         TestDataFactoryUser.generateUserIndustryPartnershipManager();
         TestDataFactoryUser.generateUserFutureStudentAgentDomestic();

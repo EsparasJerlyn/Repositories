@@ -18,7 +18,7 @@ private class Designation_Stage_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
 
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         designationCodeAutoNum.Giving_To_Cause__c = 1;
@@ -33,7 +33,7 @@ private class Designation_Stage_Update_Test {
 
     @isTest
     private static void forPublishedBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -90,7 +90,7 @@ private class Designation_Stage_Update_Test {
     
     @isTest
     private static void forNotPublishedBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -130,7 +130,7 @@ private class Designation_Stage_Update_Test {
 
     @isTest
     private static void forActiveBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -167,7 +167,7 @@ private class Designation_Stage_Update_Test {
 
     @isTest
     private static void forNotActiveBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -205,7 +205,7 @@ private class Designation_Stage_Update_Test {
 
     @isTest
     private static void forArchivedBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -243,7 +243,7 @@ private class Designation_Stage_Update_Test {
 
     @isTest
     private static void forDefineTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -276,7 +276,7 @@ private class Designation_Stage_Update_Test {
 
     @isTest
     private static void forNotDefineTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID

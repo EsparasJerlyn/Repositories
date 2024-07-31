@@ -7,10 +7,11 @@
  * 
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | May 30, 2022          | DEPP-870               | Created file                 | 
-      |                                |                       |                        |                              |  
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------|
+      | eugene.andrew.abuan            | May 30, 2022          | DEPP-870               | Created file                             |
+      | kenneth.f.alsay                | June 21, 2024         | DEPP-9221              | Renamed OPE Catalogue to QUT Experience  |
+      |                                |                       |                        |                                          |
  */
 @isTest
 public with sharing class StudySSORegHandlerTest {
@@ -29,7 +30,7 @@ public with sharing class StudySSORegHandlerTest {
 
             Test.startTest();
             Account testAccount = new Account();
-            testAccount.Name = 'OPE Catalogue';
+            testAccount.Name = 'QUT Experience';
             insert testAccount;
 
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);

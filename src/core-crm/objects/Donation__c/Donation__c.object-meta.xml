@@ -160,6 +160,7 @@
         <label>Donation Reference</label>
         <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
+        <startingNumber>1</startingNumber>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Donations</pluralLabel>

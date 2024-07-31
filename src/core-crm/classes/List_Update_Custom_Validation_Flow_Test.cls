@@ -15,8 +15,11 @@
 public class List_Update_Custom_Validation_Flow_Test {
     @testSetup
     static void makeData() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<List__c> listRecords = TestDataFactory.createListRecords(1);
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);
             ListsDAO.newInstance().insertRecords(listRecords, false, AccessLevel.USER_MODE);
@@ -40,7 +43,7 @@ public class List_Update_Custom_Validation_Flow_Test {
 
     @isTest
     public static void checkListMemberStatusOnHold() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<List__c> listRecords = ListsDAO.newInstance()
                 .getListRecords(1, AccessLevel.USER_MODE);
             List<List_Member__c> newListMemberRecToUpdate = new List<List_Member__c>();

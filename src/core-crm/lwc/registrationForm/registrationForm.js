@@ -25,11 +25,14 @@
       | julie.jane.alegre         | August 15, 2022       | DEPP-3568            | Added Contact Duplication Handling    |
       | keno.domienri.dico        | September 23, 2022    | DEPP-4367            | birthdate validation                  |
       | julie.jane.alegre         | September 22, 2023    | DEPP-4762            | Added Position & Company Name fields  |
+      | richard.a.santos          | July 02, 2024         | DEPP-9381            | Modified Text and Privacy Links       |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
 import QUTeX_Contact_Detail from '@salesforce/label/c.QUTeX_Contact_Detail';
+import QUTex_Privacy_Policy_URL from '@salesforce/label/c.QUTex_Privacy_Policy_URL';
+import QUTex_Privacy_Collection_Notice_URL from '@salesforce/label/c.QUTex_Privacy_Collection_Notice_URL';
 import registerUser from "@salesforce/apex/RegistrationFormCtrl.registerUser";
 import getCommunityUrl from "@salesforce/apex/RegistrationFormCtrl.getCommunityUrl";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
@@ -63,7 +66,8 @@ const QUT_SSO_TEXT ="Previously/Currently studied with QUTeX or QUT? Login Inste
 const QUT_LOGIN_TEXT = "Previously told us about you? Continue here.";
 const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
-const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
+const QUT_PRIVACY_POLICY ="QUT Privacy Policy";
+const QUT_PRIVACY_COLLECTION_NOTICE ="Privacy Collection Notice.";
 const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
 const INFO_CONSENT = "Yes, I would like to receive information from QUT about short courses and professional education.";
 export default class RegistrationForm extends LightningElement {
@@ -149,6 +153,7 @@ export default class RegistrationForm extends LightningElement {
   @track qutSSOText;
   @track requiredField;
   @track privacyPolicy;
+  @track privacyCollectionNotice;
   @track acknowledge;
 
 
@@ -161,8 +166,11 @@ export default class RegistrationForm extends LightningElement {
     qutSSOText: QUT_SSO_TEXT,
     qutLoginText: QUT_LOGIN_TEXT,
     privacyPolicy: QUT_PRIVACY_POLICY,
+    privacyCollectionNotice: QUT_PRIVACY_COLLECTION_NOTICE,
     acknowledge: ACKNOWLDGE,
     contactDetail: QUTeX_Contact_Detail,
+    privacyPolicyUrl: QUTex_Privacy_Policy_URL,
+    privacyCollectionNoticeUrl: QUTex_Privacy_Collection_Notice_URL,
     infoConsent: INFO_CONSENT
   };
 

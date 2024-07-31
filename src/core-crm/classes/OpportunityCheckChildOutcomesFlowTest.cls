@@ -11,11 +11,15 @@
 */
 @isTest
 public class OpportunityCheckChildOutcomesFlowTest {
-    @testSetup static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Corporate_Partnership_Manager'});
+    @testSetup 
+    static void setupMethod(){
+        Test.startTest();
+        TestDataFactoryUser.generateUserCorporatePartnershipsManager();
+        Test.stopTest();
+
         Id corporateOppId = OpportunitiesDAO.CORPORATEPARTNERSHIP_RECTYPE_ID;
         Id corporateOppOutcomeId = OpportunityOutcomesDAO.CORPORATEPARTNERSHIP_RECTYPE_ID;
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
             List<Opportunity> corpPartnershipOpp = TestDataFactory.createOpportunityRecords(200, 'Opportunity', 'Negotiate');
             for(Opportunity opp : corpPartnershipOpp){
                 opp.RecordTypeId = corporateOppId;
@@ -41,7 +45,7 @@ public class OpportunityCheckChildOutcomesFlowTest {
     
     @isTest
     static void testOpportunityWithActiveOutcomes(){
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
             Test.startTest();
             List<Opportunity_Outcome__c> oppOutcomes = OpportunityOutcomesDAO.newInstance().getActiveCorporateOutcomes(AccessLevel.USER_MODE);
             Set<Id> opportunityIds = new Set<Id>();
@@ -64,7 +68,7 @@ public class OpportunityCheckChildOutcomesFlowTest {
     
     @isTest
     static void testOpportunityWithOutActiveOutcomes(){
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
             Test.startTest();
             List<Opportunity> oppList = OpportunitiesDAO.newInstance().getRecordsByStageName('Negotiate');
             for(Opportunity opp : oppList){

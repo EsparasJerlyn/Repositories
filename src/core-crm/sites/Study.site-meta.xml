@@ -19,7 +19,7 @@
     <inMaintenancePage>InMaintenance</inMaintenancePage>
     <indexPage>CommunitiesLanding</indexPage>
     <masterLabel>Study</masterLabel>
-    <redirectToCustomDomain>false</redirectToCustomDomain>
+    <redirectToCustomDomain>true</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <siteAdmin>sysadmin.integration@qut.edu.au.dep</siteAdmin>
     <siteGuestRecordDefaultOwner>sysadmin.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>

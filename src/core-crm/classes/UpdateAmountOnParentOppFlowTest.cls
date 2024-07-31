@@ -12,11 +12,15 @@
 @isTest
 public class UpdateAmountOnParentOppFlowTest {
 	
-    @testSetup static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Corporate_Partnership_Manager'});
+    @testSetup 
+    static void setupMethod(){
+        Test.startTest();
+        TestDataFactoryUser.generateUserCorporatePartnershipsManager();
+        Test.stopTest();
+
         Id corporateOppId = OpportunitiesDAO.CORPORATEPARTNERSHIP_RECTYPE_ID;
         Id corporateOppOutcomeId = OpportunityOutcomesDAO.CORPORATEPARTNERSHIP_RECTYPE_ID;
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
             List<Opportunity> corpPartnershipOpp = TestDataFactory.createOpportunityRecords(100, 'Opportunity', 'Identify');
             for(Opportunity opp : corpPartnershipOpp){
             	opp.RecordTypeId = corporateOppId;
@@ -41,7 +45,7 @@ public class UpdateAmountOnParentOppFlowTest {
     
     @isTest
     static void testAmountOnOpportunityAfterInsert(){
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
         	Test.startTest();
                 List<Opportunity> oppList = [SELECT Id, Name, Amount FROM Opportunity WHERE Amount = 400];
                 System.assertEquals(100, oppList.size(), 'List must be 100');
@@ -51,7 +55,7 @@ public class UpdateAmountOnParentOppFlowTest {
         
     @isTest
     static void testAmountOnOpportunityAfterUpdate(){
-        System.RunAs(TestDataFactory.getCorporatePartnershipsManager()){
+        System.RunAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager){
             List<Opportunity_Outcome__c> oppOutcomeList = [SELECT Id, Outcome_Tangible_Value__c FROM Opportunity_Outcome__c];
             for(Opportunity_Outcome__c outcome: oppOutcomeList){
                 outcome.Outcome_Tangible_Value__c = 300;

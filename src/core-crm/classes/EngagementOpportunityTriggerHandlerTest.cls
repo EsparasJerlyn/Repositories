@@ -19,7 +19,8 @@ public with sharing class EngagementOpportunityTriggerHandlerTest {
     static void testSetup() {
         Test.startTest();
 
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Alumni_Engagement_Manager','QUT_Corporate_Engagement_Manager'});
+        TestDataFactoryUser.generateUserCorporateEngagementManager();
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
 
         Test.stopTest();
     }
@@ -27,7 +28,7 @@ public with sharing class EngagementOpportunityTriggerHandlerTest {
     @isTest
     private static void createListRecordOnEngagementOpportunityCreationAlumniEngagementTest() {
 
-        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager) {
             Test.startTest();
 
             List<Engagement_Opportunity__c> engagementOppList = TestDataFactory.createTestEngagementOpportunityRecords(1);
@@ -51,7 +52,7 @@ public with sharing class EngagementOpportunityTriggerHandlerTest {
     @isTest
     private static void createListRecordOnEngagementOpportunityCreationCorporateEngagementTest() {
 
-        System.runAs(TestDataFactory.getCorporateEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporateEngagementManager) {
             Test.startTest();
 
             List<Engagement_Opportunity__c> engagementOppList = TestDataFactory.createTestEngagementOpportunityRecords(1);

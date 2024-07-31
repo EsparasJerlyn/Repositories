@@ -594,7 +594,7 @@
                 <leftValueReference>$UserRole.DeveloperName</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue>Donor_Engagement_ManagerDonor_Engagement_Manager</stringValue>
+                    <stringValue>Donor_Engagement_Manager</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -680,7 +680,7 @@
                 <leftValueReference>$UserRole.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>FundraiserFundraiser</stringValue>
+                    <stringValue>Fundraiser</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -2648,6 +2648,12 @@
                 <name>label</name>
                 <value>
                     <stringValue>Primary Email</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>requiredFieldErrorMessage</name>
+                <value>
+                    <stringValue>Mandatory Field.</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

@@ -117,7 +117,7 @@ public with sharing class QuestionnaireResponseSummaryCtrlTest {
       Test.startTest();
       //Create account
       Account portalAccount1 = new Account(
-          Name = 'OPE Catalogue',
+          Name = 'QUT Experience',
           OwnerId = PORTAL_SYS_ADMIN.Id
       );
 
