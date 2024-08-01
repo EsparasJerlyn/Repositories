@@ -22,15 +22,8 @@
     <masterLabel>ESW_Test_Qut_Embedded_Chat</masterLabel>
     <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
-    <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>arsenio.dayrit@qut.edu.au</siteAdmin>
-    <siteGuestRecordDefaultOwner>arsenio.dayrit@qut.edu.au</siteGuestRecordDefaultOwner>
-    <siteIframeWhiteListUrls>
-        <url>test.com</url>
-    </siteIframeWhiteListUrls>
-    <siteIframeWhiteListUrls>
-        <url>*.test.com</url>
-    </siteIframeWhiteListUrls>
+    <siteAdmin>sysadmin.integration@qut.edu.au.dep</siteAdmin>
+    <siteGuestRecordDefaultOwner>sysadmin.integration@qut.edu.au.dep</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>qut360</subdomain>
     <urlPathPrefix>ESWTestQutEmbeddedChat</urlPathPrefix>
