@@ -4333,10 +4333,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>OPE_and_CCE_Username_FormatTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ObjectDataSource</apexClass>
         <enabled>true</enabled>
     </classAccesses>

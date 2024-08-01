@@ -16,7 +16,8 @@
 public class CodeGeneratorServiceTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
         TestDataFactoryUser.generateUserIndustryPartnershipManager();
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -270,7 +271,7 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createDonationCauseRecords() {
 
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> newItems = TestDataFactory.createDonationCauseRecords(100);
             Test.startTest();
                 CodeGeneratorService.generateCodeForDonationCauseRecords(newItems);
@@ -299,7 +300,7 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createDesignationGivingToCauseRecords() {
 
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             Test.startTest();
                 CodeGeneratorService.generateCodeForDesignationGivingToCauseRecords(newItems);
@@ -327,7 +328,7 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createDesignationEndowmentRecords() {
 
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.ENDOWNMENT_RECTYPE_ID);
             for(Designation__c d : newItems){
                 d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;

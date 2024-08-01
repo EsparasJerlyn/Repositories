@@ -17,7 +17,7 @@ private class Donation_Cause_Child_Product_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactoryUser.generateUserDonorEngagementManager();
 
         Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         donationCauseCodeAutoNum.Donation_Cause__c = 1;
@@ -32,7 +32,7 @@ private class Donation_Cause_Child_Product_Update_Test {
 
     @isTest
     private static void forAvailableOnCartTrueAndFalseTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
             );

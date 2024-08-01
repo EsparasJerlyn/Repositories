@@ -12,7 +12,7 @@
 public with sharing class DonationCauseTriggerHandlerTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactoryUser.generateUserDonorEngagementManager();
         Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         donationCauseCodeAutoNum.Donation_Cause__c = 1;
         DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
@@ -24,7 +24,7 @@ public with sharing class DonationCauseTriggerHandlerTest {
     
     @isTest
     private static void createDonationCauseCodeTest() {
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             Test.startTest();
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(100);
 

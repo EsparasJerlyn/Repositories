@@ -14,15 +14,13 @@ private class DesignationPublicReleaseFilterUpdateTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Advancement_Manager' }
-        );
+        TestDataFactoryUser.generateUserAdvancementManager();
         Test.stopTest();
     }
 
     @isTest
     private static void checkProductsUpdate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Designation__C> designationList = TestDataFactory.createDesignationRecords(
                 10,

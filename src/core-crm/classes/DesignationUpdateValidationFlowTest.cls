@@ -16,11 +16,11 @@ public class DesignationUpdateValidationFlowTest {
     // * Description: This method is used to create initial data for the test methods
     @TestSetup
     public static void testSetup(){
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Advancement_Manager'}
-        );
-        System.runAs(TestDataFactory.getAdvancementManager()){
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             List<Designation__C> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -36,13 +36,12 @@ public class DesignationUpdateValidationFlowTest {
                 distributionMgtList[0].Designation__c = designationList[0].Id;
             }
             DistributionManagementsDAO.newInstance().insertRecords(distributionMgtList, false, AccessLevel.USER_MODE);
-            Test.stopTest();
         }
     }
     
     @isTest
     public static void checkProductDescription(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             List<Designation__c> designationList = DesignationsDAO.newInstance().getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Product2> products = ProductsDAO.newInstance().getProductByDesignationId(new Map<Id,SObject>(designationList).keySet(), AccessLevel.USER_MODE);
             
@@ -75,7 +74,7 @@ public class DesignationUpdateValidationFlowTest {
     
     @isTest
     public static void checkProductTitleImageURL(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             List<Designation__c> designationList = DesignationsDAO.newInstance().getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Product2> products = ProductsDAO.newInstance().getProductByDesignationId(new Map<Id,SObject>(designationList).keySet(), AccessLevel.USER_MODE);        
             
@@ -106,7 +105,7 @@ public class DesignationUpdateValidationFlowTest {
     
     @isTest
     public static void checkProductSection1Heading(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             List<Designation__c> designationList = DesignationsDAO.newInstance().getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Product2> products = ProductsDAO.newInstance().getProductByDesignationId(new Map<Id,SObject>(designationList).keySet(), AccessLevel.USER_MODE);        
                        
@@ -137,7 +136,7 @@ public class DesignationUpdateValidationFlowTest {
     
     @isTest
     public static void checkProductSection1Content(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             List<Designation__c> designationList = DesignationsDAO.newInstance().getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             List<Product2> products = ProductsDAO.newInstance().getProductByDesignationId(new Map<Id,SObject>(designationList).keySet(), AccessLevel.USER_MODE);        
             
@@ -169,7 +168,7 @@ public class DesignationUpdateValidationFlowTest {
     
     @isTest
     public static void checkActiveChildDistributionManagements(){
-        System.runAs(TestDataFactory.getAdvancementManager()){
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager){
             Test.startTest();
             List<Designation__c> designationList = DesignationsDAO.newInstance().getDesignationsByNameStart('Test Designation', AccessLevel.USER_MODE);
             for(Designation__c designation : designationList){

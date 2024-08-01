@@ -13,20 +13,19 @@
 private class DonationCausesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' }
-        );
+        TestDataFactoryUser.generateUserAdvancementManager();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
     }
     @isTest
     private static void queryLocatorGetDonatioCausesForStageUpdateTest(){
-        System.runAs(TestDataFactory.getDonorEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager){
             System.assert(DonationCausesDAO.newInstance().queryLocatorGetDonatioCausesForStageUpdate() != null, 'SOQL should not be null');
         }
     }
 
     @isTest
     private static void getDonationCausesBySetRecordIdsTest(){
-        System.runAs(TestDataFactory.getDonorEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager){
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Donation_Cause__c.SObjectType);
             List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
@@ -41,7 +40,7 @@ private class DonationCausesDAOTest {
 
     @isTest
     private static void getDonationCausesBySetRecordIdsEmptyTest(){
-        System.runAs(TestDataFactory.getDonorEngagementManager()){
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager){
             Test.startTest();
             List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
                 .getDonationCausesBySetRecordIds(
@@ -56,7 +55,7 @@ private class DonationCausesDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             System.assert(DonationCausesDAO.newInstance() != null, 'DonationCausesDAO instance is null');
         }
         Test.stopTest();
@@ -64,7 +63,7 @@ private class DonationCausesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             System.assert(
                 new DonationCausesDAO().getSObjectType() == Donation_Cause__c.SObjectType,
                 'SObject is not Donation_Cause__c'
@@ -75,7 +74,7 @@ private class DonationCausesDAOTest {
 
     @isTest
     static void getDonationCauseByNameStartTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
                 .getDonationCauseByNameStart(

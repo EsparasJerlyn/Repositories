@@ -17,7 +17,7 @@
 public with sharing class ProductsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
@@ -78,7 +78,7 @@ public with sharing class ProductsDAOTest {
     @isTest
     static void getProductByDesignationIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             System.assert(
                 ProductsDAO.newInstance()
                     .getProductByDesignationId(
@@ -94,7 +94,7 @@ public with sharing class ProductsDAOTest {
     @isTest
     static void getProductByDesignationIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             MockIdGenerator builderForDesigntation = new MockIdGenerator(Designation__c.sObjectType);
             System.assert(
                 ProductsDAO.newInstance()

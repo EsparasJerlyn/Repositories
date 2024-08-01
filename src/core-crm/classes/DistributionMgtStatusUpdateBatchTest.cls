@@ -15,13 +15,13 @@ public class DistributionMgtStatusUpdateBatchTest {
     @testSetup
     static void setupDate() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
         Test.stopTest();
     }
     
     @isTest
     private static void forInactiveBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Create Designation with Giving to Cause record type
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             
@@ -62,7 +62,7 @@ public class DistributionMgtStatusUpdateBatchTest {
 
     @isTest
     private static void forActiveBatchTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Create Designation with Giving to Cause record type
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             

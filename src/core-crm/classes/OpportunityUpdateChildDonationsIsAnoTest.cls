@@ -18,10 +18,11 @@
      static void setupData(){
 
          Test.startTest();
-         TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+         TestDataFactoryUser.generateUserAdvancementManager();
+         Test.stopTest();
 
-         System.runAs(TestDataFactory.getAdvancementManager()) {
-                List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
+         System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
+             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
              accountRecord[0].Organization_Unit_Level__c ='2';
              accountRecord[0].End_Date__c = null;
              AccountsDAO.newInstance().insertRecords(accountRecord, false, AccessLevel.SYSTEM_MODE);
@@ -80,13 +81,12 @@
                  }
                  DonationsDAO.newInstance().insertRecords(donationList, false, AccessLevel.USER_MODE);
              }
-             Test.stopTest();
      }
 
 
       @isTest
       private static void checkIsAnonymousIndividualOpportunityTest(){
-           System.runAs(TestDataFactory.getAdvancementManager()) {
+           System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
 
           Test.startTest();
             List<Opportunity> parentOpp = OpportunitiesDAO.newInstance().getOpportunityByRecordTypeIds(
@@ -107,7 +107,7 @@
 
       @isTest
       private static void checkIsAnonymousOrganisationOpportunityTest(){
-           System.runAs(TestDataFactory.getAdvancementManager()) {
+           System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
              Test.startTest();
              List<Opportunity> parentOpp = OpportunitiesDAO.newInstance().getOpportunityByRecordTypeIds(
                  new Set<Id>{OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID}, AccessLevel.USER_MODE);

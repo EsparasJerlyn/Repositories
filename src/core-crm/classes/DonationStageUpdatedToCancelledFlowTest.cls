@@ -15,9 +15,10 @@ private class DonationStageUpdatedToCancelledFlowTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
 
-        System.runAs(testDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
             accountRecord[0].Organization_Unit_Level__c ='2';
             accountRecord[0].End_Date__c = null;
@@ -101,14 +102,12 @@ private class DonationStageUpdatedToCancelledFlowTest {
                 pledgeCounter++;
             }
             DonationsDAO.newInstance().insertRecords(donationPledgeChildList, false, AccessLevel.USER_MODE);
-        }
-
-        Test.stopTest();
+        }  
     }
 
     @isTest
     private static void stageToUpdateCancelledEndowmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             
             //Get Created Donation Records
@@ -150,7 +149,7 @@ private class DonationStageUpdatedToCancelledFlowTest {
 
     @isTest
     private static void stageToUpdateCancelledPledgeTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             
             //Get Created Donation Records
