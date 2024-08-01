@@ -21,5 +21,5 @@
     <isTermsAndConditionsRequired>true</isTermsAndConditionsRequired>
     <masterLabel>Test Qut Embedded Chat</masterLabel>
     <shouldHideAuthDialog>false</shouldHideAuthDialog>
-    <site>ESW_Test_Qut_Embedded_Chat</site>
+    <site>ESW_Test_Qut_Embedded_Chat1</site>
 </EmbeddedServiceConfig>
