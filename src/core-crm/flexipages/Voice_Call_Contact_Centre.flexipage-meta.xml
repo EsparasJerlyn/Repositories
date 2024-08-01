@@ -75,6 +75,48 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>hideAudioNoteRecorderButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideConversationHistory</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideEmojiButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideFilePickerButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideQuickTextButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideRichContentPickerButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideTransferButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideWhisperFlagButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newLineOnEnter</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>scrt:conversationBody</componentName>
+                <identifier>scrt_conversationBody</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>rightsidebar</name>
         <type>Region</type>
     </flexiPageRegions>
@@ -84,7 +126,7 @@
         <name>flexipage:recordHomeThreeColTemplateDesktop</name>
         <properties>
             <name>enablePageActionConfig</name>
-            <value>false</value>
+            <value>false</value> 
         </properties>
     </template>
     <type>RecordPage</type>
