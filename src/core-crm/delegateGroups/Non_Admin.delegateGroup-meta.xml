@@ -26,4 +26,34 @@
     <roles>Student Success Staff</roles>
     <roles>Student Success Student Partner</roles>
     <roles>Student Success Student Volunteer</roles>
+    <roles>Contact Centre Training &amp; QA</roles>
+    <roles>Contact Centre Manager</roles>
+    <roles>Contact Centre Team Leader</roles>
+    <roles>Contact Centre Advisor</roles>
+    <roles>Contact Centre Concierge</roles>
+    <roles>Student Admin Manager</roles>
+    <roles>Student Admin Team Leader Progression</roles>
+    <roles>Student Admin Hub Advisor Progression</roles>
+    <roles>Student Admin Spec Advisor Progression</roles>
+    <roles>Student Admin Team Leader Engagement</roles>
+    <roles>Student Admin Hub Advisor Engagement</roles>
+    <roles>Student Admin Spec Advisor Engagement</roles>
+    <roles>Faculty Health Team Leader</roles>
+    <roles>Faculty Health Advisor</roles>
+    <roles>Faculty Science Team Leader</roles>
+    <roles>Faculty Science Advisor</roles>
+    <roles>Faculty Engineering Team Leader</roles>
+    <roles>Faculty Engineering Advisor</roles>
+    <roles>Faculty BusLaw Team Leader</roles>
+    <roles>Faculty BusLaw Advisor</roles>
+    <roles>Faculty CIESJ Team Leader</roles>
+    <roles>Faculty CIESJ Advisor</roles>
+    <roles>QUT College Team Leader</roles>
+    <roles>QUT College Reception</roles>
+    <roles>QUT College Advisor</roles>
+    <roles>Library Support Team Leader</roles>
+    <roles>Library Support Advisor</roles>
+    <roles>Library Specialist Team Leader</roles>
+    <roles>Library Specialist Advisor</roles>
+    <roles>Liaison Librarian</roles>
 </DelegateGroup>
