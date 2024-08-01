@@ -86,6 +86,7 @@
  *    |                           |                       |                     | Added method createTestDistributionSplitRecords                         |
  *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                 |
  *    | kenneth.f.alsay           | April 23, 2024        | DEPP-8528           | Added method createDonationRecordsWithRecordType                        |
+ *    | marygrace.li              | May 2, 2024           | DEPP-8399           | Deleted method createDonationCauseRecords                               |
  *    | kenneth.f.alsay           | June 21, 2024         | DEPP-9221           | Updated OPE Catalogue to QUT Experience                                 |
  **/
     
@@ -4569,28 +4570,6 @@ public class TestDataFactory {
             );
         }
         return donationList;
-    }
-
-    /**
-     * @description Method for creating test Donation Causes records
-     * @params
-     * numOfRecords - number of records to create
-     * @return donationCauseList - List of Donation Cause records created
-     */
-    public static List<Donation_Cause__c> createDonationCauseRecords(
-        Integer numOfRecords
-    ) {
-        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
-        for (Integer i = 0; i < numOfRecords; i++) {
-            donationCauseList.add(
-                new Donation_Cause__c(
-                    Activation_Start_Date__c = System.Today(),
-                    Name = 'Test Donation' + i,
-                    Donation_Cause_Description__c = 'Test'
-                )
-            );
-        }
-        return donationCauseList;
     }
 
     /**
