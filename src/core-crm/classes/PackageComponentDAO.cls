@@ -12,6 +12,10 @@
  */
 public inherited sharing class PackageComponentDAO extends DmlBase implements IPackageComponentDAO {
 
+    public static final String PROGRAM_LEVEL_PHD = 'PhD';
+    public static final String PROGRAM_LEVEL_STUDY_ABROAD = 'Study Abroad';
+    public static final String PROGRAM_LEVEL_MASTERS_BY_RESEARCH = 'Masters by Research';
+
     public static IPackageComponentDAO newInstance() {
         return (IPackageComponentDAO) ImplementationSelector.DAO.newInstance(Package_Component__c.SObjectType);
     }
@@ -25,7 +29,7 @@ public inherited sharing class PackageComponentDAO extends DmlBase implements IP
         AccessLevel accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Start_Date__c, Package_Component_No__c, Application_Preference__c ' +
+            'SELECT Id, Start_Date__c, Package_Component_No__c, Application_Preference__c, Program_Level__c ' +
             'FROM Package_Component__c ' +
             'WHERE Application_Preference__c IN :applicationPreferenceIds  ',
             accessLevel
