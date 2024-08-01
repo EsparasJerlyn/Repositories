@@ -5,7 +5,7 @@
 
 Indicates if the marketing person identifies as Aboriginal or Torres Strait Islander.</description>
     <externalId>false</externalId>
-    <label>ORG Indigenous Status (ATSI)</label>
+    <label>ORG Indigenous Status</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

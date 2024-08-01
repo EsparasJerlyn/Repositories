@@ -8,7 +8,7 @@ RecordType.DeveloperName = &apos;Inbound_Enquiry&apos;,
  NOT ( ISPICKVAL( PRIORVALUE( Status ) , &apos;Closed&apos;) ),
  OR(
   ISPICKVAL( Status , &apos;Assigned&apos;),
-  ISPICKVAL( Status , &apos;Awaiting Response&apos;),
+  ISPICKVAL( Status , &apos;Awaiting Information&apos;),
   ISPICKVAL( Status , &apos;Escalated&apos;),
   AND(
    ISPICKVAL( Status , &apos;Closed&apos;),

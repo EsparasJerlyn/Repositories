@@ -2,8 +2,9 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Awaiting_Response_From_is_required</fullName>
     <active>true</active>
-    <errorConditionFormula>AND ( OR( 
-ISPICKVAL(Status, &quot;Awaiting Response&quot;)&amp;&amp; 
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Inbound_Enquiry&apos;, OR( 
+ISPICKVAL(Status, &quot;Awaiting Information&quot;)&amp;&amp; 
 ISBLANK( Text( Awaiting_Response_From__c ) )
 ))</errorConditionFormula>
     <errorDisplayField>Awaiting_Response_From__c</errorDisplayField>

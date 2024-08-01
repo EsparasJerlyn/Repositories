@@ -44,6 +44,8 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
         Map<Id, SObject> oldItems
     ) {
         CaseMarketingHelper.mapMarketingFieldsFromCase((List<Case>) newItems.values(),(Map<Id, Case>) oldItems);
+        CaseTriggerHelper.setLastQueueNameForInboundCases((List<Case>) newItems.values(),(Map<Id, Case>) oldItems);
+
         
     }
 

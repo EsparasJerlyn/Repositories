@@ -81,7 +81,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "Select Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
+            "query": "Select Id, DeveloperName, SobjectType, Name, $$DeveloperName$SobjectType FROM RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c', 'Contact')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,
@@ -97,9 +97,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email,  MobilePhone, ContactMobile_Validation__c, Work_Email__c, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c,$$Name$QUT_Staff_Email__c,Registered_Email__c FROM Contact WHERE RecordType.DeveloperName = 'Person'",
+            "query": "SELECT Id, RecordTypeId,Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email, MobilePhone, ContactMobile_Validation__c, Work_Email__c, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c, Registered_Email__c, $$Name$RecordTypeId FROM Contact WHERE RecordType.DeveloperName = 'Person' AND Name IN ('Clint Barton','Bucky Barnes','Darcy Lewis','Edward Leeds')",
             "operation": "Upsert",
-            "externalId": "Name;QUT_Staff_Email__c",
+            "externalId": "Name;RecordTypeId",
             "useCSVValuesMapping": true,
             "targetObject": "Contact",
             "importCSVFilesAsIs": true

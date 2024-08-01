@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>None</contactAccessLevel>
+    <description>QUT College Reception</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>QUT College Reception</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>QUT_College_Team_Leader</parentRole>
+</Role>

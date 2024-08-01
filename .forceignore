@@ -32,6 +32,7 @@ Default_Navigation1.navigationMenu-meta.xml
 # DEPP-9879
 **/installedPackages/et4ae5.installedPackage-meta.xml
 **/installedPackages/hed.installedPackage-meta.xml
+**/installedPackages/sf_chttr_apps.installedPackage-meta.xml
 
 # DO NOT REMOVE THIS
 **/permissionsets/System_Administrator.**

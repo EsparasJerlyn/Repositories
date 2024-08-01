@@ -44,8 +44,8 @@ private class LeadScoreConfigEnquiriesServiceTest {
                 'Entry requirements & study pathways',
                 'Fees, costs and scholarships',
                 'Course information',
-                'My application and offer',
-                'My enrolment',
+                'Course application & offers',
+                'Preparing to Study',
                 'Student Life'
             },
             new List<Integer>{ 10, 10, 5, 5, 5, 5, 5}
@@ -115,13 +115,13 @@ private class LeadScoreConfigEnquiriesServiceTest {
         caseList.add(
             new Case(
                 Lead__c = leadList[0].Id,
-                Category__c = 'My application and offer'
+                Category__c = 'Course application & offers'
             )
         );
         caseList.add(
             new Case(
                 Lead__c = leadList[0].Id,
-                Category__c = 'My enrolment'
+                Category__c = 'Preparing to Study'
             )
         );
         caseList.add(

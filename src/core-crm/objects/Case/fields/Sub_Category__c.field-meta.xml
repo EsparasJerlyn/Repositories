@@ -66,9 +66,9 @@
                 <label>Careers and outcomes</label>
             </value>
             <value>
-                <fullName>Accreditation</fullName>
+                <fullName>Professional Recognition & Registration</fullName>
                 <default>false</default>
-                <label>Accreditation</label>
+                <label>Professional Recognition & Registration</label>
             </value>
             <value>
                 <fullName>Course overview</fullName>
@@ -131,29 +131,29 @@
                 <label>Application documentation</label>
             </value>
             <value>
-                <fullName>How to enroll into a unit</fullName>
+                <fullName>Welcome and orientation events</fullName>
                 <default>false</default>
-                <label>How to enroll into a unit</label>
+                <label>Welcome and orientation events</label>
             </value>
             <value>
-                <fullName>How to register for a class</fullName>
+                <fullName>Enrol into my Units</fullName>
                 <default>false</default>
-                <label>How to register for a class</label>
+                <label>Enrol into my Units</label>
             </value>
             <value>
-                <fullName>Classes and timetables</fullName>
+                <fullName>Timetable Preferencing</fullName>
                 <default>false</default>
-                <label>Classes and timetables</label>
+                <label>Timetable Preferencing</label>
             </value>
             <value>
-                <fullName>Scholarships</fullName>
+                <fullName>Timetable Changes</fullName>
                 <default>false</default>
-                <label>Scholarships</label>
+                <label>Timetable Changes</label>
             </value>
             <value>
-                <fullName>Government loans</fullName>
+                <fullName>Financial help & support</fullName>
                 <default>false</default>
-                <label>Government loans</label>
+                <label>Financial help & support</label>
             </value>
             <value>
                 <fullName>Tuition fees</fullName>
@@ -181,19 +181,9 @@
                 <label>Student support</label>
             </value>
             <value>
-                <fullName>Welcome and orientation events</fullName>
-                <default>false</default>
-                <label>Welcome and orientation events</label>
-            </value>
-            <value>
                 <fullName>Campus and transport</fullName>
                 <default>false</default>
                 <label>Campus and transport</label>
-            </value>
-            <value>
-                <fullName>Accommodation</fullName>
-                <default>false</default>
-                <label>Accommodation</label>
             </value>
             <value>
                 <fullName>Sport and clubs</fullName>
@@ -201,9 +191,9 @@
                 <label>Sport and clubs</label>
             </value>
             <value>
-                <fullName>Moving to Brisbane</fullName>
+                <fullName>Accommodation & Living in Brisbane</fullName>
                 <default>false</default>
-                <label>Moving to Brisbane</label>
+                <label>Accommodation & Living in Brisbane</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -249,15 +239,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Student life</controllingFieldValue>
-            <valueName>Welcome and orientation events</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Student life</controllingFieldValue>
             <valueName>Campus and transport</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Student life</controllingFieldValue>
-            <valueName>Accommodation</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Student life</controllingFieldValue>
@@ -265,7 +247,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Student life</controllingFieldValue>
-            <valueName>Moving to Brisbane</valueName>
+            <valueName>Accommodation & Living in Brisbane</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Applying for a course</controllingFieldValue>
@@ -280,44 +262,48 @@
             <valueName>Transfer to QUT</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Application status</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Changing my application</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Changing my QTAC preferences</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Accepting my offer</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Deferring my offer</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Application technical support</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My application and offer</controllingFieldValue>
+            <controllingFieldValue>Course application & offers</controllingFieldValue>
             <valueName>Application documentation</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My enrolment</controllingFieldValue>
-            <valueName>How to enroll into a unit</valueName>
+            <controllingFieldValue>Preparing to Study</controllingFieldValue>
+            <valueName>Welcome and orientation events</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My enrolment</controllingFieldValue>
-            <valueName>How to register for a class</valueName>
+            <controllingFieldValue>Preparing to Study</controllingFieldValue>
+            <valueName>Enrol into my Units</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>My enrolment</controllingFieldValue>
-            <valueName>Classes and timetables</valueName>
+            <controllingFieldValue>Preparing to Study</controllingFieldValue>
+            <valueName>Timetable Preferencing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Preparing to Study</controllingFieldValue>
+            <valueName>Timetable Changes</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Course information</controllingFieldValue>
@@ -329,7 +315,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Course information</controllingFieldValue>
-            <valueName>Accreditation</valueName>
+            <valueName>Professional Recognition & Registration</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Course information</controllingFieldValue>
@@ -337,11 +323,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Fees, costs and scholarships</controllingFieldValue>
-            <valueName>Scholarships</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Fees, costs and scholarships</controllingFieldValue>
-            <valueName>Government loans</valueName>
+            <valueName>Financial help & support</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Fees, costs and scholarships</controllingFieldValue>

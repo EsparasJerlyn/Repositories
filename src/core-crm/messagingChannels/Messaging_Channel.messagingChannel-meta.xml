@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MessagingChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>Messaging Channel</masterLabel>
+    <messagingChannelType>EmbeddedMessaging</messagingChannelType>
+    <sessionHandlerFlow>Messaging_Routing_Flow</sessionHandlerFlow>
+    <sessionHandlerQueue>Current_Student_Chat</sessionHandlerQueue>
+    <sessionHandlerType>Flow</sessionHandlerType>
+</MessagingChannel>

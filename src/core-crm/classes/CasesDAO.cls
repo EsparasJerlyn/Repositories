@@ -145,7 +145,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         AccessLevel accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
+            'SELECT Id, Category__c, Sub_Category__c, Last_Queue_Name__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
                 'Contact.Lead_Source_Category__c, Lead__r.Lead_Source_Category__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, ' +
                 'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c, Outreach_Key__c, ' +
                 'Engagement_List_Configuration__r.Email_Template__c, Engagement_List_Configuration__r.Communication_Channel__c, Contact.QUT_Learner_Email__c, Engagement_List_Configuration__r.Qualtrics_Instrument_Id__c, Qualtrics_Survey__c, CaseNumber, Contact.Name, Status, Owner.Name ' +           

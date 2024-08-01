@@ -16,7 +16,13 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
     private static final Integer NO_OF_RECORDS = 1;
     private static final String DESCRIPTION = 'This Case is Raised To Know What are the different courses offered by the university';
     
-    @isTest(seeAllData= true)
+    @testSetup
+    static void setup() {
+        TestDataFactoryUser.generateUserFutureStudentAgentInternational();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+    }
+
+    @isTest
     static void futureStudentAgentInternationalCreatesCase() {
         // Add toggle to endable
         AI_Settings__c aiSettings = AI_Settings__c.getOrgDefaults();
@@ -27,9 +33,8 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
             aiSettings.LLM_Requests_Active__c = true;
             update aiSettings;
         }
-
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent'});        
-        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+ 
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentInternational) {
             List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', NO_OF_RECORDS);
             for(Case c : internationalCases){
                 c.Description = DESCRIPTION;
@@ -45,7 +50,7 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
         }
     }
     
-    @isTest(seeAllData=true)
+    @isTest
     static void futureStudentAgentDomesticCreatesCaseUpdateCase() {
         // Add toggle to endable
         AI_Settings__c aiSettings = AI_Settings__c.getOrgDefaults();
@@ -57,8 +62,7 @@ public with sharing class Flow_To_Pop_DescSummary_FldTest {
             update aiSettings;
         }
 
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent' }); 
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', NO_OF_RECORDS);
             for(Case c : internationalCases){
                 c.Description = DESCRIPTION;
