@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersion>61</activeVersion>
+    <activeVersion>64</activeVersion>
     <description>Prompt to populate Action Taken Field of case object</description>
     <developerName>Prompt_to_populate_Action_Taken_Field_of_case_object</developerName>
     <masterLabel>Prompt to populate Action Taken Field of case object</masterLabel>
@@ -22,7 +22,7 @@ In this Section, add this placeholder &quot;Enter the steps completed to close t
 Communication Sent: 
 In this Section, we should show the number of Emails Sent to the student (refer to the {Email Count} in Flow Output)
 You have to summarize the conversation that happens at the email level between the case owner and the case contact to emphasize what was the service provided by the case owner/agent to the case contact.
-Use bullet points to highlight the key information. Do not include anything regarding who is the sender and subject of the email. The summary should include the &quot;Recipient Details&quot; (To whom the email was sent the name/email address should be mentioned in every email summary). and should only focus on the resolution provided don&apos;t look for any follow-up questions. Show each email in a separate line and it should be like the first email was regarding this, the second email was regarding this. To generate content for this section, you can refer the below flow &quot;Flow Output &quot;. Mention every time the recipient who receives the email. In Summary, we should use either the Contact Name {!$Input:Case.Contact.Name} or Lead Name {!$Input:Case.Lead__r.Name} Whichever is available. Do not pick a person&apos;s name from email content.
+Use bullet points to highlight the key information. Do not include anything regarding who is the sender and subject of the email. The summary should include the &quot;Recipient Details&quot; (To whom the email was sent the email address should be mentioned in every email summary). and should only focus on the resolution provided don&apos;t look for any follow-up questions. Show each email in a separate line and it should be like the first email was regarding this, the second email was regarding this. To generate content for this section, you can refer the below flow &quot;Flow Output &quot;. Mention every time the recipient&apos;s email address. In Summary, we should use either the Contact Name {!$Input:Case.Contact.Name} or Lead Name {!$Input:Case.Lead__r.Name} Whichever is available. Do not mention a person&apos;s name from email content. The Summary should be gender-neutral and not use gender pronouns
 
 Specific Case Activities: 
 In this Section, we should show the total number of tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count, and show only the total count beside the section heading. To generate content for this section, you can refer to the below flow &quot;Flow Output &quot; output.
@@ -37,6 +37,8 @@ Strictly Use the format below to get inspiration about how to create the final o
 Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. 
 Use clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language. 
 The output should not be more than 2000 characters. if you use a date field, the format must be like that: dd/mm/yyyy, and do not display the time.
+The Summary should be gender-neutral and not use gender pronouns.
+Do not mention a person&apos;s name from email content.
 
 1)Agent Steps :  
 Enter the steps completed to close the case
@@ -78,7 +80,7 @@ Now generate summary
             </parameters>
             <referenceName>Flow:Flow_to_Pop_Action_Taken_Fld</referenceName>
         </templateDataProviders>
-        <versionNumber>61</versionNumber>
+        <versionNumber>64</versionNumber>
     </templateVersions>
     <type>einstein_gpt__fieldCompletion</type>
     <visibility>Global</visibility>
