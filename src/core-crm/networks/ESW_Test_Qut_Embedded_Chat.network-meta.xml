@@ -7,7 +7,7 @@
     <description>Site for Messaging for Web deployment: Test_Qut_Embedded_Chat.</description>
     <disableReputationRecordConversations>true</disableReputationRecordConversations>
     <emailSenderAddress>arsenio.dayrit@qut.edu.au</emailSenderAddress>
-    <emailSenderName>ESW_Test_Qut_Embedded_Chat_1722489045714</emailSenderName>
+    <emailSenderName>ESW_Test_Qut_Embedded_Chat</emailSenderName>
     <embeddedLoginEnabled>false</embeddedLoginEnabled>
     <enableApexCDNCaching>true</enableApexCDNCaching>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
@@ -47,7 +47,7 @@
     </networkPageOverrides>
     <selfRegistration>false</selfRegistration>
     <sendWelcomeEmail>false</sendWelcomeEmail>
-    <site>ESW_Test_Qut_Embedded_Chat_1722489045714</site>
+    <site>ESW_Test_Qut_Embedded_Chat</site>
     <siteArchiveStatus>NotArchived</siteArchiveStatus>
     <status>Live</status>
     <tabs>
