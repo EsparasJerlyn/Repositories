@@ -54,6 +54,6 @@
         <defaultTab>home</defaultTab>
         <standardTab>Chatter</standardTab>
     </tabs>
-    <urlPathPrefix>ESWTestQutEmbeddedChat1722489045714vforc</urlPathPrefix>
+    <urlPathPrefix>ESWTestQutEmbeddedChat</urlPathPrefix>
     <welcomeTemplate>unfiled$public/CommunityWelcomeEmailTemplate</welcomeTemplate>
 </Network>
