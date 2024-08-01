@@ -7,6 +7,7 @@
     <permissionSets>Future_Student_Engagement_Read_Only</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Knowledge_User</permissionSets>
+    <permissionSets>Lightning_Scheduler_User_V2</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>Sales_Engagement_User_Included_Read_Only</permissionSets>
     <status>Updated</status>
