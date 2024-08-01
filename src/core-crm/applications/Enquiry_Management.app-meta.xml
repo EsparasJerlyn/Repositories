@@ -687,6 +687,42 @@
         <type>Flexipage</type>
         <profile>Future Student Read Only</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Inbound_Enquiry</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Course_Unit_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Course__c</pageOrSobjectType>
+        <recordType>hed__Course__c.Unit</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Read Only</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Contact</tabs>
