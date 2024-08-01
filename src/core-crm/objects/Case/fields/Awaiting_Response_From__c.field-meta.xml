@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Awaiting_Response_From__c</fullName>
     <description>Used to track the progress within the status</description>
-    <externalId>false</externalId>
     <label>Awaiting Response From</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
@@ -49,30 +48,61 @@
                 <default>false</default>
                 <label>Other QUT Department</label>
             </value>
+            <value>
+                <fullName>Unit coordinator/Academic</fullName>
+                <default>false</default>
+                <label>Unit coordinator/Academic</label>
+            </value>
+            <value>
+                <fullName>Student Administration</fullName>
+                <default>false</default>
+                <label>Student Administration</label>
+            </value>
+            <value>
+                <fullName>Student Support/Wellbeing Service</fullName>
+                <default>false</default>
+                <label>Student Support/Wellbeing Service</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>Awaiting Response</controllingFieldValue>
-            <valueName>Admissions</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
             <valueName>International Office</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
             <valueName>Faculty</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
             <valueName>Agent</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
             <valueName>Enquirer</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Awaiting Response</controllingFieldValue>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
             <valueName>Other QUT Department</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
+            <valueName>Unit coordinator/Academic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
+            <valueName>Student Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Awaiting Information</controllingFieldValue>
+            <controllingFieldValue>Escalated</controllingFieldValue>
+            <valueName>Student Support/Wellbeing Service</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

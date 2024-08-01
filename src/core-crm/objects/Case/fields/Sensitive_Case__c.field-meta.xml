@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sensitive_Case__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used to hide sensitive data that can be included into enquiries eg, Medical Data, Mental Health Information</description>
+    <inlineHelpText>This field is used to hide cases from salesforce users that should not access student sensitive information eg, Medical Information</inlineHelpText>
+    <label>Sensitive Case</label>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
