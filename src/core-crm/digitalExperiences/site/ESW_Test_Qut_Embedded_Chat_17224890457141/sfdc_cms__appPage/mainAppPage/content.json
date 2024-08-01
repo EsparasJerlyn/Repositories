@@ -1,0 +1,11 @@
+{
+  "type" : "sfdc_cms__appPage",
+  "title" : "main",
+  "contentBody" : {
+    "currentThemeId" : "Embedded_Service_for_Web_LWR",
+    "headMarkup" : "<meta charset=\"UTF-8\" />\n<link rel=\"stylesheet\" href=\"{ basePath }/assets/styles/embedded-messaging-styling.min.css?{ versionKey }\" />\n\n<!-- webruntime-branding-shared stylesheets -->\n<link rel=\"stylesheet\" href=\"{ basePath }/assets/styles/salesforce-lightning-design-system.min.css?{ versionKey }\" />\n\n\n<!-- webruntime-branding-shared stylesheets -->",
+    "isLockerServiceEnabled" : false,
+    "isRelaxedCSPLevel" : true,
+    "templateName" : "esw-template-frame"
+  }
+}
