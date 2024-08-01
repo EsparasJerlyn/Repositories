@@ -1,4 +1,4 @@
-name: "IT5AIST Deploy (Merge of PR)"
+name: "IT5P0AICI Deploy (Triggered on creation of PR)"
 
 resources:
   repositories:
@@ -7,22 +7,24 @@ resources:
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
       ref: main ## PRODUCTION pipeline branch
-      # ref: feature/DEPP-7471-sfpipelines ## DEV pipeline branch (used for pipeline development)
+      # ref: feature/DEPP-7471-sfpipelinestest ## DEV pipeline branch (used for pipeline development)
 
 #Custom Variables
 variables:
   - group: SALESFORCE_CICD #ALWAYS LEAVE THIS IN
   - group: SALESFORCE_KEYSTORE #ALWAYS LEAVE THIS IN
-  - group: IT5AIST # SANDBOX CREDS TO DEPLOY TO
+  - group: IT5P0AICI # SANDBOX CREDS TO DEPLOY TO
 
-# Deploy to branch on commit
-trigger:
-  batch: true
+# Build pull requests so we can test them
+pr:
+  autoCancel: true
+  drafts: false
   branches:
     include:
       - $(BRANCH_LISTENED)
 
 parameters:
+
 - name: TEST_LEVEL
   displayName: Test Level
   type: string
@@ -47,13 +49,12 @@ parameters:
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
   displayName: Create or Update Test Users
   type: string
-  default: "Yes"
+  default: "No"
   values:
   - "Yes"
   - "No"
 
 
-  
 stages:
   - stage: PiplineJob
     displayName: "Validate"
@@ -98,5 +99,5 @@ stages:
               INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers: "${{ parameters.INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers }}" 
           - template: yml/templates/sfdx-delete-records.yml@SFDX-PIPELINES
             parameters:
-              NO_OF_DAYS_TO_KEEP: "7" # CI=0, ST=7, SIT=14
+              NO_OF_DAYS_TO_KEEP: "0" # CI=0, ST=7, SIT=14
           - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES

@@ -1,4 +1,4 @@
-name: "IT5AIST Deploy (Merge of PR)"
+name: "IT5P0AIST Deploy (Merge of PR)"
 
 resources:
   repositories:
@@ -13,7 +13,7 @@ resources:
 variables:
   - group: SALESFORCE_CICD #ALWAYS LEAVE THIS IN
   - group: SALESFORCE_KEYSTORE #ALWAYS LEAVE THIS IN
-  - group: IT5AIST # SANDBOX CREDS TO DEPLOY TO
+  - group: IT5P0AIST # SANDBOX CREDS TO DEPLOY TO
 
 # Deploy to branch on commit
 trigger:
