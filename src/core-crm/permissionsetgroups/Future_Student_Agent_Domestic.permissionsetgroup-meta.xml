@@ -15,6 +15,7 @@
     <permissionSets>force__CopilotSalesforceUser</permissionSets>
     <permissionSets>force__EinsteinAgent</permissionSets>
     <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
+    <permissionSets>force__EinsteinGPTWorkSummaries</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_User</permissionSets>
     <status>Updated</status>
