@@ -29,9 +29,6 @@
     <permissionSets>Permission_View_All_Users</permissionSets>
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
-    <permissionSets>force__CopilotSalesforceUser</permissionSets>
-    <permissionSets>force__EinsteinAgent</permissionSets>
-    <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
     <permissionSets>PowerBI_External_Credential</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <status>Updated</status>
