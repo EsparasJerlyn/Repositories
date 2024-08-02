@@ -13,7 +13,7 @@
       "type": "RUN_APEX_SCRIPT",
       "description": "This will not run on SIT/UAT/STAGINGFC/PROD"
     },{
-      "path": "src/core-crm-data-alias-deploy",
+      "path": "src",
       "pathRelative": "src/core-crm-data-alias-deploy",
       "package": "src/core-crm-data-alias-deploy",
       "type": "data-alias-deploy"
