@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MessagingChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>Default Voice Channel</masterLabel>
+    <messagingChannelType>Voice</messagingChannelType>
+    <sessionHandlerFlow>Voice_Routing_Flow</sessionHandlerFlow>
+    <sessionHandlerQueue>Current_Student_Call</sessionHandlerQueue>
+    <sessionHandlerType>Flow</sessionHandlerType>
+</MessagingChannel>
