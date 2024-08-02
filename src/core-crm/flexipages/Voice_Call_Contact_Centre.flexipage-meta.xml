@@ -68,6 +68,27 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>classificationType</name>
+                    <value>CaseWrapUp</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>VoiceCall.RelatedRecordId[Case]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
+                    <value>Case.Update_Case_with_Voice_Call_Summary</value>
+                </componentInstanceProperties>
+                <componentName>runtime_service_predictions:einsteinFieldRecommendations</componentName>
+                <identifier>runtime_service_predictions_einsteinFieldRecommendations</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-20254b4b-a1b3-4f5a-aac2-fb48d866e87f</value>
                 </componentInstanceProperties>
