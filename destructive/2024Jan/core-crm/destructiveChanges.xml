@@ -563,5 +563,9 @@
         <!--(End) DEPP-9821 -->
         <name>ApexClass</name>
     </types>
-    <version>.0</version> 
+    <types>
+        <members>Donation_Cause__c</members>
+        <name>CustomTab</name>
+    </types>
+    <version>61.0</version> 
 </Package>
