@@ -8,6 +8,7 @@
       "path": "src",
       "type": "ENABLE_EINSTEIN_CLASSIFICATION"
     },{
+      "path": "src",
       "apexPathRelative": "sfdx-pipelines/utils/apex/einstein/disable-llm-requests.apex",
       "type": "RUN_APEX_SCRIPT",
       "description": "This will not run on SIT/UAT/STAGINGFC/PROD"
