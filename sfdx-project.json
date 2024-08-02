@@ -17,10 +17,6 @@
       "package": "src/core-crm-data-alias-deploy",
       "type": "data-alias-deploy"
     },{
-      "apexPathRelative": "sfdx-pipelines/utils/apex/einstein/enable-llm-requests.apex",
-      "type": "RUN_APEX_SCRIPT",
-      "description": "This will not run on SIT/UAT/STAGINGFC/PROD"
-    },{
       "path": "src",
       "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
     },{
