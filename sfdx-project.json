@@ -9,13 +9,13 @@
       "type": "ENABLE_EINSTEIN_CLASSIFICATION"
     },{
       "path": "src",
-      "apexPathRelative": "sfdx-pipelines/utils/apex/einstein/disable-llm-requests.apex",
+      "pathRelative": "sfdx-pipelines/utils/apex/einstein/disable-llm-requests.apex",
       "type": "RUN_APEX_SCRIPT",
-      "description": "This will not run on SIT/UAT/STAGINGFC/PROD"
+      "runOnFolders": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
     },{
       "path": "src",
       "pathRelative": "src/core-crm-data-alias-deploy",
-      "package": "src/core-crm-data-alias-deploy",
       "type": "data-alias-deploy"
     },{
       "path": "src",
