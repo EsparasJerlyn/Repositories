@@ -98,6 +98,14 @@
     </customMetadataTypeAccesses>
     <customPermissions>
         <enabled>true</enabled>
+        <name>Enquiry_Management_Home_Page_Domestic</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Future_Student_Nurturing_Home_Page_Domestic</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
         <name>Inbound_Enquiry_Cases</name>
     </customPermissions>
     <description>Give access for Future Student Engagement activities.</description>
