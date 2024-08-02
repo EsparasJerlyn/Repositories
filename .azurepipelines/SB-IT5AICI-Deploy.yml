@@ -6,8 +6,8 @@ resources:
       type: bitbucket
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
-      ref: main ## PRODUCTION pipeline branch
-      # ref: feature/DEPP-7471-sfpipelinestest ## DEV pipeline branch (used for pipeline development)
+      #ref: main ## PRODUCTION pipeline branch
+      ref: feature/IT5AI/DEPP-10138-AI-SFDMU ## DEV pipeline branch (used for pipeline development)
 
 #Custom Variables
 variables:
