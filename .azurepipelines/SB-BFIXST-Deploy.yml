@@ -6,8 +6,8 @@ resources:
       type: bitbucket
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
-      ref: main ## PRODUCTION pipeline branch
-      #ref: feature/DEPP-7471-sfpipelines ## DEV pipeline branch (used for pipeline development)
+      #ref: main ## PRODUCTION pipeline branch
+      ref: feature/DEPP-10263-match-prod-licenses ## DEV pipeline branch (used for pipeline development)
 
     - repository: SFDX
       type: bitbucket
