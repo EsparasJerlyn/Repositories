@@ -54,4 +54,9 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         ContactsDAO.Criteria contactCriteria,
         AccessLevel AccessLevel
     );
+
+    List<Completed_Cadence__c> getCompletedCadencebyRecordId(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    );
 } 
