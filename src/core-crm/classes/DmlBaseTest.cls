@@ -41,6 +41,16 @@ private class DmlBaseTest {
     }
 
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Class is abstract no specific user to test
+    // prettier-ignore
+    static void testEmptyInsertRecords() {
+        TestDmlBase dml = new TestDmlBase();
+        List<Database.SaveResult> saveResults = dml.insertRecords(new List<Account>(), false, AccessLevel.USER_MODE);
+        System.assert(saveResults.isEmpty(),'dml was not skipped');
+    }
+
+    @IsTest
     // prettier-ignore
     static void testUpdateRecords() { //NOPMD no specific user to run as for test dml base
         TestDmlBase dml = new TestDmlBase();
@@ -62,6 +72,16 @@ private class DmlBaseTest {
     }
 
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Class is abstract no specific user to test
+    // prettier-ignore
+    static void testEmptyUpdateRecords() {
+        TestDmlBase dml = new TestDmlBase();
+        List<Database.SaveResult> saveResults = dml.updateRecords(new List<Account>(), false, AccessLevel.USER_MODE);
+        System.assert(saveResults.isEmpty(),'dml was not skipped');
+    }
+
+    @IsTest
     // prettier-ignore
     static void testUpsertRecords() { //NOPMD no specific user to run as for test dml base
         TestDmlBase dml = new TestDmlBase();
@@ -77,6 +97,16 @@ private class DmlBaseTest {
         Account testAccount = new Account();
         List<Database.UpsertResult> upsertResults = dml.upsertRecords(new List<Account>{testAccount}, false, AccessLevel.USER_MODE);
         System.assert(!upsertResults[0].isSuccess(),'dml was successful');
+    }
+
+    @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Class is abstract no specific user to test
+    // prettier-ignore
+    static void testEmptyUpsertRecords() {
+        TestDmlBase dml = new TestDmlBase();
+        List<Database.UpsertResult> upsertResults = dml.upsertRecords(new List<Account>(), false, AccessLevel.USER_MODE);
+        System.assert(upsertResults.isEmpty(),'dml was not skipped');
     }
 
     @IsTest
@@ -106,6 +136,16 @@ private class DmlBaseTest {
     }
 
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Class is abstract no specific user to test
+    // prettier-ignore
+    static void testEmptyDeleteRecords() {
+        TestDmlBase dml = new TestDmlBase();
+        List<Database.DeleteResult> deleteResults = dml.deleteRecords(new List<Account>(), false, AccessLevel.USER_MODE);
+        System.assert(deleteResults.isEmpty(),'dml was not skipped');
+    }
+
+    @IsTest
     // prettier-ignore
     static void testDeleteRecordIds() { //NOPMD no specific user to run as for test dml base
         TestDmlBase dml = new TestDmlBase();
@@ -125,6 +165,16 @@ private class DmlBaseTest {
             List<Database.DeleteResult> deleteResults = dml.deleteRecords(new List<Id>{testAccount.Id}, false, AccessLevel.USER_MODE);
             System.assert(!deleteResults[0].isSuccess(),'dml was successful');
         }
+    }
+
+    @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
+    // Class is abstract no specific user to test
+    // prettier-ignore
+    static void testEmptyDeleteRecordIds() {
+        TestDmlBase dml = new TestDmlBase();
+        List<Database.DeleteResult> deleteResults = dml.deleteRecords(new List<Id>(), false, AccessLevel.USER_MODE);
+        System.assert(deleteResults.isEmpty(),'dml was not skipped');
     }
 
     @isTest
