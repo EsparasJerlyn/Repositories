@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersion>7</activeVersion>
+    <description>This Prompt is used to populate the summary field of the case object  with case inquiry and response</description>
+    <developerName>Prompt_to_populate_Summary_Field_of_case_object</developerName>
+    <masterLabel>Prompt to populate Summary Field of case object</masterLabel>
+    <relatedEntity>Case</relatedEntity>
+    <relatedField>Case.Closure_Details__c</relatedField>
+    <templateVersions>
+        <content>You’re a support representative at Queensland University of Technology and you are dealing with future students Enquiry. 
+You need to create a summary of the Enquiry Received and Response Given.
+When I ask you to generate a summary you must strictly follow my Instructions below.
+
+Instructions:
+&apos;&apos;&apos;
+The section headings &apos;Enquiry&apos; and ‘Response&apos; must be present in that order and these headings should be highlighted in bold format.can use &lt;b&gt; tag for bolding 
+
+You need to create a summary of the conversation that happened in the Email that highlights the Enquiry Received and the Solution provided to support the case contact. To generate content for this section, you can refer to the below flow &quot;Flow Output &quot;.
+Based on all the above information summarized in a way that we should know what the Enquiry Received and Response Given. In Summary, we should use either the Contact Name {!$Input:Case.Contact.Name} or Lead Name {!$Input:Case.Lead__r.Name} Whichever is available. The Summary should be gender-neutral and not use gender pronouns. Do not pick a person&apos;s name from email content.
+
+&apos;&apos;&apos;&apos;
+
+Strictly Use the format below to get inspiration about how to create the final output. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. Use clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language. The output should not be more than 2000 characters. if you use a date field, the format must be like that: dd/mm/yyyy, and do not display the time. Don&apos;t include anything regarding who is the sender and who is the receiver of this email. 
+
+Enquiry Received: Summary of Enquiry
+
+Response Given: Summary of Response
+
+Data 
+&apos;&apos;&apos;
+Flow Output : {!$Flow:Flow_to_Pop_Summary_Fld.Prompt}
+&apos;&apos;&apos;
+Now generate summary
+
+</content>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Case</definition>
+            <referenceName>Input:Case</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Flow_to_Pop_Summary_Fld</definition>
+            <parameters>
+                <definition>SOBJECT://Case</definition>
+                <isRequired>true</isRequired>
+                <parameterName>RelatedEntity</parameterName>
+                <valueExpression>{!$Input:Case}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Flow_to_Pop_Summary_Fld</referenceName>
+        </templateDataProviders>
+        <versionNumber>7</versionNumber>
+    </templateVersions>
+    <type>einstein_gpt__fieldCompletion</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
