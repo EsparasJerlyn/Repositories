@@ -17,6 +17,8 @@
       | eugene.andrew.abuan            | September 5, 2022     | DEPP-4102              | Added Program without Pathway           |
       | roy.nino.s.regala              | March, 15, 2022       | DEPP-8210              | Isolate child products of donation cause|
       | eugene.andrew.abuan            | April 10, 2022        | DEPP-8400              | Changed donation cause to designation   |
+      | marygrace.li                   | May 6, 2024           | DEPP-8420              | modified validateFacilContactImage      |
+                                                                                          to update field to Designation__c       |
 
 
  */
@@ -648,10 +650,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
       ) {
         prod.Available_on_Cart__c = true;
         //only set to false if not a child of donation cause (Designation) for now.
-        //this added logic might be updated in the future
-        // This should be updated to else if (prod.Designation__c == null) once the Donation Cause will be removed.
-      } else if((prod.Donation_Cause__c == null || prod.Designation__c != null) &&
-               (prod.Donation_Cause__c != null || prod.Designation__c == null)){ 
+      } else if(prod.Designation__c == null){ 
         prod.Available_on_Cart__c = false;
       }
 
@@ -663,10 +662,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Decommission_Product__c == true && 
         prod.Publishing_End_date__c <= date.today() &&
         //only set deactivate if not a child of donation cause (Designation).
-        //this logic might be updated in the future - Remove donation cause reference
-        // This should be updated to else if (prod.Designation__c == null) once the Donation Cause will be removed.
-        ((prod.Donation_Cause__c == null || prod.Designation__c != null) &&
-        (prod.Donation_Cause__c != null || prod.Designation__c == null))
+        prod.Designation__c == null
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
