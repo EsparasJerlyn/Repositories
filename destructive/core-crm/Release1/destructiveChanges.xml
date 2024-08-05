@@ -300,8 +300,8 @@
         <members>International_Student_Recruitment_UtilityBar</members>
         <members>Contact_Record_Page_Old</members>
         <members>Contact_Record_Page1</members>
-        <members>Lead_Record_Page</members>
-        <members>Lead_Record_Page1</members>
+        <!-- <members>Lead_Record_Page</members>
+        <members>Lead_Record_Page1</members> -->
         <members>QUTeX_Lead</members>
         <!--End DEPP-5906-->
         <name>FlexiPage</name>
