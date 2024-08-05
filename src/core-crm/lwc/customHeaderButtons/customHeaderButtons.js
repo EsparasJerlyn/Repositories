@@ -85,6 +85,7 @@ export default class CustomHeaderButtons extends LightningElement {
             isDisabled = (this.recordType === 'Distributed_List' && this.listStageValue === "In Progress") || 
                          (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === true) || 
                          (this.recordType === 'Engagement_Opportunity' && !this.isContributorLinkToList) || 
+                         this.listStageValue === "Distribute" ||
                          this.listStageValue === "Closed" ? true : false;
         }
         return isDisabled;
