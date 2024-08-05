@@ -9,6 +9,27 @@
       "type": "ENABLE_MESSAGING"
     },{
       "path": "src",
+      "type": "MATCH_PRODUTION_LICENSES"
+    },{
+      "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/disable-future-student-business-users.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-perm-set-groups.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-licence-assignments.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
@@ -23,6 +44,9 @@
       "path": "src",
       "pathRelative": "src/core-crm-data-alias-deploy",
       "type": "data-alias-deploy"
+    },{
+      "path": "src",
+      "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
     },{
       "path": "src",
       "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
