@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Future_Student_Nurturing</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <custom>true</custom>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Academic Program</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout All Fields</layout>
+        <recordType>Case.Inbound_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>EmailMessage-Email Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Leave_of_Absence__c-Leave of Absence Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS CIAnywhere Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Legacy Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Default</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Faculty</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Enrollment__c-hed__HEDA Program Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+       <layout>hed__Course__c-OPE Unit Page Layout</layout>
+       <recordType>hed__Course__c.Unit</recordType>
+   </layoutAssignments>
+   <layoutAssignments>
+       <layout>hed__Program_Plan__c-Program Page Layout</layout>
+       <recordType>hed__Program_Plan__c.Program</recordType>
+   </layoutAssignments>
+   <layoutAssignments>
+       <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+       <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+   </layoutAssignments>
+   <layoutAssignments>
+       <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+       <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+   </layoutAssignments>
+   <layoutAssignments>
+       <layout>Lead-QUTeX Leads</layout>
+   </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+        <recordType>Task.Standard</recordType>
+    </layoutAssignments>
+    <tabVisibilities>
+        <tab>standard-Account</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-Contact</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <userLicense>Salesforce</userLicense>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ActivitiesAccess</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>AllowViewKnowledge</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ChatterInternalUser</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>LightningConsoleAllowedForUser</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewHelpLink</name>
+    </userPermissions>
+</Profile>
