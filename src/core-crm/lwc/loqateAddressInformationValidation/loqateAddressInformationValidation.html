@@ -8,7 +8,9 @@
             </template>
 
             <template if:false={isLoading}>
-                <template if:true={hasAccess}>
+                <template lwc:if={isPortal}>
+                </template>
+                <template lwc:else>
                     <lightning-layout multiple-rows="true" class="slds-p-top_medium">
                         <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
                             <template if:true={multpleAddressType}>
@@ -24,28 +26,36 @@
                             </template>
                         </lightning-layout-item>
                     </lightning-layout>
+                </template>
 
-                    <lightning-layout multiple-rows="true" class="slds-p-top_small">
-                        <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
-                            <template if:false={unverified}>
-                                <c-search-address onfound={getLoqateAddress} countries={countrySelection} ></c-search-address>
-                            </template>
-                        </lightning-layout-item>
-                    </lightning-layout>
+                <lightning-layout multiple-rows="true" class="slds-p-top_small">
+                    <lightning-layout-item class="slds-m-horizontal_xx-small" size={sizeControl}>
+                        <template if:false={unverified}>
+                            <c-search-address onfound={getLoqateAddress} countries={countrySelection} ></c-search-address>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <template lwc:if={isPortal}>
+                    <br>
+                </template>
 
-                    <lightning-layout multiple-rows="true" class="slds-p-top_small">
-                        <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
-                            <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick} class="custom-checkbox-label"></lightning-input>
-                            <template if:true={unverified}>
-                                <lightning-input-address
-                                    street-label="Street"
-                                    city-label="City"
-                                    country-label="Country"
-                                    province-label="State/Province"
-                                    postal-code-label="Zip/Postal Code"
-                                    onchange={handleChangeAddress}>
-                                </lightning-input-address>
-                            </template>
+                <lightning-layout multiple-rows="true" class="slds-p-top_small">
+                    <lightning-layout-item class="slds-m-horizontal_xx-small" size={sizeControl}>
+                        <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick} class="custom-checkbox-label"></lightning-input>
+                        <template if:true={unverified}>
+                            <lightning-input-address
+                                street-label="Street"
+                                city-label="City"
+                                country-label="Country"
+                                province-label="State/Province"
+                                postal-code-label="Zip/Postal Code"
+                                onchange={handleChangeAddress}>
+                            </lightning-input-address>
+                        </template>
+                        
+                        <template lwc:if={isPortal}>
+                        </template>
+                        <template lwc:else>
                             <template if:true={multpleAddressType}>
                                 <div class="slds-p-top_small">
                                     <lightning-button variant="success" label={buttonLabel} title="Update" onclick={handleUpsert} disabled={buttonDisable}></lightning-button>
@@ -56,14 +66,10 @@
                                     <lightning-button variant="success" label={buttonLabel} title="Update" onclick={handleUpsert} disabled={buttonDisable}></lightning-button>
                                 </div>
                             </template>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                </template>
-                <template if:true={showNoAddressRecorded}>
-                    <div style="text-align:center; font-size: 12pt; font-style:normal;"  >
-                        <p>No address recorded.</p>
-                    </div>
-                </template>
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>
+
                 <template if:false={updating}>
                     <div class="slds-grid">
                         <template for:each={mapAddress} for:item="mapKey">
