@@ -10,6 +10,7 @@
     <permissionSets>FS_Configuration_Home_Page_International</permissionSets>
     <permissionSets>Future_Student_Nurturing_Home_Page_Domestic</permissionSets>
     <permissionSets>Future_Student_Nurturing_Home_Page_International</permissionSets>
+    <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
@@ -41,6 +42,8 @@
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <permissionSets>et4ae5__Marketing_Cloud_System_User</permissionSets>
     <permissionSets>force__CommerceAdmin</permissionSets>
+    <permissionSets>force__CopilotSalesforceAdmin</permissionSets>
+    <permissionSets>force__CopilotSalesforceUser</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_Admin</permissionSets>
     <permissionSets>trailheadapp__Th_Badge_Admin</permissionSets>
