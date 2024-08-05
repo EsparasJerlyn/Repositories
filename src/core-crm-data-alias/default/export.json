@@ -83,7 +83,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c')",
+            "query": "SELECT $$DeveloperName$SobjectType, Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account','hed__Application__c','hed__Course__c','hed__Course_Enrollment__c','Product_Request__c','Product_Specification__c','hed__Program_Plan__c','Case')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
             "useCSVValuesMapping": true,
@@ -115,9 +115,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, RecordTypeId, Name, Client_Review_Required__c, IsExternal_Requestor__c, Requestor_Internal_External__c, Requestor_Name__c, Stage__c, Status__c,Requires_Director_Endorsement__c FROM Product_Specification__c",
+            "query": "SELECT Id, RecordTypeId, Name, Client_Review_Required__c, IsExternal_Requestor__c, Requestor_Internal_External__c, Requestor_Name__c, Stage__c, Status__c,Requires_Director_Endorsement__c,Existing_Product__c,Financial_Viability__c,External_Id__c FROM Product_Specification__c",
             "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "External_Id__c",
             "useCSVValuesMapping": true,
             "targetObject": "Product_Specification__c",
             "importCSVFilesAsIs": true
@@ -131,7 +131,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, hed__Account__c FROM hed__Term__c",
+            "query": "SELECT Id,Name,hed__Account__c,hed__End_Date__c,hed__Grading_Period_Sequence__c,hed__Instructional_Days__c,hed__Parent_Term__c,hed__Start_Date__c,hed__Type__c,Admit_On_Offer_Acceptance_Cutoff_Date__c,Earliest_eStudent_Enrolment_Date__c,External_Key__c,First_eApplication_Date__c,Last_Admission_Date__c,Last_Application_Date__c,Last_Enrolment_Date__c,Last_Offer_Date__c,Last_eApplication_Date__c,Last_eStudent_Enrolment_Date__c,Location__c,Study_Period_Type_Code__c,Study_Period_Type__c,Teaching_Census_Date__c,Year__c FROM hed__Term__c",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -139,7 +139,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, RecordTypeId, Recordtype_Name__c, IsComplete__c, Is_Curriculum_Approved__c, Mark_Content_as_Complete__c, Mark_Design_Stage_as_Complete__c, OPE_Design_Complete__c, ProductRequestID__c, hed__Account__c FROM hed__Course__c",
+            "query": "SELECT Id,Name,RecordTypeId,hed__Account__c,Certificate_Type__c,Collaboration_with_External_Organisation__c,Content_Locationv2__c,Core_Conceptsv2__c,CourseLoop_Full_Proposal_URL__c,CourseLoop_Initial_Proposal_URL__c,Course_Code__c,Delivery_Comments__c,Delivery_Support__c,Delivery_Support_v2__c,Delivery_Type__c,Department_Left_Indented__c,Department_Right_Indented__c,Description__c,Design_Form_Status__c,End_Date__c,Canvas_Sub_Account__c,Evolve_with_QUTeXv2__c,External_Key__c,External_Organisation__c,Field_of_Education__c,Implementation_Year__c,IsComplete__c,Is_Curriculum_Approved__c,LMS_Content_Delivery_Location__c,LMS_Integration_Status__c,LMS_Site_URL__c,Left_Signature__c,Location_Details__c,LogoUrl__c,Mark_Content_as_Complete__c,Mark_Design_Stage_as_Complete__c,Maximum_Participants__c,Minimum_Participants__c,Module_Category__c,Module_Type__c,More_Detailsv2__c,Name_Left_Indented__c,Name_Right_Indented__c,No_Hours_Per_Session__c,No_Of_Coaching_Sessions__c,No_of_Groups__c,Number_Of_Groups__c,OPE_Design_Complete__c,Other_Content_Delivery_Locationv2__c,Outcomev2__c,Overviewv2__c,Owning_Faculty__c,Owning_School_Discipline_Area__c,Position_Left_Indented__c,Position_Right_Indented__c,Previously_Developed_Content__c,Primary_Delivery_Platform__c,Proposal_Title__c,Provider__c,Recordtype_Name__c,Resource_Details__c,Right_Signature__c,Start_Date__c,Timeline__c,Type_of_Individual_Coaching__c,Unit_Category__c,Unit_Type__c,Volume_of_Learning_hours__c,Who_Should_Participatev2__c,Suggested_Delivery_Dates__c FROM hed__Course__c",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -147,7 +147,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, Delivery_Type__c, IsActive__c, Registration_End_Date__c, Registration_Start_Date__c, Total_Number_of_Registered_Learners__c, Visible_on_Website__c, hed__Course__c, hed__End_Date__c, hed__Start_Date__c, hed__Term__c FROM hed__Course_Offering__c",
+            "query": "SELECT Id,Name,hed__Course__c,hed__Term__c,hed__Capacity__c,hed__End_Date__c,hed__Facility__c,hed__Faculty__c,hed__Section_ID__c,hed__Start_Date__c,Action_Required__c,Administrative_Support__c,Available_Seats__c,Checkout_Cart_Items_Count__c,Content_Challenged_Thinking__c,Course_Code__c,Delivery_Type__c,Develop_Topic_Insights__c,Effective_Learning_Activities__c,Evaluation_Summary__c,Evaluation_Type__c,External_Key__c,Facilitator_Knowledge__c,Facilities_Catering__c,IsActive__c,LMS_Integration_Status__c,LMS_Quality__c,Minimum_Participants__c,On_Hold_Seat__c,Overall_Experience__c,Peer_Engagement__c,Primary_Delivery_Platform__c,Primary_Facilitator__c,Program_Offering__c,Real_World_Learning_Opportunities__c,Registration_End_Date__c,Registration_Start_Date__c,Total_Number_of_Registered_Learners__c,Virtual_Platform_Quality__c,Visible_on_Website__c,Delivery_Mode__c,Migration_Id__c,LMS_Creation_Date__c FROM hed__Course_Offering__c",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -155,9 +155,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, RecordTypeId, Recordtype_Name__c, Name, Amount__c, IsActive__c, LMS_Integration_Status__c, Paid_in_Full__c, Payment_Method__c, Transaction_ID__c, hed__Contact__c, hed__Course_Offering__c, hed__Primary__c, hed__Status__c, Is_Group_Registered__c FROM hed__Course_Enrollment__c",
+            "query": "SELECT Id,Name,RecordTypeId,hed__Contact__c,hed__Course_Offering__c,hed__Credits_Attempted__c,hed__Credits_Earned__c,hed__Grade__c,hed__Primary__c,hed__Program_Enrollment__c,hed__Status__c,hed__Credentialing_Identifier__c,hed__Display_Grade__c,hed__Verification_Status_Date__c,hed__Verification_Status__c,Amount__c,Birthdate__c,Course_Code__c,Course_Offering_End_Date__c,Course_Offering_Name__c,Course_Offering_Start_Date__c,Course_Primary_Delivery_Platform__c,External_Key__c,First_Name__c,Gender__c,IsActive__c,Is_Group_Registered__c,LMS_Integration_Status__c,Marks_Description__c,Marks__c,Nominated_Student_ID__c,Offering_End_Date__c,Offering_Start_Date__c,Paid_in_Full__c,Payment_Method__c,Pricing_Validation__c,Program_Offering__c,Purchased_Price__c,QUT_Student_ID__c,Recordtype_Name__c,Salutation__c,Transaction_ID__c,Certificate_Type__c,Course_Name__c,Paid_Amount__c,Attempt_No__c,Class_Registration_Start_Date__c,Course_Offering_Term_Name__c,Course__c,Enrollment_Stage__c,Enrollment_Status_Date__c,Enrollment_Status__c,Migration_Id__c,Requires_Class_Registration__c,Student_Has_Registered_For_Class__c,External_Id__c FROM hed__Course_Enrollment__c",
             "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "External_Id__c",
             "useCSVValuesMapping": true,
             "targetObject": "hed__Course_Enrollment__c",
             "importCSVFilesAsIs": true
@@ -243,9 +243,9 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name from hed__Facility__c",
+            "query": "SELECT Id, Name, Display_Name__c, External_Id__c from hed__Facility__c",
             "operation": "Upsert",
-            "externalId": "Name",
+            "externalId": "External_Id__c",
             "useCSVValuesMapping": true,
             "targetObject": "hed__Facility__c",
             "importCSVFilesAsIs": true
@@ -364,6 +364,86 @@
             "externalId": "GL_Code__c",
             "useCSVValuesMapping": true,
             "targetObject": "CCE_Payment_Gateway_Settings__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,ValidationStatus,PublishStatus,VersionNumber,IsLatestVersion,IsVisibleInApp,IsVisibleInPkb,IsVisibleInCsp,IsVisibleInPrm,Language,Title,UrlName,ArchivedDate,Summary,NextReviewDate,LargeLanguageModel,ArticleNumber,FirstPublishedDate,LastPublishedDate,ArticleArchivedById,ArticleArchivedDate,ArticleCaseAttachCount,ArticleCreatedDate,ArticleTotalViewCount,AssignmentDate,AssignmentDueDate,AssignmentNote,MigratedToFromArticleVersion,Article_Details__c FROM Knowledge__kav",
+            "operation": "Upsert",
+            "externalId": "Title",
+            "useCSVValuesMapping": true,
+            "targetObject": "Knowledge__kav",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,External_Id__c,Name,RecordTypeId,hed__Applicant__c,hed__Application_Status__c,hed__Applying_To__c,hed__Initial_Creation_Date__c,Agency_Code__c,Agency_Country__c,Application_Format__c,Applicant_Onshore__c,Application_Status_Date__c,Application_Status__c,Country_of_Residency__c,BirthDate__c,Calculated_Intake_Date__c,Citizenship_Country__c,Citizenship_Status__c,Gender__c,Is_Active__c,Is_Agent_Assisted__c,Is_International_Applicant__c,LastName__c,Offer_Lapse_Date__c,Offer_Start_Date__c,Offer_Status_Date__c,Offer_Status__c,Offered_Attendance_Mode__c,Offered_Program_Plan__c,Program_Enrollment__c,QTAC_Offer_Exists__c,QTAC_Offer_Round__c,RRR_Access_Scheme__c,Salutation__c FROM hed__Application__c",
+            "operation": "Upsert",
+            "externalId": "External_Id__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Application__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,RecordTypeId,hed__Account__c,Certificate_Type__c,Collaboration_with_External_Organisation__c,Content_Locationv2__c,Core_Conceptsv2__c,CourseLoop_Full_Proposal_URL__c,CourseLoop_Initial_Proposal_URL__c,Course_Code__c,Delivery_Comments__c,Delivery_Support__c,Delivery_Support_v2__c,Delivery_Type__c,Department_Left_Indented__c,Department_Right_Indented__c,Description__c,Design_Form_Status__c,End_Date__c,Canvas_Sub_Account__c,Evolve_with_QUTeXv2__c,External_Key__c,External_Organisation__c,Field_of_Education__c,Implementation_Year__c,IsComplete__c,Is_Curriculum_Approved__c,LMS_Content_Delivery_Location__c,LMS_Integration_Status__c,LMS_Site_URL__c,Left_Signature__c,Location_Details__c,LogoUrl__c,Mark_Content_as_Complete__c,Mark_Design_Stage_as_Complete__c,Maximum_Participants__c,Minimum_Participants__c,Module_Category__c,Module_Type__c,More_Detailsv2__c,Name_Left_Indented__c,Name_Right_Indented__c,No_Hours_Per_Session__c,No_Of_Coaching_Sessions__c,No_of_Groups__c,Number_Of_Groups__c,OPE_Design_Complete__c,Other_Content_Delivery_Locationv2__c,Outcomev2__c,Overviewv2__c,Owning_Faculty__c,Owning_School_Discipline_Area__c,Position_Left_Indented__c,Position_Right_Indented__c,Previously_Developed_Content__c,Primary_Delivery_Platform__c,Proposal_Title__c,Provider__c,Recordtype_Name__c,Resource_Details__c,Right_Signature__c,Start_Date__c,Timeline__c,Type_of_Individual_Coaching__c,Unit_Category__c,Unit_Type__c,Volume_of_Learning_hours__c,Who_Should_Participatev2__c,Suggested_Delivery_Dates__c FROM hed__Course__c",
+            "operation": "Upsert",
+            "externalId": "",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Course__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,hed__Account__c,hed__Admission_Date__c,hed__Application_Submitted_Date__c,hed__Class_Standing__c,hed__Contact__c,hed__Credits_Attempted__c,hed__Credits_Earned__c,hed__Eligible_to_Enroll__c,hed__End_Date__c,hed__Enrollment_Status__c,hed__GPA__c,hed__Graduation_Year__c,hed__Program_Plan__c,hed__Start_Date__c,Commencement_Date__c,Completion_Date__c,Discontinued_Date__c,Enrollment_Stage__c,Enrollment_Status_Date__c,Enrollment_Status__c,External_Key__c,Graduating_Faculty_A__c,Graduating_Faculty_B__c,Lead_Score_Reset__c FROM hed__Program_Enrollment__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Program_Enrollment__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,RecordTypeId,hed__Description__c,hed__End_Date__c,hed__Is_Primary__c,hed__Start_Date__c,hed__Status__c,hed__Total_Required_Credits__c,Accreditation_End_Date__c,Accreditation_Start_Date__c,Blue_Card_Required__c,Certificate_Type__c,Code__c,Collaboration_with_External_Organisation__c,Completion_Requirements__c,Core_Conceptsv2__c,Courseloop_Full_URL__c,Courseloop_Initital_URL__c,Delivery_Type__c,Designated_Units__c,Early_Exit_Options__c,Evolve_with_QUTeXv2__c,External_Organisation_Details__c,Field_of_Education__c,Implementation_Year__c,IsComplete__c,Location_Details__c,Location__c,Mark_Design_Stage_as_Complete__c,Maximum_Participants__c,Minimum_Participants__c,More_Detailsv2__c,OPE_Design_Complete__c,Other_Completion_Requirements__c,Overviewv2__c,Owning_Faculty__c,PP_Design_Form_Status__c,PP_Is_curriculum_approved__c,Product_Request__c,Program_Delivery_Structure__c,Program_Type__c,Type__c,Volume_of_Learning_Hours__c,Who_Should_Participatev2__c,LogoUrl__c,Description__c FROM hed__Program_Plan__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "hed__Program_Plan__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,hed_Program_Plan__c,Action_Required__c,Administrative_Support__c,Available_Seats__c,Checkout_Cart_Items_Count__c,Content_Challenged_Thinking__c,Delivery_Type__c,Develop_Topic_Insights__c,Effective_Learning_Activities__c,End_Date__c,Evaluation_Summary__c,Evaluation_Type__c,External_Key__c,Facilitator_Knowledge__c,Facilities_Catering__c,Facility__c,IsActive__c,LMS_Quality__c,Migration_Key__c,Minimum_Participants__c,Overall_Experience__c,Peer_Engagement__c,Real_World_Learning_Opportunities__c,Registration_End_Date__c,Registration_Start_Date__c,Start_Date__c,Total_Number_of_Registered_Learners__c,Virtual_Platform_Quality__c,Visible_on_Website__c,hed_Capacity__c,External_Id__c,Migration_Id__c FROM Program_Offering__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Program_Offering__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT $$Name$Study_Area_Code__,Id,Name,Study_Area_Code__c,Study_Area_End_Date__c,Study_Area_Long_Name__c,Study_Area_No__c,Study_Area_Stage__c,Study_Area_Start_Date__c,Study_Area_Type__c,Study_Area_Version__c FROM Study_Area__c",
+            "operation": "Upsert",
+            "externalId": "Name;Study_Area_Code__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Study_Area__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,hed_Program_Enrollment__c,Study_Area_Name__c,Enrollment_Start_Date__c,External_Key__c,Migration_Id__c,On_Plan_Flag__c,Student__c,Study_Area_Attempt_No__c,Study_Area_Long_Name__c,Study_Area_Stage__c,Study_Area_Type__c FROM Study_Area_Plan__c",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Study_Area_Plan__c",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name,IsActive, IsDefault, TimeZoneSidKey FROM BusinessHours",
+            "operation": "Upsert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "BusinessHours",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT SuppliedCompany,Status,Origin,Language,Subject,Priority,Description,IsEscalated,ContactPhone,ContactMobile,ContactEmail,ContactFax,Comments,LastViewedDate,LastReferencedDate,hed__Category__c,hed__Location__c,hed__Occurrence_Date__c,Citizenship_Country__c,Closure_Details__c,Web_Mobile_Locale__c,Related_Case_Relationship__c,Region__c,Awaiting_Response_From__c,Category__c,Closure_Code__c,Auto_Priority_Assignment__c,Lead_Score_Reset__c,Marketing_Opt_In__c,My_Citizenship_Status__c,My_Country_of_Citizenship__c,My_Country_of_Residency__c,My_Education_Level__c,My_Primary_Study_Level__c,Sub_Category__c,Case_Type__c FROM Case LIMIT 1000",
+            "operation": "Upsert",
+            "externalId": "Subject",
+            "useCSVValuesMapping": true,
+            "targetObject": "Case",
             "importCSVFilesAsIs": true
         }
     ]
