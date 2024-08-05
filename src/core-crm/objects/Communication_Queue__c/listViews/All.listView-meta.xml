@@ -10,4 +10,10 @@
     <columns>Last_Send_Date__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
+    <sharedTo>
+        <group>Development_Team</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
+    </sharedTo>
 </ListView>
