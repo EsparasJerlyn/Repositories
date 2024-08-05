@@ -12,13 +12,13 @@
       "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
     },{
       "path": "src",
-      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-licence-assignments.apex",
+      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-perm-set-groups.apex",
       "type": "RUN_APEX_SCRIPT",
       "runOnEnvironments": "default",
       "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
     },{
       "path": "src",
-      "pathRelative": "sfdx-pipelines/utils/apex/jobs/inactive-users-remove-groups.apex",
+      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-licence-assignments.apex",
       "type": "RUN_APEX_SCRIPT",
       "runOnEnvironments": "default",
       "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
