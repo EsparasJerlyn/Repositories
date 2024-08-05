@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- 
+        Open terminal and type
+        sf project retrieve start -x /Users/adam.best/Documents/workspace/Q-SFDX/manifest/package-AI-H1.xml -c
+
+        c = ignore conflicts
+        x = manifest file location
+    -->
+    <types>
+        <!-- H1 -->
+        <members>Flow_To_Update_Ein_Recom_Chk_ValueTest</members>
+        <name>ApexClass</name>
+    </types> 
+    <types>
+        <!-- H1 -->
+        <members>Case.Action_Taken__c</members>
+        <members>Case.Resolution__c</members>
+        <members>Case.Einstein_Recommendation_Applied__c</members>
+        <!-- H2 
+        <members>Case.Issue__c</members>
+        -->
+        <name>CustomField</name>
+    </types>
+    <types>
+        <!-- H1 -->
+        <members>einsteinButton</members>
+        <name>LightningComponentBundle</name>
+    </types> 
+    <types>
+        <!-- H1 -->
+        <members>Case_Record_Page</members>
+        <name>FlexiPage</name>
+    </types> 
+    <types>
+        <!-- H1 -->
+        <members>Flow_To_Update_Ein_Recom_Chk_Value</members>
+        <members>Flow_Population_on_Case_Action_Taken_Field</members>
+        <members>Flow_for_Populating_the_Resolution_Field_on_the_Case_Object</members>
+        <!-- H2
+        <members>Flow_To_Fetch_Application_Linked_To_The_Student</members>
+        <members>Flow_To_Fetch_Case_History</members>
+        -->
+        <name>Flow</name>
+    </types>
+    <types>
+        <!-- H1 -->
+        <members>Prompt_to_populate_Action_Taken_Field_of_case_object</members>
+        <members>Prompt_to_populate_Resolution_Field_of_case_object</members>
+        <!-- H2
+        <members>Prompt_to_fetch_the_application_history_of_the_student</members>
+        <members>Prompt_To_Fetch_Case_History</members>
+        -->
+        <name>GenAiPromptTemplate</name>
+    </types>
+    <types>
+        <!-- H1 -->
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <!-- H1 -->
+        <members>Future_Student_Concierge_Domestic</members>
+        <members>Future_Student_Concierge_International</members>
+        <members>Future_Student_Agent_Domestic</members>
+        <members>Future_Student_Agent_International</members>
+        <members>Future_Student_Team_Leader_Domestic</members>
+        <members>Future_Student_Team_Leader_International</members>
+        <members>Future_Student_Super_User_Domestic</members>
+        <members>Future_Student_Super_User_International</members>
+        <members>Persona_Development_Team</members>
+        <members>Persona_System_Administrator_Modify_All_Data</members>
+        <members>Persona_System_Administrator_Read_Only</members>
+        <members>Persona_System_Administrator</members>
+        <name>PermissionSetGroup</name>
+    </types>
+    <types>
+        <!-- H1 -->
+        <members>Case.Einstein_Recommendation_Action</members>
+        <name>QuickAction</name>
+    </types>
+
+    <version>61.0</version>
+</Package>
