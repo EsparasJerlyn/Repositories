@@ -287,7 +287,6 @@ public with sharing class ApplicationService { //NOPMD
                     //only set the value of mobile field if the Offer Status is Not Accepted Or Deferred
                     if(isQTACRecType && (application.Offer_Status__c !='Accepted' && application.Offer_Status__c !='Deferred')){//NOPMD
                         applicant.put(targetField, application.get(sourceField));
-                        applicant.put('ContactMobile_Locale__c',ContactsDAO.AU_LOCALE);
                     }
 
 					//check if the application is SAMS Legacy
@@ -298,7 +297,6 @@ public with sharing class ApplicationService { //NOPMD
                     //Update the mobile field when the SAMS Legacy criteria is satisfied
                     if(isSAMSLegacyRecType && isContactMobileToUpdate) {//NOPMD
                         applicant.put(targetField, application.get(sourceField));
-                        applicant.put('ContactMobile_Locale__c',ContactsDAO.AU_LOCALE);
                     }                    
                     continue;
                 }

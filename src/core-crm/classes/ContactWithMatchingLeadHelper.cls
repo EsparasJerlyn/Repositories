@@ -27,7 +27,7 @@
       |                           |                       |                      | check if method should run as async or not  |
  */
 public without sharing class ContactWithMatchingLeadHelper {
-    
+
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
 
     private static final List<String> MARKETING_SEGMENTATION_FIELDS = new List<String>{
@@ -55,120 +55,19 @@ public without sharing class ContactWithMatchingLeadHelper {
         'Mailing_Address_Country__c'
     };
 
-    public static void processLeadMatching(List<Contact> newItems, Map<Id, Contact> oldItems){
+    public static Set<Id> detectLeadDuplicates(Map<Id,Contact> newItems){
+        Map<String, Contact> contactsMap = new Map<String, Contact>();
+        Set<Id> contactIdSet = new Set<Id>();
+        List<Lead> leads = new List<Lead>();
+        List<Contact> contactList = new List<Contact>();
+        List<Marketing_Interaction__c> marketingInteractions = new List<Marketing_Interaction__c>();
+        List<hed__Application__c> applicationRecords = new List<hed__Application__c>();
+        List<Marketing_Segmentation__c> contactMarketingSegmentations = new List<Marketing_Segmentation__c>();
+        List<Marketing_Segmentation__c> marketingSegmentations = new List<Marketing_Segmentation__c>();
+        List<Marketing_Course_Application__c> marketingCourseApps = new List<Marketing_Course_Application__c>();
+        Set<Id> contactWithNewMarketingSegmentations = new Set<Id>();
 
-        List<Id> contactIds = new List<Id>();
-        Map<Id, Contact> contactMap = new Map<Id, Contact>();
-        // handle both update and insert
-        for(Contact con: newItems){
-            boolean isInsert = oldItems == null;
-            boolean isOneOfEmailPopulated = con.Email != null || con.Work_Email__c != null;
-            boolean isOneOfEmailUpdated = !isInsert && (oldItems.get(con.Id).Email != con.Email || oldItems.get(con.Id).Work_Email__c != con.Work_Email__c);
-
-            if((isInsert || isOneOfEmailUpdated ) && isOneOfEmailPopulated && con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
-                contactIds.add(con.Id);
-                contactMap.put(con.Id,con);
-            }
-        }
-
-        if(contactIds.isEmpty()){
-            return;
-        }
-
-        Boolean isAsync = System.isBatch() || System.isFuture() || System.isScheduled() || System.isQueueable();
-        if(isAsync) {
-            //Current transaction is running asynchronously
-            convertLead(contactIds);
-            detectLeadDuplicates(contactMap);
-        } else {
-            //Current transaction is not running asynchronously;
-            convertLeadOnAsync(contactIds);
-            detectLeadDuplicatesAsync(contactIds);
-        }
-    }
-
-    
-    @Future
-    public static void convertLeadOnAsync(List<Id> contactIds){
-        convertLead(contactIds);
-    }
-
-    @Future
-    public static void detectLeadDuplicatesAsync(List<Id> contactIds){
-        Map<Id,Contact> newItems = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(contactIds), AccessLevel.SYSTEM_MODE));
-        detectLeadDuplicates(newItems);
-    }
-
-    public static void detectLeadDuplicates(Map<Id,Contact> newItems){
-        Map<String, Contact> contactsByEmailMap = new Map<String, Contact>(); // groups contacts by email or work email
-        Map<Id, Lead> matchingLeadsMap;
-        Map<Id, Marketing_Segmentation__c> marketingSegmentationsMap = new Map<Id, Marketing_Segmentation__c>();
-        Set<Id> segmentationParentIds = new Set<Id>();
-        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
-        Map<Id, Marketing_Interaction__c> marketingInteractionsToUpdate = new Map<Id, Marketing_Interaction__c>();
-        Map<Id, hed__Application__c> applicationToUpdate = new Map<Id, hed__Application__c>();
-        Map<Id, Marketing_Segmentation__c> marketingSegmentationToUpdate = new Map<Id, Marketing_Segmentation__c>();
-        Map<Id, Marketing_Course_Application__c> marketingCourseAppsToUpdate = new Map<Id, Marketing_Course_Application__c>();
-        Set<Id> leadIdsSet = new  Set<Id>();
-        Marketing_Segmentation__c marSegToUpdate;
-
-        //group contacts by email or work email
-        contactsByEmailMap = groupContactsByEmail(newItems.values());
-        
-        // get learner leads with matching email or work email to contact
-        matchingLeadsMap = new Map<Id,Lead>(LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(contactsByEmailMap.keySet(), AccessLevel.SYSTEM_MODE));
-        leadIdsSet = matchingLeadsMap.keySet();
-        // collect lead and contact ids
-        segmentationParentIds.addAll(leadIdsSet);
-        segmentationParentIds.addAll(newItems.keySet());
-        // collect Segmentations by parent Leads 
-        marketingSegmentationsMap = getSegmentationsByParentIds(segmentationParentIds); 
-
-        Id matchingContactId;
-
-        for(Lead lead : matchingLeadsMap.values()){
-
-            // get the matching contact through lead's email or work email
-            matchingContactId = contactsByEmailMap.containsKey(lead.Email)?contactsByEmailMap.get(lead.Email).Id:contactsByEmailMap.get(lead.Work_Email__c).Id;
-
-            // map child contact to the new parent contact
-            for(Contact c : lead.Contacts__r){
-                c.Parent_Person_Contact__c = matchingContactId;
-                contactsToUpdate.put(c.Id, c);
-            }
-
-            // map child interaction to the matched contact
-            for(Marketing_Interaction__c mi : lead.Marketing_Interactions__r){
-                mi.Contact__c = matchingContactId;
-                marketingInteractionsToUpdate.put(mi.Id,mi);
-            }
-
-            // map child course application to the matched contact
-            for(Marketing_Course_Application__c mca : lead.Marketing_Course_Applications__r){
-                mca.Contact__c = matchingContactId;
-                marketingCourseAppsToUpdate.put(mca.Id,mca);
-            }
-            
-            // map child applicatio to the matched contact
-            for(hed__Application__c app : lead.Applications__r){
-                app.hed__Applicant__c = matchingContactId;
-                applicationToUpdate.put(app.Id, app);
-            }
-
-            marSegToUpdate = mapMarketingSegmenations(marketingSegmentationsMap, lead.Id, matchingContactId);
-            marketingSegmentationToUpdate.put(marSegToUpdate.Id, marSegToUpdate);
-        }
-
-        ContactsDAO.newInstance().updateRecords(contactsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
-        MarketingInteractionsDAO.newInstance().updateRecords(marketingInteractionsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
-        MarketingCourseApplicationsDAO.newInstance().updateRecords(marketingCourseAppsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
-        ApplicationsDAO.newInstance().updateRecords(applicationToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
-        MarketingSegmentationsDAO.newInstance().updateRecords(marketingSegmentationToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
-    }
-
-    private static Map<String,Contact> groupContactsByEmail(List<Contact> contactList){
-        Map<String,Contact> contactsMap = new Map<String,Contact>();
-        for(Contact con : contactList){
+        for(Contact con : newItems.values()){
             if(!String.isBlank(con.Email)){
                 contactsMap.put(con.Email, con);
             }
@@ -176,45 +75,214 @@ public without sharing class ContactWithMatchingLeadHelper {
             if(!String.isBlank(con.Work_Email__c)){
                 contactsMap.put(con.Work_Email__c, con);
             }
-        }
-        return contactsMap;
-    }
 
-    private static Map<Id, Marketing_Segmentation__c> getSegmentationsByParentIds(Set<Id> segmentationParentIds){
-        Map<Id,Marketing_Segmentation__c> marketingSegmentationsMap = new Map<Id,Marketing_Segmentation__c>();
-        for(Marketing_Segmentation__c ms : MarketingSegmentationsDAO.newInstance()
-                                            .getLinkedMarketingSegByContactOrLeadIds(
-                                                segmentationParentIds,
-                                                AccessLevel.SYSTEM_MODE
-                                                )){                                   
-            if(ms.Contact__c != null){
-                marketingSegmentationsMap.put(ms.Contact__c, ms);
+            if(!String.isBlank(con.Email) || !String.isBlank(con.Work_Email__c)){
+            contactIdSet.add(con.Id);
+        }
+        }
+        if(!contactsMap.keySet().isEmpty()){
+            leads = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(contactsMap.keySet(), AccessLevel.SYSTEM_MODE);
+        }
+        
+
+        Set<Id> leadIdSet = new Set<Id>();
+        for(Lead lead : leads){ leadIdSet.add(lead.Id); }
+
+        Map<Id, List<Contact>> contactsLeadMap = new Map<Id, List<Contact>>();
+
+        if(!leadIdSet.isEmpty()){
+            contactList = ContactsDAO.newInstance().getContactsByParentPersonLeadIds(leadIdSet, AccessLevel.SYSTEM_MODE);
+        }
+
+        for(Contact c : contactList){
+            if(contactsLeadMap.containsKey(c.Parent_Person_Lead__c)){
+                contactsLeadMap.get(c.Parent_Person_Lead__c).add(c);
+            }else{
+                List<Contact> cList = new List<Contact>();
+                cList.add(c);
+                contactsLeadMap.put(c.Parent_Person_Lead__c, cList);
             }
-            if(ms.Lead__c != null){
-                marketingSegmentationsMap.put(ms.Lead__c, ms);
-            }            
         }
-        return marketingSegmentationsMap;
-    }
 
-    private static Marketing_Segmentation__c mapMarketingSegmenations(Map<Id, Marketing_Segmentation__c> marketingSegmentationsMap, Id leadId, Id contactId){
-        Marketing_Segmentation__c mktSegTemp = new Marketing_Segmentation__c();
-        // only proceed if lead and contact has existing marketing segmentations
-        if(marketingSegmentationsMap.containsKey(leadId) && marketingSegmentationsMap.containsKey(contactId)){
-            // Assumption is contact will always have a marketing segmentaton record
-            // Update the contact's marketing segmenation using the current lead's marketing segmentation in the loop
-            Marketing_Segmentation__c msFromContact = marketingSegmentationsMap.get(contactId);
-            Marketing_Segmentation__c msFromLead = marketingSegmentationsMap.get(leadId);
+        Map<Id, List<Marketing_Interaction__c>> marketingInteractionsMap = new Map<Id, List<Marketing_Interaction__c>>();
+        if(!leadIdSet.isEmpty()){
+            marketingInteractions = MarketingInteractionsDAO.newInstance().getMarketingInteractionsByContactOrLeadIds(
+                leadIdSet, AccessLevel.SYSTEM_MODE
+            );
+        }
+        
+        for(Marketing_Interaction__c mi : marketingInteractions){
+            if(marketingInteractionsMap.containsKey(mi.Lead__c)){
+                marketingInteractionsMap.get(mi.Lead__c).add(mi);
+            }else{
+                List<Marketing_Interaction__c> miList = new List<Marketing_Interaction__c>();
+                miList.add(mi);
+                marketingInteractionsMap.put(mi.Lead__c, miList);
+            }
+        }
+
+        Map<Id, List<Marketing_Course_Application__c>> marketingCourseAppsMap = new Map<Id, List<Marketing_Course_Application__c>>();
+        if(!leadIdSet.isEmpty()){
+            marketingCourseApps = MarketingCourseApplicationsDAO.newInstance().getMrktngCourseAppsByLeadIds(
+                leadIdSet, AccessLevel.SYSTEM_MODE
+            );          
+        }
+
+        for(Marketing_Course_Application__c mca : marketingCourseApps){
+            if(marketingCourseAppsMap.containsKey(mca.Lead__c)){
+                marketingCourseAppsMap.get(mca.Lead__c).add(mca);
+            }else{
+                List<Marketing_Course_Application__c> mcaList = new List<Marketing_Course_Application__c>();
+                mcaList.add(mca);
+                marketingCourseAppsMap.put(mca.Lead__c, mcaList);
+            }
+        }
+
+        Map<Id, List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
+        if(!leadIdSet.isEmpty()){
+            applicationRecords = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIdSet,'SYSTEM_MODE');           
+        }
+        
+        for(hed__Application__c app : applicationRecords){
+            if(applicationMap.containsKey(app.Lead__c)){
+                applicationMap.get(app.Lead__c).add(app);
+            }else{
+                List<hed__Application__c> appList = new List<hed__Application__c>();
+                appList.add(app);
+                applicationMap.put(app.Lead__c, appList);
+            }
+        }
+
+        if(!contactIdSet.isEmpty()){
+            contactMarketingSegmentations = MarketingSegmentationsDAO.newInstance()
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    contactIdSet,
+                    AccessLevel.SYSTEM_MODE
+                );
+        }
+         
+        if(!leadIdSet.isEmpty()){
+            marketingSegmentations = MarketingSegmentationsDAO.newInstance()
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    leadIdSet,
+                    AccessLevel.SYSTEM_MODE
+                );
+        }
+
+        Map<Id, Marketing_Segmentation__c> leadMarketingSegmentationsMap = new Map<Id, Marketing_Segmentation__c>();
+        Map<Id, List<Marketing_Segmentation__c>> marketingSegmentationsMap = new Map<Id, List<Marketing_Segmentation__c>>();
+        for(Marketing_Segmentation__c ms : marketingSegmentations){            
+            if(marketingSegmentationsMap.containsKey(ms.Lead__c)){
+                marketingSegmentationsMap.get(ms.Lead__c).add(ms);
+            }else{
+                List<Marketing_Segmentation__c> msList = new List<Marketing_Segmentation__c>();
+                msList.add(ms);
+                marketingSegmentationsMap.put(ms.Lead__c, msList);
+            }
+            leadMarketingSegmentationsMap.put(ms.Lead__c, ms);
+        }
+        
+        List<Contact> contactsToUpdate = new List<Contact>();
+        List<Marketing_Interaction__c> marketingInteractionsToUpdate = new List<Marketing_Interaction__c>();
+        List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
+        List<Marketing_Segmentation__c> marketingSegmentationToInsert = new List<Marketing_Segmentation__c>();
+        List<Marketing_Segmentation__c> marketingSegmentationToUpdate = new List<Marketing_Segmentation__c>();
+        List<Marketing_Course_Application__c> marketingCourseAppsToUpdate = new List<Marketing_Course_Application__c>();
+        
+        for(Lead lead : leads){
+            if(contactsLeadMap.containsKey(lead.Id)){
+                for(Contact c : contactsLeadMap.get(lead.Id)){
+                    Contact contact = new Contact(
+                        Id = c.Id,
+                        Parent_Person_Contact__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
+                    );
+                    contactsToUpdate.add(contact);
+                }
+            }
+            if(marketingInteractionsMap.containsKey(lead.Id)){
+                for(Marketing_Interaction__c m : marketingInteractionsMap.get(lead.Id)){
+                    Marketing_Interaction__c marketingInteraction = new Marketing_Interaction__c(
+                        Id = m.Id,
+                        Contact__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
+                    );
+                    marketingInteractionsToUpdate.add(marketingInteraction);
+                }
+            }
+            if(marketingCourseAppsMap.containsKey(lead.Id)){
+                for(Marketing_Course_Application__c m : marketingCourseAppsMap.get(lead.Id)){
+                    Marketing_Course_Application__c marketingCourseApp = new Marketing_Course_Application__c(
+                        Id = m.Id,
+                        Contact__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
+                    );
+                    marketingCourseAppsToUpdate.add(marketingCourseApp);
+                }
+            }
+            if(applicationMap.containsKey(lead.Id)){
+                for(hed__Application__c app : applicationMap.get(lead.Id)){
+                    hed__Application__c appRec = new hed__Application__c(
+                        Id = app.Id,
+                        hed__Applicant__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
+                    );
+                    applicationToUpdate.add(appRec);
+                }
+            }
             
-            mktSegTemp.put('Id', msFromContact.Id);                        
-            for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
-                if(msFromContact.get(fieldName) == null && msFromLead.get(fieldName) != null){    
-                    mktSegTemp.put(fieldName, msFromLead.get(fieldName));
+            if(marketingSegmentationsMap.containsKey(lead.Id) && (contactMarketingSegmentations != null && !contactMarketingSegmentations.isEmpty())){
+                for(Marketing_Segmentation__c msFromContact : contactMarketingSegmentations){
+                    sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
+                    obj.put('Id', msFromContact.Id);                        
+                    for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
+                        if(msFromContact.get(fieldName) == null){    
+                            obj.put(fieldName, leadMarketingSegmentationsMap.get(lead.Id).get(fieldName)  );
+                        }
+                    }
+                    Marketing_Segmentation__c marketingSegmentation = (Marketing_Segmentation__c) obj;
+                    marketingSegmentationToUpdate.add(marketingSegmentation);
+                }
+            }else if(marketingSegmentationsMap.containsKey(lead.Id) && contactMarketingSegmentations.isEmpty()){
+                for(Marketing_Segmentation__c m : marketingSegmentationsMap.get(lead.Id)){
+                    sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
+                    obj.put('Contact__c', contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id);
+                    contactWithNewMarketingSegmentations.add((Id)obj.get('Contact__c'));
+                    for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
+                        if(m.get(fieldName) != null){
+                            obj.put(fieldName, m.get(fieldName));
+                        }
+                    }
+                    Marketing_Segmentation__c marketingSegmentation = (Marketing_Segmentation__c) obj;
+                    marketingSegmentationToInsert.add(marketingSegmentation);
                 }
             }
         }
+        if(!contactsToUpdate.isEmpty()){
+            Database.update(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+        if(!marketingInteractionsToUpdate.isEmpty()){
+            Database.update(marketingInteractionsToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+        if(!marketingCourseAppsToUpdate.isEmpty()){
+            Database.update(marketingCourseAppsToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+        if(!applicationToUpdate.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+        if(!marketingSegmentationToInsert.isEmpty()){
+            Database.insert(marketingSegmentationToInsert, false, AccessLevel.SYSTEM_MODE);
+        }   
+        if(!marketingSegmentationToUpdate.isEmpty()){
+            Database.update(marketingSegmentationToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
 
-        return mktSegTemp;
+        return contactWithNewMarketingSegmentations;
+    }
+
+    @Future
+    public static void convertLeadOnAsync(List<Id> newItems){
+        convertLead(newItems);
+    }
+    
+    public static void convertLeadOnSync(List<Id> newItems){
+        convertLead(newItems);
     }
 
     private static void convertLead(List<Id> newItems){

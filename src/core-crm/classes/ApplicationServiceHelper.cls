@@ -334,9 +334,8 @@ public inherited sharing class ApplicationServiceHelper {
 
         for (hed__Application__c app : applicationList) {
             if (app.Lead__c != null) {
-                // old method createLeadFromApplication, overwrites lead company and lead type
-                // update fields on lead from application
-                Lead lead = updateLeadFromApplication(app);
+                Lead lead = createLeadFromApplication(app);
+                lead.Id = app.Lead__c;
                 updateLeadRecords.add(lead);
             } else {
                 String uniqueKey = app.Email__c;
@@ -348,6 +347,7 @@ public inherited sharing class ApplicationServiceHelper {
                 mapOfApplicationToLeadKeys.get(uniqueKey).add(app);
             }
         }
+
         if (!updateLeadRecords.isEmpty()) {
             LeadsDAO.newInstance().updateRecords(updateLeadRecords, false, AccessLevel.SYSTEM_MODE);
         }
@@ -373,7 +373,6 @@ public inherited sharing class ApplicationServiceHelper {
 
         Map<String, Lead> mapOfLeads = new Map<String, Lead>();
         List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
-        Map<String, Lead> leadsToUpsert = new Map<String,Lead>();
 
         for (
             Lead lead : LeadsDAO.newInstance()
@@ -392,14 +391,11 @@ public inherited sharing class ApplicationServiceHelper {
                 for (hed__Application__c app : mapOfApplicationToLeadKeys.get(uniqueKey)) {
                     app.Lead__c = mapOfLeads.get(uniqueKey).Id;
                     applicationToUpdate.add(app);
-                    Lead updateLead = updateLeadFromApplication(app);
-                    updateLead.Id = mapOfLeads.get(uniqueKey).Id;
-                    leadsToUpsert.put(updateLead.Id,updateLead);
                 }
             } else {
                 for (hed__Application__c app : mapOfApplicationToLeadKeys.get(uniqueKey)) {
                     Lead lead = createLeadFromApplication(app);
-                    leadsToUpsert.put(app.Id, lead);
+                    mapOfLeads.put(lead.email, lead);
                 }
             }
         }
@@ -410,7 +406,7 @@ public inherited sharing class ApplicationServiceHelper {
         }
 
         //create lead and link to the application record
-        createLeadAndUpdateApplicationLead(leadsToUpsert.values(), mapOfApplicationToLeadKeys);
+        createLeadAndUpdateApplicationLead(mapOfLeads.values(), mapOfApplicationToLeadKeys);
     }
 
     /**
@@ -420,30 +416,31 @@ public inherited sharing class ApplicationServiceHelper {
      * @param Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys
      */
     private static void createLeadAndUpdateApplicationLead(
-        List<Lead> leadsToUpsert,
+        List<Lead> leadToInsert,
         Map<String, List<hed__Application__c>> mapOfApplicationToLeadKeys
     ) {
-        if (leadsToUpsert.isEmpty()) {
+        if (leadToInsert.isEmpty()) {
             return;
         }
 
         List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
-        Database.UpsertResult[] upsertResult = LeadsDAO.newInstance().upsertRecords(leadsToUpsert,false,AccessLevel.SYSTEM_MODE);
-        //DML save result
-        for (integer i = 0; i < upsertResult.size(); i++) {
-            Lead lead = leadsToUpsert[i];
+        Database.SaveResult[] saveResults = Database.insert(leadToInsert, false);
 
-            if (upsertResult.get(i).isSuccess()) {
+        //DML save result
+        for (integer i = 0; i < saveResults.size(); i++) {
+            Lead lead = leadToInsert[i];
+
+            if (saveResults.get(i).isSuccess()) {
                 //add the code here if you want to do something in success case
                 if (mapOfApplicationToLeadKeys.containsKey(lead.Email)) {
                     for (hed__Application__c app : mapOfApplicationToLeadKeys.get(lead.Email)) {
-                        app.Lead__c = upsertResult.get(i).getId();
+                        app.Lead__c = saveResults.get(i).getId();
                         applicationToUpdate.add(app);
                     }
                 }
-            } else if (!upsertResult.get(i).isSuccess()) {
+            } else if (!saveResults.get(i).isSuccess()) {
                 // Operation failed, so get all errors
-                Database.Error dbError = upsertResult.get(i).getErrors().get(0);
+                Database.Error dbError = saveResults.get(i).getErrors().get(0);
                 if (mapOfApplicationToLeadKeys.containsKey(lead.Email)) {
                     for (hed__Application__c app : mapOfApplicationToLeadKeys.get(lead.Email)) {
                         // Log error message
@@ -527,9 +524,6 @@ public inherited sharing class ApplicationServiceHelper {
         contact.hed__Citizenship_Status__c = application.Citizenship_Status__c;
         contact.Citizenship_Country__c = application.Citizenship_Country__c;
         contact.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
-        if(application.Mobile__c != null){
-            contact.ContactMobile_Locale__c = ContactsDAO.AU_LOCALE;
-        }
         return contact;
     }
 
@@ -554,7 +548,7 @@ public inherited sharing class ApplicationServiceHelper {
             //targetField is the contact object fields
             String targetField = fieldMapping.get(key);
 
-            //only the application field that is not null will be updated into the lead object fields
+            //only the application field that is not null will be updated into the contact object fields
             if (app.get(targetField) != null) {
                 lead.put(key, app.get(targetField));
             }
@@ -563,45 +557,6 @@ public inherited sharing class ApplicationServiceHelper {
         lead.put('Company', 'Learner');
         lead.put('Lead_Type__c', 'Learner');
 
-        if(app.get('Mobile__c') != null){
-            lead.put('LeadMobile_Locale__c',LeadsDAO.AU_LOCALE);
-        }
-
-        return lead;
-    }
-
-     /**
-     * @description: map application details to lead fields
-     *
-     * @param hed__Application__cleads new application mapping
-     * @return lead object
-     */
-    private static Lead updateLeadFromApplication(hed__Application__c app) {
-        Lead lead = new Lead();
-        //Lead Fields as Key => Application fields as value
-        Map<String, String> fieldMapping = new Map<String, String>{
-            'FirstName' => 'FirstName__c',
-            'LastName' => 'LastName__c',
-            'Email' => 'Email__c',
-            'Mobile_No_Locale__c' => 'Mobile__c'
-        };
-
-        //Lead Object fields is use as the key for the Application field
-        for (String key : fieldMapping.keySet()) {
-            //targetField is the contact object fields
-            String targetField = fieldMapping.get(key);
-
-            //only the application field that is not null will be updated into the lead object fields
-            if (app.get(targetField) != null) {
-                lead.put(key, app.get(targetField));
-            }
-        }
-
-        if(app.get('Mobile__c') != null){
-            lead.put('LeadMobile_Locale__c',LeadsDAO.AU_LOCALE);
-        }
-
-        lead.put('Id',app.Lead__c);
         return lead;
     }
 }

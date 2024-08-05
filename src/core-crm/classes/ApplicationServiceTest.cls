@@ -137,10 +137,6 @@ private class ApplicationServiceTest {
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
-
-            for(Contact con: ContactsDAO.newInstance().getPersonContactsWithLimit(10)){
-                System.assertEquals(ContactsDAO.AU_LOCALE, con.ContactMobile_Locale__c, 'locale should match');
-            }
         }
     }
     

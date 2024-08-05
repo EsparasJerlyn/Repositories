@@ -7,7 +7,7 @@ resources:
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
       ref: main ## PRODUCTION pipeline branch
-      #ef: feature/DEPP-10263-match-prod-licenses ## DEV pipeline branch (used for pipeline development)
+      #ref: feature/DEPP-7471-sfpipelines ## DEV pipeline branch (used for pipeline development)
 
     - repository: SFDX
       type: bitbucket
@@ -68,8 +68,6 @@ stages:
         ##### Microsoft Hosted Agents with ACR IMAGE ############
         pool:
           vmImage: "ubuntu-latest"
-          name: Azure Pipelines
-          demands: used_by_dep
         container: 
           image: "$(ACR_CONTAINER_IMAGE)"
           endpoint: QUT-PRD-ARG-DEP-ACR

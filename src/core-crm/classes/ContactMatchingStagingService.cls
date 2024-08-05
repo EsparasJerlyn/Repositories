@@ -108,11 +108,6 @@ public inherited sharing class ContactMatchingStagingService {
             }
         }
 
-        // set mobile locale to AU if mobile no locale is populated
-        if(conMatchingStage.get('Mobile_No_Locale__c') != null){
-            con.put('ContactMobile_Locale__c',ContactsDAO.AU_LOCALE);
-        }
-
         // Return the constructed Contact object
         return con;
     }

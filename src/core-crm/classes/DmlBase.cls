@@ -28,11 +28,6 @@ public inherited sharing abstract class DmlBase implements DmlInterface {
         Boolean allOrNothing,
         System.AccessLevel accessLevel
     ) {
-
-        if(records.isEmpty()){
-            return new List<Database.SaveResult>();
-        }
-
         List<Database.SaveResult> saveResult = Database.insert(records, allOrNothing, accessLevel);
         for (Database.SaveResult result : saveResult) {
             if (!result.isSuccess()) {
@@ -50,10 +45,6 @@ public inherited sharing abstract class DmlBase implements DmlInterface {
         Boolean allOrNothing,
         System.AccessLevel accessLevel
     ) {
-        if(records.isEmpty()){
-            return new List<Database.SaveResult>();
-        }
-
         List<Database.SaveResult> updateResult = Database.update(
             records,
             allOrNothing,
@@ -75,11 +66,6 @@ public inherited sharing abstract class DmlBase implements DmlInterface {
         Boolean allOrNothing,
         System.AccessLevel accessLevel
     ) {
-
-        if(records.isEmpty()){
-            return new List<Database.UpsertResult>();
-        }
-
         List<Database.UpsertResult> upsertResult = Database.upsert(
             records,
             allOrNothing,
@@ -101,11 +87,6 @@ public inherited sharing abstract class DmlBase implements DmlInterface {
         Boolean allOrNothing,
         System.AccessLevel accessLevel
     ) {
-        
-        if(records.isEmpty()){
-            return new List<Database.DeleteResult>();
-        }
-
         List<Database.DeleteResult> deleteResults = Database.delete(
             records,
             allOrNothing,
@@ -127,11 +108,6 @@ public inherited sharing abstract class DmlBase implements DmlInterface {
         Boolean allOrNothing,
         System.AccessLevel accessLevel
     ) {
-
-        if(recordIds.isEmpty()){
-            return new List<Database.DeleteResult>();
-        }
-        
         List<Database.DeleteResult> deleteResults = Database.delete(
             recordIds,
             allOrNothing,
