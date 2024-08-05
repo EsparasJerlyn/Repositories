@@ -2078,7 +2078,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionType</name>
-                    <value>Default</value>
+                    <value>Screen Flow</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionTypeLabel</name>
@@ -2086,6 +2086,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
+                    <value>New_Donation_From_Opportunity</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentRecord</name>
