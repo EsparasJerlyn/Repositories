@@ -6,6 +6,24 @@
       "type": "MATCH_PRODUTION_LICENSES"
     },{
       "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/disable-future-student-business-users.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-perm-set-groups.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/inactive-users-remove-licence-assignments.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
