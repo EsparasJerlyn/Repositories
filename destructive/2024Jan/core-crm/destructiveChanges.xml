@@ -8,10 +8,10 @@
     </types>
     -->
 
-    <!-- Comment this out when 2nd PR is deployed, this is to change the data type 
-        from picklist to multiplicklist inorder to avoid the error of 
+    <!-- Comment this out when 2nd PR is deployed, this is to change the data type
+        from picklist to multiplicklist inorder to avoid the error of
         "Cannot change type due to exising data"
-        
+
         Update: Commenting out the Category type since we are deploying the 2nd PR
      -->
     <!-- <types>
@@ -34,7 +34,7 @@
     </types>
     <!-- <types> -->
       <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
-      <!-- This to track that the old Muting Permissionset has been removed. -->        
+      <!-- This to track that the old Muting Permissionset has been removed. -->
       <!-- <members>Future_Student_Agent_Muted</members>
         <members>Future_Student_Concierge_Muted</members>
         <members>Future_Student_Team_Leader_Muted</members> -->
@@ -110,6 +110,9 @@
         <!-- (Start) DEPP-9315 -->
         <members>Engagement_List_Event__c.Engagement_List_Event_Time__c</members>
         <!--(End) DEPP-9315 -->
+        <!--Descrption (we don't need this field now) DEPP-8867 -->
+        <members>Case.Resolution__c</members>
+        <!--(End) DEPP-8867-->
         <name>CustomField</name>
     </types>
     <types>
@@ -179,7 +182,7 @@
         <!--DEPP-9497 End-->
         <name>Dashboard</name>
     </types>
-    
+
     <types>
         <!-- (Start) DEPP-6995 -->
         <members>Country_Locale_Metadata__mdt.ar_SD</members>
@@ -299,11 +302,24 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
+        <!--Start (replaced by) DEPP-8870-->
+        <members>Einstein_Case_Classification_User_QUT</members>
+        <!--End (replaced by) DEPP-8870-->
+        <name>PermissionSet</name>
+    </types>
+    <!-- "problem": "Entity type 'GenAiPromptTemplate' is not available for delete in this api version" 
+    <types>
+        DEPP-8867 Description(we don't need this prompt now) 
+        <members>Prompt_to_populate_Resolution_Field_of_case_object</members>
+        <name>GenAiPromptTemplate</name>
+    </types>
+    -->
+    <types>
         <!-- (Start) DEPP-9821 -->
         <members>MarketingInteractionTriggerHelper</members>
         <members>MarketingInteractionTriggerHelperTest</members>
         <name>ApexClass</name>
         <!--(End) DEPP-9821 -->
     </types>
-    <version>59.0</version> 
+    <version>61.0</version>
 </Package>
