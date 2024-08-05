@@ -1,0 +1,12 @@
+{
+    "objects": [
+        {
+            "query": "SELECT SuppliedCompany,Status,Origin,Language,Subject,Priority,Description,IsEscalated,ContactPhone,ContactMobile,ContactEmail,ContactFax,Comments,LastViewedDate,LastReferencedDate,hed__Category__c,hed__Location__c,hed__Occurrence_Date__c,Citizenship_Country__c,Closure_Details__c,Web_Mobile_Locale__c,Related_Case_Relationship__c,Region__c,Awaiting_Response_From__c,Category__c,Closure_Code__c,Auto_Priority_Assignment__c,Lead_Score_Reset__c,Marketing_Opt_In__c,My_Citizenship_Status__c,My_Country_of_Citizenship__c,My_Country_of_Residency__c,My_Education_Level__c,My_Primary_Study_Level__c,Sub_Category__c,Case_Type__c FROM Case LIMIT 1000",
+            "operation": "Upsert",
+            "externalId": "Subject",
+            "useCSVValuesMapping": true,
+            "targetObject": "Case",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
