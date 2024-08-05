@@ -332,7 +332,8 @@ private class ContactMatchingStagingServiceTest {
                         Residential_State__c = 'Test',
                         Residential_City__c = 'Test',
                         Residential_Street__c = 'Test',
-                        Residential_Country__c = 'Test'
+                        Residential_Country__c = 'Test',
+                        Mobile_No_Locale__c = '03030303'
                     )
                 );
                 contactIdsSet.add(con.Id);
@@ -376,6 +377,7 @@ private class ContactMatchingStagingServiceTest {
                 system.assertEquals('Test New', con.OtherCity, 'Other City should match');
                 system.assertEquals('Test New', con.OtherStreet, 'Other Street should match');
                 system.assertEquals('Test New', con.OtherCountry, 'Other Country should match');
+                system.assertEquals(ContactsDAO.AU_LOCALE, con.ContactMobile_Locale__c, 'Mobile Locale did not match');
             }
         }
     }
