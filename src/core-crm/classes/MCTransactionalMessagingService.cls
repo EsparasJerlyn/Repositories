@@ -12,9 +12,7 @@
       | roy.nino.s.regala              | July 25, 2024         | DEPP-8551              | Created file                                      |
  */
 public with sharing class MCTransactionalMessagingService {
-
-    public static final String BULK_SMS_ENDPOINT = '/messaging/v1/sms/messages/';
-    public static final String MC_SMS_NAMEDCREDENTIAL = 'MCTransactionalMessaging'; 
+    public static final String MC_SMS_NAMEDCREDENTIAL = 'MarketingCloudMessages'; 
 
     public static SMSResponse sendBulkSMS(SMSRequest requestPayload) {
 
@@ -24,7 +22,7 @@ public with sharing class MCTransactionalMessagingService {
 
         try {
             HttpResponse res = IntegrationCallOutCtrl.doCallout(
-                'callout:'+ MC_SMS_NAMEDCREDENTIAL + BULK_SMS_ENDPOINT,
+                'callout:'+ MC_SMS_NAMEDCREDENTIAL,
                 'POST',
                 JSON.serialize(requestPayload)
             );
