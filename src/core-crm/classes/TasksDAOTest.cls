@@ -8,6 +8,8 @@
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
       | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                          |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new test method getCompletedTasksByTargetIdTest |
+      | eugene.andrew.abuan            | August 03, 2024       | DEPP-9691              | Added getTaskByCompeltedCadenceTest                   |
+
  */
 
 @isTest
@@ -15,6 +17,7 @@ public with sharing class TasksDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserFutureStudentSuperTeamLeaderDomestic();
     }
 
     @isTest
@@ -61,6 +64,20 @@ public with sharing class TasksDAOTest {
                     new Set<String>()
                 );
             System.assert(taskList.isEmpty(), 'taskList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getTaskByCompeltedCadenceTest(){
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentSuperTeamLeaderDomestic) {
+            List<Task> taskList = TasksDAO.newInstance()
+            .getTaskByCompeltedCadence(
+                new Set<Id>(),
+                AccessLevel.SYSTEM_MODE
+            );
+            System.assert(taskList.isEmpty(), 'taskList should not be empty.');        
         }
         Test.stopTest();
     }

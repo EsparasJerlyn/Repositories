@@ -8,6 +8,8 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                      |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new mock method getCompletedTasksByTargetId |
+      | eugene.andrew.abuan            | August 03, 2024       | DEPP-9691              | Added getTaskByCompeltedCadence                |
+
  */
 @isTest
 public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITasksDAO {
