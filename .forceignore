@@ -22,6 +22,9 @@ Default_Navigation1.navigationMenu-meta.xml
 **/Permission_Query_All_Files_with_ViewAllData**
 **/Permission_View_All_Data**
 
+# Omit perm set to be destroyed
+**/permissionsets/System_Administrator.**
+
 # DEPP-9194
 **/All_Domestic**
 **/All_International**
