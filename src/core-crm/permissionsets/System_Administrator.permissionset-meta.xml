@@ -10083,6 +10083,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Communication_Queue__c.Related_SMS_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Communication_Queue__c.Retry_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
