@@ -3,6 +3,9 @@
   "packageDirectories": [
     {
       "path": "src",
+      "type": "MATCH_PRODUTION_LICENSES"
+    },{
+      "path": "src",
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
