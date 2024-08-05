@@ -59,4 +59,9 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         Set<Id> completedCadenceIdSet,
         AccessLevel accessLevel
     );
+
+    List<Completed_Cadence__c> getCompletedCadenceByStatus(
+        String status,
+        AccessLevel accessLevel
+    );
 } 

@@ -143,5 +143,19 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
                 completedCadenceList.add(record);
             }
         }
-        return completedCadenceList;    }
+        return completedCadenceList;    
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadenceByStatus(
+        String status,
+        AccessLevel accessLevel
+    ){
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+        for (Completed_Cadence__c record : completedCadencesMap.values()) {
+            if(record.Completed_Cadence_Status__c == status){
+                completedCadenceList.add(record);
+            }
+        }
+        return completedCadenceList;    
+    }
 } 

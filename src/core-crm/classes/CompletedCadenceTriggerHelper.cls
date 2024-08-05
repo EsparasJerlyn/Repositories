@@ -34,7 +34,6 @@ public with sharing class CompletedCadenceTriggerHelper {
      * @return - void
      */
     private void completedCadenceUpdate (Map<Id, Completed_Cadence__c> completedCadenceMap , Map<Id, Completed_Cadence__c> completedCadenceOldMap ){
-        // Query the task for associated cadences
         try{
             Set<Id> completedCadenceIdSet = new Set<Id>();
             for(Completed_Cadence__c newCompletedCadence : completedCadenceMap.values()) {
@@ -46,27 +45,7 @@ public with sharing class CompletedCadenceTriggerHelper {
                 if(newCompletedCadence.Completed_Cadence_Status__c == CompletedCadencesDAO.SUCCESSFUL_STATUS &&
                     completedCadenceOld.Completed_Cadence_Status__c != CompletedCadencesDAO.SUCCESSFUL_STATUS){
                         newCompletedCadence.Completed_Date__c = Date.Today();
-                        completedCadenceIdSet.add(newCompletedCadence.Id);
                     }
-            }
-            
-            List<Task> tasksToUpdate = TasksDAO.newInstance().getTaskByCompeltedCadence(completedCadenceIdSet, AccessLevel.SYSTEM_MODE);
-
-            Map<Id, Integer> taskCountMap = new Map<Id, Integer>();
-    
-            //Iterate each task that relates to the Completed Cadence
-            for (Task task : tasksToUpdate) {
-                if (!taskCountMap.containsKey(task.Completed_Cadence__c)) {
-                    taskCountMap.put(task.Completed_Cadence__c, 0);
-                }
-                taskCountMap.put(task.Completed_Cadence__c, taskCountMap.get(task.Completed_Cadence__c) + 1);
-            }
-    
-            for (Id completedCadenceId : completedCadenceIdSet) {
-                //Assign the count to the Cadence Task field by getting it through the map 
-                if(completedCadenceMap.containsKey(completedCadenceId)){
-                    completedCadenceMap.get(completedCadenceId).Cadence_Tasks__c = taskCountMap.containsKey(completedCadenceId) ? taskCountMap.get(completedCadenceId) : 0;
-                }
             }
     
         }catch (Exception e) {

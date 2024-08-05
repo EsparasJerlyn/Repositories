@@ -202,9 +202,21 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id, Cadence_Tasks__c ' +
+            'SELECT Id, Cadence_Tasks__c, Completed_Date__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Id IN : completedCadenceIdSet ',
+            accessLevel        
+        );
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadenceByStatus(        
+        String status,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Cadence_Tasks__c, Completed_Date__c, Completed_Cadence_Status__c ' +
+            'FROM Completed_Cadence__c ' +
+            'WHERE Completed_Cadence_Status__c =: status ',
             accessLevel        
         );
     }
