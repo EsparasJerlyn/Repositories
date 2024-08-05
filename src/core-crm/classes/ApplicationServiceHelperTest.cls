@@ -65,9 +65,15 @@ private class ApplicationServiceHelperTest {
                 .insertRecords(appList, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
+            List<hed__Application__c> newAppList = [SELECT id, hed__applicant__r.ContactMobile_Locale__c  FROM hed__Application__c WHERE hed__applicant__c != NULL];
+            
+            for(hed__Application__c app:newAppList){
+                System.assertEquals(ContactsDAO.AU_LOCALE, app.hed__applicant__r.ContactMobile_Locale__c, 'Locale did not match');
+            }
+
             //check if application are associated with contact
             System.assertEquals(
-                [SELECT id FROM hed__Application__c WHERE hed__applicant__c != NULL].size(),
+                newAppList.size(),
                 srList.size(),
                 'Contact created is not match'
             );
@@ -105,9 +111,15 @@ private class ApplicationServiceHelperTest {
                 );
             Test.stopTest();
 
+            List<hed__Application__c> appList = [SELECT id, Lead__r.LeadMobile_Locale__c  FROM hed__Application__c WHERE Lead__c != NULL];
+            
+            for(hed__Application__c app:appList){
+                System.assertEquals(LeadsDAO.AU_LOCALE, app.Lead__r.LeadMobile_Locale__c, 'Locale did not match');
+            }
+
             //check if application are associated with new lead
             System.assertEquals(
-                [SELECT id FROM hed__Application__c WHERE Lead__c != NULL].size(),
+                appList.size(),
                 srList.size(),
                 'Lead created is not match'
             );

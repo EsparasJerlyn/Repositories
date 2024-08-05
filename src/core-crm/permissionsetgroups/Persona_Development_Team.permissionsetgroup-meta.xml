@@ -23,8 +23,8 @@
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
     <permissionSets>PowerBI_External_Credential</permissionSets>
-    <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>Permission_All_Custom_Permission</permissionSets>
+    <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
