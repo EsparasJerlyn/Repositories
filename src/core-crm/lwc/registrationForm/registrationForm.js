@@ -76,7 +76,6 @@ const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your ad
 const INFO_CONSENT = "Yes, I would like to receive information from QUT about short courses and professional education.";
 const TALK_QUT = "I would like to talk to someone about other ways I can give to QUT.";
 const INFO_CONSENT_GIVING = "I would like to receive more information about giving to QUT.";
-const QUT_PRIVACY_COLLECTION_NOTICE =" Privacy Collection Notice.";
 export default class RegistrationForm extends LightningElement {
   title = null;
   preferredName = null;
