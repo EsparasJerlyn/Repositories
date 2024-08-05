@@ -9,10 +9,29 @@
       "type": "ENABLE_MESSAGING"
     },{
       "path": "src",
+      "type": "MATCH_PRODUTION_LICENSES"
+    },{
+      "path": "src",
       "type": "ENABLE_EINSTEIN"
     },{
       "path": "src",
       "type": "ENABLE_EINSTEIN_CLASSIFICATION"
+    },{
+      "path": "src",
+      "pathRelative": "sfdx-pipelines/utils/apex/einstein/disable-llm-requests.apex",
+      "type": "RUN_APEX_SCRIPT",
+      "runOnEnvironments": "default",
+      "description": "This will not run on SIT/STAGINGFC/UAT/PROD"
+    },{
+      "path": "src",
+      "pathRelative": "src/core-crm-data-alias-deploy",
+      "type": "data-alias-deploy"
+    },{
+      "path": "src",
+      "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
+    },{
+      "path": "src",
+      "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
     },{
       "path": "src",
       "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
