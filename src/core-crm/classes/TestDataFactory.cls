@@ -3253,7 +3253,8 @@ public class TestDataFactory {
                 userName = 'QUT_International_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - International';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access,                Einstein_Service_AI_User,Google_Integration_User,Internal_User_Base,Knowledge_User';
+                //,force__CopilotSalesforceUser,force__EinsteinAgent,force__EinsteinGPTPromptTemplateUser,force__HighVelocitySalesUserIncluded,spr_sf__Sprinklr_User
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
