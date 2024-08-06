@@ -54,6 +54,7 @@
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
         <members>Engagement_List_Criteria__c-Engagement List Criteria Layout</members><!--DEPP-7584-->
+        <members>VoiceCall-Voice Call Layout</members><!--DEPP-10044-->
         <name>Layout</name>
     </types>
     <types>
