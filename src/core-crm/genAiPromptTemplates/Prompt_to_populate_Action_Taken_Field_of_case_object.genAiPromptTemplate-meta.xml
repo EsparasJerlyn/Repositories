@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersion>52</activeVersion>
+    <activeVersion>64</activeVersion>
     <description>Prompt to populate Action Taken Field of case object</description>
     <developerName>Prompt_to_populate_Action_Taken_Field_of_case_object</developerName>
     <masterLabel>Prompt to populate Action Taken Field of case object</masterLabel>
     <relatedEntity>Case</relatedEntity>
     <relatedField>Case.Action_Taken__c</relatedField>
     <templateVersions>
-        <content>You’re a support representative, and you need to create a summary of all the actions taken by an agent to solve the case.
+        <content>You’re a support representative at the Queensland University of Technology and you are dealing with future students inquiry.
+You need to create a summary of all the actions taken by an agent to solve the case.
 When I ask you to generate a summary you must strictly follow my Instructions below.
 Instructions:
 &quot;&quot;&quot;
-These Section headings  &apos;Agent Steps&apos;, ‘Communications Sent’, ‘Specific Case Activities’, and  ‘Case Resolution&apos; must be present in that order and these headings should be highlighted in bold format.can use &lt;b&gt; tag for bolding 
+These Section headings  &apos;Agent Steps&apos;, ‘Communications Sent’, ‘Specific Case Activities’, and  ‘Case Resolution&apos; must be present in that order and these headings should be highlighted in bold format can use &lt;b&gt; tag for bolding 
  
 If a key does not have any related name-value pairs, then do not include that key in your summary. Sections must not be included if all of its related keys do not have any values or placeholder values. for example, if the case has no history is blank just show this section as blank.
  
@@ -21,10 +22,10 @@ In this Section, add this placeholder &quot;Enter the steps completed to close t
 Communication Sent: 
 In this Section, we should show the number of Emails Sent to the student (refer to the {Email Count} in Flow Output)
 You have to summarize the conversation that happens at the email level between the case owner and the case contact to emphasize what was the service provided by the case owner/agent to the case contact.
-Use bullet points to highlight the key information. Do not include anything regarding who is the sender and subject of the email. The summary should include the &quot;Recipient Details&quot; (To whom the email was sent the name/email address should be mentioned in every email summary). and should only focus on the resolution provided don&apos;t look for any follow-up questions. Show each email in a separate line and it should be like the first email was regarding this, the second email was regarding this. To generate content for this section, you can refer the below flow &quot;Flow Output &quot;. Mention everytime the recipient who receive the email.
+Use bullet points to highlight the key information. Do not include anything regarding who is the sender and subject of the email. The summary should include the &quot;Recipient Details&quot; (To whom the email was sent the email address should be mentioned in every email summary). and should only focus on the resolution provided don&apos;t look for any follow-up questions. Show each email in a separate line and it should be like the first email was regarding this, the second email was regarding this. To generate content for this section, you can refer the below flow &quot;Flow Output &quot;. Mention every time the recipient&apos;s email address. In Summary, we should use either the Contact Name {!$Input:Case.Contact.Name} or Lead Name {!$Input:Case.Lead__r.Name} Whichever is available. Do not mention a person&apos;s name from email content. The Summary should be gender-neutral and not use gender pronouns
 
 Specific Case Activities: 
-In this Section, we should show the total number of tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count, and show only the total count beside the section heading. To generate content for this section, you can refer the below flow &quot;Flow Output &quot; output.
+In this Section, we should show the total number of tasks created (for this refer to the {Task Count} +{Case Comment Count} in Flow Output) add the value of Task count and Case Comment Count, and show only the total count beside the section heading. To generate content for this section, you can refer to the below flow &quot;Flow Output &quot; output.
 Tasks Created: Here in this sub-section we should summarize the task and definitely include information like AssignedTo (to whom this task is assigned), Status (what is the status of the task), Due Date (What is the Due Date of the Task) and  Next Action to be taken (what are the next action to be taken) based on the task summary. Show each task in a separate line.
 Calls Logged: Summary of the Calls Logged
 Comments Added:  Only show the total number of comments ie., {Case Comment Count}
@@ -32,7 +33,12 @@ Comments Added:  Only show the total number of comments ie., {Case Comment Count
 Case Resolution History:
 In this Section only Focus on the  Email and Activity that took place after the case status has changed to &quot;Awaiting Response&quot;, &quot;Escalated&quot; or &quot;Closed&quot; (here you should consider the DateTime of the status changed and email/activity created, you need to pick only those email and activity of which createddatetime is after the status changed to ). (Eg., what happens when status = &quot;Awaiting Response&quot; or &quot;Escalated&quot; or &quot;Closed&quot; before he goes to the next stage) Don&apos;t show any other case history details. Show the summary of the email or task created after the status has changed to &quot;Awaiting Response&quot;, &quot;Escalated&quot; or &quot;Closed&quot; in bulleted points in chronological order. If in the case cycle, the case status has not changed to &quot;Awaiting Response&quot; , &quot;Escalated&quot; or &quot;Closed&quot;  hide this section. if you use a date field, the format must be like that: dd/mm/yyyy, and do not display the time.
  
-Strictly Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. Use clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language. The output should not be more than 2000 characters. if you use a date field, the format must be like that: dd/mm/yyyy, and do not display the time.
+Strictly Use the format below to get inspiration about how to create the final output and do not show the related case activity if there is no record or information related. 
+Make it concise and easy to read, and take into consideration that the output will be used for case-reporting purposes. 
+Use clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language. 
+The output should not be more than 2000 characters. if you use a date field, the format must be like that: dd/mm/yyyy, and do not display the time.
+The Summary should be gender-neutral and not use gender pronouns.
+Do not mention a person&apos;s name from email content.
 
 1)Agent Steps :  
 Enter the steps completed to close the case
@@ -46,7 +52,7 @@ Enter the steps completed to close the case
  Comments Added : {Case Comment Count}
  
 4)Case Resolution History:
- Summary of the email or task created after the status has changed to &quot;Awaiting Response&quot; , &quot;Escalated&quot; or &quot;Closed&quot; in bulleted points in chronological order.
+ Summary of the email or task created after the status has changed to &quot;Awaiting Response&quot;, &quot;Escalated&quot; or &quot;Closed&quot; in bulleted points in chronological order.
 
 &quot;&quot;
 
@@ -74,7 +80,7 @@ Now generate summary
             </parameters>
             <referenceName>Flow:Flow_to_Pop_Action_Taken_Fld</referenceName>
         </templateDataProviders>
-        <versionNumber>52</versionNumber>
+        <versionNumber>64</versionNumber>
     </templateVersions>
     <type>einstein_gpt__fieldCompletion</type>
     <visibility>Global</visibility>

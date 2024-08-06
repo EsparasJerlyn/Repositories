@@ -3,10 +3,10 @@
     <actionCalls>
         <description>The Route Work action is used to input the routing requirements to Omni-Channel.
 This example shows routing to a defined Queue.</description>
-        <name>Route_To_Student_Admin_Chat_Queue</name>
-        <label>Route To Student Admin Chat Queue</label>
+        <name>Route_To_Current_Student_Chat_Queue</name>
+        <label>Route To Current Student Chat Queue</label>
         <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationY>242</locationY>
         <actionName>routeWork</actionName>
         <actionType>routeWork</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -49,7 +49,7 @@ This example shows routing to a defined Queue.</description>
         <inputParameters>
             <name>queueId</name>
             <value>
-                <stringValue>00GBn000001pMFjMAM</stringValue>
+                <elementReference>QueueId</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -60,9 +60,6 @@ This example shows routing to a defined Queue.</description>
         </inputParameters>
         <inputParameters>
             <name>queueLabel</name>
-            <value>
-                <stringValue>Student Admin Chat Queue</stringValue>
-            </value>
         </inputParameters>
         <inputParameters>
             <name>skillOption</name>
@@ -75,6 +72,12 @@ This example shows routing to a defined Queue.</description>
         </inputParameters>
         <inputParameters>
             <name>botLabel</name>
+        </inputParameters>
+        <inputParameters>
+            <name>isQueueVariable</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
         </inputParameters>
         <nameSegment>routeWork</nameSegment>
         <versionSegment>1</versionSegment>
@@ -96,12 +99,35 @@ This example shows routing to a defined Queue.</description>
         </value>
     </processMetadataValues>
     <processType>RoutingFlow</processType>
+    <recordLookups>
+        <name>Get_Queue_Id</name>
+        <label>Get Queue Id</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Route_To_Current_Student_Chat_Queue</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Current_Student_Chat</stringValue>
+            </value>
+        </filters>
+        <object>Group</object>
+        <outputAssignments>
+            <assignToReference>QueueId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
     <sourceTemplate>omnichannel_messaging__MsgRouting</sourceTemplate>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Route_To_Student_Admin_Chat_Queue</targetReference>
+            <targetReference>Get_Queue_Id</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -113,6 +139,13 @@ This example shows routing to a defined Queue.</description>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>MessagingSession</objectType>
+    </variables>
+    <variables>
+        <name>QueueId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>The ID of the record being inputted into the flow. Necessary for the flow to run.</description>

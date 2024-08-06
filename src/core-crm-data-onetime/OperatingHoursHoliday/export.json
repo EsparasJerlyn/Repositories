@@ -1,0 +1,36 @@
+{
+    "objects": [
+        {
+            "query": "SELECT $$Name$Description$AWS_Business_Hour_External_ID__c, Id, Name, Description, Channel_Type__c, AWS_Business_Hour_External_ID__c, TimeZone FROM OperatingHours",
+            "operation": "Upsert",
+            "externalId": "Name;Description;AWS_Business_Hour_External_ID__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "OperatingHours",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT $$OperatingHoursId$DayOfWeek, Id, Type, OperatingHoursId, DayOfWeek, StartTime, EndTime, WorkTypeGroup.Name FROM TimeSlot",
+            "operation": "Upsert",
+            "externalId": "OperatingHoursId;DayOfWeek",
+            "useCSVValuesMapping": true,
+            "targetObject": "TimeSlot",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT $$Name$ActvityDate, Id, Name, Description, ActivityDate, IsAllDay, IsRecurrence FROM Holiday",
+            "operation": "Upsert",
+            "externalId": "Name;ActivityDate",
+            "useCSVValuesMapping": true,
+            "targetObject": "Holiday",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT $$OperatingHoursId$HolidayId, Id, OperatingHoursId, HolidayId, DateAndTime FROM OperatingHoursHoliday",
+            "operation": "Upsert",
+            "externalId": "OperatingHoursId;HolidayId",
+            "useCSVValuesMapping": true,
+            "targetObject": "OperatingHoursHoliday",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
