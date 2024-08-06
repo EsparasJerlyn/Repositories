@@ -34,19 +34,12 @@
         <protected>false</protected>
         <shortDescription>Distribution Management Status Update Cron_Expression</shortDescription>
         <value>0 0 6 * * ?</value>
-    </labels>Distribution_Management_Cron_Expression
+    </labels>
     <labels>
         <fullName>Donation_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Donation Stage Update Cron_Expression</shortDescription>
-        <value>0 0 6 * * ?</value>
-    </labels>
-    <labels>
-        <fullName>Donation_Cause_Cron_Expression</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Donation Cause Stage Update Cron_Expression</shortDescription>
         <value>0 0 6 * * ?</value>
     </labels>
     <labels>
