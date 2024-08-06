@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUT_Student_and_Employee_Validation</fullName>
+    <active>true</active>
+    <description>You can only populate either QUT Student ID or QUT Employee ID.</description>
+    <errorConditionFormula>AND(
+	OR (
+		ISNEW(),
+		OR (
+			ISCHANGED(Supplied_QUT_Employee_ID__c),
+			ISCHANGED(Supplied_QUT_Student_ID__c)
+		)
+	),
+	NOT(ISBLANK(Supplied_QUT_Employee_ID__c)),
+	NOT(ISBLANK(Supplied_QUT_Student_ID__c))
+)</errorConditionFormula>
+    <errorMessage>You can only populate either QUT Student ID or QUT Employee ID.</errorMessage>
+</ValidationRule>

@@ -333,5 +333,11 @@
         <name>ApexClass</name>
         <!--(End) DEPP-9821 -->
     </types>
+    <types>
+        <members>QUT_Contact_Centre_Chat</members>
+        <members>QUT_Future_Student_Chat</members>
+        <members>QUT_Library_Chat</members>
+        <name>EmbeddedServiceConfig</name>
+    </types>
     <version>61.0</version>
 </Package>
