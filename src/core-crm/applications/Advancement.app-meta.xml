@@ -644,42 +644,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Pledge_Designation_Split_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Pledge_Designation_Split</recordType>
-        <type>Flexipage</type>
-        <profile>Advancement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Pledge_Designation_Split_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Pledge_Designation_Split</recordType>
-        <type>Flexipage</type>
-        <profile>Advancement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Pledge_Designation_Split_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Pledge_Designation_Split</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Pledge_Designation_Split_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Donation__c</pageOrSobjectType>
-        <recordType>Donation__c.Pledge_Designation_Split</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Pledge_Donation_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Donation__c</pageOrSobjectType>
