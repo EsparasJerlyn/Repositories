@@ -278,7 +278,9 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 
             task.Time_to_Complete__c = diffInHours.setScale(1, RoundingMode.HALF_UP);
             task.Action_Cadence_Name__c = task.ActionCadenceStepTracker.ActionCadenceName;
-            task.QTAC_Offer_Round__c = completedCadenceStatusMap.get(task.WhoId).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
+            if(CompletedCadenceStatusMap.get(task.WhoId).Application__c != null){
+                task.QTAC_Offer_Round__c = completedCadenceStatusMap.get(task.WhoId).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
+            }
             task.Completed_Cadence__c = completedCadenceStatusMap.get(task.WhoId).Id;
             
             if(!completedCadenceIdSet.contains(task.Completed_Cadence__c)){
