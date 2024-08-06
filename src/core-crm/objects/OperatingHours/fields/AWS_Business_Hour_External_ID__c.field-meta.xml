@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AWS_Business_Hour_External_ID__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>The AWS Business Hour External ID used for integration</description>
+    <externalId>true</externalId>
+    <label>AWS Business Hour External ID</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
