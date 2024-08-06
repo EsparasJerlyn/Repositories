@@ -98,16 +98,16 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
         //get all related completed cadences related to the lead
         applicantIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
-            mapOfLeads.keySet(),
             completedCadenceList,
-            Lead.getSObjectType()
+            Lead.getSObjectType(),
+            false
         );
 
         //get all completed cadences regardless of the status related to the contact
-        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(
-            mapOfLeads.keySet(),
+        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             completedCadenceList,
-            Lead.getSObjectType()
+            Lead.getSObjectType(),
+            true
         );
     }
 

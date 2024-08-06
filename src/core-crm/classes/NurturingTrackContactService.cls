@@ -63,6 +63,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithThresholdForEntry = new Map<String,Nurture_Track_Configuration__c>();
     private static Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>();
     private static Map<Id, Set<String>> applicantIdsWithAllCompletedCadence = new Map<Id, Set<String>>();
+    private static Map<Id, Set<String>> applicationIdsWithAllCompletedCadence = new Map<Id, Set<String>>();
     private static Map<Id, Package_Component__c> packageComponentByAppPreferenceMap = new Map<Id, Package_Component__c>();
     private static List<Case> caseList;
     private static Map<Id, Contact> domesticEntryContactMap = new Map<Id, Contact>();
@@ -103,7 +104,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED
     };
     private static Map<String,International_Tier__c> InternationalTierRestrictedMap = NurturingTrackService.getAllRestrictedCountry();
-
+    private static List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
     /**
      * @description: process All contacts for Entry and Exit in Cadences assignment
      *
@@ -184,21 +185,23 @@ public with sharing class NurturingTrackContactService { //NOPMD
         getContactRecordCitizenship(mapOfContacts);
         getFilteredNurturingTrackRecords();
 
-        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(mapOfContacts.keySet(),ALL_CADENCES,'SYSTEM_MODE');
+        completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(mapOfContacts.keySet(),ALL_CADENCES,'SYSTEM_MODE');
         //get all successful completed cadences related to the contact
         applicantIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
-            mapOfContacts.keySet(),
             completedCadenceList,
-            Contact.getSObjectType()
+            Contact.getSObjectType(),
+            false
         );
 
         //get all completed cadences regardless of the status related to the contact
-        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(
-            mapOfContacts.keySet(),
+        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             completedCadenceList,
-            Contact.getSObjectType()
+            Contact.getSObjectType(),
+            true
         );
 
+        // applicationIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(applications.keySet(), completedCadenceList);
+        applicationIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(completedCadenceList);
     }
 
     private static void getAppsWithLatestCalculatedIntakeDatePerContact(Set<Id> contactIds){
@@ -275,7 +278,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
             boolean isPartnerSourced = leadSourceCategory.contains(application.hed__Applicant__r.Lead_Source_Category__c);
             boolean hasContactIdsWithRestricted = contactIdsWithRestricted.contains(application.hed__Applicant__c);
 
@@ -305,14 +308,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalDirectApplicants.put(application.Id, application);
             }
         }
-
+        
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL,
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED
             },
-            applicantIdsWithCompletedCadence
+            NurturingTrackService.getApplicantIdsWithCompletedCadence(internationalDirectApplicants.keySet(), completedCadenceList)
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -401,7 +404,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             boolean isProgramLevelInvalid = 
                 application.Current_Preference__c != null && 
@@ -431,7 +434,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL },
-            applicantIdsWithCompletedCadence
+            NurturingTrackService.getApplicantIdsWithCompletedCadence(internationalDirectApplicants.keySet(), completedCadenceList)
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -471,15 +474,16 @@ public with sharing class NurturingTrackContactService { //NOPMD
         );
         Set<String> completedCadencesCopy = new Set<String>();
 
+        //TODO-8724: filtered..Cadence is used in following for-loop
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             Boolean hasExistingApplication = existingContactIdOnApplication.contains(
                 application.hed__Applicant__c
@@ -546,7 +550,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             Boolean hasExistingApplication = existingContactIdOnApplication.contains(
                 application.hed__Applicant__c
@@ -565,7 +569,10 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL },
-            applicantIdsWithCompletedCadence
+            NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                domesticDeferredOfferToAcceptanceManual.keySet(), 
+                completedCadenceList
+            )
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -596,10 +603,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, hed__Application__c> internationalOffertoAcceptanceManual = new Map<Id, hed__Application__c>();
         Map<Id, hed__Application__c> internationalOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
+        //TODO-8724: filtered...Cadence is used in following for-loop
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
         Set<String> completedCadencesCopy = new Set<String>();
 
@@ -609,7 +617,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             boolean isAgentAssisted = application.Is_Agent_Assisted__c;
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             boolean isProgramLevelInvalid = 
                 application.Current_Preference__c != null && 
@@ -651,12 +659,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );        
 
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             boolean isProgramLevelInvalid = 
                 application.Current_Preference__c != null && 
@@ -760,7 +768,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED
             },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(), null,
@@ -791,7 +799,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED
             },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         Map<Id, hed__Application__c> latesetApplicationForManualCadence = new Map<Id, hed__Application__c>();
@@ -811,7 +819,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL
             },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(),
@@ -898,7 +906,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 			Date keyOffsetDaysFromToday = null;
 
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             if(nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)){
                keyOffsetDaysFromToday = Date.today().addDays((Integer)nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c);
@@ -920,7 +928,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             contactMap.keySet(),
             new List<String>{NurtureTrackConfigurationsDAO.DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE},
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1377,7 +1385,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1405,7 +1413,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1476,12 +1484,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            Set<String> completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            Set<String> completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
             Set<String> currentProgEnrollmentIds = contactIdToCurrentProgEnrollmentIdsMap.get(application.hed__Applicant__c);
             currentProgEnrollmentIds?.remove(application.Program_Enrollment__c);
             currentProgEnrollmentIds = currentProgEnrollmentIds == null ? new Set<String>() : currentProgEnrollmentIds;
@@ -1668,7 +1676,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1723,7 +1731,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> applicantIdsWithCompletedCadenceManual = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_MANUAL },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1792,7 +1800,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Set<String> completedCadencesCopy = new Set<String>();
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
 
             Boolean withinOffSetDays = false;
             if(
@@ -1816,7 +1824,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL
             },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1847,8 +1855,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> directApplicantsToOffer = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
         for(hed__Application__c application : applicationList) {
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c) ?
-                new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)) : new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id) ?
+                new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)) : new Set<String>();
 
             boolean isProgramLevelInvalid = 
                 application.Current_Preference__c != null && 
@@ -1873,7 +1881,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED
             },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -1929,8 +1937,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> directApplicantsToOffer = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
         for(hed__Application__c application : applicationList) {
-            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c) ?
-                new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)) : new Set<String>();
+            completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id) ?
+                new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)) : new Set<String>();
             
             boolean isProgramLevelInvalid = 
                 application.Current_Preference__c != null && 
@@ -1955,7 +1963,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             new List<String>{
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED
             },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
@@ -2082,12 +2090,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
         
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
-            Set<String> completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            Set<String> completedCadencesCopy = applicationIdsWithAllCompletedCadence.containsKey(application.Id)?new Set<String>(applicationIdsWithAllCompletedCadence.get(application.Id)):new Set<String>();
             Set<String> currentProgEnrollmentIds = contactIdToCurrentProgEnrollmentIdsMap.get(application.hed__Applicant__c);
             currentProgEnrollmentIds?.remove(application.Program_Enrollment__c);
             currentProgEnrollmentIds = currentProgEnrollmentIds == null ? new Set<String>() : currentProgEnrollmentIds;
@@ -2457,7 +2465,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ DOMESTIC_OFFER_LAPSED_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
 
         boolean hasAutomatedOffsetDays =
@@ -2511,7 +2519,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ DOMESTIC_OFFER_LAPSED_AUTOMATED },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
         NurturingTrackService.CadenceWrapper cadenceWrapperAutomated = new NurturingTrackService.CadenceWrapper(
             Contact.getSObjectType(),
@@ -2533,7 +2541,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ DOMESTIC_OFFER_LAPSED_MANUAL },
-            applicantIdsWithCompletedCadence
+            applicationIdsWithCompletedCadence
         );
         NurturingTrackService.CadenceWrapper cadenceWrapperManual = new NurturingTrackService.CadenceWrapper(
             Contact.getSObjectType(),
