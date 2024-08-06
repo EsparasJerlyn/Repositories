@@ -328,6 +328,7 @@
         <sortOrder>Asc</sortOrder>
     </dynamicChoiceSets>
     <environments>Default</environments>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <formulas>
         <name>Description_Length</name>
         <dataType>Number</dataType>
