@@ -26,6 +26,11 @@
         <field>SMS_Template__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SMS_Template__c.Related_Send_Definition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Object - SMS Template - View All Records - CRU - FLA Read and Edit</label>
     <objectPermissions>

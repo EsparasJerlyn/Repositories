@@ -5330,6 +5330,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>SMS_Template__c.Related_Send_Definition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Area__c.External_ID__c</field>
         <readable>true</readable>

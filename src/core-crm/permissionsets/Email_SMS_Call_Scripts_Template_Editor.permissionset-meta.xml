@@ -25,6 +25,11 @@
         <field>SMS_Template__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SMS_Template__c.Related_Send_Definition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Email, SMS, Call Scripts Template Editor</label>
     <license>Salesforce</license>

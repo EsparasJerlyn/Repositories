@@ -7423,6 +7423,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SMS_Template__c.Related_Send_Definition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ServiceAppointment.Alteration_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
