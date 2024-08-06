@@ -162,7 +162,8 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Transactional Messaging Configurations</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
