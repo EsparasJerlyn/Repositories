@@ -48,6 +48,7 @@
  *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
  *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
  *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
+ *    | john.aldric.s.seril            | July 26, 2024         | DEPP-9834              | Added object mapping for OperatingHours                       |
  */
 public class ImplementationSelector { 
 
@@ -124,6 +125,7 @@ public class ImplementationSelector {
             Marketing_Segmentation__c.SObjectType => MarketingSegmentationsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
             Nurture_Track_Configuration__c.SObjectType => NurtureTrackConfigurationsDAO.class,
+            OperatingHours.SObjectType => OperatingHoursDAO.class,    
             Opportunity.SObjectType => OpportunitiesDAO.class,
             Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
             OpportunityContactRole.SobjectType => OpportunityContactRolesDAO.class,

@@ -73,7 +73,7 @@
  *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
  *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
  *    | eugene.andrew.abuan       | May 24, 2024          | DEPP-8822           | Added method for Qualtrics Survey record creation                       |
-
+ *    | john.aldric.s.seril       | July 30, 2024         | DEPP-9834           | Added method for Operating Hours and Time Slot record creation          |
 
  **/
     
@@ -4305,4 +4305,37 @@ public class TestDataFactory {
         }
         return qualtricsRecords;
     }
+
+    /** @description Method for creating Operating Hours Record
+     * @param numberOfOHRecords - number of Operating Hours Record to be created
+     * @return operatingHoursRecord - list of Operating Hours Record created
+     */
+    public static List<OperatingHours> createOperatingHoursRecord(integer numberOfOHRecords) {
+        List<OperatingHours> operatingHoursRecords = new List<OperatingHours>();
+        for (Integer i = 0; i < numberOfOHRecords; i++) {
+            operatingHoursRecords.add(
+                new OperatingHours()
+            );
+        }
+        return operatingHoursRecords;
+    }
+
+     /** @description Method for creating Time Slot Record
+     * @param numberOfTimeSlotRecords - number of Time Slot Record to be created
+     * @return operatingHoursRecord - list of Operating Hours Record created
+     */
+    public static List<TimeSlot> createTimeSlotRecord(integer numberOfTimeSlotRecords, Id operatingHoursRecordId) {
+        List<TimeSlot> TimeSlotRecordList = new List<TimeSlot>();
+        for (Integer i = 0; i < numberOfTimeSlotRecords; i++) {
+            TimeSlotRecordList.add(
+                new TimeSlot(operatingHoursId = operatingHoursRecordId,
+                            dayOfWeek = 'Monday',
+                            startTime = time.newInstance(8, 0, 0, 0),
+                            endTime = time.newInstance(18, 0, 0, 0))
+            );
+        }
+        return TimeSlotRecordList;
+    }
+
+
 }
