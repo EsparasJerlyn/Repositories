@@ -4,9 +4,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                | Change Summary                           |
- *    |---------------------------|-----------------------|---------------------|------------------------------------------|
- *    | julie.jane.alegre         | April 16, 2024        | DEPP-8016           | Created file                             |
+ *    | Developer                 | Date                  | JIRA                | Change Summary                                                             |
+ *    |---------------------------|-----------------------|---------------------|----------------------------------------------------------------------------|
+ *    | julie.jane.alegre         | April 16, 2024        | DEPP-8016           | Created file                                                               |
+ *    | neil.s.h.lesidan          | August 7, 2024        | DEPP-10226          | Create method generateUserAlumniEngagementUser                             |
  **/
 @isTest
 
@@ -1622,6 +1623,43 @@ public class TestDataFactoryUser {
 
             return usr;
             
+        } set;
+    }
+
+    /***********************************************
+    *  QUT Alumni & Corporate Partnerships User
+    ************************************************/
+
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserAlumniEngagementUser() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOAlumniEngagementUser}));
+    }
+
+    // Used to get user already generated in test method
+    public static User selectUserAlumniEngagementUser {
+        get {return [SELECT Id FROM User WHERE Email = 'TestAlumniEngagementUser@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOAlumniEngagementUser{
+        get {
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+
+            usr.FirstName = 'Test';
+            usr.LastName = 'AlumniEngagementUser';
+            usr.profileName = 'Alumni & Corporate Partnerships';
+            usr.role = 'Alumni_Engagement';
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = false;
+            usr.userpermissionsserviceuser = false;
+
+            usr.permissionsetGroupNames = new Set<String>{'Alumni_Engagement'};
+            usr.publicGroupNames = new Set<String>{'Alumni_Corporate_Partnerships'};
+
+            return usr;
         } set;
     }
 

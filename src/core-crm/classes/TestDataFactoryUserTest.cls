@@ -4,9 +4,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                | Change Summary                           |
- *    |---------------------------|-----------------------|---------------------|------------------------------------------|
- *    | julie.jane.alegre         | April 16, 2024        | DEPP-8016           | Created file                             |
+ *    | Developer                 | Date                  | JIRA                | Change Summary                                                             |
+ *    |---------------------------|-----------------------|---------------------|----------------------------------------------------------------------------|
+ *    | julie.jane.alegre         | April 16, 2024        | DEPP-8016           | Created file                                                               |
+ *    | neil.s.h.lesidan          | August 7, 2024        | DEPP-10226          | Create method generateUserAlumniEngagementTest                             |
  **/
 
  @isTest
@@ -27,6 +28,7 @@
         TestDataFactoryUser.generateUserQUTeXPortfolioCoordinator();
         TestDataFactoryUser.generateUserQUTeXProductAdministrator();
         TestDataFactoryUser.generateUserQUTeXLearningInnovationManager();
+        TestDataFactoryUser.generateUserAlumniEngagementUser();
 
     }
 
@@ -305,6 +307,27 @@
               Assert.areEqual(ps.Name, permSetMap.get(ps.Id), 'Permission Set is not assigned properly');
           }
   
+          Test.stopTest();
+    }
+
+    @isTest
+    static void generateUserAlumniEngagementTest() {
+
+          //Select user generated
+          User user = TestDataFactoryUser.selectUserAlumniEngagementUser;
+
+          //List of permission set group assigned
+          List<String> permissionsetGroupNames = new List<String>{'Alumni_Engagement'};
+
+          Test.startTest();
+
+          Map<Id, String> permsetGroupMap = getRelatedPermsetGroups(user.Id);
+          List<PermissionSetGroup> permsetGroupList = [SELECT Id, DeveloperName FROM PermissionSetGroup WHERE DeveloperName IN:permissionsetGroupNames];
+
+          for(PermissionSetGroup psg: permsetGroupList){
+              Assert.areEqual(psg.DeveloperName, permsetGroupMap.get(psg.Id), 'Permission Set Group is not assigned properly');
+          }
+
           Test.stopTest();
     }
 

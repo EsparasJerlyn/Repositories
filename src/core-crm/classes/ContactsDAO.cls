@@ -600,7 +600,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         return Database.query(
             'SELECT Id, Name, Salutation, FirstName, MiddleName, LastName, Suffix, Email, hed__WorkEmail__c, ' +
-            'hed__UniversityEmail__c, QUT_Staff_Email__c, Position__c ' +
+            'hed__UniversityEmail__c, QUT_Staff_Email__c, Position__c, MobilePhone ' +
             'FROM Contact ' +
             'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
             'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
