@@ -14,5 +14,6 @@
     <permissionSets>Permission_View_All_Data</permissionSets>
     <permissionSets>Student_Success_Email_Access</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
+    <permissionSets>Transactional_Messaging_Configuration_Editor</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

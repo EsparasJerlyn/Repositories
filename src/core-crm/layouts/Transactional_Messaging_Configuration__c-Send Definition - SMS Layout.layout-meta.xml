@@ -8,16 +8,8 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Name</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Description__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Message__c</field>
+                <field>Definition_Key__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -27,15 +19,12 @@
                 <behavior>Edit</behavior>
                 <field>Send_Time_Start__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <emptySpace>true</emptySpace>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Definition_Key__c</field>
+                <field>Message__c</field>
             </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Related_Keyword__c</field>
@@ -47,6 +36,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Send_Time_End__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Description__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -71,7 +64,29 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
+        <fields>TASK.SUBJECT</fields>
+        <fields>TASK.WHO_NAME</fields>
+        <fields>ACTIVITY.TASK</fields>
+        <fields>TASK.DUE_DATE</fields>
+        <fields>TASK.STATUS</fields>
+        <fields>TASK.PRIORITY</fields>
+        <fields>CORE.USERS.FULL_NAME</fields>
+        <relatedList>RelatedActivityList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>TASK.SUBJECT</fields>
+        <fields>TASK.WHO_NAME</fields>
+        <fields>ACTIVITY.TASK</fields>
+        <fields>TASK.DUE_DATE</fields>
+        <fields>CORE.USERS.FULL_NAME</fields>
+        <fields>TASK.LAST_UPDATE</fields>
+        <relatedList>RelatedHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
+        <fields>IsActive__c</fields>
+        <fields>Cadence_Step_Name__c</fields>
+        <fields>Message_Content__c</fields>
         <relatedList>SMS_Template__c.Related_Send_Definition__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

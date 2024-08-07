@@ -19,5 +19,6 @@
     <permissionSets>Permission_View_All_Users</permissionSets>
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
+    <permissionSets>Transactional_Messaging_Configuration_Editor</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

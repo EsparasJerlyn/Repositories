@@ -14,6 +14,6 @@
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <permissionSets>Email_SMS_Call_Scripts_Template_Editor</permissionSets>
     <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
-
+    <permissionSets>Transactional_Messaging_Configuration_Editor</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

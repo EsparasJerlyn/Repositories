@@ -82,7 +82,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Transaction Messaging Configuration Editor</label>
+    <label>Transactional Messaging Configuration Editor</label>
     <license>Salesforce</license>
     <objectPermissions>
         <allowCreate>true</allowCreate>
