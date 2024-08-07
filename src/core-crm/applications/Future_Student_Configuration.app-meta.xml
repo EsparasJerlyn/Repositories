@@ -53,6 +53,7 @@
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-ServiceResource</tabs>
     <tabs>standard-OperatingHours</tabs>
+    <tabs>Transactional_Messaging_Configuration__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
@@ -72,6 +73,9 @@
         </mappings>
         <mappings>
             <tab>SMS_Template__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Transactional_Messaging_Configuration__c</tab>
         </mappings>
         <mappings>
             <tab>standard-ActionCadence</tab>
