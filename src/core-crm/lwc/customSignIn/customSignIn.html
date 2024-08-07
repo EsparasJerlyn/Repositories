@@ -68,34 +68,28 @@
                     </div>
                 </form>
                 <div>
-                    <!--SSO Links-->
-                    <!--slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small-->
-
-                    <!--
-                    <div
-                        class="slds-text-align_center"
-                        style="
-                            text-align: center;
-                            position: relative;
-                            width: 100%;
-                            margin: 1rem 0px;
-                        "
-                    >
-                        <a href={experienceSSOUrl} class="sso-text colored"
-                            >{label.qutSSOText}</a
-                        >
-                    </div>
-                    -->
                     <!--Open Register-->
-                    <div
-                        class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
-                    >
+                    <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">                    
                         <a
                             onclick={handleOpenRegister}
                             class="sso-text colored slds-p-top_small"
                             >{label.qutRegister}</a
                         >
+                        or
+                        <a
+                            onclick={handleOpenRegister}
+                            class="sso-text colored slds-p-top_small"
+                            >{label.QUT_SSO_TEXT}</a
+                        >
                     </div>
+                    <!--SSO Links-->
+                    <template lwc:if={isPortalGiving}>
+                        <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">or</div>
+                            <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">
+                                <a href={experienceSSOUrl} class="sso-text colored"
+                                >{label.qutSSOText}</a>
+                            </div>
+                    </template>
                 </div>
             </div>
         </div>

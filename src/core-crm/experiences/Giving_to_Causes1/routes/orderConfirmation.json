@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "d242f668-429f-4324-99e8-dcd94e4345fa",
+  "appPageId" : "60fd6daa-b001-4a2c-88a6-038e1ff6826a",
+  "configurationTags" : [ ],
+  "devName" : "Order_Confirmation",
+  "id" : "9c6147d7-68e6-4182-b9e7-cac5ada70c9d",
+  "label" : "Order Confirmation",
+  "routeType" : "orderconfirmation",
+  "type" : "route",
+  "urlPrefix" : "orderconfirmation"
+}

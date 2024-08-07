@@ -202,7 +202,8 @@ public with sharing class LeadsDAOTest {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
                 new Set<String>{'test@mail.test'},
-                AccessLevel.USER_MODE
+                // TECHDEBT - Program Admin doesn't have access to Marketing Course Application obj
+                AccessLevel.SYSTEM_MODE 
             );
             System.assert(leadList.isEmpty(), 'leadList should be empty.');
             Test.stopTest();

@@ -10,3 +10,6 @@ Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer,RecordTypeId,Organizati
 0019h000001wVUIAA2,Owning Faculty 1,false,false,,false,0128q0000004JlaAAE,2,0058q000000Hs5bAAC,CICD Integration User
 0019h000001wVSgAAM,Owning Faculty 2,false,false,,false,0128q0000004JlaAAE,2,0058q000000Hs5bAAC,CICD Integration User
 0019r000002WIS5AAL,Giving to Causes,false,false,,true,0128q0000004JlWAAU,'',0058q000000Hs5bAAC,CICD Integration User
+001Bn00000Gi0zBIAR,Academic,false,false,,false,0128q0000004JlUAAU,2,0058q000000Hs5bAAC,CICD Integration User
+0018q000002aCdtAAE,School of Arts and Sciences,false,false,,false,0128q0000004JlaAAE,3,0058q000000Hs5bAAC,CICD Integration User
+0018q000004G90uAAC,Test (Case) Administrative Account,FALSE,FALSE,Outbound Enquiry,FALSE,0128q0000004JlVAAU,,0058q000000Hs5bAAC,CICD Integration User

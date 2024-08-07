@@ -1,0 +1,40 @@
+<template>
+    <div class="modal">
+        <div if:true={displayForm} class="modal-content text px3 pt2">
+          <div class="wrapper">
+                <div class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix">
+                        <div if:false={isLoginPage}>
+                        <!--X button -->
+                        <span class="slds-float_right cursor" onclick={closeModal}
+                            ><img src={xButton}
+                        /></span>
+                        </div>
+                    </div>
+                    <div class="slds-text-align_center slds-m-vertical_medium">
+                        <!--Static Contents-->
+                        <p class="heading">{label.header}</p>
+                        <p>{label.subHeader}</p>
+                    </div>
+                    <div>
+                        <div class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small">
+                            <a
+                            onclick={handleOpenLogin}
+                            class="sso-text colored slds-p-top_small">
+                            {label.qutLoginText}</a>
+                        </div>
+                    </div>
+                <lightning-tabset>
+                    <lightning-tab class="customRegisterTab slds-tabs_default slds-tabs_extra_large" label="Individual" value="Individual">
+                        <c-registration-form is-modal={isModal} portal-name={portalName}></c-registration-form>
+                    </lightning-tab>
+                    <lightning-tab class="slds-tabs_default slds-tabs_extra_large" label="Organisation" value="Organisation">
+                        
+                    </lightning-tab>
+                    <lightning-tab class="slds-tabs_default slds-tabs_extra_large">
+                        
+                    </lightning-tab>
+                </lightning-tabset>
+            </div>
+        </div>
+    </div>
+</template>
