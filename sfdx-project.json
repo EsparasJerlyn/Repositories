@@ -43,12 +43,6 @@
       "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
     },{
       "path": "src",
-      "type": "ENABLE_EINSTEIN_ARTICLE_RECOMMENDATIONS"
-    },{
-      "path": "src",
-      "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
-    },{
-      "path": "src",
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
       "type": "metadata",
@@ -110,6 +104,9 @@
       "type": "data-onetime",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
+    },{
+      "path": "src",
+      "type": "PUBLISH_SFDMU_KNOWLEDGE_ARTICLES"
     }
   ],
   "namespace": "",
