@@ -57,6 +57,10 @@
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>standard-VoiceCall</tabs>
+    <tabs>standard-MessagingSession</tabs>
+    <tabs>standard-OmniSupervisorLightning</tabs>
+    <tabs>standard-EmailTemplate</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUT_Contact_Centre_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -71,6 +75,18 @@
         </mappings>
         <mappings>
             <tab>standard-Dashboard</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-EmailTemplate</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-MessagingSession</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-OmniSupervisorLightning</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-VoiceCall</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>
