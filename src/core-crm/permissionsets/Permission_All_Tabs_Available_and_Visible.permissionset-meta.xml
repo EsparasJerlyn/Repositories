@@ -1104,7 +1104,7 @@
         <tab>standard-TaxTreatment</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-<tabSettings>
+    <tabSettings>
         <tab>standard-ThreatDetectionFeedback</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1202,6 +1202,10 @@
     </tabSettings>
     <tabSettings>
         <tab>trailheadapp__User_Badge__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Transactional_Messaging_Configuration__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
