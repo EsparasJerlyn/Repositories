@@ -16,6 +16,10 @@
                 <field>Cadence_Step_Name__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Related_Send_Definition__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Message_Content__c</field>
             </layoutItems>
