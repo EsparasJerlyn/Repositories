@@ -3,17 +3,21 @@
     <description>Permission set group to be added to users that are Super Users within the teams</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Future Student Super User - Domestic</label>
+    <permissionSets>Einstein_Service_AI_User</permissionSets>
+    <permissionSets>Email_SMS_Call_Scripts_Template_Editor</permissionSets>
     <permissionSets>Future_Student_Config</permissionSets>
+    <permissionSets>Future_Student_Domestic_Email_Access</permissionSets>
     <permissionSets>Google_Integration_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Knowledge_Management</permissionSets>
+    <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
     <permissionSets>Manage_International_Tiers</permissionSets>
     <permissionSets>Manage_Reports_and_Dashboards</permissionSets>
-    <permissionSets>spr_sf__Sprinklr_User</permissionSets>
-    <permissionSets>Future_Student_Domestic_Email_Access</permissionSets>
-    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
-    <permissionSets>Email_SMS_Call_Scripts_Template_Editor</permissionSets>
-    <permissionSets>Lightning_Scheduler_Administrator_V2</permissionSets>
     <permissionSets>Transactional_Messaging_Configuration_Editor</permissionSets>
+    <permissionSets>force__CopilotSalesforceUser</permissionSets>
+    <permissionSets>force__EinsteinAgent</permissionSets>
+    <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
+    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
+    <permissionSets>spr_sf__Sprinklr_User</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
