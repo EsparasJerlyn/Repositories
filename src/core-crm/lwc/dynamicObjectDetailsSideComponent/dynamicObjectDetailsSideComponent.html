@@ -1,0 +1,89 @@
+<template>
+    <c-logger></c-logger>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon 
+                        icon-name={headerIcon} 
+                        size="small" 
+                        alternative-text={componentTitle}
+                    ></lightning-icon>
+                    <span class="slds-assistive-text">{componentTitle}</span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>{componentTitle}</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+            <div class="slds-p-horizontal_xxx-small">
+                <div class="slds-text-heading_medium heading_name slds-truncate">
+                    <a class="record-name" onclick={handleClickHeader}>{headerValue}</a>
+                </div>
+                <table class="slds-table slds-table_fixed-layout slds-table_header-hidden table-info">
+                    <tbody>
+                        <template if:true={fieldDetails}>
+                            <template for:each={fieldDetails} for:item="field">
+                                <tr key={field.key}>
+                                    <td>
+                                        <div class="slds-truncate" >
+                                            <template if:true={field.icon}>                                                
+                                                <lightning-icon 
+                                                    class="slds-m-right_xx-small"
+                                                    icon-name={field.icon} 
+                                                    alternative-text={field.label} 
+                                                    size="xx-small">
+                                                </lightning-icon>
+                                            </template>
+                                            <lightning-formatted-text class="slds-text-body_small" value={field.label}></lightning-formatted-text>
+                                        </div>
+                                    </td>
+                                    <td class="slds-truncate">
+                                        <template if:true={field.isEmail}>
+                                            <lightning-formatted-text class="slds-text-body_small" value={field.value} linkify></lightning-formatted-text>
+                                        </template>
+                                        <template if:true={field.isNumber}>
+                                            <lightning-formatted-number class="slds-text-body_small" value={field.value} linkify></lightning-formatted-number>
+                                        </template>
+                                        <template if:true={field.isText}>
+                                            <lightning-formatted-text class="slds-text-body_small" value={field.value}></lightning-formatted-text>
+                                        </template>
+                                        <template if:true={field.isDate}>
+                                            <lightning-formatted-date-time value={field.value} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time>
+                                        </template>
+                                        <template if:true={field.isAddress}>
+                                            <lightning-formatted-address
+                                                class="slds-text-body_small"
+                                                street={field.street}
+                                                city={field.city}
+                                                country={field.country}
+                                                province={field.province}
+                                                postal-code={field.postalCode}
+                                            ></lightning-formatted-address>
+                                        </template>
+                                    </td>
+                                </tr>
+                                <tr key={field.key} class="slds-hint-parent">
+                                    <template if:true={field.hasHorizontalLine}>
+                                        <th scope="row" colspan=2 class="slds-p-horizontal_none">
+                                            <hr class="slds-m-top_none slds-m-bottom_none">
+                                        </th>
+                                    </template>
+                                </tr>
+                            </template>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <template if:true={hasError}>
+                <lightning-formatted-text class="slds-text-body_small slds-m-top_none" value={componentErrorMessage}></lightning-formatted-text>
+            </template>
+        </div>        
+    </article>
+</template>
