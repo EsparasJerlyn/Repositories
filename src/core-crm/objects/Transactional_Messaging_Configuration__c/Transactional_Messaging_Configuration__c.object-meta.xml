@@ -163,7 +163,11 @@
     </nameField>
     <pluralLabel>Transactional Messaging Configurations</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Keyword__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Definition_Key__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
