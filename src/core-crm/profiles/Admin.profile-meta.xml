@@ -517,6 +517,17 @@
         <recordType>Task.SMS</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Transactional_Messaging_Configuration__c-Transactional Messaging Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Transactional_Messaging_Configuration__c-Keyword Layout</layout>
+        <recordType>Transactional_Messaging_Configuration__c.Keyword</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Transactional_Messaging_Configuration__c-Send Definition - SMS Layout</layout>
+        <recordType>Transactional_Messaging_Configuration__c.Send_Definition_SMS</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ThreatDetectionFeedback-Threat Detection Feedback Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

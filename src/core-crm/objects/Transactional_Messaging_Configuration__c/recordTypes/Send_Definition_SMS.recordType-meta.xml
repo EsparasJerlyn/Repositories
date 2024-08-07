@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Send_Definition_SMS</fullName>
     <active>true</active>
+    <description>A long-living object that references the sms template, subscriber list, sending options, journey, and metadata.</description>
     <label>Send Definition - SMS</label>
     <picklistValues>
         <picklist>Status__c</picklist>

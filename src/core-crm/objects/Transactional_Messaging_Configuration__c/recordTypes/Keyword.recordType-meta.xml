@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Keyword</fullName>
     <active>true</active>
+    <description>The indicator to conduct SMS and MMS message exchanges between account and mobile devices</description>
     <label>Keyword</label>
     <picklistValues>
         <picklist>Status__c</picklist>
