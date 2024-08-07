@@ -1,3 +1,5 @@
 Id,DeveloperName,SobjectType,Name
 0128q0000004JlWAAU,Business_Organization,Account,Business Organization
 0128q0000004JlaAAE,University_Department,Account,University Department
+012Bn000000onOvIAI,Keyword,Transactional_Messaging_Configuration__c,Keyword
+012Bn000000onQXIAY,Send_Definition_SMS,Transactional_Messaging_Configuration__c,Send Definition - SMS

@@ -15,5 +15,6 @@
     <permissionSets>Student_Success_Email_Access</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <permissionSets>Transactional_Messaging_Configuration_Editor</permissionSets>
+    <permissionSets>Marketing_Cloud_External_Credential</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
