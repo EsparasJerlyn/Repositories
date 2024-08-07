@@ -171,6 +171,7 @@ export default class CustomHeaderContainer extends LightningElement {
         LIST_COLUMN_10
     ];
 
+    engagementOpportunityDetail;
     fieldsToColumns = [];
     isTableLoading = true;
     isTableWithValidation = false;
@@ -222,6 +223,15 @@ export default class CustomHeaderContainer extends LightningElement {
 
             await this.createColumn(fields);
             this.fetchListMembers();
+        }
+    }
+
+    @wire(getRecord, { recordId: '$recordId', fields: [ENGAGEMENT_OPPORTUNITY_STAGE]})
+    wireEngagementOpportunity({error, data}) {
+        if (this.objectApiName === 'Engagement_Opportunity__c') {
+            if (data) {
+                this.engagementOpportunityDetail= data;
+            }
         }
     }
 
