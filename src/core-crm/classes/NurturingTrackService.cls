@@ -88,15 +88,15 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
         Map<Id, Set<String>> applicationIdsWithCompletedCadences = new Map<Id, Set<String>>();
         for(Completed_Cadence__c completedCadence : completedCadenceList) {
             if(
-                applicants.contains(completedCadence.Contact__c) && 
+                applicationIds.contains(completedCadence.Application__c) && 
                 CompletedCadencesDAO.completedCadenceStatuses.contains(completedCadence.Completed_Cadence_Status__c)
             ) {
                 continue;
             }
-            if(!applicationIdsWithCompletedCadences.containsKey(completedCadence.Application__c)) {
-                applicationIdsWithCompletedCadences.put(completedCadence.Application__c, new Set<String>());
+            if(!applicationIdsWithCompletedCadences.containsKey(completedCadence.Contact__c)) {
+                applicationIdsWithCompletedCadences.put(completedCadence.Contact__c, new Set<String>());
             }
-            applicationIdsWithCompletedCadences.get(completedCadence.Application__c).add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
+            applicationIdsWithCompletedCadences.get(completedCadence.Contact__c).add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
         }
         return applicationIdsWithCompletedCadences;
     }
@@ -409,13 +409,13 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
     
     public class CadenceWrapper{
         SObjectType objectType;
-        String cadenceNameManual;
         String cadenceNameAutomated;
+        String cadenceNameManual;
 
         public CadenceWrapper(SObjectType stype, String automatedCadence, String manualCadence){
             objectType = stype;
-            cadenceNameManual = manualCadence;
             cadenceNameAutomated = automatedCadence;
+            cadenceNameManual = manualCadence;
         }
     }
 }
