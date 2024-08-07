@@ -515,7 +515,7 @@
         </fields>
         <fields>
             <name>Schedule_Advisor_Appointment_Note</name>
-            <fieldText>&lt;p&gt;Please note: Advisor Appointments are only for Domestic Undergrad and International Undergrad and Post Grad Future Students&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Please note: Advisor Appointments are only for Domestic Undergrad and International Undergrad and Post Grad Future Students.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
