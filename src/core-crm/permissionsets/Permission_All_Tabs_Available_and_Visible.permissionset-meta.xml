@@ -5,11 +5,31 @@
     <label>Permission All Tabs Available and Visible</label>
     <license>Salesforce</license>
     <tabSettings>
+        <tab>ABS_Categorisation__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Application_Preference__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Award_Recognition__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
+    <tabSettings>
+        <tab>Assessment__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Breach__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Case_Priority_Configuration__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Course_Connection_Assessment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -37,6 +57,26 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Engagement_List_Configuration__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Engagement_List_Criteria__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Engagement_List_Event__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Engagement_Opportunity__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Engagement_Score_Configuration__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Events</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -49,6 +89,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Giving_Interest__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
+    <tabSettings>
         <tab>IP_Management_Relationship__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -60,6 +104,10 @@
         <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Interest__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
     <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
@@ -74,6 +122,18 @@
     </tabSettings>
     <tabSettings>
         <tab>Leave_of_Absence__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List_Contributor__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List_Member__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -157,6 +217,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Program_Enrollment_Breach__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Program_Offering__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -165,11 +229,11 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>Questionnaire_Response_Summary__c</tab>
+        <tab>Qualtrics_Survey__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>SMS_Template__c</tab>
+        <tab>Questionnaire_Response_Summary__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -177,11 +241,27 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>Study_Area_Plan__c</tab>
+        <tab>SMS_Template__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Student_Sanction__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Study_Area__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Study_Area_Plan__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Success_Action__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Success_Plan__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -392,7 +472,7 @@
         <tab>standard-AnalyticsDataManager</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-ApiAnomalyEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -592,7 +672,7 @@
         <tab>standard-Coupon</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-CredentialStuffingEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -708,7 +788,7 @@
         <tab>standard-GuestBuyerProfile</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-GuestUserAnomalyEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -980,7 +1060,7 @@
         <tab>standard-RefundLinePayment</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-ReportAnomalyEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1008,7 +1088,7 @@
         <tab>standard-ServiceTerritory</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-SessionHijackingEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1072,7 +1152,7 @@
         <tab>standard-TaxTreatment</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-ThreatDetectionFeedback</tab>
         <visibility>Visible</visibility>
     </tabSettings>

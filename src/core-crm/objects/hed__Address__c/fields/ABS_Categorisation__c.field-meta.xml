@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABS_Categorisation__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Reference to the ABS categorisation that the SA1, meshblock, socio-economic percentile and remoteness classed are based on</description>
+    <label>ABS Categorisation</label>
+    <referenceTo>ABS_Categorisation__c</referenceTo>
+    <relationshipLabel>Addresses</relationshipLabel>
+    <relationshipName>Addresses</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

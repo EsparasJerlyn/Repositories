@@ -1,63 +1,71 @@
 <template>
   <!-- TO DO: MODAL -->
-  <div class="modal">
-    <div if:true={displayForm} class="modal-content text px3 pt2">
-      <div class="wrapper">
-        <div
-          class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
-        >
-          <div if:false={isLoginPage}>
-            <!--X button -->
-            <span class="slds-float_right cursor" onclick={closeModal}
-              ><img src={xButton}
-            /></span>
-          </div>
-        </div>
-        <div class="slds-text-align_center slds-m-vertical_medium">
-          <!--Static Contents-->
-          <p class="heading">{label.header}</p>
-          <p>{label.subHeader}</p>
-        </div>
-        <div>
-          <!--SSO Links-->
-          <!--          <div
-            class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
+  <div class={classMainContainer}>
+    <div if:true={displayForm} class={classContainer}>
+      <div class={classWrapper}>
+        <template lwc:if={isPortalGiving}>
+        </template>
+        <template lwc:else>
+          <div
+            class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
           >
-            <a href={experienceSSOUrl} class="sso-text colored"
-              >{label.qutSSOText}</a
-            >
+            <div if:false={isLoginPage}>
+              <!--X button -->
+              <span class="slds-float_right cursor" onclick={closeModal}
+                ><img src={xButton}
+              /></span>
+            </div>
           </div>
-          -->
-
-            <!-- Login -->
-            <div
+          <div class="slds-text-align_center slds-m-vertical_medium">
+            <!--Static Contents-->
+            <p class="heading">{label.header}</p>
+            <p>{label.subHeader}</p>
+          </div>
+          <div>
+            <!--SSO Links-->
+            <!--          <div
               class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
             >
-            <a
-                onclick={handleOpenLogin}
-                class="sso-text colored slds-p-top_small"
-                >{label.qutLoginText}</a
-            >
-           </div>
-          <!-- DEPP-3033 comment out linkedin registration option for R1B release
-                <div class="center px2">
-                  <button
-                    onclick={handleLinkedInOnClick}
-                    class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_x-large btn-reg"
-                  >
-                    <img src={linkedInLogo} class="slds-m-around_x-small" />
-                    {label.registerWithLinkedIn}
-                  </button>
-                </div>
-                -->
-        </div>
+              <a href={experienceSSOUrl} class="sso-text colored"
+                >{label.qutSSOText}</a
+              >
+            </div>
+            -->
+  
+              <!-- Login -->
+              <div
+                class="slds-text-align_center slds-m-vertical_medium slds-m-horizontal_small slds-p-horizontal_small"
+              >
+              <a
+                  onclick={handleOpenLogin}
+                  class="sso-text colored slds-p-top_small"
+                  >{label.qutLoginText}</a
+              >
+             </div>
+            <!-- DEPP-3033 comment out linkedin registration option for R1B release
+                  <div class="center px2">
+                    <button
+                      onclick={handleLinkedInOnClick}
+                      class="button slds-button slds-button_brand slds-p-vertical_small slds-p-horizontal_x-large btn-reg"
+                    >
+                      <img src={linkedInLogo} class="slds-m-around_x-small" />
+                      {label.registerWithLinkedIn}
+                    </button>
+                  </div>
+                  -->
+          </div>
+        </template>
         <form id="form">
           <div class="slds-m-horizontal_small">
             <!--Form-->
-            <div class="indicate-text">
-              <span class="required-text">* </span
-              ><span style="font-style: italic">{label.requiredField}</span>
-            </div>
+            <template lwc:if={isPortalGiving}>
+            </template>
+            <template lwc:else>
+              <div class="indicate-text">
+                <span class="required-text">* </span
+                ><span style="font-style: italic">{label.requiredField}</span>
+              </div>
+            </template>
             <div class="slds-grid slds-grid_vertical pb2">
               <div if:true={noRecordforEmail}>
                 <div class="bodyRegular reg-error-style">
@@ -69,13 +77,60 @@
                   </ul>
                 </div>
               </div>
+              <template lwc:if={isPortalGiving}>
+                <div class="slds-grid slds-gutters slds-wrap slds-m-top_large">
+                  <div
+                    class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
+                  >
+                    <div class="slds-form-element">
+                      <label for="fname" class="label-text">Title </label>
+                      <span class="required-text">*</span><br />
+                      <div class="slds-form-element__control">
+                        <input
+                          type="text"
+                          id="title"
+                          value={title}
+                          onchange={handleTitleChange}
+                          class={requiredInputClass.title}
+                        />
+                      </div>
+                      <div>
+                        <template if:true={hasErrorTitle}>
+                          <c-error-icon></c-error-icon>
+                        </template>
+                        <small class={requiredDisplayData.title}
+                          >{requiredErrorMessage}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
+                  >
+                    <div class="slds-form-element">
+                      <label for="fname" class="label-text">Preferred Name </label>
+                      <br />
+                      <div class="slds-form-element__control">
+                        <input
+                          type="text"
+                          id="preferredName"
+                          name="preferredName"
+                          value={preferredName}
+                          onchange={handlePreferredNameChange}
+                          class="slds-input input-element"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
               <!--First Name and Last Name-->
               <div class="slds-grid slds-gutters slds-wrap slds-m-top_large">
                 <div
                   class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
                 >
                   <div class="slds-form-element">
-                    <label for="fname" class="label-text">First Name </label>
+                    <label for="fname" class="label-text">First Name</label>
                     <span class="required-text">*</span><br />
                     <div class="slds-form-element__control">
                       <input
@@ -100,7 +155,7 @@
                   class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
                 >
                   <div class="slds-form-element">
-                    <label for="flast" class="label-text">Last Name </label>
+                    <label for="flast" class="label-text">Last Name</label>
                     <span class="required-text">*</span><br />
                     <div class="slds-form-element__control">
                       <input
@@ -123,7 +178,7 @@
               <!--Email-->
               <div class="slds col slds-m-top_medium">
                 <div class="slds-form-element">
-                  <label for="email" class="label-text">Email </label>
+                  <label for="email" class="label-text">Email</label>
                   <span class="required-text">*</span><br />
                   <div class="slds-form-element__control">
                     <input
@@ -149,13 +204,17 @@
                   </small>
                 </div>
               </div>
+
+              <template lwc:if={isPortalGiving}>
+              </template>
+              <template lwc:else>
                 <!--Position and Company Name-->
                 <div class="slds-grid slds-gutters slds-wrap">
                   <div
                     class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
                   >
                     <div class="slds-form-element">
-                      <label for="fname" class="label-text">Position </label>
+                      <label for="fname" class="label-text">Position</label>
                       <span class="required-text">*</span><br />
                       <div class="slds-form-element__control">
                         <input
@@ -180,7 +239,7 @@
                     class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
                   >
                     <div class="slds-form-element">
-                      <label for="flast" class="label-text">Company Name </label>
+                      <label for="flast" class="label-text">Company Name</label>
                       <span class="required-text">*</span><br />
                       <div class="slds-form-element__control">
                         <input
@@ -200,6 +259,7 @@
                     </div>
                   </div>
                 </div>
+              </template>
               <!--Contact Info-->
               <span class="label-text slds-m-top_medium"></span>
               <div class="slds-grid slds-wrap slds-gutters">
@@ -231,7 +291,7 @@
                 <!--Mobile-->
                 <div class="slds-col slds-size_1-of-2">
                   <div class="slds-form-element">
-                    <label for="mobile" class="label-text">Mobile </label>
+                    <label for="mobile" class="label-text">Mobile</label>
                     <span class="required-text">*</span>
                     <div class="slds-form-element__control">
                       <input
@@ -261,7 +321,7 @@
                 <!--Date-->
                 <div class="slds-col slds-size_1-of-3">
                   <div class="slds-form-element">
-                    <label for="day" class="label-text">Date </label>
+                    <label for="day" class="label-text">Day </label>
                     <span class="required-text">*</span><br />
                     <div class="slds-form-element__control">
                       <input
@@ -284,7 +344,7 @@
                 <!--Month-->
                 <div class="slds-col slds-size_1-of-3">
                   <div class="slds-form-element">
-                    <label for="month" class="label-text">Month </label>
+                    <label for="month" class="label-text">Month</label>
                     <span class="required-text">*</span><br />
                     <div class="slds-form-element__control">
                       <input
@@ -307,7 +367,7 @@
                 <!--Year-->
                 <div class="slds-col slds-size_1-of-3">
                   <div class="slds-form-element">
-                    <label for="year" class="label-text">Year </label>
+                    <label for="year" class="label-text">Year</label>
                     <span class="required-text">*</span>
                     <div class="slds-form-element__control">
                       <input
@@ -328,38 +388,83 @@
                   </div>
                 </div>
               </div>
-              <!--Dietary Requirements-->
-              <div class="slds col slds-m-top_medium">
-                <div class="slds-form-element">
-                  <label for="dietaryReq" class="label-text"
-                    >Dietary Requirements</label
-                  >
+              <template lwc:if={isPortalGiving}>
+                <c-custom-loqate-address></c-custom-loqate-address><br><br>
+                
+                <div class="slds-m-top_small">
                   <div class="slds-form-element__control">
-                    <textarea
-                      id="dietaryReq"
-                      name="dietaryReq"
-                      class="slds-textarea input-element input-text-area"
-                    >
-                    </textarea>
+                    <div class="slds-checkbox">
+                      <input
+                        type="checkbox"
+                        name="talk-qut-checkbox"
+                        id="talk-qut-checkbox"
+                        value="Agree"
+                        onchange={handleTalkQutCheckBox}
+                      />
+                      <label class="slds-checkbox__label" for="talk-qut-checkbox">
+                        <span class='slds-checkbox_faux check-box cursor'></span>
+                        <span class="text privacyPolicy"
+                          > {label.talkQut} &nbsp;</span
+                        >
+                      </label>
+                      <div style="clear:both"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!--Accessibility Requirements-->
-              <div class="slds col slds-m-top_medium">
-                <div class="slds-form-element">
-                  <label for="accessReq" class="label-text"
-                    >Accessibility Requirements</label
-                  >
+                <div class="slds-m-top_small">
                   <div class="slds-form-element__control">
-                    <textarea
-                      id="accessReq"
-                      name="accessReq"
-                      class="slds-textarea input-element input-text-area"
-                    >
-                    </textarea>
+                    <div class="slds-checkbox">
+                      <input
+                        type="checkbox"
+                        name="info-giving-checkbox"
+                        id="info-giving-checkbox"
+                        value="Agree"
+                        onchange={handleInfoConsentGivingCheckBox}
+                      />
+                      <label class="slds-checkbox__label" for="info-giving-checkbox">
+                        <span class='slds-checkbox_faux check-box cursor'></span>
+                        <span class="text privacyPolicy"
+                          > {label.infoConsentGiving} &nbsp;</span
+                        >
+                      </label>
+                      <div style="clear:both"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </template>
+              <template lwc:else>
+                <!--Dietary Requirements-->
+                <div class="slds col slds-m-top_medium">
+                  <div class="slds-form-element">
+                    <label for="dietaryReq" class="label-text"
+                      >Dietary Requirements</label
+                    >
+                    <div class="slds-form-element__control">
+                      <textarea
+                        id="dietaryReq"
+                        name="dietaryReq"
+                        class="slds-textarea input-element input-text-area"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+                <!--Accessibility Requirements-->
+                <div class="slds col slds-m-top_medium">
+                  <div class="slds-form-element">
+                    <label for="accessReq" class="label-text"
+                      >Accessibility Requirements</label
+                    >
+                    <div class="slds-form-element__control">
+                      <textarea
+                        id="accessReq"
+                        name="accessReq"
+                        class="slds-textarea input-element input-text-area"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
               <!--Check box -->
               <div class="slds-m-top_small">
                 <div class="slds-form-element__control">
@@ -382,6 +487,7 @@
                   </div>
                 </div>
               </div>
+            </template>
               <div class="slds-m-top_small">
                 <div class="slds-form-element__control">
                   <div class="slds-checkbox">
@@ -396,14 +502,27 @@
                       <span class={requiredInputClass.checkbox}></span>
                       <span class="text privacyPolicy"
                         >{label.acknowledge}&nbsp;
-                        <a
-                          href="https://www.qut.edu.au/additional/privacy"
-                          target="_blank"
-                          >{label.privacyPolicy}</a
-                        ></span
+                        <template lwc:if={isPortalGiving}>
+                          <a
+                            href={label.privacyPolicyUrl}
+                            target="_blank"
+                            >{label.privacyPolicyGiving}</a> and 
+                            <a
+                            href={label.privacyCollectionNoticeUrl}
+                            target="_blank"
+                            >{label.privacyCollection}</a>
+                        </template>
+                        <template lwc:else>
+                          <a
+                            href={label.privacyPolicyUrl}
+                            target="_blank"
+                            >{label.privacyPolicy}</a>
+                        </template>
+                        </span
                       >
                     </label>
                     <div style="clear:both"></div>
+                    <template lwc:if={isPortalGiving}><br></template>
                     <div class="slds-grid slds-wrap err-msg-privacy">
                       <template if:true={hasErrorChk}>
                         <c-error-icon class="error-icon2"></c-error-icon>
@@ -727,82 +846,82 @@
       </div>
     </div>
   </template>
-      <!--EMAIL VALIDATION -->
-      <template if:true={displayEmailValidation}>
-        <div id="regModal4" class="modal">
-          <div class="modal-content modal-content-height95 text px1 pt2">
-            <div
-              class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
-            >
-              <!--X button -->
-              <span class="slds-float_right cursor" onclick={closeModal}
-                ><img src={xButton}
-              /></span>
-            </div>
-            <div class="slds-grid slds-wrap slds-m-around_medium">
-              <lightning-spinner
-                if:true={loading}
-                class="slds-align_absolute-center slds-m-around_large"
-                alternative-text="Processing..."
-                size="large"
-                variant="brand"
-              ></lightning-spinner>
-              <template if:false={loading}>
-                <div class="slds-size_2-of-2 slds-text-align_center pb2">
-                  <!--Static Contents-->
-                  <p class="heading">Tell Us More About You</p>
-                  <div class="bodyRegular reg-line-style">
-                      Please enter an alternate email address that you’ve used with us before to help us find you.
-                      <ul class="line-list">
-                        <li>Personal Email</li>
-                        <li>Work Email</li>
-                        <li>QUT Learner Email</li>
-                        <li>QUT Staff Email</li>
-                      </ul>
-                  </div>
-                </div>
-                <div class="slds-size_2-of-2 slds-text-align_center pb2">
-                  <lightning-input
-                    type="text"
-                    name="verifyEmails"
-                    placeholder="Enter Email Here..."
-                    onchange={handleOtherEmail}
-                  >
-                  </lightning-input>
-                  <div class="bodyRegular reg-error-style-email" if:true={otherEmailError}>
-                    <p>
-                      The email that you have provided does not match out records.
-                      Please check the spelling and try again.
-                      If you are still unable to log in, please contact QUTeX on {label.contactDetail}.
-                    </p>
-                  </div>
-                </div>
-                <!--Modal Footer Buttons-->
-                <div
-                class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3 mx-auto"
-              >
-                <div class="slds-col slds-size_1-of-2">
-                  <button
-                    class="slds-button slds-button_outline-brand slds-float_right btnCancel"
-                    onclick={closeModal}
-                    disabled={isLoginPage}
-                  >
-                    Cancel
-                  </button>
-                </div>
-                <div class="slds-col slds-size_1-of-2">
-                  <button
-                    type="submit"
-                    class="slds-button slds-button_brand footer-button btnContinue"
-                    onclick={handleOtherExistEmail}
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
-              </template>
-            </div>
-         </div>
+  <!--EMAIL VALIDATION -->
+  <template if:true={displayEmailValidation}>
+    <div id="regModal4" class="modal">
+      <div class="modal-content modal-content-height95 text px1 pt2">
+        <div
+          class="slds-m-top_small slds-m-right_large slds-p-right_large slds-clearfix"
+        >
+          <!--X button -->
+          <span class="slds-float_right cursor" onclick={closeModal}
+            ><img src={xButton}
+          /></span>
         </div>
-      </template>
+        <div class="slds-grid slds-wrap slds-m-around_medium">
+          <lightning-spinner
+            if:true={loading}
+            class="slds-align_absolute-center slds-m-around_large"
+            alternative-text="Processing..."
+            size="large"
+            variant="brand"
+          ></lightning-spinner>
+          <template if:false={loading}>
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <!--Static Contents-->
+              <p class="heading">Tell Us More About You</p>
+              <div class="bodyRegular reg-line-style">
+                  Please enter an alternate email address that you’ve used with us before to help us find you.
+                  <ul class="line-list">
+                    <li>Personal Email</li>
+                    <li>Work Email</li>
+                    <li>QUT Learner Email</li>
+                    <li>QUT Staff Email</li>
+                  </ul>
+              </div>
+            </div>
+            <div class="slds-size_2-of-2 slds-text-align_center pb2">
+              <lightning-input
+                type="text"
+                name="verifyEmails"
+                placeholder="Enter Email Here..."
+                onchange={handleOtherEmail}
+              >
+              </lightning-input>
+              <div class="bodyRegular reg-error-style-email" if:true={otherEmailError}>
+                <p>
+                  The email that you have provided does not match out records.
+                  Please check the spelling and try again.
+                  If you are still unable to log in, please contact QUTeX on {label.contactDetail}.
+                </p>
+              </div>
+            </div>
+            <!--Modal Footer Buttons-->
+            <div
+            class="modal-footer slds-grid slds-gutters center slds-m-horizontal_x-small pb3 mx-auto"
+          >
+            <div class="slds-col slds-size_1-of-2">
+              <button
+                class="slds-button slds-button_outline-brand slds-float_right btnCancel"
+                onclick={closeModal}
+                disabled={isLoginPage}
+              >
+                Cancel
+              </button>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+              <button
+                type="submit"
+                class="slds-button slds-button_brand footer-button btnContinue"
+                onclick={handleOtherExistEmail}
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+          </template>
+        </div>
+    </div>
+    </div>
   </template>
+</template>

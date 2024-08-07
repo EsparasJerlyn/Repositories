@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Key_Date__c</fullName>
+    <description>The name of the key date field used to offset from to define a time period</description>
+    <externalId>false</externalId>
+    <label>Key Date</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Enrollment Date</fullName>
+                <default>false</default>
+                <label>Enrollment Date</label>
+            </value>
+            <value>
+                <fullName>Leave Of Absence End Date</fullName>
+                <default>false</default>
+                <label>Leave Of Absence End Date</label>
+            </value>
+            <value>
+                <fullName>Completed Cadence Date</fullName>
+                <default>false</default>
+                <label>Completed Cadence Date</label>
+            </value>
+            <value>
+                <fullName>Breach Start Date</fullName>
+                <default>false</default>
+                <label>Breach Start Date</label>
+            </value>
+            <value>
+                <fullName>Academic Status Date</fullName>
+                <default>false</default>
+                <label>Academic Status Date</label>
+            </value>
+            <value>
+                <fullName>Assessment Due Date</fullName>
+                <default>false</default>
+                <label>Assessment Due Date</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

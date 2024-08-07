@@ -36,7 +36,7 @@
         <description>Share Alumni Engagement Opportunity records to Corporate Engagement team with Read access</description>
         <label>ACP - Corporate Engagement Share for Alumni Records</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>Alumni_Engagement</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>Corporate_Engagement</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>RecordTypeId</field>
@@ -51,7 +51,7 @@
         <description>Share Corporate Engagement Opportunity records to Corporate Engagement team with Read/Write access</description>
         <label>ACP - Corporate Engagement Share for Corporate Records</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>Alumni_Engagement</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>Corporate_Engagement</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>RecordTypeId</field>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Enrollment_Breach__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Program Enrollment Breach record related to the event</description>
+    <externalId>false</externalId>
+    <label>Program Enrollment Breach</label>
+    <referenceTo>Program_Enrollment_Breach__c</referenceTo>
+    <relationshipLabel>Engagement List Events</relationshipLabel>
+    <relationshipName>Engagement_List_Events</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

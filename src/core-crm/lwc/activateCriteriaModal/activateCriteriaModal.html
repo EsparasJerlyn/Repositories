@@ -1,0 +1,39 @@
+<template>
+    <lightning-quick-action-panel header="Activate">
+        <div class="slds-is-relative">
+            <template lwc:if={showLoading}>
+                <lightning-spinner alternative-text="Activating..." size="medium"></lightning-spinner>
+            </template>
+            <template lwc:if={showError}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+            <template lwc:elseif={showNotice}>
+                <template lwc:if={isBeforePreview}>
+                    <p>A preview has not yet been generated. It is advisable to generate one to verify that your criteria will produce the desired cases.</p>
+                    <p class="slds-m-top_small">Would you like to proceed with activating this criteria without generating a preview?</p>
+                </template>
+                <template lwc:else>
+                    <p>Please ensure that you have reviewed your preview results before activating this criteria.</p>
+                </template>
+            </template>
+            <template lwc:elseif={showConfirmation}>
+                <p>Your criteria has been activated and will be processed in the next scheduled batch.</p>
+            </template>
+        </div>
+        <div slot="footer">
+            <template lwc:if={showNotice}>
+                <template lwc:if={showLoading}>
+                    <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_x-small" disabled></lightning-button>
+                    <lightning-button label="Activate" variant="brand" onclick={handleActivate} disabled></lightning-button>
+                </template>
+                <template lwc:else>
+                    <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_x-small"></lightning-button>
+                    <lightning-button label="Activate" variant="brand" onclick={handleActivate}></lightning-button>    
+                </template>
+            </template>
+            <template lwc:elseif={showClose}>
+                <lightning-button label="Close" onclick={handleClose}></lightning-button>
+            </template>
+        </div>
+    </lightning-quick-action-panel>
+</template>

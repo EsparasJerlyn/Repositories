@@ -6,12 +6,14 @@
  * @author Accenture
  *
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | arsenio.jr.dayrit              | September 27,2023     | DEPP-6720	            | Created File                  |
- *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | Added new methods             |
- *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | updateCases                   |
- *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | getInnerFieldsOfListCases     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------|
+ *    | arsenio.jr.dayrit              | September 27,2023     | DEPP-6720	            | Created File                                  |
+ *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | Added new methods                             |
+ *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | updateCases                                   |
+ *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | getInnerFieldsOfListCases                     |
+ *    | gabriel.p.ventayen             | April 29,2023         | DEPP-8614	            | insertEngagementListConfigurationCases        |
+ *    | eccarius.munoz                 | May 21, 2024          | DEPP-8484	            | removed insertEngagementListConfigurationCases|
  */
 public inherited sharing class CaseService {
     /**
@@ -163,4 +165,5 @@ public inherited sharing class CaseService {
             }
         }
     }
+
 }

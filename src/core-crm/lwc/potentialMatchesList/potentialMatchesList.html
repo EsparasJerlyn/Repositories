@@ -1,4 +1,22 @@
 <template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon 
+                    icon-name="standard:work_plan" 
+                    size="small" 
+                    alternative-text="Possible Matches"
+                    ></lightning-icon>
+                    <span class="slds-assistive-text">possible matches</span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Possible Matches</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
     <div class="box-data-list">
         <lightning-card>
             <div class="box-header">
@@ -37,4 +55,5 @@
             </div>
         </lightning-card>
     </div>
+    </article>
 </template>

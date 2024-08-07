@@ -14,8 +14,6 @@
 @isTest
 public with sharing class GenerateCodeCtrlTest{
 
-     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-
      private static final String RT_OPE_PRODSPECS = System.Label.RT_ProductSpecification_OPEProgramSpecification;
      private static final Id RT_OPE_ID =  Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get(RT_OPE_PRODSPECS).getRecordTypeId();
 
@@ -52,9 +50,14 @@ public with sharing class GenerateCodeCtrlTest{
      private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
      private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
+     @TestSetup
+     static void makeData(){
+          TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+     }
+     
      @isTest
      static void getCCECourseDetailsTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_ACTIVITY_ID, RT_CCE_ID);               
                Test.startTest();
                Id recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
@@ -67,7 +70,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void geOPECourseDetailsTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_ACTIVITY_ID, RT_OPE_ID);               
                Test.startTest();
                Id recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
@@ -79,7 +82,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void getCceProgramDetailsTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_PROGRAM_ID, RT_OPE_ID);               
                Test.startTest();
                Id recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
@@ -91,7 +94,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void getOpeProgramDetailsTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_PROGRAM_ID, RT_OPE_ID);               
                Test.startTest();
                Id recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
@@ -103,7 +106,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateOPEActivityCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_ACTIVITY_ID, RT_OPE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_ACTIVITY, RT_OPE_PRODSPECS);
@@ -114,7 +117,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateCCEActivityCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_ACTIVITY_ID, RT_CCE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_ACTIVITY, RT_CCE_PRODSPECS);
@@ -126,7 +129,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateOPEProgramCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_PROGRAM_ID, RT_OPE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_PROGRAM, RT_OPE_PRODSPECS);
@@ -138,7 +141,7 @@ public with sharing class GenerateCodeCtrlTest{
      
      @isTest
      static void generateCCEProgramCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_PROGRAM_ID, RT_CCE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_PROGRAM, RT_CCE_PRODSPECS);
@@ -149,7 +152,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateOPEModuleCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_MODULE_ID, RT_OPE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_MODULE, RT_OPE_PRODSPECS);
@@ -160,7 +163,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateCCEModuleCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_MODULE_ID, RT_CCE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_MODULE, RT_CCE_PRODSPECS);
@@ -171,7 +174,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateOPEShortCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_SHORT_COURSE_ID, RT_OPE_ID);  
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_SHORT_COURSE, RT_OPE_PRODSPECS);
@@ -182,7 +185,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateCCEShortCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_SHORT_COURSE_ID, RT_CCE_ID);  
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_SHORT_COURSE, RT_CCE_PRODSPECS);
@@ -193,7 +196,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateUnitCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_UNIT_ID, RT_CCE_ID);  
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_UNIT, RT_CCE_PRODSPECS);
@@ -204,7 +207,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateDiagnosticToolCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_DT_ID, RT_CCE_ID);  
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_DIAGNOSTIC_TOOL, RT_CCE_PRODSPECS);
@@ -215,7 +218,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateGroupCoachingCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_GC_ID, RT_CCE_ID);  
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_GROUP_COACHING, RT_CCE_PRODSPECS);
@@ -226,7 +229,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateIndividualCoachingCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_IC_ID, RT_CCE_ID);  
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_INDIVIDUAL_COACHING, RT_CCE_PRODSPECS);
@@ -237,7 +240,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void generateOPEPWPCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_PWP_ID, RT_OPE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_PWP, RT_OPE_PRODSPECS);
@@ -249,7 +252,7 @@ public with sharing class GenerateCodeCtrlTest{
      
      @isTest
      static void generateCCEPWPCodeTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_PWP_ID, RT_CCE_ID);               
                Test.startTest();
                GenerateCodeCtrl.CourseProgramDetails code = GenerateCodeCtrl.generateCode(RT_PWP, RT_CCE_PRODSPECS);
@@ -260,7 +263,7 @@ public with sharing class GenerateCodeCtrlTest{
 
      @isTest
      static void updateCodeGeneratorTest(){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
                createRecord(RT_SHORT_COURSE_ID, RT_CCE_ID);               
                Test.startTest();
                String actId;
@@ -390,7 +393,7 @@ public with sharing class GenerateCodeCtrlTest{
      }
 
      private static void createRecord(String productRequestRecordType, String productSpecsRecordType){
-          System.runAs(currentUser){
+          System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
                Activity_Code_Generator__c actCodeGen = new Activity_Code_Generator__c();
                actCodeGen.Type__c = 'Activity';

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Planned_End_Date_Is_After_Start_Date</fullName>
+    <active>true</active>
+    <description>This validation is triggered when the Planned End Date occurs before the Planned Start Date.</description>
+    <errorConditionFormula>AND(
+  OR(
+    ISNEW(),
+    ISCHANGED(Planned_End_Date__c)
+  ),
+  Planned_End_Date__c &lt; Planned_Start_Date__c
+)</errorConditionFormula>
+    <errorDisplayField>Planned_End_Date__c</errorDisplayField>
+    <errorMessage>The Planned End Date must be after the Planned Start Date.</errorMessage>
+</ValidationRule>

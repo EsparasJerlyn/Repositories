@@ -12,7 +12,7 @@ private class StudentSanctionTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
 
         List<Contact_Alternate_Id__c> conAltIdList = new List<Contact_Alternate_Id__c>();
@@ -45,7 +45,7 @@ private class StudentSanctionTriggerHelperTest {
                 AccessLevel.SYSTEM_MODE
             );
             
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
             StudentSanctionsDAO.newInstance().insertRecords(studentSanctionList,true,AccessLevel.USER_MODE);
@@ -70,7 +70,7 @@ private class StudentSanctionTriggerHelperTest {
 
     @isTest
     static void studentSanctionTriggerHelperError() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             StudentSanctionTriggerHelper.processDuplicateSanctionIntegration(null);
             Test.stopTest();
@@ -93,7 +93,7 @@ private class StudentSanctionTriggerHelperTest {
 
     @isTest
     static void studentSanctionTriggerHelperNoBatch(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
 
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);

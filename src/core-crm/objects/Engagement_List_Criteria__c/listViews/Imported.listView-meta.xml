@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Imported</fullName>
+    <columns>NAME</columns>
+    <columns>Engagement_List_Criteria_Title__c</columns>
+    <columns>Engagement_List_Configuration__c</columns>
+    <columns>Cases_Created__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Engagement_List_Criteria__c.Imported</value>
+    </filters>
+    <label>Imported</label>
+    <sharedTo>
+        <group>Development_Team</group>
+        <group>Student_Success_Outreach_Manager</group>
+        <group>Student_Success_Reporting</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
+    </sharedTo>
+</ListView>

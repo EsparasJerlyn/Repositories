@@ -287,6 +287,7 @@ public with sharing class ApplicationService { //NOPMD
                     //only set the value of mobile field if the Offer Status is Not Accepted Or Deferred
                     if(isQTACRecType && (application.Offer_Status__c !='Accepted' && application.Offer_Status__c !='Deferred')){//NOPMD
                         applicant.put(targetField, application.get(sourceField));
+                        applicant.put('ContactMobile_Locale__c',ContactsDAO.AU_LOCALE);
                     }
 
 					//check if the application is SAMS Legacy
@@ -297,6 +298,7 @@ public with sharing class ApplicationService { //NOPMD
                     //Update the mobile field when the SAMS Legacy criteria is satisfied
                     if(isSAMSLegacyRecType && isContactMobileToUpdate) {//NOPMD
                         applicant.put(targetField, application.get(sourceField));
+                        applicant.put('ContactMobile_Locale__c',ContactsDAO.AU_LOCALE);
                     }                    
                     continue;
                 }
@@ -341,9 +343,11 @@ public with sharing class ApplicationService { //NOPMD
      * @return hed__Address__c
      */
     public static hed__Address__c fillAddressLines(hed__Address__c address, hed__Application__c application, String addressType) {
+        
         Map<String, String> typeToFieldMap = new Map<String, String>();
         typeToFieldMap.put('Mailing', 'Postal');
         typeToFieldMap.put('Other', 'Residential');
+
         String field = typeToFieldMap.get(addressType);
         address.hed__Address_Type__c = addressType;
         address.hed__MailingStreet__c = getAddressLineFromApplication(application, field + '_Address_Line1__c');
@@ -391,6 +395,16 @@ public with sharing class ApplicationService { //NOPMD
             application.hed__Applicant__c != null &&
             application.hed__Applicant__c != (Id) oldItems.get(application.Id).get('hed__Applicant__c');
         return isQTAC && (isContactMatched || isContactChanged);
+    }
+
+    public static Boolean isAddressFieldsPopulated(hed__Application__c application, Set<String> addressFields) {
+        //check if any address field is populated
+        for(String addressField:addressFields){
+            if(application.get(addressField) != null){
+               return true;
+            }
+        }
+        return false;
     }
     
     public class RecordsToReferenceWrapper {

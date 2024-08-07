@@ -13,16 +13,18 @@
 */
 @isTest
 private class Lead_Update_Mobile_LocaleTest {
-    
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void updatePhoneNumbersTest(){
 
         List<Lead> leads = new List<Lead>();
 
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             leads = TestDataFactory.createTestLeadRecords(50);
 
             for(Lead l : leads){

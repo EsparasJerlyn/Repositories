@@ -15,13 +15,16 @@
 private class CustomCreateEditRecordCtrlTest {
 
     private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
-    private static final String STR_QUTEX = 'QUTEX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void getLayoutMappingTest(){
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Field_Layout_Setting__mdt> fieldLayoutList = CustomCreateEditRecordCtrl.getLayoutMapping(COURSE_API_NAME,false);
             System.assert(fieldLayoutList.size() >= 0, 'Field Layout Setting list did not match expected.');
         }

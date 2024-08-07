@@ -37,6 +37,21 @@ public with sharing class ContactWithMatchingLeadHelperTest {
     }
 
     private static void makeData(Integer recNum){
+
+        ImplementationSelector.DAO.setMock(new ConMatchingServiceConfigurationsDAOMock());
+        String developerName = ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH;
+        Contact_Matching_Service_Configuration__mdt customMetaData = (Contact_Matching_Service_Configuration__mdt) JSON.deserialize(
+            '{"IsActive__c":"true","Size__c":"200","DeveloperName":"' + developerName + '"}',
+            Contact_Matching_Service_Configuration__mdt.class
+        );
+        
+        ConMatchingServiceConfigurationsDAO.newInstance()
+            .insertRecords(
+                new List<Contact_Matching_Service_Configuration__mdt>{ customMetaData },
+                true,
+                AccessLevel.SYSTEM_MODE
+            );
+
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         insert accounts;
         List<Lead> leads = new List<Lead>();

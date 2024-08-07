@@ -1,0 +1,27 @@
+<!DOCTYPE html> 
+<html> 
+<script src=/study/lightning/lightning.out.js></script>
+<script>
+  const communityEndPoint = 'https://' + location.hostname + '/study';
+
+  $Lightning.use("runtime_appointmentbooking:lightningOutGuest", // name of the Lightning app 
+    function() {
+      $Lightning.createComponent(
+        "lightning:flow"
+        , { }
+        , "lightningLocator" 
+        , function(cmp) { 
+          cmp.startFlow('Bookable_Appointment_Web'); 
+        }
+      ); 
+    }
+    , communityEndPoint 
+  ); 
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+<div id="lightningLocator">
+</div>
+
+</html>

@@ -24,9 +24,10 @@ public class DonationStageUpdateFlowTest {
 	@testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
+        Test.stopTest();
 
-        System.runAs(testDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
             accountRecord[0].Organization_Unit_Level__c ='2';
             accountRecord[0].End_Date__c = null;
@@ -111,13 +112,11 @@ public class DonationStageUpdateFlowTest {
             }
             DonationsDAO.newInstance().insertRecords(donationPledgeChildList, false, AccessLevel.USER_MODE);
         }
-
-        Test.stopTest();
     }
 
     @isTest
     private static void stageToCompletedRecurringCauseTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Create 1 Designation Record to add to To_Designation__c field
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             DesignationsDAO.newInstance()
@@ -155,7 +154,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCompletedPartPaidEndowmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
@@ -177,7 +176,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCompletedPartPaidHasAcceptedStageEndowmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Record
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
@@ -206,7 +205,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCompletedPartPaidPledgeTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
@@ -228,7 +227,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCompletedPartPaidHasAcceptedStagePledgeTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Record
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
@@ -257,7 +256,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCancelledPledgeTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             
             //Get Created Donation Records
@@ -290,7 +289,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCancelledHasCompletedStagePledgeTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.PLEDGE_RECTYPE_ID}, AccessLevel.USER_MODE);
@@ -312,7 +311,7 @@ public class DonationStageUpdateFlowTest {
     
     @isTest
     private static void stageToCancelledCauseTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Create 1 Designation Record to add to To_Designation__c field
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             DesignationsDAO.newInstance()
@@ -351,7 +350,7 @@ public class DonationStageUpdateFlowTest {
     
     @isTest
     private static void stageToCancelledCauseWithoutDateTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             //Create 1 Designation Record to add to To_Designation__c field
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             DesignationsDAO.newInstance()
@@ -390,7 +389,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCancelledEndowmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             
             //Get Created Donation Records
@@ -423,7 +422,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCancelledHasCompletedStageEndowmentTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);
@@ -445,7 +444,7 @@ public class DonationStageUpdateFlowTest {
 
     @isTest
     private static void stageToCancelledChildDonationTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             //Get Created Donation Records
             List<Donation__c> donationsToUpdate = DonationsDAO.newInstance().getDonationsBySetRecordTypeIds(new Set<Id>{DonationsDAO.ENDOWMENT_RECTYPE_ID}, AccessLevel.USER_MODE);

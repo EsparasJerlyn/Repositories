@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | roy.nino.s.regala              | Nov 15, 2022          | DEPP-4721              | Created file                               |
       | arsenio.jr.dayrit              | Dec 20, 2022          | DEPP-4995              | Updated methods                            |
+      | kenneth.f.alsay                | June 21, 2024         | DEPP-9221              | Updated OPE Catalogue to QUT Experience    |
 
  */
 @isTest
@@ -42,7 +43,7 @@ public  class Cancelled_Enrollments_to_RefundedTest {
             }
             insert accounts;
     
-            Account act = new Account(Name = 'OPE Catalogue');
+            Account act = new Account(Name = 'QUT Experience');
             insert act;
     
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
@@ -124,7 +125,7 @@ public  class Cancelled_Enrollments_to_RefundedTest {
             }
             insert accounts;
     
-            Account act = new Account(Name = 'OPE Catalogue');
+            Account act = new Account(Name = 'QUT Experience');
             insert act;
     
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Date_Is_After_End_Date</fullName>
+    <active>true</active>
+    <description>Validates Breach Start Date If After Breach End Date</description>
+    <errorConditionFormula>AND(NOT(ISNULL(Breach_Start_Date__c)),OR(ISNEW(),ISCHANGED(Breach_Start_Date__c )), Breach_Start_Date__c &gt; Breach_End_Date__c )</errorConditionFormula>
+    <errorDisplayField>Breach_Start_Date__c</errorDisplayField>
+    <errorMessage>Breach Start Date must be before Breach End Date.</errorMessage>
+</ValidationRule>

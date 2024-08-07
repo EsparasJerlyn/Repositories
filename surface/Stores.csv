@@ -1,3 +1,4 @@
-﻿STORE NAME,STORE URL PATH,GUEST PROFILE BUYER GROUP NAME,GUEST USER PERM SET
-CCE,cce,,
-Study,study,OPE Buyer Group,Study Guest User
+﻿STORE NAME,STORE URL PATH,GUEST PROFILE BUYER GROUP NAME,GUEST USER PERM SET,TEMPLATE NAME
+CCE,cce,,,B2B Commerce (Aura)
+Study,study,OPE Buyer Group,Study Guest User,B2B Commerce (Aura)
+Giving to Causes,givingtocauses,,,B2B Commerce (Aura)

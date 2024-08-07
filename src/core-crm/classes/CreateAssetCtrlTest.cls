@@ -14,8 +14,6 @@
 @isTest
 public class CreateAssetCtrlTest {
     private static final String COURSE_API_NAME = Asset.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
-    private static final String STR_QUTEX = 'QUTEX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
 
     @testSetup static void setupMethod() {
         List<Account> accounts;
@@ -24,6 +22,8 @@ public class CreateAssetCtrlTest {
         List<Product_Specification__c> prodSpec;
         List<Product_Request__c> prodReq;
         List<Asset> assetData;
+
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
 
         accounts = TestDataFactory.createTestAccountRecords(1);
         insert accounts;
@@ -41,7 +41,7 @@ public class CreateAssetCtrlTest {
     @isTest
     private static void getLayoutMappingTest(){
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Field_Layout_Setting__mdt> fieldLayoutList = CreateAssetCtrl.getLayoutMapping(COURSE_API_NAME);
             System.assert(fieldLayoutList.size() >= 0, 'Field Layout Setting list did not match expected.');
         }
@@ -52,7 +52,7 @@ public class CreateAssetCtrlTest {
     private static void getRelatedRecordsTest()
     {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id prodReqId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
             Id prodSpecId = [SELECT Id FROM Product_Specification__c LIMIT 1]?.Id;
             Map<String,Id> hasId = CreateAssetCtrl.getRelatedRecords(prodReqId,prodSpecId);

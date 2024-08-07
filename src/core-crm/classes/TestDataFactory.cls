@@ -4,83 +4,92 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                | Change Summary                                                              |
- *    |---------------------------|-----------------------|---------------------|-----------------------------------------------------------------------------|
- *    | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170        | Created file                                                                |
- *    | angelika.j.s.galang       | September 3, 2021     | DEP1-156            | Added comments & method for creating user and getting profile id            |
- *    | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                                       |
- *    | roy.nino.s.regala         | October 4,2021        | DEPP-40,42          | Added method for Product Request and Product Specification                  |
- *    | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms                |
- *    | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                                  |
- *    | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                                      |
- *    | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course                |
- *    | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                                 |
- *    | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                                   |
- *    | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                              |
- *    | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                              |
- *    | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2            |
- *    | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                                        |
- *    | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                           |
- *    | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                               |
- *    | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                                 |
- *    | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                                     |
- *    | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer            |
- *    | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest                         |
- *    | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                                 |
- *    | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary                 |
- *    | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                               |
- *    | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                           |
- *    | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                            |
- *    | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                                        |
- *    | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                            |
- *    | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification                    |
- *    | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings                      |
- *    | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records                         |
- *    | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification             |
- *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                       |
- *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role     |
- *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                         |
- *    | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record             |
- *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                        |
- *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records              |
- *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup         |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                    |
- *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                           |
- *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                               |
- *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                           |
- *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                     |
- *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records                   |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                         |
- *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords |
- *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and      |
- *    |                           |                       |                     | createPackageComponentRecords                                               |
- *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                        |
- *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                       |
- *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                            |
- *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base                 |
- *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already                 |
- *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                              |
- *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                              |
- *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                      |
- *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                                  |
- *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                               |
- *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                             |
- *    | nicole.genon              | November 23, 2023     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records      |
- *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                        |
- *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,                 |
-      |                           |                       |                     | QUT_Corporate_Engagement_Manager users and Engagement Opportunity records   |
- *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                    |
- *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                      |
- *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                     |
- *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                            |
- *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                    |
- *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation             |
- *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                              |
- *    |                           |                       |                     | Added method createTestDistributionSplitRecords                             |
- *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                     |
- *    | kenneth.f.alsay           | April 23, 2024        | DEPP-8528           | Added method createDonationRecordsWithRecordType                            |
+ *    | Developer                 | Date                  | JIRA                | Change Summary                                                          |
+ *    |---------------------------|-----------------------|---------------------|-------------------------------------------------------------------------|
+ *    | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170        | Created file                                                            |
+ *    | angelika.j.s.galang       | September 3, 2021     | DEP1-156            | Added comments & method for creating user and getting profile id        |
+ *    | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                                   |
+ *    | roy.nino.s.regala         | October 4,2021        | DEPP-40,42          | Added method for Product Request and Product Specification              |
+ *    | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms            |
+ *    | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                              |
+ *    | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                                  |
+ *    | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course            |
+ *    | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                             |
+ *    | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                               |
+ *    | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                          |
+ *    | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                          |
+ *    | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2        |
+ *    | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                                    |
+ *    | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                       |
+ *    | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                           |
+ *    | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                             |
+ *    | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                                 |
+ *    | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer        |
+ *    | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest                     |
+ *    | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                             |
+ *    | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary             |
+ *    | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                           |
+ *    | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                       |
+ *    | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                        |
+ *    | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                                    |
+ *    | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                        |
+ *    | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification                |
+ *    | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings                  |
+ *    | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records                     |
+ *    | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification         |
+ *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                   |
+ *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role |
+ *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                     |
+ *    | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record         |
+ *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
+ *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
+ *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |     
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
+ *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
+ *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
+ *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
+ *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
+ *    |                           |                       |                     | createPackageComponentRecords                                           |
+ *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
+ *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
+ *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base             |
+ *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
+ *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
+ *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
+ *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                  |
+ *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
+ *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
+ *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
+ *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     
+ *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
+ *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,             |
+                                                                                  QUT_Corporate_Engagement_Manager users and Engagement Opportunity records
+ *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
+ *    | gabriel.p.ventayen        | April 29, 2024        | DEPP-8614           | added method createTestEngagementListConfiguration                      |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestCourseConnectionAssessmentRecord                          |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createLeaveOfAbsenceRecord                                          |
+ *    | gabriel.p.ventayen        | May 3, 2024           | DEPP-7528           | add createTestProgramEnrollmentBreachRecords                            |
+ *    | eugene.andrew.abuan       | May 07, 2024          | DEPP-8487           | Added Student Success Outreach Manager & Assesment Records              |
+ *    | arsenio.jr.dayrit         | May 09, 2024          | DEPP-8487           | added createTestBreachRecords                                           |
+ *    | eugene.andrew.abuan       | May 24, 2024          | DEPP-8822           | Added method for Qualtrics Survey record creation                       |
+ *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
+ *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
+ *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
+ *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                |
+ *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation         |
+ *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                          |
+ *    |                           |                       |                     | Added method createTestDistributionSplitRecords                         |
+ *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                 |
+ *    | kenneth.f.alsay           | April 23, 2024        | DEPP-8528           | Added method createDonationRecordsWithRecordType                        |
+ *    | marygrace.li              | May 2, 2024           | DEPP-8399           | Deleted method createDonationCauseRecords                               |
+ *    | kenneth.f.alsay           | June 21, 2024         | DEPP-9221           | Updated OPE Catalogue to QUT Experience                                 |
  **/
-
+    
 @isTest
 public class TestDataFactory {
     private static final String STR_QUALIFY = 'Qualify';
@@ -125,12 +134,13 @@ public class TestDataFactory {
         'QUT_Corporate_Engagement_Manager',
         'QUT_International_Future_Student_Agent',
         'QUT_Advancement_Manager',
-        'QUT_Donor_Engagement_Manager'
+        'QUT_Donor_Engagement_Manager',
+        'QUT_Student_Success_Outreach_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
         'QUT_Corporate_Partner_User',
-        'QUT_OPE_Catalogue'
+        'QUT_QUT_Experience'
     };
     private static User portalSysAdmin;
 
@@ -330,6 +340,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numberOfRecords; i++) {
             newLeads.add(
                 new Lead(
+                    FirstName = 'TestFirstNameLead' + i,
                     LastName = 'TestLastNameLead' + i,
                     Email = i + EMAIL,
                     Work_Email__c = 'work' + i + EMAIL,
@@ -340,6 +351,23 @@ public class TestDataFactory {
             );
         }
         return newLeads;
+    }
+
+    /**
+     * @description Method for creating Leave Of Absences Record
+     * @param nLeaveOfAbsence - number of Course Connection to be created
+     * @return leaveOfAbsenceRecord - List of Course Connection Created
+     */
+    public static List<Leave_of_Absence__c> createLeaveOfAbsenceRecord(
+        Integer nLeaveOfAbsence
+    ) {
+        List<Leave_of_Absence__c> leaveOfAbsenceRecord = new List<Leave_of_Absence__c>();
+        for (Integer i = 0; i < nLeaveOfAbsence; i++) {
+            leaveOfAbsenceRecord.add(
+                new Leave_of_Absence__c()
+            );
+        }
+        return leaveOfAbsenceRecord;
     }
 
     /**
@@ -1286,6 +1314,40 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating test Program_Enrollment_Breach__c records
+     * @param numberOfRecordsToCreate - number of hed__Program_Enrollment__c records to be created
+     * @return programEnrollmentBreachList - list of Program_Enrollment_Breach__c created
+     */
+    public static List<Program_Enrollment_Breach__c> createTestProgramEnrollmentBreachRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            programEnrollmentBreachList.add(new Program_Enrollment_Breach__c());
+        }
+
+        return programEnrollmentBreachList;
+    }
+
+    /**
+     * @description Method for creating test Breach__c records
+     * @param numberOfRecordsToCreate - number of Breach__c records to be created
+     * @return BreachList - list of Breach__c created
+     */
+    public static List<Breach__c> createTestBreachRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<Breach__c> BreachList = new List<Breach__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            BreachList.add(new Breach__c());
+        }
+
+        return BreachList;
+    }
+
+    /**
      * @description Method for creating test Product2 with isActive status
      * @param numProducts - number of Product2 to be created
      * @return products - list of Product2 created
@@ -1409,6 +1471,28 @@ public class TestDataFactory {
         }
         return courseConnectionRecord;
     }
+
+    /**
+     * @description Method for creating Course Connection Assessment Record
+     * @param nCourseConnectionAssessment - number of Course Connection to be created
+     * @param courseConnectionId - Course Connection Id to be related to Course Connection Assessment
+     * @return courseConnectionAssessmentRecord - List of Course Connection Created
+     */
+    public static List<Course_Connection_Assessment__c> createTestCourseConnectionAssessmentRecord(
+        Integer nCourseConnectionAssessment,
+        Id courseConnectionId
+    ) {
+        List<Course_Connection_Assessment__c> courseConnectionAssessmentRecord = new List<Course_Connection_Assessment__c>();
+        for (Integer i = 0; i < nCourseConnectionAssessment; i++) {
+            courseConnectionAssessmentRecord.add(
+                new Course_Connection_Assessment__c(
+                    Course_Connection__c = courseConnectionId
+                )
+            );
+        }
+        return courseConnectionAssessmentRecord;
+    }
+
 
     /**
      * @description method to create test data for create Account
@@ -2485,6 +2569,20 @@ public class TestDataFactory {
        ];
        return corporateEngagementManager;
    }
+    /**
+     * @description Method for creating Student Success Outreach Manager
+     * @param void
+     * @return studentSuccessOutreachManager - Student Success Outreach Manager User
+     */
+    public static User getStudentSuccessOutreachManager() {
+        User studentSuccessOutreachManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Student_Success_Outreach_Manager%'
+            LIMIT 1
+        ];
+        return studentSuccessOutreachManager;
+    }
 
     class TestUserGenerator {
         private Map<String, Id> groupMap;
@@ -3155,7 +3253,8 @@ public class TestDataFactory {
                 userName = 'QUT_International_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - International';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access,                Einstein_Service_AI_User,Google_Integration_User,Internal_User_Base,Knowledge_User';
+                //,force__CopilotSalesforceUser,force__EinsteinAgent,force__EinsteinGPTPromptTemplateUser,force__HighVelocitySalesUserIncluded,spr_sf__Sprinklr_User
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3354,6 +3453,22 @@ public class TestDataFactory {
                 isPortal = false;
                 contactId = null;
             }
+            /** START - Creation of  Student Success Users : DEPP-8078 (Persona Guide for IT4) */
+            else if (name == 'QUT_Student_Success_Outreach_Manager') {
+                userName = 'QUT_Student_Success_Outreach_Manager';
+                profileName = 'Student Success';
+                roleName = 'Student Success Outreach Manager';
+                permSets = 'Student_Success_Base,Student_Success_Super_User';
+                publicGroups = 'Student Success Outreach Manager';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
         }
 
         private UserAttributeClass(String name, Id conId) {
@@ -3385,9 +3500,9 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
-            } else if (name == 'QUT_OPE_Catalogue') {
-                userName = 'QUT_OPE_Catalogue';
-                profileName = 'OPE Catalogue';
+            } else if (name == 'QUT_QUT_Experience') {
+                userName = 'QUT_QUT_Experience';
+                profileName = 'QUT_Experience';
                 roleName = 'OPECatalogueCustomerUser';
                 permSets = 'OPE_Catalogue';
                 publicGroups = '';
@@ -4240,70 +4355,83 @@ public class TestDataFactory {
     public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){
         List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Future_Student_Stage__c = 'Apply',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Enquiry_Category__c = 'My enrolment',
             Future_Student_Stage__c = 'Apply',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 1',
             Is_Active__c = true,
             Lead_Score__c = 120,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 2',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 3',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Future_Student_Stage__c = 'Offer',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Enquiry_Sub_Category__c = 'Student support;Welcome and orientation events',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(//this test data is always within range
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Date_From__c =  Date.newInstance(2023, 01, 01),
             Date_To__c = System.today().addDays(1),
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Untiered',
             Country_Tier_Subcategory__c = 'Restricted',
             Is_Active__c = true,
             Priority__c = 'High',
-            Enquiry_Category__c = 'Student life'
+            Enquiry_Category__c = 'Student Life',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Is_Active__c = true,
             Priority__c = 'High',
-            Enquiry_Category__c = 'Student life',
-            Lead_Source_Category__c = 'Partner Sourced'
+            Enquiry_Category__c = 'Student Life',
+            Lead_Source_Category__c = 'Partner Sourced',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         return casePrioConfigList;
     }
@@ -4446,28 +4574,6 @@ public class TestDataFactory {
     }
 
     /**
-     * @description Method for creating test Donation Causes records
-     * @params
-     * numOfRecords - number of records to create
-     * @return donationCauseList - List of Donation Cause records created
-     */
-    public static List<Donation_Cause__c> createDonationCauseRecords(
-        Integer numOfRecords
-    ) {
-        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
-        for (Integer i = 0; i < numOfRecords; i++) {
-            donationCauseList.add(
-                new Donation_Cause__c(
-                    Activation_Start_Date__c = System.Today(),
-                    Name = 'Test Donation' + i,
-                    Donation_Cause_Description__c = 'Test'
-                )
-            );
-        }
-        return donationCauseList;
-    }
-
-    /**
      * @description Method for creating test Designation records
      * @params
      * numOfRecords - number of records to create
@@ -4557,6 +4663,23 @@ public class TestDataFactory {
         }
         return donationAssetList;
     }
+    /** @description Method for Assessment Records
+     * @param numberOfAssesmentRecords - number of Assessment Records to be created
+     * @return assessmentRecords - list of assessment records created
+     */
+    public static List<Assessment__c> createTestAssessmentRecords(Integer numberOfAssesmentRecords) {
+        List<Assessment__c> assessmentRecords = new List<Assessment__c>();
+        for (Integer i = 0; i < numberOfAssesmentRecords; i++) {
+            assessmentRecords.add(
+                new Assessment__c(
+                    Name = 'Test' + i,
+                    Assessment_Priority__c = 'High'
+                )
+            );
+        }
+        return assessmentRecords;
+    }
+
     /** @description Method for creating test Contact Alternate Id record
      * @return Contact Alternate Id record
      */
@@ -4663,8 +4786,23 @@ public class TestDataFactory {
                 )
             );
         }
-
         return studentSanctionList;
+    }
+
+    /** @description Method for creating test Engagement List Configuration records
+     * @return listNewEngagementListConfiguration - list of Engagement List Configuration created
+     */
+    public static List<Engagement_List_Configuration__c> createTestEngagementListConfiguration() {
+        List<Engagement_List_Configuration__c> listNewEngagementListConfiguration = new List<Engagement_List_Configuration__c>();
+        for (Integer i = 0; i < 2; i++) {
+            listNewEngagementListConfiguration.add(
+                new Engagement_List_Configuration__c(
+                    Name = 'Test ELC 0' + i + ''
+                )
+            );
+        }
+        insert listNewEngagementListConfiguration;
+        return listNewEngagementListConfiguration;
     }
 
     /** @description Method for creating test contact matching staging records
@@ -4682,5 +4820,93 @@ public class TestDataFactory {
         }
 
         return contactMatchingStagingList;
+    }
+
+    public static Case createTestOutreachCaseRecord(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        Id contactId
+    ) {
+
+        Case caseRecord = new Case();
+        caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+        caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+        caseRecord.Subject = elConfig.Name;
+        caseRecord.ContactId = contactId;
+        caseRecord.OwnerId = ownerId;
+        caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+        caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+        caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+        caseRecord.Status = CasesDAO.STATUS_CREATED;
+        caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+        return caseRecord;
+    }
+
+    public static List<Case> createTestOutreachCaseRecords(
+        Engagement_List_Configuration__c elConfig,
+        Id ownerId,
+        List<Contact> contacts
+    ) {
+        List<Case> caseList = new List<Case>();
+        for(Contact contact : contacts){
+            Case caseRecord = new Case();
+            caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+            caseRecord.Engagement_List_Configuration__c = elConfig.Id;
+            caseRecord.Subject = elConfig.Name;
+            caseRecord.ContactId = contact.Id;
+            caseRecord.OwnerId = ownerId;
+            caseRecord.Case_Type__c = CasesDAO.CASE_TYPE_STUDENT_SUCCESS_RETENTION;
+            caseRecord.Origin = CasesDAO.ORIGIN_ENGAGEMENT_LIST;
+            caseRecord.Description = CasesDAO.DESCRIPTION_ENGAGEMENT_LIST;
+            caseRecord.Status = CasesDAO.STATUS_CREATED;
+            caseRecord.Priority = CasesDAO.PRIORITY_LOW;
+            caseList.add(caseRecord);
+        }
+        
+        return caseList;
+    }
+
+    /** @description Method for creating serialized records with nonwritable fields
+     * @return String serialized object
+     */
+    public static String getSObjectJSONString(SObjectJSONStringParam param) {
+        return '{"attributes":{"type":"' +
+        param.objectApiName +
+        '","url":"/services/data/v56.0/sobjects/' +
+        param.objectApiName +
+        '/' +
+        param.recordId +
+        '"},' +
+        '"Id":"' +
+        param.recordId +
+        '","Name":"' +
+        param.name +
+        '","CreatedDate":"' +
+        String.valueOf(param.createdDate) +
+        '","LastModifiedDate":"' +
+        String.valueOf(param.lastModifiedDate) +
+        '"}';
+    }
+
+    public class SObjectJSONStringParam{
+        public String objectApiName { get; set; }
+        public String recordId { get; set; }
+        public String name { get; set; }
+        public Date createdDate { get; set; }
+        public Date lastModifiedDate { get; set; }
+    }
+
+    /** @description Method for creating Qualtrics Survey Record
+     * @param numberOfQSRecords - number of Qualtrics Survey Record to be created
+     * @return qualtricsRecords - list of Qualtrics Survey Record created
+     */
+    public static List<Qualtrics_Survey__c> createQualtricsSurveyRecord(integer numberOfQSRecords) {
+        List<Qualtrics_Survey__c> qualtricsRecords = new List<Qualtrics_Survey__c>();
+        for (Integer i = 0; i < numberOfQSRecords; i++) {
+            qualtricsRecords.add(
+                new Qualtrics_Survey__c()
+            );
+        }
+        return qualtricsRecords;
     }
 }

@@ -6,5 +6,6 @@
     <fields>Program_Full_Name__c</fields>
     <fields>Start_Date__c</fields>
     <fields>End_Date__c</fields>
+    <fields>RecordTypeId</fields>
     <label>Academic Program Compact Layout</label>
 </CompactLayout>

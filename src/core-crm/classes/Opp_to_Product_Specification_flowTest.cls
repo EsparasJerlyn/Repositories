@@ -14,12 +14,15 @@
 @isTest
 public with sharing class Opp_to_Product_Specification_flowTest {
 
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void closedWonOppTest()
     {
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             Test.startTest();
                 List<Account> acc = new List<Account>();

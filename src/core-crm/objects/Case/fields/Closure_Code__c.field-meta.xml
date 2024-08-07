@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Closure_Code__c</fullName>
-    <description>Specified how a case was closed for reporting purposes.</description>
+    <description>The case outcome</description>
     <externalId>false</externalId>
     <label>Closure Code</label>
     <required>false</required>
@@ -55,6 +55,41 @@
                 <default>false</default>
                 <label>Public - No Further Action</label>
             </value>
+            <value>
+                <fullName>Successful - Phone</fullName>
+                <default>false</default>
+                <label>Successful - Phone</label>
+            </value>
+            <value>
+                <fullName>Successful - Email</fullName>
+                <default>false</default>
+                <label>Successful - Email</label>
+            </value>
+            <value>
+                <fullName>Successful - Message</fullName>
+                <default>false</default>
+                <label>Successful - Message</label>
+            </value>
+            <value>
+                <fullName>Unsuccessful - Uncontactable</fullName>
+                <default>false</default>
+                <label>Unsuccessful - Uncontactable</label>
+            </value>
+            <value>
+                <fullName>Unsuccessful - No Valid Phone/Spoke to Other</fullName>
+                <default>false</default>
+                <label>Unsuccessful - No Valid Phone/Spoke to Other</label>
+            </value>
+            <value>
+                <fullName>Unsuccessful - No Contact Attempted</fullName>
+                <default>false</default>
+                <label>Unsuccessful - No Contact Attempted</label>
+            </value>
+            <value>
+                <fullName>No Longer Meets Criteria</fullName>
+                <default>false</default>
+                <label>No Longer Meets Criteria</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Closed</controllingFieldValue>
@@ -95,6 +130,34 @@
             <controllingFieldValue>Closed</controllingFieldValue>
             <controllingFieldValue>Pending Closure</controllingFieldValue>
             <valueName>Public - No Further Action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>Successful - Phone</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>Successful - Email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>Successful - Message</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>Unsuccessful - Uncontactable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>Unsuccessful - No Valid Phone/Spoke to Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>Unsuccessful - No Contact Attempted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <valueName>No Longer Meets Criteria</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

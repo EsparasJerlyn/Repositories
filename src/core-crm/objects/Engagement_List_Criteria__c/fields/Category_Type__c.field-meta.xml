@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_Type__c</fullName>
+    <description>The setting to filter by the category of the program that student is enrolled in</description>
+    <externalId>false</externalId>
+    <label>Category Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Graduate Certificate</fullName>
+                <default>false</default>
+                <label>Graduate Certificate</label>
+            </value>
+            <value>
+                <fullName>Graduate Diploma - Existing Area</fullName>
+                <default>false</default>
+                <label>Graduate Diploma - Existing Area</label>
+            </value>
+            <value>
+                <fullName>Graduate Diploma - New Area</fullName>
+                <default>false</default>
+                <label>Graduate Diploma - New Area</label>
+            </value>
+            <value>
+                <fullName>Masters by Coursework - Double Degree</fullName>
+                <default>false</default>
+                <label>Masters by Coursework - Double Degree</label>
+            </value>
+            <value>
+                <fullName>Masters by Coursework - Single</fullName>
+                <default>false</default>
+                <label>Masters by Coursework - Single</label>
+            </value>
+            <value>
+                <fullName>Masters by Research</fullName>
+                <default>false</default>
+                <label>Masters by Research</label>
+            </value>
+            <value>
+                <fullName>Bachelor Honours - Graduate Entry</fullName>
+                <default>false</default>
+                <label>Bachelor Honours - Graduate Entry</label>
+            </value>
+            <value>
+                <fullName>Bachelor Honours Degree</fullName>
+                <default>false</default>
+                <label>Bachelor Honours Degree</label>
+            </value>
+            <value>
+                <fullName>Bachelor Honours/Masters by Coursework Double Degree</fullName>
+                <default>false</default>
+                <label>Bachelor Honours/Masters by Coursework Double Degree</label>
+            </value>
+            <value>
+                <fullName>Bachelor Honours/Pass Double Degree</fullName>
+                <default>false</default>
+                <label>Bachelor Honours/Pass Double Degree</label>
+            </value>
+            <value>
+                <fullName>Bachelor Pass Degree - Graduate Entry</fullName>
+                <default>false</default>
+                <label>Bachelor Pass Degree - Graduate Entry</label>
+            </value>
+            <value>
+                <fullName>Bachelor Pass Double Degree</fullName>
+                <default>false</default>
+                <label>Bachelor Pass Double Degree</label>
+            </value>
+            <value>
+                <fullName>Bachelor Pass Single Degree</fullName>
+                <default>false</default>
+                <label>Bachelor Pass Single Degree</label>
+            </value>
+            <value>
+                <fullName>Bachelor Pass/Masters by Coursework Double Degree</fullName>
+                <default>false</default>
+                <label>Bachelor Pass/Masters by Coursework Double Degree</label>
+            </value>
+            <value>
+                <fullName>Undergraduate Certificate</fullName>
+                <default>false</default>
+                <label>Undergraduate Certificate</label>
+            </value>
+            <value>
+                <fullName>Associate Degree</fullName>
+                <default>false</default>
+                <label>Associate Degree</label>
+            </value>
+            <value>
+                <fullName>Certificate and University Certificate</fullName>
+                <default>false</default>
+                <label>Certificate and University Certificate</label>
+            </value>
+            <value>
+                <fullName>Diploma and University Diploma</fullName>
+                <default>false</default>
+                <label>Diploma and University Diploma</label>
+            </value>
+            <value>
+                <fullName>Advanced Dip (AQF Term)/Diploma (Pre-AQF Term) (Hist Only)</fullName>
+                <default>false</default>
+                <label>Advanced Dip (AQF Term)/Diploma (Pre-AQF Term) (Hist Only)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -17,8 +17,7 @@ public with sharing class CommunitiesLandingControllerTest {
     
 	@isTest
     public static void testCommunitiesLandingController() {
-    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
-        System.runAs(PORTAL_SYS_ADMIN) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             // Instantiate a new controller with all parameters in the page
             CommunitiesLandingController controller = new CommunitiesLandingController();
             PageReference pageRef = controller.forwardToStartPage();

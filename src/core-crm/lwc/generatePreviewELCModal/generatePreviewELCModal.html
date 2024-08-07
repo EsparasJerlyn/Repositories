@@ -1,0 +1,44 @@
+<template>
+    <lightning-modal-header label="Generate Preview"></lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-is-relative">
+            <template lwc:if={showLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+            <template lwc:if={showError}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+            <template lwc:elseif={showDateSelect}>
+                <p>Considering the potential for misconfigured criteria, leading to an excess or shortage of results, it is strongly recommended to generate and review the results beforehand.</p>
+                <div class="slds-grid slds-wrap slds-m-top_x-small">
+                    <div class="slds-col slds-size_4-of-12"></div>
+                    <div class="slds-col slds-size_4-of-12">
+                        <lightning-input type="date" class="inputDate" label="Preview Date" value={dateToday} required></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_4-of-12"></div>
+                </div>
+            </template>
+            <template lwc:elseif={showConfirmation}>
+                <p>As this process may take some time, we will notify you via email once the generated preview is complete.</p>
+            </template>
+            <template lwc:elseif={showIsGenerating}>
+                <p>A preview is currently being generated. If you wish to cancel the preview, please refresh the page and select Cancel Preview.</p>
+            </template>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <template lwc:if={showDateSelect}>
+            <template lwc:if={showLoading}>
+                <lightning-button label="Cancel" class="slds-m-right_x-small" onclick={handleCancel} disabled></lightning-button>
+                <lightning-button label="Generate Preview" variant="brand" onclick={handleGenerate} disabled></lightning-button>
+            </template>
+            <template lwc:else>
+                <lightning-button label="Cancel" class="slds-m-right_x-small" onclick={handleCancel}></lightning-button>
+                <lightning-button label="Generate Preview" variant="brand" onclick={handleGenerate}></lightning-button>
+            </template>
+        </template>
+        <template lwc:elseif={showCloseButton}>
+            <lightning-button label="Close" onclick={handleClose}></lightning-button>
+        </template>
+    </lightning-modal-footer>
+</template>

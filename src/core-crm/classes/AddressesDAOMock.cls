@@ -32,4 +32,37 @@ public inherited sharing class AddressesDAOMock extends DmlBaseMock implements I
 
         return addressList;
     }
+    
+    public List<hed__Address__c> getAddressesByContactIdsAndAddressType(Set<Id> contactIdsSet,Set<String> addressTypes, String accessLevel){
+        List<hed__Address__c> addressList = new List<hed__Address__c>();
+        
+        for(hed__Address__c address: addressesMap.values()){
+            if(contactIdsSet.contains(address.hed__Parent_Contact__c) && addressTypes.contains(address.hed__Address_Type__c)){
+                addressList.add(address);
+            }
+        }
+        
+        return addressList;
+    }
+
+    public Database.QueryLocator getQueryLocatorByIntegrationStatus(Set<String> status) {
+        return null;
+    }
+
+    public Database.QueryLocator getQueryLocatorByIds(Set<Id> recordIds) {  
+        return null;
+    }
+
+    public List<hed__Address__c> getAddressesByIds(Set<Id> recordIds, AccessLevel accessLevel){
+        List<hed__Address__c> addressList = new List<hed__Address__c>();
+
+        for(hed__Address__c address: addressesMap.values()){
+            if(recordIds.contains(address.Id)){
+                addressList.add(address);
+            }
+        }
+
+        return addressList;
+    }    
+
 }

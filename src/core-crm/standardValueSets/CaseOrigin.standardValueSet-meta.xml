@@ -51,4 +51,14 @@
         <default>false</default>
         <label>LiveChat After Hours</label>
     </standardValue>
+    <standardValue>
+        <fullName>Intranet Website</fullName>
+        <default>false</default>
+        <label>Intranet Website</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Engagement List</fullName>
+        <default>false</default>
+        <label>Engagement List</label>
+    </standardValue>
 </StandardValueSet>

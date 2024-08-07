@@ -165,6 +165,7 @@
     <pluralLabel>Applications</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <searchResultsAdditionalFields>hed__Applicant__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__Applying_To__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__Application_Type__c</searchResultsAdditionalFields>

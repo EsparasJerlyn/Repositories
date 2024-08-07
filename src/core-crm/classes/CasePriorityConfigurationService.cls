@@ -11,6 +11,8 @@
  *    |                                |                       |        	            | in matchCountryTier method    | 
  *    | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added Lead Source categ check |
  *    |                                |                       |        	            | in matchConfigToCaseBase      | 
+ *    | gabriel.p.ventayen             | April 22, 2024        | DEPP-8544	            | add case type checks          |
+ *    |                                |                       |        	            | to matchConfigCaseBase        | 
  */
 public inherited sharing class CasePriorityConfigurationService {
 
@@ -42,6 +44,14 @@ public inherited sharing class CasePriorityConfigurationService {
         Boolean trueSoFar = config.Case_Record_Type__c != null
             ? CasesDAO.CASE_RECTYPE_MAP.get(config.Case_Record_Type__c) == item.RecordTypeId
             : true;
+
+        Boolean isCaseTypeValid = 
+            config.Case_Type__c != null &&
+            config.Case_Type__c != item.Case_Type__c;
+
+        if (isCaseTypeValid) {
+            trueSoFar = false;
+        }
 
         Boolean isLeadScoreValid = 
             config.Lead_Score__c != null &&

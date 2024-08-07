@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Active_Breaches</fullName>
+    <booleanFilter>1 OR 2</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Breach_Number__c</columns>
+    <columns>Breach_Code__c</columns>
+    <columns>Breach_Start_Date__c</columns>
+    <columns>Breach_End_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Breach_End_Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>Breach_End_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>All Active Breaches</label>
+    <sharedTo>
+        <group>Development_Team</group>
+        <group>Student_Success_Outreach_Manager</group>
+        <group>Student_Success_Outreach_Staff</group>
+        <group>Student_Success_Reporting</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
+    </sharedTo>
+</ListView>

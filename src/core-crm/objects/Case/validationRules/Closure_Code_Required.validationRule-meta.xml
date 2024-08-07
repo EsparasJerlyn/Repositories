@@ -3,19 +3,26 @@
     <fullName>Closure_Code_Required</fullName>
     <active>true</active>
     <description>When the Status of the case is &quot;Closed&quot;, the Closure Code is required.</description>
-    <errorConditionFormula>AND (
-    ISPICKVAL( Status , &apos;Closed&apos;),
-    OR(
-        ISBLANK(TEXT(Closure_Code__c)),
-        LEN(Closure_Details__c) = 0
-    ),
-    AND (
-        TEXT(Closure_Code__c)!= &apos;Invalid Enquiry&apos;,
-        TEXT(Closure_Code__c)!= &apos;Redirected Agent Enquiry&apos;,
-        TEXT(Closure_Code__c)!= &apos;Public - No Further Action&apos;
-    )
-    
+    <errorConditionFormula>OR(
+	AND (
+		NOT(RecordType.DeveloperName = &apos;Outreach&apos;),
+		ISPICKVAL( Status , &apos;Closed&apos;),
+		OR(
+			ISBLANK(TEXT(Closure_Code__c)),
+			LEN(Closure_Details__c) = 0
+		),
+		AND (
+			TEXT(Closure_Code__c)!= &apos;Invalid Enquiry&apos;,
+			TEXT(Closure_Code__c)!= &apos;Redirected Agent Enquiry&apos;,
+			TEXT(Closure_Code__c)!= &apos;Public - No Further Action&apos;
+		)  
+	),
+	AND(
+		RecordType.DeveloperName = &apos;Outreach&apos;,
+		ISPICKVAL(Status,&apos;Closed&apos;),
+		ISBLANK(TEXT(Closure_Code__c))
+	)
 )</errorConditionFormula>
     <errorDisplayField>Closure_Code__c</errorDisplayField>
-    <errorMessage>Closure Code and Closure Details are required when Status is &quot;Closed&quot;.</errorMessage>
+    <errorMessage>Closure Code and Closure Details are required when Status is &apos;Closed&apos;.</errorMessage>
 </ValidationRule>

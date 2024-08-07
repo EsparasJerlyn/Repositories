@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualtrics_Survey_In_Progress_URL__c</fullName>
+    <description>This is a field based on the In Progress URL on the Qualtrics Survey object to make it accessible to email templates</description>
+    <externalId>false</externalId>
+    <label>Qualtrics Survey In Progress URL</label>
+    <length>1000</length>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

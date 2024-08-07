@@ -49,7 +49,7 @@ private class ApplicationTriggerHelperTest {
         TestDataFactoryUser.generateUserQUTESB();
         TestDataFactory.loadEDATriggers();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;

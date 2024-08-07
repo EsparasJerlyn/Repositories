@@ -17,13 +17,13 @@ public class DynamicRecordEditFormCtrlTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
         Test.stopTest();
     }
 
     @isTest
     private static void getRecordIdsTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             // Create test records 
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 10, 
@@ -45,7 +45,7 @@ public class DynamicRecordEditFormCtrlTest {
 
     @isTest
     private static void getUiBehaviorTest(){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             String stageNameVaue = 'Archived';
             String visibilityByParentFilter = 'Stage__c ' + ' = \'' + stageNameVaue + '\''; 
             
@@ -69,7 +69,7 @@ public class DynamicRecordEditFormCtrlTest {
 
             //Build Map for Visibility by User
             Map<String, String> visibilityByUserParamMap = new Map<String, String>{
-                'recordId' => TestDataFactory.getAdvancementManager().Id,
+                'recordId' => TestDataFactoryUser.selectUserAdvancementManager.Id,
                 'parentRecord' => 'User',
                 'visibilityByUser' => visibilityByUserFilter
             };
@@ -86,7 +86,7 @@ public class DynamicRecordEditFormCtrlTest {
 
     @isTest
     private static void getContentBlockFilterTest (){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
 
             //Create Test Data
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(

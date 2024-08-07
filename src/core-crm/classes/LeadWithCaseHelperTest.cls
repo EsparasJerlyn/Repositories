@@ -24,6 +24,9 @@ private class LeadWithCaseHelperTest {
             List<Lead> leads = TestDataFactory.createTestLeadRecords(100);
             insert leads;
             List<Case> cases = TestDataFactory.createTestCaseRecords(100,leads,null);
+            for(Case c : cases){
+                c.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
+            }
             insert cases;
         }
         

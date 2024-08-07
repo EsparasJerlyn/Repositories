@@ -16,7 +16,6 @@
 @isTest
 public with sharing class CreateProductsAndOfferingsCtrlTest {
 
-   private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
    private static Map <String,Schema.RecordTypeInfo> productRequestRecordTypes = Product_Request__c.sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getRecordTypeInfosByName();
    private static Id programRequestRTId = productRequestRecordTypes.get('Program Request').getRecordTypeId();
    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
@@ -24,6 +23,7 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
 
    @testSetup static void setupMethod()
    {
+       TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
        List<Account> accounts;
        List<hed__Course__c> courses;
        List<hed__Course__c> coursesProgramRequest;
@@ -73,7 +73,7 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
     static void testGetRelatedCourse()
     {
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             CreateProductsAndOfferingsCtrl.CourseWithOfferings getCourses = new CreateProductsAndOfferingsCtrl.CourseWithOfferings();
             getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c LIMIT 1].Id));
@@ -86,7 +86,7 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
     static void testGetRelatedCourseProgramRequestRecordType()
     {
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             CreateProductsAndOfferingsCtrl.CourseWithOfferings getCourses = new CreateProductsAndOfferingsCtrl.CourseWithOfferings();
             getCourses = CreateProductsAndOfferingsCtrl.getRelatedCourse(string.valueOf([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId LIMIT 1].Id));
@@ -99,7 +99,7 @@ public with sharing class CreateProductsAndOfferingsCtrlTest {
     static void testUpdateProductRequests()
     {
         Test.startTest();
-        System.runAs(currentUser)
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             List<Product_Request__c> productRequestToUpdate = new List<Product_Request__c>();
             List<Product_Request__c> productRequestList  = new List<Product_Request__c>([SELECT Id FROM Product_Request__c WHERE RecordTypeId =:programRequestRTId]);

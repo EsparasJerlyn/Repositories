@@ -1,0 +1,7 @@
+div.header-with-bg {
+    background-color: var(--lwc-colorBackground);
+}
+
+article.card-with-bg {
+    background-color: var(--lwc-colorBackground);
+}

@@ -1,8 +1,8 @@
 @isTest
 private class AddressInformationValidationCtrlTest {
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProductAdministrator();
         List<account> accs = new List<Account>();
         List<lead> leads = new List<lead>();
         List<contact> contacts = new List<contact>();
@@ -29,7 +29,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testGetLoqateMetaData() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             AddressInformationValidationCtrl.AddressMetadata addMetadata  = new AddressInformationValidationCtrl.AddressMetadata();
             addMetadata = AddressInformationValidationCtrl.getLoqateMetaData('Account');
             system.assertEquals('hed__Parent_Account__c', addMetadata.addressLookup, 'unable to get account metadata for account');
@@ -40,7 +40,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testGetLoqateMetaDataError() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             AddressInformationValidationCtrl.AddressMetadata addMetadata  = new AddressInformationValidationCtrl.AddressMetadata();
             try{
                 addMetadata = AddressInformationValidationCtrl.getLoqateMetaData('Test');
@@ -54,7 +54,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testUpserHedAddress() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             List<hed__Address__c> hedAddress = new List<hed__Address__c>([SELECT Id, hed__Address_Type__c FROM hed__Address__c WHERE hed__Address_Type__c = 'Billing']);
             hed__Address__c hedAddressToUpdate = new hed__Address__c(id=hedAddress[0].id,hed__Address_Type__c='Shipping');
             AddressInformationValidationCtrl.upsertHedAddress(hedAddressToUpdate);
@@ -66,7 +66,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testUpserHedAddressError() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             hed__Address__c hedAddressToUpdate = new hed__Address__c();
             hedAddressToUpdate.put('id','1234');
             hedAddressToUpdate.put('hed__Address_Type__c','test');
@@ -82,7 +82,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testGetHedAddress() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             List<hed__Address__c> hedAddress = new List<hed__Address__c>([SELECT Id, hed__Address_Type__c, Parent_Lead__c FROM hed__Address__c WHERE hed__Address_Type__c = 'Lead']);
             system.assert(!AddressInformationValidationCtrl.getHedAddress(hedAddress[0].Parent_Lead__c, 'Parent_Lead__c').isEmpty(), 'no hed address found');
         }
@@ -92,7 +92,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
 	static void testGetHedAddressError() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             try{
                 AddressInformationValidationCtrl.getHedAddress('errorid', 'Error Field');
             }catch(Exception e){
@@ -105,7 +105,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testSearchAddress() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             // Set mock callout class 
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             List<AddressInformationValidationCtrl.AddressObject> addressObj = new List<AddressInformationValidationCtrl.AddressObject>();
@@ -119,7 +119,7 @@ private class AddressInformationValidationCtrlTest {
     @isTest
     static void testGetDetails() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProductAdministrator){
             // Set mock callout class 
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             AddressInformationValidationCtrl.AddressObject addressObj = new AddressInformationValidationCtrl.AddressObject();

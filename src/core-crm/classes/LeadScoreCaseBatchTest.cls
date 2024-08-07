@@ -28,10 +28,11 @@ public with sharing class LeadScoreCaseBatchTest {
             contactsToAdd.addAll(contactList);
             ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
 
-            List<Case> caseConList = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Contact Case', 1);
+            List<Case> caseConList = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Contact Case', 1);
             for(Case caseRec : caseConList){
                 caseRec.ContactId = contactList[0].Id;
                 caseRec.Category__c = 'Applying for a course';
+                caseRec.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
             }
             CasesDAO.newInstance().insertRecords(caseConList, true, AccessLevel.SYSTEM_MODE);  
         }

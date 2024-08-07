@@ -19,6 +19,7 @@
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code        |
       | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added generateCodeForDesignationGivingToCauseRecords                   |
       | eugene.andrew.abuan            | April 17, 2024        | DEPP-8340              | Added generateCodeForDesignationEndowmentRecords                       |
+      | marygrace.li                   | May 2, 2024           | DEPP-8390              | Deleted generateCodeForDonationCauseRecords method                     |
 
  */
 public with sharing class CodeGeneratorService {
@@ -121,31 +122,6 @@ public with sharing class CodeGeneratorService {
             AccessLevel.SYSTEM_MODE
             );
     }
-        /**
-     * Generate code for Donation_Cause__c.Donation_Cause_Code__c following the format "ADVDC:00001"
-     */
-    public static void generateCodeForDonationCauseRecords(List<Donation_Cause__c> newItems) {
-        Donation_Cause_Code_Auto_Number__c donCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        
-        if(donCauseCodeAutoNum.Donation_Cause__c != null){
-            Integer autoNumber = Integer.valueOf(donCauseCodeAutoNum.Donation_Cause__c);
-
-            for(Donation_Cause__c newItem : newItems) {
-                String codePrefix = 'ADVDC';
-                String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
-                newItem.Donation_Cause_Code__c = codePrefix + ':' + codeNumber;
-                autoNumber++;
-            }
-
-            donCauseCodeAutoNum.Donation_Cause__c = autoNumber;
-            DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-                new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum}, 
-                false, 
-                AccessLevel.SYSTEM_MODE
-            );
-        }
-    }
-
     /**
      * Generate code for Designation__c.Designation_Code__c following the format "ADVGC:00001"
      * The first three characters are based on the record type of the opportunity outcome record.

@@ -59,7 +59,9 @@ public with sharing class CaseMarketingHelperTest {
                         My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident',
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
-                        My_Primary_Study_Level__c = 'Undergraduate'
+                        My_Primary_Study_Level__c = 'Undergraduate',
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC,
+                        RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID
                     )
                 );
             }
@@ -98,7 +100,9 @@ public with sharing class CaseMarketingHelperTest {
                         My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident',
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
-                        My_Primary_Study_Level__c = 'Undergraduate'
+                        My_Primary_Study_Level__c = 'Undergraduate',
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC,
+                        RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID
                     )
                 );
             }
@@ -151,7 +155,9 @@ public with sharing class CaseMarketingHelperTest {
                         My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident',
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
-                        My_Primary_Study_Level__c = 'Undergraduate'
+                        My_Primary_Study_Level__c = 'Undergraduate',
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC,
+                        RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID
                     )
                 );
                 contactIds.add(contactMap.get('work' + i + EMAIL)?.Id);

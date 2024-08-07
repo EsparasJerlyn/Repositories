@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outreach_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>A composite key (Engagement List Configuration ID and Contact ID) to prevent multiple cases being created for an Engagement List Configuration and Contact combination.</description>
+    <externalId>false</externalId>
+    <label>Outreach Key</label>
+    <length>56</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

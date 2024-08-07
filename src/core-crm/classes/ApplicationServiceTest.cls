@@ -137,6 +137,10 @@ private class ApplicationServiceTest {
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
+
+            for(Contact con: ContactsDAO.newInstance().getPersonContactsWithLimit(10)){
+                System.assertEquals(ContactsDAO.AU_LOCALE, con.ContactMobile_Locale__c, 'locale should match');
+            }
         }
     }
     
@@ -197,7 +201,7 @@ private class ApplicationServiceTest {
             }
         }
     }
-    
+
     @isTest
     private static void testApplicationQTACBatchInsertNoMatchContact() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
@@ -219,6 +223,34 @@ private class ApplicationServiceTest {
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
+        }
+    }
+
+    @isTest
+    private static void testApplicationQTACBatchInsertNoMatchContactWithAddress() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            
+            List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
+                                                             
+            for(hed__Application__c app: newApplications){
+                app.RecordTypeId = ApplicationsDAO.QTAC_RECTYPE_ID;
+                app.Residential_Country__c = 'Test';
+                app.Postal_Country__c = 'Test';
+            }
+            
+            Test.startTest();
+            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
+                .insertRecords(
+                    newApplications,
+                    false,
+                    AccessLevel.SYSTEM_MODE
+                );
+            Test.stopTest();
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
+            }
+            
+            System.assertEquals(40, [SELECT Id FROM hed__Address__c WHERE hed__Address_Type__c IN ('Other','Mailing') WITH USER_MODE].size(), 'There should be 40 address records');
         }
     }
     

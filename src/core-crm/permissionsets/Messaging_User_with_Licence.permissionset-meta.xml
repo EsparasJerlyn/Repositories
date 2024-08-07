@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>THIS PERM SET ONLY FOR ASSIGNMENT TO Communication Automation User</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Messaging User with Licence</label>
+    <license>LiveMessageUserPsl</license>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CanInitiateMessagingSessions</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>LMOutboundMessagingUserPerm</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>LiveMessageAgent</name>
+    </userPermissions>
+</PermissionSet>

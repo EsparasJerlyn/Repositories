@@ -95,13 +95,14 @@ private class LeadScoreServiceTest {
         Set<Id> contactIdSet = new Set<Id>{ contactList[0].Id };
 
         List<Case> caseListDomUG = TestDataFactory.createTestCaseRecords(
-            CasesDAO.DOMESTICFS_RECTYPE_ID,
+            CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
             'Test Case',
             3
         );
 
         for (Case caseRec : caseListDomUG) {
             caseRec.ContactId = contactList[0].Id;
+            caseRec.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
         }
 
         CasesDAO.newInstance().insertRecords(caseListDomUG, true, AccessLevel.SYSTEM_MODE);

@@ -1,0 +1,119 @@
+<template>
+  <c-logger></c-logger>
+    <article class={cardClass}>
+        <div class={cardHeaderClass}>
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon 
+                    icon-name="custom:custom63" 
+                    size="small" 
+                    alternative-text="Marketing Segmentation"
+                    ></lightning-icon>
+                    <span class="slds-assistive-text">Marketing Segmentation</span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a onclick={handleInterestClick} class="slds-card__header-link slds-truncate">
+                            <span>Study Interest</span>
+                        </a>
+                    </h2>
+              </div>
+              <div class="slds-no-flex">
+                <lightning-button-menu alternative-text="Show menu" variant="border-filled" menu-alignment="auto" icon-size="small" onselect={handleMenuSelect}>
+                    <lightning-menu-item value="view" label="View"></lightning-menu-item>
+                </lightning-button-menu>
+              </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner slds-p-horizontal_xx-small">
+            <template lwc:if={hasStudyInterest}>
+                <table class="slds-table slds-table_fixed-layout slds-table_header-hidden">
+                    <thead class="slds-assistive-text">
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Field Name">Field Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Field Value">Field Value</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    My Citizenship Status
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseContactCitizenshipStatus}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    My Country Of Citizenship
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseContactCountryOfCitizenship}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    My Country Of Residency
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseContactCountryOfResidency}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    My Primary Study Level
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseContactPrimaryStudentLevel}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    My Primary BSA
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseContactPrimaryBSA}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="slds-hint-parent">
+                            <th data-label="Field Name" scope="row">
+                                <div class="slds-truncate">
+                                    My Primary NSA
+                                </div>
+                            </th>
+                            <td data-label="Field Value" scope="row">
+                                <div class="slds-truncate">
+                                    {caseContactPrimaryNSA}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </template>
+        </div>
+    </article>
+</template>

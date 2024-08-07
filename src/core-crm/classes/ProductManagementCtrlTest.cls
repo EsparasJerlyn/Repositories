@@ -17,12 +17,11 @@ private class ProductManagementCtrlTest {
     private static string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
-
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProgProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_PROGRAM).getRecordTypeId();
     private static Id opeActProdReqId =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_ACTIVITY).getRecordTypeId();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -71,7 +70,7 @@ private class ProductManagementCtrlTest {
     @isTest
     static void testCheckParentProgramTypeTrue() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Boolean hasNoPrescribedProgramAsParent;
             hasNoPrescribedProgramAsParent = ProductManagementCtrl.checkParentProgramType([SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeActProdReqId LIMIT 1][0].Id);
             system.assert( hasNoPrescribedProgramAsParent, 'Parent product request should not be a prescribed program');
@@ -83,7 +82,7 @@ private class ProductManagementCtrlTest {
     @isTest
     static void testCheckParentProgramTypeFalse() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Boolean hasNoPrescribedProgramAsParent;
             update(new Product_Request__c(Id = [SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeProgProdReqId LIMIT 1][0].Id, OPE_Program_Plan_Type__c ='Prescribed Program'));
             hasNoPrescribedProgramAsParent = ProductManagementCtrl.checkParentProgramType([SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeActProdReqId LIMIT 1][0].Id);
@@ -96,7 +95,7 @@ private class ProductManagementCtrlTest {
     @isTest
     static void testCheckAvailableOnCart() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Boolean isAvailableOnCart;
             isAvailableOnCart = ProductManagementCtrl.checkAvailableOnCart([SELECT Id FROM Product_Request__c WHERE RecordTypeId =: opeActProdReqId LIMIT 1][0].Id);
             system.assert( !isAvailableOnCart, 'is AvailableOnCart');
@@ -108,7 +107,7 @@ private class ProductManagementCtrlTest {
     @isTest
     static void testCheckParentIsSOA() {
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Boolean parentIsSOA;
             parentIsSOA = ProductManagementCtrl.checkParentIsSOA([SELECT Id FROM Product_Request__c LIMIT 1].Id);
             system.assert( !parentIsSOA, 'is ParentSOA');

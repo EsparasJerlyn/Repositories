@@ -13,14 +13,14 @@ private class ContactMatchingConfigurationsDAOTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void getContactMatchingConfigurationRecordsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Matching_Configuration__c> conMatchingConfig = ContactMatchingConfigurationsDAO.newInstance()
                 .getContactMatchingConfigurationRecords(AccessLevel.SYSTEM_MODE);
             System.assert(conMatchingConfig.isEmpty(), 'contactMatchingConfig is not empty');
@@ -31,7 +31,7 @@ private class ContactMatchingConfigurationsDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 ContactMatchingConfigurationsDAO.newInstance() != null,
                 'ContactMatchingConfigurationsDAO instance is null'
@@ -43,7 +43,7 @@ private class ContactMatchingConfigurationsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new ContactMatchingConfigurationsDAO().getSObjectType() ==
                 Contact_Matching_Configuration__c.SObjectType,

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Support_Discussed__c</fullName>
+    <description>The support that was discussed with the student</description>
+    <externalId>false</externalId>
+    <label>Support Discussed</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Administrative - Canvas/eStudent/Email</fullName>
+                <default>false</default>
+                <label>Administrative - Canvas/eStudent/Email</label>
+            </value>
+            <value>
+                <fullName>Administrative - HiQ/AskQUT</fullName>
+                <default>false</default>
+                <label>Administrative - HiQ/AskQUT</label>
+            </value>
+            <value>
+                <fullName>Administrative - Faculty</fullName>
+                <default>false</default>
+                <label>Administrative - Faculty</label>
+            </value>
+            <value>
+                <fullName>Administrative - Units/Study Plan</fullName>
+                <default>false</default>
+                <label>Administrative - Units/Study Plan</label>
+            </value>
+            <value>
+                <fullName>Administrative - Assignment Extension/WWAP</fullName>
+                <default>false</default>
+                <label>Administrative - Assignment Extension/WWAP</label>
+            </value>
+            <value>
+                <fullName>Administrative - Leave of Absence</fullName>
+                <default>false</default>
+                <label>Administrative - Leave of Absence</label>
+            </value>
+            <value>
+                <fullName>Administrative - QTAC</fullName>
+                <default>false</default>
+                <label>Administrative - QTAC</label>
+            </value>
+            <value>
+                <fullName>Administrative - Other</fullName>
+                <default>false</default>
+                <label>Administrative - Other</label>
+            </value>
+            <value>
+                <fullName>Belonging - Orientation</fullName>
+                <default>false</default>
+                <label>Belonging - Orientation</label>
+            </value>
+            <value>
+                <fullName>Belonging - Oodgeroo</fullName>
+                <default>false</default>
+                <label>Belonging - Oodgeroo</label>
+            </value>
+            <value>
+                <fullName>Belonging - Clubs/Societies</fullName>
+                <default>false</default>
+                <label>Belonging - Clubs/Societies</label>
+            </value>
+            <value>
+                <fullName>Belonging - Peer Programs</fullName>
+                <default>false</default>
+                <label>Belonging - Peer Programs</label>
+            </value>
+            <value>
+                <fullName>Belonging - Chaplaincy/Multi-faith prayer rooms</fullName>
+                <default>false</default>
+                <label>Belonging - Chaplaincy/Multi-faith prayer rooms</label>
+            </value>
+            <value>
+                <fullName>Belonging - Other</fullName>
+                <default>false</default>
+                <label>Belonging - Other</label>
+            </value>
+            <value>
+                <fullName>Life - Welfare</fullName>
+                <default>false</default>
+                <label>Life - Welfare</label>
+            </value>
+            <value>
+                <fullName>Life - Counselling</fullName>
+                <default>false</default>
+                <label>Life - Counselling</label>
+            </value>
+            <value>
+                <fullName>Life - Equity</fullName>
+                <default>false</default>
+                <label>Life - Equity</label>
+            </value>
+            <value>
+                <fullName>Life - Disability &amp; Accessibility</fullName>
+                <default>false</default>
+                <label>Life - Disability &amp; Accessibility</label>
+            </value>
+            <value>
+                <fullName>Life - QUT Medical Centre</fullName>
+                <default>false</default>
+                <label>Life - QUT Medical Centre</label>
+            </value>
+            <value>
+                <fullName>Life - QUT Guild</fullName>
+                <default>false</default>
+                <label>Life - QUT Guild</label>
+            </value>
+            <value>
+                <fullName>Life - Parenting Support</fullName>
+                <default>false</default>
+                <label>Life - Parenting Support</label>
+            </value>
+            <value>
+                <fullName>Life - Other</fullName>
+                <default>false</default>
+                <label>Life - Other</label>
+            </value>
+            <value>
+                <fullName>Time &amp; Workload Management - Coaching</fullName>
+                <default>false</default>
+                <label>Time &amp; Workload Management - Coaching</label>
+            </value>
+            <value>
+                <fullName>Time &amp; Workload Management - Other</fullName>
+                <default>false</default>
+                <label>Time &amp; Workload Management - Other</label>
+            </value>
+            <value>
+                <fullName>Academic - Library</fullName>
+                <default>false</default>
+                <label>Academic - Library</label>
+            </value>
+            <value>
+                <fullName>Academic - Language &amp; Learning</fullName>
+                <default>false</default>
+                <label>Academic - Language &amp; Learning</label>
+            </value>
+            <value>
+                <fullName>Academic - Peer Programs</fullName>
+                <default>false</default>
+                <label>Academic - Peer Programs</label>
+            </value>
+            <value>
+                <fullName>Academic - STEM</fullName>
+                <default>false</default>
+                <label>Academic - STEM</label>
+            </value>
+            <value>
+                <fullName>Academic - Other</fullName>
+                <default>false</default>
+                <label>Academic - Other</label>
+            </value>
+            <value>
+                <fullName>Careers - General</fullName>
+                <default>false</default>
+                <label>Careers - General</label>
+            </value>
+            <value>
+                <fullName>Careers - Other</fullName>
+                <default>false</default>
+                <label>Careers - Other</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

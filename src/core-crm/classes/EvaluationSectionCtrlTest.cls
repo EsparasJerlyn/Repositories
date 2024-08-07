@@ -12,11 +12,9 @@
 */
 @isTest
 private class EvaluationSectionCtrlTest {
-    
-    private static final String QUTEX = System.Label.QUTeX;
-    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
 
     @testSetup static void setupMethod() {
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Product_Request__c productRequest = TestDataFactory.createTestProductRequestRecords(1).iterator().next();
         insert productRequest;
 
@@ -32,7 +30,7 @@ private class EvaluationSectionCtrlTest {
 
     @isTest
     private static void getEvaluationFieldsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             List<Offering_Evaluation_Setting__mdt> evaluationSettings = EvaluationSectionCtrl.getEvaluationFields();
             Test.stopTest();
@@ -42,7 +40,7 @@ private class EvaluationSectionCtrlTest {
 
     @isTest
     private static void getRelatedProgramOfferingsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id productRequestId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
             Id programOfferingId = [SELECT Id FROM Program_Offering__c LIMIT 1]?.Id;
             Test.startTest();

@@ -18,6 +18,7 @@
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  *    | nicole.genon                   | Feb 06, 2024        | DEPP-7003              | Added method getAllPersonContacts         |
  *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSL    |
+ *    | julie.jane.alegre              | May 13, 2024        | DEPP-8490              | Update method getQueryLocatorBySubQueryTest|
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -461,5 +462,68 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             }
         }
         return contactList;
+    }
+
+    public String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' +
+              'AND QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' +
+              'AND RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' +
+              'AND Id IN (' + contactCriteria.getContactIdSet() + ') ';
+    }
+
+    public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
+        String query =
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
+    }
+
+    public Database.QueryLocator getQueryLocatorBySubQuery(String subQueryString) {   //update to string
+        String query =
+        'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c, Email, Name, MobilePhone ' + 
+             'FROM Contact WHERE Id IN (' + subQueryString + ')';
+        return Database.getQueryLocator(query);
+    }
+
+    public List<Contact> findByCriteria(
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+
+        for (Contact record : contactsMap.values()) {
+            if(
+                record.hed__Citizenship_Status__c == contactCriteria.getCitizenshipStatus() &&
+                record.QUT_Student__c == contactCriteria.getIsQUTStudent() &&
+                record.RecordType.DeveloperName == contactCriteria.getRecordType() 
+            )
+            {
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel){
+        List<Contact> contactList = new List<Contact>();
+
+        for(Contact con : contactsMap.values()) {
+            if(studentIdList.contains(String.valueOf(con.Id))) {
+                contactList.add(con);
+            }
+        }
+        return contactList;  
+    }
+
+    public Database.QueryLocator getQueryLocatorContactByStudentId(
+        List<String> studentIdList,
+        AccessLevel accessLevel
+    ){
+        return null;
     }
 }

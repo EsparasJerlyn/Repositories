@@ -43,6 +43,11 @@
                 <label>Student Services Admin</label>
             </value>
             <value>
+                <fullName>QUTeX Reporting</fullName>
+                <default>false</default>
+                <label>QUTeX Reporting</label>
+            </value>
+            <value>
                 <fullName>QUTeX Executive Director</fullName>
                 <default>false</default>
                 <label>QUTeX Executive Director</label>
@@ -256,6 +261,46 @@
                 <fullName>Executive Director Advancement</fullName>
                 <default>false</default>
                 <label>Executive Director Advancement</label>
+            </value>
+            <value>
+                <fullName>Student Success Outreach Manager</fullName>
+                <default>false</default>
+                <label>Student Success Outreach Manager</label>
+            </value>
+            <value>
+                <fullName>Student Success Outreach Staff</fullName>
+                <default>false</default>
+                <label>Student Success Outreach Staff</label>
+            </value>
+            <value>
+                <fullName>Student Success Manager</fullName>
+                <default>false</default>
+                <label>Student Success Manager</label>
+            </value>
+            <value>
+                <fullName>Student Success Staff</fullName>
+                <default>false</default>
+                <label>Student Success Staff</label>
+            </value>
+            <value>
+                <fullName>Student Success Student Partner</fullName>
+                <default>false</default>
+                <label>Student Success Student Partner</label>
+            </value>
+            <value>
+                <fullName>Student Success Student Volunteer</fullName>
+                <default>false</default>
+                <label>Student Success Student Volunteer</label>
+            </value>
+            <value>
+                <fullName>Communication Automation User</fullName>
+                <default>false</default>
+                <label>Communication Automation User</label>
+            </value>
+            <value>
+                <fullName>Student Success Reporting</fullName>
+                <default>false</default>
+                <label>Student Success Reporting</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -27,6 +27,11 @@
     </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
+        <sharedTo>Communication_Automation_User</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
         <sharedTo>Development_Team</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>

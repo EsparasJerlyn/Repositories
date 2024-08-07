@@ -193,6 +193,17 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         STATUS_WITHDRAWN
     };
 
+    public static final Map<String,Set<String>> ADDRESS_FIELDS = new Map<String, Set<String>>{
+        'Other' => new Set<String>{
+            'Residential_Address_Line1__c', 'Residential_Address_Line2__c', 'Residential_Address_Line3__c',
+            'Residential_Country__c', 'Residential_Postcode__c', 'Residential_State__c', 'Residential_Town__c'
+        },
+        'Mailing' => new Set<String>{
+            'Postal_Address_Line1__c', 'Postal_Address_Line2__c', 'Postal_Address_Line3__c',
+            'Postal_Country__c', 'Postal_Postcode__c', 'Postal_State__c', 'Postal_Town__c'
+        }
+    };
+
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
             hed__Application__c.SObjectType

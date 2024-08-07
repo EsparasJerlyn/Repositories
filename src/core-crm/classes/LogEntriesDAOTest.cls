@@ -12,13 +12,13 @@
 private class LogEntriesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(LogEntriesDAO.newInstance() != null, 'LogEntriesDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ private class LogEntriesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new LogEntriesDAO().getSObjectType() == LogEntry__c.SObjectType,
                 'SObject is not LogEntry__c'
@@ -39,7 +39,7 @@ private class LogEntriesDAOTest {
     @isTest
     static void getLogEntriesByRelatedRecordIdTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 			MockIdGenerator mockIdGen = new MockIdGenerator(LogEntry__c.SObjectType);
             System.assert(
                 LogEntriesDAO.newInstance()
@@ -56,7 +56,7 @@ private class LogEntriesDAOTest {
     @isTest
     static void getLogEntriesByRelatedRecordIdTestEmpty(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 LogEntriesDAO.newInstance()
                 .getLogEntriesByRelatedRecordId(
@@ -72,7 +72,7 @@ private class LogEntriesDAOTest {
 	@isTest
     static void getLogEntriesByMessageTestEmpty(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 LogEntriesDAO.newInstance()
                 .getLogEntriesByMessage(
@@ -88,7 +88,7 @@ private class LogEntriesDAOTest {
 	@isTest
     static void getLogEntriesByMessageTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 LogEntriesDAO.newInstance()
                 .getLogEntriesByMessage(

@@ -2,20 +2,30 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Closure_Details_is_required</fullName>
     <active>true</active>
-    <errorConditionFormula>AND (
- OR (RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
-     RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;),
- AND(
-  ISPICKVAL( Status , &apos;Closed&apos;),   
-  OR(
-   ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
-   ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;),
-   ISPICKVAL( Closure_Code__c, &apos;Tier 3 Referred&apos;),
-   ISPICKVAL( Closure_Code__c, &apos;Agent Referred&apos;)
-  )
- ),
- LEN ( Closure_Details__c ) &lt;= 20
+    <errorConditionFormula>OR(
+	AND (
+		RecordType.DeveloperName = &apos;Inbound_Enquiry&apos;,
+		AND(
+			ISPICKVAL( Status , &apos;Closed&apos;),   
+			OR(
+				ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
+				ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;),
+				ISPICKVAL( Closure_Code__c, &apos;Tier 3 Referred&apos;),
+				ISPICKVAL( Closure_Code__c, &apos;Agent Referred&apos;)
+			)
+		 ),
+		LEN ( Closure_Details__c ) &lt; 20
+	),
+	AND (
+		RecordType.DeveloperName = &apos;Outreach&apos;,
+		LEN(Closure_Details__c) &lt; 10,
+		OR(
+			ISPICKVAL(Closure_Code__c,&apos;Successful - Phone&apos;),
+			ISPICKVAL(Closure_Code__c,&apos;Successful - Email&apos;),
+			ISPICKVAL(Closure_Code__c,&apos;Successful - Message&apos;)
+		)
+	)
 )</errorConditionFormula>
     <errorDisplayField>Closure_Details__c</errorDisplayField>
-    <errorMessage>Closure Details of at least 20 characters are required when Status is set to Closed</errorMessage>
+    <errorMessage>Closure Details requires sufficient information. Please include additional detail</errorMessage>
 </ValidationRule>

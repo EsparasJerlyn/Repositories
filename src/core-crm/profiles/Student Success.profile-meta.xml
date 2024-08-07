@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>standard__AllTabSet</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>Student_Success</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <userLicense>Salesforce</userLicense>
+    <layoutAssignments>
+        <layout>Account-Academic Program</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Administrative Account Layout</layout>
+        <recordType>Account.Administrative</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Assessment__c-Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Breach__c-Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout All Fields</layout>
+        <recordType>Case.Inbound_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Outreach Case Layout</layout>
+        <recordType>Case.Outreach</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Completed_Cadence__c-Completed Cadence Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+        <recordType>Contact.Person</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>EmailMessage-Email Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_List_Configuration__c-Engagement List Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_List_Criteria__c-Engagement List Criteria Imported Page Layout</layout>
+        <recordType>Engagement_List_Criteria__c.Imported</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_List_Criteria__c-Engagement List Entry Criteria Page Layout</layout>
+        <recordType>Engagement_List_Criteria__c.Entry_Criteria</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_List_Event__c-Engagement List Event Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS CIAnywhere Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Legacy Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Default</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Faculty</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Facility__c-hed__HEDA Facility Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Enrollment__c-hed__HEDA Program Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Term__c-hed__HEDA Term Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Leave_of_Absence__c-Leave of Absence Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Marketing_Interaction__c-Marketing Interaction Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Marketing_Segmentation__c-Marketing Segmentation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Nurture_Track_Configuration__c-Nurture Track Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Program_Enrollment_Breach__c-Program Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Program_Offering__c-Program Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Qualtrics_Survey__c-Qualtrics Survey Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Student_Sanction__c-Student Sanction Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Success_Action__c-Success Action Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Success_Plan__c-Success Plan Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+        <recordType>Task.Standard</recordType>
+    </layoutAssignments>
+    <tabVisibilities>
+        <tab>standard-Account</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-Contact</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-home</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+</Profile>

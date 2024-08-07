@@ -1,0 +1,11 @@
+.slds-card__header.slds-grid {
+  background: #f3f3f3;
+  height: 50px;
+  border-radius: .25rem;
+  border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+}
+
+.card-layout {
+  border-radius: .25rem;
+  border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+}

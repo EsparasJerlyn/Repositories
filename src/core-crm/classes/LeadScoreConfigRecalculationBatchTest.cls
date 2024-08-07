@@ -53,10 +53,11 @@ public with sharing class LeadScoreConfigRecalculationBatchTest {
             );        
             MarketingInteractionsDAO.newInstance().insertRecords(marInteractionList, true, AccessLevel.SYSTEM_MODE);
 
-            List<Case> caseList = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Case', 3);
+            List<Case> caseList = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test Case', 3);
             for(Case caseRec : caseList){
                 caseRec.Category__c = 'Course information';
                 caseRec.ContactId = contactList[0].Id;
+                caseRec.Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC;
             }
             CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE); 
         }

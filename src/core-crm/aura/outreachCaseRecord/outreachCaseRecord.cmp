@@ -1,0 +1,8 @@
+<aura:component implements="lightning:isUrlAddressable">
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="tabId" type="String" default="" />
+
+    <c:outreachCaseViewAll tabid="{!v.tabId}" onclosetab="{!c.handleClosetab}"></c:outreachCaseViewAll>
+</aura:component>

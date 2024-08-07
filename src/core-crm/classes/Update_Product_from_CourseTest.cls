@@ -14,8 +14,6 @@
 @isTest
 private class Update_Product_from_CourseTest{
 
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
-
     private static final string PR_ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
     private static final string COURSE_ACTIVITY = System.Label.RT_Course_Activity;
@@ -32,9 +30,14 @@ private class Update_Product_from_CourseTest{
     private static Date startDate = date.today().addDays(1);
     private static Date endDate = startDate.addDays(1);
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
+
     @isTest
     private static void createProductFromCourseTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createCourse(opeActProdReqId);
             List<hed__Course__c> courses = [SELECT id, ProductRequestID__c, Core_Conceptsv2__c,
                                                 Description__c, End_Date__c, More_Detailsv2__c,
@@ -78,7 +81,7 @@ private class Update_Product_from_CourseTest{
 
     @isTest
     private static void createProductFromProgramPlanTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             createProgramPlan(opeProgProdReqId);
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account account : accounts){
@@ -149,7 +152,7 @@ private class Update_Product_from_CourseTest{
     }
 
     private static void createCourse(String productRequestRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account account : accounts){
                 account.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -207,7 +210,7 @@ private class Update_Product_from_CourseTest{
     }
 
     private static void createProgramPlan(String productRequestRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords);
             for(Product_Request__c productRequest : productRequests){
                 productRequest.RecordTypeId = productRequestRecordType;

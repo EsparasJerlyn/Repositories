@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>International_Future_Student_Enquiry</fullName>
-    <active>true</active>
+    <active>false</active>
     <businessProcess>FS Enquiry</businessProcess>
     <compactLayoutAssignment>Case_Compact_Layout</compactLayoutAssignment>
     <label>International Future Student Enquiry</label>

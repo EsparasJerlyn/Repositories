@@ -1,0 +1,356 @@
+.heading {
+    font-style: normal;
+    font-family: "ProximaNova-Bold";
+    font-weight: 700;
+    font-size: 44px;
+    color: #0066b9;
+    margin: 32px 0px;
+  }
+  
+  .heading2 {
+    font-style: normal;
+    font-family: "ProximaNova-Bold";
+    font-weight: 600;
+    font-size: 39px;
+    color: #0066b9;
+    margin: 32px 0px;
+  }
+  /* .text-align-center {
+    text-align: center;
+    margin: 16px 0px;
+  } */
+  
+  /*.sso-text{
+    color: #0066B9;
+    text-decoration: underline;
+  }*/
+  .text {
+    font-size: 18px;
+  }
+  
+  .indicate-text {
+    margin: 32px 0px 16px 0px;
+    text-align: left;
+  }
+  
+  /* Modal */
+  .modal {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: unset;
+    visibility: visible;
+  }
+  
+  .modal2 {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 95%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /*.modal-content-height95 {
+    height: 95%;
+  }*/
+  
+  .btnCancel,
+  .btnContinue {
+    /*min-width: 10.9375rem;*/
+    min-width: 100%;
+  }
+  
+  .linkedIn-button {
+    position: static;
+    width: 269px;
+    left: 237px;
+    top: 74px;
+  }
+  .modal-footer {
+    background: #ffffff;
+    position: sticky;
+    height: 112px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 2;
+  }
+  
+  .required-text {
+    color: #b90015;
+  }
+  
+  .error-icon2 {
+    display: flex;
+    padding-right: 0.5rem;
+  }
+  
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .input-text-area {
+    height: 112px !important;
+  }
+  
+  .error-message {
+    color: #b90015;
+    visibility: hidden;
+  }
+  .error-message-hide {
+    visibility: hidden;
+    display: none;
+  }
+  
+  .error-message-show {
+    display: block;
+    visibility: visible !important;
+  }
+  
+  .border-error {
+    border-color: #b90015 !important;
+  }
+  .check-box {
+    border-color: #0066b9;
+  }
+  
+  .privacyPolicy {
+    position: absolute;
+    left: 20px;
+    font-weight: normal;
+  }
+  
+  .clickHere {
+    color: var(--lwc-brandTextLink, #2574a9) !important;
+    text-decoration: none !important;
+    transition: color 0.1s linear !important;
+  }
+  
+  .clickHere:hover,
+  .clickHere:focus {
+    text-decoration: underline !important;
+    color: var(--lwc-brandTextLinkActive, #135f90) !important;
+  }
+  
+  @media screen and (max-width: 810px) {
+    .err-msg-privacy {
+      margin-top: 0.5rem;
+    }
+  }
+  
+  /* Mobile CSS */
+  @media screen and (max-width: 767px) {
+    /*.modal-content {
+      width: 100%;
+    }*/
+    .heading {
+      font-size: 30px;
+      margin: 16px 0px;
+      text-align: center;
+    }
+    .form-margin {
+      margin: 10px 16px;
+    }
+  
+    .slds-p-right_large,
+    .slds-p-right--large {
+      padding-right: 0px;
+    }
+  }
+  
+  
+  /* Mobile CSS */
+  @media screen and (max-width: 767px) {
+    /*.modal-content {
+      width: 100%;
+    }*/
+    .heading2 {
+      font-size: 25px;
+      margin: 16px 0px;
+      text-align: center;
+    }
+    .form-margin {
+      margin: 10px 16px;
+    }
+  
+    .slds-p-right_large,
+    .slds-p-right--large {
+      padding-right: 0px;
+    }
+  }
+  
+  @media screen and (max-width: 764px) {
+    .px3,
+    .pt2 {
+      padding: 0;
+    }
+    .privacyPolicy a {
+      color: var(--lwc-brandTextLink) !important;
+    }
+  }
+  
+  @media screen and (min-width: 765px) {
+    .slds-large-size_1-of-2,
+    .slds-large-size--1-of-2,
+    .slds-medium-size_1-of-2,
+    .slds-medium-size--1-of-2 {
+      width: 50%;
+    }
+    .slds-large-size_1-of-3,
+    .slds-large-size--1-of-3 {
+      width: 33.3333333333%;
+    }
+  }
+  
+  button.btn-reg {
+    display: flex !important;
+  }
+  
+  .cursor {
+    cursor: pointer;
+  }
+  
+  .modal-content {
+    width: 60%;
+    max-width: 52.0625rem;
+    min-width: 20rem;
+  }
+  
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  .wrapper {
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+  
+  @media only screen and (min-width: 765px) and (max-width: 767px) {
+    .slds-medium-size_6-of-12,
+    .slds-large-size_6-of-12 {
+      width: 50% !important;
+    }
+  }
+  
+  .textLeft {
+    text-align: left;
+  }
+  /*add error message*/
+  .reg-error-style-email{
+    color: red !important; 
+    padding: 1rem;
+    text-align: left;
+  }
+  /* end */
+  /*add error message*/
+  .reg-error-style{
+    color: red !important; 
+    border: 2px solid red;
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  .reg-error-style ul.error-list{
+      margin-left: 2rem;
+      margin-top: 1.5rem;
+  }
+  
+  .reg-error-style ul.error-list li{
+     list-style: outside;
+  }
+      
+  /*end*/
+  
+  /*add line message*/
+  .reg-line-style{
+    /* color: red !important; 
+    border: 2px solid red;*/
+    padding: 1rem; 
+    text-align: left;
+  }
+  
+  .reg-line-style ul.line-list{
+      margin-left: 2rem;
+      margin-top: 1.5rem;
+  }
+  
+  .reg-line-style ul.line-list li{
+     list-style: outside;
+  }
+  
+  .input-wrapper {
+    display: inline-block;
+    max-width: 70%;
+    margin-bottom: .75rem;
+  }
+  
+  .tooltip{
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 80%;
+    background-color: #012A4C;
+    color: #FFF;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 10px;
+    transition: opacity .6s;
+    position: absolute;
+    z-index: 1;
+    word-break: break-word;
+    bottom: 80%;
+    left: 80%;
+    margin-left: -30%;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #012A4C transparent transparent transparent;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tabwrapper {
+    max-height: 3%;
+    overflow-x: clip;
+  }
+    /*end*/

@@ -14,13 +14,13 @@
 public with sharing class ListContributorsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Alumni_Engagement_Manager' });
+        TestDataFactoryUser.generateUserCorporatePartnershipsManager();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             System.assert(ListContributorsDAO.newInstance() != null, 'ListContributorsDAO instance is null');
         }
         Test.stopTest(); 
@@ -29,7 +29,7 @@ public with sharing class ListContributorsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             System.assert(
                 new ListContributorsDAO().getSObjectType() == List_Contributor__c.SObjectType,
                 'SObject is not List_Contributor__c'
@@ -40,7 +40,7 @@ public with sharing class ListContributorsDAOTest {
     @isTest
     static void getListContributorByListID() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getListContributorByListID(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
@@ -51,7 +51,7 @@ public with sharing class ListContributorsDAOTest {
     @isTest
     static void getListContributorByUserIDTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getListContributorByUserID(new Set<Id>(),new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
@@ -62,7 +62,7 @@ public with sharing class ListContributorsDAOTest {
     @isTest
     static void getRecordIdListContributorByListIDTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getRecordIdListContributorByListID(new Set<Id>(),new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
@@ -73,7 +73,7 @@ public with sharing class ListContributorsDAOTest {
     @isTest
     static void getAllListContributors() {
         Test.startTest();
-        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getAllListContributors(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');

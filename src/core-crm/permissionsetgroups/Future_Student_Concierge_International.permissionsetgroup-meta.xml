@@ -3,12 +3,17 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Future Student Concierge - International</label>
     <mutingPermissionSets>Future_Student_Concierge_International_Muted</mutingPermissionSets>
+    <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Future_Student_Engagement</permissionSets>
-    <permissionSets>Google_Integration_User</permissionSets>
-    <permissionSets>Knowledge_User</permissionSets>
-    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
-    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <permissionSets>Future_Student_International_Email_Access</permissionSets>
+    <permissionSets>Google_Integration_User</permissionSets>
+    <permissionSets>Internal_User_Base</permissionSets>
+    <permissionSets>Knowledge_User</permissionSets>
     <permissionSets>Lightning_Scheduler_User_V2</permissionSets>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
+    <permissionSets>force__CopilotSalesforceUser</permissionSets>
+    <permissionSets>force__EinsteinAgent</permissionSets>
+    <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
+    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
