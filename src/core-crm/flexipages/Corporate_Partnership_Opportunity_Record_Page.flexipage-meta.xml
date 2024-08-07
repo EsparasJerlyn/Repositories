@@ -1332,7 +1332,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Information in this tab will be available when you reach the Negotiate stage&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Information in this tab will be available when you reach the Negotiate stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText4</identifier>
