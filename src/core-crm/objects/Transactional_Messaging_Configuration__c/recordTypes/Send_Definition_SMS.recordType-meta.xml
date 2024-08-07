@@ -3,4 +3,15 @@
     <fullName>Send_Definition_SMS</fullName>
     <active>true</active>
     <label>Send Definition - SMS</label>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
