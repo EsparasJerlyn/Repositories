@@ -35,6 +35,7 @@ private class CaseTriggerHandlerTest {
                     Subject = 'Test Case',
                     SuppliedEmail = '1testmail@mail.test',
                     Description = 'Test Case Description',
+                    Case_type__c = 'Domestic Future Student Enquiry',
                     Origin = 'Email'
                 )
             );
@@ -59,7 +60,8 @@ private class CaseTriggerHandlerTest {
                 new Case(  
                     Status = 'Created', 
                     SuppliedPhone = '090909',
-                    Origin = CasesDAO.ORIGIN_WHATSAPP
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);

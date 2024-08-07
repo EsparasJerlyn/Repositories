@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outreach_Identified_Issues_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+	RecordType.DeveloperName = &apos;Outreach&apos;,
+	ISBLANK(Identified_Issues__c),
+	OR(
+		ISPICKVAL(Closure_Code__c,&apos;Successful - Phone&apos;),
+		ISPICKVAL(Closure_Code__c,&apos;Successful - Email&apos;),
+		ISPICKVAL(Closure_Code__c,&apos;Successful - Message&apos;)
+	)
+)</errorConditionFormula>
+    <errorDisplayField>Identified_Issues__c</errorDisplayField>
+    <errorMessage>Identified Issues is required when Closure Code is &apos;Successful&apos;.</errorMessage>
+</ValidationRule>

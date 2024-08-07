@@ -13,16 +13,18 @@
 */
 @isTest
 private class Contact_Update_Triggered_FlowTest {
-    
-    private static final String STR_QUTEX = 'QUTeX';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTeX).iterator().next();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void updateToUnvalidatedTest(){
 
         List<Contact> contacts = new List<Contact>();
 
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             contacts = TestDataFactory.createTestContactRecords(50);
 
             for(Contact c : contacts){
@@ -56,7 +58,7 @@ private class Contact_Update_Triggered_FlowTest {
     private static void updateToNoneTest(){
        List<Contact> contacts = new List<Contact>();
 
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             contacts = TestDataFactory.createTestContactRecords(50);
             for(Contact c : contacts){
                 c.ContactPhone_Validation__c = 'Unvalidated';

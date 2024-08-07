@@ -4,46 +4,52 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                       |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------------|
- *    | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                                         |
- *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                                                       |
- *    | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split                             |
- *    | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo                                 |
- *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role                             |
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application                                 |
- *    | eugene.andrew.abuan            | July 10, 2023         | DEPP-5483              | Added Object mapping for Document                                    |
- *    | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument and IP Management           |
- *    | ryan.j.a.dela.cruz             | June 17, 2023         | DEPP-5468              | Added Object mapping for IPManagement Relationship                   |
- *    | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary                             |
- *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added Object mapping for Affiliation and Course Enrollment           |
- *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added nurture config object                                          |
- *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6140              | Added Object mapping for Relationsip Manager Object                  |
- *    | roy.nino.s.regala              | August 09, 2023       | DEPP-5677              | Added Object mapping for Task and ActionCadenceTracker Objects       |
- *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object           |
- *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj       |
- *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj                    |
- *    | julie.jane.alegre              | August 31, 2023       | DEPP-5965              | Added Object mapping for Lead_Score_Detail__c obj                    |
- *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj                  |
- *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj             |
- *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                                    |
- *    | carl.alvin.cabiles             | September 15, 2023    | DEPP-6510              | Added Object mapping for List and List Member obj                    |
- *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj               |
- *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Added Object mapping for Course Offering, term, & course obj         |
- *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj                |
- *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Added mapping for cartdeliverygroup,webstore,webcart,cartitem,       |
- *    |                                |                       |                        | pricebook and pricebookentry                                         |
- *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                                     |
- *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object                  |
- *    | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Added object mapping for SMS Template Object                         |
- *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Added Object mapping for Service Appointment object                  |
- *    | carl.alvin.cabiles             | December 13, 2023     | DEPP-7186              | Added Object mapping for List Contributor object                     |
- *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                             |
- *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object                   |
- *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Added Object mapping for Program_Offering__c obj                     |
- *    | arsenio.jr.dayrit              | January 02, 2024      | ApexCRUDViolationFix   | Added object mapping for BuyerGroups,                                |
- *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product       |
- *    |                                |                       |                        | Product Category, Product Category Product Object                    |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------|
+ *    | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                                  |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                                                |
+ *    | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split                      |
+ *    | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo                          |
+ *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role                      |
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application                          |
+ *    | eugene.andrew.abuan            | July 10, 2023         | DEPP-5483              | Added Object mapping for Document                             |
+ *    | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument and IP Management    |
+ *    | ryan.j.a.dela.cruz             | June 17, 2023         | DEPP-5468              | Added Object mapping for IPManagement Relationship            |
+ *    | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary                      |
+ *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added Object mapping for Affiliation and Course Enrollment    |
+ *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added nurture config object                                   |
+ *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6140              | Added Object mapping for Relationsip Manager Object           |
+ *    | roy.nino.s.regala              | August 09, 2023       | DEPP-5677              | Added Object mapping for Task and ActionCadenceTracker Objects|
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object    |
+ *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj|
+ *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj             |
+ *    | julie.jane.alegre              | August 31, 2023       | DEPP-5965              | Added Object mapping for Lead_Score_Detail__c obj             |
+ *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
+ *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
+ *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
+ *    | carl.alvin.cabiles             | September 15, 2023    | DEPP-6510              | Added Object mapping for List and List Member obj             |
+ *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj        |
+ *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Added Object mapping for Course Offering, term, & course obj  |
+ *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj         |
+ *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Added mapping for cartdeliverygroup,webstore,webcart,cartitem,|
+ *    |                                |                       |                        | pricebook and pricebookentry                                  |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                              |
+ *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object           |
+ *    | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Added object mapping for SMS Template Object                  |
+ *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Added Object mapping for Service Appointment object           |
+ *    | carl.alvin.cabiles             | December 13, 2023     | DEPP-7186              | Added Object mapping for List Contributor object              |
+ *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
+ *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
+ *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Added Object mapping for Program_Offering__c obj              |
+ *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                         |
+ *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
+ *    |                                |                       |                        | Product Category, Product Category Product Object             |
+ *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
+ *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
+ *    | eugene.andrew.abuan            | May 08, 2024          | DEPP-8487              | Added object mapping for Assessment__c                        |
+ *    | arsenio.jr.dayrit              | May 13, 2024          | DEPP-8743              | Added object mapping for AsyncApexJob and Attachemnt obj      |
+ *    | eccarius.munoz                 | May 14, 2024          | DEPP-8484              | Added object mapping for Engagement List Event                |
+ *    | eccarius.munoz                 | May 16, 2024          | DEPP-8484              | Added object mapping for Engagement List Config               |
  *    | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Added object mapping for Plan_Activity object                        |
  *    | nicole.genon                   | March 7, 2023         | DEPP-7922              | Added object mapping for Stewardship__c Object                       |
  *    | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Added object mapping for Donation_Cause_Code_Auto_Number__c object   |
@@ -52,12 +58,14 @@
  *    | neil.s.h.lesidan               | April 11, 2024        | DEPP-8392              | Added object mapping for Distribution_Split__c object                |
  *    |                                |                       |                        | Added object mapping for Finance_GL_Account__c object                |
  *    | nicole.genon                   | April 23, 2024        | DEPP-8498              | Added object mapping for Donation_Asset__c object object             |
+ *    | marygrace.li                   | May 2, 2024           | DEPP-8390              | Deleted Donation_Cause__c mapping
  *    |                                |                       |                        |                                                                      |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(
         new Map<SObjectType, Type>{
+            ABS_Categorisation__c.SObjectType => ABSCategorisationsDAO.class,
             Account.SObjectType => AccountsDAO.class,
             Action__c.SObjectType => ActionsDAO.class,
             ActionCadenceTracker.SObjectType => ActionCadenceTrackersDAO.class,
@@ -66,8 +74,11 @@ public class ImplementationSelector {
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class,
             Asset.SObjectType => AssetsDAO.class,
+            Assessment__c.SObjectType => AssessmentsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             AsyncApexJob.SObjectType => AsyncApexJobsDAO.class,
+            Attachment.SObjectType => AttachmentsDAO.class,
+            Breach__c.SObjectType => BreachesDAO.class,
             BuyerGroup.SObjectType => BuyerGroupsDAO.class,
             BuyerGroupPriceBook.SObjectType => BuyerGroupPriceBooksDAO.class,
             CommerceEntitlementProduct.SObjectType => CommerceEntitlementProductsDAO.class,
@@ -93,18 +104,21 @@ public class ImplementationSelector {
             Distribution_Management__c.SObjectType => DistributionManagementsDAO.class,
             Distribution_Split__c.SObjectType => DistributionSplitsDAO.class,
             Finance_GL_Account__c.SObjectType => FinanceGLAccountsDAO.class,
+            Course_Connection_Assessment__c.SObjectType => CourseConnectionAssessmentsDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
             Donation__c.SObjectType => DonationsDAO.class,
             Donation_Asset__c.SObjectType => DonationAssetsDAO.class,
-            Donation_Cause_Code_Auto_Number__c.SObjectType => DonationCauseCodeAutoNumbersDAO.class,
-            Donation_Cause__c.SObjectType => DonationCausesDAO.class,
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Engagement_Opportunity__c.SObjectType => EngagementOpportunitiesDAO.class,
+            Engagement_List_Configuration__c.SobjectType => EngagementListConfigurationsDAO.class,
+            Engagement_List_Criteria__c.SobjectType => EngagementListCriteriasDAO.class,
+            Engagement_List_Event__c.SobjectType => EngagementListEventsDAO.class,
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
+            Group.SObjectType => GroupsDAO.class, 
             hed__Address__c.SObjectType => AddressesDAO.class,
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
@@ -122,6 +136,7 @@ public class ImplementationSelector {
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class,
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             LeadStatus.SObjectType => LeadStatusesDAO.class,
+            Leave_of_Absence__c.SObjectType => LeaveOfAbsencesDAO.class,
             LogEntry__c.SObjectType => LogEntriesDAO.class,
             Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
@@ -144,9 +159,11 @@ public class ImplementationSelector {
             ProductCategory.SObjectType => ProductCategoriesDAO.class,
             ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
             Product_Ledger__c.SObjectType => ProductLedgersDAO.class,
-            Profile.SObjectType => ProfilesDAO.class,
-            Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,
+            Profile.SObjectType => ProfilesDAO.class,   
+            Program_Enrollment_Breach__c.SObjectType => ProgramEnrollmentBreachesDAO.class,            
+            Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,           
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
+            Qualtrics_Survey__c.SObjectType => QualtricsSurveysDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,

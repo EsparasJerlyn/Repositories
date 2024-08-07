@@ -6,6 +6,7 @@
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
     <permissionSets>Data_Cloud_Admin_QUT</permissionSets>
     <permissionSets>Data_Cloud_Marketing_Admin_QUT</permissionSets>
+    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
@@ -20,6 +21,7 @@
     <permissionSets>Permission_View_All_Users</permissionSets>
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
+    <permissionSets>PowerBI_External_Credential</permissionSets>
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

@@ -75,6 +75,16 @@
                 <identifier>RecordStudent_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_On_Leave__c</fieldItem>
+                <identifier>RecordIs_On_Leave_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-418df490-79cf-4c0e-a1ba-9fe48aec82b8</name>
         <type>Facet</type>
     </flexiPageRegions>

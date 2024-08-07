@@ -29,7 +29,7 @@ private class DuplicateSanctionManagerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
         List<Contact_Alternate_Id__c> conAltIdList = new List<Contact_Alternate_Id__c>();
         List<Contact> contactList = TestDataFactory.createTestContactRecords(100);
@@ -47,7 +47,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processMissingQUTStudentIdTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
             StudentSanctionsDAO.newInstance().insertRecords(studentSanctionList,true,AccessLevel.USER_MODE);
@@ -72,7 +72,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processSanctionStudentNotFoundTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
             Integer count = 0;
@@ -102,7 +102,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processDuplicateSanctionSuccessTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
@@ -154,7 +154,7 @@ private class DuplicateSanctionManagerTest {
 
     @isTest
     static void processDuplicateSanctionSupersededTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
             Set<Id> contactIds = new Set<Id>();

@@ -11,7 +11,7 @@
  *    |---------------------------|-----------------------|--------------|------------------------------------------------------------------------------------------------------|
  *    | mark.j.mahilum            | April 30, 2024        | DEPP-7987    | Created file                                                                                         |
 */ 
-public inherited sharing class ApplicationContactMatchingBatch implements Database.Batchable<SObject>, Database.Stateful {
+public inherited sharing class ApplicationContactMatchingBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     // Variable to track the total number of application processed
     private Integer total = 0;
 
@@ -80,8 +80,10 @@ public inherited sharing class ApplicationContactMatchingBatch implements Databa
         
         // Check if there are no running jobs and there are remaining application to be processed
         if (jobs.isEmpty() && !applicationsToBeProcessed.isEmpty()) {
+            Contact_Matching_Service_Configuration__mdt cmsConfig = ConMatchingServiceConfigurationsDAO.newInstance()
+                .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.APPLICATION_BATCH);
             // Recursively execute the batch process for remaining application
-            Database.executeBatch(new ApplicationContactMatchingBatch());
+            Database.executeBatch(new ApplicationContactMatchingBatch(), (Integer)cmsConfig.Size__c);
         }
 
         // Log the total number of application

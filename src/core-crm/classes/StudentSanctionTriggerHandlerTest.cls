@@ -12,7 +12,7 @@ private class StudentSanctionTriggerHandlerTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
@@ -32,7 +32,7 @@ private class StudentSanctionTriggerHandlerTest {
                 AccessLevel.SYSTEM_MODE
             );
             
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Student_Sanction__c> studentSanctionList = TestDataFactory.createStudentSanctionRecords(100);
             StudentSanctionsDAO.newInstance().insertRecords(

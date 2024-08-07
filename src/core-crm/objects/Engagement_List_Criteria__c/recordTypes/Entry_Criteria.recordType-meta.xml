@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Entry_Criteria</fullName>
+    <active>true</active>
+    <label>Entry Criteria</label>
+    <picklistValues>
+        <picklist>Academic_Status__c</picklist>
+        <values>
+            <fullName>At Risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conditional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Excluded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Good Standing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Held Show cause</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intern%27l Exclusion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intern%27l Ext Appeal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Probation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Probation Conversion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Showcause</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under consideration</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Assessment_Priority__c</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Category_Type__c</picklist>
+        <values>
+            <fullName>Advanced Dip %28AQF Term%29%2FDiploma %28Pre-AQF Term%29 %28Hist Only%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Associate Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours - Graduate Entry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours%2FMasters by Coursework Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Honours%2FPass Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass Degree - Graduate Entry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass Single Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bachelor Pass%2FMasters by Coursework Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate and University Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diploma and University Diploma</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Diploma - Existing Area</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graduate Diploma - New Area</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masters by Coursework - Double Degree</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masters by Coursework - Single</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masters by Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Undergraduate Certificate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Citizenship_Status__c</picklist>
+        <values>
+            <fullName>Domestic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Completed_Cadence__c</picklist>
+        <values>
+            <fullName>Domestic Accepted and Admitted</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Equity_Scholarship_Bursary__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Failed_Assessment__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Failed_To_Submit_Assessment__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Has_Domestic_Phone__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Is_On_Leave_of_Absence__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Key_Date__c</picklist>
+        <values>
+            <fullName>Academic Status Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assessment Due Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breach Start Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed Cadence Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Leave Of Absence End Date</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Preview_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Generated</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deactivated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

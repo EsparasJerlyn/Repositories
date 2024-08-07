@@ -326,7 +326,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Opportunity Summary</value>
+                    <value>Engagement Opportunity Summary</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
@@ -419,6 +419,13 @@
                 </componentInstanceProperties>
                 <componentName>customHeaderContainer</componentName>
                 <identifier>c_customHeaderContainer2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>New</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-117c626b-de4a-4228-bc04-904576afb0f2</name>

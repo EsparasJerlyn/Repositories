@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualtrics_Instrument_ID_Or_Name_Required</fullName>
+    <active>true</active>
+    <description>Both Qualtrics Instrument ID and Instrument need to be set when either is set.</description>
+    <errorConditionFormula>AND(
+OR(
+ISNEW(),
+ISCHANGED( Qualtrics_Instrument_ID__c ),
+ISCHANGED( Qualtrics_Instrument_Name__c )
+),
+OR(
+AND(NOT( ISBLANK( Qualtrics_Instrument_ID__c )),ISBLANK( Qualtrics_Instrument_Name__c )),
+AND(NOT( ISBLANK( Qualtrics_Instrument_Name__c )),ISBLANK( Qualtrics_Instrument_ID__c ))
+)
+)</errorConditionFormula>
+    <errorMessage>Both Qualtrics Instrument ID and Instrument need to be set when either is set.</errorMessage>
+</ValidationRule>

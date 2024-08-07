@@ -9,6 +9,8 @@
       |                           |                       |                      | Details Tab. Same functionality, changes are for UI only.   |
       |                           |                       |                      |                                                             | 
       | johanna.a.gibas           | May 12, 2023          | DEPP-5631            | Updated Section Title - for UI only.                        |
+      | julie.jane.alegre         | June 22, 2024         | DEPP-9490            | Update getHedAddress result data to filter the recent       |
+      |                           |                       |                      | Mailing and Other address                                   | 
  */
 import { LightningElement, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -17,6 +19,7 @@ import { getRecordNotifyChange } from "lightning/uiRecordApi";
 import { refreshApex } from "@salesforce/apex";
 import { loadStyle } from "lightning/platformResourceLoader";
 
+import HAS_PERMISSION from '@salesforce/customPermission/Edit_Contact_Address';
 import getLoqateMetaData from "@salesforce/apex/AddressInformationValidationCtrl.getLoqateMetaData";
 import getHedAddress from "@salesforce/apex/AddressInformationValidationCtrl.getHedAddress";
 import upsertAddress from "@salesforce/apex/AddressInformationValidationCtrl.upsertHedAddress";
@@ -75,6 +78,13 @@ export default class LoqateAddressInformationValidation extends LightningElement
   wiredAddresses;
   addressSuffix = ADDRESS_SUFFIX;
   hasUnverifiedAddress = false;
+  showNoAddressRecorded = false;
+  addressTypeList = [];
+
+  //decides if user has access to this edit address
+  get hasAccess(){
+    return HAS_PERMISSION;
+  }
 
   //gets api mapping from custom metadata
   connectedCallback() {
@@ -85,6 +95,9 @@ export default class LoqateAddressInformationValidation extends LightningElement
         this.lookupField = result.addressLookup;
         this.multpleAddressType =
           this.fieldApiMapping.length > 1 ? true : false;
+        this.addressTypeList = this.fieldApiMapping.map(key =>{
+          return key.type;
+        });
       })
       .catch((error) => {
         this.showToast(ERROR_TITLE, ERROR_MSG + error, ERROR_VARIANT);
@@ -100,23 +113,24 @@ export default class LoqateAddressInformationValidation extends LightningElement
   wiredHedAddress(result) {
     this.wiredAddresses = result;
     if (result.data) {
-      const tempData = result.data.map((key) => {
-        return {
-          id: key.Id,
-          type: key.hed__Address_Type__c,
-          city: key.hed__MailingCity__c,
-          state: key.hed__MailingState__c,
-          street: key.hed__MailingStreet2__c
-            ? key.hed__MailingStreet2__c
-            : "" + key.hed__MailingStreet__c
-            ? key.hed__MailingStreet__c
-            : "",
-          postalCode: key.hed__MailingPostalCode__c,
-          country: key.hed__MailingCountry__c,
-          valid: key.Validated__c ? key.Validated__c : NONE_STATUS
-        };
+      const tempData = result.data.filter(key => this.addressTypeList.includes(key.hed__Address_Type__c)).map((key) => {
+          return {
+            id: key.Id,
+            type: key.hed__Address_Type__c,
+            city: key.hed__MailingCity__c,
+            state: key.hed__MailingState__c,
+            street: key.hed__MailingStreet2__c
+              ? key.hed__MailingStreet2__c
+              : "" + key.hed__MailingStreet__c
+              ? key.hed__MailingStreet__c
+              : "",
+            postalCode: key.hed__MailingPostalCode__c,
+            country: key.hed__MailingCountry__c,
+            valid: key.Validated__c ? key.Validated__c : NONE_STATUS
+          };          
       });
       this.mapAddress = tempData;
+      this.showNoAddressRecorded = this.mapAddress.length === 0 && !this.hasAccess ? true : false;
       this.mapAddress.sort((a, b) => a.type.localeCompare(b.type));
       this.setupOptions(this.fieldApiMapping);
       this.noAddress =

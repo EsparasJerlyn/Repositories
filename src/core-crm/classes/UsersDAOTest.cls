@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | September 4, 2023     | DEPP-6138              | Created file                 |
-      |                                |                       |                        |                              |
+      |                                |                       |                        |                              | 
  */
 @isTest
 public with sharing class UsersDAOTest {

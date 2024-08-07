@@ -14,8 +14,6 @@
 @isTest
 private with sharing class RegisteredLearnersCtrlTest {
     
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-    
     private static final string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
     private static final Id shortCourseProdReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_SHORTCOURSE).getRecordTypeId();
     
@@ -27,6 +25,7 @@ private with sharing class RegisteredLearnersCtrlTest {
     
     @testSetup
     private static void setupMethod(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         List<Contact> contacts;
         contacts = TestDataFactory.createTestContactRecords(1);
         insert contacts;
@@ -75,7 +74,7 @@ private with sharing class RegisteredLearnersCtrlTest {
     private static void getLearners()
     {
         Test.startTest();
-         System.runAs(currentUser)
+         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator)
         {
             List<RegisteredLearnersCtrl.RegisteredLearners> getRecords = new List<RegisteredLearnersCtrl.RegisteredLearners>();
             getRecords =RegisteredLearnersCtrl.getRegisteredLearners([SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id);

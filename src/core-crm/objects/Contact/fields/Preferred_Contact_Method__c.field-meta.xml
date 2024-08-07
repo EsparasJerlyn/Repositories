@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Preferred_Contact_Method__c</fullName>
+    <description>The preferred contact method</description>
     <externalId>false</externalId>
     <label>Preferred Contact Method</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -36,6 +37,11 @@
                 <fullName>Phone Call</fullName>
                 <default>false</default>
                 <label>Phone Call</label>
+            </value>
+            <value>
+                <fullName>SMS</fullName>
+                <default>false</default>
+                <label>SMS</label>
             </value>
         </valueSetDefinition>
     </valueSet>

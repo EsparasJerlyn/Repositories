@@ -1,3 +1,3 @@
 Id,Name,IsPartner,IsCustomerPortal,AccountSource,IsBuyer,RecordTypeId,Organization_Unit_Level__c,OwnerId, Owner.Name
 0019r000002WIS5AAO,QUTeX Products,FALSE,FALSE,'',FALSE,0128q0000004JlWAAU,'',0058q000000Hs5bAAC,CICD Integration User
-0019r000002uJDKAA2,OPE Catalogue,true,false,Outbound Enquiry,true,0128q0000004JlWAAU,'',0058q000000HwJvAAK,Anthony Ducat-Ernst
+0019r000002uJDKAA2,QUT Experience,true,false,Outbound Enquiry,true,0128q0000004JlWAAU,'',0058q000000HwJvAAK,Anthony Ducat-Ernst

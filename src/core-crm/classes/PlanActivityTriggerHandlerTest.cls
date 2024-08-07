@@ -13,11 +13,11 @@
 private class PlanActivityTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
     }
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        System.runAs(testDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             Test.startTest();
             List<Opportunity> opps = TestDataFactory.createTestOpportunityRecords(1, 'OppGiving',OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID);
             for( Opportunity opp: opps){

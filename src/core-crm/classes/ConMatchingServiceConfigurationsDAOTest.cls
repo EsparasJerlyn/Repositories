@@ -13,14 +13,14 @@ private class ConMatchingServiceConfigurationsDAOTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new ConMatchingServiceConfigurationsDAO().getSObjectType() == Contact_Matching_Service_Configuration__mdt.SObjectType,
                 'SObject is not Contact_Matching_Service_Configuration__mdt'
@@ -32,7 +32,7 @@ private class ConMatchingServiceConfigurationsDAOTest {
     @isTest
     static void getInstanceByDeveloperNameTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 ConMatchingServiceConfigurationsDAO.newInstance()
                     .getInstanceByDeveloperName(ConMatchingServiceConfigurationsDAO.STUDENT_SANCTION_BATCH)

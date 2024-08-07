@@ -12,17 +12,17 @@
  */
 @isTest
 public with sharing class Pricebook2DuplicatesHelperTest {
-	private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
         
     @testSetup
     static void setUpMethod(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     	Pricebook2 pb = new Pricebook2();
         pb.Name = 'TestPb';
         insert pb;
     }
     @isTest
     static void checkPbName(){
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             
             Set<String> pricebooks = new Set<String>();

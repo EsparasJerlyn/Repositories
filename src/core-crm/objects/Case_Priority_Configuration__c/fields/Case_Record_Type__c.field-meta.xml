@@ -14,13 +14,20 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Inbound Enquiry</fullName>
+                <default>false</default>
+                <label>Inbound Enquiry</label>
+            </value>
+            <value>
                 <fullName>Domestic Future Student Enquiry</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Domestic Future Student Enquiry</label>
             </value>
             <value>
                 <fullName>International Future Student Enquiry</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>International Future Student Enquiry</label>
             </value>
         </valueSetDefinition>

@@ -1,0 +1,41 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid header-with-bg slds-border_bottom slds-p-bottom_x-small">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon 
+                    icon-name="standard:document_preview" 
+                    size="small" 
+                    alternative-text="Preview"
+                    ></lightning-icon>
+                    <span class="slds-assistive-text">preview results</span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title slds-truncate">
+                        <span>Preview Results</span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <template lwc:if={isLoading}>
+                        <lightning-button lwc:if={showGeneratePreview} label="Generate Preview" onclick={handleGeneratePreview} disabled></lightning-button>
+                        <lightning-button lwc:elseif={showCancelPreview} label="Cancel Preview" onclick={handleCancelPreview} disabled></lightning-button>
+                    </template>
+                    <template lwc:else>
+                        <lightning-button lwc:if={showGeneratePreview} label="Generate Preview" onclick={handleGeneratePreview}></lightning-button>
+                        <lightning-button lwc:elseif={showCancelPreview} label="Cancel Preview" onclick={handleCancelPreview}></lightning-button>
+                    </template>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <lightning-spinner lwc:if={isLoading} alternative-text="Loading..."></lightning-spinner>
+            <lightning-record-view-form record-id={recordId} object-api-name={objectApiName}>
+                <lightning-messages></lightning-messages>
+                <div class="slds-p-around_small">
+                    <lightning-output-field field-name={elcPreviewStatus}></lightning-output-field>
+                    <lightning-output-field field-name={elcPreviewUrl}></lightning-output-field>
+                </div>
+            </lightning-record-view-form>
+        </div>
+    </article>
+</template>

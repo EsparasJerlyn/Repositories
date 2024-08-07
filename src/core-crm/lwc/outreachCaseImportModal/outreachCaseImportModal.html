@@ -1,0 +1,159 @@
+<template>
+  <c-logger></c-logger>
+  <template if:true={modalOpen}>
+
+  
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class={modalClass}>
+      <div class="slds-modal__container">
+        <div class="slds-modal__header">
+          <lightning-button-icon
+            icon-name="utility:close"
+            alternative-text="Close this window"
+            size="large"
+            variant="bare-inverse"
+            onclick={closeModal}
+            class="slds-modal__close"
+            disabled={closeButtonDisabled}>
+          </lightning-button-icon>
+          <h1 class="slds-modal__title slds-hyphenate">Import List</h1>
+        </div>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <div class="slds-form">
+
+            <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
+              <label class="slds-form-element__label slds-p-top_medium" for="horizontal-input-id-01" aria-required>Engagement List Criteria Title</label>
+              <div class="slds-form-element__control">
+                <lightning-input onchange={handleTitle} placeholder="Engagement List Criteria Title" required></lightning-input>
+                <lightning-messages></lightning-messages>
+              </div>
+            </div>
+
+            <div if:false={showCaseCol} class="slds-form-element slds-form-element_horizontal">
+              <label class="slds-form-element__label" for="horizontal-input-id-02">Description</label>
+              <div class="slds-form-element__control">
+                <lightning-textarea placeholder="Description" onchange={handleDescription}></lightning-textarea>
+                <div class="slds-grid slds-gutters">
+                  <div class="slds-p-left_small">
+                    <lightning-input
+                      type="file"
+                      accept=".csv"
+                      onchange={handleFileUpload}>
+                    </lightning-input>
+                  </div>
+                  <div style="color:blue" class="slds-text-body_small slds-text-align_left slds-p-vertical_medium slds-p-left_small">{fileName}</div>
+                </div>
+              </div>
+            </div>
+            <div if:true={showTabset}>
+              <template lwc:if={isLoading}>
+                <template lwc:if={showSpinner}>
+                  <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <template lwc:else>
+                  <div class="slds-text-align_center">
+                    {fileUploadMessage}
+                  </div>
+                </template>
+              </template>
+              <div if:false={isLoading}>
+                <div if:true={isErrorOccured} class="slds-text-align_left slds-text-color_error">
+                  {errorOccuredMessage}
+                </div>
+                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                  <lightning-layout>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <div class="custom-box">Summary</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <div class="custom-box">{column2Name}: {rowCount} </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <div class="custom-box">{column3Name}: {studentFound} </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <div class="custom-box">Exclusions: {exclRowCount} </div>
+                    </lightning-layout-item>
+                  </lightning-layout>
+                </div>
+                <lightning-tabset if:true={loaded}>
+                  <lightning-tab label="Students Found" title="Students Found">
+                    <div class="slds-grid slds-grid_vertical slds-clearfix">
+                      <div class="slds-col slds-size_1-of-3 slds-col_bump-left">
+                        <lightning-input 
+                          class="slds-p-bottom_large"
+                          name="Search"
+                          type="search"
+                          placeholder="search"
+                          onchange={handleSearch}
+                          oncommit={handleCommitSearch}
+                        ></lightning-input>
+                      </div>
+                    </div>
+                    <div class="scroll-table" style="height:240px">
+                      <c-custom-datatable-columned
+                        key-field="id"
+                        onload={addBlankRow}
+                        data={data}
+                        columns={studentTable}
+                        onrowaction={handleActionRow}
+                        draft-values={draftValues}
+                        hide-checkbox-column
+                        show-row-number-column
+                        suppress-bottom-bar
+                      ></c-custom-datatable-columned>
+                      <template lwc:if={tableLoading}>
+                        <div class="slds-spinner_container table-spinner">
+                          <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                      </template>
+                    </div>
+                  </lightning-tab>
+                  <lightning-tab label="Exclusions" title="Exclusions" onactive={handleExclusionsTab}>
+                    <div class="scroll-table">
+                      <c-custom-datatable-columned
+                        key-field="id"
+                        onload={addBlankRow}
+                        data={exclusionData}
+                        columns={exclusionsTable}
+                        draft-values={draftValues}
+                        hide-checkbox-column
+                        show-row-number-column
+                        suppress-bottom-bar
+                      ></c-custom-datatable-columned>
+                      <template lwc:if={tableLoading}>
+                        <div class="slds-spinner_container table-spinner">
+                          <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                      </template>
+                    </div>
+                  </lightning-tab>
+                </lightning-tabset>
+              </div>
+            </div>
+            
+            <template if:true={errors.length}>
+              <div class="slds-text-color_error slds-m-top_medium">
+                <ul>
+                    <template for:each={errors} for:item="error">
+                        <li key={error}>{error}</li>
+                    </template>
+                </ul>
+              </div>
+            </template>
+
+          </div>
+        </div>
+
+        <div class="slds-modal__footer">
+          <button class="slds-button slds-button_neutral" aria-label="Cancel and close" disabled={closeButtonDisabled} onclick={closeModal}>{exitModal}</button>
+          <template if:true={showCreateOutreach}>
+            <button class="slds-button slds-button_brand" disabled={createButtonDisbaled} onclick={handleCreateOutreach}>Create Outreach</button>
+          </template>
+        </div>
+
+      </div>
+    </section>
+    <div class={backdropClass} role="presentation"></div>
+
+  </template>
+</template>

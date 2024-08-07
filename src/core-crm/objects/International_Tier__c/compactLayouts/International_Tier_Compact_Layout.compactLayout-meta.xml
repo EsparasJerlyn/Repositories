@@ -5,5 +5,6 @@
     <fields>Country_Name__c</fields>
     <fields>IsActive__c</fields>
     <fields>Tier_Category__c</fields>
+    <fields>Tier_Subcategory__c</fields>
     <label>International Tier Compact Layout</label>
 </CompactLayout>

@@ -397,7 +397,7 @@
         </values>
         <values>
             <fullName>New</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

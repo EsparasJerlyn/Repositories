@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outreach_Next_Action_Date_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+	RecordType.DeveloperName = &apos;Outreach&apos;,
+	ISPICKVAL(Status,&apos;Callback&apos;),
+	ISNULL(Next_Action_Date_Time__c)
+)</errorConditionFormula>
+    <errorDisplayField>Next_Action_Date_Time__c</errorDisplayField>
+    <errorMessage>Next Action Date/Time is required when Status is set to &apos;Callback&apos;.</errorMessage>
+</ValidationRule>

@@ -16,7 +16,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
     @testSetup
     static void setupDate() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactoryUser.generateUserAdvancementManager();
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         designationCodeAutoNum.Giving_To_Cause__c = 1;
         DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
@@ -30,7 +30,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
 
     @isTest
     private static void distributionManagementWithDesignationGivingToCauseTestOnCreate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -76,7 +76,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
 
     @isTest
     private static void distributionManagementWithDesignationEndowmentTestOnCreate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.ENDOWNMENT_RECTYPE_ID
@@ -123,7 +123,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
 
     @isTest
     private static void distributionManagementWithDesignationGivingToCauseTestOnUpdate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
@@ -176,7 +176,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
 
     @isTest
     private static void distributionManagementWithDesignationEndowmentTestOnUpdate() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.ENDOWNMENT_RECTYPE_ID

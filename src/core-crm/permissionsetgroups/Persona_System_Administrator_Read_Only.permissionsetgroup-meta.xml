@@ -3,7 +3,10 @@
     <description>Permission set group to be added to System Administrator - Read Only users</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona System Administrator - Read Only</label>
+    <mutingPermissionSets>Persona_System_Administrator_Read_Only_Muted</mutingPermissionSets>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
+    <permissionSets>Einstein_Service_AI_User</permissionSets>
+    <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
@@ -19,5 +22,7 @@
     <permissionSets>Permission_View_All_Users</permissionSets>
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
+    <permissionSets>PowerBI_External_Credential</permissionSets>
+    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

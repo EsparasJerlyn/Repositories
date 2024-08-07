@@ -15,7 +15,6 @@
 @isTest
 private class OPE_Design_Complete_FlowTest{
 
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static final String PR_MODULE = System.Label.RT_ProductRequest_Module;
     private static final String C_MODULE = System.Label.RT_Course_Module;
     private static final string PR_SHORTCOURSE = System.Label.RT_ProductRequest_ShortCourse;
@@ -38,9 +37,14 @@ private class OPE_Design_Complete_FlowTest{
     
     private static final Integer numberOfRecords = 100;
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
+
     @isTest
     private static void updateActivityCourseTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer opeDesignCompleteCounter = 0;
 
             createCourseWithCommonFields(opeActProdReqId);
@@ -66,7 +70,7 @@ private class OPE_Design_Complete_FlowTest{
 
     @isTest
     private static void updateShortCourseTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer opeDesignCompleteCounter = 0;
 
             createCourseWithCommonFields(opeShortProdReqId);
@@ -93,7 +97,7 @@ private class OPE_Design_Complete_FlowTest{
 
     @isTest
     private static void updateUnitCourseTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer opeDesignCompleteCounter = 0;
             
             createCourseWithCommonFields(opeUnitProdReqId);
@@ -128,7 +132,7 @@ private class OPE_Design_Complete_FlowTest{
 
     @isTest
     private static void updateModuleCourseTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer opeDesignCompleteCounter = 0;
             createCourseWithCommonFields(opeModuleProdReqId);
 
@@ -157,7 +161,7 @@ private class OPE_Design_Complete_FlowTest{
 
     @isTest
     private static void updateIncompleteDesignTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer opeDesignCompleteCounter = 0;
             createCourseWithCommonFields(opeActProdReqId);
 
@@ -189,7 +193,7 @@ private class OPE_Design_Complete_FlowTest{
     }
 
     private static void createCourseWithCommonFields(String productRequestRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
 
             hed__Facility__c facility = createFacility();
 

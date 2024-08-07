@@ -24,7 +24,7 @@ public without sharing class GroupRegistrationHelper {
         List<User> allUsers = new List<User>();
         List<Id> contactIds = new List<Id>();
 
-        Profile profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
+        Profile profile = [SELECT Id FROM Profile WHERE Name = 'QUT Experience' WITH SECURITY_ENFORCED LIMIT 1];
         Map<Id,User> userMap = GroupRegistrationHelper.setUserMap(contacts);
         List<User> newUsers = new List<User>();
 

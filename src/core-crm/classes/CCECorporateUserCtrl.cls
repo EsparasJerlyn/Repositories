@@ -148,7 +148,7 @@ public without sharing class CCECorporateUserCtrl {
             username = contact.Work_Email__c + '.cce';
             emailToUse = contact.Work_Email__c;
         }else{
-            profile = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
+            profile = [SELECT Id FROM Profile WHERE Name = 'QUT Experience' WITH SECURITY_ENFORCED LIMIT 1];
             permsetLabelList = new List<String>{'OPE Catalogue'};
             username = contact.Registered_Email__c + '.ope';
             emailToUse = contact.Registered_Email__c;
@@ -203,11 +203,13 @@ public without sharing class CCECorporateUserCtrl {
         }
         if(userPermSetAssignments.isEmpty()){
             for(PermissionSet perm: permsets){
-                PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
-                    PermissionSetId = perm.Id,
-                    AssigneeId = userId
-                );
-                permSetAssignments.add(permSetAssignment);
+                if(userId != null){
+                    PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
+                        PermissionSetId = perm.Id,
+                        AssigneeId = userId
+                    );
+                    permSetAssignments.add(permSetAssignment);
+                }      
             }
 
             if(permSetAssignments.size() > 0 && !hasOpeUser &&

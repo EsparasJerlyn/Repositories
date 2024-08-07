@@ -12,13 +12,13 @@
 private class StudentSanctionsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(StudentSanctionsDAO.newInstance() != null, 'StudentSanctionsDAO instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ private class StudentSanctionsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new StudentSanctionsDAO().getSObjectType() == Student_Sanction__c.SObjectType,
                 'SObject is not Student_Sanction__c'
@@ -39,7 +39,7 @@ private class StudentSanctionsDAOTest {
     @isTest
     static void queryLocatorGetStudentSanctionsByBatchProcessTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 StudentSanctionsDAO.newInstance()
                 .queryLocatorGetStudentSanctionsByBatchProcess(
@@ -55,7 +55,7 @@ private class StudentSanctionsDAOTest {
     @isTest
     static void getStudentSanctionsByBatchProcessTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 StudentSanctionsDAO.newInstance()
                 .getStudentSanctionsByBatchProcess(
@@ -71,7 +71,7 @@ private class StudentSanctionsDAOTest {
     @isTest
     static void getStudentSanctionsByBatchProcessEmptyTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 StudentSanctionsDAO.newInstance()
                 .getStudentSanctionsByBatchProcess(

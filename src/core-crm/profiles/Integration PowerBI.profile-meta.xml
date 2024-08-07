@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <loginIpRanges>
+        <endAddress>131.181.16.30</endAddress>
+        <startAddress>131.181.16.30</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <endAddress>131.181.87.23</endAddress>
+        <startAddress>131.181.87.20</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <endAddress>131.181.118.171</endAddress>
+        <startAddress>131.181.118.170</startAddress>
+    </loginIpRanges>
+    <userLicense>Salesforce</userLicense>
+</Profile>

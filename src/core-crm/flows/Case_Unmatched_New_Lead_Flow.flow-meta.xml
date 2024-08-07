@@ -478,11 +478,6 @@
             <targetReference>Create_Lead_Record</targetReference>
         </connector>
         <fields>
-            <name>LEAD_DETAILS</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(33, 110, 192);&quot;&gt;LEAD DETAILS&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
             <name>Create_Lead_Section1</name>
             <fieldType>RegionContainer</fieldType>
             <fields>
@@ -585,9 +580,9 @@
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
-        <nextOrFinishButtonLabel>CREATE LEAD</nextOrFinishButtonLabel>
+        <nextOrFinishButtonLabel>Create Lead</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Display_message</name>

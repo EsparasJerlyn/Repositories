@@ -19,6 +19,9 @@
       | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Add additional return fields in SOQL                             |
       | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
       | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
+      | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for outreach case.                                 |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
+      | julie.jane.alegre              | June 25, 2024         | DEPP-9481              | Update whereClauseCheckerForCompletedCadenceCriteria             |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -109,4 +112,134 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             String.escapeSingleQuotes(accessLevel)
         );
     }
+
+    public String getWhereClauseByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = '';
+        //Collate all criteria checked in every Criteria fields
+        soql = 
+            whereClauseCheckerForCompletedCadenceCriteria(completedCadenceCriteria, contactCriteria) + 
+            whereClauseCheckerForContactCriteria(completedCadenceCriteria, contactCriteria); 
+        
+        if(soql != '') {
+            soql = 'WHERE ' + soql.trim().removeStart('AND').trim();
+        }
+    
+        return soql;   
+    }
+
+    public String whereClauseCheckerForCompletedCadenceCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = '';
+        if(completedCadenceCriteria.getCompletedCadence() != null){
+            soql += 'AND Cadence_Name__c = \'' + completedCadenceCriteria.getCompletedCadence() + '\' ' ;
+        }
+        if(completedCadenceCriteria.getStatus() != null){
+            soql += 'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.getStatus() + '\' ' ;
+        }
+        if(completedCadenceCriteria.getCompletedCadanceDateFrom() != null){
+            soql += 'AND LastModifiedDate < ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateFrom().addDays(1)) + ' '; 
+        }
+        if(completedCadenceCriteria.getCompletedCadanceDateTo() != null){
+            soql += 'AND LastModifiedDate >= ' + DynamicQueryService.convertDatetoDateTimeGMTString(completedCadenceCriteria.getCompletedCadanceDateTo()) + ' '; 
+        }
+        return soql; 
+    }
+
+    public String whereClauseCheckerForContactCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = '';
+        if(contactCriteria.getIsQUTStudent() != null){
+            soql += 'AND Contact__r.QUT_Student__c = ' + contactCriteria.getIsQUTStudent() + ' ' ;
+        }
+        if(contactCriteria.getRecordType() != null){
+            soql += 'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.getRecordType() + '\' ' ;
+        }   
+        if(contactCriteria.getCitizenshipStatus() != null){
+            soql += 'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.getCitizenshipStatus() + '\' ' ;
+        } 
+        if(contactCriteria.getContactIdSet() != null){
+            String contactIdString = DynamicQueryService.formatStringSetForWhereClause(contactCriteria.getContactIdSet());
+            soql += 'AND Contact__r.Id IN (' + contactIdString + ') ';
+        } 
+    
+        return soql; 
+    }
+
+    public String getContactQueryByCriteria(
+         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+         ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return soql.trim();
+    }
+
+    public List<Completed_Cadence__c> findByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    ){
+        return Database.query(getQueryByCriteria(completedCadenceCriteria, contactCriteria) , accessLevel);
+    }
+
+    public String getQueryByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return soql.trim();
+    }
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for Completed Cadence.
+     */
+    public class Criteria {
+        private String status;
+        private String completedCadence;   
+        private Date completedCadanceDateFrom;
+        private Date completedCadanceDateTo;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getCompletedCadence() {
+            return completedCadence;
+        }
+
+        public void setCompletedCadence(String completedCadence) {
+            this.completedCadence = completedCadence;
+        }
+
+        public Date getCompletedCadanceDateFrom(){
+            return this.completedCadanceDateFrom;
+        } 
+
+        public void setCompletedCadanceDateFrom(Date completedCadanceDateFrom){
+            this.completedCadanceDateFrom = completedCadanceDateFrom;
+        } 
+
+        public Date getCompletedCadanceDateTo(){
+            return this.completedCadanceDateTo;
+        } 
+
+        public void setCompletedCadanceDateTo(Date completedCadanceDateTo){
+            this.completedCadanceDateTo = completedCadanceDateTo;
+        }
+        
+        public Boolean isEmpty() {
+            return status == null && completedCadence == null && completedCadanceDateTo == null && completedCadanceDateFrom == null;
+        }
+    }
+   
 }

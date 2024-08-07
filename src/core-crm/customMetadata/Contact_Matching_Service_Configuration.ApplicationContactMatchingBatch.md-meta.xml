@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Size__c</field>
-        <value xsi:type="xsd:double">200.0</value>
+        <value xsi:type="xsd:double">1.0</value>
     </values>
 </CustomMetadata>

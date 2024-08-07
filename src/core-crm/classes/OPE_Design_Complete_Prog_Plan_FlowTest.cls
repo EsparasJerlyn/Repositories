@@ -14,16 +14,20 @@
 @isTest
 private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
-    private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static Id opeProgramReqId = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     private static Id opeProgramPlanReqId = Schema.SObjectType.hed__Program_Plan__c.getRecordTypeInfosByDeveloperName().get('Program').getRecordTypeId();
     private static Integer numberOfRecords = 100;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
+
     @isTest
     private static void updateOPEProgramTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer numberOfCompleted = 0;
 
             createProgramPlan(opeProgramReqId);
@@ -75,7 +79,7 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
 
     @isTest
     private static void updateIncompleteOPEProgramTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Integer numberOfCompleted = 0;
 
             createProgramPlan(opeProgramReqId);
@@ -108,7 +112,7 @@ private class OPE_Design_Complete_Prog_Plan_FlowTest{
     }
 
     private static void createProgramPlan(String productRequestRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(numberOfRecords);
             for(Product_Request__c productRequest : productRequests){
                 productRequest.RecordTypeId = productRequestRecordType;

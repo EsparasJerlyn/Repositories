@@ -14,13 +14,15 @@
 @isTest
 public class Opp_Create_Opportunity_Contact_RoleTest {
     
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void createOpptyContactRole(){
         Test.startTest();
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account acct = TestDataFactory.createTestAccountRecords(1).iterator().next();
             insert acct;
     

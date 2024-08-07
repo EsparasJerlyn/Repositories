@@ -1,0 +1,17 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body aria-readonly="false" style="height: auto; min-height: auto;"><span style="font-family:Arial,Helvetica,sans-serif;"><strong>This is a system generated email.</strong><br />
+<br />
+Dear {firstName},<br />
+<br />
+We regret to inform you that an error has occurred during the generation of your preview for <a href="{elcUrl}">{elcTitle}</a>.<br />
+<br />
+Kindly contact or forward this email to the DEP support team for resolution (troubleshooting information provided below for the support team to investigate).<br />
+<br />
+Regards,<br />
+DEP<br />
+<br />
+{errors}</span></body>
+</html>

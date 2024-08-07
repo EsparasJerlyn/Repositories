@@ -1,0 +1,26 @@
+.scroll-table {
+   height: 300px;
+   overflow-y: scroll;
+   overflow: hidden;
+}
+
+.spinnerHolder {
+   /* position: relative; */
+   display: inline-block;
+   width: 30px;
+   height: 30px;
+}
+
+.slds-modal__container {
+   width: 70% !important;
+   max-width: 70% !important;
+}
+
+.slds-modal__content{
+   position: relative;
+}
+
+.table-spinner{
+   height: calc(100% - 122px);
+   margin-top: 122px;
+}

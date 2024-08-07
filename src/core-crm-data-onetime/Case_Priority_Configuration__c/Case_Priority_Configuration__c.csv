@@ -1,12 +1,12 @@
-Id,Case_Record_Type__c,Country_Tier__c,Enquiry_Category__c,Enquiry_Sub_Category__c,Lead_Score__c,Future_Student_Stage__c,Date_from__c,Date_to__c,Priority__c,Is_Active__c
-1,International Future Student Enquiry,,,,,Apply,,,High,TRUE
-2,International Future Student Enquiry,,My enrolment,,,Apply,,,High,TRUE
-3,International Future Student Enquiry,Tier 1,,,120,,,,High,TRUE
-4,International Future Student Enquiry,Tier 2,,,,,,,Medium,TRUE
-5,International Future Student Enquiry,Tier 3,,,,,,,Medium,TRUE
-6,International Future Student Enquiry,,,,,Offer,,,High,TRUE
-7,International Future Student Enquiry,,,"Welcome and orientation events;
+Id,Case_Record_Type__c,Case_Type__c,Country_Tier__c,Enquiry_Category__c,Enquiry_Sub_Category__c,Lead_Score__c,Future_Student_Stage__c,Date_from__c,Date_to__c,Priority__c,Is_Active__c
+1,Inbound Enquiry,International Future Student Enquiry,,,,,Apply,,,High,TRUE
+2,Inbound Enquiry,International Future Student Enquiry,,My enrolment,,,Apply,,,High,TRUE
+3,Inbound Enquiry,International Future Student Enquiry,Tier 1,,,120,,,,High,TRUE
+4,Inbound Enquiry,International Future Student Enquiry,Tier 2,,,,,,,Medium,TRUE
+5,Inbound Enquiry,International Future Student Enquiry,Tier 3,,,,,,,Medium,TRUE
+6,Inbound Enquiry,International Future Student Enquiry,,,,,Offer,,,High,TRUE
+7,Inbound Enquiry,International Future Student Enquiry,,,"Welcome and orientation events;
 Student support",,,,,Medium,TRUE
-8,International Future Student Enquiry,Tier 1,,,80,,,,High,FALSE
-9,International Future Student Enquiry,Tier 2,,,75,,,,Medium,FALSE
-10,International Future Student Enquiry,,,,,,2023-11-01,2023-12-31,High,TRUE
+8,Inbound Enquiry,International Future Student Enquiry,Tier 1,,,80,,,,High,FALSE
+9,Inbound Enquiry,International Future Student Enquiry,Tier 2,,,75,,,,Medium,FALSE
+10,Inbound Enquiry,International Future Student Enquiry,,,,,,2023-11-01,2023-12-31,High,TRUE

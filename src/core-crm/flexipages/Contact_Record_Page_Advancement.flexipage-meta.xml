@@ -1153,7 +1153,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
-                    <value>New_Stewardship_From_Contact</value>
+                    <value>New_Related_Stewardship</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numberOfRows</name>

@@ -13,6 +13,7 @@
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
       | eccarius.munoz                 | February 16, 2024     | DEPP-7714	            | Added test method of case prio with sub category      | 
       | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added test method of case prio with lead src category | 
+      | gabriel.p.ventayen             | April 22, 2024        | DEPP-8544	            | change rectype to inbound enquiry and add case type   | 
  */
 @isTest
 private class CasePriorityConfigurationServiceTest {
@@ -47,7 +48,8 @@ private class CasePriorityConfigurationServiceTest {
                 Auto_Priority_Assignment__c = true,
                 SuppliedPhone = '090909',
                 Origin = CasesDAO.ORIGIN_WHATSAPP,
-                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
             )
         );
 
@@ -102,11 +104,11 @@ private class CasePriorityConfigurationServiceTest {
             new Case(
                 Status = 'Created',
                 Auto_Priority_Assignment__c = true,
-                Category__c = 'Student life',
                 Origin = CasesDAO.ORIGIN_WHATSAPP,
                 Priority = 'Low',
                 ContactId = contactList[0].Id,
-                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
             )
         );
 
@@ -151,11 +153,12 @@ private class CasePriorityConfigurationServiceTest {
             new Case(
                 Status = 'Created',
                 Auto_Priority_Assignment__c = true,
-                Category__c = 'Student life',
+                Category__c = 'Student Life',
                 Origin = CasesDAO.ORIGIN_WHATSAPP,
                 Priority = 'Low',
                 ContactId = contactList[0].Id,
-                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
             )
         );
 

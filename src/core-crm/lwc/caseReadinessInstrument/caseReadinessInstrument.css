@@ -1,0 +1,26 @@
+a.record-name:link {
+    text-decoration: underline 1px dotted;
+}
+
+a.record-name:visited {
+    text-decoration: underline 1px dotted;
+    
+}
+
+a.record-name:hover {
+    text-decoration: underline 1px dotted;
+    
+}
+
+a.record-name:active {
+    text-decoration: underline 1px dotted;
+
+}
+
+article.card-with-bg {
+    background-color: var(--lwc-colorBackground);
+}
+
+div.header-with-bg {
+    background-color: var(--lwc-colorBackground);
+}

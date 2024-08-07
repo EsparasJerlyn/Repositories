@@ -10,13 +10,15 @@
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause         |
       | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added Designation Cause      |
       | eugene.andrew.abuan            | April 17, 2024        | DEPP-8340              | Added Designation Endowment  |
+      | marygrace.li                   | May 2, 2024           | DEPP-8390              | Deleted Donation_Cause_Code_Auto_Number__c, createDonationCauseRecords
 
  */
 @isTest
 public class CodeGeneratorServiceTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
         TestDataFactoryUser.generateUserIndustryPartnershipManager();
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -42,14 +44,6 @@ public class CodeGeneratorServiceTest {
         engCodeAutoNum.Research_Partnership__c = 1;
         EngagementCodeAutoNumbersDAO.newInstance().upsertRecords(
             new List<Engagement_Code_Auto_Number__c>{engCodeAutoNum}, 
-            false, 
-            AccessLevel.USER_MODE
-            );
-
-        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        donationCauseCodeAutoNum.Donation_Cause__c = 1;
-        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );
@@ -265,41 +259,12 @@ public class CodeGeneratorServiceTest {
      */
 
     /** 
-     * TEST START: CodeGeneratorService.generateCodeForDonationCauseRecords()
-     */
-    @isTest
-    private static void createDonationCauseRecords() {
-
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> newItems = TestDataFactory.createDonationCauseRecords(100);
-            Test.startTest();
-                CodeGeneratorService.generateCodeForDonationCauseRecords(newItems);
-                Donation_Cause_Code_Auto_Number__c dcCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-            Test.stopTest();
-
-            Integer count = 1;
-            for(Donation_Cause__c newItem : newItems) {
-                System.assertEquals(
-                    'ADVDC:' + String.valueOf(count).leftPad(5, '0'),
-                    newItem.Donation_Cause_Code__c,
-                    'Incorrect code.');
-                count++;
-            }
-            System.assertEquals(101, dcCodeAutoNum.Donation_Cause__c, 'Incorrect final auto-number value.');
-        }
-    }
-
-    /**
-     * TEST STOP: CodeGeneratorService.generateCodeForDonationCauseRecords()
-     */
-
-    /** 
      * TEST START: CodeGeneratorService.generateCodeForDesignationGivingToCauseRecords()
      */
     @isTest
     private static void createDesignationGivingToCauseRecords() {
 
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             Test.startTest();
                 CodeGeneratorService.generateCodeForDesignationGivingToCauseRecords(newItems);
@@ -327,7 +292,7 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createDesignationEndowmentRecords() {
 
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.ENDOWNMENT_RECTYPE_ID);
             for(Designation__c d : newItems){
                 d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;

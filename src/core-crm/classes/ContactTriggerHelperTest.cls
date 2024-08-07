@@ -176,7 +176,7 @@ private class ContactTriggerHelperTest {
             System.assert(acrt.size() == 100, 'Contacts where not updated');
         }
     }
-
+    
     @isTest
     private static void testContactCanNurtureFlag() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {

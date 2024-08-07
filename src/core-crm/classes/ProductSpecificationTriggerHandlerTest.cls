@@ -13,11 +13,11 @@
 @isTest
 public with sharing class ProductSpecificationTriggerHandlerTest {
     
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static final String STR_QUALIFY = 'Qualify';
     private static final String STR_IN_PROGRESS = 'In Progress';
+
     @testSetup
     static void setupMethod() {
         Test.startTest();

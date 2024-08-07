@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Enable Student Success Enquiry Home Page Outreach Commencing Students List View</description>
+    <isLicensed>false</isLicensed>
+    <label>Student Success Enquiry Home Page Outreach Commencing Students List View</label>
+</CustomPermission>

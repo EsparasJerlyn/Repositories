@@ -15,13 +15,13 @@ private class DonationStageUpdateBatchTest {
     @testSetup
     static void setupDate() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
         Test.stopTest();
     }
 
     @isTest
     private static void isForCauseCompletedRecurringTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             DesignationsDAO.newInstance()
                 .insertRecords(designationList, false, AccessLevel.USER_MODE);
@@ -60,7 +60,7 @@ private class DonationStageUpdateBatchTest {
 
     @isTest
     private static void isForCauseCancelledTest() {
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(1, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             DesignationsDAO.newInstance()
                 .insertRecords(designationList, false, AccessLevel.USER_MODE);

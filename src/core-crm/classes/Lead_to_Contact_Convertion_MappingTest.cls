@@ -14,14 +14,13 @@
 @isTest
 private class Lead_to_Contact_Convertion_MappingTest{
     
-    private static final String STR_PROFILE = 'QUTeX';
-    private static User  currentUser = TestDataFactory.createUserRecords(1, STR_PROFILE).iterator().next();
     private static String companyCategoryStr = 'Corporate';
     private static String linkedInProfileUrlStr = 'test@test.com';
     private static Integer numberOfRecords = 100;
     
     @testSetup
-    static void setupMethod(){        
+    static void setupMethod(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();        
         List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);          
         List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);
         for(Lead lead : leads){   
@@ -36,7 +35,7 @@ private class Lead_to_Contact_Convertion_MappingTest{
     private static void convertLeadToContactTest(){ 
         List<Lead> leads = [SELECT Id FROM Lead LIMIT 100];
         
-        System.runAs(currentUser){  
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){  
             Test.startTest();  
             convertLead(leads);
             Test.stopTest();

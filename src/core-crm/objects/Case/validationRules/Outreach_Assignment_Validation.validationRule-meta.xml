@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outreach_Assignment_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+	RecordType.DeveloperName = &apos;Outreach&apos;,
+	NOT(
+		OR(
+			Owner:User.UserRole.DeveloperName = &apos;Student_Success_Outreach_Manager&apos;, 
+			Owner:User.UserRole.DeveloperName = &apos;Student_Success_Outreach_Staff&apos;,
+			Owner:Queue.DeveloperName = &apos;Student_Success_Student_Retention&apos;
+		)
+	)
+)</errorConditionFormula>
+    <errorDisplayField>OwnerId</errorDisplayField>
+    <errorMessage>Case Owner for Outreach case can only be Student Success - Student Retention queue or Student Success - Outreach users</errorMessage>
+</ValidationRule>

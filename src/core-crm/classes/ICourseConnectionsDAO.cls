@@ -44,4 +44,29 @@ public interface ICourseConnectionsDAO extends DmlInterface{
         Set<Id> cartItemIdSet,
         AccessLevel accessLevel
     );
+
+    String getWhereClauseByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getContactQueryByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getQueryByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<hed__Course_Enrollment__c> findByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    );
 }

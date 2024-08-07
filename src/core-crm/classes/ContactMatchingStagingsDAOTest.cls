@@ -13,14 +13,14 @@ private class ContactMatchingStagingsDAOTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTESB();
         Test.stopTest();
     }
 
     @isTest
     static void queryLocatorGetContactMatchingStagingsByBatchProcessTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 ContactMatchingStagingsDAO.newInstance()
                     .queryLocatorGetContactMatchingStagingsByBatchProcess(
@@ -36,7 +36,7 @@ private class ContactMatchingStagingsDAOTest {
     @isTest
     static void getContactMatchingStagingsByBatchProcessEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Matching_Staging__c> conMatchingStagings = ContactMatchingStagingsDAO.newInstance()
                 .getContactMatchingStagingsByBatchProcess(
                     new Set<String>(),
@@ -50,7 +50,7 @@ private class ContactMatchingStagingsDAOTest {
     @isTest
     static void getContactMatchingStagingsByBatchProcessTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<Contact_Matching_Staging__c> conMatchingStagings = ContactMatchingStagingsDAO.newInstance()
                 .getContactMatchingStagingsByBatchProcess(
                     new Set<String>{ 'Insert' },
@@ -64,7 +64,7 @@ private class ContactMatchingStagingsDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 ContactMatchingStagingsDAO.newInstance() != null,
                 'ContactMatchingStagingsDAO instance is null'
@@ -76,7 +76,7 @@ private class ContactMatchingStagingsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             System.assert(
                 new ContactMatchingStagingsDAO().getSObjectType() ==
                 Contact_Matching_Staging__c.SObjectType,

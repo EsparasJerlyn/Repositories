@@ -14,13 +14,16 @@
 private class GenerateImageServerURLTest {
     
     private static final String BADGE_LOGO = System.Label.DOC_Badge_Logo;
-    private static final String QUTEX = System.Label.QUTeX;
-    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next(); 
     private static final String ORG_ID = UserInfo.getOrganizationId();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+    }
 
     @isTest
     private static void generateURLTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             String expectedURL = System.URL.getOrgDomainUrl().toExternalForm() + '/file-asset-public/'  + BADGE_LOGO + '?oid=' + ORG_ID;
 
             GenerateImageServerURL.ImageInfo imageInfo = new GenerateImageServerURL.ImageInfo();

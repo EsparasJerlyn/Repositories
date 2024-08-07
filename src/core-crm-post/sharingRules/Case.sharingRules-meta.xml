@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Future_Students_Domestic_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Inbound Enquiry Cases to Future Students Domestic with Read/Write access.</description>
+        <label>Future Students Domestic Share</label>
+        <sharedTo>
+            <group>Future_Students_Domestic</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Inbound Enquiry</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Future_Students_International_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Inbound Enquiry Cases to Future Students International with Read/Write access.</description>
+        <label>Future Students International Share</label>
+        <sharedTo>
+            <group>Future_Students_International</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Inbound Enquiry</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Student_Success_Outreach_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Outreach or Safety Net Referral cases to Student Success Outreach Managers with Read/Write access.</description>
+        <label>Student Success Outreach Manager Share</label>
+        <sharedTo>
+            <group>Student_Success_Outreach_Manager</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Outreach</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Student_Success_Outreach_Staff_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Outreach Cases to Student Success Outreach Staffs with Read/Write access.</description>
+        <label>Student Success Outreach Staff Share</label>
+        <sharedTo>
+            <group>Student_Success_Outreach_Staff</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Outreach</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Student_Success_Reporting_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Outreach Cases to Student Success Reporting with Read/Write access.</description>
+        <label>Student Success Reporting Share</label>
+        <sharedTo>
+            <group>Student_Success_Reporting</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Outreach</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

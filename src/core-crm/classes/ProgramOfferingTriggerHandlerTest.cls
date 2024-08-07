@@ -15,7 +15,6 @@
  */
 @isTest
 public with sharing class ProgramOfferingTriggerHandlerTest {
-    private static User currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
 
     @testSetup
     static void setupMethod() {
@@ -24,7 +23,7 @@ public with sharing class ProgramOfferingTriggerHandlerTest {
 
     @isTest
     private static void insertProgramOfferingTest() {
-        System.runAs(currentUser) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(25);

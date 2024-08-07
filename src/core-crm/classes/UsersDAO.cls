@@ -36,7 +36,8 @@ public with sharing class UsersDAO extends DmlBase implements IUsersDAO {
             return new List<User>();
         }
         return Database.query(
-            'SELECT Id, Contact.Work_Email__c, Contact.Name, UserRole.Name ' + 
+            'SELECT Id, Contact.Work_Email__c, Contact.Name, UserRole.Name, ' + 
+            'FirstName, Email, TimeZoneSidKey ' +
             'FROM User ' + 
             'WHERE Id IN: userIdSet ' +
             'LIMIT 1 ', 

@@ -12,7 +12,7 @@
 private class StewardshipsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactoryUser.generateUserDonorEngagementManager();
         List<Stewardship__c> newStewardshipList = new List<Stewardship__c>();
         List<Stewardship__c> individualStewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,20);
         List<Stewardship__c> organisationStewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.ORGANISATION_STEWARDSHIP_RECTYPE_ID,20);
@@ -26,7 +26,7 @@ private class StewardshipsDAOTest {
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             System.assert(StewardshipsDAO.newInstance() != null, 'StewardshipsDAO instance is null');
         }
         Test.stopTest();
@@ -34,7 +34,7 @@ private class StewardshipsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             System.assert(
                 new StewardshipsDAO().getSObjectType() == Stewardship__c.SObjectType,
                 'SObject is not Stewardship__c'
@@ -46,7 +46,7 @@ private class StewardshipsDAOTest {
     @isTest
     static void getStewardshipBySetIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Stewardship__c> stewardshipsList = StewardshipsDAO.newInstance()
                 .getStewardshipBySetIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(stewardshipsList.isEmpty(), 'stewardshipsList should not be empty');
@@ -57,7 +57,7 @@ private class StewardshipsDAOTest {
     @isTest
     static void getStewardshipBySetIdsNotEmpty() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             MockIdGenerator stewardshipMock = new MockIdGenerator(Stewardship__c.SObjectType);
             List<Stewardship__c> stewardshipsList = StewardshipsDAO.newInstance()
                 .getStewardshipBySetIds(
@@ -72,7 +72,7 @@ private class StewardshipsDAOTest {
     @isTest
     static void getStewardshipByRecordTypeIds() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             List<Stewardship__c> stewardshipsList = StewardshipsDAO.newInstance()
                 .getStewardshipByRecordTypeIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(stewardshipsList.isEmpty(), 'stewardshipsList should not be empty');
@@ -83,7 +83,7 @@ private class StewardshipsDAOTest {
     @isTest
     static void getStewardshipByRecordTypeIdsNotEmpty() {
         Test.startTest();
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserDonorEngagementManager) {
             MockIdGenerator recordTypeMock = new MockIdGenerator(Recordtype.getSObjectType());
             List<Stewardship__c> stewardshipsList = StewardshipsDAO.newInstance()
                 .getStewardshipByRecordTypeIds(

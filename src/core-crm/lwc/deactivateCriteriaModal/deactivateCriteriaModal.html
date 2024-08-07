@@ -1,0 +1,31 @@
+<template>
+    <lightning-quick-action-panel header="Deactivation Confirmation">
+        <div class="slds-is-relative">
+            <template lwc:if={showLoading}>
+                <lightning-spinner alternative-text="Deactivating..." size="medium"></lightning-spinner>
+            </template>
+            <template lwc:if={showError}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+            <template lwc:elseif={showNotice}>
+                <p>After deactivation, you will not be able to reactivate this criteria.</p>
+                <p class="slds-m-top_small">Are you sure you want to proceed with deactivation?</p>
+            </template>
+        </div>
+        <div slot="footer">
+            <template lwc:if={showNotice}>
+                <template lwc:if={showLoading}>
+                    <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_x-small" disabled></lightning-button>
+                    <lightning-button label="Deactivate" variant="brand" onclick={handleDeactivate} disabled></lightning-button>
+                </template>
+                <template lwc:else>
+                    <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_x-small"></lightning-button>
+                    <lightning-button label="Deactivate" variant="brand" onclick={handleDeactivate}></lightning-button>    
+                </template>
+            </template>
+            <template lwc:elseif={showClose}>
+                <lightning-button label="Close" onclick={handleClose}></lightning-button>
+            </template>
+        </div>
+    </lightning-quick-action-panel>
+</template>

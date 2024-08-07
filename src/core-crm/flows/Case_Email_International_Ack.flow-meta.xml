@@ -184,7 +184,8 @@
         <filterFormula>AND(
     ISPICKVAL({!$Record.Status}, &apos;Created&apos;),
     NOT(ISBLANK({!$Record.SuppliedEmail})),
-    {!$Record.RecordType.DeveloperName} = &apos;International_Future_Student_Enquiry&apos;,
+    {!$Record.RecordType.DeveloperName} = &apos;Inbound_Enquiry&apos;,
+    ISPICKVAL({!$Record.Case_Type__c}, &apos;International Future Student Enquiry&apos;),
     ISPICKVAL({!$Record.Origin}, &apos;Website&apos;)
 )</filterFormula>
         <object>Case</object>

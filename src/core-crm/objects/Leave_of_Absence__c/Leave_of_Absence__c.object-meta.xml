@@ -161,10 +161,11 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Leave of Absence</label>
     <nameField>
+        <displayFormat>LOA-{000000}</displayFormat>
         <label>Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
-    </nameField>
+        <type>AutoNumber</type>
+    </nameField> 
     <pluralLabel>Leave of Absences</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>

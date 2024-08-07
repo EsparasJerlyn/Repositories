@@ -2,6 +2,17 @@
 <DelegateGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>Non Admin</label>
     <loginAccess>true</loginAccess>
+    <roles>Advancement Manager</roles>
+    <roles>Advancement Operations Manager</roles>
+    <roles>Donor Engagement Manager</roles>
+    <roles>Executive Director Advancement</roles>
+    <roles>Fundraiser</roles>
+    <roles>Fundraising Manager</roles>
+    <roles>Alumni &amp; Corporate Partnerships Super User</roles>
+    <roles>Alumni Engagement</roles>
+    <roles>Corporate Engagement</roles>
+    <roles>Corporate Events</roles>
+    <roles>Corporate Partnerships</roles>
     <roles>QUTeX Leadership</roles>
     <roles>QUTeX User</roles>
     <roles>QUTeX Super User</roles>
@@ -19,4 +30,11 @@
     <roles>VP Business Development</roles>
     <roles>Executive Director Business Development</roles>
     <roles>Industry Engagement Super User</roles>
+    <roles>Student Success Manager</roles>
+    <roles>Student Success Outreach Manager</roles>
+    <roles>Student Success Outreach Staff</roles>
+    <roles>Student Success Reporting</roles>
+    <roles>Student Success Staff</roles>
+    <roles>Student Success Student Partner</roles>
+    <roles>Student Success Student Volunteer</roles>
 </DelegateGroup>

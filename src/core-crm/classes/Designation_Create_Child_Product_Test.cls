@@ -16,7 +16,7 @@ private class Designation_Create_Child_Product_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        TestDataFactoryUser.generateUserAdvancementManager();
         Test.stopTest();
 
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
@@ -30,7 +30,7 @@ private class Designation_Create_Child_Product_Test {
     
     @isTest
     private static void createProductOnDesignationInsert (){
-        System.runAs(TestDataFactory.getAdvancementManager()) {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100,
                 DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
