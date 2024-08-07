@@ -2,10 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Completed_Cadence__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Completed Cadence record that the task is associated to</description>
     <label>Completed Cadence</label>
     <referenceTo>Completed_Cadence__c</referenceTo>
     <relationshipLabel>Activities</relationshipLabel>
     <relationshipName>Activities</relationshipName>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <type>Lookup</type>
 </CustomField>

@@ -51,9 +51,6 @@ private class CompletedCadenceTriggerHelperTest {
             }
     
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated, false, AccessLevel.SYSTEM_MODE);
-
-
-            List<Completed_Cadence__c> completedCadenceListCreated = CompletedCadencesDAO.newInstance().getCompletedCadenceByStatus('', AccessLevel.SYSTEM_MODE);
             
             List<Completed_Cadence__c> newCompletedCadenceList = new List<Completed_Cadence__c>();
 
@@ -64,9 +61,8 @@ private class CompletedCadenceTriggerHelperTest {
                 newCompletedCadenceList.add(completedCadenceNew);
             }
 
-
-
             Test.startTest();
+
             CompletedCadenceTriggerHelper helper = new CompletedCadenceTriggerHelper();
             helper.fastFieldUpdateAndValidation(
                 new Map<Id,Completed_Cadence__c>(newCompletedCadenceList),
@@ -94,35 +90,33 @@ private class CompletedCadenceTriggerHelperTest {
 
         System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             
-        List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
-        contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
-        contactList[0].QUT_Student__c = true;
-        ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
-        
-        List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
-        List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-        for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
-            nurtureList.add(
-                new Nurture_Track_Configuration__c(
-                    Id = nurtureTrackConfig.Id,
-                    Cadence_Name__c = 'Domestic Accepted and Admitted',
-                    Lead_Score_Threshold__c = 3
-                )
-            );
-        }
-        NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);    
-        List<Completed_Cadence__c> completedCadenceListCreated = new List<Completed_Cadence__c>();
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,'Domestic');
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].QUT_Student__c = true;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+            
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+                nurtureList.add(
+                    new Nurture_Track_Configuration__c(
+                        Id = nurtureTrackConfig.Id,
+                        Cadence_Name__c = 'Domestic Accepted and Admitted',
+                        Lead_Score_Threshold__c = 3
+                    )
+                );
+            }
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);    
+            List<Completed_Cadence__c> completedCadenceListCreated = new List<Completed_Cadence__c>();
 
 
-        for(Integer i = 0; i < 100 ; i++){
-            List<Completed_Cadence__c> completedCadence = new List<Completed_Cadence__c>();
-            completedCadence = TestDataFactory.createCompletedCadence('',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
-            completedCadenceListCreated.add(completedCadence[0]);
-        }
+            for(Integer i = 0; i < 100 ; i++){
+                List<Completed_Cadence__c> completedCadence = new List<Completed_Cadence__c>();
+                completedCadence = TestDataFactory.createCompletedCadence('',nurtureList[0].Id,new Set<Id>{contactList[0].Id});
+                completedCadenceListCreated.add(completedCadence[0]);
+            }
 
-        CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated, false, AccessLevel.SYSTEM_MODE);
-
-            List<Completed_Cadence__c> completedCadenceListCreated = CompletedCadencesDAO.newInstance().getCompletedCadenceByStatus('', AccessLevel.SYSTEM_MODE);
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceListCreated, false, AccessLevel.SYSTEM_MODE);
             
             List<Completed_Cadence__c> newCompletedCadenceList = new List<Completed_Cadence__c>();
 
@@ -136,6 +130,7 @@ private class CompletedCadenceTriggerHelperTest {
 
 
             Test.startTest();
+            
             CompletedCadenceTriggerHelper helper = new CompletedCadenceTriggerHelper();
             helper.fastFieldUpdateAndValidation(
                 new Map<Id,Completed_Cadence__c>(newCompletedCadenceList),
