@@ -26,14 +26,14 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_ASSIGN_TARGET_CADENCE = System.Label.SalesCadenceAssignTargetEndpoint;
     private static final String ENDPOINT_REMOVE_TARGET_CADENCE = System.Label.SalesCadenceRemoveTargetEndpoint;  
     private static final String ENDPOINT_ESB_SAMS_REFRESH_STUDENT = 'callout:ESB' + System.Label.ESBSAMSRefreshStudent;
-    private static final String ENDPOINT_MARKETING_CLOUD_SMS = 'callout:MarketingCloudMessages';
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
     private static final String PAYLOAD_PHONE = '{"payload":[{"fullPhone":"1234","country":"AU","phoneStatus":"connected|Network confirmed connection"}]}';
     private static final String PAYLOAD_COMPANY = '{"payload":[{"abn":"54321","name":"testEntityName"}]}';
     private static final String PAYLOAD_PHONE_NZ = '{"payload":[{"fullPhone":"1234","country":"NZ","phoneStatus":"connected|Network confirmed connection"}]}';    
     private static final String PAYLOAD_ASSIGN_CADENCE = '[{"version" : 1,"outputValues" : { },"isSuccess" : true,"errors" : null,"actionName" : "assignTargetToSalesCadence"}]';
-    private static final String PAYLOAD_REMOVE_CADENCE = '[{"errors": [{"statusCode": "UNKNOWN_EXCEPTION","message": "The object needs to be a valid cadence entity.","fields": []}],"isSuccess": false}]';    
+    private static final String PAYLOAD_REMOVE_CADENCE = '[{"errors": [{"statusCode": "UNKNOWN_EXCEPTION","message": "The object needs to be a valid cadence entity.","fields": []}],"isSuccess": false}]';
+    
     
 
     /**
@@ -52,44 +52,12 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
             res = assignTargetCadenceMockResponse(req);
         } else if(req.getEndpoint().contains(ENDPOINT_REMOVE_TARGET_CADENCE)){
             res = removeTargetCadenceMockResponse(req);
-        } else if(req.getEndpoint().contains(ENDPOINT_MARKETING_CLOUD_SMS)){
-            res = sendBulkSMS(req);
         } else {
             res = loqateMockResponse(req);
         }
         return res;
     }
     
-
-    /**
-    * @description Creates a mock HTTP Response for mc transactional messaging for SMS
-    * @param payload - mock body of the response
-    * @return res - mock HTTP response
-    */
-    private static HttpResponse sendBulkSMS(HTTPRequest req){
-        MCTransactionalMessagingService.SMSRequest request = (MCTransactionalMessagingService.SMSRequest) JSON.deserialize(req.getBody(), MCTransactionalMessagingService.SMSRequest.class);
-        MCTransactionalMessagingService.SMSMessageResponse messageResponse;
-        List<MCTransactionalMessagingService.SMSMessageResponse> messageResponses = new List<MCTransactionalMessagingService.SMSMessageResponse>();
-        // instantiate response
-        MCTransactionalMessagingService.SMSResponse response = new MCTransactionalMessagingService.SMSResponse();
-
-        for(MCTransactionalMessagingService.SMSRecipient recipient: request.recipients){
-            messageResponse = new MCTransactionalMessagingService.SMSMessageResponse();
-            messageResponse.messageKey = recipient.messageKey;
-            messageResponses.add(messageResponse);
-        }
-        response.requestId = '12345';
-        response.errorcode = 0;
-        response.responses = messageResponses;
-
-        HttpResponse res = new HttpResponse();
-		res.setHeader('Content-Type', 'application/json');
-        res.setBody(JSON.serialize(response));
-        res.setStatusCode(200);
-
-        return res;
-    }
-
    /**
     * @description Creates a mock HTTP Response for assignTargetCadence
     * @param payload - mock body of the response

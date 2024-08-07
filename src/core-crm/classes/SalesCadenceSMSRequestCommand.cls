@@ -8,7 +8,6 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                    |
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Created file                                      |
-      | roy.nino.s.regala              | July 25, 2024         | DEPP-8551              | Updated SMS to MC Transactional Messaging API     |
  */
 public with sharing class SalesCadenceSMSRequestCommand implements IRequestCommand{
     
@@ -21,91 +20,36 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
     }      
 
     public void execute() {
-        if (stopSendingSMS()) {
+        		
+        if(stopSendingSMS()){
             Logger.info('SalesCadenceSMSRequest Stop SMS Sending ');
             return;
         }
-
+        
         Set<Id> failedCommsQueueIds = new Set<Id>();
-        Map<String, Id> messageKeyMap = new Map<String, Id>();
-        String messageKey;
-
-        List<MCTransactionalMessagingService.SMSRecipient> recipientList = new List<MCTransactionalMessagingService.SMSRecipient>();
-
-        MCTransactionalMessagingService.Content content = new MCTransactionalMessagingService.Content(
-            '%%message%%'
-        );
-
-        MCTransactionalMessagingService.SMSRequest requestPayload;
-
-        Map<String, String> attributes;
-
-        for (Communication_Queue__c commsQueue : communicationQueueList) {
-            // create message key - Communication Queue Id + Retry Count
-            messageKey =
-                commsQueue.Id +
-                (commsQueue.Retry_Count__c != null
-                    ? String.valueOf(commsQueue.Retry_Count__c)
-                    : '0');
-            // create a map to relate Communication Queue and Message Key
-            messageKeyMap.put(messageKey, commsQueue.Id);
-            attributes = new Map<String, String>{ 'message' => commsQueue.Message__c };
-
-            recipientList.add(
-                new MCTransactionalMessagingService.SMSRecipient(
-                    commsQueue.Mobile__c,
-                    messageKey,
-                    attributes
-                )
-            );
-        }
-
-        requestPayload = new MCTransactionalMessagingService.SMSRequest(
-            'TestDefinitionKey', // MC Definition Key
-            recipientList, 
-            content
-        );
-
-        // bulk mc messaging
-        MCTransactionalMessagingService.SMSResponse smsResponse = MCTransactionalMessagingService.sendBulkSMS(
-            requestPayload
-        );
-
-        Logger.info(
-            'MC Transactional API Request Payload :' + JSON.serializePretty(requestPayload)
-        );
-
-        Logger.info('MC Transactional API Response:' + JSON.serializePretty(smsResponse));
-
-        Logger.saveLog();
-
-        // if overall request failed
-        if (smsResponse.responses.isEmpty()) {
-            failedCommsQueueIds.addAll(messageKeyMap.values());
-        }
-
-        for (
-            MCTransactionalMessagingService.SMSMessageResponse smsMessageResponse : smsResponse.responses
-        ) {
-            // if some of the messages failed
-            if (
-                smsMessageResponse.errorcode != null &&
-                messageKeyMap.containsKey(smsMessageResponse.messageKey)
-            ) {
-                failedCommsQueueIds.add(messageKeyMap.get(smsMessageResponse.messageKey));
+        
+        for(Communication_Queue__c commsQueue : communicationQueueList){
+            Map<String, Object> flowParameters = new Map<String, Object>();
+            flowParameters.put('CommunicationQueueRecordId',commsQueue.Id);
+            flowParameters.put('MessagingChannel',getCommsQueueConfig().SMS_Messaging_Channel__c);
+            flowParameters.put('MobilePhoneNumber',commsQueue.Mobile__c);
+            flowParameters.put('RecipientRecordID',commsQueue.WhoId__c);
+            
+            String flowResult = callFlow('Communication_Queue_Send_SMS',flowParameters);
+            
+            if(flowResult =='Success'){
+                Logger.info('Sucess FlowResult ' + flowResult);
+            }else{
+                Logger.info('Failed FlowResult ' + flowResult);
+                failedCommsQueueIds.add(commsQueue.Id);
             }
         }
 
-        List<Communication_Queue__c> commsQueueListToUpdate = setupCommunicationQueueListToUpdate(
-            communicationQueueList,
-            failedCommsQueueIds
-        );
-
-        CommunicationQueuesDAO.newInstance()
-            .updateRecords(commsQueueListToUpdate, false, AccessLevel.SYSTEM_MODE);
-            
+        List<Communication_Queue__c> commsQueueListToUpdate = setupCommunicationQueueListToUpdate(communicationQueueList, failedCommsQueueIds);
+        CommunicationQueuesDAO.newInstance().updateRecords(commsQueueListToUpdate, false, AccessLevel.SYSTEM_MODE);
         createTaskRecords(commsQueueListToUpdate);
-    }
+
+    }    
     
     /**
      * Sets the record status of communication queue list to update
@@ -135,6 +79,18 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
         Communication_Queue_Configuration__mdt commQueueMetadata;        
 		commQueueMetadata = Communication_Queue_Configuration__mdt.getInstance('Sales_Cadence');
         return commQueueMetadata; 
+    }
+    
+    /**
+     * call flow and get the return value
+     */    
+    private static String callFlow(String flowName, Map <String, Object> flowParameters) {
+        if(Test.isRunningTest()){
+            return '';
+        }
+		Flow.Interview smsFlow = Flow.Interview.createInterview(flowName, flowParameters);
+        smsFlow.start();
+        return (String) smsFlow?.getVariableValue('FlowResult');
     }
     
     /**
