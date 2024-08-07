@@ -177,6 +177,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>opencti:acwTimer</componentName>
+                <identifier>opencti_acwTimer</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-1383e976-da21-4aaf-bb8e-8453c04b9b03</value>
