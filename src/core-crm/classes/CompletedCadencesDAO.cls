@@ -22,7 +22,7 @@
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for outreach case.                                 |
       | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
       | julie.jane.alegre              | June 25, 2024         | DEPP-9481              | Update whereClauseCheckerForCompletedCadenceCriteria             |
-      | eugene.andrew.abuan            | August 02, 2024       | DEPP-9691              | Added getCompletedCadenceByRecordId                              |
+      | eugene.andrew.abuan            | August 02, 2024       | DEPP-8255              | Added getCompletedCadenceByRecordId                              |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 

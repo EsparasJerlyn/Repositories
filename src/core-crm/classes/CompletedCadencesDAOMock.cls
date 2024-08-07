@@ -10,7 +10,7 @@
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query                                             |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | updated method getCompletedCadenceByTargetIdsAndCadenceName |
       | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                   |
-      | eugene.andrew.abuan            | August 05, 2024       | DEPP-9691              | Added getCompletedCadencebyRecordId                         |
+      | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Added getCompletedCadencebyRecordId                         |
  */
 @isTest
 public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock implements ICompletedCadencesDAO {

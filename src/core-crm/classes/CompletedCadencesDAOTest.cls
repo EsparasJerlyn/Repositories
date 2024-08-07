@@ -10,7 +10,8 @@
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added test method                                                    |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated test method getCompletedCadenceByTargetIdsAndCadenceNameTest |
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | added test method for outreach case methods                          |
-      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                            |
+      | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Added method for getting completed cadence by Id and Status          |
 
  */
 @isTest

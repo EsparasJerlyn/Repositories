@@ -11,7 +11,9 @@
       | mark.j.mahilum            | July 18,2023          | DEPP-5799    | Created file                                   |
       | johanna.a.gibas           | Oct 16, 2023          | DEPP-6855    | Added Completed Cadence to increase coverage   |
       | johanna.a.gibas           | Oct 25, 2023          | DEPP-6889    | Added test methods for updateCompletedCadences |
-      | kenneth.f.alsay           | December 27, 2023     |              | Removed unused variables                       |      
+      | kenneth.f.alsay           | December 27, 2023     |              | Removed unused variables                       |
+      | eugene.andrew.abuan       | August 05, 2024       | DEPP-8255    | Added method for counter and related task      |
+     
 */
 @isTest
 private class SalesCadenceCalloutServiceTest {

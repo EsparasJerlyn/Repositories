@@ -27,6 +27,7 @@
  *    | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Changed getCompletedCadenceStatusMap datatype to Completed_Cadence,  |
  *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          |
  *    | mark.j.mahilum                 | April 08, 2024        | DEPP-8377              | Fixed callout issue and removed DML inside service callout           |
+ *    | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Added counter to completed cadence and relate it to a task           |
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -297,7 +298,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 
     /**
      * @description private method to count the tasks under the completed cadence
-     * the counter will update when task is updated and related to a completed cadence
+     * the counter will increment when the task is associated to a completed cadence record
      * @param completedCadenceIdSet Set Completed Cadence Ids
      * @return - void
      */
@@ -305,7 +306,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 
         try{
             // Task is currently on System Mode since the Automated User can't have access to the custom field
-            // Completed_Cadence__c to Activity Object that is related to the task
+            // Completed_Cadence__c is under in the Activity Object that is related to the task
             List<Task> tasksToUpdate = TasksDAO.newInstance().getTaskByCompeltedCadence(completedCadenceIdSet, AccessLevel.SYSTEM_MODE);
     
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadencebyRecordId (completedCadenceIdSet , AccessLevel.SYSTEM_MODE);

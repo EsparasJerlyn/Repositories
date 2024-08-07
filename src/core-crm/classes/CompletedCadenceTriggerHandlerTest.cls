@@ -6,7 +6,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | August 05, 2024       | DEPP-9691              | Created file                 |
+      | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Created file                 |
  */
 
 @isTest
