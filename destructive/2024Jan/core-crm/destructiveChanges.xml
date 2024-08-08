@@ -317,6 +317,19 @@
         <!--End (replaced by) DEPP-8870-->
         <name>PermissionSet</name>
     </types>
+    <types>
+        <!--Start (replaced by) DEPP-10309-->
+        <members>CC_Student_Admin_Hub_Adv_Engagement</members>
+        <members>CC_Student_Admin_Hub_Advisor_Progression</members>
+        <members>CC_Student_Admin_Manager</members>
+        <members>CC_Student_Admin_Spec_Adv_Engagement</members>
+        <members>CC_Student_Admin_Spec_Adv_Progression</members>
+        <members>CC_Student_Admin_Team_Leader_Engagement</members>
+        <members>CC_Student_Admin_Team_Leader_Progression</members>
+        <members>CC_Student_Admin</members>
+        <!--End (replaced by) DEPP-10309-->
+        <name>Group</name>
+    </types>
     <!-- "problem": "Entity type 'GenAiPromptTemplate' is not available for delete in this api version" 
     <types>
         DEPP-8867 Description(we don't need this prompt now) 
