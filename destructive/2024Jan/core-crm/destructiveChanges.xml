@@ -54,6 +54,7 @@
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
         <members>Engagement_List_Criteria__c-Engagement List Criteria Layout</members><!--DEPP-7584-->
+        <members>VoiceCall-Voice Call Layout</members><!--DEPP-10044-->
         <name>Layout</name>
     </types>
     <types>
@@ -331,6 +332,12 @@
         <members>MarketingInteractionTriggerHelperTest</members>
         <!--(End) DEPP-9821 -->
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>QUT_Contact_Centre_Chat</members>
+        <members>QUT_Future_Student_Chat</members>
+        <members>QUT_Library_Chat</members>
+        <name>EmbeddedServiceConfig</name>
     </types>
     <version>61.0</version>
 </Package>
