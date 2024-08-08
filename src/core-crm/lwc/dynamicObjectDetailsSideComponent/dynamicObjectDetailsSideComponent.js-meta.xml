@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property
+                name="title"
+                label="Title"
+                type="String"
+                description="Text, use to provide component title. E.g. Contact Details. "
+                required="true" />
+            <property
+                name="relatedRecordHeader"
+                label="Related Record Header"
+                type="String"
+                description="Text, use the API name. E.g. Contact.Name. "
+                required="true" />
+            <property
+                name="relatedRecord"
+                label="Related Record"
+                type="String"
+                description="Text, use the API name. E.g. Contact. "
+                required="true" />
+            <property
+                name="relatedField"
+                label="Related Field"
+                type="String"
+                description="Text, use the API name. E.g. ContactId. "
+                required="true" />
+            <property
+                name="relatedRecordFields"
+                label="Related Record Fields"
+                type="String"
+                description='Text, written in array JSON format, use to provide information relevant to fields. E.g. [{"label":"Name","fieldName":"Name","type":"text"}]). '
+                required="true" />
+            <supportedFormFactors>
+                <supportedFormFactor type="Large" />
+                <supportedFormFactor type="Small" />
+            </supportedFormFactors>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
