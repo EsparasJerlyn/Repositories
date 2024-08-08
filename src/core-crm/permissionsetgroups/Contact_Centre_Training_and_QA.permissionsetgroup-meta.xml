@@ -2,11 +2,11 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>Contact Centre Training and QA</label>
-    <permissionSets>Email_Template_Management</permissionSets>
+    <permissionSets>Email_Create_and_Edit_Templates</permissionSets>
     <permissionSets>Knowledge_User</permissionSets>
     <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>Messaging_for_In_App_and_Web_Supervisor_QUT</permissionSets>
-    <permissionSets>Permission_Manage_Reports_and_Dashboards</permissionSets>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>QUT_Contact_Centre_Training_QA</permissionSets>
     <permissionSets>Voice</permissionSets>
     <status>Updated</status>
