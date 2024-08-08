@@ -1,0 +1,20 @@
+article.card-with-bg {
+    background-color: var(--lwc-colorBackground);
+}
+
+div.header-with-bg {
+    background-color: var(--lwc-colorBackground);
+}
+.heading_name {
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.table-info tr td{
+    padding: 5px 3px;
+}
+
+.table-info tr td:first-child > div{
+    padding-right: 15px;
+}
+
