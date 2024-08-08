@@ -52,6 +52,11 @@
       |                                |                       |                        | latest program enrollment or has no program enrollment = Admitted                  |
       | mark.j.mahilum                 | April 26, 2024        | DEPP-8717              | Remove Program enrollment status date < 12 months from Nurture Tracks              |
       | eccarius.munoz                 | July 24, 2024         | DEPP-8276              | Remove Study Abroad and Research Students from International Nurturing             |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Non pre-application cadences updated to allow new apps to start new journey        |
+      |                                |                       |                        | Domestic Admitted not yet Enrolled updated exit criteria                           |
+      |                                |                       |                        | Domestic First Offer to Acceptance updated entry criteria                          |
+      |                                |                       |                        | Domestic Accepted and Admitted updated entry criteria                              |
+      
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList = new List<hed__Application__c>();

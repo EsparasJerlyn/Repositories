@@ -6,9 +6,10 @@
  *
  *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
- *    | roy.nino.s.regala              | November 03, 2023     |DEPP-7145               | Added new static string variable    |
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Created File                        |
+ *    | roy.nino.s.regala              | November 03, 2023     | DEPP-7145              | Added new static string variable    |
  *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type           |
+ *    | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Added some fixed variables          |
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 

@@ -24,6 +24,7 @@
  *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
  *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added queryApplicationsByPastIntakeDateAndActiveApplicants method             |
  *    | mark.j.mahilum                 | April 30, 2024        | DEPP-7987              | Added new queryLocatorGetApplicationsByBatchProcess for application batchjob  |
+ *    | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Added INVALID_ADMISSION_PROCESSES                                             |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()

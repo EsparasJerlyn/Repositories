@@ -11,6 +11,7 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                                      |
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriodTest,isDateWithinRangeTest and isDateWithinRangeFailsafeTest |
       | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                                                                          |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Updated tests for getApplicantIdsWithCompletedCadence/getApplicantIdsWithAllCompletedCadence      |
  */
 @isTest
 public with sharing class NurturingTrackServiceTest {

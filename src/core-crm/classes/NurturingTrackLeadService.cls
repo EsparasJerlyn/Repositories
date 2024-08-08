@@ -21,6 +21,8 @@
       | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Added handling for International Application Submission - Direct Applicant Exit    |
       | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for International Partner Sourced                |
       | eccarius.munoz                 | July 24, 2024         | DEPP-8276              | Remove Study Abroad and Research Students from International Nurturing             |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Updated reference to NurturingTrackService.getApplicantIdsWithCompletedCadence     |
+      |                                |                       |                        | Replaced reference to NurtruingTrackService.getApplicantIdsWithAllCompletedCadence |
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();

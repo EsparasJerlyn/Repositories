@@ -11,6 +11,10 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                        |
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriod and isDateWithinRange                         |
       | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                        |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Merged getApplicantIdsWithCompletedCadence & getApplicantIdsWithAllCompletedCadence |
+      |                                |                       |                        | Added variation of getApplicantIdsWithCompletedCadence                              |
+      |                                |                       |                        | Added method getApplicationIdsWithCompletedCadence (application not applicant)      |
+      |                                |                       |                        | Rearranged variables in CadenceWrapper (for consistency/readability)                |
  */
 public with sharing class NurturingTrackService { //NOPMD This is a service class, abundance of public methods and high overall complexity is expected 
 
@@ -80,8 +84,12 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
         return completedCadencesByApplicantId;
     }
 
-    //get relevant for auto/manual detection
-    //checks for applications ids first
+    /**
+     * @description Generate a map between contacts and their completed cadences. This method checks if the completed cadence
+     * looks up to an application provided in applicationIds.
+     * @param Set<Id> applicationIds - Get completed cadences whose Application__c is in the set.
+     * @param List<Completed_Cadence__c> completedCadenceList - A list of completed cadences to filter through
+     */
     public static Map<Id, Set<String>> getApplicantIdsWithCompletedCadence(
         Set<Id> applicationIds,
         List<Completed_Cadence__c> completedCadenceList
@@ -102,7 +110,11 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
         return applicationIdsWithCompletedCadences;
     }
 
-    //get all for anti-backtrack
+    /**
+     * @description Generate a map between applications and their completed cadences.
+     * @param Set<Id> applicationIds - Get completed cadences whose Application__c is in the set.
+     * @param List<Completed_Cadence__c> completedCadenceList - A list of completed cadences to filter through
+     */
     public static Map<Id, Set<String>> getApplicationIdsWithCompletedCadence(
         List<Completed_Cadence__c> completedCadenceList
     ) {
@@ -115,40 +127,6 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
         }
         return applicationIdsWithCompletedCadences;
     }
-
-    /**
-     * @description Generate a map between applicant ids (either contact or lead) and a list of
-     *              the cadence names of their completed cadences regardless of the status if they have.
-     * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
-     * @param {Set<String>} cadenceNamesSet A set of cadence names to filter through completed cadences via SOQL
-     * @param {SObjectType} objectType Needed to identify whether this method is used for leads or contacts
-     * @return {Map<Id, Set<String>>} a set of application ids that has a related completed cadence record
-     */
-    // public static Map<Id, Set<String>> getApplicantIdsWithAllCompletedCadence(
-    //     Set<Id> applicantIdsSet, // Ids contact/lead
-    //     List<Completed_Cadence__c> completedCadenceList,
-    //     SObjectType objectType
-    // ) {
-    //     Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
-
-    //     for (Completed_Cadence__c completedCadence : completedCadenceList) {
-    //         String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
-    //             .get('CompletedCadence');
-    //         if (
-    //             !completedCadencesByApplicantId.containsKey(
-    //                 (Id) completedCadence.get(completedCadenceApiName)
-    //             )
-    //         ) {
-    //             completedCadencesByApplicantId.put(
-    //                 (Id) completedCadence.get(completedCadenceApiName),
-    //                 new Set<String>()
-    //             );
-    //         }
-    //         completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
-    //             .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
-    //     }
-    //     return completedCadencesByApplicantId;
-    // }
 
     /**
      * @description Generate a map between applicant ids (either contact or lead) and a list of
