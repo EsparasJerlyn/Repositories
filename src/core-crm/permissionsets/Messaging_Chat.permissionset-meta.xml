@@ -3,6 +3,21 @@
     <description>Grant permission to presence statuses required for Messaging Chat. Please use in conjunction with Permission Set Messaging_for_In_App_and_Web_User_QUT</description>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MessagingSession.Activity_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MessagingSession.Activity_SF_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>MessagingSession.Activity_Subject__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MessagingSession.CaseId</field>
         <readable>true</readable>
     </fieldPermissions>

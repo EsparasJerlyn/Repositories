@@ -91,6 +91,15 @@
         <members>Lightning_Scheduler_Administrator_PSG</members>
         <members>Lightning_Scheduler_User_PSG</members>
         <!--End DEPP-7993-->
+        <!--Start DEPP-10308-->
+        <members>CC_Student_Admin_Manager</members>
+        <members>CC_Student_Admin_Hub_Advisor_Progression</members>
+        <members>CC_Student_Admin_Team_Leader_Progression</members>
+        <members>CC_Student_Admin_Spec_Advisor_Progression</members>
+        <members>CC_Student_Admin_Hub_Adv_Engagement</members>
+        <members>CC_Student_Admin_Team_Leader_Engagement</members>
+        <members>CC_Student_Admin_Spec_Adv_Engagement</members>
+        <!--End DEPP-10308-->
         <name>PermissionSetGroup</name>
     </types>
     <types>
@@ -325,6 +334,15 @@
         <members>Student_Admin_Chat_Queue</members>
         <!--(End) DEPP-9267-->
         <name>Queue</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-10306 -->
+        <members>Student_Admin_Hub_Advisor_Progression</members>
+        <members>Student_Admin_Spec_Advisor_Progression</members>
+        <members>Student_Admin_Hub_Advisor_Engagement</members>
+        <members>Student_Admin_Spec_Advisor_Engagement</members>
+         <!--(End) DEPP-10306 -->
+        <name>Role</name>
     </types>
     <types>
         <!-- (Start) DEPP-9821 -->

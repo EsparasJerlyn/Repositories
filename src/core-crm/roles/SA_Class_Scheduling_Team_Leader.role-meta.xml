@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>None</contactAccessLevel>
+    <description>SA Class Scheduling Team Leader</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>SA Class Scheduling Team Leader</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>System_Administrator</parentRole>
+</Role>
