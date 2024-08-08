@@ -55,6 +55,8 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
             res = assignTargetCadenceMockResponse(req);
         } else if(req.getEndpoint().contains(ENDPOINT_REMOVE_TARGET_CADENCE)){
             res = removeTargetCadenceMockResponse(req);
+        }else if(req.getEndpoint().contains(ENDPOINT_AMAZON_CONNECT)){
+            res = amazonConnectMockResponse(req);    
         } else {
             res = loqateMockResponse(req);
         }
