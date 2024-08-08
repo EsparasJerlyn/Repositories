@@ -20,6 +20,10 @@
         <recordType>Knowledge__kav.Informational_Article</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Knowledge__kav.Standard_Text</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>

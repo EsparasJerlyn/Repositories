@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity_ID__c</fullName>
+    <description>Shows the subject of the related Activity ID in a URL format which redirects to the Activity ID when clicked</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;/&quot; +  Activity_SF_ID__c,  Activity_Subject__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Activity ID</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
