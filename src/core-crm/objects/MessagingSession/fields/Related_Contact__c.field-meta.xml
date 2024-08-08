@@ -7,7 +7,7 @@
     <referenceTo>Contact</referenceTo>
     <relationshipLabel>Messaging Sessions</relationshipLabel>
     <relationshipName>Messaging_Sessions</relationshipName>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <type>Lookup</type>
