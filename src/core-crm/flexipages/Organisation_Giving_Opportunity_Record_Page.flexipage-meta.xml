@@ -2232,7 +2232,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos;)</value>
+                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos; OR UserRole.DeveloperName = &apos;Fundraiser&apos; OR UserRole.DeveloperName = &apos;Advancement_Operations_Manager&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
