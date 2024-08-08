@@ -28,6 +28,7 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_REMOVE_TARGET_CADENCE = System.Label.SalesCadenceRemoveTargetEndpoint;  
     private static final String ENDPOINT_ESB_SAMS_REFRESH_STUDENT = 'callout:ESB' + System.Label.ESBSAMSRefreshStudent;
     private static final String ENDPOINT_AMAZON_CONNECT = 'callout:AmazonConnect';
+    private static final String PAYLOAD_EXTERNALID = '{"HoursOfOperationArn": "123456","HoursOfOperationId": "123456"}';
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
     private static final String PAYLOAD_PHONE = '{"payload":[{"fullPhone":"1234","country":"AU","phoneStatus":"connected|Network confirmed connection"}]}';
