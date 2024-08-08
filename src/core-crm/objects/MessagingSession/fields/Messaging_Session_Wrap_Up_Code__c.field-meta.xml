@@ -3,7 +3,7 @@
     <fullName>Messaging_Session_Wrap_Up_Code__c</fullName>
     <description>Captures the outcome of the voice call</description>
     <label>Messaging Session Wrap Up Code</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <type>Picklist</type>
