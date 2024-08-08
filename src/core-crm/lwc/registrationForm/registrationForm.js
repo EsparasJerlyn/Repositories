@@ -130,6 +130,8 @@ export default class RegistrationForm extends LightningElement {
   localeDisplayName;
   localeConMobile;
   mobileFull;
+  contactMobilePhone;
+  isMobileMatch = false;
   isLoginPage = false;
   isEmail = false;
   userExists = false;
@@ -154,10 +156,20 @@ export default class RegistrationForm extends LightningElement {
 
   workEmail;
   personalEmail;
+  _isModal = true;
+
+  @api 
+  get isModal(){
+    return this._isModal;
+  }
+  set isModal(value){
+    this._isModal = value;
+  }
+
 
   @api startURL;
   @api recordId;
-  @api isModal;
+  
   @api portalName;
 
   @track header;
@@ -235,15 +247,15 @@ export default class RegistrationForm extends LightningElement {
   }
 
   get classContainer() {
-    return this.isModal === true ? 'modal-content text px3 pt2' : '';
+    return this._isModal === true ? 'modal-content text px3 pt2' : '';
   }
 
   get classMainContainer() {
-    return this.isModal === true ? 'modal' : '';
+    return this._isModal === true ? 'modal' : '';
   }
 
   get classWrapper() {
-    return this.isModal === true ? 'wrapper' : '';
+    return this._isModal === true ? 'wrapper' : '';
   }
 
 
@@ -468,6 +480,7 @@ export default class RegistrationForm extends LightningElement {
           validateContactMatching({newContactList:JSON.stringify(contactList)})
           .then((res) => {
             let validationResult = res[0];
+            console.log('Validation Result: '+ JSON.stringify(validationResult));
             if( validationResult.isPartialMatch == false &&
                 validationResult.isEmailMatch == false){ //email and contact details did not match
                     //Proceed to creating new record
@@ -483,13 +496,14 @@ export default class RegistrationForm extends LightningElement {
                         this.contactId = validationResult.contactRecord.Id;
                         this.workEmail = validationResult.contactRecord.Work_Email__c;
                         this.personalEmail = validationResult.contactRecord.Email;
-
+                        this.contactMobilePhone = validationResult.contactRecord.MobilePhone;
                         isUserExist({contactId: this.contactId})
                         .then((res) => {
                             if(res.length > 0){
                                 this.userExists = true;
                                 this.loginUser = res[0];
                                 this.handleExistingUser();
+                                this.isMobileMatch = true;
                             }
                             else{
                                 //'User does not exist'
@@ -500,6 +514,7 @@ export default class RegistrationForm extends LightningElement {
                                 this.displayResendVerification = false;
                                 this.isEmail = true;
                                 this.sendEmailOTP();
+                                this.isMobileMatch = false;
                             }
                         })
 
@@ -574,6 +589,7 @@ export default class RegistrationForm extends LightningElement {
   }
 
   sendSMSOTP() {
+    
     sendRegistrationSMSOTP({ mobile: this.mobileFull })
       .then((result) => {
         if (result) {

@@ -55,6 +55,7 @@ public without sharing class RegistrationMatchingHelper {
                 FirstName,
                 LastName,
                 Birthdate,
+                MobilePhone,
                 Email,
                 Work_Email__c,
                 QUT_Learner_Email__c,
@@ -106,6 +107,7 @@ public without sharing class RegistrationMatchingHelper {
                 response.isEmailMatch = false;
                 response.errorMessage = null;
                 response.email = con.Registered_Email__c;
+                response.mobilePhone = con.MobilePhone;
                 responseMap.put(con.Registered_Email__c,response);
             }
         }
@@ -175,5 +177,7 @@ public without sharing class RegistrationMatchingHelper {
         public Contact contactRecord;
         @AuraEnabled
         public String email;
+        @AuraEnabled
+        public string mobilePhone;
     }
 }
