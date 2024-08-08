@@ -23,6 +23,7 @@
                                     options={listMemberContacts}
                                     value={selectedListMember}
                                     onchange={handleChangeListMember}
+                                    onselected={handleSelectedListMember}
                                     required="true"
                                     search-in-progress={searchContactInProgress}
                                     option-icon="standard:contact"></c-custom-searchable-combobox>
@@ -43,30 +44,21 @@
                                 ></c-custom-searchable-combobox>
                             </div>
                         </div>
-                    </div>
-
-                    <lightning-record-edit-form object-api-name="List_Member__c" record-id={recordId}
-                        onsuccess={handleSuccess} onsubmit={handleSubmit} onerror={handleError}>
-                        <div class="padding-top-0 slds-p-around_small">
-                            <template for:each={prefields} for:item="item">
-                                <div class="slds-form-element slds-form-element_horizontal" key={item.fieldName}>
-                                    <label class="slds-form-element__label slds-p-left_xx-small">
-                                        {item.label}
-                                    </label>
-                                    <div>
-                                        <lightning-input-field field-name={item.fieldName}
-                                            variant="label-hidden">
-                                        </lightning-input-field>
-                                    </div>
+                        <template for:each={prefields} for:item="item">
+                            <div class="slds-form-element slds-form-element_horizontal" key={item.fieldName}>
+                                <label class="slds-form-element__label slds-p-left_xx-small">
+                                    {item.label}
+                                </label>
+                                <div>
+                                    <lightning-input type="text" value={item.value} onchange={handleInputChange} data-field={item.fieldName} disabled={item.isDisabled} variant="label-hidden"></lightning-input>
                                 </div>
-                            </template>
-                        </div>
-
-                        <footer class="slds-modal__footer slds-grid slds-grid_align-center">
-                            <lightning-button class="slds-m-right_x-small" variant="neutral" label="Cancel" onclick={handleCloseModal}></lightning-button>
-                            <lightning-button variant="brand" type="submit" disabled={isDisabledSaveButton} label="Save"></lightning-button>
-                        </footer>
-                    </lightning-record-edit-form>
+                            </div>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer slds-grid slds-grid_align-center">
+                        <lightning-button class="slds-m-right_x-small" variant="neutral" label="Cancel" onclick={handleCloseModal}></lightning-button>
+                        <lightning-button variant="brand" type="submit" disabled={isDisabledSaveButton} onclick={handleSubmit} label="Save"></lightning-button>
+                    </footer>
                 </div>
             </div>
         </section>
