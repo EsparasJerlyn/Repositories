@@ -14,16 +14,16 @@
 @isTest
 public with sharing class ListMemberAddModalControllerTest {
     @testSetup
-    static void setupMethod() {
+    static void testSetup() {
         Test.startTest();
-        TestDataFactoryUser.generateUserAlumniEngagementUser();
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
         Test.stopTest();
     }
 
     @isTest
     static void getDefaultListContributorTest(){
-        User user = TestDataFactoryUser.selectUserAlumniEngagementUser;
-        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementUser){
+        User user = TestDataFactoryUser.selectUserAlumniEngagementManager;
+        System.runAs(user){
             List<List__c> newListRecords = TestDataFactory.createListRecords(1);
             ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
 
@@ -43,7 +43,7 @@ public with sharing class ListMemberAddModalControllerTest {
 
     @isTest
     static void checkIfExistingContactTest(){
-        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementUser){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
             List<List__c> newListRecords = TestDataFactory.createListRecords(1);
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);
             ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
@@ -62,8 +62,8 @@ public with sharing class ListMemberAddModalControllerTest {
 
     @isTest
     static void getRelatedListContributorTest(){
-        User user = TestDataFactoryUser.selectUserAlumniEngagementUser;
-        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementUser){
+        User user = TestDataFactoryUser.selectUserAlumniEngagementManager;
+        System.runAs(user){
             List<List__c> newListRecords = TestDataFactory.createListRecords(1);
             ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
 
@@ -87,7 +87,7 @@ public with sharing class ListMemberAddModalControllerTest {
 
     @isTest
     static void getContactsWithMatchingEmailsPositionTest(){
-        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementUser){
+        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementManager){
 
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 15);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
@@ -105,9 +105,9 @@ public with sharing class ListMemberAddModalControllerTest {
 
     @isTest
     static void createListMemberTest(){
-        User user = TestDataFactoryUser.selectUserAlumniEngagementUser;
+        User user = TestDataFactoryUser.selectUserAlumniEngagementManager;
 
-        System.runAs(TestDataFactoryUser.selectUserAlumniEngagementUser){
+        System.runAs(user){
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             List<List_Member__c> listMembers = new List<List_Member__c>();
