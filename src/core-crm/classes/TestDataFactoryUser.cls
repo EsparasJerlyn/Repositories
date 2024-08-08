@@ -1954,12 +1954,12 @@ public class TestDataFactoryUser {
             
 
             usr.userpermissionsmarketinguser = false;
-            usr.userpermissionsknowledgeuser = true;
-            usr.userpermissionsflowuser = true;
-            usr.userpermissionsserviceuser = true;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = false;
+            usr.userpermissionsserviceuser = false;
 
-
-            usr.permissionsetNames = new Set<String>{'Alumni_Corporate_Partnership_Base'};
+            usr.permissionsetGroupNames = new Set<String>{'Alumni_Engagement'};
+            usr.publicGroupNames = new Set<String>{'Alumni_Corporate_Partnerships'};
 
             return usr;
         } set;

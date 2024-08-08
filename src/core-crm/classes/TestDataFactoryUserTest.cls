@@ -28,7 +28,7 @@
         TestDataFactoryUser.generateUserQUTeXPortfolioCoordinator();
         TestDataFactoryUser.generateUserQUTeXProductAdministrator();
         TestDataFactoryUser.generateUserQUTeXLearningInnovationManager();
-        TestDataFactoryUser.generateUserAlumniEngagementUser();
+        TestDataFactoryUser.generateUserAlumniEngagementManager();
 
     }
 
@@ -314,7 +314,7 @@
     static void generateUserAlumniEngagementTest() {
 
           //Select user generated
-          User user = TestDataFactoryUser.selectUserAlumniEngagementUser;
+          User user = TestDataFactoryUser.selectUserAlumniEngagementManager;
 
           //List of permission set group assigned
           List<String> permissionsetGroupNames = new List<String>{'Alumni_Engagement'};
