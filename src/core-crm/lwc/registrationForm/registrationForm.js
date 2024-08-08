@@ -488,6 +488,7 @@ export default class RegistrationForm extends LightningElement {
                     this.displayForm = false;
                     this.displayVerification = true;
                     this.displayResendVerification = false;
+                    this.isMobileMatch = true;
                     this.sendSMSOTP();
 
             }else if( validationResult.isPartialMatch == false &&
@@ -503,7 +504,7 @@ export default class RegistrationForm extends LightningElement {
                                 this.userExists = true;
                                 this.loginUser = res[0];
                                 this.handleExistingUser();
-                                this.isMobileMatch = true;
+                                this.isMobileMatch = this.contactMobilePhone === this.mobileFull ? true : false ;
                             }
                             else{
                                 //'User does not exist'
@@ -516,6 +517,7 @@ export default class RegistrationForm extends LightningElement {
                                 this.sendEmailOTP();
                                 this.isMobileMatch = false;
                             }
+                            console.log('isMobileMatch: ' + this.isMobileMatch);
                         })
 
             }else if( validationResult.isPartialMatch == true &&
@@ -526,6 +528,7 @@ export default class RegistrationForm extends LightningElement {
                         this.displayEmailValidation = true;
                         this.displayInfoModal = true;
                         this.contactFoundMisMatchEmail = true;
+
 
             }else if( validationResult.isPartialMatch == true &&
                       validationResult.isEmailMatch == true){  //email match and contact details did not match
@@ -589,8 +592,9 @@ export default class RegistrationForm extends LightningElement {
   }
 
   sendSMSOTP() {
-    
-    sendRegistrationSMSOTP({ mobile: this.mobileFull })
+    const sendSMSTo = this.contactMobilePhone == null ? this.mobileFull: this.contactMobilePhone;
+    console.log('sendSMSTo:' + sendSMSTo);
+    sendRegistrationSMSOTP({ mobile: sendSMSTo })
       .then((result) => {
         if (result) {
           this.verifyOTP = result;
