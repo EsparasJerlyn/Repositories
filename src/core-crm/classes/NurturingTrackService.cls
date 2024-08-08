@@ -81,6 +81,7 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
     }
 
     //get relevant for auto/manual detection
+    //checks for applications ids first
     public static Map<Id, Set<String>> getApplicantIdsWithCompletedCadence(
         Set<Id> applicationIds,
         List<Completed_Cadence__c> completedCadenceList
@@ -88,7 +89,7 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
         Map<Id, Set<String>> applicationIdsWithCompletedCadences = new Map<Id, Set<String>>();
         for(Completed_Cadence__c completedCadence : completedCadenceList) {
             if(
-                applicationIds.contains(completedCadence.Application__c) && 
+                !applicationids.contains(completedCadence.Application__c) ||
                 CompletedCadencesDAO.completedCadenceStatuses.contains(completedCadence.Completed_Cadence_Status__c)
             ) {
                 continue;
@@ -102,7 +103,7 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
     }
 
     //get all for anti-backtrack
-    public static Map<Id, Set<String>> getApplicantIdsWithCompletedCadence(
+    public static Map<Id, Set<String>> getApplicationIdsWithCompletedCadence(
         List<Completed_Cadence__c> completedCadenceList
     ) {
         Map<Id, Set<String>> applicationIdsWithCompletedCadences = new Map<Id, Set<String>>();

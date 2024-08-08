@@ -200,7 +200,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             true
         );
 
-        applicationIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(completedCadenceList);
+        applicationIdsWithAllCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(completedCadenceList);
     }
 
     private static void getAppsWithLatestCalculatedIntakeDatePerContact(Set<Id> contactIds){
