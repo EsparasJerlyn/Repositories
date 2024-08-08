@@ -327,6 +327,15 @@
         <name>Queue</name>
     </types>
     <types>
+        <!--(Start) DEPP-10306 -->
+        <members>Student_Admin_Hub_Advisor_Progression</members>
+        <members>Student_Admin_Spec_Advisor_Progression</members>
+        <members>Student_Admin_Hub_Advisor_Engagement</members>
+        <members>Student_Admin_Spec_Advisor_Engagement</members>
+         <!--(End) DEPP-10306 -->
+        <name>Role</name>
+    </types>
+    <types>
         <!-- (Start) DEPP-9821 -->
         <members>MarketingInteractionTriggerHelper</members>
         <members>MarketingInteractionTriggerHelperTest</members>

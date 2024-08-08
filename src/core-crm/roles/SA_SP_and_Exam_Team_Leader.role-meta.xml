@@ -2,9 +2,9 @@
 <Role xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseAccessLevel>None</caseAccessLevel>
     <contactAccessLevel>None</contactAccessLevel>
-    <description>Student Admin Team Leader Progression</description>
+    <description>SA SP and Exam Team Leader</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
-    <name>Student Admin Team Leader Progression</name>
+    <name>SA SP and Exam Team Leader</name>
     <opportunityAccessLevel>None</opportunityAccessLevel>
-    <parentRole>Student_Admin_Manager</parentRole>
+    <parentRole>System_Administrator</parentRole>
 </Role>
