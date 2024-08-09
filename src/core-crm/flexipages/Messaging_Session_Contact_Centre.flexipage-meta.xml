@@ -53,8 +53,112 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_service_livemessage:messagingSessionLinkedRecords</componentName>
-                <identifier>runtime_service_livemessage_messagingSessionLinkedRecords</identifier>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Related_Contact__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Contact</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecordFields</name>
+                    <value>[ {&quot;label&quot;: &quot;Date of Birth&quot;, &quot;fieldName&quot;: &quot;Birthdate&quot;, &quot;type&quot;: &quot;event-date&quot;}, {&quot;label&quot;: &quot;Student Id&quot;, &quot;fieldName&quot;: &quot;QUT_Student_ID__c&quot;, &quot;type&quot;: &quot;text-id&quot;}, {&quot;label&quot;: &quot;Primary Email&quot;, &quot;fieldName&quot;: &quot;Email&quot;, &quot;type&quot;: &quot;email-primary&quot;}, {&quot;label&quot;: &quot;QUT Learner Email&quot;, &quot;fieldName&quot;: &quot;QUT_Learner_Email__c&quot;, &quot;type&quot;: &quot;email-secondary&quot;}, {&quot;label&quot;: &quot;Mobile&quot;, &quot;fieldName&quot;: &quot;MobilePhone&quot;, &quot;type&quot;: &quot;mobile&quot;, &quot;hasHorizontalLine&quot; : &quot;true&quot;}, {&quot;label&quot;: &quot;Citizenship Status&quot;, &quot;fieldName&quot;: &quot;hed__Citizenship_Status__c&quot;, &quot;type&quot;: &quot;http&quot;},  {&quot;label&quot;: &quot;Citizenship Country&quot;, &quot;fieldName&quot;: &quot;Citizenship_Country__c&quot;, &quot;type&quot;: &quot;world&quot;},  {&quot;label&quot;: &quot;Country of Residency&quot;, &quot;fieldName&quot;: &quot;Country_of_Residency__c&quot;, &quot;type&quot;: &quot;world&quot;, &quot;hasHorizontalLine&quot; : &quot;true&quot;},  {&quot;label&quot;: &quot;Address&quot;, &quot;fieldName&quot;: &quot;MailingAddress&quot;, &quot;type&quot;: &quot;address&quot;} ]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecordHeader</name>
+                    <value>Related_Contact__r.Name</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Contact Details</value>
+                </componentInstanceProperties>
+                <componentName>dynamicObjectDetailsSideComponent</componentName>
+                <identifier>c_dynamicObjectDetailsSideComponent</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Related_Contact__r.LastName}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Related_Contact__r.QUT_Student_ID__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Related_Contact__r.QUT_Employee_ID__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Related_Contact__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Contact</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecordFields</name>
+                    <value>[ {&quot;label&quot;:&quot;QUT Employee Id&quot;,&quot;fieldName&quot;:&quot;QUT_Employee_ID__c&quot;,&quot;type&quot;:&quot;text-id&quot;}, {&quot;label&quot;:&quot;Mobile Phone&quot;,&quot;fieldName&quot;:&quot;MobilePhone&quot;,&quot;type&quot;:&quot;mobile&quot;}, {&quot;label&quot;:&quot;QUT Staff Email&quot;,&quot;fieldName&quot;:&quot;QUT_Staff_Email__c&quot;,&quot;type&quot;:&quot;email-primary&quot;} ]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecordHeader</name>
+                    <value>Related_Contact__r.Name</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Staff Details</value>
+                </componentInstanceProperties>
+                <componentName>dynamicObjectDetailsSideComponent</componentName>
+                <identifier>c_dynamicObjectDetailsSideComponent2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Related_Contact__r.LastName}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Related_Contact__r.QUT_Employee_ID__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Related_Lead__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Lead</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecordFields</name>
+                    <value>[ {&quot;label&quot;: &quot;Primary Email&quot;, &quot;fieldName&quot;: &quot;Email&quot;, &quot;type&quot;: &quot;email-primary&quot;}, {&quot;label&quot;: &quot;Work Email&quot;, &quot;fieldName&quot;: &quot;Work_Email__c&quot;, &quot;type&quot;: &quot;email-secondary&quot;}, {&quot;label&quot;: &quot;Mobile&quot;, &quot;fieldName&quot;: &quot;MobilePhone&quot;, &quot;type&quot;: &quot;mobile&quot;},  {&quot;label&quot;: &quot;Phone&quot;, &quot;fieldName&quot;: &quot;Phone&quot;, &quot;type&quot;: &quot;phone&quot;}, {&quot;label&quot;: &quot;Preferred Contact Method&quot;, &quot;fieldName&quot;: &quot;Preferred_Contact_Method__c&quot;, &quot;type&quot;: &quot;info&quot;}, {&quot;label&quot;: &quot;Lead Score&quot;, &quot;fieldName&quot;: &quot;Lead_Score__c&quot;, &quot;type&quot;: &quot;number&quot;}, {&quot;label&quot;: &quot;Lead Source Category&quot;, &quot;fieldName&quot;: &quot;Lead_Source_Category__c&quot;, &quot;type&quot;: &quot;text&quot;}, {&quot;label&quot;: &quot;Lead Source&quot;, &quot;fieldName&quot;: &quot;LeadSource&quot;, &quot;type&quot;: &quot;text&quot;}   ]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecordHeader</name>
+                    <value>Related_Lead__r.Name</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Lead Details</value>
+                </componentInstanceProperties>
+                <componentName>dynamicObjectDetailsSideComponent</componentName>
+                <identifier>c_dynamicObjectDetailsSideComponent3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Related_Lead__r.LastName}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

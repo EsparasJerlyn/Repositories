@@ -71,6 +71,14 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
+        <!--Start DEPP-9041-->
+        <members>College_Contact_Centre_Base</members>
+        <members>Faculty_Contact_Centre_Base</members>
+        <members>Library_Contact_Centre_Base</members>
+        <members>QUT_Contact_Centre_Base</members>
+        <members>QUT_Contact_Centre_Training_QA</members>
+        <members>Student_Admin_Contact_Centre_Base</members>
+        <!--End DEPP-9041-->
         <name>PermissionSet</name>
     </types>
     <!-- <types> -->
@@ -91,6 +99,15 @@
         <members>Lightning_Scheduler_Administrator_PSG</members>
         <members>Lightning_Scheduler_User_PSG</members>
         <!--End DEPP-7993-->
+        <!--Start DEPP-10308-->
+        <members>CC_Student_Admin_Manager</members>
+        <members>CC_Student_Admin_Hub_Advisor_Progression</members>
+        <members>CC_Student_Admin_Team_Leader_Progression</members>
+        <members>CC_Student_Admin_Spec_Advisor_Progression</members>
+        <members>CC_Student_Admin_Hub_Adv_Engagement</members>
+        <members>CC_Student_Admin_Team_Leader_Engagement</members>
+        <members>CC_Student_Admin_Spec_Adv_Engagement</members>
+        <!--End DEPP-10308-->
         <name>PermissionSetGroup</name>
     </types>
     <types>
@@ -308,6 +325,19 @@
         <!--End (replaced by) DEPP-8870-->
         <name>PermissionSet</name>
     </types>
+    <types>
+        <!--Start (replaced by) DEPP-10309-->
+        <members>CC_Student_Admin_Hub_Adv_Engagement</members>
+        <members>CC_Student_Admin_Hub_Advisor_Progression</members>
+        <members>CC_Student_Admin_Manager</members>
+        <members>CC_Student_Admin_Spec_Adv_Engagement</members>
+        <members>CC_Student_Admin_Spec_Adv_Progression</members>
+        <members>CC_Student_Admin_Team_Leader_Engagement</members>
+        <members>CC_Student_Admin_Team_Leader_Progression</members>
+        <members>CC_Student_Admin</members>
+        <!--End (replaced by) DEPP-10309-->
+        <name>Group</name>
+    </types>
     <!-- "problem": "Entity type 'GenAiPromptTemplate' is not available for delete in this api version" 
     <types>
         DEPP-8867 Description(we don't need this prompt now) 
@@ -325,6 +355,15 @@
         <members>Student_Admin_Chat_Queue</members>
         <!--(End) DEPP-9267-->
         <name>Queue</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-10306 -->
+        <members>Student_Admin_Hub_Advisor_Progression</members>
+        <members>Student_Admin_Spec_Advisor_Progression</members>
+        <members>Student_Admin_Hub_Advisor_Engagement</members>
+        <members>Student_Admin_Spec_Advisor_Engagement</members>
+         <!--(End) DEPP-10306 -->
+        <name>Role</name>
     </types>
     <types>
         <!-- (Start) DEPP-9821 -->
