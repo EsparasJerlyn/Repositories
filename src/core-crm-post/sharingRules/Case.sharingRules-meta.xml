@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>Future_Students_Domestic_Share</fullName>
+        <fullName>CC_Specialists_Team_Leaders_Managers_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Inbound Enquiry Cases to Future Students Domestic with Read/Write access.</description>
-        <label>Future Students Domestic Share</label>
+        <description>Share hidden Cases to Contact Centre Specialists, Team Leaders &amp; Managers with Read/Write access</description>
+        <label>CC Specialists/Team Leaders/Managers Share</label>
         <sharedTo>
-            <group>Future_Students_Domestic</group>
+            <group>CC_Specialists_Team_Leaders_Managers</group>
         </sharedTo>
         <criteriaItems>
             <field>RecordTypeId</field>
@@ -16,17 +16,37 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Future_Students_International_Share</fullName>
+        <fullName>CC_Training_QA_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Inbound Enquiry Cases to Future Students International with Read/Write access.</description>
-        <label>Future Students International Share</label>
+        <description>Share hidden Cases to Contact Centre Training and QA with Read/Write access</description>
+        <label>CC Training &amp; QA Share</label>
         <sharedTo>
-            <group>Future_Students_International</group>
+            <group>Contact_Centre_Training_and_QA</group>
         </sharedTo>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
             <value>Inbound Enquiry</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Contact_Centre_ALL_Share_Not_Hidden</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Cases that are not hidden to all Contact Centre users</description>
+        <label>Contact Centre (ALL) Share - Not Hidden</label>
+        <sharedTo>
+            <group>Contact_Centre_ALL</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Inbound Enquiry</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Sensitive_Case__c</field>
+            <operation>equals</operation>
+            <value>False</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
