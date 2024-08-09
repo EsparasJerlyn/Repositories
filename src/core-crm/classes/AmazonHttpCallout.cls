@@ -11,6 +11,8 @@
  */
 public with sharing class AmazonHttpCallout {
 
+    private static final String AMAZON_CONNECT_HOURS_OPERATIONS_ENDPOINT = System.Label.AmazonConnectHoursOfOperation;
+
     public class RequestBody{
         public List<Config> config;
         public String description;
@@ -49,7 +51,6 @@ public with sharing class AmazonHttpCallout {
     }
     
     public class CustomException extends Exception{}
-
     
     @AuraEnabled
     public static String syncOperatingHours(Id operatingHrsId) {
@@ -78,7 +79,6 @@ public with sharing class AmazonHttpCallout {
         
         return statusResponse;
     }
-    
     
     /**
     * Request Callout for Operating Hours Record to AWS
@@ -111,15 +111,15 @@ public with sharing class AmazonHttpCallout {
             }
             
             //Send the request and get a response
-            HttpResponse postResponse = IntegrationCallOutCtrl.doCallout('callout:AmazonConnect/hours-of-operations/a43d221c-c330-4c4a-b6b4-bfdf429bf92f' + externalId, setMethod, requestBody);
+            String endpoint = 'callout:AmazonConnect' + AMAZON_CONNECT_HOURS_OPERATIONS_ENDPOINT;    
+            HttpResponse postResponse = IntegrationCallOutCtrl.doCallout(endpoint + externalId, setMethod, requestBody);
             
             if(postResponse.getStatusCode() != 200) {
                 failedSync.add(operatingHoursRecord);
             } else {
                 if(!String.isBlank(postResponse.getBody())){
-                    responseBody responseBodyObject = (responseBody)JSON.deserialize(postResponse.getBody(), responseBody.class);
+                    ResponseBody responseBodyObject = (ResponseBody)JSON.deserialize(postResponse.getBody(), ResponseBody.class);
                     operatingHoursRecord.AWS_Business_Hour_External_ID__c = responseBodyObject.HoursOfOperationId;
-                    //update operatingHoursRecord;
                     successSync.add(operatingHoursRecord);
                 }
             }
@@ -148,8 +148,6 @@ public with sharing class AmazonHttpCallout {
                                             Channel_Type__c = 'Voice']);	
     }
     
-
-
     /**
     * Retrieve Time Slot Record
     *
@@ -195,9 +193,9 @@ public with sharing class AmazonHttpCallout {
                 continue;
             }
                                           
-            Config configRecord = new config(timeSlotRecord.DayOfWeek.toUpperCase(), 
-                                      new hoursAndMinutes(timeSlotRecord.EndTime?.hour(),timeSlotRecord.EndTime?.minute()), 
-                                      new hoursAndMinutes(timeSlotRecord.StartTime?.hour(),timeSlotRecord.StartTime?.minute())  
+            Config configRecord = new Config(timeSlotRecord.DayOfWeek.toUpperCase(), 
+                                      new HoursAndMinutes(timeSlotRecord.EndTime?.hour(),timeSlotRecord.EndTime?.minute()), 
+                                      new HoursAndMinutes(timeSlotRecord.StartTime?.hour(),timeSlotRecord.StartTime?.minute())  
                                      );   
                                           
             if(timeSlotMap.containsKey(timeSlotRecord.OperatingHoursId)){                              
@@ -209,7 +207,6 @@ public with sharing class AmazonHttpCallout {
         }	
         return timeSlotMap;
     }
-    
     
     /**
     * Retrieve Operating Hours with Operating Hours Holiday
@@ -229,7 +226,6 @@ public with sharing class AmazonHttpCallout {
         }
         return dayOfWeekMap;
     }
-    
     
     /**
     * Construct Request Body for AWS Callout

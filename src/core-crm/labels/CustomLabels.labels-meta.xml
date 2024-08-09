@@ -958,4 +958,12 @@
         <shortDescription>Sync Operating Hours Cron Expression</shortDescription>
         <value>0 0 0 ? * * *</value>
     </labels>
+    <labels>
+        <fullName>AmazonConnectHoursOfOperation</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AmazonConnectHoursOfOperation</shortDescription>
+        <value>/hours-of-operations/a43d221c-c330-4c4a-b6b4-bfdf429bf92f</value>
+    </labels>    
 </CustomLabels>
