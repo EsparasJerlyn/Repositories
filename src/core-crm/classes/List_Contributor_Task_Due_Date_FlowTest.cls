@@ -20,6 +20,8 @@ public class List_Contributor_Task_Due_Date_FlowTest {
         TestDataFactoryUser.generateUserDonorEngagementManager();
         Test.stopTest();
 
+        Id donorId = TestDataFactoryUser.selectUserDonorEngagementManager.Id;
+        
         System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
             List<List__c> listRecords = TestDataFactory.createListRecords(1);
             listRecords[0].Due_Date__c = System.today() + 30;
@@ -29,7 +31,7 @@ public class List_Contributor_Task_Due_Date_FlowTest {
                 1,
                 listRecords[0].id
             );
-            listContributorRecords[0].List_Contributor__c = TestDataFactoryUser.selectUserDonorEngagementManager.Id;
+            listContributorRecords[0].List_Contributor__c = donorId;
             ListContributorsDAO.newInstance()
                 .insertRecords(listContributorRecords, true, AccessLevel.USER_MODE);
         }
