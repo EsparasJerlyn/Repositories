@@ -2,9 +2,9 @@
 <Role xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseAccessLevel>None</caseAccessLevel>
     <contactAccessLevel>None</contactAccessLevel>
-    <description>Student Admin Manager</description>
+    <description>SA Scholarships Advisor</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
-    <name>Student Admin Manager</name>
+    <name>SA Scholarships Advisor</name>
     <opportunityAccessLevel>None</opportunityAccessLevel>
-    <parentRole>System_Administrator</parentRole>
+    <parentRole>SA_Scholarships_Team_Leader</parentRole>
 </Role>
