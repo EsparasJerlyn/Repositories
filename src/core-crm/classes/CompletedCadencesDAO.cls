@@ -23,6 +23,7 @@
       | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
       | julie.jane.alegre              | June 25, 2024         | DEPP-9481              | Update whereClauseCheckerForCompletedCadenceCriteria             |
       | eugene.andrew.abuan            | August 02, 2024       | DEPP-8255              | Added getCompletedCadenceByRecordId                              |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Added Application__c to getCompletedCadenceByTargetIds query     |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -105,7 +106,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Contact__c,Lead__c,Nurture_Track_Configuration__c,Nurture_Track_Configuration__r.Cadence_Name__c, Completed_Cadence_Status__c ' +
+            'SELECT  Id,Application__c,Contact__c,Lead__c,Nurture_Track_Configuration__c,Nurture_Track_Configuration__r.Cadence_Name__c, Completed_Cadence_Status__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +
             'AND (Contact__c IN :targetIds OR Lead__c IN :targetIds) ' +
