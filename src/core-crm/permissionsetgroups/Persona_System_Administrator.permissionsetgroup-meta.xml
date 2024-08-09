@@ -12,6 +12,7 @@
     <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
+    <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
