@@ -29,7 +29,7 @@ public class List_Contributor_Task_Due_Date_FlowTest {
                 1,
                 listRecords[0].id
             );
-            listContributorRecords[0].List_Contributor__c = TestDataFactoryUser.selectUserDonorEngagementManager;
+            listContributorRecords[0].List_Contributor__c = TestDataFactoryUser.selectUserDonorEngagementManager.Id;
             ListContributorsDAO.newInstance()
                 .insertRecords(listContributorRecords, true, AccessLevel.USER_MODE);
         }
