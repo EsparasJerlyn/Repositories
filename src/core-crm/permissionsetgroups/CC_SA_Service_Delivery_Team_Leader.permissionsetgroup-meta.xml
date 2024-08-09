@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
-    <label>CC - Faculty Engineering Advisor</label>
-    <status>Updating</status>
+    <label>CC SA Service Delivery Team Leader</label>
+    <status>Updated</status>
 </PermissionSetGroup>

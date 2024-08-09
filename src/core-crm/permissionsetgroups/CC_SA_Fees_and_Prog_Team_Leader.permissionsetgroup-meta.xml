@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
-    <label>CC Student Admin Team Leader Progression</label>
-    <permissionSets>Student_Admin_Contact_Centre_Base</permissionSets>
+    <label>CC SA Fees and Prog Team Leader</label>
     <status>Updated</status>
 </PermissionSetGroup>
