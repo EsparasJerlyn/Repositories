@@ -13,6 +13,7 @@
  */
 @isTest
 public class List_Update_Custom_Validation_Flow_Test {
+
     @testSetup
     static void makeData() {
         Test.startTest();
@@ -36,16 +37,14 @@ public class List_Update_Custom_Validation_Flow_Test {
                 listMem.List_Member_Status__c = 'Qualified';
                 newListMemberRec.add(listMem);
             }
-            ListMembersDAO.newInstance()
-                .insertRecords(newListMemberRec, false, AccessLevel.USER_MODE);
+            ListMembersDAO.newInstance().insertRecords(newListMemberRec, false, AccessLevel.USER_MODE);
         }
     }
 
     @isTest
     public static void checkListMemberStatusOnHold() {
         System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
-            List<List__c> listRecords = ListsDAO.newInstance()
-                .getListRecords(1, AccessLevel.USER_MODE);
+            List<List__c> listRecords = ListsDAO.newInstance().getListRecords(1, AccessLevel.USER_MODE);
             List<List_Member__c> newListMemberRecToUpdate = new List<List_Member__c>();
             List<List_Member__c> newListMemberRec = ListMembersDAO.newInstance()
                 .getListMembersByListIdAndStatus(
@@ -59,8 +58,7 @@ public class List_Update_Custom_Validation_Flow_Test {
                 listMemRec.List_Member_Status__c = 'On Hold';
                 newListMemberRecToUpdate.add(listMemRec);
             }
-            ListMembersDAO.newInstance()
-                .updateRecords(newListMemberRec, false, AccessLevel.USER_MODE);
+            ListMembersDAO.newInstance().updateRecords(newListMemberRecToUpdate, false, AccessLevel.USER_MODE);
 
             listRecords[0].Stage__c = 'Distribute';
             Database.SaveResult[] srList = ListsDAO.newInstance()
@@ -69,6 +67,28 @@ public class List_Update_Custom_Validation_Flow_Test {
 
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record was saved.');
+            }
+        }
+    }
+
+    @isTest
+    public static void checkListMemberStatusQualified() {
+        System.runAs(TestDataFactoryUser.selectUserAdvancementManager) {
+            List<List__c> listRecords = ListsDAO.newInstance().getListRecords(1, AccessLevel.USER_MODE);
+            List<List_Member__c> newListMemberRec = ListMembersDAO.newInstance()
+                .getListMembersByListIdAndStatus(
+                    new Set<Id>{ listRecords[0].Id },
+                    'Qualified',
+                    AccessLevel.USER_MODE
+                );
+
+            Test.startTest();
+            listRecords[0].Stage__c = 'Distribute';
+            Database.SaveResult[] srList = ListsDAO.newInstance().updateRecords(listRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not saved successfully.');
             }
         }
     }
