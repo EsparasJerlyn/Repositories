@@ -2,5 +2,8 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>Contact Centre Concierge</label>
+    <permissionSets>ContactCenterAgentExternalTelephonyQUT</permissionSets>
+    <permissionSets>QUT_Contact_Centre_Base</permissionSets>
+    <permissionSets>Voice</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
