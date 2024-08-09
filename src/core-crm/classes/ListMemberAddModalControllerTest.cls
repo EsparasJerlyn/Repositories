@@ -22,22 +22,23 @@ public with sharing class ListMemberAddModalControllerTest {
 
     @isTest
     static void getDefaultListContributorTest(){
-        User user = TestDataFactoryUser.selectUserAlumniEngagementManager;
-        System.runAs(user){
+        ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
+
+        User alumniUser = TestDataFactoryUser.selectUserAlumniEngagementManager;
+        System.runAs(alumniUser){
             List<List__c> newListRecords = TestDataFactory.createListRecords(1);
             ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
-
-            List<List_Contributor__c> newListContributorRecords = TestDataFactory.createListContributorRecords(5,newListRecords[0].Id);
+    
+            List<List_Contributor__c> newListContributorRecords = TestDataFactory.createListContributorRecords(1,newListRecords[0].Id);
             for(List_Contributor__c record : newListContributorRecords){
-                record.List_Contributor__c = user.Id;
-                record.Is_Active__c = true;
+                record.List_Contributor__c = alumniUser.Id;
             }
-            ListContributorsDAO.newInstance().insertRecords(newListContributorRecords, false, AccessLevel.SYSTEM_MODE);
+            ListContributorsDAO.newInstance().insertRecords(newListContributorRecords, tru, AccessLevel.SYSTEM_MODE);
+    
             Test.startTest();
-                List<List_Contributor__c> listContributorRecord = ListMemberAddModalController.getDefaultListContributor(newListRecords[0].Id, user.Id);
-            Test.stopTest();
-            System.debug('listContributorRecord>>>>' + listContributorRecord);
+            List<List_Contributor__c> listContributorRecord = ListMemberAddModalController.getDefaultListContributor(newListRecords[0].Id, alumniUser.Id);
             System.assert(!listContributorRecord.isEmpty(), 'No Default List Contributor found.');
+            Test.stopTest();
         }
     }
 
