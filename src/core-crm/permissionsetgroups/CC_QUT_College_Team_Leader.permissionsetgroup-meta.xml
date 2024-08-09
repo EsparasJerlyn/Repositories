@@ -3,5 +3,8 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>CC - QUT College Team Leader</label>
     <permissionSets>College_Contact_Centre_Base</permissionSets>
+    <permissionSets>Email_Create_and_Edit_Templates</permissionSets>
+    <permissionSets>Knowledge_User</permissionSets>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
