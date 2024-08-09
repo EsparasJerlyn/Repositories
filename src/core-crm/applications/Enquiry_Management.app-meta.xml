@@ -606,6 +606,7 @@
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-VoiceCall</tabs>
     <tabs>standard-MessagingSession</tabs>
+    <tabs>standard-OmniSupervisorLightning</tabs>
     <tabs>standard-EmailTemplate</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Enquiry_Management_UtilityBar</utilityBar>
@@ -630,6 +631,9 @@
         </mappings>
         <mappings>
             <tab>standard-MessagingSession</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-OmniSupervisorLightning</tab>
         </mappings>
         <mappings>
             <tab>standard-ServiceAppointment</tab>
