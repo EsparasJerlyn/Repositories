@@ -22,6 +22,7 @@
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for outreach case.                                 |
       | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
       | julie.jane.alegre              | June 25, 2024         | DEPP-9481              | Update whereClauseCheckerForCompletedCadenceCriteria             |
+      | eugene.andrew.abuan            | August 02, 2024       | DEPP-8255              | Added getCompletedCadenceByRecordId                              |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -194,6 +195,30 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     ){
         String soql = 'SELECT Id, Contact__c, Cadence_Name__c, LastModifiedDate FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
         return soql.trim();
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadencebyRecordId(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Cadence_Tasks__c, Completed_Date__c ' +
+            'FROM Completed_Cadence__c ' +
+            'WHERE Id IN : completedCadenceIdSet ',
+            accessLevel        
+        );
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadenceByStatus(        
+        String status,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Cadence_Tasks__c, Completed_Date__c, Completed_Cadence_Status__c ' +
+            'FROM Completed_Cadence__c ' +
+            'WHERE Completed_Cadence_Status__c =: status ',
+            accessLevel        
+        );
     }
 
     /**

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Competed_Cadence_Compact_Layout</fullName>
+    <fields>Cadence_Name__c</fields>
+    <fields>Cadence_Tasks__c</fields>
+    <fields>Completed_Cadence_Status__c</fields>
+    <fields>Completed_Date__c</fields>
+    <label>Competed Cadence Compact Layout</label>
+</CompactLayout>
