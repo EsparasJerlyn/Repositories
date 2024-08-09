@@ -12,7 +12,8 @@
       | marygrace.li                   | May 2, 2024           | DEPP-8209              | Deleted getProductByDonationCauseId  |
       | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references  |
       | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPage            |
- */
+      | kenneth.f.alsay                | August 8, 2024        | DEPP-9140              | Added getDesignationProductById    |
+*/
 public interface IProductsDAO extends DmlInterface {
 
      List<Product2> getProductById(
@@ -29,5 +30,10 @@ public interface IProductsDAO extends DmlInterface {
         Set<Id> productIdSet,
         Set<Id> priceBookIds,
         AccessLevel accessLevel
-    ); 
+    );
+
+    List<Product2> getDesignationProductById(
+          Set<Id> productIdSet,
+          AccessLevel accessLevel
+    );
 }

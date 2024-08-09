@@ -18,10 +18,15 @@ import { LightningElement, api, track } from "lwc";
 // import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 // import assetRecordData from "@salesforce/apex/ProductDetailsCtrl.assetRecordData";
 
+//import getDesignationProdDetails from "@salesforce/apex/DesignationProductCtrl.getDesignationProductDetails"
+
 export default class ProductDetailsAdvancement extends LightningElement {
 
   @api productDetails;
   @track isPopupOpen = false;
+  product;
+
+  @api advancementProductDetails;
 
   openPopup(event) {
     event.preventDefault();
@@ -41,6 +46,8 @@ export default class ProductDetailsAdvancement extends LightningElement {
   connectedCallback() {
     this.updateIsMobile();
     window.addEventListener('resize', this.updateIsMobile.bind(this));
+
+    //this.getDesignationProdDetails(this.recordId);
   }
 
   disconnectedCallback() {
@@ -51,4 +58,14 @@ export default class ProductDetailsAdvancement extends LightningElement {
       this.isMobile = window.innerWidth <= 768; // Define your mobile breakpoint here
   }
 
+  // getDesignationProdDetails(productId){
+  //   getDesignationProdDetails({ productId: productId })
+  //   .then((result) => {
+  //     this.product = result;
+  //     console.log(this.product);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  // }
 }

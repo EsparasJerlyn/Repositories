@@ -32,6 +32,9 @@ import { LightningElement, wire, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import communityId from "@salesforce/community/Id";
 import isGuest from "@salesforce/user/isGuest";
+//kenn changes start
+import getDesignationProdDetails from "@salesforce/apex/DesignationProductCtrl.getDesignationProductDetails";
+//kenn changes end
 import getProductDetails from "@salesforce/apex/ProductDetailsCtrl.getProductRelatedRecords";
 import getCCEProductDetails from "@salesforce/apex/ProductDetailsCtrl.getCCEProductRelatedRecords";
 import getOrCreateActiveCartSummary from "@salesforce/apex/B2BGetInfo.getOrCreateActiveCartSummary";
@@ -69,6 +72,8 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
   fromCategoryId;
   ccePricebookEntryId;
   showErrorMessage = false;
+  advancementProductDetails;
+  //
 
   tempAcct;
   subscription;
@@ -158,6 +163,9 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 
 		if(this.isOPEPortal){
 			this.getProductDetailsApex(this.recordId);
+			//kenn changes start
+			this.getDesignationProdDetailsApex(this.recordId);
+			//kenn changes end
 		}
 		if(this.isOPEPortal){
 			if (!isGuest) {
@@ -268,6 +276,24 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 			this.loading = false;
 		});
 	}
+
+	//kenn changes start
+	getDesignationProdDetailsApex(productId){
+		getDesignationProdDetails({ productId: productId })
+		.then((result) => {
+			//console.log(this.advancementProductDetails);
+		console.log('result: ' + result);
+		console.log('result.productOnPage: ' + result.productOnPage);
+		  this.advancementProductDetails = result.productOnPage;
+
+		})
+		.catch((error) => {
+		  console.log(error);
+		});
+	  }
+	  //kenn changes end
+
+
 
 	// Gets the normalized effective account of the user.
 	get resolvedEffectiveAccountId() {

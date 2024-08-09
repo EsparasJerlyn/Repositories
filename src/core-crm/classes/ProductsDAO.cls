@@ -12,7 +12,8 @@
       | marygrace.li                   | May 2, 2024           | DEPP-8399              | Deleted getProductByDonationCauseId
       | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references
       | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPage      |
- */
+      | kenneth.f.alsay                | August 8, 2024        | DEPP-9140              | Added getDesignationProductById    |
+*/
 
 public inherited sharing class ProductsDAO extends DmlBase implements IProductsDAO{
 
@@ -78,6 +79,21 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             'FROM Product2 ' +
             'WHERE Id IN :productIdSet ' + 
             isActiveCondition,
+            accessLevel
+        );
+    }
+
+    public List<Product2> getDesignationProductById(
+        Set<Id> productIdSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Name, Section_1_Heading__c, Section_1_Content__c, Section_1_Image_Video_URL__c, Section_1_Image_Video_Page_Location__c, ' +
+            'Section_2_Heading__c, Section_2_Content__c, Section_2_Image_Video_URL__c, Section_2_Image_Video_Page_Location__c, ' +
+            'Section_3_Heading__c, Section_3_Content__c, Section_3_Image_Video_URL__c, Section_3_Image_Video_Page_Location__c, ' +
+            'Predefined_Amount_1__c, Predefined_Amount_2__c, Predefined_Amount_3__c, Predefined_Amount_4__c ' +
+            'FROM Product2 ' +
+            'WHERE Id IN :productIdSet ',
             accessLevel
         );
     }

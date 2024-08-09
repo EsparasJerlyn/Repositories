@@ -7,7 +7,7 @@
 		variant="brand"
 	></lightning-spinner>
 	
-	<c-product-details-display
+	<!-- <c-product-details-display
 		if:true={showProductDetailsDisplay}
 		product-details={productDetails}
 		price-book-entries={availablePricings}
@@ -19,7 +19,22 @@
 		product-category={productCategory}
 		price-read-only={priceReadOnly}
 		cce-pricebook-entry-id={ccePricebookEntryId}
-	></c-product-details-display>
+	></c-product-details-display> -->
+
+	<c-product-details-advancement
+		if:true={showProductDetailsDisplay}
+		product-details={advancementProductDetails}
+	></c-product-details-advancement>
+	<!--
+		price-book-entries={availablePricings}
+		delivery-options={deliveryOptions}
+		c-products={cProducts}
+		is-not-flex-program={showFlexibleProgram}
+		record-id={recordId}
+		onaddtocart={addToCartItem}
+		product-category={productCategory}
+		price-read-only={priceReadOnly}
+		cce-pricebook-entry-id={ccePricebookEntryId} -->	
 	
 	<c-prescribed-program
 		if:true={showPrescribedProgram}
