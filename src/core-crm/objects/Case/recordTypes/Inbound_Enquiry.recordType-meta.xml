@@ -34,6 +34,18 @@
             <fullName>Other QUT Department</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Student Administration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Support%2FWellbeing Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unit coordinator%2FAcademic</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Case_Type__c</picklist>
