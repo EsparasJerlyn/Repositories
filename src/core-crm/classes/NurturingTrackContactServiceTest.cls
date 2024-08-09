@@ -679,14 +679,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             }
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureListManual, false, AccessLevel.SYSTEM_MODE); 
 
-            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
-            completedCadenceList.add(new Completed_Cadence__c(
-                Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureListAuto[0].Id,
-                Completed_Cadence_Status__c ='Successful'
-            ));
-            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Availability_Start_Date__c = System.today();
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
@@ -706,6 +698,16 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            completedCadenceList.add(new Completed_Cadence__c(
+                Contact__c = newContacts[0].Id,
+                Application__c = newApplications[0].Id,
+                Nurture_Track_Configuration__c = nurtureListAuto[0].Id,
+                Completed_Cadence_Status__c ='Successful'
+            ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
             Test.stopTest();
