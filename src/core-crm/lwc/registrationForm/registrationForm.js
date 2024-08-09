@@ -667,6 +667,7 @@ export default class RegistrationForm extends LightningElement {
     this.displayForm = false;
     this.displayVerification = false;
     this.displayResendVerification = true;
+    this.isEmailMatch
   }
 
   /*
@@ -1051,9 +1052,9 @@ export default class RegistrationForm extends LightningElement {
     contactRecord.Email = this.uniqueEmail;
     contactRecord.Position__c = this.position;
     contactRecord.Company_Name__c = this.companyName;
-    contactRecord.MobilePhone = this.mobileFull;
-    contactRecord.ContactMobile_Locale__c = this.localeConMobile;
-    contactRecord.Mobile_No_Locale__c = this.mobile;
+    // contactRecord.MobilePhone = this.mobileFull;
+    // contactRecord.ContactMobile_Locale__c = this.localeConMobile;
+    // contactRecord.Mobile_No_Locale__c = this.mobile;
     contactRecord.Dietary_Requirement__c = this.dietaryReq;
     contactRecord.Accessibility_Requirement__c = this.accessReq;
 

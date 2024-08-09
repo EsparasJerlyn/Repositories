@@ -602,11 +602,16 @@
                   Email address: {email}
                 </p>
               </div>
-              <div if:false={isMobileMatch} style="padding: 15px; border: 3px solid red; color: red">
-                <p class="bodyRegular">
-                  Your mobile number doesn't match our records.Please contact QUTeX to update mobile.
-                </p>
+              <div  if:false={isMobileMatch}>
+                <br><br>
+                <div style="padding: 15px; border: 3px solid red; color: red">
+                  <p class="bodyRegular">
+                    Your mobile number doesn't match our records.Please contact QUTeX to update mobile.
+                  </p>
+                </div>
+                <br><br>
               </div>
+              
             </div>
             <div class="slds-size_2-of-2 slds-text-align_center pb2">
               <lightning-input
