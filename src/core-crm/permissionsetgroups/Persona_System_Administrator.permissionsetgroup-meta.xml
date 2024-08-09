@@ -5,6 +5,9 @@
     <label>Persona System Administrator</label>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
     <permissionSets>Contact_Center_Admin_Partner_Telephony_QUT</permissionSets>
+    <permissionSets>Contact_Center_Agent_Partner_Telephony_QUT</permissionSets>
+    <permissionSets>QUT_Contact_Centre_Base</permissionSets>
+    <permissionSets>Voice</permissionSets>
     <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
@@ -37,6 +40,7 @@
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <permissionSets>et4ae5__Marketing_Cloud_System_User</permissionSets>
     <permissionSets>force__CommerceAdmin</permissionSets>
+    <permissionSets>force__ContactCenterAgentExternalTelephony</permissionSets>
     <permissionSets>force__ContactCenterAdminExternalTelephony</permissionSets>
     <permissionSets>force__CopilotSalesforceAdmin</permissionSets>
     <permissionSets>force__CopilotSalesforceUser</permissionSets>
