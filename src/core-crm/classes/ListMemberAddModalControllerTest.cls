@@ -24,19 +24,21 @@ public with sharing class ListMemberAddModalControllerTest {
         ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
 
         User alumniUser = TestDataFactoryUser.selectUserAlumniEngagementManager;
-        List<List__c> newListRecords = TestDataFactory.createListRecords(1);
-        ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
-
-        List<List_Contributor__c> newListContributorRecords = TestDataFactory.createListContributorRecords(1,newListRecords[0].Id);
-        for(List_Contributor__c record : newListContributorRecords){
-            record.List_Contributor__c = alumniUser.Id;
+        System.runAs(alumniUser){
+            List<List__c> newListRecords = TestDataFactory.createListRecords(1);
+            ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
+    
+            List<List_Contributor__c> newListContributorRecords = TestDataFactory.createListContributorRecords(1,newListRecords[0].Id);
+            for(List_Contributor__c record : newListContributorRecords){
+                record.List_Contributor__c = alumniUser.Id;
+            }
+            ListContributorsDAO.newInstance().insertRecords(newListContributorRecords, false, AccessLevel.SYSTEM_MODE);
+    
+            Test.startTest();
+            List<List_Contributor__c> listContributorRecord = ListMemberAddModalController.getDefaultListContributor(newListRecords[0].Id, alumniUser.Id);
+            System.assert(!listContributorRecord.isEmpty(), 'No Default List Contributor found.');
+            Test.stopTest();
         }
-        ListContributorsDAO.newInstance().insertRecords(newListContributorRecords, false, AccessLevel.SYSTEM_MODE);
-
-        Test.startTest();
-        List<List_Contributor__c> listContributorRecord = ListMemberAddModalController.getDefaultListContributor(newListRecords[0].Id, alumniUser.Id);
-        System.assert(!listContributorRecord.isEmpty(), 'No Default List Contributor found.');
-        Test.stopTest();
     }
 
     @isTest
