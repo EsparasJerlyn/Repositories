@@ -17,6 +17,7 @@ public class List_Contributor_Task_Due_Date_FlowTest {
     static void makeData() {
         Test.startTest();
         TestDataFactoryUser.generateUserCorporatePartnershipsManager();
+        TestDataFactoryUser.generateUserDonorEngagementManager();
         Test.stopTest();
 
         System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
@@ -28,6 +29,7 @@ public class List_Contributor_Task_Due_Date_FlowTest {
                 1,
                 listRecords[0].id
             );
+            listContributorRecords[0].List_Contributor__c = TestDataFactoryUser.selectUserDonorEngagementManager;
             ListContributorsDAO.newInstance()
                 .insertRecords(listContributorRecords, true, AccessLevel.USER_MODE);
         }
