@@ -707,7 +707,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Communication_Queue__c.Related_SMS_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
