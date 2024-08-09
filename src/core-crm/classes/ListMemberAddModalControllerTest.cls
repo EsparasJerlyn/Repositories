@@ -33,7 +33,7 @@ public with sharing class ListMemberAddModalControllerTest {
             for(List_Contributor__c record : newListContributorRecords){
                 record.List_Contributor__c = alumniUser.Id;
             }
-            ListContributorsDAO.newInstance().insertRecords(newListContributorRecords, tru, AccessLevel.SYSTEM_MODE);
+            ListContributorsDAO.newInstance().insertRecords(newListContributorRecords, true, AccessLevel.SYSTEM_MODE);
     
             Test.startTest();
             List<List_Contributor__c> listContributorRecord = ListMemberAddModalController.getDefaultListContributor(newListRecords[0].Id, alumniUser.Id);
