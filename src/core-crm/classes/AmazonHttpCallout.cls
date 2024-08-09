@@ -60,7 +60,11 @@ public with sharing class AmazonHttpCallout {
     	}
         
         //getOperatingHoursMap
-        List<OperatingHours> operatingHoursList = getOperatingHours(new List<Id>{operatingHrsId});
+        List<OperatingHours> operatingHoursList = OperatingHoursDAO.newInstance().getOperatingHoursByIdAndChannel(
+            new Set<Id>{operatingHrsId}, 
+            OperatingHoursDAO.TYPE_VOICE, 
+            AccessLevel.USER_MODE
+        );
         
 		if(operatingHoursList.isEmpty()){
             throw new CustomException('Could not find Operating Hours for Voice');
@@ -129,24 +133,6 @@ public with sharing class AmazonHttpCallout {
         responseStatusWrapper.failedCallout = failedSync;
         return responseStatusWrapper;    
     }    
-    
-    /**
-    * Retrieve Operating Hours Record
-    *
-    * @param operatingHoursIdList.
-    * @return List<OperatingHours>.
-    */
-    public static List<OperatingHours> getOperatingHours(List<Id> operatingHoursIdList){
-    	return new List<OperatingHours>([SELECT Id, 
-                                            	   Name,
-                                                   Channel_Type__c, 
-                                                   AWS_Business_Hour_External_ID__c, 
-                                                   TimeZone, 
-                                                   Description
-                                            FROM OperatingHours
-                                            WHERE Id =: operatingHoursIdList AND
-                                            Channel_Type__c = 'Voice']);	
-    }
     
     /**
     * Retrieve Time Slot Record

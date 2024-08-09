@@ -25,4 +25,20 @@ public inherited sharing class OperatingHoursDAOMock extends DmlBaseMock impleme
         return null;
     }
     
+    public List<OperatingHours> getOperatingHoursByIdAndChannel(
+        Set<Id> operatingHrsIds,
+        String channelType,
+        AccessLevel accessLevel
+    ) {
+        List<OperatingHours> operatingHrsList = new List<OperatingHours>();
+
+        for (OperatingHours record : operatingHoursMap.values()) {
+            if (operatingHrsIds.contains(record.Id) && channelType == record.Channel_Type__c) {
+                operatingHrsList.add(record);
+            }
+        }
+
+        return operatingHrsList;
+    }
+
 }

@@ -29,6 +29,19 @@ public inherited sharing class OperatingHoursDAO extends DmlBase implements IOpe
             'WHERE Channel_Type__c =: TYPE_VOICE'; 
         return Database.getQueryLocator(query);
     }
-    
+
+    public List<OperatingHours> getOperatingHoursByIdAndChannel(
+        Set<Id> operatingHrsIds,
+        String channelType,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Name, Channel_Type__c, AWS_Business_Hour_External_ID__c, TimeZone, Description ' +
+              'FROM OperatingHours ' +
+             'WHERE Id =: operatingHrsIds ' +
+               'AND Channel_Type__c =: channelType', 
+            accessLevel
+        );
+    }
     
 }

@@ -26,5 +26,33 @@ public class OperatingHoursDAOTest {
         }
         Test.stopTest();
     }
-    
+
+    @isTest
+    static void queryLocatorGetVoiceOperatingHoursTest() {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            Test.startTest();
+            System.assert(
+                OperatingHoursDAO.newInstance().queryLocatorGetVoiceOperatingHours() != null,
+                'Operating hours retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getOperatingHoursByIdAndChannelTest() {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            Test.startTest();
+            System.assert(
+                OperatingHoursDAO.newInstance().getOperatingHoursByIdAndChannel(
+                    new Set<Id>(),
+                    OperatingHoursDAO.TYPE_VOICE,
+                    AccessLevel.SYSTEM_MODE
+                ) != null,
+                'Operating hours list should not be null.'
+            );
+            Test.stopTest();
+        }
+    }
+
 }

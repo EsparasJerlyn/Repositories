@@ -10,4 +10,7 @@
 */
 public interface IOperatingHoursDAO extends DmlInterface {
 	Database.QueryLocator queryLocatorGetVoiceOperatingHours();
+
+      List<OperatingHours> getOperatingHoursByIdAndChannel(Set<Id> operatingHrsIds, String channelType, AccessLevel accessLevel);
+
 }
