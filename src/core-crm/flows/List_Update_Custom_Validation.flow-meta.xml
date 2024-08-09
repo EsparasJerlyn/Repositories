@@ -1,20 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
-    <customErrors>
-        <name>Not_Qualified_On_Hold</name>
-        <label>Not Qualified || On Hold</label>
+    <collectionProcessors>
+        <name>Filter_On_Hold_List_Members</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter On Hold List Members</label>
         <locationX>50</locationX>
-        <locationY>719</locationY>
+        <locationY>503</locationY>
+        <assignNextValueToReference>currentItem_Filter_On_Hold_List_Members</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_List_Members_with_On_Hold_and_Qualified_Status</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_On_Hold_List_Members.List_Member_Status__c</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <stringValue>On Hold</stringValue>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Filter_Qualified_List_Members</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Qualified_List_Members</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Qualified List Members</label>
+        <locationX>50</locationX>
+        <locationY>611</locationY>
+        <assignNextValueToReference>currentItem_Filter_Qualified_List_Members</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_List_Members_with_On_Hold_and_Qualified_Status</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Qualified_List_Members.List_Member_Status__c</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <stringValue>Qualified</stringValue>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Check_List_Member_Status</targetReference>
+        </connector>
+    </collectionProcessors>
+    <customErrors>
+        <name>List_Member_Status_Error</name>
+        <label>List Member Status Error</label>
+        <locationX>50</locationX>
+        <locationY>1019</locationY>
         <customErrorMessages>
-            <errorMessage>Please ensure at least one of the List members is qualified and none of the List member are on Hold</errorMessage>
+            <errorMessage>Please ensure at least one of the List members is qualified and none of the List member are On Hold.</errorMessage>
             <isFieldError>false</isFieldError>
         </customErrorMessages>
     </customErrors>
     <decisions>
+        <name>Check_List_Member_Status</name>
+        <label>Check List Member Status</label>
+        <locationX>50</locationX>
+        <locationY>719</locationY>
+        <defaultConnectorLabel>Met Conditions for Update</defaultConnectorLabel>
+        <rules>
+            <name>Has_On_Hold_List_Members</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Filter_On_Hold_List_Members</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>List_Member_Status_Error</targetReference>
+            </connector>
+            <label>Has On Hold List Members</label>
+        </rules>
+        <rules>
+            <name>Has_No_Qualified_List_Member</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Filter_Qualified_List_Members</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>List_Member_Status_Error</targetReference>
+            </connector>
+            <label>Has No Qualified List Member</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
-        <locationX>611</locationX>
+        <locationX>270</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -28,60 +107,9 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_stage_value</targetReference>
+                <targetReference>Get_List_Members_with_On_Hold_and_Qualified_Status</targetReference>
             </connector>
             <label>Is Distributed List</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Is_List_Member_Records_populated</name>
-        <label>Is List Member Records Status</label>
-        <locationX>182</locationX>
-        <locationY>611</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>List_Member_status</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_List_Member_Records</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Not_Qualified_On_Hold</targetReference>
-            </connector>
-            <label>List Member status</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Update_stage_value</name>
-        <label>Update stage value</label>
-        <locationX>380</locationX>
-        <locationY>395</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Update_stage_to_Distribute</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record__Prior.Stage__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Qualification</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Stage__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Distribute</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_List_Member_Records</targetReference>
-            </connector>
-            <label>Update stage to Distribute</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -107,15 +135,29 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_List_Member_Records</name>
-        <label>Get List Member Records</label>
-        <locationX>182</locationX>
-        <locationY>503</locationY>
+        <name>Get_List_Members_with_On_Hold_and_Qualified_Status</name>
+        <label>Get List Members with On Hold and Qualified Status</label>
+        <locationX>50</locationX>
+        <locationY>395</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Is_List_Member_Records_populated</targetReference>
+            <targetReference>Filter_On_Hold_List_Members</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>1 AND (2 OR 3)</filterLogic>
+        <filters>
+            <field>List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>List_Member_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Qualified</stringValue>
+            </value>
+        </filters>
         <filters>
             <field>List_Member_Status__c</field>
             <operator>EqualTo</operator>
@@ -123,26 +165,50 @@
                 <stringValue>On Hold</stringValue>
             </value>
         </filters>
-        <filters>
-            <field>List_Member_Status__c</field>
-            <operator>NotEqualTo</operator>
-            <value>
-                <stringValue>Qualified</stringValue>
-            </value>
-        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>List_Member__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>485</locationX>
+        <locationX>144</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Record_Type</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Stage__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Distribute</stringValue>
+            </value>
+        </filters>
         <object>List__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>currentItem_Filter_On_Hold_List_Members</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>List_Member__c</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Qualified_List_Members</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>List_Member__c</objectType>
+    </variables>
 </Flow>
