@@ -3,6 +3,7 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Contact Centre Training and QA</label>
     <permissionSets>Email_Create_and_Edit_Templates</permissionSets>
+    <permissionSets>QUT_Contact_Centre_Training_QA</permissionSets>
     <permissionSets>Knowledge_User</permissionSets>
     <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>Messaging_for_In_App_and_Web_Supervisor_QUT</permissionSets>
