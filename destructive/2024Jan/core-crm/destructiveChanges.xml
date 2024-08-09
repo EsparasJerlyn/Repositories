@@ -71,6 +71,14 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
+        <!--Start DEPP-9041-->
+        <members>College_Contact_Centre_Base</members>
+        <members>Faculty_Contact_Centre_Base</members>
+        <members>Library_Contact_Centre_Base</members>
+        <members>QUT_Contact_Centre_Base</members>
+        <members>QUT_Contact_Centre_Training_QA</members>
+        <members>Student_Admin_Contact_Centre_Base</members>
+        <!--End DEPP-9041-->
         <name>PermissionSet</name>
     </types>
     <!-- <types> -->
@@ -316,6 +324,19 @@
         <members>Einstein_Case_Classification_User_QUT</members>
         <!--End (replaced by) DEPP-8870-->
         <name>PermissionSet</name>
+    </types>
+    <types>
+        <!--Start (replaced by) DEPP-10309-->
+        <members>CC_Student_Admin_Hub_Adv_Engagement</members>
+        <members>CC_Student_Admin_Hub_Advisor_Progression</members>
+        <members>CC_Student_Admin_Manager</members>
+        <members>CC_Student_Admin_Spec_Adv_Engagement</members>
+        <members>CC_Student_Admin_Spec_Adv_Progression</members>
+        <members>CC_Student_Admin_Team_Leader_Engagement</members>
+        <members>CC_Student_Admin_Team_Leader_Progression</members>
+        <members>CC_Student_Admin</members>
+        <!--End (replaced by) DEPP-10309-->
+        <name>Group</name>
     </types>
     <!-- "problem": "Entity type 'GenAiPromptTemplate' is not available for delete in this api version" 
     <types>
