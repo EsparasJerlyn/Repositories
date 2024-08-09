@@ -10,7 +10,7 @@
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
-    <valueSet> 
+    <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -22,6 +22,11 @@
                 <fullName>Completed</fullName>
                 <default>false</default>
                 <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Assigned</fullName>
+                <default>true</default>
+                <label>Assigned</label>
             </value>
         </valueSetDefinition>
     </valueSet>

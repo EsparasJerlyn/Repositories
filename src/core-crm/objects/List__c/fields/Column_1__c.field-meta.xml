@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Column_1__c</fullName>
-    <defaultValue>&apos;Contact ID&apos;</defaultValue>
+    <defaultValue>&apos;List Member&apos;</defaultValue>
     <description>Used when business users need to define custom columns for a List.</description>
     <externalId>false</externalId>
     <inlineHelpText>The column heading for custom column 1.</inlineHelpText>

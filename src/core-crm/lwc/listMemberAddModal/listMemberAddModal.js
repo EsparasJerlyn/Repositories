@@ -16,6 +16,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import getDefaultListContributor from '@salesforce/apex/ListMemberAddModalController.getDefaultListContributor';
 import getRelatedListContributor from '@salesforce/apex/ListMemberAddModalController.getRelatedListContributor';
+import createListMember from '@salesforce/apex/ListMemberAddModalController.createListMember';
 import getContacsWithMatchingEmailsPosition from '@salesforce/apex/ListMemberAddModalController.getContactsWithMatchingEmailsPosition';
 import List_Member_OBJECT from '@salesforce/schema/List_Member__c';
 import LIST_CONTRIBUTOR_FIELD from '@salesforce/schema/List_Member__c.List_Contributor__c';
@@ -53,9 +54,10 @@ export default class ListMemberAddModal extends LightningElement {
         const prefields = [];
         columns.forEach((key, i) => {
             key.isDisabled = false;
+            key.defaultValue = '';
             key.tableObjectType = 'List_Member__c';
 
-            if(key.apiFieldName === "Email__c" || key.apiFieldName === "Mobile__c") {
+            if(key.fieldName === "Email__c" || key.fieldName === "Mobile__c") {
                 key.isDisabled = true;
             }
 
@@ -110,6 +112,8 @@ export default class ListMemberAddModal extends LightningElement {
                     listMemberContacts.push({
                         label: obj.Name,
                         value: obj.Id,
+                        email: obj.Email,
+                        mobilePhone: obj.MobilePhone,
                         multipleLabel: multipleLabels
                     });
 
@@ -156,8 +160,44 @@ export default class ListMemberAddModal extends LightningElement {
 
     handleChangeListMember(event) {
         const value = event.detail.value;
-        this.selectedListMember = value;
         this.fetchListMemberContacts(value);
+    }
+
+    handleSelectedListMember(event) {
+        const value = event.detail.value;
+        this.selectedListMember = value;
+        const prefields = JSON.parse(JSON.stringify(this.prefields));
+
+        prefields.forEach((obj) => {
+            this.listMemberContacts.forEach((contact) => {
+                if (obj.fieldName === "Email__c") {
+                    obj.value = contact.email;
+                }
+
+                if (obj.fieldName === "Mobile__c") {
+                    obj.value = contact.mobilePhone;
+                }
+            });
+        })
+
+        this.prefields = prefields;
+
+    }
+
+    handleInputChange(event) {
+        const fieldName = event.currentTarget.dataset.field;
+        const value = event.target.value;
+
+        const prefields = JSON.parse(JSON.stringify(this.prefields));
+        prefields.forEach((obj) => {
+            this.listMemberContacts.forEach((contact) => {
+                if (obj.fieldName === fieldName) {
+                    obj.value = value;
+                }
+            });
+        })
+
+        this.prefields = prefields;
     }
 
     handleCloseModal() {
@@ -171,15 +211,25 @@ export default class ListMemberAddModal extends LightningElement {
 
     async handleSubmit(event){
         event.preventDefault();
-            const listMember = event.detail.fields;
-            listMember["List__c"] = this._listId;
+            const listMember = {
+                List__c: this._listId
+            };
+
             if (this.selectedContributor) {
-                listMember["List_Contributor__c"] = this.selectedContributor;
+                listMember.List_Contributor__c = this.selectedContributor;
             }
 
             if (this.selectedListMember) {
-                listMember["List_Member__c"] = this.selectedListMember;
+                listMember.List_Member__c = this.selectedListMember;
             }
+
+            const prefields = JSON.parse(JSON.stringify(this.prefields));
+
+            prefields.forEach((obj) => {
+                if (obj.fieldName !== "Email__c" && obj.fieldName !== "Mobile__c") {
+                    listMember[obj.fieldName] = obj.value;
+                }
+            })
 
             const contact = await checkIfExistingContact({listId: listMember.List__c, contactId: listMember.List_Member__c});
             if(contact && this.objectApiName == 'List__c'){
@@ -187,12 +237,17 @@ export default class ListMemberAddModal extends LightningElement {
             }else if(contact && this.objectApiName == 'Engagement_Opportunity__c'){
                 this.showMessage('Error', 'The contact already exist. Please select appropriate contact.', 'error');
             }else{
-                this.template.querySelector('lightning-record-edit-form').submit(listMember);
-                this.showMessage('Success', 'List Member is successfully added.', 'success');
-                this.selectedContributor = '';
-                this.selectedListMember = '';
-                this.handleCloseModal();
-                this.reloadListMembersTable();
+                createListMember({ records: [listMember]})
+                .then((response) => {
+                    this.showMessage('Success', 'List Member is successfully added.', 'success');
+                    this.selectedContributor = '';
+                    this.selectedListMember = '';
+                    this.handleCloseModal();
+                    this.reloadListMembersTable();
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
             }
     }
 

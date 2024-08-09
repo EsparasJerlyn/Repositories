@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <assignments>
+        <description>Call Logged Prompt</description>
+        <name>Call_Logged_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Call Logged Prompt</label>
+        <locationX>402</locationX>
+        <locationY>1166</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Calls Logged -
+                    {!Loop_Over_Task_Records.Description}{!Loop_Over_Task_Records.CreatedDate}
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Task_Count_Assignment</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Case History Prompt</description>
+        <name>Case_History_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Case History Prompt</label>
+        <locationX>162</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Key Case Updates:
+                    {!Loop_Over_Case_History.Field}{!Loop_Over_Case_History.OldValue}{!Loop_Over_Case_History.NewValue}{!Loop_Over_Case_History.CreatedDate}
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Case_History</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Email Count Assignment</description>
+        <name>Email_Count_Assignment</name>
+        <label>Email Count Assignment</label>
+        <locationX>138</locationX>
+        <locationY>1274</locationY>
+        <assignmentItems>
+            <assignToReference>EmailCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Task_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Email_Task_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Email Task Prompt</label>
+        <locationX>138</locationX>
+        <locationY>1166</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Email Communication -
+                    {!Loop_Over_Task_Records.Description}
+                    {!Loop_Over_Task_Records.CreatedDate}
+
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Email_Count_Assignment</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Error while Fetching Case Comment Records</description>
+        <name>Error_Fetching_Case_Comment_Records</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Error Fetching Case Comment Records</label>
+        <locationX>578</locationX>
+        <locationY>1850</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Error while Fetching Case Comment Records, Please Contact Admin.
+                </stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Error Fetching History Records</description>
+        <name>Error_Fetching_History_Records</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Error Fetching History Records</label>
+        <locationX>1106</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Error while fetching the history records, please contact admin.
+                </stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Error Fetching Task Records</description>
+        <name>Error_Fetching_Task_Records</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Error Fetching Task Records</label>
+        <locationX>842</locationX>
+        <locationY>842</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Error While Fetching Task Records, Please Contact admin.
+                </stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>No Case History</description>
+        <name>No_Case_History</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Case History</label>
+        <locationX>290</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No Case History Present
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Task_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>No Task Error Handling</description>
+        <name>No_Task_Error_Handling</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>No Task Error Handling</label>
+        <locationX>314</locationX>
+        <locationY>950</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>There are Task related to this Case
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Case_Comment_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Number of case comment</description>
+        <name>Number_of_case_comment</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Number of case comment</label>
+        <locationX>182</locationX>
+        <locationY>1958</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Case Comment Count: {!CaseCommentCount}
+                </stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Number of Email and Task Assignment</description>
+        <name>Number_of_Email_and_Task_Assignment</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Number of Email and Task Assignment</label>
+        <locationX>50</locationX>
+        <locationY>1550</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Email Count : {!EmailCount}
+                    Task Count : {!TaskCount}
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Case_Comment_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Other task</description>
+        <name>Other_task</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Other task</label>
+        <locationX>666</locationX>
+        <locationY>1166</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Tasks -
+                    Description : {!Loop_Over_Task_Records.Description}
+                    Assigned To :
+                    {!Loop_Over_Task_Records.Owner:User.FirstName}
+                    Assigned To :
+                    {!Loop_Over_Task_Records.Owner:Group.Name}
+                    Status: {!Loop_Over_Task_Records.Status}
+                    {!Loop_Over_Task_Records.CreatedDate}
+                    Due Date :{!Loop_Over_Task_Records.ActivityDate}
+                </stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Other_Task_Assignment</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Other Task Assignment</description>
+        <name>Other_Task_Assignment</name>
+        <label>Other Task Assignment</label>
+        <locationX>666</locationX>
+        <locationY>1274</locationY>
+        <assignmentItems>
+            <assignToReference>TaskCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Task_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Task Count Assignment</description>
+        <name>Task_Count_Assignment</name>
+        <label>Task Count Assignment</label>
+        <locationX>402</locationX>
+        <locationY>1274</locationY>
+        <assignmentItems>
+            <assignToReference>TaskCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Task_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Total Case Comment Records</description>
+        <name>Total_Case_Comment_Records</name>
+        <label>Total Case Comment Records</label>
+        <locationX>182</locationX>
+        <locationY>1850</locationY>
+        <assignmentItems>
+            <assignToReference>CaseCommentCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>AllCaseCommentRecords</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Number_of_case_comment</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>If History Exist</description>
+        <name>If_History_Exist</name>
+        <label>If History Exist</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>No_Case_History</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Related_Case_History_Records</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AllCaseHistory</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_Case_History</targetReference>
+            </connector>
+            <label>Related Case History Records</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If Task Records Exists</description>
+        <name>If_Task_Records_Exists</name>
+        <label>If Task Records Exists</label>
+        <locationX>182</locationX>
+        <locationY>842</locationY>
+        <defaultConnector>
+            <targetReference>No_Task_Error_Handling</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Task_Record_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AllTasksRecords</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_Task_Records</targetReference>
+            </connector>
+            <label>Task Record Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Segregating Tasks Based On Subject</description>
+        <name>Segregating_Tasks_Based_On_Subject</name>
+        <label>Segregating Tasks Based On Subject</label>
+        <locationX>402</locationX>
+        <locationY>1058</locationY>
+        <defaultConnector>
+            <targetReference>Other_task</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Other Tasks</defaultConnectorLabel>
+        <rules>
+            <name>Email_Records</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_Task_Records.TaskSubtype</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Task_Records.TaskSubtype</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Email_Task_Prompt</targetReference>
+            </connector>
+            <label>Email Records</label>
+        </rules>
+        <rules>
+            <name>Call_Logged</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_Task_Records.TaskSubtype</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Call</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Call_Logged_Prompt</targetReference>
+            </connector>
+            <label>Call Logged</label>
+        </rules>
+    </decisions>
+    <description>Flow to populate Action Taken field of the case object</description>
+    <environments>Default</environments>
+    <interviewLabel>Flow to Pop Action Taken Fld {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Flow to Pop Action Taken Fld</label>
+    <loops>
+        <description>Loop Over Case History</description>
+        <name>Loop_Over_Case_History</name>
+        <label>Loop Over Case History</label>
+        <locationX>74</locationX>
+        <locationY>350</locationY>
+        <collectionReference>AllCaseHistory</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Case_History_Prompt</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Task_Record</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>Loop Over Task Records</description>
+        <name>Loop_Over_Task_Records</name>
+        <label>Loop Over Task Records</label>
+        <locationX>50</locationX>
+        <locationY>950</locationY>
+        <collectionReference>AllTasksRecords</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Segregating_Tasks_Based_On_Subject</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Number_of_Email_and_Task_Assignment</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>PromptFlow</processType>
+    <recordLookups>
+        <description>Get Case Comment Records</description>
+        <name>Get_Case_Comment_Records</name>
+        <label>Get Case Comment Records</label>
+        <locationX>182</locationX>
+        <locationY>1742</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Total_Case_Comment_Records</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Fetching_Case_Comment_Records</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.RelatedEntity.Id</elementReference>
+            </value>
+        </filters>
+        <object>CaseComment</object>
+        <outputReference>AllCaseCommentRecords</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CreatedById</queriedFields>
+        <queriedFields>CommentBody</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>Get History Records</description>
+        <name>Get_History_Records</name>
+        <label>Get History Records</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_History_Exist</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Fetching_History_Records</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CaseId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.RelatedEntity.Id</elementReference>
+            </value>
+        </filters>
+        <object>CaseHistory</object>
+        <outputReference>AllCaseHistory</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Field</queriedFields>
+        <queriedFields>OldValue</queriedFields>
+        <queriedFields>NewValue</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Task Record</description>
+        <name>Get_Task_Record</name>
+        <label>Get Task Record</label>
+        <locationX>182</locationX>
+        <locationY>734</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_Task_Records_Exists</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Fetching_Task_Records</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhatId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Input.RelatedEntity.Id</elementReference>
+            </value>
+        </filters>
+        <object>Task</object>
+        <outputReference>AllTasksRecords</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CreatedById</queriedFields>
+        <queriedFields>Description</queriedFields>
+        <queriedFields>TaskSubtype</queriedFields>
+        <queriedFields>OwnerId</queriedFields>
+        <queriedFields>Status</queriedFields>
+        <queriedFields>ActivityDate</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <capabilityTypes>
+            <name>PromptTemplateType://einstein_gpt__fieldCompletion</name>
+            <capabilityName>PromptTemplateType://einstein_gpt__fieldCompletion</capabilityName>
+            <inputs>
+                <name>RelatedEntity</name>
+                <capabilityInputName>RelatedEntity</capabilityInputName>
+                <dataType>SOBJECT://Case</dataType>
+                <isCollection>false</isCollection>
+            </inputs>
+        </capabilityTypes>
+        <connector>
+            <targetReference>Get_History_Records</targetReference>
+        </connector>
+        <triggerType>Capability</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>AllCaseCommentRecords</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CaseComment</objectType>
+    </variables>
+    <variables>
+        <description>All Case History</description>
+        <name>AllCaseHistory</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CaseHistory</objectType>
+    </variables>
+    <variables>
+        <name>AllTasksRecords</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
+    <variables>
+        <name>CaseCommentCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Number of Emails Sent</description>
+        <name>EmailCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>TaskCount</description>
+        <name>TaskCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

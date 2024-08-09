@@ -53,4 +53,21 @@ public with sharing class ListMemberAddModalController {
 
         return contactList;
     }
+
+    /**
+    * @description create new List Member record
+    * @param records - List List Member record
+    */
+    @AuraEnabled
+    public static Boolean createListMember(List<List_Member__c> records) {
+        Boolean isSuccess = false;
+        Database.SaveResult[] listMemberRecord = ListMembersDAO.newInstance().insertRecords(records, false, AccessLevel.USER_MODE);
+        for (Database.SaveResult rec : listMemberRecord) {
+            if (rec.isSuccess()) {
+                isSuccess = true;
+            }
+        }
+
+        return isSuccess;
+    }
 }

@@ -9,5 +9,5 @@
    ISBLANK( Description )
 )</errorConditionFormula>
     <errorDisplayField>Description</errorDisplayField>
-    <errorMessage>Mandatory Field</errorMessage>
+    <errorMessage>Mandatory field</errorMessage>
 </ValidationRule>

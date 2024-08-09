@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>ReportId</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>WorkspaceId</name>
+                    <value>5d51ef0b-e2fd-43d3-ae25-d53e2dd34243</value>
+                </componentInstanceProperties>
+                <componentName>powerBiReport</componentName>
+                <identifier>c_powerBiReport</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>main</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Power BI Reports</masterLabel>
+    <template>
+        <name>industries_common:homeTemplateOneRegion</name>
+    </template>
+    <type>HomePage</type>
+</FlexiPage>

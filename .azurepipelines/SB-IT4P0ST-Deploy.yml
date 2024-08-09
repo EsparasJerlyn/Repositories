@@ -65,6 +65,8 @@ stages:
         ##### Microsoft Hosted Agents with ACR IMAGE ############
         pool:
           vmImage: "ubuntu-latest"
+          name: Azure Pipelines
+          demands: used_by_dep
         container: 
           image: "$(ACR_CONTAINER_IMAGE)"
           endpoint: QUT-PRD-ARG-DEP-ACR
