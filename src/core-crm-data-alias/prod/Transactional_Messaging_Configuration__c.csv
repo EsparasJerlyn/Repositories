@@ -3,7 +3,7 @@ a3HBn000000DJUfMAO,012Bn000000onOvIAI,AU,,,SALESFORCESMS,61439982834,,,,
 a3HBn000000DNLNMA4,012Bn000000onQXIAY,,Domestic First Offer to Acceptance (Automated),An intervention involving a future domestic student who has been made an offer for the first time but not yet accepted,,,2,17:00:00.000Z,07:00:00.000Z,Inactive
 a3HBn000000DNObMAO,012Bn000000onQXIAY,,Domestic Accepted not yet Enrolled (Automated),An intervention involving a future domestic student who has accepted an offer but not yet enrolled into their course/program,,,2,18:00:00.000Z,07:00:00.000Z,Active
 a3HBn000000DNOcMAO,012Bn000000onQXIAY,,Domestic First Offer to Acceptance,An intervention involving a future domestic student who has been made an offer for the first time but not yet accepted,,,2,18:00:00.000Z,07:00:00.000Z,Active
-a3HBn000000DNOdMAO,012Bn000000onQXIAY,,Domestic Accepted and Admitted,,,,2,18:00:00.000Z,07:00:00.000Z,Active
+a3HBn000000DNOdMAO,012Bn000000onQXIAY,,Domestic Accepted and Admitted,The domestic applicant’s application has been both received and approved,,,2,18:00:00.000Z,07:00:00.000Z,Active
 a3HBn000000DNOeMAO,012Bn000000onQXIAY,,Domestic Deferred Offer to Acceptance,An intervention involving a future domestic student who has been made an offer again for a previously deferred offer but not yet accepted,,,2,18:00:00.000Z,07:00:00.000Z,Active
 a3HBn000000DNOfMAO,012Bn000000onQXIAY,,Domestic Accepted not yet Enrolled,An intervention involving a future student who has accepted an offer but not yet enrolled into their course/program,,,2,18:00:00.000Z,07:00:00.000Z,Active
-a3HBn000000DNOgMAO,012Bn000000onQXIAY,,Domestic No Answer SMS,,,,2,18:00:00.000Z,07:00:00.000Z,Active
+a3HBn000000DNOgMAO,012Bn000000onQXIAY,,Domestic No Answer SMS,A pre-configured SMS message to inform the recipient of the missed call or provide further instructions,,,2,18:00:00.000Z,07:00:00.000Z,Active
