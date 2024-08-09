@@ -8,6 +8,8 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                      |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new mock method getCompletedTasksByTargetId |
+      | eugene.andrew.abuan            | August 03, 2024       | DEPP-8255              | Added getTaskByCompeltedCadence                |
+
  */
 @isTest
 public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITasksDAO {
@@ -27,10 +29,27 @@ public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITask
         Set<String> actionCadenceIds
     ) {
         List<Task> taskList = new List<Task>();
+        Map<Id, ActionCadenceStepTracker> acTrackerMap = new Map<Id, ActionCadenceStepTracker>(
+            ActionCadenceStepTrackersDAO.newInstance().getCadenceStepTrackersByTargetId(
+                targetIds, AccessLevel.SYSTEM_MODE
+            )
+        );
+
         for (Task ts : taskMap.values()) {
-            if (
-                targetIds.contains(ts.ActionCadenceStepTracker.TargetId)
-            ) {
+            if (acTrackerMap.containsKey(ts.ActionCadenceStepTrackerId)){
+                ts = (Task) JSON.deserialize(
+                    '{"attributes":{"type":"Task"},"Id":"' +
+                    ts.Id +
+                    '","Status":"' +
+                    ts.Status +
+                    '","WhoId":"' +
+                    ts.WhoId +
+                    '","ActionCadenceStepTracker":' +
+                    JSON.serialize(acTrackerMap.get(ts.ActionCadenceStepTrackerId))+
+                    '}',
+                    Task.class
+                );
+
                 taskList.add(ts);
             }
         }
@@ -50,4 +69,38 @@ public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITask
         }
         return taskList;
     }
+
+
+    public List<Task> getTaskByCompeltedCadence(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    ) {
+        List<Task> taskList = new List<Task>();
+
+        Map<Id, Completed_Cadence__c> completedCadenceMap = new Map<Id, Completed_Cadence__c>(
+            CompletedCadencesDAO.newInstance().getCompletedCadencebyRecordId(
+                completedCadenceIdSet , accessLevel
+            )
+        );
+        
+        for (Task ts : taskMap.values()) {
+            if (completedCadenceMap.containsKey(ts.Completed_Cadence__c)) 
+            {
+                ts = (Task) JSON.deserialize(
+                    '{"attributes":{"type":"Task"},"Id":"' +
+                    ts.Id +
+                    '","Completed_Cadence__c":"' +
+                    ts.Completed_Cadence__c +
+                    '","Completed_Cadence__r":' +
+                    JSON.serialize(completedCadenceMap.get(ts.Completed_Cadence__c))+
+                    '}',
+                    Task.class
+                );
+                taskList.add(ts);
+
+            }
+        }
+        return taskList;
+    }
+
 }
