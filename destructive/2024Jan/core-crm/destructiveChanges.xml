@@ -78,6 +78,8 @@
         <members>QUT_Contact_Centre_Base</members>
         <members>QUT_Contact_Centre_Training_QA</members>
         <members>Student_Admin_Contact_Centre_Base</members>
+        <members>Voice</members>
+        <members>Messaging_Chat</members>
         <!--End DEPP-9041-->
         <name>PermissionSet</name>
     </types>
