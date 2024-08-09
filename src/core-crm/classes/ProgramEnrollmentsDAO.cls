@@ -6,28 +6,43 @@
  *
  *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
- *    | roy.nino.s.regala              | November 03, 2023     |DEPP-7145               | Added new static string variable    |
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Created File                        |
+ *    | roy.nino.s.regala              | November 03, 2023     | DEPP-7145              | Added new static string variable    |
  *    | eugene.andrew.abuan            | May 20, 2024          | DEPP-8801              | Changes for Category Type           |
+ *    | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Added some fixed variables          |
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
     public static final String ACADEMIC_STATUS_SHOW_CAUSE = 'Showcause';    
-    public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
+    
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
-    public static final String ENROLLMENT_STATUS_PASSED = 'Passed';
-    public static final String ENROLLMENT_STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String ENROLLMENT_STATUS_CONDITIONALLY_COMPLETE = 'Conditionally Complete';
+    public static final String ENROLLMENT_STATUS_EARLY_WITHDRAWN = 'Early Withdrawn';
+    public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
+    public static final String ENROLLMENT_STATUS_PASSED = 'Passed';
+    public static final String ENROLLMENT_STATUS_POTENTIALLY_COMPLETE = 'Potentially Complete';
+    public static final String ENROLLMENT_STATUS_WITHDRAWN = 'Withdrawn';
 
     public static final String ENROLLMENT_STAGE_ADMITTED = 'Admitted';
     public static final String ENROLLMENT_STAGE_WITHDRAWN = 'Withdrawn';
 
-    public static final Set<String> ENROLLMENT_STATUS = new Set<String>{
-        'Early Withdrawn',
-        'Withdrawn',
-        'Passed',
-        'Conditionally Complete',
-        'Potentially Complete'
+    public static final Set<String> ENROLLMENT_STATUSES_WITHDRAWN = new Set<String>{
+        ENROLLMENT_STATUS_WITHDRAWN,
+        ENROLLMENT_STATUS_EARLY_WITHDRAWN
+    };
+
+    public static final Set<String> ENROLLMENT_STATUSES_NONCURRENT = new Set<String>{
+        ENROLLMENT_STATUS_EARLY_WITHDRAWN,
+        ENROLLMENT_STATUS_WITHDRAWN,
+        ENROLLMENT_STATUS_PASSED,
+        ENROLLMENT_STATUS_CONDITIONALLY_COMPLETE,
+        ENROLLMENT_STATUS_POTENTIALLY_COMPLETE
+    };
+
+    public static final Set<String> ENROLLMENT_STATUSES_ADMITTED = new Set<String>{
+        ENROLLMENT_STATUS_ADMITTED,
+        ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
     };
 
     public Schema.SObjectType getSObjectType(){
