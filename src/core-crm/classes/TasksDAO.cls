@@ -20,6 +20,7 @@
       | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Added WhoId in getCompletedTasksByTargetId     |
       | mark.j.mahilum                 | Jan 25, 2024          | DEPP-7675              | Added FOR UPDATE to delete and update task that|
       |                                |                       |                        | is getting unable to lock row issue            |
+      | eugene.andrew.abuan            | August 03, 2024       | DEPP-8255              | Added getTaskByCompeltedCadence                |
  */
 public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
 
@@ -75,5 +76,17 @@ public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
             WITH SYSTEM_MODE
             FOR UPDATE
         ];
+    }
+
+    public List<Task> getTaskByCompeltedCadence(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Completed_Cadence__c, Status  ' +
+            'FROM Task ' +
+            'WHERE Completed_Cadence__c IN: completedCadenceIdSet ',
+            accessLevel        
+        );
     }
 }

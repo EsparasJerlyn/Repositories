@@ -9,7 +9,8 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6107              | Created file                                                |
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query                                             |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | updated method getCompletedCadenceByTargetIdsAndCadenceName |
-      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                        |
+      | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method                   |
+      | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Added getCompletedCadencebyRecordId                         |
  */
 @isTest
 public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock implements ICompletedCadencesDAO {
@@ -130,5 +131,31 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
             }
         }
         return completedCadenceList;
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadencebyRecordId(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    ){
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+        for (Completed_Cadence__c record : completedCadencesMap.values()) {
+            if(completedCadenceIdSet.contains(record.Id)){
+                completedCadenceList.add(record);
+            }
+        }
+        return completedCadenceList;    
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadenceByStatus(
+        String status,
+        AccessLevel accessLevel
+    ){
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+        for (Completed_Cadence__c record : completedCadencesMap.values()) {
+            if(record.Completed_Cadence_Status__c == status){
+                completedCadenceList.add(record);
+            }
+        }
+        return completedCadenceList;    
     }
 } 
