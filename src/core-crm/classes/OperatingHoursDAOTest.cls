@@ -6,7 +6,7 @@
  *
  *    | Developer Email                | Date                | JIRA                   | Change Summary                            |
  *    |--------------------------------|---------------------|------------------------|-------------------------------------------|
- *    | roy.nino.s.regala              | April 25, 2023      | DEPP-5567              | Created file                              |
+ *    | john.aldric.s.seril            | July 23, 2024       | DEPP-9834              | Created file                              |
 */
 @isTest
 public class OperatingHoursDAOTest {

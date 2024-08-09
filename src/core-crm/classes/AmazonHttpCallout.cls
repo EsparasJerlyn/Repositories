@@ -12,35 +12,35 @@
 public with sharing class AmazonHttpCallout {
 
     public class RequestBody{
-        public List<config> Config;
-        public String Description;
-        public String Name;
-        public String TimeZone;
+        public List<Config> config;
+        public String description;
+        public String name;
+        public String timeZone;
     }
     
     public class Config{
-		public String Day;        
-    	public hoursAndMinutes EndTime;   
-        public hoursAndMinutes StartTime;
-        public config (String day, hoursAndMinutes endTime, hoursAndMinutes startTime){
-            this.Day = day;
-            this.EndTime = endTime;
-            this.StartTime = startTime;
+        public String day;
+        public hoursAndMinutes endTime;   
+        public hoursAndMinutes startTime;
+        public Config (String day, hoursAndMinutes endTime, hoursAndMinutes startTime){
+            this.day = day;
+            this.endTime = endTime;
+            this.startTime = startTime;
         }
     }
     
     public class HoursAndMinutes{
-        public Integer Hours;
-        public Integer Minutes;
+        public Integer hours;
+        public Integer minutes;
         public hoursAndMinutes(Integer hours, Integer minutes){
-            this.Hours = hours;
-            this.Minutes = minutes;
+            this.hours = hours;
+            this.minutes = minutes;
         }
     }
     
     public class ResponseBody{
-        public String HoursOfOperationArn;
-        public String HoursOfOperationId;
+        public String hoursOfOperationArn;
+        public String hoursOfOperationId;
     }
     
     public class ResponseStatus{
@@ -48,25 +48,25 @@ public with sharing class AmazonHttpCallout {
         public List<OperatingHours> failedCallout;
     }
     
-    public class MyException extends Exception{}
+    public class CustomException extends Exception{}
 
     
     @AuraEnabled
     public static String syncOperatingHours(Id operatingHrsId) {
         String statusResponse = 'Success';
         if(operatingHrsId == null) {
-            throw new MyException('Missing operating hour id');        
+            throw new CustomException('Missing operating hour id');        
     	}
         
         //getOperatingHoursMap
         List<OperatingHours> operatingHoursList = getOperatingHours(new List<Id>{operatingHrsId});
         
 		if(operatingHoursList.isEmpty()){
-            throw new MyException('Could not find Operating Hours for Voice');
+            throw new CustomException('Could not find Operating Hours for Voice');
         }         
  
         //Send the request and get response
-        responseStatus calloutStatus = syncToAWSCallout(operatingHoursList);
+        ResponseStatus calloutStatus = syncToAWSCallout(operatingHoursList);
         
         if(!calloutStatus.successCallout.isEmpty()){
         	update calloutStatus.successCallout; 
@@ -87,7 +87,7 @@ public with sharing class AmazonHttpCallout {
     * @return responseStatus Wrapper for Success and Failed list.
     */
     public static responseStatus syncToAWSCallout(List<OperatingHours> operatingHoursRecordList){
-    	String setMethod = 'PUT';
+        String setMethod = 'PUT';
         String requestBody;
         String externalId = '';        
         responseStatus responseStatusWrapper = new responseStatus();
@@ -189,7 +189,7 @@ public with sharing class AmazonHttpCallout {
     * @return Map<Id,List<Config>> (OperatingHoursId,List of Config wrapper)
     */
     public static Map<Id,List<Config>> getTimeSlot(List<OperatingHours> operatingHoursIdList, Map<Id, String> operatingHoursHolidayMap){
-   		Map<Id, List<Config>> timeSlotMap = new Map<Id,List<Config>>();
+        Map<Id, List<Config>> timeSlotMap = new Map<Id,List<Config>>();
         for(TimeSlot timeSlotRecord: getTimeSlotRecords(operatingHoursIdList)){
 			if(timeSlotRecord.DayOfWeek.toUpperCase() == operatingHoursHolidayMap?.get(timeSlotRecord.OperatingHoursId)?.toUpperCase()){
                 continue;
@@ -239,17 +239,17 @@ public with sharing class AmazonHttpCallout {
     * @return String JSON.
     */
     public static String constructRequestBody(OperatingHours operatingHoursRecord, Map<Id, List<Config>> timeSlotMap){
-        List<config> configList = new List<config>();
+        List<Config> configList = new List<Config>();
         
         if(timeSlotMap.containsKey(operatingHoursRecord.Id)){
         	configList = timeSlotMap.get(operatingHoursRecord.Id);	    
         }
         
-        requestBody rqstBody = new requestBody();
+        RequestBody rqstBody = new RequestBody();
         rqstBody.config = configList;
-        rqstBody.description = operatingHoursRecord.Description;
-        rqstBody.name = operatingHoursRecord.Name;
-        rqstBody.timeZone = operatingHoursRecord.TimeZone;
+        rqstBody.description = operatingHoursRecord.description;
+        rqstBody.name = operatingHoursRecord.name;
+        rqstBody.timeZone = operatingHoursRecord.timeZone;
 
         return JSON.serialize(rqstBody);
     }

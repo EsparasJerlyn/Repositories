@@ -41,5 +41,6 @@ public class SyncOperatingHoursToAWSBatch implements Database.Batchable<sObject>
     }
 
     // prettier-ignore
-    public void finish(Database.BatchableContext bc) {} //NOPMD
+    @SuppressWarnings('PMD.EmptyStatementBlock')
+    public void finish(Database.BatchableContext bc) {}
 }
