@@ -31,13 +31,20 @@
     <roles>Contact Centre Team Leader</roles>
     <roles>Contact Centre Advisor</roles>
     <roles>Contact Centre Concierge</roles>
-    <roles>Student Admin Manager</roles>
-    <roles>Student Admin Team Leader Progression</roles>
-    <roles>Student Admin Hub Advisor Progression</roles>
-    <roles>Student Admin Spec Advisor Progression</roles>
-    <roles>Student Admin Team Leader Engagement</roles>
-    <roles>Student Admin Hub Advisor Engagement</roles>
-    <roles>Student Admin Spec Advisor Engagement</roles>
+    <roles>SA Service Delivery Team Leader</roles>
+    <roles>SA Service Delivery Advisor</roles>
+    <roles>SA Admissions Team Leader</roles>
+    <roles>SA Admissions Advisor</roles>
+    <roles>SA Scholarships Team Leader</roles>
+    <roles>SA Scholarships Advisor</roles>
+    <roles>SA Class Scheduling Team Leader</roles>
+    <roles>SA Class Scheduling Advisor</roles>
+    <roles>SA SP and Exam Team Leader</roles>
+    <roles>SA SP and Exam Advisor</roles>
+    <roles>SA Ceremonies Team Leader</roles>
+    <roles>SA Ceremonies Advisor</roles>
+    <roles>SA Fees and Prog Team Leader</roles>
+    <roles>SA Fees and Prog Advisor</roles>
     <roles>Faculty Health Team Leader</roles>
     <roles>Faculty Health Advisor</roles>
     <roles>Faculty Science Team Leader</roles>
