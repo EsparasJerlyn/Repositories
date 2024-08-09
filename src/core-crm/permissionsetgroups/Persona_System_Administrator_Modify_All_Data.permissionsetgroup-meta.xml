@@ -25,5 +25,6 @@
     <permissionSets>PowerBI_External_Credential</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>Permission_All_Custom_Permission</permissionSets>
+    <permissionSets>Advancement_Giving_Email_Access</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

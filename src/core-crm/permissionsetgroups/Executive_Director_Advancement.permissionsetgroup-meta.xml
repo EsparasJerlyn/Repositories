@@ -5,5 +5,6 @@
     <label>Executive Director Advancement</label>
     <mutingPermissionSets>Executive_Director_Advancement_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
+    <permissionSets>Advancement_Giving_Email_Access</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

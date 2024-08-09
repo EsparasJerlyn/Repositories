@@ -5,5 +5,6 @@
     <label>Advancement Manager</label>
     <mutingPermissionSets>Advancement_Manager_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
+    <permissionSets>Advancement_Giving_Email_Access</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
