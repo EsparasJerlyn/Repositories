@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>None</caseAccessLevel>
+    <contactAccessLevel>None</contactAccessLevel>
+    <description>SA Fees and Prog Advisor</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>SA Fees and Prog Advisor</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>SA_Fees_and_Prog_Team_Leader</parentRole>
+</Role>
