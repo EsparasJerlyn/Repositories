@@ -604,6 +604,9 @@
     <tabs>standard-ServiceAppointment</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>Knowledge__kav</tabs>
+    <tabs>standard-VoiceCall</tabs>
+    <tabs>standard-MessagingSession</tabs>
+    <tabs>standard-EmailTemplate</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Enquiry_Management_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -620,10 +623,19 @@
             <tab>standard-Dashboard</tab>
         </mappings>
         <mappings>
+            <tab>standard-EmailTemplate</tab>
+        </mappings>
+        <mappings>
             <tab>standard-Lead</tab>
         </mappings>
         <mappings>
+            <tab>standard-MessagingSession</tab>
+        </mappings>
+        <mappings>
             <tab>standard-ServiceAppointment</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-VoiceCall</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>
