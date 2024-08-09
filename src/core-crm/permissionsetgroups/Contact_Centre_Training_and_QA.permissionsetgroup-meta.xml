@@ -7,7 +7,6 @@
     <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>Messaging_for_In_App_and_Web_Supervisor_QUT</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
-    <permissionSets>QUT_Contact_Centre_Training_QA</permissionSets>
     <permissionSets>Voice</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
