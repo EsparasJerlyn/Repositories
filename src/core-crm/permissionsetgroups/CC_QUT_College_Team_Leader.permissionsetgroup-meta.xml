@@ -2,5 +2,6 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>CC - QUT College Team Leader</label>
+    <permissionSets>College_Contact_Centre_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
