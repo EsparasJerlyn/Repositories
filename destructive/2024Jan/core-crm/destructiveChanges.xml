@@ -71,14 +71,8 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
-        <!--Start DEPP-9041-->
-        <members>College_Contact_Centre_Base</members>
-        <members>Faculty_Contact_Centre_Base</members>
-        <members>Library_Contact_Centre_Base</members>
-        <members>QUT_Contact_Centre_Base</members>
-        <members>QUT_Contact_Centre_Training_QA</members>
-        <members>Student_Admin_Contact_Centre_Base</members>
-        <!--End DEPP-9041-->
+        <members>Voice</members>
+        <members>Messaging_Chat</members>
         <name>PermissionSet</name>
     </types>
     <!-- <types> -->
