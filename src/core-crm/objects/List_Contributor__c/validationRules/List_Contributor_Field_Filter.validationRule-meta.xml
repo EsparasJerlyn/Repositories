@@ -3,6 +3,7 @@
     <fullName>List_Contributor_Field_Filter</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
+NOT( ISBLANK(List_Contributor__c) ),
 NOT(   OR(List_Contributor__r.UserRole.DeveloperName = &apos;Alumni_Engagement&apos;, 
     List_Contributor__r.UserRole.DeveloperName = &apos;Corporate_Engagement&apos;,                                     
     List_Contributor__r.UserRole.DeveloperName = &apos;Corporate_Events&apos;,       
