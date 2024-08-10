@@ -607,15 +607,6 @@
         <name>Role</name>
     </types>
     <types>
-        <!--(Start) DEPP-10306 -->
-        <members>Student_Admin_Hub_Advisor_Progression</members>
-        <members>Student_Admin_Spec_Advisor_Progression</members>
-        <members>Student_Admin_Hub_Advisor_Engagement</members>
-        <members>Student_Admin_Spec_Advisor_Engagement</members>
-         <!--(End) DEPP-10306 -->
-        <name>Role</name>
-    </types>
-    <types>
         <!--Start DEPP-8290-->
         <members>Document__c.All_Advancement_Share</members>
         <!--Start DEPP-8290-->
@@ -634,15 +625,6 @@
         <members>MarketingInteractionTriggerHelperTest</members>
         <!--(End) DEPP-9821 -->
         <name>ApexClass</name>
-    </types>
-    <types>
-        <!--(Start) DEPP-10306 -->
-        <members>Student_Admin_Hub_Advisor_Progression</members>
-        <members>Student_Admin_Spec_Advisor_Progression</members>
-        <members>Student_Admin_Hub_Advisor_Engagement</members>
-        <members>Student_Admin_Spec_Advisor_Engagement</members>
-         <!--(End) DEPP-10306 -->
-        <name>Role</name>
     </types>
     <types>
         <members>QUT_Contact_Centre_Chat</members>
