@@ -51,12 +51,93 @@
     <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Faculty Contact Centre</label>
     <navType>Console</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty Health</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty Health</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty Science</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty Science</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty Engineering</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty Engineering</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty BusLaw</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty BusLaw</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty CIESJ</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Voice_Call_Contact_Centre</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>VoiceCall</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Contact Centre Faculty CIESJ</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Case</tabs>
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>standard-EmailTemplate</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Faculty_Contact_Centre_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -71,6 +152,9 @@
         </mappings>
         <mappings>
             <tab>standard-Dashboard</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-EmailTemplate</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>

@@ -2,5 +2,6 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>CC SA Scholarships Advisor</label>
+    <permissionSets>Student_Admin_Contact_Centre_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
