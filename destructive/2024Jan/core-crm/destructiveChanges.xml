@@ -265,14 +265,8 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
-        <!--Start DEPP-9041-->
-        <members>College_Contact_Centre_Base</members>
-        <members>Faculty_Contact_Centre_Base</members>
-        <members>Library_Contact_Centre_Base</members>
-        <members>QUT_Contact_Centre_Base</members>
-        <members>QUT_Contact_Centre_Training_QA</members>
-        <members>Student_Admin_Contact_Centre_Base</members>
-        <!--End DEPP-9041-->
+        <members>Voice</members>
+        <members>Messaging_Chat</members>
         <name>PermissionSet</name>
     </types>
     <!-- <types> -->
@@ -604,19 +598,15 @@
         <name>Queue</name>
     </types>
     <types>
-        <!--Start DEPP-8290-->
-        <members>Document__c.All_Advancement_Share</members>
-        <!--Start DEPP-8290-->
-        <name>SharingCriteriaRule</name>
+        <!--(Start) DEPP-10306 -->
+        <members>Student_Admin_Hub_Advisor_Progression</members>
+        <members>Student_Admin_Spec_Advisor_Progression</members>
+        <members>Student_Admin_Hub_Advisor_Engagement</members>
+        <members>Student_Admin_Spec_Advisor_Engagement</members>
+         <!--(End) DEPP-10306 -->
+        <name>Role</name>
     </types>
     <types>
-        <!--(Start) DEPP-7005 -->
-        <members>CustomHeaderDatatableCtrl</members>
-        <members>CustomHeaderDatatableCtrlTest</members>
-        <!--(End) DEPP-7005 -->
-        <!--(Start) DEPP-9321 -->
-        <members>OPE_and_CCE_Username_FormatTest</members>
-        <!--(End) DEPP-9321 -->
         <!-- (Start) DEPP-9821 -->
         <members>MarketingInteractionTriggerHelper</members>
         <members>MarketingInteractionTriggerHelperTest</members>
