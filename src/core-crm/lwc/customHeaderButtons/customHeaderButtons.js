@@ -15,6 +15,7 @@
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Display Import CSV modal add method handleImporCSV                                         |
       | carl.alvin.cabiles        | February 13,2024      | DEPP-8039            | Add Contact Name column in csv                                                             |
       | eugene.andrew.abuan       | February 27, 2024     | DEPP-7922            | Added checking for bulk button                                                             |
+      | richard.a.santos          | August 05, 2024       | DEPP-10255           | Add new criteria to enabled the buttons                                                   |
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -40,6 +41,7 @@ export default class CustomHeaderButtons extends LightningElement {
     @api listStageValue;
     @api tableColumns;
     @api recordData;
+    @api engagementOpportunityDetail;
 
     _listId;
     csvtemp;
@@ -74,8 +76,15 @@ export default class CustomHeaderButtons extends LightningElement {
         let isDisabled = true;
         if (this.isContributorLinkToList) {
             isDisabled =  this.listStageValue === "Distribute" || this.listStageValue === "Closed" || this.isEnableTableWithValidation ? true : false;
+            if (this.objectApiName === 'Engagement_Opportunity__c' && this.engagementOpportunityDetail.fields.Stage__c.value === 'Closed') {
+                isDisabled = true;
+            }
         }
 
+        // Highlighted new criteria to enable the button
+        if (this.recordType === 'Distributed_List' && this.listStageValue === "In Progress") {
+            isDisabled = false;
+        }
         return isDisabled;
     }
 
@@ -83,10 +92,17 @@ export default class CustomHeaderButtons extends LightningElement {
         let isDisabled = true;
         if(this.isOwner){
             isDisabled = (this.recordType === 'Distributed_List' && this.listStageValue === "In Progress") || 
-                         (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === true) || 
                          (this.recordType === 'Engagement_Opportunity' && !this.isContributorLinkToList) || 
+                         (this.objectApiName === 'Engagement_Opportunity__c' && this.engagementOpportunityDetail.fields.Stage__c.value === 'Closed') || 
                          this.listStageValue === "Closed" ? true : false;
         }
+
+        if (this.isContributorLinkToList) {
+            if (this.objectApiName === 'Engagement_Opportunity__c' && this.engagementOpportunityDetail.fields.Stage__c.value === 'Engage' ) {
+                isDisabled = false;
+            }
+        }
+
         return isDisabled;
     }
 
@@ -94,13 +110,27 @@ export default class CustomHeaderButtons extends LightningElement {
         let isDisabled = true;
         if (this.isContributorLinkToList) {
             isDisabled = this.listStageValue === "Distribute" || this.listStageValue === "Closed" ? true : false;
+            if (this.objectApiName === 'Engagement_Opportunity__c' && this.engagementOpportunityDetail.fields.Stage__c.value === 'Closed') {
+                isDisabled = true;
+            }
+        }
+
+        // Highlighted new criteria to enable the button
+        if (this.recordType === 'Distributed_List' && this.listStageValue === "In Progress") {
+            isDisabled = false;
         }
 
         return isDisabled;
     }
 
-    get isDownloadCSVDisabled() {
-        return this.listStageValue === "Distribute" ? false : true;
+   get isDownloadCSVDisabled() {
+        let isDisabled = this.listStageValue === "Distribute" ? false : true;
+
+        if (this.objectApiName === 'Engagement_Opportunity__c' && this.tableColumnType === 'Engage' && this.engagementOpportunityDetail.fields.Stage__c.value === 'Engage') {
+            isDisabled = true;
+        }
+
+        return isDisabled;
     }
 
     recordTypeField = [LIST_RECORD_TYPE];
