@@ -24,6 +24,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Name</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Giving to Causes</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Is_Partner</targetReference>
             </connector>

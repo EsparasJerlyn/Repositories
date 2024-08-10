@@ -3,33 +3,14 @@
     <fullName>Document_Must_Be_Linked_to_One_Object</fullName>
     <active>true</active>
     <description>Ensures that Document is linked to either of the three objects: Engagement, Opportunity, Opportunity Outcome.</description>
-    <errorConditionFormula>NOT(
-OR(
-AND (
-NOT(ISBLANK(Opportunity__c)),
-ISBLANK(Opportunity_Outcome__c),
-ISBLANK(Engagement__c),
-ISBLANK(IP_Management__c)
-),
-AND (
-ISBLANK(Opportunity__c),
-NOT(ISBLANK(Opportunity_Outcome__c)),
-ISBLANK(Engagement__c),
-ISBLANK(IP_Management__c)
-),
-AND (
-ISBLANK(Opportunity__c),
-ISBLANK(Opportunity_Outcome__c),
-NOT(ISBLANK(Engagement__c)),
-ISBLANK(IP_Management__c)
-),
-AND (
-ISBLANK(Opportunity__c),
-ISBLANK(Opportunity_Outcome__c),
-ISBLANK(Engagement__c),
-NOT(ISBLANK(IP_Management__c))
-)
-)
+    <errorConditionFormula>AND (
+	ISBLANK(Opportunity__c),
+	ISBLANK(Opportunity_Outcome__c),
+	ISBLANK(Engagement__c),
+	ISBLANK(IP_Management__c),
+	ISBLANK(Stewardship__c),
+	ISBLANK(Designation__c),
+	ISBLANK(Donation__c)
 )</errorConditionFormula>
-    <errorMessage>Please ensure Document is linked to either of these objects: Engagement, Opportunity, Opportunity Outcome, IP Management.</errorMessage>
+    <errorMessage>Please ensure Document is linked to either of these objects: Engagement, Opportunity, Opportunity Outcome, IP Management, Stewardship, Designation, Donation.</errorMessage>
 </ValidationRule>

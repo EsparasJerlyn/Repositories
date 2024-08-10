@@ -13,5 +13,5 @@ public interface IBuyerGroupsDAO extends DmlInterface {
     List<BuyerGroup> getBuyerGroupsByProductRequestId(
         Set<Id> productRequestIds,
         AccessLevel accessLevel
-    ); 
+    );  
 }

@@ -11,6 +11,7 @@
       | john.bo.a.pineda          | July 07, 2022         | DEPP-3136            | Created file                                     |
       | eugene.andrew.abuan       | August 08, 2022       | DEPP-3705            | Updated error message when email does not exist  |
       | eugene.andrew.abuan       | February 22, 2023     | DEPP-5232            | Updated MobilePhone to Contact.Mobile            |
+      | jerlyn.esparas            | July 22, 2024         | DEPP-9138            | Add QUT SSO button When the Portal is Giving     |
 
 */
 import { LightningElement, track, api } from "lwc";
@@ -32,13 +33,15 @@ const SHOW_ERROR_BOARDER_ATTRIBUTE = "slds-input input-element border-error";
 const HIDE_ERROR_MESSAGE_ATTRIBUTE = "error-message error-message-hide";
 const HIDE_ERROR_BOARDER_ATTRIBUTE = "slds-input input-element";
 const HEADER = "Returning to QUTeX?";
-const QUT_SSO_TEXT = "Sign-in with QUT credentials";
+const QUT_SSO_TEXT = "Sign-in with QUT SSO";
 const QUT_REGISTER = "Tell us about yourself";
 const LWC_ERROR_GENERAL =
     "An error has been encountered. Please contact your administrator.";
 
 export default class CustomSignIn extends LightningElement {
     @api startURL;
+    @api isModal;
+    @api portalName;
     @track requiredDisplayData = {};
     @track requiredInputClass = {};
 
@@ -59,6 +62,7 @@ export default class CustomSignIn extends LightningElement {
     loginUser = {};
     loading = false;
     isExistingEmail = false;
+    isGivingToCauses = false;
 
     label = {
         header: HEADER,
@@ -74,9 +78,17 @@ export default class CustomSignIn extends LightningElement {
         ];
     }
 
+    // Portal is Giving
+    get isPortalGiving() {
+        return this.portalName === 'Giving to Causes' ? true : false;
+    }
+
     connectedCallback() {
         this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
         this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
+        this.comboBoxUp = qutResourceImg + "/QUTImages/Icon/comboBoxUp.svg";
+        this.comboBoxDown = qutResourceImg + "/QUTImages/Icon/comboBoxDown.svg";        
+        this.isGivingToCauses = this.portalName === 'Giving to Causes' ? true : false;
         this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
         this.requiredErrorMessage = REQUIRED_ERROR_MESSAGE;
         if (!this.startURL) {

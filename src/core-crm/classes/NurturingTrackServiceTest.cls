@@ -11,6 +11,7 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                                      |
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriodTest,isDateWithinRangeTest and isDateWithinRangeFailsafeTest |
       | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                                                                          |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Updated tests for getApplicantIdsWithCompletedCadence/getApplicantIdsWithAllCompletedCadence      |
  */
 @isTest
 public with sharing class NurturingTrackServiceTest {
@@ -43,7 +44,7 @@ public with sharing class NurturingTrackServiceTest {
     }
 
     @isTest
-    private static void getApplicantIdsWithCompletedCadence(){
+    private static void getApplicantIdsWithCompletedCadenceTest(){
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -73,13 +74,29 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new List<Completed_Cadence__c>{cadence1},Contact.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                new List<Completed_Cadence__c>{cadence1},
+                Contact.getSObjectType(),
+                false
+            );
             System.assertEquals(1,applicationWithCadenceMapContact.size(),'Cadence map should not be empty');
-            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new List<Completed_Cadence__c>{cadence2},Lead.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                new List<Completed_Cadence__c>{cadence2},
+                Lead.getSObjectType(),
+                false
+            );
             System.assertEquals(1,applicationWithCadenceMapLead.size(),'Cadence map should not be empty');
-            applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(new Set<Id>{contactID},new List<Completed_Cadence__c>{cadence1},Contact.getSObjectType());
+            applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                new List<Completed_Cadence__c>{cadence1},
+                Contact.getSObjectType(),
+                true
+            );
             System.assertEquals(1,applicationWithCadenceMapContact.size(),'Cadence map should not be empty');
-            applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(new Set<Id>{leadID},new List<Completed_Cadence__c>{cadence2},Lead.getSObjectType());
+            applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                new List<Completed_Cadence__c>{cadence2},
+                Lead.getSObjectType(),
+                true
+            );
             System.assertEquals(1,applicationWithCadenceMapLead.size(),'Cadence map should not be empty');
             Test.stopTest();
         }
@@ -118,8 +135,16 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new List<Completed_Cadence__c>{cadence1},Contact.getSObjectType());
-            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new List<Completed_Cadence__c>{cadence2},Lead.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                new List<Completed_Cadence__c>{cadence1},
+                Contact.getSObjectType(),
+                false
+            );
+            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                new List<Completed_Cadence__c>{cadence2},
+                Lead.getSObjectType(),
+                false
+            );
 
             List<hed__Application__c> appListContact = new List<hed__Application__c>();
             hed__Application__c appContact = new hed__Application__c();

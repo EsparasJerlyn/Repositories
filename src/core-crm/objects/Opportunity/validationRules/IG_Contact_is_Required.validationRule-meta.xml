@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_Contact_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+ISCHANGED( StageName ),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Identify&apos;),
+ISPICKVAL( StageName , &apos;Qualify&apos;),
+ISBLANK( Contact__c ) 
+)</errorConditionFormula>
+    <errorDisplayField>Contact__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

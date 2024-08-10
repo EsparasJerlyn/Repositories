@@ -1,12 +1,12 @@
 /**
- * @description test class for CartDeliveryGroupsdaotest
+ * @description test class for CartDeliveryGroupsDAO
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
  */
 @isTest
 public with sharing class CartDeliveryGroupsDAOTest {

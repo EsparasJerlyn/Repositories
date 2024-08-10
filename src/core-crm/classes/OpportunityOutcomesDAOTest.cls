@@ -9,11 +9,13 @@
  *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | created file
  *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
  *    | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
+ *    | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | Added getActiveCorporateOutcomes
  */
 @isTest
 private class OpportunityOutcomesDAOTest {
     @testSetup
     static void testSetup() {
+        TestDataFactoryUser.generateUserCorporatePartnershipsManager();
         TestDataFactoryUser.generateUserIndustryOperationsManager();
     }
 
@@ -108,6 +110,16 @@ private class OpportunityOutcomesDAOTest {
         System.runAs(TestDataFactoryUser.selectUserIndustryOperationsManager) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithPastDateAsDecommissionedDate();
+            System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
+        }
+        Test.stopTest();
+    }
+    @isTest
+    static void getActiveCorporateOutcomes() {
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserCorporatePartnershipsManager) {
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getActiveCorporateOutcomes(AccessLevel.USER_MODE);
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
         }
         Test.stopTest();

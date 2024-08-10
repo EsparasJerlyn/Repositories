@@ -1,12 +1,12 @@
 /**
- * @description DAO Class for WebStore Object. Contains soql and constants related to the WebStore object.
+ * @description DAO Class for WebStore Object. Contains SOQL and Constants related to the WebStore object.
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
  */
 public inherited sharing class WebStoresDAO extends DmlBase implements IWebStoresDAO {
     public static final String WEBSTORE_NAME_CCE = 'CCE';

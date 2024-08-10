@@ -1,0 +1,51 @@
+<template>
+    <template if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        alternative-text="Close this window"
+                        size="large"
+                        variant="bare-inverse"
+                        onclick={handleCloseModal}
+                        class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New List Member</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p class="slds-text-align_left"><b>Please note:</b></p>
+                    <ul class="slds-p-around_medium">
+                        <li style="list-style: disc;" class="slds-text-align_left">CSV column Header must match the List Column Headers</li>
+                        <li style="list-style: disc;" class="slds-text-align_left">Contact ID must be the first column in CSV file</li>
+                        <li style="list-style: disc;" class="slds-text-align_left">Exclude Mobile and Email field in the CSV file as these will be automatically populated on Contact ID</li>
+                    </ul>
+                    <template if:true={isNotEqualColumns}>
+                        <div>
+                            <p class="slds-text-align_left" style="color:red">The list headers do not match. Please choose appropriate list.</p>
+                        </div>
+                    </template>
+                    <div class="slds-m-around_medium slds-text-align_left">
+                        <lightning-input type="file" accept=".csv" onchange={handleUploadCSV}></lightning-input>
+                    </div>
+                    <lightning-datatable
+                        class="slds-max-medium-table_stacked"
+                        key-field="id"
+                        columns={columns}
+                        data={data}
+                        hide-checkbox-column=true
+                        show-row-number-column=false
+                        onrowaction={handleRowAction}
+                        errors={errors}
+                    >
+                    </lightning-datatable>
+                </div>
+                <div class="slds-modal__footer slds-text-align_center">
+                    <button onclick={handleCloseModal} class="slds-button slds-button_neutral" aria-label="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleSave} disabled={disabledSave}>Save</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Agreement_must_be_Successful</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED(StageName),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Solicitation&apos;),
+ISPICKVAL( StageName ,&apos;Executed&apos;),
+ Is_Agreement_Signed__c = false
+)</errorConditionFormula>
+    <errorDisplayField>Is_Agreement_Signed__c</errorDisplayField>
+    <errorMessage>Ensure agreement is successfully signed.</errorMessage>
+</ValidationRule>

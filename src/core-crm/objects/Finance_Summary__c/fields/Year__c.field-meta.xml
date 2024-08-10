@@ -7,6 +7,7 @@
     <length>4</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

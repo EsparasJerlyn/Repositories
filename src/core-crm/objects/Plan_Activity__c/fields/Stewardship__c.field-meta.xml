@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stewardship__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Lookup to an associated Stewardship record.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to an associated Stewardship record.</inlineHelpText>
+    <label>Stewardship</label>
+    <referenceTo>Stewardship__c</referenceTo>
+    <relationshipLabel>Plan Activities</relationshipLabel>
+    <relationshipName>Plan_Activities</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

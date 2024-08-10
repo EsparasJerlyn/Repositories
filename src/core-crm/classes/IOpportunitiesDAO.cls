@@ -21,4 +21,8 @@ public interface IOpportunitiesDAO extends DmlInterface {
         Set<Id> accountIds,
         String accessLevel
     );
+    List<Opportunity> getOpportunityByRecordTypeIds(
+        Set<Id> recordTypeIds,
+        AccessLevel accessLevel
+    );
 } 

@@ -3,7 +3,6 @@
     <fullName>Business_Organization_Compact_Layout</fullName>
     <fields>Name</fields>
     <fields>ParentId</fields>
-    <fields>Company_Category__c</fields>
     <fields>RecordTypeId</fields>
     <label>Business Organization Compact Layout</label>
 </CompactLayout>

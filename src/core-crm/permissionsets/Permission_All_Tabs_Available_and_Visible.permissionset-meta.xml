@@ -13,6 +13,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Award_Recognition__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
+    <tabSettings>
         <tab>Assessment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -25,11 +29,35 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Communication_Queue__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Completed_Cadence__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Course_Connection_Assessment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Credential__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Designation__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Distribution_Management__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Distribution_Split__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Donation__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -49,6 +77,14 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Engagement_Opportunity__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Engagement_Score_Configuration__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Events</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -56,6 +92,14 @@
         <tab>Facilitator_Bio__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Finance_GL_Account__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Giving_Interest__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
     <tabSettings>
         <tab>IP_Management_Relationship__c</tab>
         <visibility>Visible</visibility>
@@ -68,6 +112,10 @@
         <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Interest__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
     <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
@@ -82,6 +130,18 @@
     </tabSettings>
     <tabSettings>
         <tab>Leave_of_Absence__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List_Contributor__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List_Member__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

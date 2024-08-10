@@ -1,0 +1,30 @@
+.inline-block {
+    display: inline-block;
+}
+
+.box-card-with-border {
+    padding: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c9c9c9;
+    border-radius: 0.25rem;
+    background-clip: padding-box;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.box-distribution-list .slds-card {
+    margin: 20px 0;
+    padding: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c9c9c9;
+    border-radius: 0.25rem;
+    background-clip: padding-box;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.box-full-width-center {
+    text-align: center;
+    margin: auto;
+    width: 100%;
+}

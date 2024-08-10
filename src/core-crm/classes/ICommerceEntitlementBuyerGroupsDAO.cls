@@ -13,5 +13,5 @@ public interface ICommerceEntitlementBuyerGroupsDAO extends DmlInterface {
     List<CommerceEntitlementBuyerGroup> getCommerceEntitlementBuyerGroupsByBuyerGroupId(
         Set<Id> buyerGroupIdSet,
         AccessLevel accessLevel
-    ); 
+    );  
 }

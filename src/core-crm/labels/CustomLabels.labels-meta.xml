@@ -22,6 +22,27 @@
         <value>0 0 0 * * ?</value>
     </labels>
     <labels>
+        <fullName>Designation_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Designation Stage Update Cron_Expression</shortDescription>
+        <value>0 0 6 * * ?</value>
+    </labels>
+    <labels>
+        <fullName>Distribution_Management_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Distribution Management Status Update Cron_Expression</shortDescription>
+        <value>0 0 6 * * ?</value>
+    </labels>
+    <labels>
+        <fullName>Donation_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Donation Stage Update Cron_Expression</shortDescription>
+        <value>0 0 6 * * ?</value>
+    </labels>
+    <labels>
         <fullName>Email_Trigger_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -909,6 +930,14 @@
         <value>Retry Scheduled</value>
     </labels>
     <labels>
+        <fullName>PL_CommsQueue_Cancelled</fullName>
+        <categories>Picklist,CommunicationQueue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_CommsQueue_Cancelled</shortDescription>
+        <value>Cancelled</value>
+    </labels>
+    <labels>
         <fullName>Recalculate_Lead_Score_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -923,6 +952,20 @@
         <value>0 0 0 ? * *</value>
     </labels>
     <labels>
+        <fullName>QUTex_Privacy_Policy_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Privacy Policy URL</shortDescription>
+        <value>https://www.qut.edu.au/additional/privacy</value>
+    </labels>
+    <labels>
+        <fullName>QUTex_Privacy_Collection_Notice_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Privacy Collection Notice URL</shortDescription>
+        <value>https://www.qut.edu.au/additional/privacy/privacy-collection-notice</value>
+    </labels>    
+    <labels>  
         <fullName>ELC_Evaluation_Monday_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>

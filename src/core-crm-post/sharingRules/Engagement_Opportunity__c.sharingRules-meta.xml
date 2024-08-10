@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>ACP_Alumni_Engagement_Share_for_Alumni_Records</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Alumni Engagement Opportunity records to Alumni Engagement team with Read/Write access</description>
+        <label>ACP - Alumni Engagement Share for Alumni Records</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Alumni_Engagement</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Alumni Engagement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ACP_Alumni_Engagement_Share_for_Corporate_Records</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share Corporate Engagement Opportunity records to Alumni Engagement team with Read access</description>
+        <label>ACP - Alumni Engagement Share for Corporate Records</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Alumni_Engagement</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Corporate Engagement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ACP_Corporate_Engagement_Share_for_Alumni_Records</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share Alumni Engagement Opportunity records to Corporate Engagement team with Read access</description>
+        <label>ACP - Corporate Engagement Share for Alumni Records</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Corporate_Engagement</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Alumni Engagement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ACP_Corporate_Engagement_Share_for_Corporate_Records</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Corporate Engagement Opportunity records to Corporate Engagement team with Read/Write access</description>
+        <label>ACP - Corporate Engagement Share for Corporate Records</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Corporate_Engagement</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Corporate Engagement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ACP_Corporate_Events_Share</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share Engagement Opportunity records to Corporate Events team with Read access</description>
+        <label>ACP - Corporate Events Share</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Corporate_Events</roleAndSubordinatesInternal>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Alumni Engagement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Corporate Engagement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ACP_Corporate_Partnerships_Share</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share Engagement Opportunity records to Corporate Partnership roles and subordinate with Read access</description>
+        <label>ACP - Corporate Partnerships Share</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Corporate_Partnerships</roleAndSubordinatesInternal>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Alumni Engagement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Corporate Engagement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

@@ -60,9 +60,14 @@
         </div>
         <footer
           class="slds-card__footer slds-theme_default"
-          if:true={enableInfiniteLoading}>
-          <a class="disable-link">Scroll to View More</a>
+          if:true={enableViewAllButton}>
+            <a onclick={handleViewAll}>View All</a>           
         </footer>
+        <footer
+          class="slds-card__footer slds-theme_default"
+          if:true={enableViewLessButton}>
+          <a onclick={handleViewLess}>View Less</a>           
+      </footer>
       </template>
     </article>
   </lightning-layout>

@@ -7,6 +7,7 @@
     <label>Document Type</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -137,6 +138,11 @@
                 <fullName>Subscription</fullName>
                 <default>false</default>
                 <label>Subscription</label>
+            </value>
+            <value>
+                <fullName>Agreement</fullName>
+                <default>false</default>
+                <label>Agreement</label>
             </value>
         </valueSetDefinition>
     </valueSet>

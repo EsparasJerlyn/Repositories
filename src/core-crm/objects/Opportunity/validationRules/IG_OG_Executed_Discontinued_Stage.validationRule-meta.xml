@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Executed_Discontinued_Stage</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED(StageName),
+ OR(ISPICKVAL( PRIORVALUE(StageName) ,&quot;Executed&quot;),ISPICKVAL( PRIORVALUE(StageName) ,&quot;Discontinued&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>You cannot change the stage once the opportunity is executed or discontinued.</errorMessage>
+</ValidationRule>

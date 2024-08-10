@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Donation__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>Gift In Kind Donation</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Accepted’ indicates that the proposed artwork or asset has been agreed by donor for donation to QUT.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Accepted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Declined’ indicates that the artwork or asset has been lost.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Declined</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Identify’ indicates that you have identified a Gift in Kind with a prospective donor.&lt;/li&gt;&lt;li&gt;Complete the ‘Donation Summary’ section under the ‘Details’ tab by updating the ‘Asset Name/Title’, and ‘Asset Type’ fields. Other fields are pre-populated; however, may be updated.&lt;/li&gt;&lt;li&gt;Use ‘Notes’ to record relevant information to help you manage the donation. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;Record the documents that have been created with links to where they are stored under the &amp;#39;Documents’ tab.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Proposed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Received’ indicates that the artwork or asset has been received by QUT.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Received</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Gift_In_Kind</recordTypeName>
+</PathAssistant>

@@ -13,7 +13,7 @@ public inherited sharing class LeadStatusesDAO extends DmlBase implements ILeadS
     public Schema.SObjectType getSObjectType()
 	{
 		return LeadStatus.SObjectType;
-	}
+	} 
 
     public static ILeadStatusesDAO newInstance()
 	{

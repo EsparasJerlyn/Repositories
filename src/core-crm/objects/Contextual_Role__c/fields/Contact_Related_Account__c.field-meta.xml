@@ -10,6 +10,7 @@
     <relationshipName>Contextual_Roles1</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

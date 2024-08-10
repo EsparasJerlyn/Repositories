@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Due_Diligence_must_be_Completed</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED(StageName),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Solicitation&apos;),
+ISPICKVAL( StageName ,&apos;Executed&apos;),
+Due_Diligence_Completed__c = false
+)</errorConditionFormula>
+    <errorDisplayField>Due_Diligence_Completed__c</errorDisplayField>
+    <errorMessage>Ensure due diligence is completed.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Donation_Type__c</fullName>
+    <description>The type of donation the donor intends to make.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of donation(s) the donor intends to make.</inlineHelpText>
+    <label>Donation Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>QUT Giving Webpage</fullName>
+                <default>false</default>
+                <label>QUT Giving Webpage</label>
+            </value>
+            <value>
+                <fullName>Staff Giving</fullName>
+                <default>false</default>
+                <label>Staff Giving</label>
+            </value>
+            <value>
+                <fullName>Pledge</fullName>
+                <default>false</default>
+                <label>Pledge</label>
+            </value>
+            <value>
+                <fullName>Gift In Kind</fullName>
+                <default>false</default>
+                <label>Gift In Kind</label>
+            </value>
+            <value>
+                <fullName>Gift In Will</fullName>
+                <default>false</default>
+                <label>Gift In Will</label>
+            </value>
+            <value>
+                <fullName>Endowment</fullName>
+                <default>false</default>
+                <label>Endowment</label>
+            </value>
+            <value>
+                <fullName>Influenced Revenue</fullName>
+                <default>false</default>
+                <label>Influenced Revenue</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Engagement_Opportunity__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>Alumni Engagement Opportunity</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Closed’ indicates the engagement is not open for any further engagement&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Closed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Engage’ indicates active engagement with identified members to check their availability for the potential engagement&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Engage</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Identify’ indicates list members meeting the engagement criteria are being identified  &lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Identify</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘New’ indicates a new engagement has been identified to engage with &lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Alumni_Engagement</recordTypeName>
+</PathAssistant>

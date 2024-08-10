@@ -12,6 +12,7 @@
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for                          |
       |                                |                       |                        | outreach case.                             |
       | julie.jane.alegre              | May 06, 2024          | DEPP-8490              | Add access level on findByCriteria method  |
+      | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Added methodd to get CC by Id and Status   |
 
  */
 public interface ICompletedCadencesDAO extends DmlInterface {
@@ -53,5 +54,15 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria,
         AccessLevel AccessLevel
+    );
+
+    List<Completed_Cadence__c> getCompletedCadencebyRecordId(
+        Set<Id> completedCadenceIdSet,
+        AccessLevel accessLevel
+    );
+
+    List<Completed_Cadence__c> getCompletedCadenceByStatus(
+        String status,
+        AccessLevel accessLevel
     );
 } 

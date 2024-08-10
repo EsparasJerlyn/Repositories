@@ -1,0 +1,42 @@
+<template>
+    <div class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
+        <c-custom-header-buttons
+            record-id={recordId}
+            user-info={userInfo}
+            list-id={listId}
+            selected-rows={selectedRows}
+            columns-data={columnsData}
+            columns-name={columnsName}
+            list-stage-value={listStageValue}
+            table-columns={tableColumns}
+            record-data={recordData}
+            onreloadlistmemberstable={reloadListMembersTable}
+            onrecordlistmemberhaserror={handleRecordListMemberHasError}
+            is-enable-table-with-validation={isEnableTableWithValidation}
+            is-contributor-link-to-list={isContributorLinkToList}
+            object-api-name={objectApiName}
+            is-engage-tab={isEngageTab}
+            is-owner={isOwner}
+            engagement-opportunity-detail={engagementOpportunityDetail}
+        ></c-custom-header-buttons>
+    </div>
+    <template lwc:if={listId}>
+        <c-custom-header-datatable
+            record-id={recordId}
+            draft-values={draftValues}
+            onselectedrows={handleSelectedRows}
+            list-id={listId}
+            object-api-name={objectApiName}
+            record-data={recordData}
+            is-loading={isTableLoading}
+            fields-to-columns={fieldsToColumns}
+            columns={tableColumns}
+            onlistdatacolumns={newColumnsList}
+            is-table-with-validation={isTableWithValidation}
+            record-data-to-add={recordDataToAdd}
+            onhandlecanceladdexistinglistmember={handleCancelAddExistingListMember}
+            onhandlesaveexistinglistmember={handleSaveExistingListMember}
+            onhandleupdatestatus={handleUpdateStatus}
+        ></c-custom-header-datatable>
+    </template>
+</template>

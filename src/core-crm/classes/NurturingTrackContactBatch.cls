@@ -18,7 +18,7 @@ public class NurturingTrackContactBatch implements Database.Batchable<sObject> {
      * @return query - filtered query records
      */
      public Database.QueryLocator start(Database.BatchableContext bc){
-         String queryFilter =  'SELECT Id, Can_Nurture__c,Lead_Score__c,Citizenship_Country__c, Lead_Source_Category__c, Calculated_Cadence__c, hed__Citizenship_Status__c, HasOptedOutOfEmail ' + 
+         String queryFilter =  'SELECT Id, Can_Nurture__c, Lead_Score__c, Citizenship_Country__c, Lead_Source_Category__c, Calculated_Cadence__c, hed__Citizenship_Status__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Primary_Study_Level__c ' + 
                                'FROM Contact ' + 
                                'WHERE Can_Nurture__c = TRUE ' +
                                'OR Calculated_Cadence__c !=NULL ';

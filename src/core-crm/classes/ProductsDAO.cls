@@ -6,9 +6,14 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId
+      | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationId
+      | marygrace.li                   | May 2, 2024           | DEPP-8399              | Deleted getProductByDonationCauseId
+      | kenneth.f.alsay                | May 7, 2024           | DEPP-8203              | Removed Donation Cause references
       | sebastianne.k.trias            | May 22, 2024          | DEPP-8410              | Added getProductsOnPage      |
  */
+
 public inherited sharing class ProductsDAO extends DmlBase implements IProductsDAO{
 
     public Schema.SObjectType getSObjectType()
@@ -29,13 +34,27 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             return new List<Product2>();
         }
         return Database.query(
-            'SELECT Id, Name, Description, Overview__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c ' +
+            'SELECT Id, Name, Description, Overview__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c, Available_on_Cart__c ' +
             'FROM Product2 ' +
-            'WHERE Id IN :productIdSet ' +
-			'LIMIT 1 ',
+            'WHERE Id IN :productIdSet ',
             accessLevel
         );
     }
+    
+    public List<Product2> getProductByDesignationId(
+        Set<Id> designationIds,
+        AccessLevel accessLevel
+    ){
+        if(designationIds.isEmpty()){
+            return new List<Product2>();
+        }
+        return Database.query(
+            'SELECT Id, Name, Description__c, Title_Image_URL__c, Designation__c ' +
+            'FROM Product2 ' +
+            'WHERE Designation__c IN :designationIds ',
+            accessLevel
+        );
+    }    
 
     public List<Product2> getProductsOnPage(
         Set<Id> productIdSet,

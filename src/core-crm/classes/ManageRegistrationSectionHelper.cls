@@ -589,7 +589,7 @@ public without sharing class ManageRegistrationSectionHelper{
                Profile profile = [
                     SELECT Id 
                     FROM Profile 
-                    WHERE Name = 'OPE Catalogue' 
+                    WHERE Name = 'QUT Experience' 
                     LIMIT 1];
 
                User commerceUser = new User();

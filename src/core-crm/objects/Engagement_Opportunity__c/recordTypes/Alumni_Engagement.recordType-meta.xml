@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alumni_Engagement</fullName>
+    <active>true</active>
+    <description>The specific business development interaction that has been identified for alumni participation</description>
+    <label>Alumni Engagement</label>
+    <picklistValues>
+        <picklist>Engagement_Opportunity_Type__c</picklist>
+        <values>
+            <fullName>Event</fullName> 
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scholarship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sponsorship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Work Integrated Learning %28WIL%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Score_Category__c</picklist>
+        <values>
+            <fullName>Communications%2FPromotion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate and Commercial Connection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Governance and Strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lifelong Connection %28Alumnus%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lifelong Connection %28Student%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Philanthropic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Return to Study</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Teaching and Learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thought Leadership%2FExpertise</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Score_Subcategory__c</picklist>
+        <values>
+            <fullName>Adjunct Professors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advisory Committee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aid and Development Project Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alumni Advisor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alumni In Residence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alumni Profile %2F Interview</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Artwork in QUT Art Museum</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Benefit user %28e%2Eg%2E Library%2C Gym%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Directory Entry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chapter %2F Group %2F Network Organiser</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client of QUT Consultancy or Commercial Research Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clinic Supervisor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content Writer%2F Thought Leadership article</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course Completion %28any including short courses%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course Enquiry %28any including short courses%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course Enrolment %28any including short courses%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course Participant - Customised programs %28domestic %26 global%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Curriculum Panelist%2F Reviewer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customised Education Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor - In Kind</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor - Principal %28over %24100k%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor - Regular %28under %24100k%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor - Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor - Scholarship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor - Student Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Emeritus Professors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entered a Competition</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event Attendee %28internal event or invited guest for external event%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External Award Recipient%2FFinalist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Film Production on Campus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Giving Ambassador - Encouraging Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Governance Committee - University%2FFaculty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest Editor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest Lecturer %28in class%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest Speaker%2F Panelist%2F Judge%2F MC for student event or award</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guest Speaker%2F Panellist %2FJudge%2F MC for QUT Hosted or Partner Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High School Student Participant in QUT Event%2FProgram</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High School Student Recipient of QUT Prize</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Industry Committee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Industry Round Table</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Masterclass</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mentor%2F Career Talks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newsletter %2F Mailing List Subscriber %28any QUT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outstanding Alumni Award Recipient%2FFinalist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partner%2FHost - Philanthropic Activity %2F Donor Activation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PhD Industry Project Funder</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PhD Project Provider %28External%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PhD Supervisor %28External%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Project or Event Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Expertise for Industry %28staff on external industry committees%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT News Story</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Partner Sponsorship %28outwards%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Promotion - Advertising</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Promotion - Testimonial %28video%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Promotion - Testimonial %28written%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT TEDx Speaker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research Industry Placement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reunion Organiser %2F Lead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scholarship Recipient %28External%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scholarship Recipient %28QUT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Site Visit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sports Participant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Story Idea %2F Tip-Offs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Ambassador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Award or Prize Recipient %28QUT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Leader %2F Volunteer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Program Participant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Study Tour</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survey or Research Participant %28self-identified%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tutor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vendor%2FSupplier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Venue Hire%2FUse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WIL %2F Internships%2F Placements and other T%26L projects</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workshop Provider</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Engage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Identify</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

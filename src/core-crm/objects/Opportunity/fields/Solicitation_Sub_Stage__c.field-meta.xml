@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Solicitation_Sub_Stage__c</fullName>
+    <description>Solicitation sub-process stage.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Solicitation sub-process stage.</inlineHelpText>
+    <label>Solicitation Sub Stage</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Near Ask</fullName>
+                <default>false</default>
+                <label>Near Ask</label>
+            </value>
+            <value>
+                <fullName>Proposal</fullName>
+                <default>false</default>
+                <label>Proposal</label>
+            </value>
+            <value>
+                <fullName>Agreement</fullName>
+                <default>false</default>
+                <label>Agreement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

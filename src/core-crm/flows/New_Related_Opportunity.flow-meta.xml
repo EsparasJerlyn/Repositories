@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
+        <name>Detail_Page_Navigation</name>
+        <label>Detail Page Navigation</label>
+        <locationX>3746</locationX>
+        <locationY>1022</locationY>
+        <actionName>c:detailPageNavigation</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>StewardshipOpportunityId</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>c:detailPageNavigation</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>3482</locationX>
-        <locationY>350</locationY>
+        <locationX>1106</locationX>
+        <locationY>4922</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -35,19 +53,23 @@
                 <stringValue>Error On New Related Opportunity</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>FlowLogEntry</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>3482</locationX>
-        <locationY>458</locationY>
+        <locationX>1106</locationX>
+        <locationY>5030</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Roll_Back_Records</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
+        <nameSegment>Logger</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
@@ -133,7 +155,7 @@
     <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>2162</locationX>
+        <locationX>3086</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -143,7 +165,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Opportunity_Role_RecordType_Id</targetReference>
+            <targetReference>Check_Parent_Object</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -415,8 +437,8 @@
     <decisions>
         <name>Check_Parent_Object</name>
         <label>Check Parent Object</label>
-        <locationX>2162</locationX>
-        <locationY>350</locationY>
+        <locationX>3086</locationX>
+        <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Engagement</name>
@@ -429,9 +451,24 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Parent_Engagement_Record</targetReference>
+                <targetReference>Get_Opportunity_Role_RecordType_Id</targetReference>
             </connector>
             <label>Is Engagement</label>
+        </rules>
+        <rules>
+            <name>Is_Stewardship</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Stewardship__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Stewardship_Record</targetReference>
+            </connector>
+            <label>Is Stewardship</label>
         </rules>
     </decisions>
     <decisions>
@@ -469,6 +506,31 @@
                 <targetReference>Check_Commercialisation_Stage</targetReference>
             </connector>
             <label>Is Commercialisation</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Stewardship_Recordtype</name>
+        <label>Check Stewardship Recordtype</label>
+        <locationX>3746</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>Get_Recordtype_for_Opportunity_Indivual_Giving</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Organisation_Stewardship</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Stewardship_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Organisation_Stewardship</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Recordtype_for_Opportunity_Organisation_Giving</targetReference>
+            </connector>
+            <label>Is Organisation Stewardship</label>
         </rules>
     </decisions>
     <decisions>
@@ -709,7 +771,6 @@
         <locationX>842</locationX>
         <locationY>4922</locationY>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>IP_Management_Relationship_To_Insert</inputReference>
@@ -796,6 +857,105 @@
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>PureProjectsToCreate</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Stewardship_Opportunity</name>
+        <label>Create Stewardship Opportunity</label>
+        <locationX>3746</locationX>
+        <locationY>914</locationY>
+        <assignRecordIdToReference>StewardshipOpportunityId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Detail_Page_Navigation</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>Get_Stewardship_Record.Account__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>AmountStewardshipOpportunity_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>CurrentDateFromSixMonths</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Contact__c</field>
+            <value>
+                <elementReference>Get_Stewardship_Record.Contact__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>DescriptionStewardshipOpportunity_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Category_Comment__c</field>
+            <value>
+                <elementReference>GivingCategoryCommentStewardshipOpportunity_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Category__c</field>
+            <value>
+                <elementReference>OppToCreate.Giving_Category__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Faculty_Comment__c</field>
+            <value>
+                <elementReference>GivingFacultyCommentStewardshipOpportunity_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Faculty__c</field>
+            <value>
+                <elementReference>OppToCreate.Giving_Faculty__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>OpportunityNameStewardshipOpportunity_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>OpportunityRecTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Identify</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Start_Date__c</field>
+            <value>
+                <elementReference>StartDateStewardshipOpportuntiy_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stewardship__c</field>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
     </recordCreates>
     <recordLookups>
         <name>Get_Child_Contextual_Roles</name>
@@ -948,13 +1108,14 @@
     <recordLookups>
         <name>Get_Opportunity_Role_RecordType_Id</name>
         <label>Get Opportunity Role RecordType Id</label>
-        <locationX>2162</locationX>
-        <locationY>242</locationY>
+        <locationX>1106</locationX>
+        <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Parent_Object</targetReference>
+            <targetReference>Get_Parent_Engagement_Record</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -1002,6 +1163,74 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Recordtype_for_Opportunity_Indivual_Giving</name>
+        <label>Get Recordtype for Opportunity Indivual Giving</label>
+        <locationX>4010</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>NewOpportunityFromStewardship</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Individual_Giving</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>OpportunityRecTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Recordtype_for_Opportunity_Organisation_Giving</name>
+        <label>Get Recordtype for Opportunity Organisation Giving</label>
+        <locationX>3482</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>NewOpportunityFromStewardship</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Organisation_Giving</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>OpportunityRecTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Related_IP_Management_Relationship_Records</name>
         <label>Get Related IP Management Relationship Records</label>
         <locationX>314</locationX>
@@ -1033,11 +1262,36 @@
         <object>IP_Management_Relationship__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Stewardship_Record</name>
+        <label>Get Stewardship Record</label>
+        <locationX>3746</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Stewardship_Recordtype</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Stewardship__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>3482</locationX>
-        <locationY>566</locationY>
+        <locationX>1106</locationX>
+        <locationY>5138</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
@@ -1063,8 +1317,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>3482</locationX>
-        <locationY>674</locationY>
+        <locationX>1106</locationX>
+        <locationY>5246</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1102,6 +1356,7 @@
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new opportunity, it must meet the following naming convention: RCO: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RCO: Aqueous Zinc Ion Battery Production - 2023.&lt;/p&gt;</helpText>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1137,6 +1392,7 @@
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;When creating a new opportunity, it must meet the following naming convention: RPO: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RPO: Textile Waste Recycling Management - 2023.&lt;/p&gt;</helpText>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -1152,6 +1408,7 @@
             <dataType>String</dataType>
             <fieldText>Type</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1159,6 +1416,7 @@
             <dataType>Currency</dataType>
             <fieldText>Amount</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <scale>0</scale>
         </fields>
@@ -1166,8 +1424,117 @@
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
+    <screens>
+        <name>NewOpportunityFromStewardship</name>
+        <label>New Opportunity From Stewardship</label>
+        <locationX>3746</locationX>
+        <locationY>806</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Create_Stewardship_Opportunity</targetReference>
+        </connector>
+        <fields>
+            <name>NewOpportunityStewardshipModalTitlte</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Opportunity Details&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>NewOpportunityFromStewardship_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>NewOpportunityFromStewardship_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>OpportunityNameStewardshipOpportunity_Input</name>
+                    <dataType>String</dataType>
+                    <fieldText>Opportunity Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>StartDateStewardshipOpportuntiy_Input</name>
+                    <dataType>Date</dataType>
+                    <defaultValue>
+                        <elementReference>$Flow.CurrentDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Start Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OppToCreate.Giving_Category__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OppToCreate.Giving_Faculty__c</objectFieldReference>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>NewOpportunityFromStewardship_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>AmountStewardshipOpportunity_Input</name>
+                    <dataType>Number</dataType>
+                    <fieldText>Amount</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <scale>0</scale>
+                </fields>
+                <fields>
+                    <name>DescriptionStewardshipOpportunity_Input</name>
+                    <fieldText>Description</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>GivingCategoryCommentStewardshipOpportunity_Input</name>
+                    <fieldText>Giving Category Comment</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>GivingFacultyCommentStewardshipOpportunity_Input</name>
+                    <fieldText>Giving Faculty Comment</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <start>
-        <locationX>2036</locationX>
+        <locationX>2960</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
@@ -1279,6 +1646,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>OpportunityRecTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>OppToCreate</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -1318,6 +1692,20 @@
     <variables>
         <description>Stagename</description>
         <name>StageName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>StewardshipContactId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>StewardshipOpportunityId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

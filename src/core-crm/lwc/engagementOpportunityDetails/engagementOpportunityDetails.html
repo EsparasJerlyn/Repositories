@@ -1,0 +1,191 @@
+<template>
+  <c-logger></c-logger>
+  <div class="slds-is-relative">
+    <lightning-spinner
+      if:true={isLoading}
+      alternative-text="Loading..."
+      size="medium"></lightning-spinner>
+  </div>
+  <lightning-accordion
+    allow-multiple-sections-open
+    active-section-name={activeSections}>
+    <lightning-accordion-section
+      name="opportunitySummary"
+      label={label.opportunitySummary}
+      class="accordion-section">
+      <!-- ##START## OPPORTUNITY SUMMARY - RECORD EDIT FORM -->
+      <lightning-record-form
+        object-api-name={objectApiName}
+        record-id={recordId}
+        fields={opportunitySummary.column1FieldList}>
+      </lightning-record-form>
+      <c-dynamic-record-edit-form
+        data-id="engagementOpportunityMainForm"
+        record-object-api-name={objectApiName}
+        passed-object-api-name={objectApiName}
+        passed-record-id={recordId}
+        show-edit-field={showEditField}
+        column-1-field-list={opportunitySummary.column1FieldList}
+        column-2-field-list={opportunitySummary.column2FieldList}
+        onshowfooter={updateShowFooter}
+        onsuccess={handleSuccess}
+        onerror={handleError}>
+      </c-dynamic-record-edit-form>
+      <!-- ##END## OPPORTUNITY SUMMARY - RECORD EDIT FORM -->
+    </lightning-accordion-section>
+    <lightning-accordion-section
+      name="listColumnHeaders"
+      label={label.listColumnHeaders}
+      class="accordion-section">
+      <!-- ##START## LIST COLUMN HEADERS - RECORD EDIT FORM -->
+      <c-dynamic-record-edit-form
+        data-id="listForm"
+        record-object-api-name={objectApiName}
+        field-list-to-override={fieldListToOverride}
+        passed-object-api-name={listObjectApiName}
+        passed-record-id={listRecordId}
+        show-edit-field={showEditField}
+        column-1-field-list={listColumnHeaders.column1FieldList}
+        column-2-field-list={listColumnHeaders.column2FieldList}
+        hidden-field-list={listColumnHeaders.hiddenFieldList}
+        onrecordidupdate={handleListRecordIdUpdate}
+        onshowfooter={updateShowFooter}
+        onerror={handleError}>
+      </c-dynamic-record-edit-form>
+      <!-- ##END## LIST COLUMN HEADERS - RECORD EDIT FORM -->
+    </lightning-accordion-section>
+    <lightning-accordion-section
+      name="stageManagement"
+      label={label.stageManagement}
+      class="accordion-section">
+      <!-- ##START## OPPORTUNITY SUMMARY - RECORD EDIT FORM -->
+      <c-dynamic-record-edit-form
+        data-id="engagementOpportunitySubForm"
+        record-object-api-name={objectApiName}
+        passed-object-api-name={objectApiName}
+        passed-record-id={recordId}
+        show-edit-field={showEditField}
+        column-1-field-list={stageManagement.column1FieldList}
+        column-2-field-list={stageManagement.column2FieldList}
+        onshowfooter={updateShowFooter}
+        onerror={handleError}>
+      </c-dynamic-record-edit-form>
+      <!-- ##END## STAGE MANAGEMENT - RECORD EDIT FORM -->
+    </lightning-accordion-section>
+    <lightning-accordion-section
+      name="systemInformation"
+      label={label.systemInformation}
+      class="accordion-section">
+      <!-- ##START## OPPORTUNITY SUMMARY - RECORD EDIT FORM -->
+      <c-system-information-section
+        record-id={recordId}
+        object-api-name={objectApiName}></c-system-information-section>
+      <!-- ##END## OPPORTUNITY SUMMARY - RECORD EDIT FORM -->
+    </lightning-accordion-section>
+  </lightning-accordion>
+  <template lwc:if={showFooter}>
+    <!-- <div class="slds-docked-form-footer">
+      <template lwc:if={error}>
+        <button
+          class="slds-button slds-button_icon slds-button_icon slds-button_icon-error"
+          title="We hit a snag."
+        >
+          <svg
+            class="slds-button__icon slds-button__icon_large"
+            aria-hidden="true"
+          >
+            <use
+              xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"
+            ></use>
+          </svg>
+          <span class="slds-assistive-text">Error</span>
+        </button>
+        <section
+          aria-describedby="dialog-body-id-4"
+          aria-labelledby="dialog-heading-id-2"
+          class="slds-popover slds-popover_error slds-nubbin_bottom-left"
+          role="dialog"
+          style="
+            position: absolute;
+            bottom: 56px;
+            left: 50%;
+            margin-left: 62px;
+            transform: translateX(-50%);
+          "
+        >
+          <button
+            class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse"
+            title="Close dialog"
+          >
+            <svg class="slds-button__icon" aria-hidden="true">
+              <use
+                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+              ></use>
+            </svg>
+            <span class="slds-assistive-text">Close dialog</span>
+          </button>
+          <header class="slds-popover__header">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-utility-error">
+                  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use
+                      xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"
+                    ></use>
+                  </svg>
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <h2
+                  class="slds-truncate slds-text-heading_medium"
+                  id="dialog-heading-id-2"
+                  title="Resolve error"
+                >
+                  Resolve error
+                </h2>
+              </div>
+            </div>
+          </header>
+          <div class="slds-popover__body" id="dialog-body-id-4">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore.
+              <a href="#" title="Learn More">Learn More</a>
+            </p>
+          </div>
+        </section>
+      </template>
+      <button
+        type="button"
+        onclick={handleCancel}
+        class="slds-button slds-button_neutral"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        onclick={handleSubmit}
+        class="slds-button slds-button_brand"
+      >
+        Save
+      </button>
+    </div> -->
+
+    <div class="slds-docked-form-footer custom-footer">
+      <div class="slds-p-vertical_x-small">
+        <button
+          onclick={handleCancel}
+          type="button"
+          class="slds-button slds-button_neutral center-align-buttons">
+          Cancel
+        </button>
+        <button
+          onclick={handleSubmit}
+          type="submit"
+          class="slds-button slds-button_brand center-align-buttons">
+          Save
+        </button>
+      </div>
+    </div>
+  </template>
+</template>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advancement</fullName>
+    <active>true</active>
+    <description>Create a document record for an Advancement business process.</description>
+    <label>Advancement</label>
+    <picklistValues>
+        <picklist>Document_Type__c</picklist>
+        <values>
+            <fullName>Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Confidentiality Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

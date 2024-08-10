@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GIK_Accepted_Stage_Validation</fullName>
+    <active>true</active>
+    <description>Ensures that user can only progress to next stage i.e. Received or Declined</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Gift_In_Kind&apos;,
+ISCHANGED(Stage__c),
+ISPICKVAL( PRIORVALUE(Stage__c) ,&apos;Accepted&apos;),
+NOT(ISPICKVAL(Stage__c,&apos;Received&apos;)),
+NOT(ISPICKVAL(Stage__c,&apos;Declined&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>Stage__c</errorDisplayField>
+    <errorMessage>You can only progress to Received or Declined stage.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Instalments_Paid__c</fullName>
+    <description>The number of instalment payments that have been paid so far.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of instalment payments that have been paid so far.</inlineHelpText>
+    <label>Instalments Paid</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

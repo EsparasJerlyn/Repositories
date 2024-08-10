@@ -24,6 +24,7 @@
  *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
  *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added queryApplicationsByPastIntakeDateAndActiveApplicants method             |
  *    | mark.j.mahilum                 | April 30, 2024        | DEPP-7987              | Added new queryLocatorGetApplicationsByBatchProcess for application batchjob  |
+ *    | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Added INVALID_ADMISSION_PROCESSES                                             |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -58,6 +59,11 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
 
     public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
     public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
+
+    public static final Set<String> INVALID_ADMISSION_PROCESSES = new Set<String>{
+        ADMISSION_PROCESS_RTN_DEFER,
+        ADMISSION_PROCESS_RTN_QTAC
+    };
 
     public static final Set<String> CONTACT_UPDATE_BLOCK_STUDYLINK_STATUS = new Set<String>{
         'Acceptance - Payment Received',
@@ -204,6 +210,17 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         }
     };
 
+    public static final Set<String> INVALID_STUDY_LEVEL_INTERNATIONAL = new Set<String>{
+        MarketingSegmentationsDAO.STUDY_LEVEL_HIGHER_DEGREE,
+        MarketingSegmentationsDAO.STUDY_LEVEL_EXCHANGE_AND_STUDY
+    };
+
+    public static final Set<String> INVALID_PROGRAM_LEVEL_INTERNATIONAL = new Set<String>{
+        PackageComponentDAO.PROGRAM_LEVEL_PHD,
+        PackageComponentDAO.PROGRAM_LEVEL_STUDY_ABROAD,
+        PackageComponentDAO.PROGRAM_LEVEL_MASTERS_BY_RESEARCH
+    };
+
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
             hed__Application__c.SObjectType
@@ -230,7 +247,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         return Database.query(
             'SELECT Id, hed__Applicant__c,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c, Lead__c,hed__Application_Date__c,Lead__r.Lead_Score__c, Application_Status__c,RecordTypeId,CreatedDate,Is_Active__c, ' +
                 'Applied_Intake_Study_Period__c, Offer_Status__c, Calculated_Intake_Date__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
-                'Is_Agent_Assisted__c, hed__Initial_Creation_Date__c ' +
+                'Is_Agent_Assisted__c, hed__Initial_Creation_Date__c, hed__Applicant__r.Marketing_Segmentation__r.My_Primary_Study_Level__c, Current_Preference__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE Lead__c IN :leadIds ' +
                 'WITH ' +
@@ -315,9 +332,9 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         return Database.query(
             'SELECT Id,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c,Program_Enrollment__r.Enrollment_Status_Date__c,Program_Enrollment__r.hed__Admission_Date__c, hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c,CreatedDate, ' +
                 'Offered_Program_Plan__r.Availability_Start_Date__c,Offered_Program_Plan__r.Program_Level__c,hed__Applicant__r.Lead_Source_Category__c,Lead__r.Lead_Source_Category__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c,Related_QTAC_Application__r.Is_Active__c, ' +
-                'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, Lead__r.Calculated_Cadence__c,Offer_Lapse_Date__c, ' +
-                'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, ' +
-                'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, Lead__c, ' +
+                'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, Lead__r.Calculated_Cadence__c,Offer_Lapse_Date__c, Current_Preference__r.RecordTypeId, ' +
+                'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, Current_Preference__c, Lead__r.Marketing_Segmentation__r.My_Primary_Study_Level__c, ' +
+                'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, Lead__c, hed__Applicant__r.Marketing_Segmentation__r.My_Primary_Study_Level__c, ' +
                 'hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c, hed__Initial_Creation_Date__c, Applied_Intake_Study_Period__r.Last_Admission_Date__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE (hed__Applicant__c IN :recordIds  OR Lead__c IN: recordIds) '+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be assigned to Advancement Manager</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Advancement Manager</label>
+    <mutingPermissionSets>Advancement_Manager_Muted</mutingPermissionSets>
+    <permissionSets>Advancement_Base</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

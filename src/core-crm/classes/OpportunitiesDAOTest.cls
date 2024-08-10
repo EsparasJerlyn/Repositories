@@ -32,7 +32,7 @@ private class OpportunitiesDAOTest {
         List<Opportunity> opptyListWildCardBefore = TestDataFactory.createTestOpportunityWithStageRecords(
             200,
             'Wildcard Opportunities',
-            OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
+            OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
             'Test Description'
@@ -40,7 +40,7 @@ private class OpportunitiesDAOTest {
         List<Opportunity> opptyListWildCardAfter = TestDataFactory.createTestOpportunityWithStageRecords(
             200,
             'Opportunities wildcard',
-            OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
+            OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
             'Test Description'
@@ -80,7 +80,7 @@ private class OpportunitiesDAOTest {
         System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
                 .getRecordsSortByOpportunityCodeAsc();
-            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+            System.assert(!opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
     }
@@ -114,14 +114,14 @@ private class OpportunitiesDAOTest {
             List<Opportunity> opptyListWildCardAfter = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Opportunities', false, '%');
             System.assert(
-                opptyListWildCardAfter.isEmpty(),
+                !opptyListWildCardAfter.isEmpty(),
                 'opportunitiesList should not be empty'
             );
             List<Opportunity> opptyListWildCardBefore = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Opportunities', true, '%');
             System.assert(
                 opptyListWildCardBefore.isEmpty(),
-                'opportunitiesList should not be empty'
+                'opportunitiesList record found'
             );
         }
         Test.stopTest();
@@ -144,6 +144,32 @@ private class OpportunitiesDAOTest {
             List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
                 .getRecordsBySetIds(new Set<Id>());
             System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getOpportunityByRecordTypeIds() {
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getOpportunityByRecordTypeIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getOpportunityByRecordTypeIdsNotEmpty() {
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            MockIdGenerator recordTypeMock = new MockIdGenerator(Recordtype.getSObjectType());
+            List<Opportunity> opportunityList = OpportunitiesDAO.newInstance()
+                .getOpportunityByRecordTypeIds(
+                    new Set<Id>{recordTypeMock.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(opportunityList.isEmpty(), 'OpportunityList should not be empty');
         }
         Test.stopTest();
     }

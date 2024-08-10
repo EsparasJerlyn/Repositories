@@ -14,5 +14,5 @@ public interface ICommerceEntitlementProductsDAO extends DmlInterface {
         List<Id> entPolicyCCEIdSet,
         Set<Id> productIdSet,
         AccessLevel accessLevel
-    ); 
+    );  
 }

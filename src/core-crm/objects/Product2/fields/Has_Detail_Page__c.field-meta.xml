@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_Detail_Page__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if the page layout requires the custom fields to be completed for each section. If selected, page layout will only contain Cause Name, Cause Description and an image.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates if the page layout requires the custom fields to be completed for each section. If selected, page layout will only contain Cause Name, Cause Description and an image.</inlineHelpText>
+    <label>Has Detail Page</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

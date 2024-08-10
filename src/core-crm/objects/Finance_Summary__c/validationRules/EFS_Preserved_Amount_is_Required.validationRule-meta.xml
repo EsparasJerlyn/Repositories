@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EFS_Preserved_Amount_is_Required</fullName>
+    <active>true</active>
+    <description>Checks if the Preserved Amount field is blank when a Finance Summary with Record Type Endowment Fund Summary is created or updated.</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISNEW(),
+  ISCHANGED( Preserved_Amount__c )
+ ),
+ RecordType.DeveloperName = &apos;Endowment_Fund_Summary&apos;,
+ OR(
+  ISNULL( Preserved_Amount__c ),
+  ISBLANK( Preserved_Amount__c )
+ ) 
+)</errorConditionFormula>
+    <errorDisplayField>Preserved_Amount__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

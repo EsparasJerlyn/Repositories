@@ -15,41 +15,38 @@ public with sharing class LeadScoreCalculationBatchTest {
     
     @TestSetup
     static void setupData(){
-        Test.startTest();
         TestDataFactoryUser.generateUserSystemAdministrator();
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.DOMESTIC, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
+        );
+
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.DOMESTIC, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+        );
+
+        setupLeadScoreConfig(
+            LeadScoreConfigurationDAO.INTERNATIONAL, 
+            LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+        );
+        Test.startTest();
+        setupRecordForCase();
+        setupRecordForMktgInt();
         Test.stopTest();
-        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.DOMESTIC, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
-            );
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.DOMESTIC, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
-
-            setupLeadScoreConfig(
-                LeadScoreConfigurationDAO.INTERNATIONAL, 
-                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
-
-            setupRecordForCase();
-            setupRecordForMktgInt();
-        }
     }
 
     @isTest
     private static void executeBatchTest() {
         Id batchableId;
-        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
-            Test.startTest();
-            LeadScoreCalculationBatch batchable = new LeadScoreCalculationBatch();
-            batchableId = Database.executeBatch(batchable);            
-            Test.stopTest();
-        }
 
+        Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
+            LeadScoreCalculationBatch batchable = new LeadScoreCalculationBatch();
+            batchableId = Database.executeBatch(batchable);      
+        }
+        Test.stopTest();
+        
         System.assert(
             batchableId != null,
             'The batch job failed to execute.'

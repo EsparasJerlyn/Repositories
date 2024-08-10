@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Donation__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>Cause Donation</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Accepted&amp;#39; indicates that the proposed donation for a cause agreed by donor for donation to QUT.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Accepted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Cancelled&amp;#39; indicates that the proposed donation for a cause has been cancelled by the donor.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Cancelled</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Completed&amp;#39; indicates that the proposed donation for a cause has been received by QUT.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Declined&amp;#39; indicates that the proposed donation for a cause has been declined by the donor.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Declined</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Proposed&amp;#39; indicates that you have proposed a donation for a cause with a prospective donor.&lt;/li&gt;&lt;li&gt;Complete the &amp;#39;Donation Summary&amp;#39; section under the &amp;#39;Details&amp;#39; tab by updating the &amp;#39;Payment Type&amp;#39;, and &amp;#39;Donation Comment&amp;#39; fields. Other fields are pre-populated; however, may be updated.&lt;/li&gt;&lt;li&gt;Use &amp;#39;Notes&amp;#39; to record relevant information to help you manage the donation. Use the &amp;#39;Activity&amp;#39; panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;Record the documents that have been created with links to where they are stored under the &amp;#39;Documents&amp;#39; tab.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Proposed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Cause</recordTypeName>
+</PathAssistant>

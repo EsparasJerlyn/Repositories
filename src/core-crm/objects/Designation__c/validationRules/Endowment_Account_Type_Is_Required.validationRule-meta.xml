@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Endowment_Account_Type_Is_Required</fullName>
+    <active>true</active>
+    <description>Endowment Account Type is Required</description>
+    <errorConditionFormula>AND(
+OR (
+ISNEW(),
+ISCHANGED(Endowment_Account_Type__c)
+),
+ISBLANK(TEXT(Endowment_Account_Type__c)),
+RecordType.DeveloperName = &quot;Endowment&quot; )</errorConditionFormula>
+    <errorDisplayField>Endowment_Account_Type__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

@@ -8,7 +8,7 @@
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>false</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -29,6 +29,16 @@
                 <fullName>Submitted</fullName>
                 <default>false</default>
                 <label>Submitted</label>
+            </value>
+            <value>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+                <label>Accepted</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
             </value>
         </valueSetDefinition>
     </valueSet>

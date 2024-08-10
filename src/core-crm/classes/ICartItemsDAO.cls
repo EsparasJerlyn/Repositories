@@ -1,5 +1,5 @@
 /**
- * @description Interface for CartItem DAO
+ * @description Interface for CartItems DAO
  * @author Accenture
  *
  * @history

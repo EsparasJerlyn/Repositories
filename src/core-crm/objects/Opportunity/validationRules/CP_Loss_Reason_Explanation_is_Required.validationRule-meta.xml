@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CP_Loss_Reason_Explanation_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Corporate_Partnership&apos;,
+ISCHANGED(StageName),
+ISPICKVAL(StageName, &quot;Discontinued&quot;),
+ISBLANK(Loss_Reason_Explanation__c)
+)</errorConditionFormula>
+    <errorDisplayField>Loss_Reason_Explanation__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

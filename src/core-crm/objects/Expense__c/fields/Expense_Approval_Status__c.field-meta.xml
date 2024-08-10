@@ -6,6 +6,7 @@
     <label>Expense Approval Status</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

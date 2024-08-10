@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QA_Completed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates whether the Quality Audit has been completed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates whether the Quality Audit has been completed.</inlineHelpText>
+    <label>QA Completed</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

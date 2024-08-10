@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Creator_Name_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ RecordType.DeveloperName = &apos;Gift_In_Kind&apos;,
+ ISCHANGED(Stage__c),
+ ISPICKVAL( PRIORVALUE(Stage__c) ,&apos;Proposed&apos;),
+ ISPICKVAL( Stage__c, &apos;Accepted&apos;),
+ ISBLANK( Donation_Asset__r.Asset_Creator_Name__c )
+)</errorConditionFormula>
+    <errorMessage>Asset Creator Name is a Mandatory Field</errorMessage>
+</ValidationRule>

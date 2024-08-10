@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Architecture and Built Environment</fullName>
+        <default>false</default>
+        <label>Architecture and Built Environment</label>
+    </customValue>
+    <customValue>
+        <fullName>Business</fullName>
+        <default>false</default>
+        <label>Business</label>
+    </customValue>
+    <customValue>
+        <fullName>Communication</fullName>
+        <default>false</default>
+        <label>Communication</label>
+    </customValue>
+    <customValue>
+        <fullName>Creative Industries</fullName>
+        <default>false</default>
+        <label>Creative Industries</label>
+    </customValue>
+    <customValue>
+        <fullName>Design</fullName>
+        <default>false</default>
+        <label>Design</label>
+    </customValue>
+    <customValue>
+        <fullName>Education</fullName>
+        <default>false</default>
+        <label>Education</label>
+    </customValue>
+    <customValue>
+        <fullName>Engineering</fullName>
+        <default>false</default>
+        <label>Engineering</label>
+    </customValue>
+    <customValue>
+        <fullName>Health</fullName>
+        <default>false</default>
+        <label>Health</label>
+    </customValue>
+    <customValue>
+        <fullName>Information Technology and Games</fullName>
+        <default>false</default>
+        <label>Information Technology and Games</label>
+    </customValue>
+    <customValue>
+        <fullName>Justice</fullName>
+        <default>false</default>
+        <label>Justice</label>
+    </customValue>
+    <customValue>
+        <fullName>Languages</fullName>
+        <default>false</default>
+        <label>Languages</label>
+    </customValue>
+    <customValue>
+        <fullName>Law</fullName>
+        <default>false</default>
+        <label>Law</label>
+    </customValue>
+    <customValue>
+        <fullName>Mathematics</fullName>
+        <default>false</default>
+        <label>Mathematics</label>
+    </customValue>
+    <customValue>
+        <fullName>Science</fullName>
+        <default>false</default>
+        <label>Science</label>
+    </customValue>
+    <masterLabel>Study Association</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -1,0 +1,67 @@
+<template>
+    <template if:true={isShowModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open"
+        >
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        alternative-text="Close this window"
+                        size="large"
+                        variant="bare-inverse"
+                        onclick={handleCloseModal}
+                        class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                        New List Member
+                    </h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium slds-text-align_left">
+                    <p class="slds-text-align_left"><b>Please note:</b></p>
+                    <ul class="slds-p-around_medium">
+                        <li style="list-style: disc;" class="slds-text-align_left">Selected List column Header must match the List Column Headers</li>
+                        <li style="list-style: disc;" class="slds-text-align_left">Contact ID must be the first column in CSV file</li>
+                        <li style="list-style: disc;" class="slds-text-align_left">Mobile and Email data fields in the List are pulled based on Contact ID</li>
+                    </ul>
+                    <c-custom-search
+                        search-label="List"
+                        search-input-placeholder="Search List..."
+                        search-items={listSearchItems}
+                        search-item-icon="standard:contact"
+                        item-id={selectedListId}
+                        search-in-progress={searchListInProgress}
+                        empty-message="Enter at least three (3) characters to show results..."
+                        onitemselect={handleListSelect}
+                        onitemremove={handleListRemove}
+                        onsearch={handleSearchList}
+                        object-label-name={objectLabelName}
+                        custom-lookup
+                        custom-server-search
+                    ></c-custom-search>
+                    <template if:true={errorMessage}>
+                        <p class="box-error">{errorMessage}</p>
+                    </template>
+                </div>
+                <div class="slds-modal__footer slds-text-align_center">
+                    <lightning-button
+                        class="slds-m-right_x-small"
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={handleCloseModal}>
+                    </lightning-button>
+                    <lightning-button
+                        label="Save"
+                        variant="brand"
+                        onclick={handleSaveExistingList}>
+                    </lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+  </template>

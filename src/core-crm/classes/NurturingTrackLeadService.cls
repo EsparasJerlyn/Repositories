@@ -20,6 +20,9 @@
       |                                |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
       | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Added handling for International Application Submission - Direct Applicant Exit    |
       | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for International Partner Sourced                |
+      | eccarius.munoz                 | July 24, 2024         | DEPP-8276              | Remove Study Abroad and Research Students from International Nurturing             |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Updated reference to NurturingTrackService.getApplicantIdsWithCompletedCadence     |
+      |                                |                       |                        | Replaced reference to NurtruingTrackService.getApplicantIdsWithAllCompletedCadence |
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();
@@ -27,6 +30,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static List<Case> caseList;
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = new Map<String, Nurture_Track_Configuration__c>();
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithThresholdForEntry = new Map<String, Nurture_Track_Configuration__c>();
+    private static Map<Id, Package_Component__c> packageComponentByAppPreferenceMap = new Map<Id, Package_Component__c>();
     private static Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>(); 
     private static Map<Id, Set<String>> applicantIdsWithAllCompletedCadence = new Map<Id, Set<String>>();
     private static Map<Id, Lead> domesticEntryLeadMap = new Map<Id, Lead>();
@@ -96,21 +100,23 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
         //get all related completed cadences related to the lead
         applicantIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
-            mapOfLeads.keySet(),
             completedCadenceList,
-            Lead.getSObjectType()
+            Lead.getSObjectType(),
+            false
         );
 
         //get all completed cadences regardless of the status related to the contact
-        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(
-            mapOfLeads.keySet(),
+        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             completedCadenceList,
-            Lead.getSObjectType()
+            Lead.getSObjectType(),
+            true
         );
     }
 
     private static void getAppsWithLatestCalculatedIntakeDatePerLead(Set<Id> leadIds){
         
+        Set<Id> appCurrentPreferenceIds = new Set<Id>();
+
         Map<String, hed__Application__c> leadToOnePerApplicationRTMap = new Map<String, hed__Application__c>();
         for(hed__Application__c app : ApplicationsDAO.newInstance()
         .getAppsWithLatestCalculatedIntakeDateByApplicantIds(leadIds, 'SYSTEM_MODE')){
@@ -120,10 +126,22 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             String leadToAppRTCombo = (String)app.Lead__c + (String)app.RecordTypeId;
             if(!leadToOnePerApplicationRTMap.containsKey(leadToAppRTCombo)){
                 leadToOnePerApplicationRTMap.put(leadToAppRTCombo,app);
+                if(app.Current_Preference__r.RecordTypeId == ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID){
+                    appCurrentPreferenceIds.add(app.Current_Preference__c);
+                }
             }
         }
         //add all application with unique lead and app recordtype
         applicationList.addAll(leadToOnePerApplicationRTMap.values());
+
+        if(!appCurrentPreferenceIds.isEmpty()){
+            //retrieve package component based on application's current preference
+            for(Package_Component__c packageComponent : PackageComponentDAO.newInstance().getPackageComponentsByAppPrefIdSet(appCurrentPreferenceIds, AccessLevel.USER_MODE)){
+                if(!packageComponentByAppPreferenceMap.containsKey(packageComponent.Application_Preference__c)){
+                    packageComponentByAppPreferenceMap.put(packageComponent.Application_Preference__c, packageComponent);
+                }
+            }
+        }
     }
 
     /**
@@ -177,13 +195,25 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         for (hed__Application__c application : applicationList) {
             boolean isPartnerSourced = leadSourceCategory.contains(application.Lead__r.Lead_Source_Category__c);
             boolean hasContactIdsWithRestricted = leadIdsWithRestricted.contains(application.Lead__c);
+            boolean hasHigherDegreeOrExchangeStudyLevel = 
+                application.Lead__r.Marketing_Segmentation__c != null &&
+                application.Lead__r.Marketing_Segmentation__r.My_Primary_Study_Level__c != null && 
+                ApplicationsDAO.INVALID_STUDY_LEVEL_INTERNATIONAL.contains(application.Lead__r.Marketing_Segmentation__r.My_Primary_Study_Level__c); 
+            
+            boolean isProgramLevelInvalid = 
+                application.Current_Preference__c != null && 
+                packageComponentByAppPreferenceMap.containsKey(application.Current_Preference__c) &&
+                packageComponentByAppPreferenceMap.get(application.Current_Preference__c).Program_Level__c != null &&
+                ApplicationsDAO.INVALID_PROGRAM_LEVEL_INTERNATIONAL.contains(packageComponentByAppPreferenceMap.get(application.Current_Preference__c).Program_Level__c);
             
             boolean isCriteriaMet = internationalEntryLeadMap.containsKey(application.Lead__c) &&
                                     application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                                     newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
                                     application.Calculated_Intake_Date__c > System.today() &&
                                     !hasContactIdsWithRestricted &&
-                                    !isPartnerSourced;
+                                    !isPartnerSourced &&
+                                    !hasHigherDegreeOrExchangeStudyLevel &&
+                                    !isProgramLevelInvalid;
             if (isCriteriaMet) {
                 internationalDirectApplicants.put(application.Id, application);
             }
@@ -582,6 +612,11 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             boolean isPartnerSourced = leadSourceCategory.contains(internationalEntryLead.Lead_Source_Category__c);
             boolean hasLeadIdsWithRestricted = leadIdsWithRestricted.contains(internationalEntryLead.Id);
             boolean shouldContinueProcessing = leadIdsWithCmpltdCadenceSet.containsKey(internationalEntryLead.Id) && leadIdsWithCmpltdCadenceSet.get(internationalEntryLead.Id).size() >= 2;       
+            boolean hasHigherDegreeOrExchangeStudyLevel = 
+                internationalEntryLead.Marketing_Segmentation__c != null &&
+                internationalEntryLead.Marketing_Segmentation__r.My_Primary_Study_Level__c != null && 
+                ApplicationsDAO.INVALID_STUDY_LEVEL_INTERNATIONAL.contains(internationalEntryLead.Marketing_Segmentation__r.My_Primary_Study_Level__c);
+            
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryLead.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryLead.Id)):new Set<String>();
     
@@ -609,7 +644,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                                     internationalEntryLead.Lead_Score__c > threshold &&
                                     (NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(l1Categories,relatedCaseCategories)) &&
                                     !hasLeadIdsWithRestricted &&
-                                    !isPartnerSourced;
+                                    !isPartnerSourced &&
+                                    !hasHigherDegreeOrExchangeStudyLevel;
             if(isCriteriaMet) {
                 leadsToUpdate.put(
                     internationalEntryLead.Id, 
@@ -673,7 +709,15 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         for(hed__Application__c application : applicationList) {
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c) ?
                 new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)) : new Set<String>();
+                
+            boolean isProgramLevelInvalid = 
+                application.Current_Preference__c != null && 
+                packageComponentByAppPreferenceMap.containsKey(application.Current_Preference__c) &&
+                packageComponentByAppPreferenceMap.get(application.Current_Preference__c).Program_Level__c != null &&
+                ApplicationsDAO.INVALID_PROGRAM_LEVEL_INTERNATIONAL.contains(packageComponentByAppPreferenceMap.get(application.Current_Preference__c).Program_Level__c);
+
             Boolean isPassedCriteria = 
+                !isProgramLevelInvalid && 
                 (application.Calculated_Intake_Date__c != null && application.Calculated_Intake_Date__c > Date.today()) &&
                 (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
                 (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&

@@ -120,3 +120,4 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
         ];
     }
 }
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancellation_Reason_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ OR(
+  RecordType.DeveloperName = &apos;Cause&apos;,
+  RecordType.DeveloperName = &apos;Endowment&apos;,
+  RecordType.DeveloperName = &apos;Pledge&apos;,
+  RecordType.DeveloperName = &apos;Endowment_Instalment&apos;,
+  RecordType.DeveloperName = &apos;Pledge_Instalment&apos;,
+  RecordType.DeveloperName = &apos;Endowment_Funds_Transfer&apos;,
+  RecordType.DeveloperName = &apos;Pledge_Distribution_Split&apos;
+ ),
+ OR(
+  AND(
+   ISCHANGED(Stage__c),
+   ISPICKVAL( PRIORVALUE(Stage__c) ,&apos;Accepted&apos;),
+   ISPICKVAL( Stage__c ,&apos;Cancelled&apos;)
+  ),
+  AND(
+   ISCHANGED( Cancellation_Date__c ),
+   ISBLANK(PRIORVALUE(Cancellation_Date__c)),
+   NOT(ISBLANK(Cancellation_Date__c))
+  ),
+  AND(
+   ISCHANGED( Cancellation_Comment__c ),
+   ISBLANK( PRIORVALUE(Cancellation_Comment__c )),
+   NOT(ISBLANK( Cancellation_Comment__c ))
+  )
+ ),
+ ISBLANK(TEXT(Cancellation_Reason__c))
+)</errorConditionFormula>
+    <errorDisplayField>Cancellation_Reason__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

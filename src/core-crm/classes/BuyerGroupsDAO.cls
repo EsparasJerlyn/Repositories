@@ -17,7 +17,7 @@ public inherited sharing class BuyerGroupsDAO extends DmlBase implements IBuyerG
 
     public static IBuyerGroupsDAO newInstance() {
         return (IBuyerGroupsDAO) ImplementationSelector.DAO.newInstance(
-            BuyerGroup.SObjectType
+            BuyerGroup.SObjectType 
         );
     }
 

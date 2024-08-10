@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Predefined_Amount_1__c</fullName>
+    <defaultValue>10</defaultValue>
+    <description>The first predefined donation amount displayed on the page that a donor can select.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The first predefined donation amount displayed on the page that a donor can select.</inlineHelpText>
+    <label>Predefined Amount 1</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

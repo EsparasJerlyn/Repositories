@@ -163,7 +163,7 @@
     <label>Pure Project</label>
     <nameField>
         <label>Pure Project ID</label>
-        <trackHistory>false</trackHistory>
+        <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Pure Projects</pluralLabel>

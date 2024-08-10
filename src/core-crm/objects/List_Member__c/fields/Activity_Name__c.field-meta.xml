@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity_Name__c</fullName>
+    <description>Generic field to capture either what the participant is participating in or the role they might playing, or combination of both.
+
+Typically this can either be a role the individual might play in the engagement OR an Event sub-type (e.g. BLF Jan 2023, BLF Jun 2023 etc.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Describes the engagement activity</inlineHelpText>
+    <label>Activity Name</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField> 

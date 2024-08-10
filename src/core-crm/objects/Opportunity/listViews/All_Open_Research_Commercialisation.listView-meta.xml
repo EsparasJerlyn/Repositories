@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Open_Research_Commercialisation</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Opportunity_Code__c</columns>
+    <columns>OPPORTUNITY.RECORDTYPE</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>CORE.USERS.FULL_NAME</columns>
+    <columns>OPPORTUNITY.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.Commercialisation</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.CLOSED</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>All Open Research Commercialisation</label>
+    <sharedTo>
+        <group>Commercialisation_Operations_Manager</group>
+        <group>Commercialisation_Partnership_Manager</group>
+        <group>IPU_Operations_Manager</group>
+        <group>IPU_Partnership_Manager</group>
+        <group>Research_Operations_Manager</group>
+        <group>Research_Partnership_Manager</group>
+    </sharedTo>
+</ListView>

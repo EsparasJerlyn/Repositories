@@ -33,7 +33,7 @@
         <permissionSet>OPE_Catalogue</permissionSet>
         <permissionSet>Corporate_Partner</permissionSet>
         <profile>admin</profile>
-        <profile>ope catalogue</profile>
+        <profile>qut experience</profile>
         <profile>qut system administrator</profile>
     </networkMemberGroups>
     <networkPageOverrides>

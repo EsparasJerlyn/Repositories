@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Contributor__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The DEP User who is contributing to the list.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The DEP User who is contributing to the list.</inlineHelpText>
+    <label>List Contributor</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>User.IsActive</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Fundraiser</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Fundraiser Manager</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Advancement Manager</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Advancement Operations Manager</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Executive Director Advancement</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Donor Engagement Manager</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>User</referenceTo>
+    <relationshipName>List_Contributors</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

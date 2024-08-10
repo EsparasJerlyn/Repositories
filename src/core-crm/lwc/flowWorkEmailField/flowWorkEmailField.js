@@ -12,6 +12,7 @@
  *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Added Work Email Field Form Validation       |
  *    | ryan.j.a.dela.cruz        | August 3, 2023        | DEPP-6093            | Added Retention Of Email Field Value         |
  *    | ryan.j.a.dela.cruz        | October 12, 2023      | DEPP-6642            | Added Mobile Support for Value Retention     |
+ *    | neil.s.h.lesidan          | March 4, 2024         | DEPP-7880            | Add setter getter dynamic label value        |
  */
 
 import { LightningElement, api, track } from "lwc";
@@ -31,6 +32,24 @@ export default class FlowWorkEmailField extends LightningElement {
   workEmailExists = false;
   isException = false;
   timer;
+  _label = 'Work Email';
+  _requiredFieldErrorMessage = REQUIRED_FIELD_ERROR_MESSAGE;
+
+  @api
+  get label() {
+    return this._label;
+  }
+  set label(value) {
+    this._label = value || 'Work Email';
+  }
+
+  @api
+  get requiredFieldErrorMessage() {
+    return this._requiredFieldErrorMessage;
+  }
+  set requiredFieldErrorMessage(value) {
+    this._requiredFieldErrorMessage = value || REQUIRED_FIELD_ERROR_MESSAGE;
+  }
 
   connectedCallback() {
     this.retrieveEmailFromSession();
@@ -172,7 +191,7 @@ export default class FlowWorkEmailField extends LightningElement {
     if (!this.workEmail) {
       return {
         isValid: false,
-        errorMessage: REQUIRED_FIELD_ERROR_MESSAGE
+        errorMessage: this._requiredFieldErrorMessage
       };
     } else if (!this.validateEmail(this.workEmail)) {
       return {

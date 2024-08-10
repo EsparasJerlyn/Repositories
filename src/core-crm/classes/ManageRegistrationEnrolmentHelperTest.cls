@@ -128,7 +128,7 @@ public class ManageRegistrationEnrolmentHelperTest {
                Contact newContact = new Contact(FirstName = 'testqtest', LastName = 'testqtest', AccountId = portalAccount.Id, Email = 'testqtest@emailemail.com', Registered_Email__c ='testqtest@emailemail.com', Birthdate = Date.newInstance(1990, 2, 17), MobilePhone ='012345', RecordTypeId = RT_CONTACT_PERSON_ID);
                insert newContact;
 
-               User portalUser = TestDataFactory.createPortalUserRecords(1, 'OPE Catalogue', newContact.Id).iterator().next();
+               User portalUser = TestDataFactory.createPortalUserRecords(1, 'QUT Experience', newContact.Id).iterator().next();
                Database.insert(portalUser);
 
                WebStore testWebStore = new WebStore(
@@ -293,7 +293,7 @@ public class ManageRegistrationEnrolmentHelperTest {
                 }
                insert accounts;
 
-               Account act = new Account(Name = 'OPE Catalogue');
+               Account act = new Account(Name = 'QUT Experience');
                insert act;
 
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);

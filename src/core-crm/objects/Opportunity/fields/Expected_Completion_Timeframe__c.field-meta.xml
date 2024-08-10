@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_Completion_Timeframe__c</fullName>
+    <description>The estimated time-frame of the Opportunity.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The estimated time-frame of the Opportunity.</inlineHelpText>
+    <label>Expected Completion Timeframe</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0-1 Month</fullName>
+                <default>false</default>
+                <label>0-1 Month</label>
+            </value>
+            <value>
+                <fullName>1-3 Months</fullName>
+                <default>false</default>
+                <label>1-3 Months</label>
+            </value>
+            <value>
+                <fullName>3-6 Months</fullName>
+                <default>false</default>
+                <label>3-6 Months</label>
+            </value>
+            <value>
+                <fullName>More than 6 Months</fullName>
+                <default>false</default>
+                <label>More than 6 Months</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

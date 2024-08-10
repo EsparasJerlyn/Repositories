@@ -6,7 +6,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
  */
 public inherited sharing class CartDeliveryGroupsDAO extends DmlBase implements ICartDeliveryGroupsDAO {
     public Schema.SObjectType getSObjectType() {

@@ -1,0 +1,67 @@
+<template>
+    <template if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button onclick={handleCloseModal} class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New List Member</h1>
+                </div>
+                <div class="slds-modal__content" id="modal-content-id-1">
+                    <div class="padding-bottom-0 slds-text-align_left slds-p-around_small">
+                        <div class="slds-form-element slds-form-element_horizontal">
+                            <label class="slds-form-element__label slds-p-left_xx-small">
+                                List Member
+                            </label>
+                            <div>
+                                <c-custom-searchable-combobox
+                                    options={listMemberContacts}
+                                    value={selectedListMember}
+                                    onchange={handleChangeListMember}
+                                    onselected={handleSelectedListMember}
+                                    required="true"
+                                    search-in-progress={searchContactInProgress}
+                                    option-icon="standard:contact"></c-custom-searchable-combobox>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-form-element_horizontal">
+                            <label class="slds-form-element__label slds-p-left_xx-small">
+                                List Contributor
+                            </label>
+                            <div>
+                                <c-custom-searchable-combobox
+                                    options={contributorLists}
+                                    value={selectedContributor}
+                                    default-value={defaultContributor}
+                                    onchange={handleChangeListContributor}
+                                    option-icon="standard:user"
+                                ></c-custom-searchable-combobox>
+                            </div>
+                        </div>
+                        <template for:each={prefields} for:item="item">
+                            <div class="slds-form-element slds-form-element_horizontal" key={item.fieldName}>
+                                <label class="slds-form-element__label slds-p-left_xx-small">
+                                    {item.label}
+                                </label>
+                                <div>
+                                    <lightning-input type="text" value={item.value} onchange={handleInputChange} data-field={item.fieldName} disabled={item.isDisabled} variant="label-hidden"></lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer slds-grid slds-grid_align-center">
+                        <lightning-button class="slds-m-right_x-small" variant="neutral" label="Cancel" onclick={handleCloseModal}></lightning-button>
+                        <lightning-button variant="brand" type="submit" disabled={isDisabledSaveButton} onclick={handleSubmit} label="Save"></lightning-button>
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

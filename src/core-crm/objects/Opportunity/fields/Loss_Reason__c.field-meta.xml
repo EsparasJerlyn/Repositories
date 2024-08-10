@@ -80,6 +80,11 @@
                 <default>false</default>
                 <label>Other</label>
             </value>
+            <value>
+                <fullName>Not Viable</fullName>
+                <default>false</default>
+                <label>Not Viable</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Discontinued</controllingFieldValue>

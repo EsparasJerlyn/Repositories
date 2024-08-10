@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Do_Contact_Matching</name>
         <label>Do Contact Matching</label>
-        <locationX>2052</locationX>
-        <locationY>1706</locationY>
+        <locationX>3097</locationX>
+        <locationY>2612</locationY>
         <actionName>ContactMatchingService</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -53,8 +53,8 @@
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>3130</locationX>
-        <locationY>3782</locationY>
+        <locationX>842</locationX>
+        <locationY>674</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -92,8 +92,8 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>3130</locationX>
-        <locationY>3890</locationY>
+        <locationX>842</locationX>
+        <locationY>782</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -108,7 +108,7 @@
         <name>Assign_Contextual_Role_Object_Values</name>
         <label>Assign Contextual Role Object Values</label>
         <locationX>2338</locationX>
-        <locationY>1382</locationY>
+        <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -128,10 +128,49 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Header_Title_Contact</name>
+        <label>Assign Header Title Contact</label>
+        <locationX>3922</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>HeaderTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Contact</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_check_affiliation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Collect_Contact_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Opportunity_Record_Type</name>
+        <label>Assign Opportunity Record Type</label>
+        <locationX>3383</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>OpportunityRecord.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>What_Record_Type_Is_Selected_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignAccountNameCreated</name>
         <label>AssignAccountNameCreated</label>
-        <locationX>2052</locationX>
-        <locationY>974</locationY>
+        <locationX>2184</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
             <operator>Assign</operator>
@@ -146,8 +185,8 @@
     <assignments>
         <name>AssignHeaderTitleFundingBodies</name>
         <label>AssignHeaderTitleFundingBodies</label>
-        <locationX>1920</locationX>
-        <locationY>566</locationY>
+        <locationX>2316</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -160,10 +199,34 @@
         </connector>
     </assignments>
     <assignments>
+        <name>AssignHeaderTitleOrganisation</name>
+        <label>Assign Header Title Organisation</label>
+        <locationX>4186</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>HeaderTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Organisation</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_check_affiliation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Collect_Account_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignHeaderTitlePartners</name>
         <label>AssignHeaderTitlePartners</label>
-        <locationX>2184</locationX>
-        <locationY>566</locationY>
+        <locationX>3658</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
             <operator>Assign</operator>
@@ -172,13 +235,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Collect_Account_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignModalTitle</name>
         <label>AssignModalTitle</label>
-        <locationX>1117</locationX>
+        <locationX>2514</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -192,10 +256,47 @@
         </connector>
     </assignments>
     <assignments>
+        <name>AssignPrimaryContactContributorsContextualValue</name>
+        <label>Assign  Primary Contact and Contributors Contextual Value</label>
+        <locationX>2866</locationX>
+        <locationY>1406</locationY>
+        <assignmentItems>
+            <assignToReference>HeaderTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Primary Contact</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleObject.Contextual_Role_Group__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Contributors</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OpportunityContextualRoleRecordTypeId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleObject.Contextual_Role__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Primary Contact</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Collect_Contact_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignSelectedAccount</name>
         <label>AssignSelectedAccount</label>
-        <locationX>2316</locationX>
-        <locationY>974</locationY>
+        <locationX>2448</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountId</assignToReference>
             <operator>Add</operator>
@@ -231,8 +332,8 @@
     <assignments>
         <name>AssignSelectedContactId</name>
         <label>AssignSelectedContactId</label>
-        <locationX>2734</locationX>
-        <locationY>2978</locationY>
+        <locationX>3779</locationX>
+        <locationY>4076</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
             <operator>Assign</operator>
@@ -241,7 +342,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
+            <targetReference>Check_Account_and_Contact_Affiliation</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -284,10 +385,24 @@
         </value>
     </constants>
     <constants>
-        <name>DefaultRecordTypeSelected</name>
+        <name>DefaultRecordTypeSelected_Alumni_Corporate</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Corporate Partnership</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>DefaultRecordTypeSelected_Industry_Engagement</name>
         <dataType>String</dataType>
         <value>
             <stringValue>Commercialisation</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>IndividualGivingText</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Individual Giving</stringValue>
         </value>
     </constants>
     <constants>
@@ -298,6 +413,13 @@
         </value>
     </constants>
     <constants>
+        <name>OrganisationGivingText</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Organisation Giving</stringValue>
+        </value>
+    </constants>
+    <constants>
         <name>ResearchPartnershipText</name>
         <dataType>String</dataType>
         <value>
@@ -305,14 +427,39 @@
         </value>
     </constants>
     <decisions>
+        <name>Check_Account_and_Contact_Affiliation</name>
+        <label>Check Account and Contact Affiliation</label>
+        <locationX>3383</locationX>
+        <locationY>4424</locationY>
+        <defaultConnector>
+            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Check_Account_and_Contact_Affiliation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>to_Affiliate_Account_Checkbox</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Contact_Affiliation</targetReference>
+            </connector>
+            <label>Is True - Account and Contact Affiliation</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>1117</locationX>
+        <locationX>2514</locationX>
         <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>Record_Type_Selection</targetReference>
+            <targetReference>Record_Type_Selection_Industry_Engagement</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>User Has Access</defaultConnectorLabel>
+        <defaultConnectorLabel>User Has Access (Industry Engagement)</defaultConnectorLabel>
         <rules>
             <name>Do_Not_Have_Access_General</name>
             <conditionLogic>or</conditionLogic>
@@ -335,6 +482,20 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Executive_Director_Business_Development</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Alumni_Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate_Engagement</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -380,19 +541,161 @@
                     <stringValue>Industry_Engagement_Super_User</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Alumni_Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate_Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Alumni_Corporate_Partnerships_Super_User</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate_Partnerships</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Advancement_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Advancement_Operations_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Fundraising_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Donor_Engagement_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Executive_Director_Advancement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Fundraiser</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Do_Not_Have_Access_Lead_Conversion_Screen</targetReference>
             </connector>
             <label>Do Not Have Access (Lead Conversion)</label>
         </rules>
+        <rules>
+            <name>User_Has_Access_Alumni_Corporate</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Alumni_Corporate_Partnerships_Super_User</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Corporate_Partnerships</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Record_Type_Selection_Alumni_Corporate</targetReference>
+            </connector>
+            <label>User Has Access (Alumni &amp; Corporate)</label>
+        </rules>
+        <rules>
+            <name>Advancement_Opportunity_Management</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Advancement_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Advancement_Operations_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fundraising_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Donor_Engagement_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Executive_Director_Advancement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fundraiser</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Record_Type_Selection_Advancement_Opportunity_Management</targetReference>
+            </connector>
+            <label>Advancement Opportunity Management</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Is_Contact_Match_Found</name>
         <label>Is Contact Match Found</label>
-        <locationX>2052</locationX>
-        <locationY>1814</locationY>
+        <locationX>3097</locationX>
+        <locationY>2720</locationY>
         <defaultConnector>
-            <targetReference>Collect_Opportunity_Details</targetReference>
+            <targetReference>Opportunity_Display</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -414,8 +717,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>2184</locationX>
-        <locationY>866</locationY>
+        <locationX>2316</locationX>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedAccount</targetReference>
         </defaultConnector>
@@ -439,8 +742,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>2338</locationX>
-        <locationY>2414</locationY>
+        <locationX>3383</locationX>
+        <locationY>3512</locationY>
         <defaultConnector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
         </defaultConnector>
@@ -464,8 +767,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>710</locationX>
-        <locationY>1382</locationY>
+        <locationX>1238</locationX>
+        <locationY>1406</locationY>
         <defaultConnector>
             <targetReference>Create_IPU_Opportunity</targetReference>
         </defaultConnector>
@@ -489,8 +792,8 @@
     <decisions>
         <name>Is_Create_New_Contact_Selected</name>
         <label>Is Create New Contact Selected?</label>
-        <locationX>2338</locationX>
-        <locationY>2870</locationY>
+        <locationX>3383</locationX>
+        <locationY>3968</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedContactId</targetReference>
         </defaultConnector>
@@ -514,10 +817,10 @@
     <decisions>
         <name>Is_Create_New_Contact_Selected1</name>
         <label>Is Create New Contact Selected?</label>
-        <locationX>2338</locationX>
-        <locationY>1598</locationY>
+        <locationX>3383</locationX>
+        <locationY>2504</locationY>
         <defaultConnector>
-            <targetReference>Collect_Opportunity_Details</targetReference>
+            <targetReference>Opportunity_Display</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -539,8 +842,8 @@
     <decisions>
         <name>Is_Record_Type_Research_Partnership_Or_Commercialisation</name>
         <label>Is Record Type Research Partnership Or Commercialisation</label>
-        <locationX>2338</locationX>
-        <locationY>3326</locationY>
+        <locationX>3383</locationX>
+        <locationY>4724</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Research_Partnership</name>
@@ -572,12 +875,74 @@
             </connector>
             <label>Commercialisation</label>
         </rules>
+        <rules>
+            <name>IndividualGivingOpportunityDecision</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>IndividualGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CreateIndividualGivingOpportunity</targetReference>
+            </connector>
+            <label>Individual Giving</label>
+        </rules>
+        <rules>
+            <name>OrganisationGivingOpportunityDecision</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>OrganisationGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CreateOrganisationGivingOpportunity</targetReference>
+            </connector>
+            <label>Organisation Giving</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Opportunity_Display</name>
+        <label>Opportunity Display</label>
+        <locationX>3383</locationX>
+        <locationY>3212</locationY>
+        <defaultConnector>
+            <targetReference>Collect_Opportunity_Details</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Summary_Collection_Opportunity</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>IndividualGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>OrganisationGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CollectOpportunitySummaryScreen</targetReference>
+            </connector>
+            <label>Summary Collection Opportunity</label>
+        </rules>
     </decisions>
     <decisions>
         <name>What_Record_Type_Is_Selected</name>
         <label>What Record Type Is Selected?</label>
-        <locationX>2184</locationX>
-        <locationY>1166</locationY>
+        <locationX>2316</locationX>
+        <locationY>1190</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>International_Projects_Unit</name>
@@ -616,12 +981,27 @@
             </connector>
             <label>Research Partnership or Commercialisation</label>
         </rules>
+        <rules>
+            <name>Organisation_Giving_Decision_RecordType</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>OrganisationGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetAdvancementOpportunityContextualRoleRecordId</targetReference>
+            </connector>
+            <label>Organisation Giving</label>
+        </rules>
     </decisions>
     <decisions>
         <name>What_Record_Type_Is_Selected_0</name>
         <label>What Record Type Is Selected?</label>
-        <locationX>2184</locationX>
-        <locationY>458</locationY>
+        <locationX>3383</locationX>
+        <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>International_Projects_Unit_0</name>
@@ -660,6 +1040,36 @@
             </connector>
             <label>Research Partnership Or Commercialisation</label>
         </rules>
+        <rules>
+            <name>Individual_Giving</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>IndividualGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Header_Title_Contact</targetReference>
+            </connector>
+            <label>Individual Giving</label>
+        </rules>
+        <rules>
+            <name>Organisation_Giving</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>OrganisationGivingText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignHeaderTitleOrganisation</targetReference>
+            </connector>
+            <label>Organisation Giving</label>
+        </rules>
     </decisions>
     <dynamicChoiceSets>
         <name>MobileLocalePicklist</name>
@@ -670,6 +1080,22 @@
         <picklistObject>Contact</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>Opportunity_Giving_Category</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Giving_Category__c</picklistField>
+        <picklistObject>Opportunity</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>Opportunity_Giving_Faculty_Category</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Giving_Faculty__c</picklistField>
+        <picklistObject>Opportunity</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>OpportunityCountry</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -678,7 +1104,39 @@
         <picklistObject>Opportunity</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <name>OpportunityRecordType</name>
+        <name>OpportunityRecordType_Alumni_Corporate</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Corporate Partnership</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>SelectedRecordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>SelectedRecordTypeName</assignToReference>
+            <field>Name</field>
+        </outputAssignments>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Name</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>OpportunityRecordType_Industry_Engagement</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
         <filterLogic>(1 OR 2 OR 3) AND 4</filterLogic>
@@ -723,7 +1181,51 @@
         <sortOrder>Asc</sortOrder>
         <valueField>Name</valueField>
     </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>OpportunityRecordTypeAdvancement_Management</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Individual Giving</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Organisation Giving</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>SelectedRecordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>SelectedRecordTypeName</assignToReference>
+            <field>Name</field>
+        </outputAssignments>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <valueField>Name</valueField>
+    </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <name>CurrentDate</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate}</expression>
+    </formulas>
     <formulas>
         <name>CurrentDatePlusSixMonths</name>
         <dataType>Date</dataType>
@@ -754,8 +1256,8 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>1942</locationX>
-        <locationY>2630</locationY>
+        <locationX>2987</locationX>
+        <locationY>3728</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
@@ -806,8 +1308,8 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record_0</name>
         <label>Create Account Record</label>
-        <locationX>578</locationX>
-        <locationY>1598</locationY>
+        <locationX>1106</locationX>
+        <locationY>1622</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_IPU_Opportunity</targetReference>
@@ -853,8 +1355,8 @@
     <recordCreates>
         <name>Create_Commercialisation_Opportunity</name>
         <label>Create Commercialisation Opportunity</label>
-        <locationX>2338</locationX>
-        <locationY>3434</locationY>
+        <locationX>2855</locationX>
+        <locationY>4832</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -892,12 +1394,13 @@
     <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>2338</locationX>
-        <locationY>3674</locationY>
+        <locationX>3383</locationX>
+        <locationY>5114</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -948,9 +1451,10 @@
     <recordCreates>
         <name>Create_Financial_Split</name>
         <label>Create Financial Split</label>
-        <locationX>710</locationX>
-        <locationY>2006</locationY>
+        <locationX>1238</locationX>
+        <locationY>2030</locationY>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
@@ -981,8 +1485,8 @@
     <recordCreates>
         <name>Create_IPU_Opportunity</name>
         <label>Create IPU Opportunity</label>
-        <locationX>710</locationX>
-        <locationY>1790</locationY>
+        <locationX>1238</locationX>
+        <locationY>1814</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Get_Opportunity_Funding_Body_Record_Type</targetReference>
@@ -1032,11 +1536,11 @@
     <recordCreates>
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
-        <locationX>1942</locationX>
-        <locationY>3086</locationY>
+        <locationX>2987</locationX>
+        <locationY>4184</locationY>
         <assignRecordIdToReference>ContactId</assignRecordIdToReference>
         <connector>
-            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
+            <targetReference>Check_Account_and_Contact_Affiliation</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -1052,6 +1556,12 @@
             <field>ContactMobile_Locale__c</field>
             <value>
                 <elementReference>Mobile_Locale_Picklist</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>PrimaryEmailInput.workEmail</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1079,6 +1589,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Title</field>
+            <value>
+                <elementReference>Job_Title_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Work_Email__c</field>
             <value>
                 <elementReference>WorkEmailInput.workEmail</elementReference>
@@ -1087,10 +1603,60 @@
         <object>Contact</object>
     </recordCreates>
     <recordCreates>
+        <name>Create_Opportunity_Alumni_Corporate</name>
+        <label>Create Opportunity (Alumni &amp; Corporate)</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Detail_Page_Navigation</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>AccountLookupLWC_Alumni_Corporate.selectedRecordIdOutput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>CurrentDatePlusSixMonths</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Opportunity_Description_Alumni_Corporate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Opportunity_Name_Alumni_Corporate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Identify</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Research_Partnership_Opportunity</name>
         <label>Create Research Partnership Opportunity</label>
-        <locationX>1810</locationX>
-        <locationY>3434</locationY>
+        <locationX>2327</locationX>
+        <locationY>4832</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1137,11 +1703,204 @@
         </inputAssignments>
         <object>Opportunity</object>
     </recordCreates>
+    <recordCreates>
+        <name>CreateIndividualGivingOpportunity</name>
+        <label>Create Individual Giving Opportunity</label>
+        <locationX>3383</locationX>
+        <locationY>4832</locationY>
+        <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Detail_Page_Navigation</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>OpportunityDetails_Amount_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>CurrentDatePlusSixMonths</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Contact__c</field>
+            <value>
+                <elementReference>ContactId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>OpportunityDetails_Description_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Category_Comment__c</field>
+            <value>
+                <elementReference>OpportunityDetails_LongText_Giving_Category_Comment_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Category__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Giving_Category__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Faculty_Comment__c</field>
+            <value>
+                <elementReference>OpportunityDetails_LongText_Giving_Faculty_Comment_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Faculty__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Giving_Faculty__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Influenced_Revenue__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Is_Influenced_Revenue__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>ADVI_Opportunity_Name_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Identify</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Start_Date__c</field>
+            <value>
+                <elementReference>OpportunityDetails_Start_Date_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordCreates>
+    <recordCreates>
+        <name>CreateOrganisationGivingOpportunity</name>
+        <label>Create Organisation Giving Opportunity</label>
+        <locationX>3911</locationX>
+        <locationY>4832</locationY>
+        <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Contextual_Role</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>OpportunityDetails_Amount_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Contact__c</field>
+            <value>
+                <elementReference>ContactId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>OpportunityDetails_Description_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Category_Comment__c</field>
+            <value>
+                <elementReference>OpportunityDetails_LongText_Giving_Category_Comment_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Category__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Giving_Category__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Faculty_Comment__c</field>
+            <value>
+                <elementReference>OpportunityDetails_LongText_Giving_Faculty_Comment_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Giving_Faculty__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Giving_Faculty__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Influenced_Revenue__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Is_Influenced_Revenue__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>ADVO_Opportunity_Name_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Identify</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Start_Date__c</field>
+            <value>
+                <elementReference>OpportunityDetails_Start_Date_Input</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordCreates>
     <recordLookups>
         <name>Get_Account_Record_Type</name>
         <label>Get Account Record Type</label>
-        <locationX>1942</locationX>
-        <locationY>2522</locationY>
+        <locationX>2987</locationX>
+        <locationY>3620</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record</targetReference>
@@ -1174,8 +1933,8 @@
     <recordLookups>
         <name>Get_Account_Record_Type_0</name>
         <label>Get Account Record Type</label>
-        <locationX>578</locationX>
-        <locationY>1490</locationY>
+        <locationX>1106</locationX>
+        <locationY>1514</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record_0</targetReference>
@@ -1205,7 +1964,7 @@
         <name>Get_Opportunity_Contextual_Role_Record_Id</name>
         <label>Get Opportunity Contextual Role Record Id</label>
         <locationX>2338</locationX>
-        <locationY>1274</locationY>
+        <locationY>1298</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
@@ -1238,8 +1997,8 @@
     <recordLookups>
         <name>Get_Opportunity_Funding_Body_Record_Type</name>
         <label>Get Opportunity Funding Body Record Type</label>
-        <locationX>710</locationX>
-        <locationY>1898</locationY>
+        <locationX>1238</locationX>
+        <locationY>1922</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Financial_Split</targetReference>
@@ -1273,8 +2032,8 @@
         <description>Gets the Person recordtype for contact.</description>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>1942</locationX>
-        <locationY>2978</locationY>
+        <locationX>2987</locationX>
+        <locationY>4076</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_Contact_Record</targetReference>
@@ -1304,11 +2063,45 @@
             <field>Id</field>
         </outputAssignments>
     </recordLookups>
+    <recordLookups>
+        <name>GetAdvancementOpportunityContextualRoleRecordId</name>
+        <label>Get Advancement Opportunity Contextual Role Record Id</label>
+        <locationX>2866</locationX>
+        <locationY>1298</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>AssignPrimaryContactContributorsContextualValue</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Advancement Opportunity Role</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Contextual_Role__c</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>OpportunityContextualRoleRecordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
     <screens>
         <name>Collect_Account_Details</name>
         <label>Collect Account Details</label>
-        <locationX>2184</locationX>
-        <locationY>758</locationY>
+        <locationX>2316</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1459,7 +2252,7 @@
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
-                <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+                <conditionLogic>1 AND (2 OR 3 OR 4)</conditionLogic>
                 <conditions>
                     <leftValueReference>Create_New_Account</leftValueReference>
                     <operator>EqualTo</operator>
@@ -1479,6 +2272,13 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <elementReference>CommercialisationText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
                     </rightValue>
                 </conditions>
             </visibilityRule>
@@ -1577,8 +2377,8 @@
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>2338</locationX>
-        <locationY>1490</locationY>
+        <locationX>3383</locationX>
+        <locationY>2396</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1643,6 +2443,16 @@
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Create_New_Contact</name>
@@ -1745,6 +2555,20 @@
                         <booleanValue>false</booleanValue>
                     </rightValue>
                 </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
             </visibilityRule>
         </fields>
         <fields>
@@ -1792,6 +2616,68 @@
             </visibilityRule>
         </fields>
         <fields>
+            <name>Job_Title_Input</name>
+            <dataType>String</dataType>
+            <fieldText>Job Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Create_New_Contact</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>PrimaryEmailInput</name>
+            <extensionName>c:flowWorkEmailField</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Primary Email</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>requiredFieldErrorMessage</name>
+                <value>
+                    <stringValue>Mandatory Field.</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Create_New_Contact</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>WorkEmailInput</name>
             <extensionName>c:flowWorkEmailField</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -1805,12 +2691,26 @@
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
-                <conditionLogic>and</conditionLogic>
+                <conditionLogic>1 AND (2 OR 3)</conditionLogic>
                 <conditions>
                     <leftValueReference>Create_New_Contact</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>ResearchPartnershipText</elementReference>
                     </rightValue>
                 </conditions>
             </visibilityRule>
@@ -1887,6 +2787,20 @@
                         <booleanValue>true</booleanValue>
                     </rightValue>
                 </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
             </visibilityRule>
         </fields>
         <fields>
@@ -1903,6 +2817,42 @@
                         <stringValue>Partners</stringValue>
                     </rightValue>
                 </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>to_Affiliate_Account_Checkbox</name>
+            <dataType>Boolean</dataType>
+            <fieldText>I understand that this contact will be affiliated to this Account.</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(234, 0, 30);&quot;&gt;Complete this field.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF ({!to_Affiliate_Account_Checkbox} = true, true, false)</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
             </visibilityRule>
         </fields>
         <showFooter>true</showFooter>
@@ -1911,8 +2861,8 @@
     <screens>
         <name>Collect_Opportunity_Details</name>
         <label>Collect Opportunity Details</label>
-        <locationX>2338</locationX>
-        <locationY>2306</locationY>
+        <locationX>3515</locationX>
+        <locationY>3320</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2028,10 +2978,103 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Collect_Opportunity_Details_Alumni_Corporate</name>
+        <label>Collect Opportunity Details (Alumni &amp; Corporate)</label>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Create_Opportunity_Alumni_Corporate</targetReference>
+        </connector>
+        <fields>
+            <name>Opportunity_Details_Alumni_Corporate</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Opportunity Details&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Opportunity_Name_Alumni_Corporate</name>
+            <dataType>String</dataType>
+            <fieldText>Opportunity Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Opportunity_Name_Alumni_Corporate})&lt;=120</formulaExpression>
+            </validationRule>
+        </fields>
+        <fields>
+            <name>Opportunity_Description_Alumni_Corporate</name>
+            <fieldText>Description</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>AccountLookupLWC_Alumni_Corporate</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
+            <extensionName>c:flowLookup</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>objectName</name>
+                <value>
+                    <stringValue>Account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Account Name</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>messageWhenValueMissing</name>
+                <value>
+                    <stringValue>Complete this field.</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>placeholder</name>
+                <value>
+                    <stringValue>Search Accounts...</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>whereClause</name>
+                <value>
+                    <stringValue>RecordType.Name = &apos;Business Organization&apos;</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>required</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>AlumniCorporateOpportunityAccountLookupIdentifier</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Collect_Opportunity_Details_IPU</name>
         <label>Collect Opportunity Details</label>
-        <locationX>710</locationX>
-        <locationY>1274</locationY>
+        <locationX>1238</locationX>
+        <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2080,10 +3123,159 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>CollectOpportunitySummaryScreen</name>
+        <label>Collect Opportunity Summary Screen</label>
+        <locationX>3251</locationX>
+        <locationY>3320</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Is_Create_New_Account_Selected_0</targetReference>
+        </connector>
+        <fields>
+            <name>OpportunityDetailsTitle</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Opportunity Summary&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>CollectOpportunitySummaryScreen_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>CollectOpportunitySummaryScreen_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ADVO_Opportunity_Name_Input</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>ADVO:</stringValue>
+                    </defaultValue>
+                    <fieldText>Opportunity Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>OrganisationGivingText</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>ADVI_Opportunity_Name_Input</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>ADVI:</stringValue>
+                    </defaultValue>
+                    <fieldText>Opportunity Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>IndividualGivingText</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>OpportunityDetails_Start_Date_Input</name>
+                    <dataType>Date</dataType>
+                    <defaultValue>
+                        <elementReference>CurrentDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Start_Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OpportunityRecord.Giving_Category__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OpportunityRecord.Giving_Faculty__c</objectFieldReference>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>CollectOpportunitySummaryScreen_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>OpportunityDetails_Amount_Input</name>
+                    <dataType>Currency</dataType>
+                    <fieldText>Amount</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <scale>0</scale>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OpportunityRecord.Is_Influenced_Revenue__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <name>OpportunityDetails_Description_Input</name>
+                    <fieldText>Description</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>OpportunityDetails_LongText_Giving_Category_Comment_Input</name>
+                    <fieldText>Giving Category Comment</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>OpportunityDetails_LongText_Giving_Faculty_Comment_Input</name>
+                    <fieldText>Giving Faculty Comment</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Contact_Match_Error_Screen</name>
-        <label>Contact Match Error Screen</label>
-        <locationX>1920</locationX>
-        <locationY>1922</locationY>
+        <label>Contact_Match_Error_Screen</label>
+        <locationX>2965</locationX>
+        <locationY>2828</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>false</allowPause>
@@ -2132,8 +3324,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>3130</locationX>
-        <locationY>3998</locationY>
+        <locationX>842</locationX>
+        <locationY>890</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>false</allowPause>
@@ -2146,22 +3338,73 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Record_Type_Selection</name>
-        <label>Record Type Selection</label>
-        <locationX>2184</locationX>
+        <name>Record_Type_Selection_Advancement_Opportunity_Management</name>
+        <label>Record Type Selection (Advancement Opportunity Management)</label>
+        <locationX>3383</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_Opportunity_Record_Type</targetReference>
+        </connector>
+        <fields>
+            <name>rb_RecordTypesAdvOpportunityManagement</name>
+            <choiceReferences>OpportunityRecordTypeAdvancement_Management</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Select a record type</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Record_Type_Selection_Alumni_Corporate</name>
+        <label>Record Type Selection (Alumni &amp; Corporate)</label>
+        <locationX>578</locationX>
         <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
+            <targetReference>Collect_Opportunity_Details_Alumni_Corporate</targetReference>
+        </connector>
+        <fields>
+            <name>Record_Type_Alumni_Corporate</name>
+            <choiceReferences>OpportunityRecordType_Alumni_Corporate</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>DefaultRecordTypeSelected_Alumni_Corporate</elementReference>
+            </defaultValue>
+            <fieldText>Select a record type</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <helpText>&lt;p&gt;&lt;strong style=&quot;font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, Roboto, Helvetica, Arial, sans-serif, &apos;Apple Color Emoji&apos;, &apos;Segoe UI Emoji&apos;, &apos;Segoe UI Symbol&apos;); font-size: var(--lwc-fontSize3,0.8125rem); color: var(--slds-g-color-neutral-base-30, var(--lwc-colorTextWeak,rgb(68, 68, 68))); background-color: var(--slds-g-color-neutral-base-100, var(--lwc-colorBackgroundInput,rgb(255, 255, 255)));&quot;&gt;Corporate Partnership&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Create a corporate partnership opportunity to identify new specific interactions with contacts and organisations to support and grow industry, corporate and educational partnerships.&lt;/p&gt;</helpText>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Record_Type_Selection_Industry_Engagement</name>
+        <label>Record Type Selection (Industry Engagement)</label>
+        <locationX>4978</locationX>
+        <locationY>350</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>What_Record_Type_Is_Selected_0</targetReference>
         </connector>
         <fields>
             <name>RecordTypeRadioButtons</name>
-            <choiceReferences>OpportunityRecordType</choiceReferences>
+            <choiceReferences>OpportunityRecordType_Industry_Engagement</choiceReferences>
             <dataType>String</dataType>
             <defaultValue>
-                <elementReference>DefaultRecordTypeSelected</elementReference>
+                <elementReference>DefaultRecordTypeSelected_Industry_Engagement</elementReference>
             </defaultValue>
             <fieldText>Select a record type</fieldText>
             <fieldType>RadioButtons</fieldType>
@@ -2173,7 +3416,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>991</locationX>
+        <locationX>2388</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>AssignModalTitle</targetReference>
@@ -2181,10 +3424,38 @@
     </start>
     <status>Active</status>
     <subflows>
+        <name>Check_Contact_Affiliation</name>
+        <label>Check Contact Affiliation</label>
+        <locationX>3251</locationX>
+        <locationY>4532</locationY>
+        <connector>
+            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
+        </connector>
+        <flowName>Check_Contact_Affiliation</flowName>
+        <inputAssignments>
+            <name>AccountId</name>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ContactId</name>
+            <value>
+                <elementReference>ContactId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>JobTitle</name>
+            <value>
+                <elementReference>ContactJobTitle</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>2184</locationX>
-        <locationY>4322</locationY>
+        <locationX>2514</locationX>
+        <locationY>5354</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
@@ -2224,6 +3495,13 @@
         <objectType>Account</objectType>
     </variables>
     <variables>
+        <name>AffiliationId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>BusinessOrganizationAccountRecordTypeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -2232,6 +3510,13 @@
     </variables>
     <variables>
         <name>ContactId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ContactJobTitle</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -2310,6 +3595,14 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>OpportunityRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
         <name>PersonContactRecordTypeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -2329,5 +3622,15 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_check_affiliation</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
 </Flow>

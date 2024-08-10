@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Designation__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Lookup to the Designation record.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to the Designation record.</inlineHelpText>
+    <label>Designation</label>
+    <referenceTo>Designation__c</referenceTo>
+    <relationshipLabel>Distribution Managements</relationshipLabel>
+    <relationshipName>Distribution_Managements</relationshipName>
+    <required>true</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

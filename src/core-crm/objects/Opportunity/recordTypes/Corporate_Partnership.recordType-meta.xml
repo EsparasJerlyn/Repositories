@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Corporate_Partnership</fullName>
+    <active>true</active>
+    <businessProcess>Corporate Partnership</businessProcess>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
+    <description>Create a corporate partnership opportunity to identify new specific interactions with contacts and organisations to support and grow industry, corporate and educational partnerships.</description>
+    <label>Corporate Partnership</label>
+    <picklistValues>
+        <picklist>Loss_Reason__c</picklist>
+        <values>
+            <fullName>Change of Mind</fullName>
+            <default>false</default>
+        </values>
+        <values> 
+            <fullName>Client Cancelled%3A Change of mind</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Cancelled%3A Funding change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A Contract Terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A Declined to give a reason</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rejected%3A QUT Solution not a fit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Funding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-Bid %3A Faculty Decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-Bid %3A QUTeX %26 Faculty Decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No-Bid %3A QUTeX Decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Proposal_Status__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

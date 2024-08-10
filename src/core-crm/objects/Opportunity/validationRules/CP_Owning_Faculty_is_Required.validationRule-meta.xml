@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CP_Owning_Faculty_is_Required</fullName>
+    <active>true</active>
+    <description>Owning Faculty field is required to change stagename to Negotiate.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL( StageName , &quot;Negotiate&quot;), 
+    ISCHANGED( StageName ) ,
+    ISBLANK( Owning_Faculty__c  ), 
+    RecordType.DeveloperName = &quot;Corporate_Partnership&quot; )</errorConditionFormula>
+    <errorDisplayField>Owning_Faculty__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

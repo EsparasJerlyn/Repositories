@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <decisions>
+        <name>Check_Donation_Record_Criteria</name>
+        <label>Check Donation Record Criteria</label>
+        <locationX>182</locationX>
+        <locationY>731</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Stage_Update_to_Cancelled</name>
+            <conditionLogic>1 OR 2 OR 3 OR 4 OR 5</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Payment_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Payment Plan</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Cancellation_Comment__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Cancellation_Reason__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed - Part Paid</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Stage_to_Cancelled</targetReference>
+            </connector>
+            <label>Stage Update to Cancelled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Record_Type</name>
+        <label>Check Record Type</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Endowment</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Endowment</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Donation_Records</targetReference>
+            </connector>
+            <label>Endowment</label>
+        </rules>
+        <rules>
+            <name>Pledge</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pledge</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Donation_Records</targetReference>
+            </connector>
+            <label>Pledge</label>
+        </rules>
+    </decisions>
+    <description>Updates the Parent to Child Donation record when the triggering records stage is updated to Cancelled</description>
+    <environments>Default</environments>
+    <interviewLabel>Donation Stage Updated To Cancelled {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Donation Stage Updated To Cancelled</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Donation_Records</name>
+        <label>Get Donation Records</label>
+        <locationX>182</locationX>
+        <locationY>623</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Donation_Record_Criteria</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Donation_Parent__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.External_Id__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Donation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Set_Stage_to_Cancelled</name>
+        <label>Set Stage to Cancelled</label>
+        <locationX>50</locationX>
+        <locationY>839</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Donation_Parent__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Cancellation_Comment__c</field>
+            <value>
+                <elementReference>$Record.Cancellation_Comment__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Cancellation_Reason__c</field>
+            <value>
+                <elementReference>$Record.Cancellation_Reason__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <elementReference>$Record.Stage__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Donation__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Record_Type</targetReference>
+        </connector>
+        <filterFormula>AND(
+  ISCHANGED({!$Record.Stage__c}),
+  ISPICKVAL({!$Record.Stage__c}, &apos;Cancelled&apos;),
+  OR(
+    {!$Record.RecordType.DeveloperName} = &apos;Endowment&apos;,
+    {!$Record.RecordType.DeveloperName} = &apos;Pledge&apos;
+  )
+)</filterFormula>
+        <object>Donation__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

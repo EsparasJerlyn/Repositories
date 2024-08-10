@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cause_Accepted_Stage_Validation</fullName>
+    <active>true</active>
+    <description>Prompts an error when the stage of a Donation of Cause record type is updated from Accepted to Proposed or Declined.</description>
+    <errorConditionFormula>AND(
+ RecordType.DeveloperName = &apos;Cause&apos;,
+ ISCHANGED(Stage__c),
+ ISPICKVAL( PRIORVALUE(Stage__c) ,&apos;Accepted&apos;),
+ OR (
+  ISPICKVAL( Stage__c, &apos;Proposed&apos;),
+  ISPICKVAL( Stage__c, &apos;Declined&apos;)
+ )
+)</errorConditionFormula>
+    <errorDisplayField>Stage__c</errorDisplayField>
+    <errorMessage>You can only progress to Completed or Cancelled stage.</errorMessage>
+</ValidationRule>

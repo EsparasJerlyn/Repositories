@@ -19,6 +19,7 @@
       | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Updated test class method  International Application Submission - Direct Applicant Exit   |
       | eccarius.munoz                 | Feb 29, 2024          | DEPP-7838              | Added test method for International Offer to Acceptance - Agent                           |
       | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added test method for International Pre Application Partner Sourced                       |
+      | alexander.cadalin              | August 8, 2024        | DEPP-8724              | Added tests for Domestic First Offer to Acceptance and Domestic Accepted and Admitted     |
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
@@ -333,158 +334,214 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     }
 
     @isTest
-    private static void testManualDomesticFirstOffertoAcceptanceEntryHasCompleteCadence() {
+    private static void testDomesticFirstOfferToAcceptanceManualEntryNoEnrollments() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
-            // create contact
-            List<Contact> newContacts = createTestContactRecords(0, 1);
-            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-        
-            List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
-            programList[0].Program_Level__c = 'Undergraduate';
-            insert programList;
-
-            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
-            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
-            programEnrollmentList[0].Enrollment_Status__c = 'Passed';
-            programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
-            insert programEnrollmentList;
-
-            List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
-            newQtacApplications[0].Offer_Status__c = 'Accepted';
-            ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
-
-            // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplications[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
-            newApplications[0].hed__Application_Date__c = Date.today().addMonths(4);
-            newApplications[0].Offer_Status_Date__c = Date.today().addDays(2);
-            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-            newApplications[0].Offered_Program_Plan__c = programList[0].Id;
-            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-
-            List<hed__Application__c> newApplicationsSecond = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplicationsSecond[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
-            newApplicationsSecond[0].hed__Application_Date__c = Date.today().addMonths(3);
-            newApplicationsSecond[0].Offer_Status_Date__c = Date.today().addDays(3);
-            newApplicationsSecond[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-            newApplicationsSecond[0].Offered_Program_Plan__c = programList[0].Id;
-            newApplicationsSecond[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-            newApplications.addAll(newApplicationsSecond);
-            
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> legacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            legacyApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            legacyApps[0].hed__Application_Date__c = Date.today().addMonths(1);
+            legacyApps[0].Admission_Process__c = 'RTN_TEST';
+            legacyApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            legacyApps[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
+            legacyApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            ApplicationsDAO.newInstance().insertRecords(legacyApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
             Test.stopTest();
-            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
-
-            // Create Nurture Track Configuration
-            // List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
-            // List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-            // for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
-            //     nurtureList.add(
-            //         new Nurture_Track_Configuration__c(
-            //             Id = nurtureTrackConfig.Id,
-            //             Cadence_Name__c = 'Domestic First Offer to Acceptance (Automated)'
-            //         )
-            //     );
-            // }
-
-            // NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE); 
-
-            // // create completed cadence
-            // List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
-            // completedCadenceList.add(new Completed_Cadence__c(
-            //     Application__c = newApplications[0].Id,
-            //     Contact__c = newContacts[0].Id,
-            //     Nurture_Track_Configuration__c = nurtureList[0].Id,
-            //     Completed_Cadence_Status__c ='Successful'
-            // ));
-            // CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-            // call method
-            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
-            // assert
-            System.assertEquals(
-                'Domestic First Offer to Acceptance',
-                processContacts[0].Calculated_Cadence__c,
-                'Error, wrong calculated cadence value.'
+            System.assert(!processContacts.isEmpty(), 'The contact was not evaluated.');
+            System.assert(processContacts[0].Calculated_Cadence__c != '', 'The contact was evaluated but did not enter any cadence.');
+            System.assert(
+                processContacts[0].Calculated_Cadence__c == 'Domestic First Offer to Acceptance', 
+                'The contact entered the wrong cadence, ' + processContacts[0].Calculated_Cadence__c
             );
         }
     }
 
-    // @isTest
-    // private static void testMultipleRecordsNoCompleteCadenceDomesticFirstOffertoAcceptanceEntry() {
-    //     System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-    //         Test.startTest();
-    //         // create contact
-    //         List<Contact> newContacts = createTestContactRecords(0, 1);
-    //         newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-    //         ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
-    //         List<hed__Application__c> applicationsToInsert = new List<hed__Application__c>();
+    @isTest
+    private static void testDomesticFirstOfferToAcceptanceManualEntryLegacy() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_WITHDRAWN;
+            enrollments[0].Enrollment_Status_Date__c = Date.today().addMonths(-1);
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_EARLY_WITHDRAWN;
+            enrollments[1].Enrollment_Status_Date__c = Date.today().addMonths(-7);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> legacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            legacyApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            legacyApps[0].hed__Application_Date__c = Date.today().addMonths(1);
+            legacyApps[0].Admission_Process__c = 'RTN_TEST';
+            legacyApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            legacyApps[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
+            legacyApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            legacyApps[0].Program_Enrollment__c = enrollments[0].Id;
+            // legacyAppsOld should not prevent legacyApps from entering cadence
+            List<hed__Application__c> legacyAppsOld = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, '');
+            legacyAppsOld[0].Calculated_Intake_Date__c = Date.today().addMonths(6);
+            legacyAppsOld[0].Application_Status__c = '';
+            legacyAppsOld[0].Program_Enrollment__c = enrollments[1].Id;
+            legacyApps.addAll(legacyAppsOld);
+            ApplicationsDAO.newInstance().insertRecords(legacyApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(!processContacts.isEmpty(), 'The contact was not evaluated.');
+            System.assert(processContacts[0].Calculated_Cadence__c != '', 'The contact was evaluated but did not enter any cadence.');
+            System.assert(
+                processContacts[0].Calculated_Cadence__c == 'Domestic First Offer to Acceptance', 
+                'The contact entered the wrong cadence, ' + processContacts[0].Calculated_Cadence__c
+            );
+        }
+    }
 
-    //         List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
-    //         programList[0].Program_Level__c = 'Undergraduate';
-    //         insert programList;
+    @isTest
+    private static void testDomesticFirstOfferToAcceptanceManualEntryLegacyFail() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_WITHDRAWN;
+            enrollments[0].Enrollment_Status_Date__c = Date.today().addMonths(-1);
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_EARLY_WITHDRAWN;
+            enrollments[1].Enrollment_Status_Date__c = Date.today().addMonths(-15);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> legacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            legacyApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            legacyApps[0].hed__Application_Date__c = Date.today().addMonths(1);
+            legacyApps[0].Admission_Process__c = 'RTN_TEST';
+            legacyApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            legacyApps[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
+            legacyApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            legacyApps[0].Program_Enrollment__c = enrollments[0].Id;
+            // legacyAppsOld should prevent legacyApps from entering cadence
+            List<hed__Application__c> legacyAppsOld = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, '');
+            legacyAppsOld[0].Calculated_Intake_Date__c = Date.today().addMonths(6);
+            legacyAppsOld[0].Application_Status__c = '';
+            legacyAppsOld[0].Program_Enrollment__c = enrollments[1].Id;
+            legacyApps.addAll(legacyAppsOld);
+            ApplicationsDAO.newInstance().insertRecords(legacyApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(processContacts.isEmpty(), 'The contact was somehow evaluated.');
+        }
+    }
 
-    //         List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
-    //         programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
-    //         programEnrollmentList[0].Enrollment_Status__c = 'Passed';
-    //         programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
-    //         insert programEnrollmentList;
+    @isTest
+    private static void testDomesticFirstOfferToAcceptanceManualEntryCIA() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_WITHDRAWN;
+            enrollments[0].Enrollment_Status_Date__c = Date.today().addMonths(-1);
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Admission_Date__c = Date.today().addMonths(-7);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> ciaApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            ciaApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            ciaApps[0].hed__Application_Date__c = Date.today().addMonths(1);
+            ciaApps[0].Admission_Process__c = 'RTN_TEST';
+            ciaApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            ciaApps[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
+            // ciaApps[0].Related_QTAC_Application__c = qtacApps[0].Id; // related QTAC app does not matter for CIA
+            ciaApps[0].Program_Enrollment__c = enrollments[0].Id;
+            // ciaAppsOld should not prevent ciaApps from entering cadence
+            List<hed__Application__c> ciaAppsOld = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, '');
+            ciaAppsOld[0].Calculated_Intake_Date__c = Date.today().addMonths(6);
+            ciaAppsOld[0].Application_Status__c = '';
+            ciaAppsOld[0].Program_Enrollment__c = enrollments[1].Id;
+            ciaApps.addAll(ciaAppsOld);
+            ApplicationsDAO.newInstance().insertRecords(ciaApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(!processContacts.isEmpty(), 'The contact was not evaluated.');
+            System.assert(processContacts[0].Calculated_Cadence__c != '', 'The contact was evaluated but did not enter any cadence.');
+            System.assert(
+                processContacts[0].Calculated_Cadence__c == 'Domestic First Offer to Acceptance', 
+                'The contact entered the wrong cadence, ' + processContacts[0].Calculated_Cadence__c
+            );
+        }
+    }
 
-    //         List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
-    //         newQtacApplications[0].Offer_Status__c = 'Accepted';
-    //         ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
-
-    //         // create application
-    //         List<hed__Application__c> newApplicationsOne = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-    //         newApplicationsOne[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
-    //         newApplicationsOne[0].hed__Application_Date__c = Date.today().addMonths(1);
-    //         newApplicationsOne[0].Offer_Status_Date__c = Date.today().addDays(-1);
-    //         newApplicationsOne[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-    //         newApplicationsOne[0].Offered_Program_Plan__c = programList[0].Id;
-    //         newApplicationsOne[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-    //         applicationsToInsert.addAll(newApplicationsOne);
-
-    //         List<hed__Application__c> newApplicationsTwo = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-    //         newApplicationsTwo[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
-    //         newApplicationsTwo[0].hed__Application_Date__c = Date.today().addMonths(2);
-    //         newApplicationsTwo[0].Offer_Status_Date__c = Date.today().addDays(3);
-    //         newApplicationsTwo[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-    //         newApplicationsTwo[0].Offered_Program_Plan__c = programList[0].Id;
-    //         newApplicationsTwo[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-    //         applicationsToInsert.addAll(newApplicationsTwo);
-            
-    //         List<hed__Application__c> newApplicationsThree = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-    //         newApplicationsThree[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
-    //         newApplicationsThree[0].hed__Application_Date__c = Date.today().addMonths(3);
-    //         newApplicationsThree[0].Offer_Status_Date__c = Date.today().addDays(1);
-    //         newApplicationsThree[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-    //         newApplicationsThree[0].Offered_Program_Plan__c = programList[0].Id;
-    //         newApplicationsThree[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-    //         applicationsToInsert.addAll(newApplicationsThree);
-
-    //         List<hed__Application__c> newApplicationsFour = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-    //         newApplicationsFour[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
-    //         newApplicationsFour[0].hed__Application_Date__c = Date.today().addMonths(4);
-    //         newApplicationsFour[0].Offer_Start_Date__c = Date.today().addDays(2);
-    //         newApplicationsFour[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-    //         newApplicationsFour[0].Offered_Program_Plan__c = programList[0].Id;
-    //         newApplicationsFour[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-    //         applicationsToInsert.addAll(newApplicationsFour);
-
-    //         ApplicationsDAO.newInstance().insertRecords(applicationsToInsert, true, AccessLevel.SYSTEM_MODE);
-
-    //         // call method
-    //         List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
-    //         Test.stopTest();
-    //         // assert
-    //         System.assertEquals(
-    //             'Domestic First Offer to Acceptance (Automated)',
-    //             processContacts[0].Calculated_Cadence__c,
-    //             'Error, wrong calculated cadence value.'
-    //         );
-    //     }
-    // }
+    @isTest
+    private static void testDomesticFirstOfferToAcceptanceManualEntryCIAFail() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_WITHDRAWN;
+            enrollments[0].Enrollment_Status_Date__c = Date.today().addMonths(-1);
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Admission_Date__c = Date.today().addMonths(-15);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> ciaApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            ciaApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            ciaApps[0].hed__Application_Date__c = Date.today().addMonths(1);
+            ciaApps[0].Admission_Process__c = 'RTN_TEST';
+            ciaApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            ciaApps[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
+            ciaApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            ciaApps[0].Program_Enrollment__c = enrollments[0].Id;
+            // ciaAppsOld should prevent ciaApps from entering cadence
+            List<hed__Application__c> ciaAppsOld = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, '');
+            ciaAppsOld[0].Calculated_Intake_Date__c = Date.today().addMonths(6);
+            ciaAppsOld[0].Application_Status__c = '';
+            ciaAppsOld[0].Program_Enrollment__c = enrollments[1].Id;
+            ciaApps.addAll(ciaAppsOld);
+            ApplicationsDAO.newInstance().insertRecords(ciaApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(processContacts.isEmpty(), 'The contact was somehow evaluated.');
+        }
+    }
 
     @isTest
     private static void testInternationalAcceptanceDepositNotPaidExit() {
@@ -494,6 +551,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Acceptance Deposit not Paid';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
@@ -532,6 +590,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
             // create application0
@@ -556,6 +615,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
            
             // create application
@@ -619,14 +679,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             }
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureListManual, false, AccessLevel.SYSTEM_MODE); 
 
-            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
-            completedCadenceList.add(new Completed_Cadence__c(
-                Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureListAuto[0].Id,
-                Completed_Cadence_Status__c ='Successful'
-            ));
-            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Availability_Start_Date__c = System.today();
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
@@ -646,6 +698,16 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            completedCadenceList.add(new Completed_Cadence__c(
+                Contact__c = newContacts[0].Id,
+                Application__c = newApplications[0].Id,
+                Nurture_Track_Configuration__c = nurtureListAuto[0].Id,
+                Completed_Cadence_Status__c ='Successful'
+            ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
             Test.stopTest();
@@ -691,6 +753,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Accepted not yet Enrolled (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);   
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
@@ -721,6 +784,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Accepted not yet Enrolled';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);   
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
@@ -794,6 +858,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Deferred Offer to Acceptance';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);   
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
@@ -820,6 +885,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic First Offer to Acceptance (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             // create application
@@ -848,6 +914,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Accepted and Admitted';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             // create application
@@ -876,6 +943,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Offer to Acceptance - Direct (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
@@ -929,6 +997,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Offer to Acceptance - Agent (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
@@ -956,6 +1025,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic First Offer to Acceptance';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
@@ -992,6 +1062,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Offer to Acceptance - Direct';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
@@ -1057,6 +1128,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic and International Enrolment to Census';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
@@ -1348,6 +1420,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'Domestic and International Enrolment to Census';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
@@ -1394,6 +1467,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Offer Lapsed (Automated)';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
             // create applied intake term
@@ -1440,6 +1514,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Application to Offer';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             //Create application
@@ -1471,6 +1546,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Offer Lapsed';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 			// create applied intake term
             List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
@@ -1630,6 +1706,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED;
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
         
             // create application
@@ -1662,6 +1739,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
         
             // create application
@@ -1693,6 +1771,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
             newContacts[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED;
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
         
             List<hed__Application__c> newApplications = TestDataFactory.createApplicationRecords(newContacts[0].Id, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 1);
@@ -1712,53 +1791,195 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         }
     }
 
-	@isTest
-    private static void getDomesticAcceptedAndAdmittedTest(){
+    @isTest
+    private static void testDomesticAcceptedAndAdmittedManualEntryNoEnrollments() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
-           
-            List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic Accepted and Admitted', 'Entry', 14);
-            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
-            
-            List<Contact> newContacts = createTestContactRecords(0, 1);
-            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-
-            
-            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
-            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
-            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
-            programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
-
-            List<hed__Program_Enrollment__c> programEnrollmentListOne = TestDataFactory.createTestProgramEnrollmentRecords(1);
-            programEnrollmentListOne[0].hed__Contact__c = newContacts[0].Id;
-            programEnrollmentListOne[0].Enrollment_Status__c = 'Admitted';
-            programEnrollmentListOne[0].hed__Admission_Date__c = System.today().addMonths(-13);
-            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListOne, false, AccessLevel.SYSTEM_MODE);
-
-            List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
-            programList[0].Program_Level__c = 'Undergraduate';
-            insert programList;
-
-            List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
-            newQtacApplications[0].Offer_Status__c = 'Accepted';
-            ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
-            
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
-            newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
-            newApplications[0].Offered_Program_Plan__c = programList[0].Id;
-            newApplications[0].Related_QTAC_Application__c = null;
-            newApplications[0].Program_Enrollment__c = programEnrollmentListOne[0].Id;
-            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
-            
             Test.startTest();
-            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            qtacApps[0].Offer_Status__c = ApplicationsDAO.STATUS_ACCEPTED;
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> legacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            legacyApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            legacyApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            legacyApps[0].Program_Enrollment__c = enrollments[0].Id;
+            legacyApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            ApplicationsDAO.newInstance().insertRecords(legacyApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
             Test.stopTest();
-            
-            System.assertEquals('Domestic Accepted and Admitted', processContacts[0].Calculated_Cadence__c, 'Calculated cadence is empty.');
+            System.assert(!processContacts.isEmpty(), 'The contact was not evaluated.');
+            System.assert(processContacts[0].Calculated_Cadence__c != '', 'The contact was evaluated but did not enter any cadence.');
+            System.assert(
+                processContacts[0].Calculated_Cadence__c == 'Domestic Accepted and Admitted', 
+                'The contact entered the wrong cadence, ' + processContacts[0].Calculated_Cadence__c
+            );
         }
     }
 
+    @isTest
+    private static void testDomesticAcceptedAndAdmittedManualEntryLegacy() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            qtacApps[0].Offer_Status__c = ApplicationsDAO.STATUS_ACCEPTED;
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = 'Invalid Enrollment Status';
+            enrollments[1].Enrollment_Status_Date__c = Date.today().addMonths(-15);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> legacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            legacyApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            legacyApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            legacyApps[0].Program_Enrollment__c = enrollments[0].Id;
+            legacyApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            List<hed__Application__c> oldLegacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            oldLegacyApps[0].Program_Enrollment__c = enrollments[1].Id;
+            legacyApps.addAll(oldLegacyApps);
+            ApplicationsDAO.newInstance().insertRecords(legacyApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(!processContacts.isEmpty(), 'The contact was not evaluated.');
+            System.assert(processContacts[0].Calculated_Cadence__c != '', 'The contact was evaluated but did not enter any cadence.');
+            System.assert(
+                processContacts[0].Calculated_Cadence__c == 'Domestic Accepted and Admitted', 
+                'The contact entered the wrong cadence, ' + processContacts[0].Calculated_Cadence__c
+            );
+        }
+    }
+
+    @isTest
+    private static void testDomesticAcceptedAndAdmittedManualEntryLegacyFail() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            qtacApps[0].Offer_Status__c = ApplicationsDAO.STATUS_ACCEPTED;
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_EARLY_WITHDRAWN;
+            enrollments[1].Enrollment_Status_Date__c = Date.today().addMonths(-15);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> legacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            legacyApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            legacyApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            legacyApps[0].Program_Enrollment__c = enrollments[0].Id;
+            legacyApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            List<hed__Application__c> oldLegacyApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            oldLegacyApps[0].Program_Enrollment__c = enrollments[1].Id;
+            legacyApps.addAll(oldLegacyApps);
+            ApplicationsDAO.newInstance().insertRecords(legacyApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(processContacts.isEmpty(), 'The contact was somehow evaluated.');
+        }
+    }
+
+    @isTest
+    private static void testDomesticAcceptedAndAdmittedManualEntryCIA() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            qtacApps[0].Offer_Status__c = ApplicationsDAO.STATUS_ACCEPTED;
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = 'Invalid Enrollment Status';
+            enrollments[1].hed__Admission_Date__c = Date.today().addMonths(-15);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> ciaApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            ciaApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            ciaApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            ciaApps[0].Program_Enrollment__c = enrollments[0].Id;
+            ciaApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            List<hed__Application__c> oldCiaApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            oldCiaApps[0].Program_Enrollment__c = enrollments[1].Id;
+            ciaApps.addAll(oldCiaApps);
+            ApplicationsDAO.newInstance().insertRecords(ciaApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(!processContacts.isEmpty(), 'The contact was not evaluated.');
+            System.assert(processContacts[0].Calculated_Cadence__c != '', 'The contact was evaluated but did not enter any cadence.');
+            System.assert(
+                processContacts[0].Calculated_Cadence__c == 'Domestic Accepted and Admitted', 
+                'The contact entered the wrong cadence, ' + processContacts[0].Calculated_Cadence__c
+            );
+        }
+    }
+
+    @isTest
+    private static void testDomesticAcceptedAndAdmittedManualEntryCIAFail() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].hed__Citizenship_Status__c = 'Domestic';
+            contacts[0].Can_Nurture__c = true;
+            ContactsDAO.newInstance().insertRecords(contacts, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Plan__c> programPlans = TestDataFactory.createTestProgramPlanRecords(1);
+            programPlans[0].Program_Level__c = 'Undergraduate';
+            ProgramPlansDAO.newInstance().insertRecords(programPlans, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> qtacApps = createTestApplicationRecords(contacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            qtacApps[0].Offer_Status__c = ApplicationsDAO.STATUS_ACCEPTED;
+            ApplicationsDAO.newInstance().insertRecords(qtacApps, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Program_Enrollment__c> enrollments = TestDataFactory.createTestProgramEnrollmentRecords(2);
+            enrollments[0].hed__Contact__c = contacts[0].Id;
+            enrollments[0].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Contact__c = contacts[0].Id;
+            enrollments[1].Enrollment_Status__c = ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED;
+            enrollments[1].hed__Admission_Date__c = Date.today().addMonths(-15);
+            ProgramEnrollmentsDAO.newInstance().insertRecords(enrollments, true, AccessLevel.SYSTEM_MODE);
+            List<hed__Application__c> ciaApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            ciaApps[0].Calculated_Intake_Date__c = Date.today().addMonths(12);
+            ciaApps[0].Offered_Program_Plan__c = programPlans[0].Id;
+            ciaApps[0].Program_Enrollment__c = enrollments[0].Id;
+            ciaApps[0].Related_QTAC_Application__c = qtacApps[0].Id;
+            List<hed__Application__c> oldCiaApps = createTestApplicationRecords(contacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            oldCiaApps[0].Program_Enrollment__c = enrollments[1].Id;
+            ciaApps.addAll(oldCiaApps);
+            ApplicationsDAO.newInstance().insertRecords(ciaApps, true, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+            System.assert(processContacts.isEmpty(), 'The contact was somehow evaluated.');
+        }
+    }
+    
     @isTest
     private static void getEntryInternationalApplicationToOfferDirectAutomatedTest() {
         System.runAs(TestDataFactoryUser.selectUserQUTESB) {
@@ -1798,7 +2019,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             contacts.add(new Contact(
                 LastName = 'Test',
                 hed__Citizenship_Status__c = 'International',
-                Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED
+                Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+                Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE
             ));
             ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
 
@@ -1860,7 +2082,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             contacts.add(new Contact(
                 LastName = 'Test',
                 hed__Citizenship_Status__c = 'International',
-                Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED
+                Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED,
+                Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE
             ));
             ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
 
@@ -1977,6 +2200,105 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 processContacts[0].Calculated_Cadence__c, 
                 'Error, wrong calculated cadence value.'
             );
+        }
+    }
+    
+    @isTest
+    private static void testContactWithInvalidStudyLevel() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{newContacts[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(
+                Id = marSegList[0].Id, 
+                My_Citizenship_Status__c = 'International Student',
+                My_Primary_Study_Level__c = MarketingSegmentationsDAO.STUDY_LEVEL_HIGHER_DEGREE
+            ));
+            
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            List<Contact> contactList = [SELECT 
+                                            Id, Can_Nurture__c, Lead_Score__c, Citizenship_Country__c, Lead_Source_Category__c, 
+                                            Calculated_Cadence__c, hed__Citizenship_Status__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Primary_Study_Level__c 
+                                          FROM Contact WHERE Id =: newContacts[0].Id];
+
+            List<hed__Application__c> newApplications = createTestApplicationRecords(contactList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Contact> processedContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contactList));
+
+            Test.stopTest();
+            System.Assert.isTrue(processedContacts.isEmpty(), 'Contact with Higher Degree study level should not be nurtured.');
+        }
+    }
+
+    @isTest
+    private static void testContactWithBlankStudyLevel() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{newContacts[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(
+                Id = marSegList[0].Id, 
+                My_Citizenship_Status__c = 'International Student'
+            ));
+            
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            List<Contact> contactList = [SELECT 
+                                            Id, Can_Nurture__c, Lead_Score__c, Citizenship_Country__c, Lead_Source_Category__c, 
+                                            Calculated_Cadence__c, hed__Citizenship_Status__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Primary_Study_Level__c 
+                                          FROM Contact WHERE Id =: newContacts[0].Id];
+
+            List<hed__Application__c> newApplications = createTestApplicationRecords(contactList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Contact> processedContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contactList));
+
+            Test.stopTest();
+            System.assertEquals(
+                'International Application Submission - Direct Applicant (Automated)',
+                processedContacts[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+            System.Assert.isTrue(!processedContacts.isEmpty(), 'Contact with blank study level should still be processed.');
+        }
+    }
+
+    @isTest
+    private static void testContactWithInvalidProgramLevel() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(newApplications[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, 1);
+            ApplicationPreferencesDAO.newInstance().insertRecords(studyLinkappPrefList, true, AccessLevel.USER_MODE);
+
+            List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, Date.today().addMonths(4), 1);
+            packageComponentList[0].Program_Level__c = PackageComponentDAO.PROGRAM_LEVEL_PHD;
+            PackageComponentDAO.newInstance().insertRecords(packageComponentList, true, AccessLevel.USER_MODE);
+
+            List<Contact> processedContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+
+            Test.stopTest();
+
+            System.Assert.isTrue(processedContacts.isEmpty(), 'Contact with PHD Program level should not be nurtured.');
         }
     }
     

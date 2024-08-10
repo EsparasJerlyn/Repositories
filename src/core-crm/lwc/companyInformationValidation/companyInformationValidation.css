@@ -19,3 +19,8 @@
 .orange-background{
     background-color: orange;
 }
+
+.accordion-section-label{
+    --sds-c-accordion-heading-font-size : inherit;
+    background-color: white;
+}

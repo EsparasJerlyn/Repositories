@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <customErrors>
+        <name>No_Qualified_List_Member</name>
+        <label>No Qualified List Member</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <customErrorMessages>
+            <errorMessage>At least populate one contact to proceed with the engagement</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Is_List_Member_Child_Populated</name>
+        <label>Is List Member Child Populated</label>
+        <locationX>182</locationX>
+        <locationY>539</locationY>
+        <defaultConnector>
+            <targetReference>No_Qualified_List_Member</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>List_Member_is_Not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_List_Member_Records</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Allow_stage_update</targetReference>
+            </connector>
+            <label>List Member is Not Null</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Engagement Opportunity - Check List Member {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Engagement Opportunity - Check List Member</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_List_Member_Records</name>
+        <label>Get List Member Records</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_List_Member_Child_Populated</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_List_Record_of_the_Engagement_Opportunity.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>List_Member_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Qualified</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>List_Member__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Parent List Record</description>
+        <name>Get_List_Record_of_the_Engagement_Opportunity</name>
+        <label>Get List Record of the Engagement Opportunity</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_List_Member_Records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Engagement_Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>List__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Allow_stage_update</name>
+        <label>Allow stage update</label>
+        <locationX>50</locationX>
+        <locationY>647</locationY>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Engage</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_List_Record_of_the_Engagement_Opportunity</targetReference>
+        </connector>
+        <filterFormula>ISPICKVAL({!$Record__Prior.Stage__c}, &apos;Identify&apos;) &amp;&amp;ISPICKVAL({!$Record.Stage__c}, &apos;Engage&apos;)</filterFormula>
+        <object>Engagement_Opportunity__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

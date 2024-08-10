@@ -6,6 +6,7 @@
     <label>QUT Accepted</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

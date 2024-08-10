@@ -12,5 +12,5 @@ public interface IProgramOfferingsDAO extends DmlInterface{
     List<Program_Offering__c> getProgramOfferingByRecordIds(
           Set<Id> programOfferIdSet,
           AccessLevel accessLevel
-     );
+     ); 
 }

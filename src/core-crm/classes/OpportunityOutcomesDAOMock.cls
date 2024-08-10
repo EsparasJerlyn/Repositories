@@ -10,7 +10,8 @@
       | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
       | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
       | kenneth.f.alsay                | June 19, 2023         | DEPP-5434,5399         | added getRecordsWithOpportunity method
- */
+      | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | added getActiveCorporateOutcomes method
+*/
 @isTest
 public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock implements IOpportunityOutcomesDAO {
     public Map<Id, Opportunity_Outcome__c> opportunityOutcomesMap;
@@ -82,6 +83,15 @@ public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock im
         List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
         for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
             if(record.Decommissioned_Date__c > System.today()){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
+    public List<Opportunity_Outcome__c> getActiveCorporateOutcomes(AccessLevel accessLevel){
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(record.Outcome_Is_Active__c = true){
                 opportunityOutcomeList.add(record);
             }
         }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Publish_Activation_Start_Date</fullName>
+    <active>true</active>
+    <description>Public Giving Publish Start Date should be greater than or equal to Activation Start Date.</description>
+    <errorConditionFormula>AND(
+    OR(
+        ISNEW(),
+        ISCHANGED(Public_Giving_Publish_Start_Date__c)
+    ),    
+    NOT(ISBLANK(Public_Giving_Publish_Start_Date__c)),
+    Public_Giving_Publish_Start_Date__c &lt; Activation_Start_Date__c  
+)</errorConditionFormula>
+    <errorDisplayField>Public_Giving_Publish_Start_Date__c</errorDisplayField>
+    <errorMessage>Public Giving Publish Start Date should be greater than or equal to Activation Start Date</errorMessage>
+</ValidationRule>

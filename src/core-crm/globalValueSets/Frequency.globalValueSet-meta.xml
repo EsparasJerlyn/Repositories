@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Weekly</fullName>
+        <default>false</default>
+        <label>Weekly</label>
+    </customValue>
+    <customValue>
+        <fullName>Fortnightly</fullName>
+        <default>false</default>
+        <label>Fortnightly</label>
+    </customValue>
+    <customValue>
+        <fullName>Monthly</fullName>
+        <default>false</default>
+        <label>Monthly</label>
+    </customValue>
+    <customValue>
+        <fullName>Pay Cycle</fullName>
+        <default>false</default>
+        <label>Pay Cycle</label>
+    </customValue>
+    <masterLabel>Frequency</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

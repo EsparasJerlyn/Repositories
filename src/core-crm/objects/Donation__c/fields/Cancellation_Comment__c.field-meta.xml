@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancellation_Comment__c</fullName>
+    <description>Comment to explain why the donation record moved into the ‘Cancelled’ Stage.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Comment to explain why the donation record moved into the ‘Cancelled’ Stage.</inlineHelpText>
+    <label>Cancellation Comment</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

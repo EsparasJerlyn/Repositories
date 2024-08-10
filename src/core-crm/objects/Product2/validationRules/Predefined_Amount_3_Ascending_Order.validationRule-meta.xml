@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Predefined_Amount_3_Ascending_Order</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT(ISNULL(Designation__c)),
+
+OR(
+ISNEW(),
+ISCHANGED(Predefined_Amount_3__c)),
+
+OR(
+Predefined_Amount_1__c &gt;= Predefined_Amount_3__c,
+Predefined_Amount_2__c &gt;= Predefined_Amount_3__c,
+Predefined_Amount_3__c &gt;= Predefined_Amount_4__c 
+)
+)</errorConditionFormula>
+    <errorDisplayField>Predefined_Amount_3__c</errorDisplayField>
+    <errorMessage>The predefined amount values should be in ascending order.</errorMessage>
+</ValidationRule>

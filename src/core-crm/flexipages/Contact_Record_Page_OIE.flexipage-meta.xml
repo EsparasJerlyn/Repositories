@@ -126,6 +126,16 @@
                 <identifier>RecordATSI_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Total_Engagement_Score__c</fieldItem>
+                <identifier>RecordTotal_Engagement_Score_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-1221b753-6dac-462a-abe7-1edb381d372b</name>
         <type>Facet</type>
     </flexiPageRegions>

@@ -13,6 +13,8 @@
  *    | roy.nino.s.regala         | July 11, 2023         | DEPP-5459            | removed isvalidurl and only subscribe to event channel on new and edit      |
  *    | eugene.andrew.abuan       | August 14, 2023       | DEPP-6331            | Added newActionTypeLabel property                                           |
  *    | roy.nino.s.regala         | August 25, 2023       | DEPP-6348            | flatten inner fields,added user access checker, and dynamic link access     |
+ *    | roy.nino.s.regala         | Feb 28, 2023          | DEPP-8155            | enable locking of edit button of related list by parent field               |
+ *    | roy.nino.s.regala         | March 19, 2024        | DEPP-7885            | refresh table on parent updates                                             |
  *
  */
 import { LightningElement, api, track, wire } from "lwc";
@@ -20,6 +22,7 @@ import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableD
 import { NavigationMixin } from "lightning/navigation";
 import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
+import { getRecord } from 'lightning/uiRecordApi';
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
 import { isValidUrl } from "c/lwcUtility";
 import Id from "@salesforce/user/Id";
@@ -54,6 +57,7 @@ export default class DynamicDataTable extends NavigationMixin(
   @api channelName = "/event/Dynamic_Datatable_Event__e";
   @api visibilityByParent = "";
   @api visibilityByUser = "";
+  @api numberOfRows;
   /* TARGET CONFIG END */
 
   /* DATATABLE VARIABLES START */
@@ -70,19 +74,35 @@ export default class DynamicDataTable extends NavigationMixin(
   recordCount = 0;
   dataTableIsLoading = false;
   subscription = {};
-  visibilityCheckResult = false;
   userId = Id;
   isCustom = true;
   userAccessInfo = [];
+  visibilityCheckResultByUser = false;
+  visibilityCheckResultByParent = false;
+  showViewLess = false;
+  enableViewLessButton = false;
   /*USER EXPERIENCE VARIABLES END */
 
   /* GETTERS START */
   get enableInfiniteLoading() {
     return this.recordCount > 10 &&
       this.recordCount != this.finalSObjectDataList.length
+      && this.enableViewLessButton
       ? true
       : false;
   }
+
+  get enableViewAllButton(){
+    return (this.recordCount > 10 || this.recordCount > this.numberOfRows) && !this.enableViewLessButton;
+  }
+
+  get reactiveRecordId() {
+    return this.recordId;
+  }
+
+  get reactiveParentId(){
+    return this.parentRecord + '.Id';
+  }  
 
   get numberOfRowsDisplay() {
     if (this.recordCount > 10) {
@@ -99,7 +119,7 @@ export default class DynamicDataTable extends NavigationMixin(
   }
 
   get heightLimit() {
-    return this.recordCount > 10
+    return this.recordCount > 10 && this.enableViewLessButton
       ? "table-height-limit slds-border_top"
       : "slds-border_top";
   }
@@ -135,7 +155,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
   get isShowNewButton() {
     //if visiblity is controlled and show new button is checked
-    return this.visibilityCheckResult && this.showNewButton;
+    return this.visibilityCheckResultByUser && this.visibilityCheckResultByParent  && this.showNewButton;
   }
 
   get newActionLabel() {
@@ -238,12 +258,20 @@ export default class DynamicDataTable extends NavigationMixin(
       ? "AND " + this.relatedListFilters
       : "";
     paramsMap["rowOffSet"] = this.rowOffSet;
-    paramsMap["rowLimit"] = this.rowLimit;
+    paramsMap["rowLimit"] = this.numberOfRows < 10 && !this.enableViewLessButton ? this.numberOfRows : 10;
     paramsMap["sortOrder"] = this.sortOrder;
     paramsMap["sortField"] = this.sortField;
     paramsMap["visibilityByUser"] = this.visibilityByUser;
     paramsMap["visibilityByParent"] = this.visibilityByParent;
     return paramsMap;
+  }
+  
+  @wire(getRecord, { recordId: '$reactiveRecordId', fields: ['$reactiveParentId'] })
+  wiredRecord(result) {
+    this.record = result;
+    if (result.data) {
+        this.handleRefreshData()
+    }
   }
 
   //loads the datatable column,data, and recordcount
@@ -281,7 +309,7 @@ export default class DynamicDataTable extends NavigationMixin(
                   (row) => row.RecordId == relatedFieldValue
                 ).HasReadAccess == false
               ) {
-                finalSobjectRow[".linkStyle"] = "datatable-unlink";
+                finalSobjectRow["linkStyle"] = "datatable-unlink";
               }
             } else {
               finalSobjectRow[rowIndex] = relatedFieldValue;
@@ -301,7 +329,8 @@ export default class DynamicDataTable extends NavigationMixin(
           result.recordCount
         );
         this.recordCount = result.recordCount;
-        this.visibilityCheckResult = result.hasVisibility;
+        this.visibilityCheckResultByUser = result.hasAcessByUser;
+        this.visibilityCheckResultByParent = result.hasAccessByParent;
       })
       .catch((error) => {
         if (logger) {
@@ -321,13 +350,14 @@ export default class DynamicDataTable extends NavigationMixin(
     event.preventDefault();
     const { target } = event;
     target.isLoading = true;
-    this.rowOffSet = this.rowOffSet + this.rowLimit;
+    this.rowOffSet = this.rowOffSet + 10;
     this.loadData(this.setParameters()).then(() => {
       target.isLoading = false;
     });
   }
 
   handleRefreshData() {
+    this.finalSObjectDataList = [];
     this.rowOffSet = 0;
     this.loadData(this.setParameters());
   }
@@ -377,10 +407,11 @@ export default class DynamicDataTable extends NavigationMixin(
     columns.forEach((element) => {
       if (
         element.type == "url" &&
-        element.fieldName.includes(".IdUrl") &&
+        ((element.fieldName.includes(".IdUrl") &&
         !element.fieldName
           .substring(0, element.fieldName.indexOf(".IdUrl"))
-          .includes(".")
+          .includes(".")) ||
+          element.fieldName == "IdUrl")
       ) {
         element.cellAttributes = {
           alignment: "left",
@@ -388,8 +419,8 @@ export default class DynamicDataTable extends NavigationMixin(
             fieldName:
               element.fieldName.substring(
                 0,
-                element.fieldName.indexOf(".IdUrl")
-              ) + ".linkStyle"
+                element.fieldName.indexOf("IdUrl")
+              ) + "linkStyle"
           }
         };
       } else {
@@ -419,8 +450,8 @@ export default class DynamicDataTable extends NavigationMixin(
     let actions = [];
     if (
       this.userAccessInfo &&
-      this.userAccessInfo.find((key) => key.RecordId == row.Id).HasEditAccess ==
-        true
+      this.userAccessInfo.find((key) => key.RecordId == row.Id).HasEditAccess &&
+      this.visibilityCheckResultByParent
     ) {
       actions.push({
         label: "Edit",
@@ -612,5 +643,14 @@ export default class DynamicDataTable extends NavigationMixin(
     });
   }
 
+  handleViewAll(){
+    this.enableViewLessButton = true;
+    this.handleRefreshData();
+  }
+
+  handleViewLess() {
+    this.enableViewLessButton = false;
+    this.handleRefreshData();
+  }
   /* ACTION HANDLERS END */
 }

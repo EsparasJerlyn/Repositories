@@ -1,5 +1,5 @@
 /**
- * @description Interface for Pricebook Entry DAO
+ * @description Interface for Pricebook Entries DAO
  * @author Accenture
  *
  * @history

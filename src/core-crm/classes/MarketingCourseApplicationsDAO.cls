@@ -14,7 +14,7 @@ public inherited sharing class MarketingCourseApplicationsDAO extends DmlBase im
     public Schema.SObjectType getSObjectType()
     {
         return Marketing_Course_Application__c.SObjectType;
-    }
+    } 
 
     public static IMarketingCourseApplicationsDAO newInstance()
     {

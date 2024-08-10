@@ -1,66 +1,84 @@
 <template>
-    <div if:true={showErrorMessage} class="slds-box slds-theme_alert-texture slds-text-align_center orange-background">
-        <lightning-icon class="slds-m-right_medium" icon-name="utility:warning" alternative-text="Warning" title="Warning" size="small"></lightning-icon>
-        {errorConvertMessage}
-    </div>
-    <lightning-card>
-        <slot name="title" class="width-expanded">
-            <div class="slds-box slds-theme_shade slds-text-heading_medium slds-m-horizontal_medium title-text">
-                COMPANY INFORMATION
+    <lightning-accordion active-section-name="companyInformationSection" allow-multiple-sections-open>
+        <lightning-accordion-section name="companyInformationSection" label="Company Information"
+            class="customAccordion accordion-section-label">
+            <div if:true={showErrorMessage}
+                class="slds-box slds-theme_alert-texture slds-text-align_center orange-background">
+                <lightning-icon class="slds-m-right_medium" icon-name="utility:warning" alternative-text="Warning"
+                    title="Warning" size="small"></lightning-icon>
+                {errorConvertMessage}
             </div>
-        </slot>
-        <div class="slds-m-top_large slds-m-horizontal_medium slds-text-align_center">
-            <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
-        </div>
-        <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess}>
-            <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-bottom_small">
-                <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
-                    <p class="slds-m-bottom_small gray-text">{abn.label}</p>
-                    <p if:false={disableEditButton} class={abnValueClass}>{abn.value}</p>
-                    <lightning-input-field if:true={disableEditButton} variant="label-hidden" field-name={abn.apiName}></lightning-input-field>
+            <lightning-card>
+                <div class="slds-m-top_large slds-m-horizontal_medium slds-text-align_center">
+                    <lightning-spinner
+                        if:true={isLoading}
+                        alternative-text="Validating..."
+                        size="small">
+                    </lightning-spinner>
                 </div>
-                <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
-                    <p class="slds-m-bottom_small gray-text">Entity / Company Name</p>
-                    <p class="slds-hyphenate"><strong>{entityNameValue}</strong></p>
-                </div>
-                <div class="slds-col slds-size_1-of-5">
-                    <p class="slds-m-bottom_small gray-text">Status</p>
-                    <p>{abn.statusValue}</p>
-                </div>
-            </div>
-            <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-vertical_large">
-                <div class="slds-col slds-size_1-of-1 slds-text-align_center slds-m-top_large slds-border_top">
-                    <div class="slds-m-top_small">
-                        <lightning-button
-                            if:true={disableEditButton}
-                            class="slds-m-right_small" 
-                            variant="brand"
-                            type="submit" 
-                            label="SAVE">
-                        </lightning-button>
-                        <lightning-button
-                            if:true={disableEditButton} 
-                            variant="Neutral" 
-                            label="CANCEL" 
-                            onclick={handleCancelButton}>
-                        </lightning-button>
-                        <lightning-button
-                            if:false={disableEditButton}
-                            class="slds-m-right_small"
-                            variant="brand"
-                            label="VALIDATE" 
-                            onclick={handleValidateButton}
-                            disabled={disableValidateButton}>
-                        </lightning-button>
-                        <lightning-button   
-                            if:false={disableEditButton}
-                            variant="Neutral"
-                            label="EDIT" 
-                            onclick={handleEditButton}>
-                        </lightning-button>
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsubmit={handleSaveButton} onsuccess={handleSuccess}>
+                    <div class="slds-grid slds-gutters slds-m-bottom_small">
+                        <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
+                            <p class="slds-m-bottom_small gray-text">Phone</p>
+                            <p if:false={disableEditButton} class={abnValueClass}>
+                                <lightning-output-field field-name="Phone" variant="label-hidden">
+                                </lightning-output-field>
+                            </p>
+                            <lightning-input-field if:true={disableEditButton} variant="label-hidden"
+                                field-name="Phone"></lightning-input-field>
+                        </div>
                     </div>
-                </div>
-            </div>
-       </lightning-record-edit-form>
-    </lightning-card>
+                    <div class="slds-grid slds-gutters slds-m-bottom_small">
+                        <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
+                            <p class="slds-m-bottom_small gray-text">{abn.label}</p>
+                            <p if:false={disableEditButton} class={abnValueClass}>{abn.value}</p>
+                            <lightning-input-field if:true={disableEditButton} variant="label-hidden"
+                                field-name={abn.apiName}></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_2-of-5 slds-p-right_medium">
+                            <p class="slds-m-bottom_small gray-text">Entity / Company Name</p>
+                            <p class="slds-hyphenate"><strong>{entityNameValue}</strong></p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5">
+                            <p class="slds-m-bottom_small gray-text">Status</p>
+                            <p>{abn.statusValue}</p>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-vertical_large">
+                        <div class="slds-col slds-size_1-of-1 slds-text-align_center slds-m-top_large slds-border_top">
+                            <div class="slds-m-top_small">
+                                <lightning-button
+                                    if:true={disableEditButton}
+                                    class="slds-m-right_small"
+                                    variant="brand"
+                                    type="submit" label="SAVE">
+                                </lightning-button>
+                                <lightning-button
+                                    if:true={disableEditButton}
+                                    variant="Neutral"
+                                    label="CANCEL"
+                                    onclick={handleCancelButton}>
+                                </lightning-button>
+                                <lightning-button
+                                    if:false={disableEditButton}
+                                    class="slds-m-right_small"
+                                    variant="brand"
+                                    label="VALIDATE"
+                                    onclick={handleValidateButton}
+                                    disabled={disableValidateButton}>
+                                </lightning-button>
+                                <lightning-button
+                                    if:false={disableEditButton}
+                                    variant="Neutral"
+                                    label="EDIT"
+                                    onclick={handleEditButton}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-record-edit-form>
+            </lightning-card>
+        </lightning-accordion-section>
+    </lightning-accordion>
 </template>

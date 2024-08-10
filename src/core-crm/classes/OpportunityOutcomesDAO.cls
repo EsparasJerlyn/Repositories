@@ -10,6 +10,8 @@
  *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
  *    | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
  *    | ryan.j.a.dela.cruz             | July 6, 2023          | DEPP-5995              | Added ACTIVE_STAGE
+ *    | kenneth.f.alsay                | November 7, 2023      | DEPP-7000              | Added Corporate Partnership Record Type
+ *    | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | Added getActiveCorporateOutcomes
  */
 public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements IOpportunityOutcomesDAO {
 
@@ -24,6 +26,9 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
         .getRecordTypeId();
     public static final Id STARTUP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName()
         .get('Startup')
+        .getRecordTypeId();
+    public static final Id CORPORATEPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName()
+        .get('Corporate_Partnership')
         .getRecordTypeId();
 
     public static final String COMPLETED_STAGE = 'Completed';
@@ -112,5 +117,18 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
             WHERE Decommissioned_Date__c > :System.today()
             WITH USER_MODE
         ];
+    }
+
+    public List<Opportunity_Outcome__c> getActiveCorporateOutcomes(AccessLevel accessLevel){
+        if(accessLevel != null){       
+            return Database.query(
+                'SELECT Id, Opportunity__c ' +
+                'FROM Opportunity_Outcome__c ' +
+                'WHERE Outcome_Is_Active__c = true ',
+                accessLevel
+            );
+        }else{
+            return new List<Opportunity_Outcome__c>();
+        }      
     }
 }

@@ -10,7 +10,7 @@
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
-    <valueSet>
+    <valueSet> 
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>

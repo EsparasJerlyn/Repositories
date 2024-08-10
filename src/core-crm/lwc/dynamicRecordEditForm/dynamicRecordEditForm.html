@@ -1,0 +1,101 @@
+<template>
+  <c-logger></c-logger>
+  <template if:true={sectionFilter}>
+    <lightning-accordion
+      allow-multiple-sections-open
+      active-section-name={relatedListLabel}>
+      <lightning-accordion-section
+        data-id="relatedListForm"
+        name={relatedListLabel}
+        label={relatedListLabel}
+        class="accordion-section">
+          <lightning-record-edit-form
+            object-api-name={childObjectRecord}
+            record-id={passedRecordId}
+            onsuccess={handleSuccess}
+            onerror={handleError}>
+            <div class="slds-grid slds-p-top_x-small">
+              <div
+                class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-vertical_x-small">
+                <template for:each={fetchColumn1} for:item="column1Field">
+                  <template lwc:if={showEditField}>
+                    <div key={column1Field.name} class="slds-grid">
+                      <div
+                        class="slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal">
+                        <lightning-output-field field-name={column1Field.name}>
+                          <template if:true={editFilter}>
+                            <lightning-button-icon
+                              class="slds-float_right"
+                              icon-name="utility:edit"
+                              variant="bare"
+                              onclick={handleEdit}>
+                            </lightning-button-icon>
+                          </template>
+                        </lightning-output-field>
+                      </div>
+                    </div>
+                  </template>
+                  <template lwc:else>
+                    <div key={column1Field.name} class="slds-grid">
+                      <div class="slds-col slds-size_1-of-1">
+                        <lightning-input-field field-name={column1Field.name}>
+                        </lightning-input-field>
+                      </div>
+                    </div>
+                  </template>
+                </template>
+              </div>
+              <div
+                class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-vertical_x-small">
+                <template for:each={fetchColumn2} for:item="column2Field">
+                  <template lwc:if={showEditField}>
+                    <div key={column2Field.name} class="slds-grid">
+                      <div
+                        class="slds-col slds-form-element slds-form-element_readonly slds-hint-parent slds-form-element_horizontal">
+                        <lightning-output-field field-name={column2Field.name}>
+                          <template if:true={editFilter}>
+                            <lightning-button-icon
+                              class="slds-float_right"
+                              icon-name="utility:edit"
+                              variant="bare"
+                              onclick={handleEdit}>
+                            </lightning-button-icon>
+                          </template>
+                        </lightning-output-field>
+                      </div>
+                    </div>
+                  </template>
+                  <template lwc:else>
+                    <div key={column2Field.name} class="slds-grid">
+                      <div class="slds-col slds-size_1-of-1">
+                        <lightning-input-field field-name={column2Field.name}>
+                        </lightning-input-field>
+                      </div>
+                    </div>
+                  </template>
+                </template>
+              </div>
+            </div>
+            <template if:false={showEditField}>
+              <div class="slds-text-align_center">
+                <div class="slds-p-vertical_x-small">
+                  <lightning-button
+                    onclick={handleCancel}
+                    type="button"
+                    class="center-align-buttons slds-p-right_xxx-small"
+                    label="Cancel">
+                  </lightning-button>
+                  <lightning-button
+                    variant="brand"
+                    type="submit"
+                    class="center-align-buttons slds-p-left_xxx-small"
+                    label="Save">
+                  </lightning-button>
+                </div>
+              </div>
+            </template>
+          </lightning-record-edit-form>
+      </lightning-accordion-section>
+    </lightning-accordion>
+  </template>
+</template>

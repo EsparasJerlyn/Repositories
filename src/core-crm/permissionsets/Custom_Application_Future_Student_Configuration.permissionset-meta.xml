@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Future_Student_Configuration</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>Access to Future Student Configuration App</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Custom Application - Future Student Configuration</label>
+</PermissionSet>

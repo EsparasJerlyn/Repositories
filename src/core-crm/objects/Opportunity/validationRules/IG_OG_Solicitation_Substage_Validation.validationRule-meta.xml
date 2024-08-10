@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Solicitation_Substage_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED( StageName ),
+ISPICKVAL( PRIORVALUE(StageName), &apos;Solicitation&apos; ),
+ISPICKVAL( StageName , &apos;Executed&apos; ),
+NOT(ISPICKVAL(  Solicitation_Sub_Stage__c , &apos;Agreement&apos; ))
+)</errorConditionFormula>
+    <errorDisplayField>Solicitation_Sub_Stage__c</errorDisplayField>
+    <errorMessage>Ensure substage is set to Agreement.</errorMessage>
+</ValidationRule>

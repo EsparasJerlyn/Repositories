@@ -1,0 +1,73 @@
+<template>
+    <template lwc:if={isDisplayPaymentDonation}>
+        <div class="slds-clearfix slds-p-top_medium slds-p-bottom_medium">
+            <div class="slds-clearfix slds-wrap">
+                <div class="slds-float_left">
+                    <p class="slds-p-top_x-small slds-p-bottom_x-small"><b>{tableLabel}</b></p>
+                </div>
+                <template lwc:if={isLoading}></template>
+                <template lwc:else>
+                    <div class="slds-float_right">
+                        <template lwc:if={showNewButton}>
+                            <lightning-button
+                                label="New"
+                                title="New"
+                                variant="brand-outline"
+                                onclick={handleShowModal}
+                                class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+                            </lightning-button>
+                        </template>
+                        <template lwc:if={showEditButton}>
+                            <lightning-button
+                                label="Edit"
+                                title="Edit"
+                                variant="brand-outline"
+                                onclick={handleShowModal}
+                                class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+                            </lightning-button>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-clearfix slds-wrap slds-p-top_medium ">
+                <template lwc:if={isLoading}>
+                    <div class="slds-text-align_center slds-m-top_medium">
+                        <div class="slds-show_inline-block slds-spinner_inline spinner-padding">
+                            <lightning-spinner variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
+                        </div>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <template lwc:if={isDataEmpty}>
+                        <div class="slds-text-align_center spinner-padding slds-p-top_medium slds-p-bottom_medium">
+                            <b>No {tableLabel} Found.</b>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <lightning-datatable
+                            key-field="Id"
+                            columns={columns}
+                            data={data}
+                            hide-checkbox-column="true"
+                        >
+                        </lightning-datatable>
+                    </template>
+                </template>
+            </div>
+        </div>
+        <template if:true={isShowModal}>
+            <c-child-donation-modal
+                existing-data={data}
+                record-id={recordId}
+                onreloadmaintable={fetchDonations}
+                page-unique-param={_pageUniqueParam}
+                is-donation-endowment-payment-tab = {isDonationEndowmentPaymentTab}
+                is-donation-pledge-payment-tab = {isDonationPledgePaymentTab}
+                modal-header={modalHeader}
+                onclosemodal={handleCloseModal}
+                parent-donation-detail={parentDonationDetail}
+                title={tableLabel}
+            ></c-child-donation-modal>
+        </template>
+    </template>
+</template>

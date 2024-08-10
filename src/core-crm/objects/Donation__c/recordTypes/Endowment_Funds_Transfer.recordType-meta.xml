@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Endowment_Funds_Transfer</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Endowment_Funds_Transfer_Compact_Layout</compactLayoutAssignment>
+    <description>Create a Donation record to manage the internal transfer of funds from an Endowment Account to another Designation.</description>
+    <label>Endowment Funds Transfer</label>
+    <picklistValues>
+        <picklist>Payment_Type__c</picklist>
+        <values>
+            <fullName>Internal Transfer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

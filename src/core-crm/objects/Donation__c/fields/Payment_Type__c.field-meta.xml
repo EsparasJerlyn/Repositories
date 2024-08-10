@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Type__c</fullName>
+    <description>Indicates how the donor would like to make the Donation.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates how the donor would like to make the Donation.</inlineHelpText>
+    <label>Payment Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>One-Off Payment</fullName>
+                <default>false</default>
+                <label>One-Off Payment</label>
+            </value>
+            <value>
+                <fullName>Recurring Payment</fullName>
+                <default>false</default>
+                <label>Recurring Payment</label>
+            </value>
+            <value>
+                <fullName>Payment Plan</fullName>
+                <default>false</default>
+                <label>Payment Plan</label>
+            </value>
+            <value>
+                <fullName>Internal Transfer</fullName>
+                <default>false</default>
+                <label>Internal Transfer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

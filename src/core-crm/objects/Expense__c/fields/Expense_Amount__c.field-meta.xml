@@ -8,6 +8,7 @@
     <required>true</required>
     <scale>0</scale>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Currency</type>
 </CustomField>

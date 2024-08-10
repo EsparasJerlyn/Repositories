@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Is_Qualified_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED( StageName ),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Qualify&apos;),
+ISPICKVAL( StageName , &apos;Cultivation&apos;),
+NOT(Is_Qualified__c)
+
+)</errorConditionFormula>
+    <errorDisplayField>Is_Qualified__c</errorDisplayField>
+    <errorMessage>The qualification must be successful to move to Cultivation stage</errorMessage>
+</ValidationRule>

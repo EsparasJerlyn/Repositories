@@ -6,6 +6,7 @@
     <label>Risk Type</label>
     <required>true</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

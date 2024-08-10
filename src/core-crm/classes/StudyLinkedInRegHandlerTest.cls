@@ -30,7 +30,7 @@ public without sharing class StudyLinkedInRegHandlerTest {
 
             Test.startTest();
             Account testAccount = new Account();
-            testAccount.Name = 'OPE Catalogue';
+            testAccount.Name = 'QUT Experience';
             insert testAccount;
 
             User u = handler.createUser(null, data);

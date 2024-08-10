@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Action</name>
+        <label>Error Action</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <actionName>FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Save_Log</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Opportunity - Update Child Donations Is Anonymous</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loggingLevelName</name>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error in Opportunity - Update Child Donations Is Anonymous</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>FlowLogEntry</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>842</locationX>
+        <locationY>539</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>Logger</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>59.0</apiVersion>
+    <assignments>
+        <name>Assign_Is_Anonymous_To_Child_Records</name>
+        <label>Assign Is Anonymous To Child Records</label>
+        <locationX>138</locationX>
+        <locationY>647</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Child_Donation_Records.Is_Anonymous_Donation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Is_Anonymous_Opportunity__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Collect_Child_Donations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Collect_Child_Donations</name>
+        <label>Collect Child Donations</label>
+        <locationX>138</locationX>
+        <locationY>755</locationY>
+        <assignmentItems>
+            <assignToReference>ChildDonationsList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Child_Donation_Records</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Child_Donation_Records</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_For_Child_Donation_Records</name>
+        <label>Check For Child Donation Records</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Existing_Child_Donations</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Child_Donation_Records</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Child_Donation_Records</targetReference>
+            </connector>
+            <label>Existing Child Donations</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Opportunity Update Child Donations {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity - Update Child Donations Is Anonymous</label>
+    <loops>
+        <name>Loop_Child_Donation_Records</name>
+        <label>Loop Child Donation Records</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <collectionReference>Get_Child_Donation_Records</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Is_Anonymous_To_Child_Records</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Child_Donations_Is_Anonymous</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Child_Donation_Records</name>
+        <label>Get Child Donation Records</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_For_Child_Donation_Records</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Donation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Child_Donations_Is_Anonymous</name>
+        <label>Update Child Donations Is Anonymous</label>
+        <locationX>50</locationX>
+        <locationY>947</locationY>
+        <inputReference>ChildDonationsList</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Child_Donation_Records</targetReference>
+        </connector>
+        <filterFormula>AND(
+ISCHANGED({!$Record.Is_Anonymous_Opportunity__c}),
+OR(
+{!$Record.RecordType.DeveloperName} = &apos;Individual_Giving&apos;,
+{!$Record.RecordType.DeveloperName} = &apos;Organisation_Giving&apos;)
+)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>ChildDonationsList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Donation__c</objectType>
+    </variables>
+</Flow>

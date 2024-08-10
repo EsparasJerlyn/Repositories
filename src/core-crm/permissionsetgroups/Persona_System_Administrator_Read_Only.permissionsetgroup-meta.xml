@@ -5,10 +5,17 @@
     <label>Persona System Administrator - Read Only</label>
     <mutingPermissionSets>Persona_System_Administrator_Read_Only_Muted</mutingPermissionSets>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
+    <permissionSets>Enquiry_Management_Home_Page_Domestic</permissionSets>
+    <permissionSets>Enquiry_Management_Home_Page_International</permissionSets>
+    <permissionSets>FS_Configuration_Home_Page_Domestic</permissionSets>
+    <permissionSets>FS_Configuration_Home_Page_International</permissionSets>
+    <permissionSets>Future_Student_Nurturing_Home_Page_Domestic</permissionSets>
+    <permissionSets>Future_Student_Nurturing_Home_Page_International</permissionSets>
     <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
+    <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
     <permissionSets>Permission_All_Flows</permissionSets>
     <permissionSets>Permission_All_Lightning_Apps</permissionSets>
@@ -22,6 +29,6 @@
     <permissionSets>Permission_View_All_Users</permissionSets>
     <permissionSets>Permission_View_Roles_and_Role_Hierarchy</permissionSets>
     <permissionSets>Permission_View_Setup_and_Configuration</permissionSets>
-    <permissionSets>Permission_All_Custom_Permission</permissionSets>
+    <permissionSets>PowerBI_External_Credential</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

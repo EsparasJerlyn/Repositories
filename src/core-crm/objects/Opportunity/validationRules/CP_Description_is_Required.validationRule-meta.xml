@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CP_Description_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+   RecordType.DeveloperName =&quot;Corporate_Partnership&quot;,
+   ISCHANGED(StageName),
+   ISPICKVAL(StageName, &quot;Negotiate&quot;),
+   ISBLANK( Description )
+)</errorConditionFormula>
+    <errorDisplayField>Description</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

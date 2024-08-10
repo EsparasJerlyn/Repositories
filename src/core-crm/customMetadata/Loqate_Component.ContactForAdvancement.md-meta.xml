@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ContactForAdvancement</label>
+    <protected>false</protected>
+    <values>
+        <field>Address_Lookup_Field__c</field>
+        <value xsi:type="xsd:string">hed__Parent_Contact__c</value>
+    </values>
+    <values>
+        <field>Company_Mapping__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Country_Mapping__c</field>
+        <value xsi:type="xsd:string">[{&quot;label&quot;:&quot;Australia&quot;,&quot;value&quot;:&quot;AU&quot;}]</value>
+    </values>
+    <values>
+        <field>Field_API_Address_Mapping__c</field>
+        <value xsi:type="xsd:string">[{&quot;type&quot;:&quot;Mailing&quot;,&quot;city&quot;:&quot;MailingCity&quot;,&quot;state&quot;:&quot;MailingState&quot;,&quot;street&quot;:&quot;MailingStreet&quot;,&quot;postalCode&quot;:&quot;MailingPostalCode&quot;,&quot;country&quot;:&quot;MailingCountry&quot;,&quot;valid&quot;:&quot;ContactMailingAddress_Validation__c&quot;}]</value>
+    </values>
+    <values>
+        <field>Field_Mapping__c</field>
+        <value xsi:type="xsd:string">[
+   {
+      &quot;label&quot;:&quot;Phone&quot;,
+	&quot;localeLabel&quot;:&quot;Phone Locale&quot;,
+	&quot;statusLabel&quot;:&quot;Phone Status&quot;,
+      &quot;apiName&quot;:&quot;Phone&quot;,
+      &quot;apiNameNoLocale&quot;:&quot;Phone_No_Locale__c&quot;,
+      &quot;statusValidationField&quot;:&quot;ContactPhone_Validation__c&quot;,
+      &quot;localeField&quot;:&quot;ContactPhone_Locale__c&quot;,
+      &quot;loqateRequest&quot;:&quot;fullPhone&quot;,
+      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;
+   },
+   {
+      &quot;label&quot;:&quot;Mobile&quot;,
+	&quot;localeLabel&quot;:&quot;Mobile Locale&quot;,
+	&quot;statusLabel&quot;:&quot;Mobile Status&quot;,
+      &quot;apiName&quot;:&quot;MobilePhone&quot;,
+      &quot;apiNameNoLocale&quot;:&quot;Mobile_No_Locale__c&quot;,
+      &quot;statusValidationField&quot;:&quot;ContactMobile_Validation__c&quot;,
+      &quot;localeField&quot;:&quot;ContactMobile_Locale__c&quot;,
+      &quot;loqateRequest&quot;:&quot;fullPhone&quot;,
+      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;
+   },
+   {
+      &quot;label&quot;:&quot;Work Phone&quot;,
+	&quot;localeLabel&quot;:&quot;Work Phone Locale&quot;,
+	&quot;statusLabel&quot;:&quot;Work Phone Status&quot;,
+      &quot;apiName&quot;:&quot;hed__WorkPhone__c&quot;,
+      &quot;apiNameNoLocale&quot;:&quot;Work_Phone_No_Locale__c&quot;,
+      &quot;statusValidationField&quot;:&quot;ContactWorkPhone_Validation__c&quot;,
+      &quot;localeField&quot;:&quot;ContactWorkPhone_Locale__c&quot;,
+      &quot;loqateRequest&quot;:&quot;fullPhone&quot;,
+      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;
+   }
+]</value>
+    </values>
+    <values>
+        <field>Object_Type__c</field>
+        <value xsi:type="xsd:string">Contact</value>
+    </values>
+    <values>
+        <field>Profile__c</field>
+        <value xsi:type="xsd:string">Advancement</value>
+    </values>
+    <values>
+        <field>Validation_Rule_Fields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Task_Status__c</fullName>
+    <description>The contributor’s status of list member review/curation process.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The contributor’s status of their list member review/curation process.</inlineHelpText>
+    <label>Task Status</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Assigned</fullName>
+                <default>true</default>
+                <label>Assigned</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

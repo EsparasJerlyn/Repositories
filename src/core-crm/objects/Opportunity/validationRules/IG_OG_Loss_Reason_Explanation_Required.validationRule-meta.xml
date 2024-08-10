@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Loss_Reason_Explanation_Required</fullName>
+    <active>true</active>
+    <description>Loss Reason Explanation is required when Stage is changed from ANY stage to Discontinued</description>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED(StageName),
+ISPICKVAL(StageName, &quot;Discontinued&quot;),
+ISBLANK(Loss_Reason_Explanation__c)
+)</errorConditionFormula>
+    <errorDisplayField>Loss_Reason_Explanation__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

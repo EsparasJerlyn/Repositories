@@ -7,9 +7,50 @@
         <name>CustomField</name>
     </types>
     -->
+    <types>
+        <!-- Start DEPP-8399 -->
+        <members>DonationCauseCustomValidationFlowTest</members>
+        <members>DonationCausesDAO</members>
+        <members>DonationCausesDAOMock</members>
+        <members>DonationCausesDAOTest</members>
+        <members>IDonationCausesDAO</members>
+        <!-- End DEPP-8399 -->
 
-    <!-- Comment this out when 2nd PR is deployed, this is to change the data type
-        from picklist to multiplicklist inorder to avoid the error of
+        <!-- Start DEPP-8390 -->
+        <members>DonationCauseCodeAutoNumbersDAO</members>
+        <members>DonationCauseCodeAutoNumbersDAOMock</members>
+        <members>DonationCauseCodeAutoNumbersDAOTest</members>
+        <members>DonationCauseTriggerHandler</members>
+        <members>DonationCauseTriggerHandlerTest</members>
+        <members>IDonationCauseCodeAutoNumbersDAO</members>
+        <!-- End DEPP-8390 -->
+
+        <!-- Start DEPP-8400 -->
+        <members>Donation_Cause_Child_Product_Update_Test</members>
+        <members>Donation_Cause_Stage_Update_Test</members>
+        <members>DonationCauseStageUpdateBatch</members>
+        <members>DonationCauseStageUpdateBatchTest</members>
+        <members>DonationCauseStageUpdateScheduler</members>
+        <members>DonationCauseStageUpdateSchedulerTest</members>
+        <!-- End DEPP-8400 -->
+
+        <!-- Start DEPP-8391 -->
+        <members>Donation_Cause_Create_Child_Product_Test</members>
+        <!-- End DEPP-8391 -->
+
+        <name>ApexClass</name>
+    </types>
+
+    <types>
+        <!-- Start DEPP-8390 -->
+        <members>DonationCauseTrigger</members>
+        <!-- End DEPP-8390 -->
+        <name>ApexTrigger</name>
+    </types>   
+
+
+    <!-- Comment this out when 2nd PR is deployed, this is to change the data type 
+        from picklist to multiplicklist inorder to avoid the error of 
         "Cannot change type due to exising data"
 
         Update: Commenting out the Category type since we are deploying the 2nd PR
@@ -19,11 +60,112 @@
         <name>CustomField</name>
     </types> -->
     <types>
+        <!-- Start DEPP-8054 -->
+         <members>Stewardship__c.Stewardship_Type__c</members>
+         <members>Stewardship__c.Stewardship_Tier__c</members>
+         <members>Stewardship__c.Completion_Reason__c</members>
+         <members>Stewardship__c.Lost_Reason__c</members>
+         <members>Stewardship__c.Lost_Summary__c</members>
+        <!-- End DEPP-8054 -->
+
+        <members>Document__c.Donation_Cause__c</members>
+        <members>Donation__c.Donation_Cause__c</members>
+
+        <!-- Start DEPP-8056 -->
+        <members>Donation_Cause__c.Donation_Cause__c</members>
+        <members>Donation_Cause__c.Is_QUT_Giving_Cause__c</members>
+        <members>Donation_Cause__c.Is_Staff_Giving_Cause__c</members>
+        <!-- Start DEPP-8056 -->
+
+        <!--(Start) DEPP-7200 Epic-->
+        <members>Donation_Cause__c.Activation_End_Date__c</members>
+        <members>Donation_Cause__c.Activation_Start_Date__c</members>
+        <members>Donation_Cause__c.Archived_Comment__c</members>
+        <members>Donation_Cause__c.Archived_Date__c</members>
+        <members>Donation_Cause__c.Archived_Reason__c</members>
+        <members>Donation_Cause__c.Donation_Cause_Code__c</members>
+        <members>Donation_Cause__c.Donation_Cause_Description__c</members>
+        <members>Donation_Cause__c.External_Id__c</members>
+        <members>Donation_Cause__c.External_Key__c</members>
+        <members>Donation_Cause__c.Giving_Category__c</members>
+        <members>Donation_Cause__c.Is_For_Private_Giving__c</members>
+        <members>Donation_Cause__c.Is_For_Public_Giving__c</members>
+        <members>Donation_Cause__c.Is_For_Staff_Giving__c</members>
+        <members>Donation_Cause__c.Migration_Id__c</members>
+        <members>Donation_Cause__c.Migration_Key__c</members>
+        <members>Donation_Cause__c.Owner_Full_Name__c</members>
+        <members>Donation_Cause__c.QA_Completed__c</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_End_Date__c</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date__c</members>
+        <members>Donation_Cause__c.Ready_For_Publishing__c</members>
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_End_Date__c</members>
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date__c</members>
+        <members>Donation_Cause__c.Stage__c</members>
+
+        <members>Donation_Cause_Code_Auto_Number__c.Donation_Cause__c</members>
+         <!--(End) DEPP-7200 Epic-->
+
+        <!-- Start DEPP-7239 -->
+        <members>Product2.Ranking__c</members>
+        <members>Product2.Section_4_Heading__c</members>
+        <members>Product2.Section_4_Content__c</members>
+        <members>Product2.Section_4_Image_Video_URL__c</members>
+        <members>Product2.Section_4_Image_Video_Page_Location__c</members>
+        <members>Product2.Section_5_Heading__c</members>
+        <members>Product2.Section_5_Content__c</members>
+        <members>Product2.Section_5_Image_Video_URL__c</members>
+        <members>Product2.Section_5_Image_Video_Page_Location__c</members>
+        <members>Product2.Section_6_Heading__c</members>
+        <members>Product2.Section_6_Content__c</members>
+        <members>Product2.Section_6_Image_Video_URL__c</members>
+        <members>Product2.Section_6_Image_Video_Page_Location__c</members>
+        <members>Product2.Section_7_Heading__c</members>
+        <members>Product2.Section_7_Content__c</members>
+        <members>Product2.Section_7_Image_Video_URL__c</members>
+        <members>Product2.Section_7_Image_Video_Page_Location__c</members>
+        <!-- End DEPP-7239 -->
+
+         <!--Start DEPP-8420-->
+        <members>Product2.Donation_Cause__c</members>
+         <!-- End DEPP-8420 -->
+
+        <!--Start DEPP-8390-->
+            <members>Designation_Auto_Number__c.Designation__c</members>
+        <!--End DEPP-8390-->
+        <!-- Start DEPP-6960-->
+        <members>List__c.Requester_Name__c</members>
+        <!-- End DEPP-6960-->
+        <!-- Start DEPP-7306-->
+        <members>List_Contributor__c.Contact__c</members>
+        <!-- End DEPP-7306-->
+        <!-- Start DEPP-6621-->
+        <members>Engagement_Opportunity__c.Requester_Name__c</members>
+        <!-- End DEPP-6621-->
+        <!-- Start DEPP-7000-->
+        <members>Opportunity_Outcome__c.Outcome_Total_Value__c</members>
+        <!-- End DEPP-7000-->
+        <!--Start DEPP-7104-->
+        <members>Opportunity_Outcome__c.Outcome_Type__c</members>
+        <!--End DEPP-7104-->
+        <name>CustomField</name>
+    </types>    
+
+    <types>
+       <members>TriggerHandler.Donation_Cause_c</members>
+        <name>CustomMetadata</name>
+    </types>
+
+    <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
         <!--End DEPP-6659-->
         <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
+
+        <!--Start DEPP-8391-->
+        <members>Donation_Cause_Record_Page</members>
+        <!--End DEPP-8391-->
+
         <!--Start DEPP-8075-->
         <members>Student_Success_Configuration_UtilityBar</members>
         <!--End DEPP-8075-->
@@ -46,9 +188,28 @@
         <members>Case_Clear_Closure_Fields</members>
         <members>Case_Pending_Closure_to_Closed</members>
         <!--(End) DEPP-5906-->
+        <!--Descrption (we don't need this flows now) DEPP-8867 -->
+        <members>Flow_for_Populating_the_Resolution_Field_on_the_Case_Object</members>
+        <!--Below flow wont destroy out of certain sandboxes-->
+        <!--<members>Flow_Population_on_Case_Action_Taken_Field</members>-->
+        <!--(End) DEPP-8867-->
+        <members>Donation_Cause_Update_Custom_Validation</members><!--DEPP-8399-->
+        <!--Start DEPP-8400-->
+        <members>Donation_Cause_Child_Product_Update</members>
+        <members>Donation_Cause_Stage_Update</members>
+        <!--End DEPP-8400-->
+        <!--Start DEPP-8391-->
+        <members>Donation_Cause_Create_Child_Product</members>
+        <!--End DEPP-8391-->
         <!--(Start) DEPP-6979-->
         <members>Contact_Parent_Child_Syncing</members>
         <!--(End) DEPP-6979-->
+        <!--(Start) DEPP-9221-->
+        <members>OPE_and_CCE_Username_Format</members>
+        <!--(End) DEPP-9221-->
+        <!--(Start) DEPP-8189-->
+        <members>New_Stewardship_From_Contact</members>
+        <!--(End) DEPP-8189-->
         <name>Flow</name>
     </types>
     <types>
@@ -65,6 +226,39 @@
         <members>Case.Closure_Details_min_length</members>
         <members>Case.Priority_is_required</members>
         <!-- (End) DEPP-7673 -->
+        <!-- (Start) DEPP-8056 -->
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date_Required</members>
+        <!-- (End) DEPP-8056 -->
+
+        <!--(Start) DEPP-8212 -->
+        <members>Donation_Cause__c.Archived_Comment_is_Required</members>
+        <members>Donation_Cause__c.Archived_Date_is_Required</members>
+        <members>Donation_Cause__c.Archived_Reason_is_Required</members>
+        <!--(End) DEPP-8212 -->
+
+        <!--(Start) DEPP-8399 -->
+        <members>Donation_Cause__c.QA_Completed_Must_Be_True</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date_isRequired</members>
+        <!--(Start) DEPP-8399 -->
+
+        <!--(Start) DEPP-8396 -->
+        <members>Donation_Cause__c.RT_Activation_End_Date_Start_Date</members>
+        <members>Donation_Cause__c.RT_Activation_Publish_End_Date</members>
+        <members>Donation_Cause__c.RT_Activation_Publish_Start_Date</members>
+        <members>Donation_Cause__c.RT_Activation_Staff_End_Date</members>
+        <members>Donation_Cause__c.RT_Activation_Staff_Start_Date</members>
+        <members>Donation_Cause__c.RT_Activation_Start_Date_End_Date</members>
+        <members>Donation_Cause__c.RT_Publish_Activation_End_Date</members>
+        <members>Donation_Cause__c.RT_Publish_Activation_Start_Date</members>
+        <members>Donation_Cause__c.RT_Publish_End_Date_Start_Date</members>
+        <members>Donation_Cause__c.RT_Publish_Start_Date_End_Date</members>
+        <members>Donation_Cause__c.RT_Staff_Activation_End_Date</members>
+        <members>Donation_Cause__c.RT_Staff_Activation_Start_Date</members>
+        <members>Donation_Cause__c.RT_Staff_End_Date_Start_Date</members>
+        <members>Donation_Cause__c.RT_Staff_Start_Date_End_Date</members>
+        <!--(End) DEPP-8396 -->
+
         <name>ValidationRule</name>
     </types>
     <types>
@@ -84,7 +278,27 @@
       <members>Future_Student_Team_Leader</members> -->
       <!--(End) DEPP-7474 -->
       <!-- <name>PermissionSetGroup</name>
-  </types> -->
+    </types> -->
+   
+    <types>
+        <!--(Start) DEPP-7200 Epic-->
+        <members>Donation_Cause__c</members>
+        <members>Donation_Cause_Code_Auto_Number__c</members>
+        <!--(End) DEPP-7200 Epic-->
+        <name>CustomObject</name>
+    </types>
+   
+    <types>
+        <!--(Start) DEPP-8114-->
+        <members>Stewardship</members>
+        <!--(End) DEPP-8114-->
+
+        <!--(Start) DEPP-8397-->
+        <members>Donation_Cause</members>
+        <!--(End) DEPP-8397-->
+
+        <name>PathAssistant</name>
+    </types>
     <types>
         <!--Start DEPP-7863-->
         <members>Future_Student_Super_Agent_Domsetic</members>
@@ -93,6 +307,9 @@
         <members>Lightning_Scheduler_Administrator_PSG</members>
         <members>Lightning_Scheduler_User_PSG</members>
         <!--End DEPP-7993-->
+        <!--(Start) DEPP-7233 Created a wrong file name--> 
+        <members>Fundraising</members>
+        <!--(End) DEPP-8114-->
         <!--Start DEPP-10308-->
         <members>CC_Student_Admin_Manager</members>
         <members>CC_Student_Admin_Hub_Advisor_Progression</members>
@@ -104,6 +321,21 @@
         <!--End DEPP-10308-->
         <name>PermissionSetGroup</name>
     </types>
+    <types>
+        <!--(Start) DEPP-9221 - Renamed to QUT Experience -->
+        <!-- Existing users using profile needs to be updated first
+        <members>OPE Catalogue</members>
+        -->
+        <!--(End) DEPP-9221-->
+        <name>Profile</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-8543 -->
+        <members>Donation__c.Endowment_Child</members>
+        <members>Donation__c.Pledge_Child</members>
+        <!--(End) DEPP-8543 -->
+        <name>RecordType</name>
+    </types>   
     <types>
         <!-- (Start) DEPP-8142 -->
         <members>Contact.At_Risk_Rating__c</members>
@@ -132,6 +364,9 @@
         <members>Case_Domestic_Future_Student_Path</members>
         <members>Case_International_Future_Student_Path</members>
         <!--End DEPP-8242-->
+        <!--(Start) DEPP-8114-->
+        <members>Stewardship</members>
+        <!--(End) DEPP-8114-->
         <name>PathAssistant</name>
     </types>
     <types>
@@ -150,6 +385,15 @@
         <!--(Start) DEPP-9568-->
         <members>hed__Course__c.DEP_Test_Data</members>
         <!--(End) DEPP-9568-->
+        <members>Opportunity.IPU_Opportunities</members>
+        <members>Opportunity.Research_Partnership_Opportunities</members>
+        <members>Opportunity.Commercialisation_Opportunities</members>
+        <members>List__c.Distributed_List</members>
+        <!--(Start) DEPP-8389-->
+        <members>Donation_Cause__c.All_Donation_Causes</members>
+        <members>Donation_Cause__c.All_Open_Donation_Causes</members>
+        <members>Donation_Cause__c.My_Open_Donation_Causes</members>
+        <!--(End) DEPP-8389-->
         <name>ListView</name>
     </types>
     <types>
@@ -192,6 +436,9 @@
         <!--DEPP-9497 Start-->
         <members>StudentRetentionDashboards/Student_Success_Enquiry_Home_Page</members>
         <!--DEPP-9497 End-->
+        <!--DEPP-7969 Start-->
+        <members>DomesticFutureStudentTeamLeaderDashboards/Nurture_Tracks_by_Faculty_and_Offer_Round_Domestic</members>
+        <!--DEPP-7969 End-->
         <name>Dashboard</name>
     </types>
 
@@ -360,11 +607,42 @@
         <name>Role</name>
     </types>
     <types>
+        <!--(Start) DEPP-10306 -->
+        <members>Student_Admin_Hub_Advisor_Progression</members>
+        <members>Student_Admin_Spec_Advisor_Progression</members>
+        <members>Student_Admin_Hub_Advisor_Engagement</members>
+        <members>Student_Admin_Spec_Advisor_Engagement</members>
+         <!--(End) DEPP-10306 -->
+        <name>Role</name>
+    </types>
+    <types>
+        <!--Start DEPP-8290-->
+        <members>Document__c.All_Advancement_Share</members>
+        <!--Start DEPP-8290-->
+        <name>SharingCriteriaRule</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-7005 -->
+        <members>CustomHeaderDatatableCtrl</members>
+        <members>CustomHeaderDatatableCtrlTest</members>
+        <!--(End) DEPP-7005 -->
+        <!--(Start) DEPP-9321 -->
+        <members>OPE_and_CCE_Username_FormatTest</members>
+        <!--(End) DEPP-9321 -->
         <!-- (Start) DEPP-9821 -->
         <members>MarketingInteractionTriggerHelper</members>
         <members>MarketingInteractionTriggerHelperTest</members>
-        <name>ApexClass</name>
         <!--(End) DEPP-9821 -->
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-10306 -->
+        <members>Student_Admin_Hub_Advisor_Progression</members>
+        <members>Student_Admin_Spec_Advisor_Progression</members>
+        <members>Student_Admin_Hub_Advisor_Engagement</members>
+        <members>Student_Admin_Spec_Advisor_Engagement</members>
+         <!--(End) DEPP-10306 -->
+        <name>Role</name>
     </types>
     <types>
         <members>QUT_Contact_Centre_Chat</members>

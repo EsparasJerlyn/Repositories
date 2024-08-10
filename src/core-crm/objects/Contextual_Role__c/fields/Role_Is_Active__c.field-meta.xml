@@ -6,6 +6,7 @@
     <externalId>false</externalId>
     <label>Role Is Active</label>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

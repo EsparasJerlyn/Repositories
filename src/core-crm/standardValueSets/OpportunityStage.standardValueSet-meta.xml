@@ -2,46 +2,6 @@
 <StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <sorted>false</sorted>
     <standardValue>
-        <fullName>Qualify</fullName>
-        <default>false</default>
-        <description>The qualification stage has two key aspects to completing this stage. Information Gathering (to inform QUT) And High Level Faculty Approval for Academic Opportunities</description>
-        <label>Qualify</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>25</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Proposal</fullName>
-        <default>false</default>
-        <description>You&apos;re developing a sales proposal for the prospect.</description>
-        <label>Proposal</label>
-        <closed>false</closed>
-        <forecastCategory>BestCase</forecastCategory>
-        <probability>50</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Closed Won</fullName>
-        <default>false</default>
-        <description>Sold!</description>
-        <label>Closed Won</label>
-        <closed>true</closed>
-        <forecastCategory>Closed</forecastCategory>
-        <probability>100</probability>
-        <won>true</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Closed Lost</fullName>
-        <default>false</default>
-        <description>No sale.</description>
-        <label>Closed Lost</label>
-        <closed>true</closed>
-        <forecastCategory>Omitted</forecastCategory>
-        <probability>0</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
         <fullName>Identify</fullName>
         <default>false</default>
         <label>Identify</label>
@@ -57,6 +17,16 @@
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
         <probability>20</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Qualify</fullName>
+        <default>false</default>
+        <description>The qualification stage has two key aspects to completing this stage. Information Gathering (to inform QUT) And High Level Faculty Approval for Academic Opportunities</description>
+        <label>Qualify</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>25</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
@@ -87,6 +57,24 @@
         <won>false</won>
     </standardValue>
     <standardValue>
+        <fullName>Negotiate</fullName>
+        <default>false</default>
+        <label>Negotiate</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>50</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Cultivation</fullName>
+        <default>false</default>
+        <label>Cultivation</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>50</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
         <fullName>Submitted</fullName>
         <default>false</default>
         <label>Submitted</label>
@@ -96,12 +84,22 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>Negotiate</fullName>
+        <fullName>Proposal</fullName>
         <default>false</default>
-        <label>Negotiate</label>
+        <description>You&apos;re developing a sales proposal for the prospect.</description>
+        <label>Proposal</label>
+        <closed>false</closed>
+        <forecastCategory>BestCase</forecastCategory>
+        <probability>60</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Solicitation</fullName>
+        <default>false</default>
+        <label>Solicitation</label>
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
-        <probability>60</probability>
+        <probability>75</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
@@ -114,6 +112,16 @@
         <won>false</won>
     </standardValue>
     <standardValue>
+        <fullName>Closed Won</fullName>
+        <default>false</default>
+        <description>Sold!</description>
+        <label>Closed Won</label>
+        <closed>true</closed>
+        <forecastCategory>Closed</forecastCategory>
+        <probability>100</probability>
+        <won>true</won>
+    </standardValue>
+    <standardValue>
         <fullName>Executed</fullName>
         <default>false</default>
         <label>Executed</label>
@@ -121,6 +129,16 @@
         <forecastCategory>Closed</forecastCategory>
         <probability>100</probability>
         <won>true</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Closed Lost</fullName>
+        <default>false</default>
+        <description>No sale.</description>
+        <label>Closed Lost</label>
+        <closed>true</closed>
+        <forecastCategory>Omitted</forecastCategory>
+        <probability>0</probability>
+        <won>false</won>
     </standardValue>
     <standardValue>
         <fullName>Discontinued</fullName>

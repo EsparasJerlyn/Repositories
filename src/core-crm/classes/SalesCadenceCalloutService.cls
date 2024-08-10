@@ -27,6 +27,7 @@
  *    | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Changed getCompletedCadenceStatusMap datatype to Completed_Cadence,  |
  *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          |
  *    | mark.j.mahilum                 | April 08, 2024        | DEPP-8377              | Fixed callout issue and removed DML inside service callout           |
+ *    | eugene.andrew.abuan            | August 05, 2024       | DEPP-8255              | Added counter to completed cadence and relate it to a task           |
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -120,7 +121,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
 
     }
-    
+
     /**
      * @description: Create completed cadence record
      *
@@ -134,12 +135,16 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 		//get the task related to the actionCadence of the targetIds          
         Map<Id,Task> mapTasks = getRelatedTaskMap(targetCadenceMap.keySet(),actionCadenceIds);
 
-        List<Task> tasksToUpdateList = new List<Task>();
-		
+        //get a map of string concatenated cadence names + targetIds from related cadence step tracker to a set of commsQueue ids
+        //that use them. This is based on the ActionCadenceStepTracker__c field of the commsQueue record. Note that said field is not a lookup
+        Map<String, Set<String>> trackerNameTargetToCommsQueueIdsMap = getTrackerNameTargetToCommsQueueIdsMap(targetCadenceMap.keySet());
+        
         //get the unsuccessfull completed cadence of the targetIds and cadence name
         Map<String, Completed_Cadence__c> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);
-            
+        
+        List<Task> tasksToUpdateList = new List<Task>();
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+        List<Communication_Queue__c> cancelledCommsQueues = new List<Communication_Queue__c>();
         
         for(String recId: targetCadenceMap.keySet()){
 
@@ -165,24 +170,18 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                 tasksToUpdateList.add(mapTasks.get(recId));
             }
             
-            if(recId.startsWith('003')){
-                completedCadenceList.add(
-                    new Completed_Cadence__c(
-                        Nurture_Track_Configuration__c = nurtureId,
-                        Contact__c = recId,
-                        Completed_Cadence_Status__c = calculatedStatus,
-                        Id = completedCadenceStatusMap.get(recId).Id              
-                    )
-                );   
-            }else{
-                completedCadenceList.add(
-                    new Completed_Cadence__c(
-                        Nurture_Track_Configuration__c = nurtureId,
-                        Lead__c = recId,
-                        Completed_Cadence_Status__c = calculatedStatus,
-                        Id = completedCadenceStatusMap.get(recId).Id
-                    )
-                );
+            completedCadenceList.add(
+                new Completed_Cadence__c(
+                    Nurture_Track_Configuration__c = nurtureId,
+                    Contact__c = recId.startsWith('003') ? recId : null,
+                    Lead__c = recId.startsWith('00Q') ? recId : null,
+                    Completed_Cadence_Status__c = calculatedStatus,
+                    Id = completedCadenceStatusMap.get(recId).Id
+                )
+            );
+
+            if(calculatedStatus == CompletedCadencesDAO.SUCCESSFUL_STATUS) {
+                processCancelledCommsQueues(trackerNameTargetToCommsQueueIdsMap, cadenceName + recId, cancelledCommsQueues);
             }
         }
         
@@ -190,6 +189,58 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }
         
+        if(!cancelledCommsQueues.isEmpty()) {
+            CommunicationQueuesDAO.newInstance().updateRecords(cancelledCommsQueues, false, AccessLevel.SYSTEM_MODE);
+        }
+
+        updateTasksSyncOrAsync(tasksToUpdateList, completedCadenceStatusMap);
+    }
+
+    private static Map<String, Set<String>> getTrackerNameTargetToCommsQueueIdsMap(Set<String> targetIdsSet) {
+        Map<String, String> trackerMap = new Map<String, String>();
+        for(ActionCadenceStepTracker tracker : ActionCadenceStepTrackersDAO.newInstance().getCadenceStepTrackersByTargetId(targetIdsSet, AccessLevel.SYSTEM_MODE)) {
+            trackerMap.put(
+                tracker.Id,
+                tracker.ActionCadenceName + tracker.TargetId
+            );
+        }
+        Map<String, Set<String>> trackerNameTargetToCommsQueueIdsMap = new Map<String, Set<String>>();
+        for(Communication_Queue__c commsQueue : CommunicationQueuesDAO.newInstance().getFutureScheduledCommsQueuesByCadenceStepTrackerIds(
+            trackerMap.keySet(),
+            AccessLevel.SYSTEM_MODE
+        )) {
+            String trackerNameTarget = trackerMap.get(commsQueue.ActionCadenceStepTrackerId__c);
+            Set<String> commsQueueIds = new Set<String>();
+            if(trackerNameTargetToCommsQueueIdsMap.containsKey(trackerNameTarget)) {
+                commsQueueIds = trackerNameTargetToCommsQueueIdsMap.get(trackerNameTarget);
+            }
+            commsQueueIds.add(commsQueue.Id);
+            trackerNameTargetToCommsQueueIdsMap.put(trackerNameTarget, commsQueueIds);
+        }
+        return trackerNameTargetToCommsQueueIdsMap;
+    }
+
+    private static void processCancelledCommsQueues(
+        Map<String, Set<String>> trackerNameTargetToCommsQueueIdsMap,
+        String nameAndTarget,
+        List<Communication_Queue__c> cancelledCommsQueues
+    ) {
+        if(trackerNameTargetToCommsQueueIdsMap.containsKey(nameAndTarget)) {
+            for(String commsQueueId : trackerNameTargetToCommsQueueIdsMap.get(nameAndTarget)) {
+                cancelledCommsQueues.add(
+                    new Communication_Queue__c(
+                        Id = commsQueueId,
+                        Status__c = CommunicationQueuesDAO.STATUS_CANCELLED
+                    )
+                );
+            }
+        }
+    }
+
+    private static void updateTasksSyncOrAsync(
+        List<Task> tasksToUpdateList, 
+        Map<String, Completed_Cadence__c> completedCadenceStatusMap
+    ) {
         if(System.isBatch() || System.isFuture() || System.isQueueable()) {
             //The process is running asynchronously
             updateTasks(tasksToUpdateList, completedCadenceStatusMap);
@@ -198,8 +249,6 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             QueueableCall executeQueueable = new QueueableCall(tasksToUpdateList, completedCadenceStatusMap);
             System.enqueueJob(executeQueueable);
         }
-        
-        
     }
 
     private static String setCacluatedStatus(String taskStatus){
@@ -220,6 +269,8 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         List<Task> tasksToUpdateList, 
         Map<String, Completed_Cadence__c> completedCadenceStatusMap
     ) {
+        Set<Id> completedCadenceIdSet = new Set<Id>();
+
         for (Task task : tasksToUpdateList) {
 
             Decimal completionDateInMs = task.ActionCadenceStepTracker.CompletionDate.getTime();
@@ -228,12 +279,66 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 
             task.Time_to_Complete__c = diffInHours.setScale(1, RoundingMode.HALF_UP);
             task.Action_Cadence_Name__c = task.ActionCadenceStepTracker.ActionCadenceName;
-            task.QTAC_Offer_Round__c = completedCadenceStatusMap.get(task.WhoId).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
+            if(CompletedCadenceStatusMap.get(task.WhoId).Application__c != null){
+                task.QTAC_Offer_Round__c = completedCadenceStatusMap.get(task.WhoId).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
+            }
+            task.Completed_Cadence__c = completedCadenceStatusMap.get(task.WhoId).Id;
+            
+            if(!completedCadenceIdSet.contains(task.Completed_Cadence__c)){
+                completedCadenceIdSet.add(task.Completed_Cadence__c);
+            }
         }
 
         if (!tasksToUpdateList.isEmpty()) {
+
             TasksDAO.newInstance().updateRecords(tasksToUpdateList, false, AccessLevel.SYSTEM_MODE);
+            countTaskForRelatedCadences(completedCadenceIdSet);
         }
+    }
+
+    /**
+     * @description private method to count the tasks under the completed cadence
+     * the counter will increment when the task is associated to a completed cadence record
+     * @param completedCadenceIdSet Set Completed Cadence Ids
+     * @return - void
+     */
+    private static void countTaskForRelatedCadences (Set<Id> completedCadenceIdSet){
+
+        try{
+            // Task is currently on System Mode since the Automated User can't have access to the custom field
+            // Completed_Cadence__c is under in the Activity Object that is related to the task
+            List<Task> tasksToUpdate = TasksDAO.newInstance().getTaskByCompeltedCadence(completedCadenceIdSet, AccessLevel.SYSTEM_MODE);
+    
+            List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadencebyRecordId (completedCadenceIdSet , AccessLevel.SYSTEM_MODE);
+            
+            Map<Id, Integer> taskCountMap = new Map<Id, Integer>();
+    
+            //Iterate each task that relates to the Completed Cadence
+            for (Task task : tasksToUpdate) {
+                if (!taskCountMap.containsKey(task.Completed_Cadence__c)) {
+                    taskCountMap.put(task.Completed_Cadence__c, 0);
+                }
+                taskCountMap.put(task.Completed_Cadence__c, taskCountMap.get(task.Completed_Cadence__c) + 1);
+            }
+    
+            // Update the value of the Cadence Task as per the counter
+            for (Completed_Cadence__c completedCadence : completedCadenceList) {
+    
+                completedCadence.Cadence_Tasks__c = taskCountMap.containsKey(completedCadence.Id) ? taskCountMap.get(completedCadence.Id) : 0;
+            }
+    
+            if(!completedCadenceList.isEmpty()){
+                CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+            }
+    
+        }catch(Exception e){
+            Logger.error('Exception caught in method count in Apex class SalesCadenceCalloutService.').setExceptionDetails(e);
+        }finally{
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
+   
     }
     
     /**

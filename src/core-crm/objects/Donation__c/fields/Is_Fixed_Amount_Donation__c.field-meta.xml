@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Fixed_Amount_Donation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Identifies if the schedule for a recurring payment arrangement is driven by a fixed amount.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Identifies if the schedule for a recurring payment arrangement is driven by a fixed amount.</inlineHelpText>
+    <label>Is Fixed Amount Donation</label>
+    <securityClassification>Sensitive</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

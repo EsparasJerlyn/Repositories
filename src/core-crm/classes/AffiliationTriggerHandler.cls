@@ -19,6 +19,7 @@ public with sharing class AffiliationTriggerHandler implements Disableable,  Aft
     * @param newItems - List of hed__Affiliation__c.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
+        DynamicDatatableEventService.publishPlatformEvent(new AffiliationsDAO().getSObjectType(),newItems.values(),true);
     }
 
    /**
@@ -30,6 +31,7 @@ public with sharing class AffiliationTriggerHandler implements Disableable,  Aft
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
+        DynamicDatatableEventService.publishPlatformEvent(new AffiliationsDAO().getSObjectType(),newItems.values(),false);
     }
     
    /**

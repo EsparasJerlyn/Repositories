@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <assignments>
+        <name>Child_Outcome_Counter</name>
+        <label>Child Outcome Counter</label>
+        <locationX>270</locationX>
+        <locationY>539</locationY>
+        <assignmentItems>
+            <assignToReference>ChildOutcomeCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Child_Outcome_Records</targetReference>
+        </connector>
+    </assignments>
+    <customErrors>
+        <name>No_Child_Error</name>
+        <label>No Child Error</label>
+        <locationX>314</locationX>
+        <locationY>839</locationY>
+        <customErrorMessages>
+            <errorMessage>Please at least add one active opportunity outcome in order to progress to Proposal Stage.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Parent_Opp_Has_Active_Child_Opportunities</name>
+        <label>Parent Opp Has Active Child Opportunities?</label>
+        <locationX>182</locationX>
+        <locationY>731</locationY>
+        <defaultConnector>
+            <targetReference>No_Child_Error</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ChildOutcomeCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Allow_Stage_Update</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Opportunity - Check Child Records {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity - Check Child Outcomes</label>
+    <loops>
+        <name>Loop_Child_Outcome_Records</name>
+        <label>Loop Child Outcome Records</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <collectionReference>ChildOppOutcomeCollection</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Child_Outcome_Counter</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Parent_Opp_Has_Active_Child_Opportunities</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Active_Child_Opportunity_Outcomes</name>
+        <label>Get Active Child Opportunity Outcomes</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Child_Outcome_Records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Outcome_Is_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Opportunity_Outcome__c</object>
+        <outputReference>ChildOppOutcomeCollection</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Allow_Stage_Update</name>
+        <label>Allow Stage Update</label>
+        <locationX>50</locationX>
+        <locationY>839</locationY>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Proposal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Active_Child_Opportunity_Outcomes</targetReference>
+        </connector>
+        <filterFormula>AND(
+ISCHANGED({!$Record.StageName}),
+AND(
+ISPICKVAL({!$Record__Prior.StageName}, &apos;Negotiate&apos;),
+ISPICKVAL({!$Record.StageName}, &apos;Proposal&apos;)
+)
+)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>ChildOppOutcomeCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity_Outcome__c</objectType>
+    </variables>
+    <variables>
+        <name>ChildOutcomeCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

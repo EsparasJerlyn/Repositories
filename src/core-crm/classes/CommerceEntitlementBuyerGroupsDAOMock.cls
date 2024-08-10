@@ -15,7 +15,7 @@ public inherited sharing class CommerceEntitlementBuyerGroupsDAOMock extends Dml
 
     public Schema.SObjectType getSObjectType() {
         return CommerceEntitlementBuyerGroup.SObjectType;
-    }
+    } 
 
     public CommerceEntitlementBuyerGroupsDAOMock() {
         super(new Map<Id, CommerceEntitlementBuyerGroup>(), Schema.CommerceEntitlementBuyerGroup.SObjectType);

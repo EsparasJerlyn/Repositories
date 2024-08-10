@@ -39,6 +39,10 @@
                 <behavior>Edit</behavior>
                 <field>IsReminderSet</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Completed_Cadence__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

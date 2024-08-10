@@ -15,7 +15,7 @@
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
-        <detailHeading>false</detailHeading>
+        <detailHeading>false</detailHeading> 
         <editHeading>false</editHeading>
         <label>Fields</label>
         <layoutColumns>

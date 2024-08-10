@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inactive_Summary__c</fullName>
+    <description>Summary of why the Plan was marked as ‘Inactive’.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Summary of why the Plan was marked as ‘Inactive’.</inlineHelpText>
+    <label>Inactive Summary</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -200,7 +200,7 @@ public inherited sharing class ServiceAppointmentService {
             if (!result.isSuccess()) {
                 errorResults = result.getErrors();
                 Logger.error('Exception caught in method execute in Apex class ServiceAppointmentService.').addTag(errorResults.toString());
-            } 
+            }
         }
         if(Logger.getBufferSize() > 0) {
             Logger.saveLog();

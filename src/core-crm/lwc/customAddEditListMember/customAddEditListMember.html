@@ -1,0 +1,46 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!--Header Section-->
+            <div class="slds-modal__header">
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    alternative-text="Close this window"
+                    size="large"
+                    variant="bare-inverse"
+                    onclick={closeModal}
+                    class="slds-modal__close">
+                </lightning-button-icon>
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{standardHeaderLabel}</h1>
+            </div>
+            <!--Body Section-->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-grid slds-wrap">
+                    <template for:each={prePopulatedFields} for:item="item">
+                        <div key={item.apiFieldName} class="box-input slds-col slds-size_12-of-12">
+                            <template if:true={item.isGetRecord}>
+                                <lightning-record-edit-form object-api-name={item.tableObjectType}>
+                                    <lightning-input-field
+                                        name={item.apiFieldName}
+                                        field-name={item.apiFieldName}
+                                        value={item.value}
+                                        onchange={onHandleChange}
+                                    ></lightning-input-field>
+                                </lightning-record-edit-form>
+                            </template>
+                            <template if:false={item.isGetRecord}>
+                                <lightning-input type="text" disabled={item.isDisabled} onchange={onHandleChange} name={item.apiFieldName} label={item.label} value={item.value}></lightning-input>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <!--Footer/Buttons Section-->
+            <footer class="slds-modal__footer">
+                <button onclick={closeModal} class="slds-button slds-button_neutral" aria-label="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={onhandleSave} >Save</button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

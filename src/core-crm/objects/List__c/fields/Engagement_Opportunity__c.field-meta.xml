@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_Opportunity__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup to an Engagement Opportunity.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Engagement Opportunity associated with the List.</inlineHelpText>
+    <label>Engagement Opportunity</label>
+    <referenceTo>Engagement_Opportunity__c</referenceTo>
+    <relationshipLabel>Lists</relationshipLabel>
+    <relationshipName>Lists</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
+ 

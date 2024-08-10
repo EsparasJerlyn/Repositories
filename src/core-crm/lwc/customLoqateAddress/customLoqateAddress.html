@@ -1,0 +1,26 @@
+<template>
+    <lightning-layout multiple-rows="true" class="slds-p-top_small">
+        <lightning-layout-item class="slds-m-horizontal_xx-small" size="12">
+            <template if:false={unverified}>
+                <c-search-address onfound={getLoqateAddress} countries={countrySelection} ></c-search-address>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout><br/>
+
+    <lightning-layout multiple-rows="true" class="slds-p-top_small">
+        <lightning-layout-item class="slds-m-horizontal_xx-small" size="12">
+            <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick} class="custom-checkbox-label"></lightning-input>
+            <template if:true={unverified}>
+                <lightning-input-address
+                    street-label="Street"
+                    city-label="City"
+                    country-label="Country"
+                    province-label="State/Province"
+                    postal-code-label="Zip/Postal Code"
+                    onchange={handleChangeAddress}
+                    class="customInputAddress">
+                </lightning-input-address>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

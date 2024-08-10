@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PublicGivingPublishStart_Date_isRequired</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(
+ISNEW(),
+ISCHANGED(Ready_For_Publishing__c)),
+Ready_For_Publishing__c = true,
+ISBLANK(Public_Giving_Publish_Start_Date__c)
+)</errorConditionFormula>
+    <errorDisplayField>Public_Giving_Publish_Start_Date__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

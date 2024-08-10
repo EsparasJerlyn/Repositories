@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>5594</locationX>
-        <locationY>782</locationY>
+        <locationX>7618</locationX>
+        <locationY>1106</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,7 +43,7 @@
     <assignments>
         <name>Assign_Academic_Modal_Title</name>
         <label>Assign Academic Modal Title</label>
-        <locationX>4274</locationX>
+        <locationX>5770</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -59,7 +59,7 @@
     <assignments>
         <name>Assign_Board_of_Directors_Modal_Title</name>
         <label>Assign Board of Directors Modal Title</label>
-        <locationX>5330</locationX>
+        <locationX>7486</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -75,7 +75,7 @@
     <assignments>
         <name>Assign_Commercialisation_Contributor_Modal_Title</name>
         <label>Assign Commercialisation Contributor Modal Title</label>
-        <locationX>754</locationX>
+        <locationX>1634</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -91,7 +91,7 @@
     <assignments>
         <name>Assign_Contextual_Role_Independent_Fields</name>
         <label>Assign Contextual Role Independent Fields</label>
-        <locationX>3691</locationX>
+        <locationX>4428</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -114,8 +114,8 @@
     <assignments>
         <name>Assign_Contributor_Modal_Title</name>
         <label>Assign Contributor Modal Title</label>
-        <locationX>3130</locationX>
-        <locationY>1232</locationY>
+        <locationX>2954</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -130,7 +130,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Modal_Title</name>
         <label>Assign Funding Bodies Modal Title</label>
-        <locationX>5066</locationX>
+        <locationX>6562</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -146,7 +146,7 @@
     <assignments>
         <name>Assign_Modal_Title_for_CP_Opportunity</name>
         <label>Assign Modal Title for CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -162,7 +162,7 @@
     <assignments>
         <name>Assign_Modal_Title_for_IP_Management_Contributor</name>
         <label>Assign Modal Title for IP Management Contributor</label>
-        <locationX>3834</locationX>
+        <locationX>5242</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -172,15 +172,155 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_New_Contact_to_Contextual_Role</name>
+        <label>Assign New Contact to Contextual Role</label>
+        <locationX>4010</locationX>
+        <locationY>1430</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Contact_To_Create.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Contact_Affiliation</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Organisation_Giving_Contact_to_Create</name>
+        <label>Assign Organisation Giving Contact to Create</label>
+        <locationX>4010</locationX>
+        <locationY>1214</locationY>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.FirstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingNewContact_First_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingNewContact_Last_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.Title</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Job_Title</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.ContactMobile_Locale__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Mobile_Locale</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.MobilePhone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Mobile</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Opportunity.Account.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Person_Record_Type.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Organisation_New_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Organisation_Giving_Contributor_Modal_Title</name>
+        <label>Assign Organisation Giving Contributor Modal Title</label>
+        <locationX>4076</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contributor</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Contributor_Screen_for_Organisation_Giving</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Organisation_Giving_Custom_Error_Value</name>
+        <label>Assign Organisation Giving Custom Error Value</label>
+        <locationX>3746</locationX>
+        <locationY>1106</locationY>
+        <assignmentItems>
+            <assignToReference>OrganisationGivingScreenContextualRoleIsEmpty</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Contributor_Screen_for_Organisation_Giving</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Parent_Engagement_Id</name>
+        <label>Assign Parent Engagement Id</label>
+        <locationX>7090</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Engagement__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Parent_IP_Management_Id</name>
+        <label>Assign Parent IP Management Id</label>
+        <locationX>7882</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.IP_Management__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Parent_Object_Record</name>
         <label>Assign Parent Object Record</label>
-        <locationX>5330</locationX>
-        <locationY>782</locationY>
+        <locationX>4428</locationX>
+        <locationY>2348</locationY>
         <assignmentItems>
             <assignToReference>ParentObjectRecord</assignToReference>
             <operator>Add</operator>
@@ -214,10 +354,43 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Parent_Opportunity_Id</name>
+        <label>Assign Parent Opportunity Id</label>
+        <locationX>6826</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Parent_Opportunity_Outcome_Id</name>
+        <label>Assign Parent Opportunity Outcome Id</label>
+        <locationX>7354</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Opportunity_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Partner_Modal_Title</name>
         <label>Assign Partner Modal Title</label>
-        <locationX>1260</locationX>
-        <locationY>1232</locationY>
+        <locationX>1106</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -232,7 +405,7 @@
     <assignments>
         <name>Assign_Public_Officers_Modal_Title</name>
         <label>Assign Public Officers Modal Title</label>
-        <locationX>5858</locationX>
+        <locationX>8410</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -248,7 +421,7 @@
     <assignments>
         <name>Assign_Research_Engagement_Contributor_Modal_Title</name>
         <label>Assign Research Engagement Contributor Modal Title</label>
-        <locationX>490</locationX>
+        <locationX>1370</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -258,14 +431,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Research_Engagement_Partner</name>
         <label>Assign Research Engagement Partner Modal Title</label>
-        <locationX>50</locationX>
+        <locationX>842</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -281,7 +453,7 @@
     <assignments>
         <name>Assign_Research_School_Faculty_Modal_Title</name>
         <label>Assign Research, School, Faculty Modal Title</label>
-        <locationX>4802</locationX>
+        <locationX>6298</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -292,6 +464,23 @@
         </assignmentItems>
         <connector>
             <targetReference>Research_Centre_School_Faculty_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_RoleIsActive_Value</name>
+        <label>Assign RoleIsActive Value</label>
+        <locationX>4406</locationX>
+        <locationY>1730</locationY>
+        <assignmentItems>
+            <assignToReference>RoleIsActive</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Assign_Parent_Opportunity_Id</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -313,7 +502,7 @@
     <assignments>
         <name>Assign_Training_Team_Modal_Title</name>
         <label>Assign Training Team Modal Title</label>
-        <locationX>4538</locationX>
+        <locationX>6034</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -327,9 +516,90 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_User_Input_as_Temporary_Values</name>
+        <label>Assign User Input as Temporary Values</label>
+        <locationX>3746</locationX>
+        <locationY>998</locationY>
+        <assignmentItems>
+            <assignToReference>OrganisationGivingCreateNewContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Organisation_Giving_New_Contact_Checkbox</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.FirstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingNewContact_First_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingNewContact_Last_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.Title</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Job_Title</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.ContactMobile_Locale__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Mobile_Locale</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact_To_Create.MobilePhone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Mobile</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Organisation_Giving_Custom_Error_Value</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Values_to_ContextualRolesToCreate</name>
+        <label>Assign Values to ContextualRolesToCreate</label>
+        <locationX>7486</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Is_QUT_Internal_Participant__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>IsQUTInternalParticipant</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Role_Is_Active__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RoleIsActive</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Role_Is_Approved__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RoleIsApproved</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Parent_Object_Type</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Variables_For_Academic</name>
         <label>Assign Variables For Academic</label>
-        <locationX>4274</locationX>
+        <locationX>5770</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -347,13 +617,13 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Board_of_Directors</name>
         <label>Assign Variables For Board of Directors</label>
-        <locationX>5330</locationX>
+        <locationX>7486</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -370,13 +640,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Commercialisation_Contributors</name>
         <label>Assign Variables For Commercialisation Contributors</label>
-        <locationX>754</locationX>
+        <locationX>1634</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -394,14 +664,14 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Contributors</name>
         <label>Assign Variables For Contributors</label>
-        <locationX>3130</locationX>
-        <locationY>1448</locationY>
+        <locationX>2954</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -417,7 +687,7 @@
     <assignments>
         <name>Assign_Variables_For_Funding_Bodies</name>
         <label>Assign Variables For Funding Bodies</label>
-        <locationX>5066</locationX>
+        <locationX>6562</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -428,14 +698,14 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_for_Partners</name>
         <label>Assign Variables for Partners</label>
-        <locationX>1260</locationX>
-        <locationY>1448</locationY>
+        <locationX>1106</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -465,7 +735,7 @@
     <assignments>
         <name>Assign_Variables_for_Partners_of_CP_Opportunity</name>
         <label>Assign Variables for Partners of CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -483,13 +753,13 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Public_Officers</name>
         <label>Assign Variables For Public Officers</label>
-        <locationX>5858</locationX>
+        <locationX>8410</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -500,13 +770,13 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Research_School_Faculty</name>
         <label>Assign Variables For Research, School, Faculty</label>
-        <locationX>4802</locationX>
+        <locationX>6298</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -538,7 +808,7 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -568,7 +838,7 @@
     <assignments>
         <name>Assign_Variables_For_Training_Team</name>
         <label>Assign Variables For Training Team</label>
-        <locationX>4538</locationX>
+        <locationX>6034</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -579,13 +849,21 @@
         </assignmentItems>
         <connector>
             <isGoTo>true</isGoTo>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
+    <choices>
+        <name>Affiliation_Organisation_Giving_Choice</name>
+        <choiceText>I understand that this contact will be affiliated to this Account</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>AffiliationChoice</stringValue>
+        </value>
+    </choices>
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>3691</locationX>
+        <locationX>4428</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -726,9 +1004,10 @@
     <decisions>
         <name>Check_Contributor_Parent</name>
         <label>Check Contributor Parent</label>
-        <locationX>3130</locationX>
+        <locationX>3438</locationX>
         <locationY>350</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -743,7 +1022,6 @@
                 </rightValue>
             </conditions>
             <connector>
-                <isGoTo>true</isGoTo>
                 <targetReference>Get_Parent_Engagement_Record</targetReference>
             </connector>
             <label>Is Engagement</label>
@@ -802,9 +1080,34 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_create_new_contact</name>
+        <label>Check create new contact</label>
+        <locationX>4406</locationX>
+        <locationY>998</locationY>
+        <defaultConnector>
+            <targetReference>Check_Contact_Affiliation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Organisation_Giving_Create_New_Contact</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Person_Record_Type</targetReference>
+            </connector>
+            <label>Organisation Giving Create New Contact</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Engagement_RecordType</name>
         <label>Check Engagement RecordType</label>
-        <locationX>534</locationX>
+        <locationX>1370</locationX>
         <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -940,9 +1243,10 @@
     <decisions>
         <name>Check_Opportunity_Record_RecordType</name>
         <label>Check Opportunity Record RecordType</label>
-        <locationX>1678</locationX>
+        <locationX>182</locationX>
         <locationY>566</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Partner_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -965,9 +1269,10 @@
     <decisions>
         <name>Check_Opportunity_Record_Type</name>
         <label>Check Opportunity Record Type</label>
-        <locationX>3526</locationX>
+        <locationX>4230</locationX>
         <locationY>566</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -987,13 +1292,125 @@
             </connector>
             <label>Is Commercialisation Opportuntity</label>
         </rules>
+        <rules>
+            <name>Is_Organisation_Giving_Opportuntity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Organisation_Giving</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Organisation_Giving_Contributor_Modal_Title</targetReference>
+            </connector>
+            <label>Is Organisation Giving Opportuntity</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Organisation_Giving_Contextual_Role</name>
+        <label>Check Organisation Giving Contextual Role</label>
+        <locationX>4076</locationX>
+        <locationY>890</locationY>
+        <defaultConnector>
+            <targetReference>Check_create_new_contact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ContextualRoleToCreate.Contextual_Role__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_User_Input_as_Temporary_Values</targetReference>
+            </connector>
+            <label>Is Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Parent_Object_Type</name>
+        <label>Check Parent Object Type</label>
+        <locationX>7486</locationX>
+        <locationY>782</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Opportunity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Opportunity</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Parent_Opportunity_Id</targetReference>
+            </connector>
+            <label>Opportunity</label>
+        </rules>
+        <rules>
+            <name>Engagement</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Engagement__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Parent_Engagement_Id</targetReference>
+            </connector>
+            <label>Engagement</label>
+        </rules>
+        <rules>
+            <name>Opportunity_Outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Opportunity_Outcome__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Parent_Opportunity_Outcome_Id</targetReference>
+            </connector>
+            <label>Opportunity Outcome</label>
+        </rules>
+        <rules>
+            <name>IP_Management</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IP_Management__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Parent_IP_Management_Id</targetReference>
+            </connector>
+            <label>IP Management</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_Partner_Parent</name>
         <label>Check Partner Parent</label>
-        <locationX>1260</locationX>
+        <locationX>182</locationX>
         <locationY>350</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Partner_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -1008,6 +1425,7 @@
                 </rightValue>
             </conditions>
             <connector>
+                <isGoTo>true</isGoTo>
                 <targetReference>Get_Parent_Engagement_Record</targetReference>
             </connector>
             <label>Is Engagement</label>
@@ -1028,7 +1446,20 @@
             <label>Is Opportunity Record</label>
         </rules>
     </decisions>
+    <dynamicChoiceSets>
+        <name>MobileLocalePicklistValues</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>ContactMobile_Locale__c</picklistField>
+        <picklistObject>Contact</picklistObject>
+    </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <name>OrganisationGivingAccountId</name>
+        <dataType>String</dataType>
+        <expression>IF({!Get_Opportunity.RecordType.DeveloperName}=&apos;Organisation_Giving&apos;, {!Get_Opportunity.Account.Id}, null)</expression>
+    </formulas>
     <formulas>
         <name>ParentEngagementId</name>
         <dataType>String</dataType>
@@ -1073,93 +1504,34 @@
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
-        <locationX>5330</locationX>
-        <locationY>674</locationY>
+        <locationX>7354</locationX>
+        <locationY>998</locationY>
         <connector>
             <targetReference>Assign_Parent_Object_Record</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
-        <inputAssignments>
-            <field>Account__c</field>
-            <value>
-                <elementReference>ContextualRoleToCreate.Account__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Contact__c</field>
-            <value>
-                <elementReference>ContextualRoleToCreate.Contact__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Contextual_Role_Group__c</field>
-            <value>
-                <elementReference>DynamicDataTableInput</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Contextual_Role__c</field>
-            <value>
-                <elementReference>ContextualRoleToCreate.Contextual_Role__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Engagement__c</field>
-            <value>
-                <elementReference>ParentEngagementId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>IP_Management__c</field>
-            <value>
-                <elementReference>ParentIPManagementId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Is_QUT_Internal_Participant__c</field>
-            <value>
-                <elementReference>IsQUTInternalParticipant</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Opportunity_Outcome__c</field>
-            <value>
-                <elementReference>ParentOpporunityOutcomeId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Opportunity__c</field>
-            <value>
-                <elementReference>ParentOpportunityId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>RecordTypeId</field>
-            <value>
-                <elementReference>RecordTypeId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Role_Is_Active__c</field>
-            <value>
-                <elementReference>RoleIsActive</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Role_Is_Approved__c</field>
-            <value>
-                <elementReference>RoleIsApproved</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Contextual_Role__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <inputReference>ContextualRoleToCreate</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Organisation_New_Contact</name>
+        <label>Create Organisation New Contact</label>
+        <locationX>4010</locationX>
+        <locationY>1322</locationY>
+        <connector>
+            <targetReference>Assign_New_Contact_to_Contextual_Role</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>Contact_To_Create</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_IP_Management</name>
         <label>Get IP Management</label>
-        <locationX>3834</locationX>
+        <locationX>5242</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1170,7 +1542,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ParentIPManagementId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -1180,7 +1552,7 @@
     <recordLookups>
         <name>Get_Opportunity</name>
         <label>Get Opportunity</label>
-        <locationX>3526</locationX>
+        <locationX>4230</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1191,7 +1563,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ParentOpportunityId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -1216,7 +1588,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ParentOpporunityOutcomeId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -1226,7 +1598,7 @@
     <recordLookups>
         <name>Get_Opportunity_Record</name>
         <label>Get Opportunity Record</label>
-        <locationX>1678</locationX>
+        <locationX>182</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1247,7 +1619,7 @@
     <recordLookups>
         <name>Get_Parent_Engagement_Record</name>
         <label>Get Parent Engagement Record</label>
-        <locationX>534</locationX>
+        <locationX>1370</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1269,11 +1641,44 @@
         <object>Engagement__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Person_Record_Type</name>
+        <label>Get Person Record Type</label>
+        <locationX>4010</locationX>
+        <locationY>1106</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Organisation_Giving_Contact_to_Create</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Contact</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Person</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>5594</locationX>
-        <locationY>890</locationY>
+        <locationX>7618</locationX>
+        <locationY>1214</locationY>
         <connector>
             <targetReference>Error</targetReference>
         </connector>
@@ -1281,7 +1686,7 @@
     <screens>
         <name>Academics_Involved_Screen</name>
         <label>Academics Involved Screen</label>
-        <locationX>4274</locationX>
+        <locationX>5770</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1476,7 +1881,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>5330</locationX>
+        <locationX>7486</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1633,7 +2038,7 @@
     <screens>
         <name>ComOppOutcomeContributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>754</locationX>
+        <locationX>1634</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1850,10 +2255,380 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Contributor_Screen_for_Organisation_Giving</name>
+        <label>Contributor Screen for Organisation Giving</label>
+        <locationX>4076</locationX>
+        <locationY>782</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Check_Organisation_Giving_Contextual_Role</targetReference>
+        </connector>
+        <fields>
+            <name>OrganisationGivingOpportunityContributorsLookup</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Account</typeValue>
+            </dataTypeMappings>
+            <extensionName>c:flowLookup</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>objectName</name>
+                <value>
+                    <stringValue>Account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultValueInput</name>
+                <value>
+                    <elementReference>Get_Opportunity.Account.Id</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabled</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>leftIconName</name>
+                <value>
+                    <stringValue>standard:account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>whereClause</name>
+                <value>
+                    <stringValue>RecordType.DeveloperName = &apos;Business_Organization&apos;</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>OrganisationGivingOppportunityAccount</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>Organisation_Giving_New_Contact_Checkbox</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>OrganisationGivingCreateNewContact</elementReference>
+            </defaultValue>
+            <fieldText>Create New Contact</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>ContactOrganisationGivingOpportunity</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Contact</typeValue>
+            </dataTypeMappings>
+            <extensionName>c:flowLookup</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>objectName</name>
+                <value>
+                    <stringValue>Contact</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>whereClause</name>
+                <value>
+                    <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>leftIconName</name>
+                <value>
+                    <stringValue>standard:contact</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Existing Contact</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fieldsToSearch</name>
+                <value>
+                    <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fieldsToDisplay</name>
+                <value>
+                    <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>required</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultValueInput</name>
+                <value>
+                    <elementReference>ContextualRoleToCreate.Contact__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>OrganisationGivingOppportunityContact</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
+                <name>selectedRecordIdOutput</name>
+            </outputParameters>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>OrganisationGivingContributor_Error_Message</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>OrganisationGivingScreenContextualRoleIsEmpty</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Contributor_Screen_for_Organisation_Giving_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Contributor_Screen_for_Organisation_Giving_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>ContextualRoleToCreate.Contextual_Role_Group__c</leftValueReference>
+                            <operator>NotEqualTo</operator>
+                            <rightValue>
+                                <stringValue>Contributors</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Organisation_Giving_Opportunity_New_Contact_Section</name>
+            <fieldText>New Contact</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Organisation_Giving_Opportunity_New_Contact_Section_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>OrganisationGivingNewContact_First_Name</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Contact_To_Create.FirstName</elementReference>
+                    </defaultValue>
+                    <fieldText>First Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingNewContact_Last_Name</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Contact_To_Create.LastName</elementReference>
+                    </defaultValue>
+                    <fieldText>Last Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingOpp_Job_Title</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Contact_To_Create.Title</elementReference>
+                    </defaultValue>
+                    <fieldText>Job Title</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingOppWorkEmail</name>
+                    <extensionName>c:flowWorkEmailField</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <outputParameters>
+                        <assignToReference>Contact_To_Create.Work_Email__c</assignToReference>
+                        <name>workEmail</name>
+                    </outputParameters>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingOpp_Mobile_Locale</name>
+                    <choiceReferences>MobileLocalePicklistValues</choiceReferences>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Contact_To_Create.ContactMobile_Locale__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Mobile Locale</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingOpp_Mobile</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Contact_To_Create.MobilePhone</elementReference>
+                    </defaultValue>
+                    <fieldText>Mobile</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;You have entered an invalid format.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX( {!OrganisationGivingOpp_Mobile} ,&quot;^[0-9]*$&quot;)</formulaExpression>
+                    </validationRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingContributorNewContact_Error_Message</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>OrganisationGivingScreenContextualRoleIsEmpty</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Affiliation_Checkbox_Organisation_Giving</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>OrganisationGivingAcknowledgementCheckbox</elementReference>
+            </defaultValue>
+            <fieldText>I understand that this contact will be affiliated to this Account</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>IF({!Affiliation_Checkbox_Organisation_Giving}=TRUE,TRUE,FALSE)</formulaExpression>
+            </validationRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>3130</locationX>
-        <locationY>1340</locationY>
+        <locationX>2954</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2004,8 +2779,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>5594</locationX>
-        <locationY>998</locationY>
+        <locationX>7618</locationX>
+        <locationY>1322</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2020,7 +2795,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>5066</locationX>
+        <locationX>6562</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2137,8 +2912,8 @@
     <screens>
         <name>Partner_Account_Screen</name>
         <label>Partner Account Screen</label>
-        <locationX>1260</locationX>
-        <locationY>1340</locationY>
+        <locationX>1106</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2334,7 +3109,7 @@
     <screens>
         <name>Partner_Screen_for_CP_Opportunity</name>
         <label>Partner Screen for CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2477,7 +3252,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>5858</locationX>
+        <locationX>8410</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2623,7 +3398,7 @@
     <screens>
         <name>Research_Centre_School_Faculty_Screen</name>
         <label>Research Centre, School, Faculty Screen</label>
-        <locationX>4802</locationX>
+        <locationX>6298</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3103,7 +3878,7 @@
     <screens>
         <name>Training_Team_Screen</name>
         <label>Training Team Screen</label>
-        <locationX>4538</locationX>
+        <locationX>6034</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3247,7 +4022,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>3565</locationX>
+        <locationX>4302</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Contextual_Role_Independent_Fields</targetReference>
@@ -3257,10 +4032,9 @@
     <subflows>
         <name>Call_Complex_Contextual_Role_Flow</name>
         <label>Call Complex Contextual Role Flow</label>
-        <locationX>50</locationX>
-        <locationY>782</locationY>
+        <locationX>3438</locationX>
+        <locationY>2156</locationY>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Assign_Parent_Object_Record</targetReference>
         </connector>
         <flowName>New_Contextual_Role_Complex</flowName>
@@ -3291,10 +4065,38 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <name>Check_Contact_Affiliation</name>
+        <label>Check Contact Affiliation</label>
+        <locationX>4406</locationX>
+        <locationY>1622</locationY>
+        <connector>
+            <targetReference>Assign_RoleIsActive_Value</targetReference>
+        </connector>
+        <flowName>Check_Contact_Affiliation</flowName>
+        <inputAssignments>
+            <name>AccountId</name>
+            <value>
+                <elementReference>Get_Opportunity.Account.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ContactId</name>
+            <value>
+                <elementReference>ContextualRoleToCreate.Contact__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>JobTitle</name>
+            <value>
+                <elementReference>OrganisationGivingOpp_Job_Title</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
         <name>Redirect_to_Parent</name>
         <label>Redirect to Parent</label>
-        <locationX>5330</locationX>
-        <locationY>890</locationY>
+        <locationX>4428</locationX>
+        <locationY>2456</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
@@ -3303,6 +4105,15 @@
             </value>
         </inputAssignments>
     </subflows>
+    <variables>
+        <description>Record Variable for New Contact</description>
+        <name>Contact_To_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
     <variables>
         <name>ContextualRoleToCreate</name>
         <dataType>SObject</dataType>
@@ -3348,6 +4159,34 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>OrganisationGivingAcknowledgementCheckbox</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Stores the value for the Organisation_Giving_New_Contact_Checkbox</description>
+        <name>OrganisationGivingCreateNewContact</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>OrganisationGivingScreenContextualRoleIsEmpty</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>Id of the Parent Record the contextual role would be linked to.</description>

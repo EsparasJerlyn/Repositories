@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Corporate Partnership Opportunity</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Contract&amp;#39; indicates that the proposal has been accepted and is progressing to a formal contract. The Contracts Lifecycle Management System (CLMS) is used to manage the contract process.&lt;/li&gt;&lt;li&gt;Under the ‘Contract’ tab, record the ‘CLMS Contract ID’ and update the ‘Contract Status’ field to record the contract outcome. Update the ‘Stage&amp;#39; field under the ‘Stage Management’ section to ‘Executed’ to record when the contract has been executed&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Contract</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Discontinued’ indicates that the opportunity has been lost. The ‘Loss Reason’ and ‘Loss Reason Explanation’ fields provide reasoning for the loss.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Discontinued</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Executed’ indicates that the Contract has been executed and is in effect&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Executed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Identify’ indicates that you have identified a new opportunity with a potential partner.&lt;/li&gt;&lt;li&gt;Complete the ‘Opportunity Summary’ section under the ‘Details’ tab by updating the Description’ and other datafields. Other fields are pre-populated; however, may be updated.&lt;/li&gt;&lt;li&gt;Use ‘Notes’ to record relevant information to help you manage the relationship and/or opportunity. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;The ‘Relationships’ tab allows you to record who is involved in progressing this opportunity&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Identify</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Negotiate’ indicates that you are progressing negotiations with the potential partner.&lt;/li&gt;&lt;li&gt;Complete the ‘Negotiation Checklist&amp;#39; section under the ‘Negotiate’ tab to confirm negotiation outcomes and readiness to proceed.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Negotiate</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Proposal indicants opportunity is ready for proposal submission. Use the ‘Proposal Outcome’ and ‘Proposal Outcome Comments’ fields under the ‘Submitted&amp;#39; tab to record the proposal outcome.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Proposal</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Corporate_Partnership</recordTypeName>
+</PathAssistant>

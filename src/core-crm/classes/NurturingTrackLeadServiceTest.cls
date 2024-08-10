@@ -708,6 +708,121 @@ public with sharing class NurturingTrackLeadServiceTest {
             );
         }
     }
+
+    @isTest 
+    private static void testLeadWithInvalidStudyLevel() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(
+                Id = marSegList[0].Id, 
+                My_Citizenship_Status__c = 'International Student',
+                My_Primary_Study_Level__c = MarketingSegmentationsDAO.STUDY_LEVEL_HIGHER_DEGREE
+            ));
+            
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            
+            List<Case> caseList = new List<Case>();
+            caseList.add(new Case(
+                Category__c = 'Applying for a course',
+                Lead__c = leadList[0].Id,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
+            ));
+            CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
+            List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
+            applList[0].hed__Initial_Creation_Date__c = System.today().addYears(-2);
+            ApplicationsDAO.newInstance().insertRecords(applList, false, AccessLevel.SYSTEM_MODE);
+
+            List<Lead> updatedLeadList = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            System.Assert.isTrue(updatedLeadList.isEmpty(), 'Lead with Higher Degree study level should not be nurtured.');
+        }
+    }
+
+    @isTest
+    private static void testLeadWithInvalidProgramLevel() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
+            List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
+                new Set<Id>{leads[0].Id},
+                AccessLevel.SYSTEM_MODE
+            );
+            mseg[0].My_Citizenship_Status__c = 'International Student';
+            MarketingSegmentationsDAO.newInstance().updateRecords(mseg, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                Lead__c = leads[0].Id,
+                Application_Status__c = 'Submitted',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today().addDays(30)
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(applications[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, 1);
+            ApplicationPreferencesDAO.newInstance().insertRecords(studyLinkappPrefList, true, AccessLevel.USER_MODE);
+
+            List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, Date.today().addDays(30), 1);
+            packageComponentList[0].Program_Level__c = PackageComponentDAO.PROGRAM_LEVEL_PHD;
+            PackageComponentDAO.newInstance().insertRecords(packageComponentList, true, AccessLevel.USER_MODE);
+
+            Test.startTest();
+            List<Lead> processedLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leads));
+            Test.stopTest();
+
+            System.Assert.isTrue(processedLeads.isEmpty(), 'Lead with PHD Program Level should not be nurtured.');
+            
+        }
+    }
+
+    @isTest
+    private static void testLeadWithBlankProgramLevel() {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
+            List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
+                new Set<Id>{leads[0].Id},
+                AccessLevel.SYSTEM_MODE
+            );
+            mseg[0].My_Citizenship_Status__c = 'International Student';
+            MarketingSegmentationsDAO.newInstance().updateRecords(mseg, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                Lead__c = leads[0].Id,
+                Application_Status__c = 'Submitted',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today().addDays(30)
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(applications[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, 1);
+            ApplicationPreferencesDAO.newInstance().insertRecords(studyLinkappPrefList, true, AccessLevel.USER_MODE);
+
+            List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, Date.today().addDays(30), 1);
+            PackageComponentDAO.newInstance().insertRecords(packageComponentList, true, AccessLevel.USER_MODE);
+
+            Test.startTest();
+            List<Lead> processedLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leads));
+            Test.stopTest();
+
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+                processedLeads[0].Calculated_Cadence__c,
+                'Lead should have calculated cadence.'
+            );
+            
+        }
+    }
     
     /**
      * Generate nurture track configurations and return them as a list of records.

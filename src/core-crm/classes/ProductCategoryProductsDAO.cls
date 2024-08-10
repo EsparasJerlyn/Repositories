@@ -13,7 +13,7 @@ public inherited sharing class ProductCategoryProductsDAO extends DmlBase implem
 
     public Schema.SObjectType getSObjectType() {
         return ProductCategoryProduct.SObjectType;
-    }
+    } 
 
     public static IProductCategoryProductsDAO newInstance() {
         return (IProductCategoryProductsDAO) ImplementationSelector.DAO.newInstance(
