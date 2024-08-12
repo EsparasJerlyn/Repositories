@@ -68,11 +68,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>hed__Category__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Category__c</field>
             <table>Case</table>
         </columns>
