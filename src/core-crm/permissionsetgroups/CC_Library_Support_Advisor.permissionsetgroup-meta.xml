@@ -3,5 +3,7 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>CC Library Support Advisor</label>
     <permissionSets>Library_Contact_Centre_Base</permissionSets>
+    <permissionSets>Messaging_Chat</permissionSets>
+    <permissionSets>Messaging_for_In_App_and_Web_User_QUT</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
