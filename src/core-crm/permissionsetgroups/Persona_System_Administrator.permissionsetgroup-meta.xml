@@ -5,14 +5,9 @@
     <label>Persona System Administrator</label>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
     <permissionSets>Contact_Center_Admin_Partner_Telephony_QUT</permissionSets>
-    <permissionSets>Contact_Center_Agent_Partner_Telephony_QUT</permissionSets>
-    <permissionSets>Contact_Center_Supervisor_Partner_Telephony_QUT</permissionSets>
-    <permissionSets>QUT_Contact_Centre_Base</permissionSets>
-    <permissionSets>Voice</permissionSets>
     <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
-    <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
@@ -53,6 +48,7 @@
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_Admin</permissionSets>
     <permissionSets>trailheadapp__Th_Badge_Admin</permissionSets>
+    <permissionSets>Voice</permissionSets>
     <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
