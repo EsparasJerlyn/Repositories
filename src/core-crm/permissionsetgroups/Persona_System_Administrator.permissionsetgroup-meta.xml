@@ -4,9 +4,11 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona System Administrator</label>
     <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
+    <permissionSets>Contact_Center_Admin_Partner_Telephony_QUT</permissionSets>
     <permissionSets>Einstein_Service_AI_User</permissionSets>
     <permissionSets>Internal_User_Base</permissionSets>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
+    <permissionSets>Messaging_for_In_App_and_Web_User_QUT</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
@@ -36,14 +38,20 @@
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <permissionSets>et4ae5__Marketing_Cloud_System_User</permissionSets>
     <permissionSets>force__CommerceAdmin</permissionSets>
+    <permissionSets>force__ContactCenterAgentExternalTelephony</permissionSets>
+    <permissionSets>force__ContactCenterAdminExternalTelephony</permissionSets>
+    <permissionSets>force__ContactCenterSupervisorExternalTelephony</permissionSets>
     <permissionSets>force__CopilotSalesforceAdmin</permissionSets>
     <permissionSets>force__CopilotSalesforceUser</permissionSets>
     <permissionSets>force__EinsteinAgent</permissionSets>
     <permissionSets>force__EinsteinGPTPromptTemplateManager</permissionSets>
     <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
+    <permissionSets>force__MessagingForInAppAndWebUser</permissionSets>
+    <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>spr_sf__Sprinklr_Admin</permissionSets>
     <permissionSets>trailheadapp__Th_Badge_Admin</permissionSets>
+    <permissionSets>Voice</permissionSets>
     <permissionSets>Permission_All_Custom_Permission</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>SA - Study Plans - Complaints</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>CC_SA_SP_and_Exam</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>
