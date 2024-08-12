@@ -260,7 +260,7 @@
         </inputAssignments>
         <object>VoiceCall</object>
     </recordUpdates>
-    <runInMode>SystemModeWithoutSharing</runInMode>
+    <runInMode>DefaultMode</runInMode>
     <screens>
         <name>Create_Lead</name>
         <label>Create Lead</label>
