@@ -6252,6 +6252,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Completed_Cadence__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>et4ae5__IndividualEmailResult__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
