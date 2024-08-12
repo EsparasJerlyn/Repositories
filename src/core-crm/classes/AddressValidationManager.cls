@@ -59,40 +59,44 @@ public with sharing class AddressValidationManager {
             
             for(Id contactId: contactOtherAddresses.keySet()){
                 
-                hed__Address__c otherAdress = contactOtherAddresses.get(contactId);                
+                // collect addresses related to the conatct
+                hed__Address__c otherAddress = contactOtherAddresses.get(contactId);    
+                hed__Address__c firstAdmittedAddress = contactFirstAdmittedAddress.get(contactId);  
+
                 Boolean contactHasFirstAdmittedAddress = contactFirstAdmittedAddress.containsKey(contactId);
                 Boolean contactHaveMultipleProgramEnrollment = (contactProgramEnrollmentCounts.containsKey(contactId) && contactProgramEnrollmentCounts.get(contactId) > 1);
-     
-                //checking if contact has multiple program enrollment OR already has existing First Admitted Address               
-                if(contactHaveMultipleProgramEnrollment || contactHasFirstAdmittedAddress){                   
-                    if(contactHasFirstAdmittedAddress){
-                        hed__Address__c firstAdmittedAddress = contactFirstAdmittedAddress.get(contactId);
-                        if(firstAdmittedAddress.Validated__c != AddressesDAO.VALID_ADDRESS){                                                        
-                            // send the first admitted addres for validation if not yet validated
-                            addressToValidate.add(firstAdmittedAddress);   
-                        }                        
-                    }else{
-                        // Log an error if the first admitted address is not found
-                        String logMessage = 'First Admitted Address not found for the following contact';
-                        Logger.error(logMessage, contactId);
-                    }                   
-                }else{
-                    //Other Program Enrollment with Status = Admitted
-                    //Check if the Address is Australia
-                    if(!AddressesDAO.MAILING_COUNTRY_AU.contains(otherAdress.hed__MailingCountry__c)){                                                        
-                        //clone "Other" address type and set to First Admitted
-                        hed__address__c newAddress = otherAdress.clone();
-                        newAddress.Is_First_Admission_Address__c = false; 
-                        newAddress.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
-                        addressToInsert.add(newAddress);
-                    }else{
-                        //set isFirstAdmissionAddress to true
-                        otherAdress.Is_First_Admission_Address__c = true;
-                    }
+                Boolean isAnAUAddress = AddressesDAO.MAILING_COUNTRY_AU.contains(otherAddress.hed__MailingCountry__c);
 
+                Boolean hasOtherEnrolmentsNotValidFirstAdmittedAddress= contactHaveMultipleProgramEnrollment && contactHasFirstAdmittedAddress && firstAdmittedAddress.Validated__c != AddressesDAO.VALID_ADDRESS;
+                Boolean hasOtherEnrolmentsNoFirstAdmittedAddress = contactHaveMultipleProgramEnrollment && !contactHasFirstAdmittedAddress;
+                Boolean noOtherEnrolmentsAUOtherAddress = !contactHaveMultipleProgramEnrollment && isAnAUAddress;
+                Boolean noOtherEnrolmentsNonAUOtherAddress = !contactHaveMultipleProgramEnrollment && !isAnAUAddress;
+
+                //Scenario 3.1
+                if(hasOtherEnrolmentsNotValidFirstAdmittedAddress){
+                    // send the first admitted addres for validation if not yet validated
+                    addressToValidate.add(firstAdmittedAddress);   
+                //Scenario 4.1
+                }else if(hasOtherEnrolmentsNoFirstAdmittedAddress){
+                    // Log an error if the first admitted address is not found
+                    String logMessage = 'First Admitted Address not found for the following contact';
+                    Logger.error(logMessage, contactId);
+                //Scenario 1.2
+                }else if(noOtherEnrolmentsAUOtherAddress){
+                    //set Is_First_Admission_Address__c of Current/Other address to true
+                    otherAddress.Is_First_Admission_Address__c = true;
+                    //clone "Other" address type and set to Address Type to First Admitted
+                    addressToInsert.add(createFirstAdmittedAddress(otherAddress));
+                //Scenario 8.1
+                }else if(noOtherEnrolmentsNonAUOtherAddress){
+                    //TO DO - delete existing FIRST ADMITTED ADDRESS
+                    //clone "Other" address type and set to Address Type to First Admitted
+                    addressToInsert.add(createFirstAdmittedAddress(otherAddress));
+                    //skip other address and do not validate
+                    continue;
                 }
-                
-                addressToValidate.add(otherAdress);
+     
+                addressToValidate.add(otherAddress);
                 
             }
             
@@ -100,7 +104,6 @@ public with sharing class AddressValidationManager {
             
             //Update address
             updateAddressRecords(validatedAddressesMap.values());
-
             //Insert cloned address
             insertAddressRecords(addressToInsert);
 
@@ -111,6 +114,13 @@ public with sharing class AddressValidationManager {
                 Logger.saveLog();
             }
         }
+    }
+
+    private static hed__Address__c createFirstAdmittedAddress(hed__Address__c otherAddress){
+        hed__Address__c newAddress = otherAddress.clone();
+        newAddress.Is_First_Admission_Address__c = false; 
+        newAddress.hed__Address_Type__c = AddressesDAO.FIRST_ADMITTED_ADDRESS;
+        return newAddress;
     }
     
     /**
@@ -405,7 +415,7 @@ public with sharing class AddressValidationManager {
 
                 addressCopy.ABS_Categorisation__c = absCategorisation.Id;
                 validatedAddressToUpdate.add(addressCopy);
-                
+
                 String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation);
                 updateContactEconomicStatus(contactMapToUpdate,parentContact,lowSocioEconomicStatus);
             }

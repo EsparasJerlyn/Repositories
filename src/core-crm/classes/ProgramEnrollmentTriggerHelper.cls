@@ -74,8 +74,9 @@ public with sharing class ProgramEnrollmentTriggerHelper {
         }
         
         Map<Id,hed__Address__c> mapOfContactAddress = new Map<Id,hed__Address__c>();
-        for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactIdSet,new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){           
-            if(!mapOfContactAddress.containsKey(address.Id)){
+        for(hed__Address__c address: AddressesDAO.newInstance().getAddressesByContactIdsAndAddressType(contactIdSet,new Set<String>{AddressesDAO.OTHER_ADDRESS},'USER_MODE')){       
+            //only collect addresses related to a Domestic Contact    
+            if(!mapOfContactAddress.containsKey(address.Id) && address.hed__Parent_Contact__r.hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC){
                 mapOfContactAddress.put(address.Id,address);
             }
         }
