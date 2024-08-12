@@ -115,7 +115,8 @@ public with sharing class AmazonHttpCallout {
             }
             
             //Send the request and get a response
-            String endpoint = 'callout:AmazonConnect' + AMAZON_CONNECT_HOURS_OPERATIONS_ENDPOINT;    
+            String amazonInstanceId = 'a43d221c-c330-4c4a-b6b4-bfdf429bf92f';
+            String endpoint = 'callout:AmazonConnect' + AMAZON_CONNECT_HOURS_OPERATIONS_ENDPOINT + amazonInstanceId;    
             HttpResponse postResponse = IntegrationCallOutCtrl.doCallout(endpoint + externalId, setMethod, requestBody);
             
             if(postResponse.getStatusCode() != 200) {
