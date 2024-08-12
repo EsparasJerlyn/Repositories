@@ -3,4 +3,9 @@
     <description>Grant permission to presence statuses required for Voice. Please use in conjunction with Permission Set Contact_Center_Agent_Partner_Telephony_QUT</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Voice</label>
+    <license>Salesforce</license>
+    <tabSettings>
+        <tab>standard-VoiceCall</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
