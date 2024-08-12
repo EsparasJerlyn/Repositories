@@ -23,7 +23,7 @@ public inherited sharing class ListContributorsDAO extends DmlBase implements IL
 
     public List<List_Contributor__c> getListContributorByListID(set<Id> listID, AccessLevel accessLevel) {
         return Database.query(
-            'SELECT Id, Name, Task_Due_Date__c, List_Contributor__c, List_Contributor__r.Name ' +
+            'SELECT Id, Name, Task_Due_Date__c, List_Contributor__c, List_Contributor__r.Name, List__c ' +
             'FROM List_Contributor__c ' +
             'WHERE List__c =: listID', accessLevel
         );
