@@ -761,6 +761,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Completed_Cadence__c.Cadence_Tasks__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Completed_Cadence__c.Calculated_Cadence__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3439,6 +3444,11 @@
         <field>Task.Cadence_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Completed_Cadence__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Contact__c</field>
