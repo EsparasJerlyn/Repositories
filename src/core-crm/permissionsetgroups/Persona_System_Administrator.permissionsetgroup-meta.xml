@@ -37,9 +37,6 @@
     <permissionSets>et4ae5__ExactTarget_Integration_Admin</permissionSets>
     <permissionSets>et4ae5__Marketing_Cloud_System_User</permissionSets>
     <permissionSets>force__CommerceAdmin</permissionSets>
-    <permissionSets>force__ContactCenterAgentExternalTelephony</permissionSets>
-    <permissionSets>force__ContactCenterAdminExternalTelephony</permissionSets>
-    <permissionSets>force__ContactCenterSupervisorExternalTelephony</permissionSets>
     <permissionSets>force__CopilotSalesforceAdmin</permissionSets>
     <permissionSets>force__CopilotSalesforceUser</permissionSets>
     <permissionSets>force__EinsteinAgent</permissionSets>
