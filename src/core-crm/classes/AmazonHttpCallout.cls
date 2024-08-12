@@ -51,36 +51,45 @@ public with sharing class AmazonHttpCallout {
     }
     
     public class CustomException extends Exception{}
-    
+
+    /**
+    * @description Request Callout for Operating Hours Record to AWS
+    *
+    * @param operatingHrsId.
+    * @return statusResponse String for Success or Failed execution.
+    */    
     @AuraEnabled
     public static String syncOperatingHours(Id operatingHrsId) {
         String statusResponse = 'Success';
         if(operatingHrsId == null) {
             throw new CustomException('Missing operating hour id');        
     	}
+        try{
+            //getOperatingHoursMap
+            List<OperatingHours> operatingHoursList = OperatingHoursDAO.newInstance().getOperatingHoursByIdAndChannel(
+                new Set<Id>{operatingHrsId}, 
+                OperatingHoursDAO.TYPE_VOICE, 
+                AccessLevel.USER_MODE
+            );
         
-        //getOperatingHoursMap
-        List<OperatingHours> operatingHoursList = OperatingHoursDAO.newInstance().getOperatingHoursByIdAndChannel(
-            new Set<Id>{operatingHrsId}, 
-            OperatingHoursDAO.TYPE_VOICE, 
-            AccessLevel.USER_MODE
-        );
-        
-		if(operatingHoursList.isEmpty()){
-            throw new CustomException('Could not find Operating Hours for Voice');
-        }         
+            if(operatingHoursList.isEmpty()){
+                throw new CustomException('Could not find Operating Hours for Voice');
+            }         
  
-        //Send the request and get response
-        responseStatus calloutStatus = syncToAWSCallout(operatingHoursList);
+            //Send the request and get response
+            responseStatus calloutStatus = syncToAWSCallout(operatingHoursList);
         
-        if(!calloutStatus.successCallout.isEmpty()){
-        	update calloutStatus.successCallout; 
+            if(!calloutStatus.successCallout.isEmpty()){
+                OperatingHoursDAO.newInstance().updateRecords(calloutStatus.successCallout, false, AccessLevel.SYSTEM_MODE);  
+            }
+        
+            if(!calloutStatus.failedCallout.isEmpty()){
+                statusResponse = 'Failed';
+            }
+        }catch (Exception e) {
+            NebulaLoggerService.logExceptionDetails('Exception caught in AmazonHttpCallout.cls',e);
+            statusResponse = 'Failed';
         }
-        
-        if(!calloutStatus.failedCallout.isEmpty()){
-        	statusResponse = 'Failed';
-        }
-        
         return statusResponse;
     }
     

@@ -13,6 +13,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AmazonHttpCallout</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AmazonHttpCalloutTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AppDefinitionsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -45,7 +53,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IOperatingHoursDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IOperatingHoursHolidaysDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ILeadScoreConfigurationDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ITimeSlotsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -57,7 +77,67 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MockHttpResponseGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>UserAppInfosDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursHolidaysDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursHolidaysDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursHolidaysDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SyncOperatingHoursToAWSBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SyncOperatingHoursToAWSBatchScheduler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SyncOperatingHoursToAWSBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SyncOperatingHrsToAWSBatchSchedulerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestDataFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeSlotsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeSlotsDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeSlotsDAOTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
