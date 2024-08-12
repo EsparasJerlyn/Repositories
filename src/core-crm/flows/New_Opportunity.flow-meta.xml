@@ -2105,7 +2105,7 @@
         <allowPause>false</allowPause>
         <fields>
             <name>ErrorNoAccessGeneral</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-size: 12px;&quot;&gt;Please be advise that you do not have permission to create Opportunity. If you have concern, contact your administrator.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 12px; color: rgb(234, 0, 30); background-color: rgb(255, 255, 255);&quot;&gt;Please be advised that you do not have permission to create new opportunities using this button. If you have any concerns, please contact your administrator.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>Close</nextOrFinishButtonLabel>
