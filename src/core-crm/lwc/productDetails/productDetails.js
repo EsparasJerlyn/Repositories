@@ -73,7 +73,11 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
   ccePricebookEntryId;
   showErrorMessage = false;
   advancementProductDetails;
-  //
+
+  amount1;
+  amount2;
+  amount3;
+  amount4;
 
   tempAcct;
   subscription;
@@ -162,36 +166,36 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 		}
 
 		if(this.isOPEPortal){
-			this.getProductDetailsApex(this.recordId);
+			//this.getProductDetailsApex(this.recordId);
 			//kenn changes start
-			this.getDesignationProdDetailsApex(this.recordId);
+			this.getDesignationProdDetailsApex('01t9r000005drWDAAY');
 			//kenn changes end
 		}
-		if(this.isOPEPortal){
-			if (!isGuest) {
-				this.updateCartInformation();
-			}
-			this.dispatchEvent(
-				new CustomEvent("cartchanged", {
-					bubbles: true,
-					composed: true
-				})
-			);
-		}else{
-			if (!isGuest) {
+		// if(this.isOPEPortal){
+		// 	if (!isGuest) {
+		// 		this.updateCartInformation();
+		// 	}
+		// 	this.dispatchEvent(
+		// 		new CustomEvent("cartchanged", {
+		// 			bubbles: true,
+		// 			composed: true
+		// 		})
+		// 	);
+		// }else{
+		// 	if (!isGuest) {
 				
-				getOrCreateActiveCartSummary({
-				  communityId: communityId,
-				  effectiveAccountId: this.resolvedEffectiveAccountId
-				})
-				.then((result) => {
-					this.updateCartInformation();
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-			}
-		}
+		// 		getOrCreateActiveCartSummary({
+		// 		  communityId: communityId,
+		// 		  effectiveAccountId: this.resolvedEffectiveAccountId
+		// 		})
+		// 		.then((result) => {
+		// 			this.updateCartInformation();
+		// 		})
+		// 		.catch((e) => {
+		// 			console.log(e);
+		// 		});
+		// 	}
+		// }
 	}
 
 	// For CCE Product Details
@@ -265,6 +269,8 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 				this.showProductDetailsDisplay = true;
 			}
 
+			this.showProductDetailsDisplay = true;
+
 			this.loading = false;
 			this.publishLMS();
 		})
@@ -281,19 +287,22 @@ export default class ProductDetails extends NavigationMixin(LightningElement) {
 	getDesignationProdDetailsApex(productId){
 		getDesignationProdDetails({ productId: productId })
 		.then((result) => {
-			//console.log(this.advancementProductDetails);
-		console.log('result: ' + result);
-		console.log('result.productOnPage: ' + result.productOnPage);
-		  this.advancementProductDetails = result.productOnPage;
+			this.advancementProductDetails = result.productOnPage;
 
+			this.amount1 = '$' + result.productOnPage.Predefined_Amount_1__c;
+			this.amount2 = '$' + result.productOnPage.Predefined_Amount_2__c;
+			this.amount3 = '$' + result.productOnPage.Predefined_Amount_3__c;
+			this.amount4 = '$' + result.productOnPage.Predefined_Amount_4__c;
+
+			this.showProductDetailsDisplay = true;
+
+			this.loading = false;
 		})
 		.catch((error) => {
 		  console.log(error);
 		});
 	  }
 	  //kenn changes end
-
-
 
 	// Gets the normalized effective account of the user.
 	get resolvedEffectiveAccountId() {

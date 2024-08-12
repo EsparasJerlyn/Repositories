@@ -19,8 +19,8 @@
                     <div class="slds-grid slds-wrap slds-p-bottom_large slds-p-top_large">
                         <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-p-right_large">
                             <div class="text-content">
-                                <h3 class="section-header">The richest source of inspiration</h3>
-                                <p class="video-p">The Learning Potential Fund provides critical finances through scholarships and bursaries to students in need...</p>
+                                <h3 class="section-header">{advancementProductDetails.Section_1_Heading__c}</h3>
+                                <p class="video-p">{advancementProductDetails.Section_1_Content__c}</p>
                                 <p class="video-p">As the largest perpetual endowment fund of its scale in Australia, it has the potential to create opportunities for promising but financially disadvantaged students forever...</p>
                                 <p class="video-p">Since 1998, donors like you have provided more than 36,000 scholarships to talented students who have been accepted to study at university...</p>
                             </div>
@@ -51,8 +51,8 @@
                         </template>
                         <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-p-left_large">
                             <div class="text-content">
-                                <h3 class="section-header">Your support makes a difference</h3>
-                                <p class="video-p">The Learning Potential Fund provides critical finances through scholarships and bursaries to students in need...</p>
+                                <h3 class="section-header">{advancementProductDetails.Section_2_Heading__c}</h3>
+                                <p class="video-p">{advancementProductDetails.Section_2_Content__c}</p>
                                 <p class="video-p">As the largest perpetual endowment fund of its scale in Australia, it has the potential to create opportunities for promising but financially disadvantaged students forever...</p>
                                 <p class="video-p">Since 1998, donors like you have provided more than 36,000 scholarships to talented students who have been accepted to study at university...</p>
                             </div>
@@ -72,7 +72,7 @@
 
                     <!-- Section 3 -->
                     <div class="section">
-                        <h3 class="section-header">Your gift will help:</h3>
+                        <h3 class="section-header">{advancementProductDetails.Section_3_Heading__c}</h3>
                         <!-- <h3 class="section-header">{productDetails.Section_3_Heading__c}</h3> -->
                         <div class="section-content box-content">
                             <ul class="slds-list_dotted">
@@ -90,10 +90,10 @@
                     <div class="donation-amount slds-box rightColumn">
                       <label for="donation-amount" class="donation-title">Your donation amount</label>
                       <div class="predefined-amounts">
-                        <lightning-input type="checkbox" label="$25" name="donationAmount" value="25"></lightning-input>
-                        <lightning-input type="checkbox" label="$50" name="donationAmount" value="50"></lightning-input>
-                        <lightning-input type="checkbox" label="$100" name="donationAmount" value="100"></lightning-input>
-                        <lightning-input type="checkbox" label="$250" name="donationAmount" value="250"></lightning-input>
+                        <lightning-input type="checkbox" label={amount1} name="donationAmount" value={advancementProductDetails.Predefined_Amount_1__c}></lightning-input>
+                        <lightning-input type="checkbox" label={amount2} name="donationAmount" value={advancementProductDetails.Predefined_Amount_2__c}></lightning-input>
+                        <lightning-input type="checkbox" label={amount3} name="donationAmount" value={advancementProductDetails.Predefined_Amount_3__c}></lightning-input>
+                        <lightning-input type="checkbox" label={amount4} name="donationAmount" value={advancementProductDetails.Predefined_Amount_4__c}></lightning-input>
                         <div class="slds-form-element__control custom-input-container">
                           <span class="slds-form-element__addon custom-span">$</span>
                           <lightning-input type="number" label="Other" name="donationAmount" value="" class="slds-align_absolute-center"></lightning-input>

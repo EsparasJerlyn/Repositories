@@ -18,15 +18,21 @@ import { LightningElement, api, track } from "lwc";
 // import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 // import assetRecordData from "@salesforce/apex/ProductDetailsCtrl.assetRecordData";
 
-//import getDesignationProdDetails from "@salesforce/apex/DesignationProductCtrl.getDesignationProductDetails"
+ import getDesignationProdDetails from "@salesforce/apex/DesignationProductCtrl.getDesignationProductDetails"
 
 export default class ProductDetailsAdvancement extends LightningElement {
 
-  @api productDetails;
+  //productDetails;
   @track isPopupOpen = false;
   product;
 
   @api advancementProductDetails;
+  @api amount1;
+  @api amount2;
+  @api amount3;
+  @api amount4;
+  
+  @api recordId;
 
   openPopup(event) {
     event.preventDefault();
@@ -46,8 +52,9 @@ export default class ProductDetailsAdvancement extends LightningElement {
   connectedCallback() {
     this.updateIsMobile();
     window.addEventListener('resize', this.updateIsMobile.bind(this));
-
-    //this.getDesignationProdDetails(this.recordId);
+  
+    //console.log('Record Id: ' + this.recordId);
+   // this.getDesignationProdDetails('01t9r000005drWDAAY');
   }
 
   disconnectedCallback() {
@@ -58,14 +65,19 @@ export default class ProductDetailsAdvancement extends LightningElement {
       this.isMobile = window.innerWidth <= 768; // Define your mobile breakpoint here
   }
 
-  // getDesignationProdDetails(productId){
-  //   getDesignationProdDetails({ productId: productId })
-  //   .then((result) => {
-  //     this.product = result;
-  //     console.log(this.product);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-  // }
+  getDesignationProdDetails(productId){
+    getDesignationProdDetails({ productId: productId })
+    .then((result) => {
+      if(result){
+        this.advancementProductDetails = result;
+        //this.advancementProductDetails = result.productOnPage;
+        //console.log('advancementProductDetails ' + this.advancementProductDetails);
+        console.log('result.productOnPage: ' + JSON.stringify(result.productOnPage));
+        console.log('result: ' + JSON.stringify(result));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 }

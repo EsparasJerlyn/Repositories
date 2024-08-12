@@ -23,7 +23,20 @@
 
 	<c-product-details-advancement
 		if:true={showProductDetailsDisplay}
-		product-details={advancementProductDetails}
+		advancement-product-details={advancementProductDetails}		
+		record-id={recordId}
+		price-book-entries={availablePricings}
+		delivery-options={deliveryOptions}
+		c-products={cProducts}
+		is-not-flex-program={showFlexibleProgram}
+		onaddtocart={addToCartItem}
+		product-category={productCategory}
+		price-read-only={priceReadOnly}
+		cce-pricebook-entry-id={ccePricebookEntryId}
+		amount1={amount1}
+		amount2={amount2}
+		amount3={amount3}
+		amount4={amount4}
 	></c-product-details-advancement>
 	<!--
 		price-book-entries={availablePricings}

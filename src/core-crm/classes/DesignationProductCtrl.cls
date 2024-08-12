@@ -21,7 +21,7 @@ public with sharing class DesignationProductCtrl {
           DesignationProductDetails designationProdDetails = new DesignationProductDetails();
           //List<ProductWrapper> productWrapper = new List<ProductWrapper>();
 
-          		// Product
+          // Product
 		List<Product2> productsOnPageList = ProductsDAO.newInstance().getDesignationProductById(new Set<Id>{productId}, AccessLevel.SYSTEM_MODE);
 		if(productsOnPageList.isEmpty()){ 
 			throw new AuraHandledException('No Product');
