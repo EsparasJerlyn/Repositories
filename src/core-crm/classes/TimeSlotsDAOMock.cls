@@ -1,3 +1,13 @@
+/**
+ * @description Mock DAO Class for Time Slots Object.
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
+ *    | john.aldric.s.seril            | Aug 12, 2024          | DEPP-9834              | Created file                                       |
+*/
 @isTest
 public inherited sharing class TimeSlotsDAOMock extends DmlBaseMock implements ITimeSlotsDAO {
 

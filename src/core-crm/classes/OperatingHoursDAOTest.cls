@@ -1,5 +1,5 @@
 /**
- * @description test class for contactsdao.
+ * @description test class for OperatingHoursDAO.
  * @author Accenture
  *
  * @history

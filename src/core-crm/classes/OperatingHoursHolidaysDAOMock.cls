@@ -1,3 +1,13 @@
+/**
+ * @description Mock DAO Class for Operating Hours Holiday Object.
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
+ *    | john.aldric.s.seril            | Aug 12, 2024          | DEPP-9834              | Created file                                       |
+*/
 @isTest
 public inherited sharing class OperatingHoursHolidaysDAOMock extends DmlBaseMock implements IOperatingHoursHolidaysDAO{
     public Map<Id, OperatingHoursHoliday> operatingHoursHolidayMap;

@@ -1,3 +1,13 @@
+/**
+ * @description test class for OperatingHoursHolidayDAO.
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                | JIRA                   | Change Summary                            |
+ *    |--------------------------------|---------------------|------------------------|-------------------------------------------|
+ *    | john.aldric.s.seril            | Aug 12, 2024        | DEPP-9834              | Created file                              |
+*/
 @isTest
 public with sharing class OperatingHoursHolidaysDAOTest {
     @testSetup
