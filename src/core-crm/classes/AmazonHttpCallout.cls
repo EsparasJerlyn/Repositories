@@ -135,21 +135,6 @@ public with sharing class AmazonHttpCallout {
     }    
 
     /**
-    * Retrieve Operating Hours Holiday Record
-    *
-    * @param operatingHoursRecordList.
-    * @return List<TimeSlot>.
-    */
-    public static List<OperatingHoursHoliday> getOperatingHoursHolidayRecords(List<OperatingHours> operatingHoursRecordList){
-    	return new List<OperatingHoursHoliday>([SELECT Id, 
-                                                	   OperatingHoursId, 
-                                                	   DateAndTime, 
-                                                       Holiday.ActivityDate 
-                                                FROM OperatingHoursHoliday
-                                                WHERE OperatingHoursId =: operatingHoursRecordList]);	
-    }    
-    
-    /**
     * Retrieve Operating Hours with Time Slots Record 
     *
     * @param operatingHoursIdList, operating Hours Record List
@@ -187,8 +172,7 @@ public with sharing class AmazonHttpCallout {
     public static Map<Id, String> getOperatingHoursHoliday(List<OperatingHours> operatingHoursList){
         
         Map<Id, String> dayOfWeekMap = new Map<Id, String>();
-        
-        for(OperatingHoursHoliday operatingHrsHolidayRecord: getOperatingHoursHolidayRecords(operatingHoursList) ){
+        for(OperatingHoursHoliday operatingHrsHolidayRecord: OperatingHoursHolidaysDAO.newInstance().getOperatingHoursHolidayRecords(operatingHoursList, AccessLevel.USER_MODE)){
             DateTime dateTimeValue = (dateTime)operatingHrsHolidayRecord.Holiday.ActivityDate;                                                        
             if(dateTimeValue == (DateTime)Date.today()){                                                        
             	dayOfWeekMap.put(operatingHrsHolidayRecord.OperatingHoursId, dateTimeValue.format('EEEE'));                                                        
