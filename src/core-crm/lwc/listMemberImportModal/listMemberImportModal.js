@@ -4,12 +4,14 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Created file                 |
-      | kenneth.f.alsay           | February 14, 2024     | DEPP-8040            | Default List Contributor     |
-      | kenneth.f.alsay           | February 27, 2024     | DEPP-8099            | Removed edit action button   |     
-      |                           |                       |                      |                              |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                       |
+      |---------------------------|-----------------------|----------------------|--------------------------------------|
+      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Created file                         |
+      | kenneth.f.alsay           | February 14, 2024     | DEPP-8040            | Default List Contributor             |
+      | kenneth.f.alsay           | February 27, 2024     | DEPP-8099            | Removed edit action button           |
+      | neil.s.h.lesidan          | August 5, 2024        | DEPP-10247           | Check duplicate contact in CSV       |
+      | neil.s.h.lesidan          | August 5, 2024        | DEPP-10246           | Incorrect error message import CSV   |
+      |                           |                       |                      |                                      |
  */
       import { LightningElement, api, track } from 'lwc';
       import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -265,13 +267,20 @@
                   listMember.ListContributorUrl = '';
                   listMember.ListMemberName = '';
                   listMember.ContactUrl = '';
-      
+
+                  // check duplicate existing record and CSV
                   this.recordData.forEach(obj => {
                       if (listMember.List_Member__c === obj.List_Member__c) {
                           isDuplicate = true;
                       }
                   });
-      
+
+                  // check duplicate in CSV
+                  const checkDuplicateInCSV = this.data.filter((obj) => obj.List_Member__c === listMember.List_Member__c);
+                  if (checkDuplicateInCSV.length && checkDuplicateInCSV.length > 1) {
+                      isDuplicate = true;
+                  }
+
                   let isFoundContact = false;
                   let isFoundListContributor = false;
       
