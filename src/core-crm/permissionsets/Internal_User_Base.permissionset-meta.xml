@@ -18,6 +18,15 @@
         <object>Address_Change_Event__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>MDM_Callout_Event__e</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Internal User Base</label>
 </PermissionSet>
