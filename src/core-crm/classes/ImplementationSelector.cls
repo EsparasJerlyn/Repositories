@@ -152,6 +152,7 @@ public class ImplementationSelector {
             SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
             Student_Sanction__c.SObjectType => StudentSanctionsDAO.class,
             Task.SObjectType => TasksDAO.class,
+            TimeSlot.SObjectType => TimeSlotsDAO.class,  
             User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
             UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,

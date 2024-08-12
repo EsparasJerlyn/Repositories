@@ -133,22 +133,6 @@ public with sharing class AmazonHttpCallout {
         responseStatusWrapper.failedCallout = failedSync;
         return responseStatusWrapper;    
     }    
-    
-    /**
-    * Retrieve Time Slot Record
-    *
-    * @param operatingHoursRecordList.
-    * @return List<TimeSlot>.
-    */
-    public static List<TimeSlot> getTimeSlotRecords(List<OperatingHours> operatingHoursRecordList){
-    	return new List<TimeSlot>([SELECT Id,
-                                   		  OperatingHoursId, 
-                                   		  DayOfWeek, 
-                                   		  StartTime, 
-                                          EndTime 
-                                      FROM TimeSlot
-                                      WHERE OperatingHoursId =: operatingHoursRecordList]);	
-    }
 
     /**
     * Retrieve Operating Hours Holiday Record
@@ -174,7 +158,7 @@ public with sharing class AmazonHttpCallout {
     */
     public static Map<Id,List<Config>> getTimeSlot(List<OperatingHours> operatingHoursIdList, Map<Id, String> operatingHoursHolidayMap){
         Map<Id, List<Config>> timeSlotMap = new Map<Id,List<Config>>();
-        for(TimeSlot timeSlotRecord: getTimeSlotRecords(operatingHoursIdList)){
+        for(TimeSlot timeSlotRecord: TimeSlotsDAO.newInstance().getTimeSlotRecords(operatingHoursIdList, AccessLevel.USER_MODE)){
 			if(timeSlotRecord.DayOfWeek.toUpperCase() == operatingHoursHolidayMap?.get(timeSlotRecord.OperatingHoursId)?.toUpperCase()){
                 continue;
             }
