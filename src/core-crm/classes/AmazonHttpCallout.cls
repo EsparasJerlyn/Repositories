@@ -14,35 +14,35 @@ public with sharing class AmazonHttpCallout {
     private static final String AMAZON_CONNECT_HOURS_OPERATIONS_ENDPOINT = System.Label.AmazonConnectHoursOfOperation;
 
     public class RequestBody{
-        public List<Config> config;
-        public String description;
-        public String name;
-        public String timeZone;
+        public List<config> Config;
+        public String Description;
+        public String Name;
+        public String TimeZone;
     }
     
     public class Config{
-        public String day;
-        public hoursAndMinutes endTime;   
-        public hoursAndMinutes startTime;
-        public Config (String day, hoursAndMinutes endTime, hoursAndMinutes startTime){
-            this.day = day;
-            this.endTime = endTime;
-            this.startTime = startTime;
+        public String Day;
+        public hoursAndMinutes EndTime;
+        public hoursAndMinutes StartTime;
+        public config (String day, hoursAndMinutes endTime, hoursAndMinutes startTime){
+            this.Day = day;
+            this.EndTime = endTime;
+            this.StartTime = startTime;
         }
     }
     
     public class HoursAndMinutes{
-        public Integer hours;
-        public Integer minutes;
+        public Integer Hours;
+        public Integer Minutes;
         public hoursAndMinutes(Integer hours, Integer minutes){
-            this.hours = hours;
-            this.minutes = minutes;
+            this.Hours = hours;
+            this.Minutes = minutes;
         }
     }
     
     public class ResponseBody{
-        public String hoursOfOperationArn;
-        public String hoursOfOperationId;
+        public String HoursOfOperationArn;
+        public String HoursOfOperationId;
     }
     
     public class ResponseStatus{
@@ -71,7 +71,7 @@ public with sharing class AmazonHttpCallout {
         }         
  
         //Send the request and get response
-        ResponseStatus calloutStatus = syncToAWSCallout(operatingHoursList);
+        responseStatus calloutStatus = syncToAWSCallout(operatingHoursList);
         
         if(!calloutStatus.successCallout.isEmpty()){
         	update calloutStatus.successCallout; 
@@ -122,7 +122,7 @@ public with sharing class AmazonHttpCallout {
                 failedSync.add(operatingHoursRecord);
             } else {
                 if(!String.isBlank(postResponse.getBody())){
-                    ResponseBody responseBodyObject = (ResponseBody)JSON.deserialize(postResponse.getBody(), ResponseBody.class);
+                    responseBody responseBodyObject = (responseBody)JSON.deserialize(postResponse.getBody(), responseBody.class);
                     operatingHoursRecord.AWS_Business_Hour_External_ID__c = responseBodyObject.HoursOfOperationId;
                     successSync.add(operatingHoursRecord);
                 }
@@ -179,9 +179,9 @@ public with sharing class AmazonHttpCallout {
                 continue;
             }
                                           
-            Config configRecord = new Config(timeSlotRecord.DayOfWeek.toUpperCase(), 
-                                      new HoursAndMinutes(timeSlotRecord.EndTime?.hour(),timeSlotRecord.EndTime?.minute()), 
-                                      new HoursAndMinutes(timeSlotRecord.StartTime?.hour(),timeSlotRecord.StartTime?.minute())  
+            Config configRecord = new config(timeSlotRecord.DayOfWeek.toUpperCase(), 
+                                      new hoursAndMinutes(timeSlotRecord.EndTime?.hour(),timeSlotRecord.EndTime?.minute()), 
+                                      new hoursAndMinutes(timeSlotRecord.StartTime?.hour(),timeSlotRecord.StartTime?.minute())  
                                      );   
                                           
             if(timeSlotMap.containsKey(timeSlotRecord.OperatingHoursId)){                              
@@ -221,17 +221,17 @@ public with sharing class AmazonHttpCallout {
     * @return String JSON.
     */
     public static String constructRequestBody(OperatingHours operatingHoursRecord, Map<Id, List<Config>> timeSlotMap){
-        List<Config> configList = new List<Config>();
+        List<config> configList = new List<config>();
         
         if(timeSlotMap.containsKey(operatingHoursRecord.Id)){
         	configList = timeSlotMap.get(operatingHoursRecord.Id);	    
         }
         
-        RequestBody rqstBody = new RequestBody();
+        requestBody rqstBody = new requestBody();
         rqstBody.config = configList;
-        rqstBody.description = operatingHoursRecord.description;
-        rqstBody.name = operatingHoursRecord.name;
-        rqstBody.timeZone = operatingHoursRecord.timeZone;
+        rqstBody.description = operatingHoursRecord.Description;
+        rqstBody.name = operatingHoursRecord.Name;
+        rqstBody.timeZone = operatingHoursRecord.TimeZone;
 
         return JSON.serialize(rqstBody);
     }
