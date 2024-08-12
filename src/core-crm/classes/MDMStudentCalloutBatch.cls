@@ -19,7 +19,7 @@ public with sharing class MDMStudentCalloutBatch implements Database.Batchable<s
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return ContactsDAO.newInstance().queryLocatorGetMDMStudentsByIds(contactIds, AccessLevel.USER_MODE);
+        return ContactsDAO.newInstance().queryLocatorGetMDMStudentsByIds(contactIds, AccessLevel.SYSTEM_MODE);
     }    
 
     public void execute(Database.BatchableContext bc, List<Contact> contactList) {

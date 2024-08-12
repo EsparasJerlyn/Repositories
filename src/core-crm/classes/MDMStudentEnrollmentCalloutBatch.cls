@@ -19,7 +19,7 @@ public with sharing class MDMStudentEnrollmentCalloutBatch implements Database.B
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return CourseConnectionsDAO.newInstance().queryLocatorGetMDMStudentEnrollmentByIds(courseConnectionIds, AccessLevel.USER_MODE);
+        return CourseConnectionsDAO.newInstance().queryLocatorGetMDMStudentEnrollmentByIds(courseConnectionIds, AccessLevel.SYSTEM_MODE);
     }    
 
     public void execute(Database.BatchableContext bc, List<hed__Course_Enrollment__c> courseConnectionList) {
