@@ -9,6 +9,8 @@
       | eccarius.munoz                 |  May 15, 2024         | DEPP-8484              | Created file                 |
       | kim.howard.capanas             |  May 22, 2024         | DEPP-7526              | Added caseRecord             |
       |                                |                       |                        | to ELECandidateProcessResult |
+      | julie.jane.alegre              |  July 25, 2024        | DEPP-9953              | Update logic on updating     |
+      |                                |                       |                        | Cases_Created__c field       |
  */
 public with sharing class ELECandidateProcessor {
 
@@ -145,7 +147,9 @@ public with sharing class ELECandidateProcessor {
             }
             
             if(!outreachCaseMap.values().isEmpty()){
-                Integer numberOfCaseCreated = criteria.Cases_Created__c != null ? Integer.valueOf(criteria.Cases_Created__c) : 0;
+                //Query the current criteria to get the latest number of case created
+                Engagement_List_Criteria__c currentCriteria = EngagementListCriteriasDAO.newinstance().getEntryCriteriaById(criteria.Id, AccessLevel.USER_MODE);
+                Integer numberOfCaseCreated = currentCriteria.Cases_Created__c != null ? Integer.valueOf(currentCriteria.Cases_Created__c) : 0;
                 criteria.Cases_Created__c = numberOfCaseCreated + outreachCaseMap.values().size();
                 List<Engagement_List_Criteria__c> eventCriterias = new List<Engagement_List_Criteria__c>();
                 eventCriterias.add(criteria);
