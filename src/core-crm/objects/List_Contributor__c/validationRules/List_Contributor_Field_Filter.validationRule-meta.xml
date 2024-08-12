@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Contributor_Field_Filter</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT( ISBLANK(List_Contributor__c) ),
+NOT(   OR(List_Contributor__r.UserRole.DeveloperName = &apos;Alumni_Engagement&apos;, 
+    List_Contributor__r.UserRole.DeveloperName = &apos;Corporate_Engagement&apos;,                                     
+    List_Contributor__r.UserRole.DeveloperName = &apos;Corporate_Events&apos;,       
+    List_Contributor__r.UserRole.DeveloperName = &apos;Fundraiser&apos;,
+    List_Contributor__r.UserRole.DeveloperName = &apos;Fundraiser_Manager&apos;,       
+    List_Contributor__r.UserRole.DeveloperName = &apos;Advancement_Manager&apos;,       
+    List_Contributor__r.UserRole.DeveloperName = &apos;Advancement_Operations_Manager&apos;, 
+    List_Contributor__r.UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos;, 
+    List_Contributor__r.UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos;, 
+    List_Contributor__r.UserRole.DeveloperName = &apos;Alumni_Corporate_Partnerships_Super_User&apos;)
+)
+)</errorConditionFormula>
+    <errorDisplayField>List_Contributor__c</errorDisplayField>
+    <errorMessage>Value does not exist or does not match filter criteria.</errorMessage>
+</ValidationRule>

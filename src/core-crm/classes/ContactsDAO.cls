@@ -38,6 +38,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     /**
      * Contact Constants
      */
+    public static final String AU_LOCALE = 'Australia (+61)';
     public static final String PERSON_RECORDTYPE = System.Label.RT_Contact_Person;
     public static final String ID_PREFIX = '003'; //Constant contact Id prefix see: https://help.salesforce.com/s/articleView?id=000385203&type=1
     public static final Id PERSON_RECORDTYPE_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
@@ -143,7 +144,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 OtherCity,
                 OtherStreet,
                 OtherCountry,
-                Phone
+                Phone,
+                ContactMobile_Locale__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -598,7 +600,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         return Database.query(
             'SELECT Id, Name, Salutation, FirstName, MiddleName, LastName, Suffix, Email, hed__WorkEmail__c, ' +
-            'hed__UniversityEmail__c, QUT_Staff_Email__c, Position__c ' +
+            'hed__UniversityEmail__c, QUT_Staff_Email__c, Position__c, MobilePhone ' +
             'FROM Contact ' +
             'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
             'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +

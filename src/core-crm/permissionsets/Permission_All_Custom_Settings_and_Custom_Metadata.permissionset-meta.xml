@@ -102,6 +102,10 @@
     </customMetadataTypeAccesses>
     <customSettingAccesses>
         <enabled>true</enabled>
+        <name>AI_Settings__c</name>
+    </customSettingAccesses>
+    <customSettingAccesses>
+        <enabled>true</enabled>
         <name>Activity_Code_Generator__c</name>
     </customSettingAccesses>
     <customSettingAccesses>
