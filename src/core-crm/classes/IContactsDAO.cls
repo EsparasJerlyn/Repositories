@@ -20,6 +20,7 @@
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | added getPersonContactsByNameUsingSOSL |
  *    | julie.jane.alegre              | May 13, 2024          | DEPP-8490              | Update method getQueryLocatorBySubQueryTest|
  *    | eugene.andrew.abuan            | May 14, 2024          | DEPP-8485              | Added getContactsByStudentId           |
+ *    | eccarius.munoz                 | August 12, 2024       | DEPP-10490             | Added queryLocatorGetMDMStudentsByIds  |
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(
@@ -143,6 +144,11 @@ public interface IContactsDAO extends DmlInterface {
 
     Database.QueryLocator getQueryLocatorContactByStudentId(
         List<String> studentIdList,
+        AccessLevel accessLevel
+    );
+
+    Database.QueryLocator queryLocatorGetMDMStudentsByIds(
+        Set<Id> studentIds,
         AccessLevel accessLevel
     );
 }

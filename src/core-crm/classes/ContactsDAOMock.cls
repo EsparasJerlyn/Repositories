@@ -477,4 +477,12 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
     ){
         return null;
     }
+
+    public Database.QueryLocator queryLocatorGetMDMStudentsByIds(
+        Set<Id> studentIds,
+        AccessLevel accessLevel
+    ){
+        return null;
+    }
+    
 }

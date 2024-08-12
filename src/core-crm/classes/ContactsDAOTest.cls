@@ -652,4 +652,19 @@ private class ContactsDAOTest {
         }
     }
 
+    @isTest
+    static void queryLocatorGetMDMStudentsByIdsTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            Test.startTest();
+            System.assert(
+                ContactsDAO.newInstance().queryLocatorGetMDMStudentsByIds(
+                    new Set<Id>{},
+                    AccessLevel.USER_MODE
+                ) != null,
+                'contactList should not be null'
+            );
+            Test.stopTest();
+        }
+    }
+
 }

@@ -32,6 +32,7 @@
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | Added getPersonContactsByNameUsingSOSL method             |
  *    | eccarius.munoz                 | April 29, 2024        | DEPP-8041              | Added getQueryLocatorByCriteria and findByCriteria        |
  *    | eugene.andrew.abuan            | May 14, 2024          | DEPP-8485              | Added getContactByStudentId                               |
+ *    | eccarius.munoz                 | August 12, 2024       | DEPP-10490             | Added queryLocatorGetMDMStudentsByIds                     |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -661,6 +662,21 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             accessLevel
         );
     }  
+
+    public Database.QueryLocator queryLocatorGetMDMStudentsByIds(
+        Set<Id> studentIds,
+        AccessLevel accessLevel
+    ){
+        return Database.getQueryLocator(
+            'SELECT Id, QUT_Identity_ID__c, Salutation, FirstName, MiddleName, LastName, Preferred_Given_Name__c, Birthdate, ' +
+                'ATSI_Code__c, hed__Citizenship__c, hed__Citizenship_Status__c, ContactMobile_Validation__c, ContactMobile_Locale__c, ' +
+                'MobilePhone, Phone, OtherStreet, OtherState, OtherPostalCode, OtherCountry, MailingStreet, MailingState, ' +
+                'MailingPostalCode, MailingCountry, Email, QUT_Learner_Email__c, Work_Email__c, QUT_Employee_ID__c, QUT_Student_ID__c ' +
+             'FROM Contact ' +
+            'WHERE Id IN : studentIds',
+            accessLevel
+        );
+    } 
 
     /**
      * @Description:Wrapper Class that represents the extracted application details.
