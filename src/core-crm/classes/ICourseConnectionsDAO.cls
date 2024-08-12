@@ -12,6 +12,7 @@
       | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | getActiveCourseConnectionsBySetContactIds  |
       | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | added method getCourseConnectionByStatus   |
       | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartId   |   
+      | eccarius.munoz                 | August 12, 2024       | DEPP-10490             | Added queryLocator method for MDM.         |
  */
 public interface ICourseConnectionsDAO extends DmlInterface{
     List<hed__Course_Enrollment__c> getCourseConnectionByPEContactIds(
@@ -67,6 +68,11 @@ public interface ICourseConnectionsDAO extends DmlInterface{
         CourseConnectionsDAO.Criteria courseConnectionCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
+    );
+
+    Database.QueryLocator queryLocatorGetMDMStudentEnrollmentByIds(
+        Set<Id> studentEnrollmentIds,
         AccessLevel accessLevel
     );
 }

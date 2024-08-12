@@ -434,4 +434,19 @@ public with sharing class CourseConnectionsDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void queryLocatorGetMDMStudentEnrollmentByIdsTest() {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
+            Test.startTest();
+            System.assert(
+                CourseConnectionsDAO.newInstance().queryLocatorGetMDMStudentEnrollmentByIds(
+                    new Set<Id>{},
+                    AccessLevel.USER_MODE
+                ) != null,
+                'course connection list should not be null'
+            );
+            Test.stopTest();
+        }
+    }
+
 }

@@ -15,6 +15,7 @@
  *    | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | added method getCourseConnectionByStatus       |
  *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseConnectionByCartItem |
  *    | gabriel.p.ventayen             | April 30, 2024        | DEPP-8041              | Added critera                                  |
+ *    | eccarius.munoz                 | August 12, 2024       | DEPP-10490             | Added queryLocator method for MDM              |
  */
 
 public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
@@ -226,7 +227,17 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         return soql;
     }
 
-
+    public Database.QueryLocator queryLocatorGetMDMStudentEnrollmentByIds(
+        Set<Id> studentEnrollmentIds,
+        AccessLevel accessLevel
+    ){
+        return Database.getQueryLocator(
+            'SELECT Id, hed__Contact__c, Course_Offering_End_Date__c, Course_Offering_Start_Date__c ' +
+              'FROM hed__Course_Enrollment__c ' +
+             'WHERE Id IN : studentEnrollmentIds',
+            accessLevel
+        );
+    } 
 
     /**
      * @Description:Wrapper Class that represents the Criteria for Course Connection.

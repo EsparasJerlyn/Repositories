@@ -238,5 +238,11 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
         return soql;
     }
 
+    public Database.QueryLocator queryLocatorGetMDMStudentEnrollmentByIds(
+        Set<Id> studentEnrollmentIds,
+        AccessLevel accessLevel
+    ){
+        return null;
+    }
 
 }
