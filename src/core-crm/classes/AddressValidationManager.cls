@@ -362,66 +362,80 @@ public with sharing class AddressValidationManager {
         try{ 
             ABS_Categorisation__c absCategorisation = getABSCategorisation();  
 
-
-            List<Contact> contactsToUpdate = new List<Contact>();
-            List<hed__Address__c> addressToUpdate = new List<hed__Address__c>();
-            List<hed__Address__c> addressToUpdateNotQUTStudent = new List<hed__Address__c>();
+            Map<Id,Contact> contactMapToUpdate = new Map<Id,Contact>();
+            List<hed__Address__c> validatedAddressToUpdate = new List<hed__Address__c>();
+            List<hed__Address__c> addressUpdateIntegrationFieldsToNull = new List<hed__Address__c>();
             hed__Address__c addressCopy;
-            for(hed__Address__c address : addresses){
-                addressCopy = address.clone();
-                addressCopy.Id = address.Id;
-                setAddressValuesToNull(addressCopy);
 
-                if(contactMap.containsKey(address.hed__Parent_Contact__c) && !contactMap.get(address.hed__Parent_Contact__c).QUT_Student__c){
-                    addressToUpdateNotQUTStudent.add(addressCopy);
+            Map<Id, hed__Address__c> contactFirstAdmittedAddress = getContactFirstAdmittedAddresses(contactMap.keySet());  
+
+            for(hed__Address__c address : addresses){
+                //if current has no parent contact, skip whole process
+                if(!contactMap.containsKey(address.hed__Parent_Contact__c)){
                     continue;
                 }
 
-                addressCopy.ABS_Categorisation__c = absCategorisation.Id;
+                Contact parentContact = contactMap.get(address.hed__Parent_Contact__c);
 
-                addressToUpdate.add(addressCopy);
+                addressCopy = address.clone();
+                addressCopy.Id = address.Id;
 
-                Id contactId = address.hed__Parent_Contact__c;
-                String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation);
-                Boolean isContactForUpdate = 
-                    String.isNotBlank(lowSocioEconomicStatus) && 
-                    contactMap.containsKey(contactId) && 
-                    (
-                        contactMap.get(contactId).Low_Socio_Economic_Status__c == null || 
-                        (contactMap.get(contactId).Low_Socio_Economic_Status__c != null && contactMap.get(contactId).Low_Socio_Economic_Status__c != lowSocioEconomicStatus)
-                    );
+                setAddressValuesToNull(addressCopy);
 
-                if(isContactForUpdate){
-                    contactsToUpdate.add(
-                        new Contact(
-                            Id = contactId,
-                            Low_Socio_Economic_Status__c = lowSocioEconomicStatus
-                        )
-                    );
+                //checks if address is AU
+                boolean isAUAddress = AddressesDAO.MAILING_COUNTRY_AU.contains(addressCopy.hed__MailingCountry__c);
+                boolean hasNoFirstAdmittedAddress = !contactFirstAdmittedAddress.containsKey(address.hed__Parent_Contact__c);
+                boolean isCitizen = parentContact.hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
+                
+                // when Contact is not a QUT Student 
+                // OR there is no existing first admitted address and contact is not an au citizen
+                // update integration fields to null
+                boolean isNotStudentAndCitizen = parentContact.QUT_Student__c || (hasNoFirstAdmittedAddress && !isCitizen);
+                if(isNotStudentAndCitizen){
+                    addressUpdateIntegrationFieldsToNull.add(addressCopy);
+                    continue;
                 }
+
+                //when contact is an au citizen, has no existing first admitted address and other address is au
+                //update first admitted to true
+                boolean isAUCitizenAndResident = isCitizen && hasNoFirstAdmittedAddress && isAUAddress;
+                if(isAUCitizenAndResident){
+                    addressCopy.Is_First_Admission_Address__c = true;
+                }
+
+                addressCopy.ABS_Categorisation__c = absCategorisation.Id;
+                validatedAddressToUpdate.add(addressCopy);
+                
+                String lowSocioEconomicStatus = setLowSocioEconomicStatus(address, absCategorisation);
+                updateContactEconomicStatus(contactMapToUpdate,parentContact,lowSocioEconomicStatus);
             }
             
             // Updates the hed Address when Contact is QUT Student and will fire a Validation for the Integration Status
-            if(!addressToUpdate.isEmpty()){
-                Map<Id, hed__Address__c> addressMap = new AddressValidation(addressToUpdate).validateAddresses();
-                AddressesDAO.newInstance().updateRecords(addressMap.values(), true, AccessLevel.SYSTEM_MODE);
-            }
-
-            // Updates the hed Address when QUT Student is false
-            if(!addressToUpdateNotQUTStudent.isEmpty()){
-                AddressesDAO.newInstance().updateRecords(addressToUpdateNotQUTStudent, true, AccessLevel.SYSTEM_MODE);
-            }
-
-            if(!contactsToUpdate.isEmpty()){
-                ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.SYSTEM_MODE);
-            }
+            Map<Id, hed__Address__c> validatedAddressToUpdateMap = new AddressValidation(validatedAddressToUpdate).validateAddresses();
+            AddressesDAO.newInstance().updateRecords(validatedAddressToUpdateMap.values(), true, AccessLevel.SYSTEM_MODE);
+            // Updates the hed Address Integration fields to null when QUT Student is false or Address is not AU
+            AddressesDAO.newInstance().updateRecords(addressUpdateIntegrationFieldsToNull, true, AccessLevel.SYSTEM_MODE);
+            // Update contact related fields
+            ContactsDAO.newInstance().updateRecords(contactMapToUpdate.values(), true, AccessLevel.SYSTEM_MODE);
 
         }catch(Exception e){
-            Logger.error('Exception caught in execute method in Apex class AddressesValidationBatch.').setExceptionDetails(e);
-        }finally {
-            if(Logger.getBufferSize() > 0) {
-                Logger.saveLog();
-            }
+            NebulaLoggerService.logExceptionDetails('Exception caught in execute method in Apex class AddressesValidationBatch.',e);
+        }
+    }
+
+    private static void updateContactEconomicStatus(Map<Id, Contact> contactMapToUpdate, Contact parentContact, String lowSocioEconomicStatus){
+        Id contactId = parentContact.Id;
+        Boolean isContactForUpdate = String.isNotBlank(lowSocioEconomicStatus) && 
+        (parentContact.Low_Socio_Economic_Status__c == null || parentContact.Low_Socio_Economic_Status__c != lowSocioEconomicStatus);
+
+        if(isContactForUpdate){
+            contactMapToUpdate.put(
+                contactId,
+                new Contact(
+                    Id = contactId,
+                    Low_Socio_Economic_Status__c = lowSocioEconomicStatus
+                )
+            );
         }
     }
 
@@ -451,6 +465,7 @@ public with sharing class AddressValidationManager {
             address.GNAF_Id__c = null;
             address.Validated__c = null;
             address.ABS_Categorisation__c = null;
+            address.Address_Integration_Status__c = null;
         }
     }
 }

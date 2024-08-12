@@ -52,10 +52,10 @@ public with sharing class OtherAddressChangeEventHandler {
 
     }
 
-    private static void process(Set<Id> otherAddressIdsFromInsert, Boolean isUpdate){
-        if(!otherAddressIdsFromInsert.isEmpty()){
+    private static void process(Set<Id> otherAddressIds, Boolean isUpdate){
+        if(!otherAddressIds.isEmpty()){
             Map<Id, Contact> contactMap = new Map<Id, Contact>();
-            List<hed__Address__c> otherAddressList = AddressesDAO.newInstance().getAddressesByIds(otherAddressIdsFromInsert, AccessLevel.SYSTEM_MODE); 
+            List<hed__Address__c> otherAddressList = AddressesDAO.newInstance().getAddressesByIds(otherAddressIds, AccessLevel.SYSTEM_MODE); 
             for(hed__Address__c otherAddress : otherAddressList){
                 contactMap.put(
                     otherAddress.hed__Parent_Contact__c, 
@@ -67,7 +67,7 @@ public with sharing class OtherAddressChangeEventHandler {
                 );
             } 
             
-            AddressesValidationBatch batch = new AddressesValidationBatch(otherAddressIdsFromInsert, contactMap, isUpdate);
+            AddressesValidationBatch batch = new AddressesValidationBatch(otherAddressIds, contactMap, isUpdate);
             Database.executeBatch(batch);
         }
     }
