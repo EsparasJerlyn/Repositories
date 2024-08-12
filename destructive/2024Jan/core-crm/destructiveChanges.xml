@@ -265,8 +265,6 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
-        <members>Voice</members>
-        <members>Messaging_Chat</members>
         <name>PermissionSet</name>
     </types>
     <!-- <types> -->
