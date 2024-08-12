@@ -302,6 +302,156 @@
                 <default>false</default>
                 <label>Student Success Reporting</label>
             </value>
+            <value>
+                <fullName>Contact Centre Training and QA</fullName>
+                <default>false</default>
+                <label>Contact Centre Training and QA</label>
+            </value>
+            <value>
+                <fullName>Contact Centre Manager</fullName>
+                <default>false</default>
+                <label>Contact Centre Manager</label>
+            </value>
+            <value>
+                <fullName>Contact Centre Team Leader</fullName>
+                <default>false</default>
+                <label>Contact Centre Team Leader</label>
+            </value>
+            <value>
+                <fullName>Contact Centre Advisor</fullName>
+                <default>false</default>
+                <label>Contact Centre Advisor</label>
+            </value>
+            <value>
+                <fullName>Contact Centre Concierge</fullName>
+                <default>false</default>
+                <label>Contact Centre Concierge</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Manager</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Manager</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Team Leader Progression</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Team Leader Progression</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Hub Advisor Progression</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Hub Advisor Progression</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Spec Advisor Progression</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Spec Advisor Progression</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Team Leader Engagement</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Team Leader Engagement</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Hub Adv Engagement</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Hub Adv Engagement</label>
+            </value>
+            <value>
+                <fullName>CC - Student Admin Spec Adv Engagement</fullName>
+                <default>false</default>
+                <label>CC - Student Admin Spec Adv Engagement</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty Health Advisor</fullName>
+                <default>false</default>
+                <label>CC - Faculty Health Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty Health Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Faculty Health Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty Science Advisor</fullName>
+                <default>false</default>
+                <label>CC - Faculty Science Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty Science Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Faculty Science Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty Engineering Advisor</fullName>
+                <default>false</default>
+                <label>CC - Faculty Engineering Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty Engineering Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Faculty Engineering Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty BusLaw Advisor</fullName>
+                <default>false</default>
+                <label>CC - Faculty BusLaw Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty BusLaw Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Faculty BusLaw Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty CIESJ Advisor</fullName>
+                <default>false</default>
+                <label>CC - Faculty CIESJ Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Faculty CIESJ Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Faculty CIESJ Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - QUT College Reception</fullName>
+                <default>false</default>
+                <label>CC - QUT College Reception</label>
+            </value>
+            <value>
+                <fullName>CC - QUT College Advisor</fullName>
+                <default>false</default>
+                <label>CC - QUT College Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - QUT College Team Leader</fullName>
+                <default>false</default>
+                <label>CC - QUT College Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Library Support Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Library Support Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Library Support Advisor</fullName>
+                <default>false</default>
+                <label>CC - Library Support Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Library Specialist Team Leader</fullName>
+                <default>false</default>
+                <label>CC - Library Specialist Team Leader</label>
+            </value>
+            <value>
+                <fullName>CC - Library Specialist Advisor</fullName>
+                <default>false</default>
+                <label>CC - Library Specialist Advisor</label>
+            </value>
+            <value>
+                <fullName>CC - Liaison Librarian</fullName>
+                <default>false</default>
+                <label>CC - Liaison Librarian</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -36,3 +36,6 @@ Default_Navigation1.navigationMenu-meta.xml
 
 # DO NOT REMOVE THIS
 **/permissionsets/System_Administrator.**
+
+# DEPP-10497 deployment testing for messaging and voice
+**/messagingChannels/**

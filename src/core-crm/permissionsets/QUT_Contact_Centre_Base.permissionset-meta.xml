@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
+        <application>standard__AllTabSet</application>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>QUT_Contact_Centre</application>
         <visible>true</visible>
     </applicationVisibilities>
@@ -60,7 +64,7 @@
         <apexClass>UserInfoService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Description: Base access given to QUT Contact Centre</description>
+    <description>Base access given to QUT Contact Centre</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.AccountId</field>
@@ -2387,6 +2391,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
+    <license>Salesforce</license>
     <label>QUT Contact Centre Base</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -2485,8 +2490,24 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>standard-Account</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>standard-Case</tab>
         <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-Contact</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-Lead</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-home</tab>
+        <visibility>Visible</visibility>
     </tabSettings>
     <userPermissions>
         <enabled>true</enabled>

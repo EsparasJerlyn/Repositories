@@ -2,6 +2,9 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>CC - Faculty Health Team Leader</label>
+    <permissionSets>Email_Create_and_Edit_Templates</permissionSets>
     <permissionSets>Faculty_Contact_Centre_Base</permissionSets>
+    <permissionSets>Knowledge_User</permissionSets>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
