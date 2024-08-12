@@ -10,7 +10,7 @@
         <field>STATUS</field>
     </columns>
     <columns>
-        <field>Case.hed__Category__c</field>
+        <field>Case.Category__c</field>
     </columns>
     <columns>
         <field>Case.Sub_Category__c</field>
