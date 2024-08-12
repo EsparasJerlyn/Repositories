@@ -2491,6 +2491,10 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <recordTypeVisibilities>
+        <recordType>Account.University_Department</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Case.Inbound_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -2516,7 +2520,7 @@
     </tabSettings>
     <tabSettings>
         <tab>standard-Case</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>standard-Contact</tab>
