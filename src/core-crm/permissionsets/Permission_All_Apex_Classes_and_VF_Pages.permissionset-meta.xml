@@ -2701,6 +2701,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IOperatingHoursHolidaysDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IOpportunitiesDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2842,6 +2846,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ITermsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ITimeSlotsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4313,6 +4321,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>OperatingHoursHolidaysDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursHolidaysDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OperatingHoursHolidaysDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Opp_Before_Update_Triggered_FlowTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5358,6 +5378,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestDataFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeSlotsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeSlotsDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeSlotsDAOTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

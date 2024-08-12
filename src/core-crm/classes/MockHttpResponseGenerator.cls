@@ -140,8 +140,8 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
         if(req.getMethod() == 'PUT'){
-        res.setBody(payload);
-    	}
+            res.setBody(payload);
+        }
         res.setStatusCode(200);
         return res;
     }
