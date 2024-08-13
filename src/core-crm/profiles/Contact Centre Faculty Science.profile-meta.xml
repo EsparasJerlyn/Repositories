@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <layoutAssignments>
-        <layout>Knowledge__kav-Standard Text Layout</layout>
-        <recordType>Knowledge__kav.Standard_Text</recordType>
-    </layoutAssignments>
     <userLicense>Salesforce</userLicense>
     <applicationVisibilities>
         <application>Faculty_Contact_Centre</application>
         <default>true</default>
         <visible>true</visible>
     </applicationVisibilities>
+    <layoutAssignments>
+        <layout>Case-Case Layout All Fields</layout>
+        <recordType>Case.Inbound_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Digital Marketing Contact Page layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Digital Marketing Contact Page layout</layout>
+        <recordType>Contact.MC_Persona</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Digital Marketing Contact Page layout</layout>
+        <recordType>Contact.Person</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Knowledge__kav-Standard Text Layout</layout>
+        <recordType>Knowledge__kav.Standard_Text</recordType>
+    </layoutAssignments>
 </Profile>
