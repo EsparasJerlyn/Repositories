@@ -4,5 +4,6 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Alumni PowerBI Integration</label>
     <permissionSets>Alumni_Corporate_Partnership_Base</permissionSets>
+    <permissionSets>PowerBI_Integration_Data_Access</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
