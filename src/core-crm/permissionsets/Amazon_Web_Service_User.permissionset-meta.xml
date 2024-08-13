@@ -5,5 +5,5 @@
         <externalCredentialPrincipal>AWS-SystemAdmin Role</externalCredentialPrincipal>
     </externalCredentialPrincipalAccesses>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Amazon Connect External Service</label>
+    <label>Amazon Web Service User</label>
 </PermissionSet>
