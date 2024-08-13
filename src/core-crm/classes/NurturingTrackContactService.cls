@@ -2083,14 +2083,18 @@ public with sharing class NurturingTrackContactService { //NOPMD
                     ( // is a sams admission record
                         applicationProgramUnderGrad.contains(application.Id) && // isProgramPlanUndergraduate
                         application.Program_Enrollment__c != null && // enrollmentExists and isEnrollmentStatusAdmitted
-                        application.Program_Enrollment__r.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
-                        application.Related_QTAC_Application__c != null && // relatedQtacAppExists and isRelatedQtacAppsOfferStatusOffered
-                        application.Related_QTAC_Application__r.Offer_Status__c == ApplicationsDAO.STATUS_ACCEPTED
+                        application.Program_Enrollment__r.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED
                     )
                 ) &&
-                ( // is legacy/cia with no current/admitted program enrollments respectively
-                    (application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID && currentProgEnrollmentIds.isEmpty()) ||
-                    (application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID && admittedProgEnrollmentIds.isEmpty())
+                ( // rectype-dependent criteria...
+                    ( // is legacy with valid related qtac and no current enrollments
+                        application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID && 
+                        application.Related_QTAC_Application__c != null && // relatedQtacAppExists and isRelatedQtacAppsOfferStatusOffered
+                        application.Related_QTAC_Application__r.Offer_Status__c == ApplicationsDAO.STATUS_ACCEPTED &&
+                        currentProgEnrollmentIds.isEmpty()) ||
+                    ( // is cia with no admitted enrollments
+                        application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID && admittedProgEnrollmentIds.isEmpty()
+                    )
                 )
             );
 
@@ -2793,34 +2797,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
         return contactIdsWithRestrictedSet;
     }
 
-    private static void getContactToProgEnrollmentMapsByCriteria(
-        List<hed__Program_Enrollment__c> programEnrollments,
-        Map<String,String> contactWithNoCurrentProgramEnrollmentMap, 
-        Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap
-    ){
-        if(!programEnrollments.isEmpty()){
-            
-            Set<String> programEnrollmentAdmittedEnrollmentStatus = new Set<String>{'Admitted','Leave of Absence'};
-            
-            for(hed__Program_Enrollment__c programEnrollment : programEnrollments){
-                
-                if(ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_NONCURRENT.contains(programEnrollment.Enrollment_Status__c) &&
-                    programEnrollment.Enrollment_Status_Date__c != null && 
-                    DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)){
-                        
-                        contactWithNoCurrentProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
-                }
-                
-                if(programEnrollmentAdmittedEnrollmentStatus.contains(programEnrollment.Enrollment_Status__c) &&
-                   programEnrollment.hed__Admission_Date__c != null &&
-                   DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)){
-                       
-                       contactWithNoCurrentAdmittedProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
-                }                
-            }
-        }
-    }
-
     private static List<hed__Program_Enrollment__c> getRelatedContactProgramEnrollments(Set<Id> contactIds){ 
         List<hed__Program_Enrollment__c> programEnrollments = new List<hed__Program_Enrollment__c>();
         if(!contactIds.isEmpty()){
@@ -2833,9 +2809,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<String, Set<String>> contactIdToCurrentProgEnrollmentIdsMap = new Map<String, Set<String>>();
         for(hed__Program_Enrollment__c programEnrollment : programEnrollments) {
             if(
-                ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_NONCURRENT.contains(programEnrollment.Enrollment_Status__c) &&
+                ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_CURRENT.contains(programEnrollment.Enrollment_Status__c) &&
                 programEnrollment.Enrollment_Status_Date__c != null &&
-                DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)
+                !DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)
             ) {
                 Set<String> programEnrollmentIds = contactIdToCurrentProgEnrollmentIdsMap.get(programEnrollment.hed__Contact__c);
                 programEnrollmentIds = programEnrollmentIds == null ? new Set<String>() : programEnrollmentIds;
@@ -2852,7 +2828,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if(
                 ProgramEnrollmentsDAO.ENROLLMENT_STATUSES_ADMITTED.contains(programEnrollment.Enrollment_Status__c) &&
                 programEnrollment.hed__Admission_Date__c != null &&
-                DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)
+                !DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)
             ) {
                 Set<String> programEnrollmentIds = contactIdToAdmittedProgEnrollmentIdsMap.get(programEnrollment.hed__Contact__c);
                 programEnrollmentIds = programEnrollmentIds == null ? new Set<String>() : programEnrollmentIds;
