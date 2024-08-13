@@ -119,6 +119,10 @@ export default class CustomSearchableCombobox extends LightningElement {
         this.dispatchEvent(new CustomEvent("change", {detail: {value: this._value}}));
     }
 
+    fireReturnSelected() {
+        this.dispatchEvent(new CustomEvent("selected", {detail: {value: this._value}}));
+    }
+
     get classes() {
         let classes = "slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click";
         if (this.isOpen) {
@@ -183,7 +187,7 @@ export default class CustomSearchableCombobox extends LightningElement {
         this.isOpen = false;
         this.allowBlur();
         this._value = event.currentTarget.dataset.value;
-        this.fireChange();
+        this.fireReturnSelected(event.currentTarget.dataset.value);
     }
 
     handleClear() {

@@ -8,6 +8,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan          | January 22, 2024      | DEPP-7004            | Created file                 |
       | kenneth.f.alsay           | February 22, 2024     | DEPP-8040, DEPP-8099 | Fixed table column checking  |
+      | neil.s.h.lesidan          | August 5, 2024        | DEPP-10232           | Fixed displayed Help Text    |
  */
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
