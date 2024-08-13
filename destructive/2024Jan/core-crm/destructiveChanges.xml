@@ -352,6 +352,9 @@
         <members>Student_Admin_Chat_Priority_Queue</members>
         <members>Student_Admin_Chat_Queue</members>
         <!--(End) DEPP-9267-->
+        <!--(Start) DEPP-10268-->
+        <members>SA_Student_Records_Service_Escalation</members>
+        <!--(End) DEPP-10268-->
         <name>Queue</name>
     </types>
     <types>
