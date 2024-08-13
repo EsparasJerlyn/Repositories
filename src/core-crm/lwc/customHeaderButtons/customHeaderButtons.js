@@ -15,7 +15,7 @@
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Display Import CSV modal add method handleImporCSV                                         |
       | carl.alvin.cabiles        | February 13,2024      | DEPP-8039            | Add Contact Name column in csv                                                             |
       | eugene.andrew.abuan       | February 27, 2024     | DEPP-7922            | Added checking for bulk button                                                             |
-      | richard.a.santos          | August 05, 2024       | DEPP-10255           | Add new criteria to enabled the buttons                                                   |
+      | richard.a.santos          | August 05, 2024       | DEPP-10255           | Add new criteria to enabled the buttons                                                    |
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
