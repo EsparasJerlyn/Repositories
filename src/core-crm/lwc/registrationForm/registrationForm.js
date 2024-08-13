@@ -28,7 +28,8 @@
       | richard.a.santos          | July 02, 2024         | DEPP-9381            | Modified Text and Privacy Links       |
       | nicole.genon              | July 11, 2024         | DEPP-9136            | Added Preferred Name & Title fields,  |
       |                           |                       |                      | isPortalGiving(), classContainer(),   |
-      |                           |                       |                      | classMainContainer(), classWrapper()  |                          
+      |                           |                       |                      | classMainContainer(), classWrapper()  | 
+      | julie.jane.alegre         | August 13, 2024       | DEPP-9662            | Added logic for unmatching mobile     |                         
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -480,7 +481,6 @@ export default class RegistrationForm extends LightningElement {
           validateContactMatching({newContactList:JSON.stringify(contactList)})
           .then((res) => {
             let validationResult = res[0];
-            console.log('Validation Result: '+ JSON.stringify(validationResult));
             if( validationResult.isPartialMatch == false &&
                 validationResult.isEmailMatch == false){ //email and contact details did not match
                     //Proceed to creating new record
@@ -517,7 +517,6 @@ export default class RegistrationForm extends LightningElement {
                                 this.sendEmailOTP();
                                 this.isMobileMatch = false;
                             }
-                            console.log('isMobileMatch: ' + this.isMobileMatch);
                         })
 
             }else if( validationResult.isPartialMatch == true &&
@@ -593,7 +592,6 @@ export default class RegistrationForm extends LightningElement {
 
   sendSMSOTP() {
     const sendSMSTo = this.contactMobilePhone == null ? this.mobileFull: this.contactMobilePhone;
-    console.log('sendSMSTo:' + sendSMSTo);
     sendRegistrationSMSOTP({ mobile: sendSMSTo })
       .then((result) => {
         if (result) {
@@ -978,6 +976,7 @@ export default class RegistrationForm extends LightningElement {
       this.displayVerification = true;
       this.displayResendVerification = false;
       this.isEmail = true;
+      this.isMobileMatch = this.contactMobilePhone === this.mobileFull ? true : false ;
     } else if (this.selectionOption == "SMS") {
       this.sendSMSOTP();
       this.generateToast("Success!", "SMS Sent", "success");
@@ -986,6 +985,7 @@ export default class RegistrationForm extends LightningElement {
       this.displayResendVerification = false;
       this.selectionOption = null;
       this.isEmail = false;
+      this.isMobileMatch = true;
     } else if (this.selectionOption == null) {
       this.generateToast("Error.", "Please Select Option", "error");
     }
@@ -1052,9 +1052,9 @@ export default class RegistrationForm extends LightningElement {
     contactRecord.Email = this.uniqueEmail;
     contactRecord.Position__c = this.position;
     contactRecord.Company_Name__c = this.companyName;
-    // contactRecord.MobilePhone = this.mobileFull;
-    // contactRecord.ContactMobile_Locale__c = this.localeConMobile;
-    // contactRecord.Mobile_No_Locale__c = this.mobile;
+    contactRecord.MobilePhone = this.mobileFull;
+    contactRecord.ContactMobile_Locale__c = this.localeConMobile;
+    contactRecord.Mobile_No_Locale__c = this.mobile;
     contactRecord.Dietary_Requirement__c = this.dietaryReq;
     contactRecord.Accessibility_Requirement__c = this.accessReq;
 
