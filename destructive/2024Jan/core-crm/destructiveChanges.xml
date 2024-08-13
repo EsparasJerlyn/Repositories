@@ -318,6 +318,12 @@
         <name>PermissionSet</name>
     </types>
     <types>
+        <!--(Start) DEPP-10303-->
+        <members>Contact Centre Student Admin</members>
+        <!--(Start) DEPP-10303-->
+        <name>Profile</name>
+    </types>    
+    <types>
         <!--Start (replaced by) DEPP-10309-->
         <members>CC_Student_Admin_Hub_Adv_Engagement</members>
         <members>CC_Student_Admin_Hub_Advisor_Progression</members>
