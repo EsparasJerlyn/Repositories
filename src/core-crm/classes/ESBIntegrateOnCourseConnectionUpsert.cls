@@ -18,7 +18,7 @@ public with sharing class ESBIntegrateOnCourseConnectionUpsert {
      */
     public static void calloutToMDM(Map<Id, hed__Course_Enrollment__c> newItems) {
         Integration_Settings__c integrationSettings = Integration_Settings__c.getOrgDefaults();
-        if(integrationSettings.Allow_ESB_Integration__c && UserInfo.getUserName() != 'ESB Integration User') {
+        if(integrationSettings.Allow_ESB_Integration__c && UserInfo.getName() != 'ESB Integration User') {
 
             List<MDM_Callout_Event__e> mdmCalloutEventList = new List<MDM_Callout_Event__e>();
 
