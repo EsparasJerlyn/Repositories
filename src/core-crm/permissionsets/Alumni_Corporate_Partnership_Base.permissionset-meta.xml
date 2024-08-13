@@ -4,6 +4,10 @@
         <application>Alumni_Corporate_Partnerships</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>Power_BI_Reports</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>AddFromExistingListCtrl</apexClass>
         <enabled>true</enabled>

@@ -61,6 +61,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>Power_BI_Reports</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>Sales_Leadership</application>
         <visible>true</visible>
     </applicationVisibilities>
