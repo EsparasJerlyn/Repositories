@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grant permission to Omni Supervisor related permissions, such as Omni Supervisor tab settings.</description>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Messaging for In App and Web Supervisor QUT</label>
+    <label>Omni Supervisor</label>
     <license>Salesforce</license>
     <tabSettings>
         <tab>standard-OmniSupervisorLightning</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>OmniSupervisorManageQueue</name>
-    </userPermissions>
 </PermissionSet>

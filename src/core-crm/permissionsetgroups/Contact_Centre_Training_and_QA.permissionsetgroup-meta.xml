@@ -4,10 +4,11 @@
     <label>Contact Centre Training and QA</label>
     <permissionSets>Contact_Center_Supervisor_Partner_Telephony_QUT</permissionSets>
     <permissionSets>Email_Create_and_Edit_Templates</permissionSets>
-    <permissionSets>QUT_Contact_Centre_Training_QA</permissionSets>
     <permissionSets>Knowledge_User</permissionSets>
     <permissionSets>Messaging_Chat</permissionSets>
     <permissionSets>Messaging_for_In_App_and_Web_Supervisor_QUT</permissionSets>
+    <permissionSets>Omni_Supervisor</permissionSets>
+    <permissionSets>QUT_Contact_Centre_Training_QA</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>Voice</permissionSets>
     <status>Updated</status>
