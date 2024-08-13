@@ -665,7 +665,6 @@ export default class RegistrationForm extends LightningElement {
     this.displayForm = false;
     this.displayVerification = false;
     this.displayResendVerification = true;
-    this.isEmailMatch
   }
 
   /*
