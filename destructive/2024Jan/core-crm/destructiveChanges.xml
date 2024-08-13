@@ -71,14 +71,6 @@
         <!--Start DEPP-7993-->
         <members>Lightning_Scheduler_Administrator</members>
         <!--End DEPP-7993-->
-        <!--Start DEPP-9041-->
-        <members>College_Contact_Centre_Base</members>
-        <members>Faculty_Contact_Centre_Base</members>
-        <members>Library_Contact_Centre_Base</members>
-        <members>QUT_Contact_Centre_Base</members>
-        <members>QUT_Contact_Centre_Training_QA</members>
-        <members>Student_Admin_Contact_Centre_Base</members>
-        <!--End DEPP-9041-->
         <name>PermissionSet</name>
     </types>
     <!-- <types> -->
@@ -325,6 +317,12 @@
         <!--End (replaced by) DEPP-8870-->
         <name>PermissionSet</name>
     </types>
+    <types>
+        <!--(Start) DEPP-10303-->
+        <members>Contact Centre Student Admin</members>
+        <!--(Start) DEPP-10303-->
+        <name>Profile</name>
+    </types>    
     <types>
         <!--Start (replaced by) DEPP-10309-->
         <members>CC_Student_Admin_Hub_Adv_Engagement</members>
