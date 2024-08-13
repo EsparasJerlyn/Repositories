@@ -32,7 +32,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         ENROLLMENT_STATUS_EARLY_WITHDRAWN
     };
 
-    public static final Set<String> ENROLLMENT_STATUSES_NONCURRENT = new Set<String>{
+    public static final Set<String> ENROLLMENT_STATUSES_CURRENT = new Set<String>{
         ENROLLMENT_STATUS_EARLY_WITHDRAWN,
         ENROLLMENT_STATUS_WITHDRAWN,
         ENROLLMENT_STATUS_PASSED,
