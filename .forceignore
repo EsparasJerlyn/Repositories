@@ -37,6 +37,5 @@ Default_Navigation1.navigationMenu-meta.xml
 # DO NOT REMOVE THIS
 **/permissionsets/System_Administrator.**
 
-**/tsconfig.json
-
-**/*.ts
+# DEPP-10497 deployment testing for messaging and voice
+**/messagingChannels/**

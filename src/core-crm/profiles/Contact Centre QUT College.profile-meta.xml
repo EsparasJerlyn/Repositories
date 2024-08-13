@@ -5,4 +5,9 @@
         <recordType>Knowledge__kav.Standard_Text</recordType>
     </layoutAssignments>
     <userLicense>Salesforce</userLicense>
+    <applicationVisibilities>
+        <application>College_Contact_Centre</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities>
 </Profile>
